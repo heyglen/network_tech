@@ -1,0 +1,175 @@
+{
+	"name": "Cisco ACE Policy Map",
+	"scopeName": "text.network.cisco.ace.policy",
+	"uuid": "2f2986dd-256a-44d3-b551-a5f6535845fa",
+	"patterns": [
+      {"include":"#policy-load-balance"},
+      {"include":"#policy-map"}
+    ],
+  	"repository":{
+      "policy-map":{
+        "patterns":[{
+          "name":"text.network.cisco.ace.policy.map",
+          "begin":"^(policy-map)\\s+(multi-match)\\s+(\\S+)\\s*(\\s+\\S+)?$",
+          "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S))",
+          "beginCaptures":{
+              "1":{"name":"variable.parameter"},
+              "2":{"name":"support.constant"},
+              "3":{"name":"string.unquoted"},
+              "4":{"name":"invalid.illegal"}
+          },
+          "patterns":[
+            { "include":"#policy-class" },
+            { "include":"text.network.cisco.scope" }
+          ]
+        }]
+      },
+      "policy-load-balance":{
+        "patterns":[{
+          "name":"text.network.cisco.ace.policy.load-balance",
+          "begin":"^(policy-map)\\s+(type)\\s+(loadbalance)\\s+(first-match|genericfirst-match|http\\s+first-match|radius\\s+first-match|rdp\\s+first-match|rtsp\\s+first-match|sip\\s+first-match)\\s+(\\S+)\\s*(\\s+\\S+)?\\s*$",
+          "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S))",
+          "beginCaptures":{
+              "1":{"name":"variable.parameter"},
+              "2":{"name":"support.constant"},
+              "3":{"name":"entity.name.function"},
+              "4":{"name":"entity.name.function"},
+              "5":{"name":"string.unquoted"},
+              "6":{"name":"invalid.illegal"}
+          },
+          "patterns":[
+            { "include":"#policy-lb-class" },
+            { "include":"text.network.cisco.scope" }
+          ]
+        }]
+      },
+      "policy-lb-class":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.policy-lb-class",
+            "begin":"\\s+(class)\\s+(class-default|\\S+)(?:\\s+(\\S+))?$",
+            "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S)|(?:class\\s))",
+            "beginCaptures":{
+                "1":{"name":"variable.parameter"},
+                "2":{"name":"string.unquoted"},
+                "3":{"name":"invalid.illegal"}
+            },
+            "patterns":[
+              { "include":"#sticky-serverfarm" },
+              { "include":"#serverfarm" },
+              { "include":"#drop" },
+              { "include":"#forward" }
+            ]
+          }]
+      },
+      "policy-class":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.policy-class",
+            "begin":"\\s+(class)\\s+(class-default|\\S+)(?:\\s+(\\S+))?$",
+            "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S)|(?:class\\s))",
+            "beginCaptures":{
+                "1":{"name":"variable.parameter"},
+                "2":{"name":"string.unquoted"},
+                "3":{"name":"invalid.illegal"}
+            },
+            "patterns":[
+              { "include":"#loadbalance-policy" },
+              { "include":"#loadbalance-vip-inservice" },
+              { "include":"#loadbalance-vip-icmp-reply" },
+              { "include":"#nat-dynamic" }
+              //{ "include":"text.network.cisco.scope" }
+            ]
+          }]
+      },
+      "nat-dynamic":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.policy-class.nat-dynamic",
+            "match":"(nat\\s+dynamic)\\s+(\\d+)\\s+(vlan)\\s+(\\d+)\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"support.constant"},
+                "2":{"name":"constant.language"},
+                "3":{"name":"support.constant"},
+                "4":{"name":"constant.language"},
+                "5":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "loadbalance-vip-icmp-reply":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.policy-class.lb.icmp-reply",
+            "match":"(loadbalance\\s+vip)\\s+(icmp-reply)\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"support.constant"},
+                "2":{"name":"support.constant"},
+                "3":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "loadbalance-vip-inservice":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.policy-class.lb-vip-inservice",
+            "match":"(loadbalance\\s+vip)\\s+(inservice)\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"support.constant"},
+                "2":{"name":"entity.name.function"},
+                "3":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "loadbalance-policy":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.policy-class.lb-policy",
+            "match":"(loadbalance\\s+policy)\\s+(\\S+)\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"support.constant"},
+                "2":{"name":"string.unquoted"},
+                "3":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "sticky-serverfarm":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.class.sticky-serverfarm",
+            "match":"(sticky-serverfarm)\\s+(\\S+)\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"support.constant"},
+                "2":{"name":"string.unquoted"},
+                "3":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "serverfarm":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.class.serverfarm",
+            "match":"(serverfarm)\\s+(\\S+)(?:\\s+(backup)\\s+(\\S+))?(?:\\s+(aggregate-state))?\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"support.constant"},
+                "2":{"name":"string.unquoted"},
+                "3":{"name":"support.constant"},
+                "4":{"name":"string.unquoted"},
+                "5":{"name":"support.constant"},
+                "6":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "drop":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.class.drop",
+            "match":"(drop)\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"keyword.other"},
+                "2":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "forward":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.class.forward",
+            "match":"(forward)\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"entity.name.function"},
+                "2":{"name":"invalid.illegal"}
+            }
+          }]
+      }
+    }
+}

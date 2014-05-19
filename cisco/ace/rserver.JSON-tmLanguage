@@ -1,0 +1,53 @@
+// [PackageDev] target_format: plist, ext: tmLanguage
+// Standard Naming Conventions: http://manual.macromates.com/en/language_grammars#naming_conventions.html
+{ 	
+	"name": "Cisco ACE Real Server",
+	"scopeName": "text.network.cisco.ace.rserver",
+	//"fileTypes": [""],
+	"uuid": "f330d178-b813-4a4c-a3c1-8b2476ffdc0b",
+	"patterns": [
+      {"include":"#rserver"}
+    ],
+  	"repository":{
+      "rserver":{
+        "patterns":[{ 
+          "name":"text.network.cisco.ace.rserver",
+          "begin":"^(rserver)\\s+(?:(host|redirect)|(\\S+))\\s+(\\S+)(\\s+\\S+)?\\s*$",
+          "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S))",
+          "beginCaptures":{
+              "1":{"name":"variable.parameter"},
+              "2":{"name":"entity.name.function"},
+              "3":{"name":"invalid.illegal"},
+              "4":{"name":"string.unquoted"},
+              "5":{"name":"invalid.illegal"},
+              "6":{"name":"meta"}
+          },
+          "patterns":[
+            { "include":"#ip-address" },
+            { "include":"#inservice" },
+            { "include":"text.network.cisco.scope" }
+          ]
+        }]
+      },
+      "ip-address":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.rserver.ip-address",
+            "match":"(ip\\s+address)\\s+(\\S+)\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"storage.type"},
+                "2":{"name":"constant.language"},
+                "3":{"name":"invalid.illegal"}
+            } 
+          }]
+      },
+      "inservice":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.rserver.inservice",
+            "match":"(inservice)\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"constant.language"}
+            } 
+          }]
+      }
+    }
+}

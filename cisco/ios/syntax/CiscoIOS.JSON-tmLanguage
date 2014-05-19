@@ -1,0 +1,60 @@
+// [PackageDev] target_format: plist, ext: tmLanguage
+// Standard Naming Conventions: http://manual.macromates.com/en/language_grammars#naming_conventions.html
+{ 	
+	"name": "Cisco IOS",
+	"scopeName": "text.network.cisco.ios",
+	"fileTypes": ["ios"],
+	"uuid": "e5441a2e-8364-4339-b1e2-f79de773f570",
+	"patterns": [
+      {"include":"#remove-configuration"},
+      {"include":"#alias"},
+      {"include":"#access-list"},
+      {"include":"text.network.cisco"},
+      {"include":"text.network.cisco.ios.vrf"},
+      {"include":"text.network.cisco.ios.bgp"},
+      {"include":"text.network.cisco.ios.interface"}
+    ],
+  	"repository":{
+      "access-list":{
+        "patterns":[{ 
+          "name":"text.network.cisco.ios.acl",
+          "begin":"^\\s*(ip access-list)\\s+(standard|extended)\\s+(\\S+)\\s+$",
+          "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S))",
+          "beginCaptures":{
+              "1":{"name":"support.constant"},
+              "2":{"name":"entity.name.function"},
+              "3":{"name":"string.unquoted"}
+          },
+        "patterns":[
+            { "include":"#permit-ip-any-any" },
+            {"include":"text.network.ip"},
+            { "include":"text.network.cisco"},
+            { "include":"text.network.cisco.scope"}
+            //{ "include":"text.invalid"}
+            ]
+        }]
+      },
+      "alias":{
+        "patterns":[{ 
+          "name":"text.network.cisco.ios.alias",
+          "match":"^\\s*(alias)\\s+(bgp\\s+\\S+|l2\\s+\\S+|scope\\s+address-family\\s+\\S+|scope\\s+\\S+|\\S+)\\s+(\\S+)\\s+(.*)$",
+          "captures":{
+              "1":{"name":"support.constant"},
+              "2":{"name":"entity.name.function"},
+              "3":{"name":"support.constant"},
+              "4":{"name":"string.unquoted"}
+          }
+        }]
+      },
+      "permit-ip-any-any":{
+        "patterns":[{
+            "name":"text.network.cisco.ios.acl.permit-ip-any-any",
+            "match":"^\\s*permit ip any any\\s+",
+            "comment":" ",
+            "captures":{
+                "0":{"name":"entity.name.function"}
+            } 
+          }]
+      }
+    }
+}

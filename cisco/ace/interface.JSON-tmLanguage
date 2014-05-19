@@ -1,0 +1,93 @@
+{
+	"name": "Cisco ACE Interface",
+	"scopeName": "text.network.cisco.ace.interface",
+	"uuid": "e02f3d4a-062d-484e-8e8c-c12027fe9308",
+	"patterns": [
+      {"include":"#interface"}
+    ],
+  	"repository":{
+      "interface":{
+        "patterns":[{
+          "name":"text.network.cisco.ace.interface",
+          "begin":"^(interface)\\s+(\\S+)(?:\\s+)?(\\d+)\\s*(\\s+\\S+)?$",
+          "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S))",
+          "beginCaptures":{
+              "1":{"name":"variable.parameter"},
+              "2":{"name":"entity.name.function"},
+              "3":{"name":"constant.language"},
+              "4":{"name":"invalid.illegal"}
+          },
+          "patterns":[
+            { "include":"#ip" },
+            { "include":"#access-group" },
+            { "include":"#service-policy" },
+            { "include":"#nat-pool" },
+            { "include":"#shutdown" },
+            { "include":"text.network.cisco.scope" }
+          ]
+        }]
+      },
+      "ip":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.interface.ip",
+            "match":"\\s*(peer\\s+)?(ip\\s+address)\\s+((?:(?:[0-2]?\\d?\\d)\\.){3}[0-2]?\\d?\\d(?=[^:])(?:(?:\\s+(?:(?:255|254|252|248|240|224|192|128|0)\\.){3}(?:255|254|252|248|240|224|192|128|0))))\\s*(\\s+\\S+)?",
+            "captures":{
+                "1":{"name":"support.constant"},
+                "2":{"name":"support.constant"},
+                "3":{"name":"constant.numeric"},
+                "4":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "nat-pool":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.interface.nat-pool",
+            "match":"(nat-pool)\\s+(\\d+)\\s+((?:(?:(?:[0-2]?\\d?\\d)\\.){3}[0-2]?\\d?\\d\\s+){2})(netmask)\\s+(\\S+)\\s+(pat)\\s*(\\s+\\S+)?",
+            "captures":{
+                "1":{"name":"support.constant"},
+                "2":{"name":"constant.numeric"},
+                "3":{"name":"constant.numeric"},
+                "4":{"name":"support.constant"},
+                "5":{"name":"constant.numeric"},
+                "6":{"name":"support.constant"},
+                "7":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "access-group":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.interface.access-group",
+            "match":"(access-group)\\s+(input|output)\\s+(\\S+)(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"support.constant"},
+                "2":{"name":"support.constant"},
+                "3":{"name":"string.unquoted"},
+                "4":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "shutdown":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.interface.shutdown",
+            "match":"(no\\s+shutdown)|(shutdown)(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"support.constant"},
+                "2":{"name":"keyword.other"},
+                "3":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "service-policy":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.interface.service-policy",
+            "match":"(service-policy)\\s+(input|output)\\s+(\\S+)(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"support.constant"},
+                "2":{"name":"support.constant"},
+                "3":{"name":"string.unquoted"},
+                "4":{"name":"invalid.illegal"}
+            }
+          }]
+      }
+    }
+}

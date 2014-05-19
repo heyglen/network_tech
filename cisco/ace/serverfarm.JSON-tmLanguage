@@ -1,0 +1,72 @@
+{ 	
+	"name": "Cisco ACE Server Farm",
+	"scopeName": "text.network.cisco.ace.serverfarm",
+	"fileTypes": [],
+	"uuid": "a7ad6885-b478-425a-8b2e-795626f1fd0d",
+	"patterns": [
+    {"include":"#serverfarm"}
+ 	],
+  	"repository":{
+      "serverfarm":{
+        "patterns":[{ 
+          "name":"text.network.cisco.ace.serverfarm",
+          "begin":"^(serverfarm)\\s+(host|redirect)\\s+(\\S+)\\s+(\\S.*)?$",
+          "end":"^(?=(?:\\s*(?=(?:\n\\s*)*(?:\\s+\\S))$)|(?:\\S))",
+          "beginCaptures":{
+              "1":{"name":"variable.parameter"},
+              "2":{"name":"entity.name.function"},
+              "3":{"name":"string.unquoted"},
+              "4":{"name":"invalid.illegal"}
+          },
+        "patterns":[
+            { "include":"text.network.cisco.scope" },
+            { "include":"#rserver" },
+            { "include":"#probe" }
+        ]
+        }]
+      },
+      "rserver":{
+          "patterns":[
+            { 
+              "name":"text.network.cisco.ace.serverfarm.rserver",
+              "begin":"^\\s+(rserver)\\s+(\\S+)\\s+(\\d+)$",
+              "end":"^(?=(?:\\s+(?:desc|dws|faila|inb|par|pre|re|rs|tr))|\\S)",
+              "beginCaptures":{
+                "0":{"name":"meta.cisco.ace.serverfarm.rserver"},
+                "1":{"name":"variable.parameter"},
+                "2":{"name":"string.unquoted"},
+                "3":{"name":"constant.language"}
+              },
+              "patterns":[
+                  { "include":"#probe" },
+                  { "include":"#inservice" }
+              ]
+            }
+          ]
+      },
+      "probe":{
+          "patterns":[
+            { 
+              "name":"text.network.cisco.ace.serverfarm.probe",
+              "match":"^\\s+(probe)\\s+(\\S+)\\s+$",
+              "captures":{
+                "0":{"name":"meta.cisco.ace.serverfarm.probe"},
+                "1":{"name":"storage.type"},
+                "2":{"name":"string.unquoted"}
+              }
+            }
+          ]
+      },
+      "inservice":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.serverfarm.inservice",
+            "match":"^(\\S*)\\s*(inservice)\\s*(\\S*.*)?$",
+            "captures":{
+                "1":{"name":"invalid.illegal"},
+                "2":{"name":"constant.language"},
+                "3":{"name":"invalid.illegal"}
+            } 
+          }]
+      }
+    }
+}

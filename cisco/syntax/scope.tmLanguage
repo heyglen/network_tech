@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Cisco Scope</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>include</key>
+			<string>#description</string>
+		</dict>
+	</array>
+	<key>repository</key>
+	<dict>
+		<key>description</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>comment.block.documentation</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>Object Description</string>
+					<key>match</key>
+					<string>^\s*description\s+.*$</string>
+					<key>name</key>
+					<string>text.network.cisco.scope.description</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+	<key>scopeName</key>
+	<string>text.network.cisco.scope</string>
+	<key>uuid</key>
+	<string>f330d178-b813-4a4c-a3c1-8b2476ffdc0b</string>
+</dict>
+</plist>

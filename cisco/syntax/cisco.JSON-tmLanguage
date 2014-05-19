@@ -1,0 +1,56 @@
+{ 	
+	"name": "Cisco",
+	"scopeName": "text.network.cisco",
+	//"fileTypes": [""],
+	"uuid": "c9ea5cbe-6199-445e-8629-82ed61e98c95",
+	"patterns": [
+      {"include":"#remove-configuration"},
+      {"include":"#end"},
+      {"include":"#exit"},
+      {"include":"#comment"}
+    ],
+  	"repository":{
+   		"comment":{
+      		"patterns":[
+      			{ 
+      				"name":"text.network.cisco.comment",
+        			"match":"(!.*)$",
+        			"captures":{
+          				"1":{"name":"comment.line"}
+          			}
+        		}]
+      },
+      "end":{
+          "patterns":[
+            { 
+              "name":"text.network.cisco.end",
+              "match":"^\\s*(end)\\s*(?:\\s+(\\S.*))?$",
+              "captures":{
+                  "1":{"name":"support.constant"},
+                  "2":{"name":"invalid.illegal"}
+                }
+            }]
+      },
+      "exit":{
+          "patterns":[
+            { 
+              "name":"text.network.cisco.exit",
+              "match":"^\\s*(exit)\\s*(?:\\s+(\\S.*))?$",
+              "captures":{
+                  "1":{"name":"support.constant"},
+                  "2":{"name":"invalid.illegal"}
+                }
+            }]
+      },
+      "remove-configuration":{
+          "patterns":[
+            { 
+              "name":"text.network.cisco.remove",
+              "match":"(\\s*no .*)$",
+              "captures":{
+                  "1":{"name":"keyword.other"}
+                }
+            }]
+      }
+    }
+}

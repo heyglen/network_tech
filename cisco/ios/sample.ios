@@ -1,0 +1,30 @@
+! On router1
+
+interface Port-channel1
+	description Hello
+	switchport
+	switchport mode trunk
+	switchport trunk allowed vlan add 604,608
+	switchport trunk allowed vlan remove 604-608,200
+	switchport mode access
+	switchport access vlan 23
+	no switchport
+	ip address 1.1.1.0 255.255.255.0 secondary
+	shutdown
+
+vrf definition RED
+	description RED VRF
+	no rd 1:2
+	rd 1:2
+	route-target both 1:2
+
+route-map blah_blah permit 10
+ set local-preference 220
+
+
+show vlan id 604 | include Po10
+
+ip access-list extended 1.1.1.1
+  permit ip any any 
+  no permit ip any any
+11.1.1.1:23 

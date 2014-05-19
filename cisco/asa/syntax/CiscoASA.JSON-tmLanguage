@@ -1,0 +1,902 @@
+{ "name": "Cisco ASA",
+  "foldingStartMarker":"^\\s*.+$",
+  "foldingStopMarker":"^\\s*!.*$",
+  "scopeName": "text.cisco.asa", 
+  "fileTypes": ["asa"], 
+  "patterns": [
+  {"include":"#comment"},
+  {"include":"#control"},
+  {"include":"#ip_address"},
+  {"include":"#number"},
+  {"include":"#variable"},
+  {"include":"#operator"},
+  {"include":"#url"},
+  {"include":"#router"},
+  {"include":"#interface_clause"},
+  {"include":"#nameif"},
+  {"include":"#security-level"},
+  {"include":"#object_group"},  
+  {"include":"#object"},  
+  {"include":"#description"},
+  {"include":"#network-object"},
+  {"include":"#group-object"},  
+  {"include":"#port-object"},
+  {"include":"#access-list"},
+  {"include":"#route"},
+  {"include":"#permit-ip-any-any"},
+  {"include":"#nat"}
+ ],
+  "repository":{
+    "comment":{
+      "patterns":[
+      { "name":"text.cisco.asa.comment",
+        "match":"(!).*$\\n?",
+        "captures":{
+          "1":{"name":"puncuation.definition.comment.asa"}
+          }
+        }
+      ]
+    },
+    "ip_address":{
+      "patterns":[
+      { "name":"constant.numeric.ip-address",
+        "match":"\\s(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\s"
+        },
+      { "name":"invalid.illegal.ip-address",
+        "match":"(\\s|\\.)(?:(?:25[6-9]|2[6-9][0-9]|[3-9]?[0-9][0-9]?)\\.)\\b"
+        }
+      ]
+    },
+    "number":{ 
+      "patterns":[
+      { "name":"constant.numeric.integer.asa",
+        "match":"\\b(?:[1-9]+[0-9]*|0)\\b"
+        }
+      ]
+    },
+    "control":{
+      "patterns":[
+      { "match":"\\b(no\\s+.*|no sh|shut|shutdown|reload|reset|activate)\\b",
+        "captures":{
+          "1":{"name":"keyword.control.asa"}
+          }
+        }
+      ]
+    },
+    "operator":{
+      "patterns":[
+      { "name":"keyword.operator.comparison.asa",
+        "match":"\\b(?i:eq|neq|gt|lt|range|ge|le)\\b"
+        }
+      ]
+    },    
+    "url":{
+      "patterns":[
+      { "name":"string.unquoted.asa",
+        "begin":"\\b(https?|t?ftps?|flash|disk[0-9]|scp|ssh|telnet):(?=[A-Za-z0-9_./-])",
+        "end":"(?=\\s+)"
+        }
+      ]
+    },
+    "interface_id":{
+      "patterns":[
+      { "contentName":"meta.interface-id.asa",
+        "begin":"\\b(?i:(?i:fast|gigabit|tengigabit|)ethernet|null|bvi|virtual-?[a-z]*|port-channel|fa|gi|e|se|serial|lo|loopback|tun|tunnel|management)(?=\\s?[0-9])",
+        "end":"([0-9][0-9/. ]*)\\b",
+        "beginCaptures":{
+          "0":{"name":"support.constant.type.interface.asa"}
+          },
+        "endCaptures":{
+          "1":{"name":"constant.numeric.interface-number.asa"}
+          }
+        }
+      ]
+    },
+    "nameif":{
+      "patterns":[
+      { "name":"cisco.asa.interface.nameif",
+        "begin":"^\\s*(nameif)\\s+([A-Za-z0-9_-]+)",
+        "beginCaptures":{
+          "1":{"name":"string.unquoted.asa.interface.nameif"},
+          "2":{"name":"variable.parameter.asa.interface.nameif.name"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "security-level":{
+      "patterns":[
+      { "name":"meta.asa.interface.security-level",
+        "begin":"^\\s*(security-level)\\s+(\\d+)",
+        "beginCaptures":{
+          "1":{"name":"string.unquoted.asa.interface.security-level"},
+          "2":{"name":"variable.parameter.asa.interface.security-level.level"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },
+    "variable":{
+      "patterns":[
+      { "name":"variable.parameter.asa",
+        "match":"\\b([A-Z]+[A-Z0-9_ -]*)\\b",
+        "comment":"User created objects"
+        }
+      ]
+    },
+    "router":{
+      "patterns":[
+      { "name":"meta.router.asa",
+        "begin":"^\\s*(router)\\s+(?=[A-Za-z-]+[0-9 ]*)",
+        "beginCaptures":{
+          "1":{"name":"entity.name.class.router.asa"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "include":"#router_id"},
+        { "name":"invalid.illegal.router-id.asa",
+          "match":"(?:.*$)"}
+        ]
+        }
+      ]
+    },
+    "interface_clause":{
+      "patterns":[
+      { "name":"meta.interface.asa",
+        "begin":"^\\s*(interface|int)\\s+(?=[A-Za-z-]+[0-9/. ]*)",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.interface"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "include":"#interface_id"},
+        { "name":"invalid.illegal.cisco.asa.interface",
+          "match":"(?:.*$)"}
+        ]
+        }
+      ]
+    },
+    "object_group":{
+      "patterns":[
+      { "name":"meta.object_group.asa",
+        "begin":"^\\s*(object-group)\\s+(network|service)\\s+([A-Za-z0-9_-]+)(?:\\s+)?(tcp|udp|tcp-udp)?",
+        "beginCaptures":{
+          "1":{"name":"support.constant.type.object_group.asa"},
+          "2":{"name":"support.constant.type.object_type.asa"},
+          "3":{"name":"constant.character.object_name.asa"},
+          "4":{"name":"markup.inserted.protocol.asa"}          
+          },
+        "end":"(\\s*$)"
+        }
+      ]
+    },    
+    "object":{
+      "patterns":[
+      { "name":"meta.object.asa",
+        "begin":"^\\s*(object)\\s+(network|service)\\s+([A-Za-z0-9_-]+)(?:\\s+)?(tcp|udp|tcp-udp)?",
+        "beginCaptures":{
+          "1":{"name":"support.constant.type.object.asa"},
+          "2":{"name":"support.constant.type.object_type.asa"},
+          "3":{"name":"constant.character.object_name.asa"},
+          "4":{"name":"markup.inserted.protocol.asa"}          
+          },
+        "end":"(\\s*$)"
+        }
+      ]
+    },
+    "network-object-ip-subnet":{
+      "patterns":[
+      { "name":"meta.network-object.asa",
+        "begin":"\\s*((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(?:\\s+)((?:255|254|252|248|240|224|192|128|0+|\\.){7}))",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.ip-address"},
+          "2":{"name":"cisco.asa.subnet-mask"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "network-object-object":{
+      "patterns":[
+      { "name":"meta.network-object.asa",
+        "begin":"\\s*(?:(object)(?:\\s+)([A-Za-z0-9_-]+))",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.network-object.object"},
+          "2":{"name":"cisco.asa.network-object.object-name"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "network-object-host":{
+      "patterns":[
+      { "name":"meta.network-object.asa",
+        "begin":"\\s*(?:(host)(?:\\s+)((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.network-object.host"},
+          "2":{"name":"cisco.asa.ip-address"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },
+    "network-object":{
+      "patterns":[
+      { "name":"meta.network-object.asa",
+        "begin":"^\\s*(network-object)",
+        "beginCaptures":{
+          "1":{"name":"string.unquoted.network-object.asa"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "include":"#network-object-ip-subnet" },
+        { "include":"#network-object-object" },
+        { "include":"#network-object-host" },
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },
+    "group-object":{
+      "patterns":[
+      { "name":"meta.group-object.asa",
+        "begin":"^\\s*(group-object)\\s+([A-Za-z0-9_-]+)",
+        "beginCaptures":{
+          "1":{"name":"string.unquoted.group-object.asa"},
+          "2":{"name":"constant.character.object-name.asa"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },
+    "port-object":{
+      "patterns":[
+      { "name":"meta.port-object.asa",
+        "begin":"^\\s*(port-object)\\s+(eq|range)\\s+([0-9a-zA-Z]+)(?:\\s+)?([0-9a-zA-Z]+)?",
+        "beginCaptures":{
+          "1":{"name":"markup.inserted.port-object.asa"},
+          "2":{"name":"markup.inserted.control.asa"},
+          "3":{"name":"constant.character.minport.asa"},          
+          "5":{"name":"constant.character.maxport.asa"}          
+          },
+        "end":"(\\s*$)"
+        }
+      ]
+    },
+    "acl-remark":{
+      "patterns":[
+      { "name":"variable.parameter.asa",
+        "match":"remark\\s+.+",
+        "comment":"ACL remarks"
+        }
+      ]
+    },    
+    "acl-log":{
+      "patterns":[
+      { "name":"variable.parameter.log.asa",
+        "match":"\\s*log\\s*",
+        "comment":"ACL remarks"
+        }
+      ]
+    },    
+    "acl-dest-port-single":{
+      "patterns":[
+      { 
+        "begin":"\\s*(eq\\s+[a-z0-9-]+)|(gt\\s+[0-9]+)\\s*",
+        "beginCaptures":{
+          "1":{"name":"variable.parameter.dest-port-range.asa"},
+          "2":{"name":"variable.parameter.dest-port-range.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-log" },
+        { "name":"invalid.illegal.dest-port.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },      
+    "acl-dest-port-range":{
+      "patterns":[
+      { 
+        "begin":"\\s*(range\\s+[a-z0-9-]+\\s+[a-z0-9-]+)\\s*",
+        "beginCaptures":{
+          "1":{"name":"variable.parameter.dest-port-range.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-log" },
+        { "name":"invalid.illegal.dest-port-range.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "acl-dest-port-object-group":{
+      "patterns":[
+      { 
+        "begin":"\\s*(object-group\\s+[^ ]+)\\s*",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.dest-port-object-group.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-log" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "acl-src-port-single":{
+      "patterns":[
+      { 
+        "begin":"\\s*(eq\\s+[a-z0-9-]+)\\s*",
+        "beginCaptures":{
+          "1":{"name":"variable.parameter.dest-port-range.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-object-group" },        
+        { "include":"#acl-dest-object" },
+        { "include":"#acl-dest-host" },
+        { "include":"#acl-dest-ip-subnet" },
+        { "include":"#acl-dest-any" },
+        { "name":"invalid.illegal.dest-port.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },      
+    "acl-src-port-range":{
+      "patterns":[
+      { 
+        "begin":"\\s*(range\\s+[a-z0-9-]+\\s+[a-z0-9-]+)\\s*",
+        "beginCaptures":{
+          "1":{"name":"variable.parameter.dest-port-range.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-object-group" },        
+        { "include":"#acl-dest-object" },
+        { "include":"#acl-dest-host" },
+        { "include":"#acl-dest-ip-subnet" },
+        { "include":"#acl-dest-any" },
+        { "name":"invalid.illegal.dest-port-range.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "acl-src-port-object-group":{
+      "patterns":[
+      { 
+        "begin":"\\s*(object-group\\s+[^ ]+)\\s*",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.dest-port-object-group.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-object-group" },        
+        { "include":"#acl-dest-object" },
+        { "include":"#acl-dest-host" },
+        { "include":"#acl-dest-ip-subnet" },
+        { "include":"#acl-dest-any" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "acl-dest-object-group":{
+      "patterns":[
+      { 
+        "begin":"\\s*(object-group\\s+[^ ]+)\\s+",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.dest-object-group.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-port-single" },
+        { "include":"#acl-dest-port-object-group" },
+        { "include":"#acl-dest-port-range" },
+        { "include":"#acl-log" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },     
+    "acl-dest-object":{
+      "patterns":[
+      { 
+        "begin":"\\s*(object\\s+[^ ]+)\\s+",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.dest-object.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-port-single" },
+        { "include":"#acl-dest-port-object-group" },
+        { "include":"#acl-dest-port-range" },
+        { "include":"#acl-log" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "acl-dest-host":{
+      "patterns":[
+      { 
+        "begin":"\\s*(host\\s+((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))\\s+",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.acl-dest-host.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-port-single" },
+        { "include":"#acl-dest-port-object-group" },
+        { "include":"#acl-dest-port-range" },
+        { "include":"#acl-log" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },      
+    "acl-dest-ip-subnet":{
+      "patterns":[
+      { 
+        "begin":"\\s*(((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(?:\\s+)((255|254|252|248|240|224|192|128|0+|\\.){7}))\\s+",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.dest-ip-subnet.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-port-single" },
+        { "include":"#acl-dest-port-object-group" },
+        { "include":"#acl-dest-port-range" },
+        { "include":"#acl-log" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },   
+    "acl-dest-any":{
+      "patterns":[
+      { 
+        "begin":"\\s*(any|any4|any6)\\s+",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.dest-any.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-port-single" },
+        { "include":"#acl-dest-port-object-group" },
+        { "include":"#acl-dest-port-range" },
+        { "include":"#acl-log" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },   
+    "acl-source-object-group":{
+      "patterns":[
+      { 
+        "begin":"\\s*(object-group\\s+[^ ]+)\\s+",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.source-objgrp.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-object-group" },        
+        { "include":"#acl-dest-object" },
+        { "include":"#acl-dest-host" },
+        { "include":"#acl-dest-ip-subnet" },
+        { "include":"#acl-dest-any" },
+        { "include":"#acl-src-port-single" },
+        { "include":"#acl-src-port-range" },
+        { "include":"#acl-src-port-object-group" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "acl-source-object":{
+      "patterns":[
+      { 
+        "begin":"\\s*(object\\s+[^ ]+)\\s+",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.source-object.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-object-group" },        
+        { "include":"#acl-dest-object" },
+        { "include":"#acl-dest-host" },
+        { "include":"#acl-dest-ip-subnet" },
+        { "include":"#acl-dest-any" },
+        { "include":"#acl-src-port-single" },
+        { "include":"#acl-src-port-range" },
+        { "include":"#acl-src-port-object-group" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "acl-source-host":{
+      "patterns":[
+      { 
+        "begin":"\\s*(host\\s+((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))\\s+",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.source-host.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-object-group" },        
+        { "include":"#acl-dest-object" },
+        { "include":"#acl-dest-host" },
+        { "include":"#acl-dest-ip-subnet" },
+        { "include":"#acl-dest-any" },
+        { "include":"#acl-src-port-single" },
+        { "include":"#acl-src-port-range" },
+        { "include":"#acl-src-port-object-group" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },      
+    "acl-source-ip-subnet":{
+      "patterns":[
+      { 
+        "begin":"\\s*(((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(?:\\s+)((255|254|252|248|240|224|192|128|0+|\\.){7}))\\s+",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.source-ip-subnet.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-object-group" },        
+        { "include":"#acl-dest-object" },
+        { "include":"#acl-dest-host" },
+        { "include":"#acl-dest-ip-subnet" },
+        { "include":"#acl-dest-any" },
+        { "include":"#acl-src-port-single" },
+        { "include":"#acl-src-port-range" },
+        { "include":"#acl-src-port-object-group" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },   
+    "acl-source-any":{
+      "patterns":[
+      { 
+        "begin":"\\s*(any|any4|any6)\\s+",
+        "beginCaptures":{
+          "1":{"name":"string.quoted.double.json.source-any.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-dest-object-group" },        
+        { "include":"#acl-dest-object" },
+        { "include":"#acl-dest-host" },
+        { "include":"#acl-dest-ip-subnet" },
+        { "include":"#acl-dest-any" },
+        { "include":"#acl-src-port-single" },
+        { "include":"#acl-src-port-range" },
+        { "include":"#acl-src-port-object-group" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "acl-permit-object-group":{
+      "patterns":[
+      { 
+        "begin":"\\s*(object-group\\s+[^ ]+)\\s+",
+        "beginCaptures":{
+          "1":{"name":"support.constant.permit-objgrp.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-source-object-group" },
+        { "include":"#acl-source-host" },
+        { "include":"#acl-source-ip-subnet" },
+        { "include":"#acl-source-any" },
+        { "include":"#acl-source-object" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },         
+    "acl-protocol":{
+      "patterns":[
+      { 
+        "begin":"\\s*(ip|tcp|udp|icmp|gre|esp|ah)\\s+",
+        "beginCaptures":{
+          "1":{"name":"support.constant.protocol.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-source-object-group" },
+        { "include":"#acl-source-host" },
+        { "include":"#acl-source-ip-subnet" },
+        { "include":"#acl-source-any" },
+        { "include":"#acl-source-object" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "acl-extended-permit":{
+      "patterns":[
+      { 
+        "begin":"\\s*(extended permit)\\s+",
+        "beginCaptures":{
+          "1":{"name":"markup.inserted.permit.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-protocol" },
+        { "include":"#acl-permit-object-group" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },
+    "acl-extended-deny":{
+      "patterns":[
+      { 
+        "begin":"\\s*(extended deny)\\s+",
+        "beginCaptures":{
+          "1":{"name":"keyword.operator.comparison.deny.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-protocol" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },
+    "acl-line-number":{
+      "patterns":[
+      { 
+        "begin":"\\s*(line\\s+[0-9]+)\\s+",
+        "beginCaptures":{
+          "1":{"name":"keyword.operator.comparison.line-number.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-remark" },
+        { "include":"#acl-extended-permit" },        
+        { "include":"#acl-extended-deny" },
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },
+    "access-list":{
+      "patterns":[
+      { "name":"meta.access-list.asa",
+        "begin":"^\\s*(access-list)\\s+([^ ]+)\\s+",
+        "beginCaptures":{
+          "1":{"name":"constant.character.escape.access-list.asa"},
+          "2":{"name":"string.unquoted.acl-name.asa"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#acl-line-number" },
+        { "include":"#acl-remark" },
+        { "include":"#acl-extended-permit" },        
+        { "include":"#acl-extended-deny" },        
+        { "name":"invalid.illegal.access-list.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },
+    "route-gateway":{
+      "patterns":[
+      { "name":"cisco.asa.route.gateway",
+        "begin":"\\s*((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\s+(\\d)",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.route.gateway"},
+          "2":{"name":"cisco.asa.route.metric"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[        
+        { "name":"invalid.illegal.asa.route.gateway",
+          "match":"(.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "route-ip-subnet":{
+      "patterns":[
+      { "name":"cisco.asa.route.ip-subnet",
+        "begin":"\\s*(?:((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\s+((?:255|254|252|248|240|224|192|128|0+|\\.){7}))",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.ip-address"},
+          "2":{"name":"cisco.asa.subnet-mask"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[        
+        { "include":"#route-gateway" },
+        { "name":"invalid.illegal.asa.route.ip-subnet",
+          "match":"(.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "route":{
+      "patterns":[
+      { "name":"cisco.asa.route",
+        "begin":"^\\s*(route)\\s+([^ ]+)\\s+",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.route"},
+          "2":{"name":"cisco.asa.interface"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#route-ip-subnet" },
+        { "name":"invalid.illegal.asa.route",
+          "match":"(.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "description":{
+      "patterns":[
+      { "name":"variable.parameter.asa",
+        "match":"description\\s+([^\n]+)",
+        "comment":"User created objects"
+        }
+      ]
+    },
+    "permit-ip-any-any":{
+      "patterns":[
+      { "name":"invalid.illegal.acl.permit.asa",
+        "match":"\\b(?i:permit ip any any)\\b"
+        }
+      ]
+    },
+      
+   "nat-source-static":{
+      "patterns":[
+      { "name":"cisco.asa.nat.source.static",
+        "begin":"\\s*(static)\\s+",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.nat.source.static"}
+          },
+        "end":"(\\s*$)" 
+        }
+      ]
+    },
+   "nat-source-dynamic":{
+      "patterns":[
+      { "name":"cisco.asa.nat.source.dynamic",
+        "begin":"\\s*(dynamic)\\s+",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.nat.source.dynamic"}
+          },
+        "end":"(\\s*$)" 
+        }
+      ]
+    },
+
+   "nat-source":{
+      "patterns":[
+      { "name":"cisco.asa.nat.source",
+        "begin":"\\s*(source)\\s+",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.nat.source"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#nat-source-static" },
+        { "include":"#nat-source-dynamic" },
+        { "name":"invalid.illegal.cisco.asa.nat.source",
+          "match":"(.*$)"
+        }
+        ]        
+        }
+      ]
+    },
+
+   "nat-after-auto":{
+      "patterns":[
+      { "name":"cisco.asa.nat.after-auto",
+        "begin":"\\s*(after-auto)\\s+",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.nat.after-auto"}
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#nat-source" },
+        { "name":"invalid.illegal.cisco.asa.nat.after-auto",
+          "match":"(.*$)"
+        }
+        ]        
+        }
+      ]
+    },
+
+   "nat-interfaces":{
+      "patterns":[
+      { "name":"cisco.asa.nat.interface",
+        "begin":"\\s*\\(([^,]),([^,])\\)\\s+",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.nat.interface.source"},          
+          "2":{"name":"cisco.asa.nat.interface.destination"}         
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#nat-after-auto" },
+        { "include":"#nat-source" },
+        { "name":"invalid.illegal.cisco.asa.nat.interface",
+          "match":"(.*$)"
+        }
+        ]        
+        }
+      ]
+    },
+
+   "nat":{
+      "patterns":[
+      { "name":"cisco.asa.nat",
+        "begin":"^\\s*(nat)\\s+([^ ]+)\\s+",
+        "beginCaptures":{
+          "1":{"name":"cisco.asa.nat.nat"}          
+          },
+        "end":"(\\s*$)", 
+        "patterns":[
+        { "include":"#nat-interfaces" },
+        { "include":"#nat-after-auto" },
+        { "include":"#nat-source" }
+        ]        
+        }
+      ]
+    }
+
+  },
+  "uuid": "8e510814-afc1-45ba-879f-061aa5dda201"
+}
