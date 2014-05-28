@@ -5,7 +5,6 @@ __pycache__/
 # Sublime
 *.sublime-project
 *.sublime-workspace
-*.sublime-snippet
 
 # C extensions
 *.so
