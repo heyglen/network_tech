@@ -1,0 +1,8 @@
+<snippet>
+	<description>ACE Hostname</description>
+	<tabTrigger>hostname</tabTrigger>
+	<scope>text.network.cisco.ace</scope>
+	<content><![CDATA[
+hostname LB${1:DK}${2:LOCATION-CODE}${3:CSB}${4:FREE-PLAY}
+]]></content>
+</snippet>

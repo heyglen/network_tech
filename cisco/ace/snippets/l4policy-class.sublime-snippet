@@ -1,0 +1,13 @@
+<snippet>
+	<description>Cisco ACE Layer 4 Policy Class</description>
+	<tabTrigger>class</tabTrigger>
+	<scope>text.network.cisco.ace.l4policy</scope>
+	<content><![CDATA[
+  class ${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_L4CLASS
+    loadbalance vip inservice
+    loadbalance policy ${4:${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${5:SERVICE-NAME}}_L7POLICY
+    loadbalance vip icmp-reply active
+    ${6:nat dynamic ${7:NAT-ID} vlan ${8:VLAN-ID}}
+  
+]]></content>
+</snippet>

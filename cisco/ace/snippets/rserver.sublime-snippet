@@ -1,0 +1,11 @@
+<snippet>
+	<description>Cisco ACE Real Server</description>
+	<scope>text.network.cisco.ace</scope>
+	<tabTrigger>rserver</tabTrigger>
+	<content><![CDATA[rserver host ${1:fully.qualified.domain.name}
+ ${2:description }
+ ip address ${3:1.1.1.1}
+ inservice
+
+]]></content>
+</snippet>

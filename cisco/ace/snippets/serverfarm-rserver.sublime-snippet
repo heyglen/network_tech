@@ -1,0 +1,10 @@
+<snippet>
+	<description>Cisco ACE Server Farm -> Real Server</description>
+	<tabTrigger>rserver</tabTrigger>
+	<scope>text.network.cisco.ace.serverfarm</scope>
+	<content><![CDATA[
+  rserver ${1:fully.qualified.domain.name} ${2:#}
+    inservice
+
+]]></content>
+</snippet>

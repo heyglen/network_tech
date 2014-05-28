@@ -1,0 +1,12 @@
+<snippet>
+	<description>Cisco ACE Server Farm</description>
+	<tabTrigger>serverfarm</tabTrigger>
+	<scope>text.network.cisco.ace</scope>
+	<content><![CDATA[
+serverfarm host ${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_FARM
+  description ${4:blah blah}
+  probe ${5:${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_${6:Protocol}_${7:FREE-TEXT}_PROBE}
+  rserver ${8:fully.qualified.domain.name} ${9:#}
+    inservice
+]]></content>
+</snippet>

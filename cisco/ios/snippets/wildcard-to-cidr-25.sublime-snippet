@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+$1/25$0
+]]></content>
+	<description>Wildcard to CIDR Conversion</description>
+	<tabTrigger>0.0.0.127</tabTrigger>
+	<scope>text.cisco.ios</scope>
+</snippet>

@@ -1,0 +1,12 @@
+<snippet>
+	<description>Cisco ACE Layer 7 Policy</description>
+	<tabTrigger>l7policy</tabTrigger>
+	<scope>text.network.cisco.ace</scope>
+	<content><![CDATA[
+policy-map type loadbalance first-match ${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_L7POLICY
+  description ${4:System: ${1:SYSTEM-NAME} - Environment: ${2:PRD|PRE|QUA|DEV|TST} - Service: ${3:SERVICE-NAME}}
+  class class-default
+    ${5:serverfarm ${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_FARM ${6:backup ${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_${7:REDIRECT_}FARM}}${8:sticky-serverfarm ${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_${9:${10:SRCIP_}${11:COOKIE_}${12:HEAD_}}STICKY}
+
+]]></content>
+</snippet>

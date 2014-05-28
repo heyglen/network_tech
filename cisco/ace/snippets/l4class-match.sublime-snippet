@@ -1,0 +1,9 @@
+<snippet>
+	<description>Cisco ACE L4 Class MAP Match</description>
+	<tabTrigger>match</tabTrigger>
+	<scope>text.network.cisco.ace.l4class</scope>
+	<content><![CDATA[
+  match virtual-address ${1:1.1.1.1} ${2:any}${3:tcp eq ${4:#}}
+  
+]]></content>
+</snippet>

@@ -1,0 +1,11 @@
+<snippet>
+	<description>Cisco ACE L4 Class MAP</description>
+	<tabTrigger>l4class</tabTrigger>
+	<scope>text.networkcisco.ace</scope>
+	<content><![CDATA[
+class-map match-any ${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_L4CLASS
+  description ${4:${1:SYSTEM-NAME} ${2:PRD|PRE|QUA|DEV|TST} ${3:SERVICE-NAME}}
+  match virtual-address ${5:1.1.1.1} ${6:any}${7:tcp eq ${8:#}}
+
+]]></content>
+</snippet>
