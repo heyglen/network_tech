@@ -72,6 +72,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>text.network.cisco.ace.acl</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>text.network.cisco.ace.interface</string>
 		</dict>
 	</array>

@@ -4,7 +4,8 @@
 	"uuid": "2f2986dd-256a-44d3-b551-a5f6535845fa",
 	"patterns": [
       {"include":"#policy-load-balance"},
-      {"include":"#policy-map"}
+      {"include":"#policy-map"},
+      {"include":"#policy-map-management"}
     ],
   	"repository":{
       "policy-map":{
@@ -20,6 +21,25 @@
           },
           "patterns":[
             { "include":"#policy-class" },
+            { "include":"text.network.cisco.scope" }
+          ]
+        }]
+      },
+      "policy-map-management":{
+        "patterns":[{
+          "name":"text.network.cisco.ace.policy.map.management",
+          "begin":"^(policy-map)\\s+(type)\\s+(management)\\s+(first-match)\\s+(\\S+)\\s*(?:\\s+(\\S.*))?$",
+          "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S))",
+          "beginCaptures":{
+              "1":{"name":"variable.parameter"},
+              "2":{"name":"support.constant"},
+              "3":{"name":"entity.name.function"},
+              "4":{"name":"support.constant"},
+              "5":{"name":"string.unquoted"},
+              "6":{"name":"invalid.illegal"}
+          },
+          "patterns":[
+            { "include":"#policy-class-management" },
             { "include":"text.network.cisco.scope" }
           ]
         }]
@@ -77,6 +97,23 @@
               { "include":"#loadbalance-vip-icmp-reply" },
               { "include":"#nat-dynamic" }
               //{ "include":"text.network.cisco.scope" }
+            ]
+          }]
+      },
+      "policy-class-management":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.policy-class-management",
+            "begin":"\\s+(class)\\s+(class-default|\\S+)(?:\\s+(\\S+))?$",
+            "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S)|(?:class\\s))",
+            "beginCaptures":{
+                "1":{"name":"variable.parameter"},
+                "2":{"name":"string.unquoted"},
+                "3":{"name":"invalid.illegal"}
+            },
+            "patterns":[
+              { "include":"#permit" },
+              { "include":"#deny" },
+              { "include":"text.network.cisco.scope" }
             ]
           }]
       },
@@ -154,7 +191,27 @@
       "drop":{
         "patterns":[{
             "name":"text.network.cisco.ace.policy.class.drop",
-            "match":"(drop)\\s*(?:\\s+(\\S+))?$",
+            "match":"^\\s*(drop)\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"keyword.other"},
+                "2":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "permit":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.class.permit",
+            "match":"^\\s*(permit)\\s*(?:\\s+(\\S+))?$",
+            "captures":{
+                "1":{"name":"entity.name.function"},
+                "2":{"name":"invalid.illegal"}
+            }
+          }]
+      },
+      "deny":{
+        "patterns":[{
+            "name":"text.network.cisco.ace.policy.class.deny",
+            "match":"^\\s*(deny)\\s*(?:\\s+(\\S+))?$",
             "captures":{
                 "1":{"name":"keyword.other"},
                 "2":{"name":"invalid.illegal"}
@@ -164,7 +221,7 @@
       "forward":{
         "patterns":[{
             "name":"text.network.cisco.ace.policy.class.forward",
-            "match":"(forward)\\s*(?:\\s+(\\S+))?$",
+            "match":"^\\s*(forward)\\s*(?:\\s+(\\S+))?$",
             "captures":{
                 "1":{"name":"entity.name.function"},
                 "2":{"name":"invalid.illegal"}

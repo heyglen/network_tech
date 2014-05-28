@@ -19,6 +19,7 @@
     {"include":"text.network.cisco.ace.sticky"},
     {"include":"text.network.cisco.ace.class-map"},
     {"include":"text.network.cisco.ace.policy"},
+    {"include":"text.network.cisco.ace.acl"},
     {"include":"text.network.cisco.ace.interface"}
  	],
   	"repository":{
