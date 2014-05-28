@@ -11,13 +11,9 @@
 	<key>foldingStopMarker</key>
 	<string>^\s*!.*$</string>
 	<key>name</key>
-	<string>Cisco ASA 2.0</string>
+	<string>Cisco ASA</string>
 	<key>patterns</key>
 	<array>
-		<dict>
-			<key>include</key>
-			<string>#comment</string>
-		</dict>
 		<dict>
 			<key>include</key>
 			<string>#control</string>
@@ -97,6 +93,10 @@
 		<dict>
 			<key>include</key>
 			<string>#nat</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco</string>
 		</dict>
 	</array>
 	<key>repository</key>
@@ -1171,26 +1171,6 @@
 				</dict>
 			</array>
 		</dict>
-		<key>comment</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>puncuation.definition.comment.asa</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(!).*$\n?</string>
-					<key>name</key>
-					<string>comment.line.number-sign.asa</string>
-				</dict>
-			</array>
-		</dict>
 		<key>control</key>
 		<dict>
 			<key>patterns</key>
@@ -1333,13 +1313,13 @@
 					<key>match</key>
 					<string>\s(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s</string>
 					<key>name</key>
-					<string>constant.numeric.ip-address.asa</string>
+					<string>constant.numeric.ip-address</string>
 				</dict>
 				<dict>
 					<key>match</key>
 					<string>(\s|\.)(?:(?:25[6-9]|2[6-9][0-9]|[3-9]?[0-9][0-9]?)\.)\b</string>
 					<key>name</key>
-					<string>invalid.illegal.ip-address.asa</string>
+					<string>invalid.illegal.ip-address</string>
 				</dict>
 			</array>
 		</dict>
@@ -1881,114 +1861,48 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>begin</key>
-					<string>^\s*(route)\s+([^ ]+)\s+</string>
-					<key>beginCaptures</key>
+					<key>captures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>cisco.asa.route</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>cisco.asa.interface</string>
+							<string>string.unquoted</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
 						</dict>
 					</dict>
-					<key>end</key>
-					<string>(\s*$)</string>
+					<key>match</key>
+					<string>^\s*(route)\s+(\S+)\s+(?:((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\s+((?:255|254|252|248|240|224|192|128|0+|\.){7}))\s+((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(\s+\d+)?\s*(\S.*)?</string>
 					<key>name</key>
 					<string>cisco.asa.route</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#route-ip-subnet</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>(.*$)</string>
-							<key>name</key>
-							<string>invalid.illegal.asa.route</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>route-gateway</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>\s*((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\s+(\d)</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>cisco.asa.route.gateway</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>cisco.asa.route.metric</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(\s*$)</string>
-					<key>name</key>
-					<string>cisco.asa.route.gateway</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>match</key>
-							<string>(.*$)</string>
-							<key>name</key>
-							<string>invalid.illegal.asa.route.gateway</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>route-ip-subnet</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>\s*(?:((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\s+((?:255|254|252|248|240|224|192|128|0+|\.){7}))</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>cisco.asa.ip-address</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>cisco.asa.subnet-mask</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(\s*$)</string>
-					<key>name</key>
-					<string>cisco.asa.route.ip-subnet</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#route-gateway</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>(.*$)</string>
-							<key>name</key>
-							<string>invalid.illegal.asa.route.ip-subnet</string>
-						</dict>
-					</array>
 				</dict>
 			</array>
 		</dict>
@@ -2093,7 +2007,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.cisco.asa</string>
+	<string>text.network.cisco.asa</string>
 	<key>uuid</key>
 	<string>8e510814-afc1-45ba-879f-061aa5dda201</string>
 </dict>
