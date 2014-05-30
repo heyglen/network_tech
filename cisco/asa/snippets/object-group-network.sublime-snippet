@@ -6,5 +6,5 @@ object-group network ${1:name}
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>ogn</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>text.cisco.asa</scope>
+	<scope>text.network.cisco.asa</scope>
 </snippet>

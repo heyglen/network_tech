@@ -1,0 +1,175 @@
+{ 
+  "name": "Cisco ASA object-group",
+  "scopeName": "text.network.cisco.asa.object-group", 
+  "uuid": "8e510814-afc1-45ba-879f-061aa5dda204",
+  "patterns": [
+      {"include":"#object-group_service"},
+      {"include":"#object-group_icmp-type"},
+      {"include":"#object-group_network"}
+   ],
+  "repository":{
+      "object-group_service":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.object-group.service",
+        "begin":"^\\s*(object-group)\\s+(service)\\s+([A-Za-z0-9_-]+)(?:\\s+)?(tcp|udp|tcp-udp)?",
+        "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S))",
+        "beginCaptures":{
+          "1":{"name":"variable.parameter"},
+          "2":{"name":"entity.name.function"},
+          "3":{"name":"string.unquoted"},
+          "4":{"name":"markup.inserted"}          
+          },
+          "patterns":[
+            { "include":"#port-object" },
+            { "include":"text.network.cisco.scope" }
+          ]        
+        }
+      ]
+    },  
+    "port-object":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.object-group.service.port-object",
+        "begin":"^\\s*(port-object)\\s+(eq|range)\\s+([0-9a-zA-Z]+)(?:\\s+)?([0-9a-zA-Z]+)?",
+        "beginCaptures":{
+          "1":{"name":"support.constant"},
+          "2":{"name":"markup.inserted.control.asa"},
+          "3":{"name":"constant.character"},          
+          "4":{"name":"constant.character"}          
+          },
+        "end":"(\\s*$)"
+        }
+      ]
+    },
+    "object-group_icmp-type":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.object-group.icmp-type",
+        "begin":"^\\s*(object-group)\\s+(icmp-type)\\s+(\\S+)\\s*",
+        "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S))",
+        "beginCaptures":{
+          "1":{"name":"variable.parameter"},
+          "2":{"name":"entity.name.function"},
+          "3":{"name":"string.unquoted"}
+          },
+          "patterns":[
+            { "include":"#icmp-object" },
+            { "include":"text.network.cisco.scope" }
+          ]        
+        }
+      ]
+    },  
+    "icmp-object":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.object-group.icmp-type.icmp-object",
+        "begin":"^\\s*(icmp-object)\\s+(\\S+)\\s*",
+        "beginCaptures":{
+          "1":{"name":"support.constant"},
+          "2":{"name":"markup.inserted.control.asa"}
+          },
+        "end":"(\\s*$)"
+        }
+      ]
+    },
+
+    "object-group_network":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.object-group.network",
+        "begin":"^\\s*(object-group)\\s+(network)\\s+(\\S+)\\s*",
+        "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S))",
+        "beginCaptures":{
+          "1":{"name":"variable.parameter"},
+          "2":{"name":"entity.name.function"},
+          "3":{"name":"string.unquoted"}
+          },
+          "patterns":[
+            { "include":"#network-object" },
+            { "include":"text.network.cisco.scope" }
+          ]        
+        }
+      ]
+    },  
+    "network-object":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.object-group.network.network-object",
+        "begin":"^\\s*(network-object)",
+        "beginCaptures":{
+          "1":{"name":"support.constant"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "include":"#network-object-ip-subnet" },
+        { "include":"#network-object-ip-range" },
+        { "include":"#network-object-object" },
+        { "include":"#network-object-host" },
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },
+    "network-object-ip-range":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.object-group.network.network-object.ip-range",
+        "begin":"\\s*(range)\\s+((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))\\s+((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))\\s*",
+        "beginCaptures":{
+          "1":{"name":"support.constant"},
+          "2":{"name":"constant.language"},
+          "3":{"name":"constant.language"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },        
+    "network-object-ip-subnet":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.object-group.network.network-object.ip-subnet",
+        "begin":"\\s*((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(?:\\s+)((?:255|254|252|248|240|224|192|128|0+|\\.){7}))",
+        "beginCaptures":{
+          "1":{"name":"constant.language"},
+          "2":{"name":"constant.language"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "network-object-object":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.object-group.network.network-object.object",
+        "begin":"\\s*(?:(object)\\s+(\\S+))",
+        "beginCaptures":{
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"string.unquoted"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },    
+    "network-object-host":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.object-group.network.network-object.host",
+        "begin":"\\s*(?:(host)(?:\\s+)((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))",
+        "beginCaptures":{
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"constant.language"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    }
+  } 
+}

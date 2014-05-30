@@ -1,0 +1,26 @@
+{ 
+  "name": "Cisco ASA access-group",
+  "scopeName": "text.network.cisco.asa.access-group", 
+  "uuid": "8e510814-afc1-45ba-879f-061aa5dda210",
+  "patterns": [
+      {"include":"#access-group"}
+   ],
+  "repository":{
+      "access-group":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.access-group",
+        "begin":"^\\s*(access-group)\\s+(\\S+)\\s+(in|out)\\s+(interface)\\s+(\\S+)",
+        "end":"\\s*$",
+        "beginCaptures":{
+          "1":{"name":"support.constant"},
+          "2":{"name":"string.unquoted"},
+          "3":{"name":"markup.inserted"},
+          "4":{"name":"markup.inserted"},
+          "5":{"name":"entity.other.inherited-class"}          
+        }
+        }
+      ]
+    }
+  }
+}
+

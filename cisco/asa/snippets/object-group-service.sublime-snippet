@@ -1,9 +1,10 @@
 <snippet>
 	<content><![CDATA[
-object-group service 
+object-group service ${1:name} ${2:protocol}
+ port-object eq ${3:port}
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>ogs</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>text.asa</scope>
+	<scope>text.network.cisco.asa</scope>
 </snippet>
