@@ -34,7 +34,7 @@
             "name":"text.network.cisco.ace.rserver.ip-address",
             "match":"(ip\\s+address)\\s+(\\S+)\\s*(?:\\s+(\\S+))?$",
             "captures":{
-                "1":{"name":"storage.type"},
+                "1":{"name":"support.constant"},
                 "2":{"name":"constant.language"},
                 "3":{"name":"invalid.illegal"}
             } 

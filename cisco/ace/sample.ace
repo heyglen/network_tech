@@ -22,10 +22,10 @@ aaa group server tacacs+ TACACS
   server 1.1.1.1
   server 1.1.1.1
 
-
 aaa authentication login default group TACACS local
 
 access-list ALLOW_ANY line 1 extended permit ip any any
+access-list ALLOW_ANY line 1 extended deny ip any any
 access-list MGMT_ACL line 1 extended permit ip 1.1.1.1 1.1.1.1 any
  
 probe tcp TCP-PROBE1
@@ -160,6 +160,7 @@ class-map type management match-any remote_access
 policy-map type management first-match remote_mgmt_allow_policy
   class remote_access
     permit
+    deny
 
 policy-map type loadbalance first-match L4-POLICY-1
   class class-default
