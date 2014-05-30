@@ -23,7 +23,7 @@
           "beginCaptures":{
               "1":{"name":"variable.parameter"},
               "2":{"name":"entity.name.function"},
-              "3":{"name":"storage.type.header-cookie"},
+              "3":{"name":"support.constant.header-cookie"},
               "4":{"name":"string.unquoted.sticky.name"},
               "5":{"name":"invalid.illegal"}
           },
@@ -48,7 +48,7 @@
           "beginCaptures":{
               "1":{"name":"variable.parameter"},
               "2":{"name":"entity.name.function"},
-              "3":{"name":"storage.type.header-cookie"},
+              "3":{"name":"support.constant.header-cookie"},
               "4":{"name":"string.unquoted.sticky.name"},
               "5":{"name":"invalid.illegal"}
           },
@@ -69,7 +69,7 @@
           "beginCaptures":{
               "1":{"name":"variable.parameter"},
               "2":{"name":"entity.name.function"},
-              "3":{"name":"storage.type.header-cookie"},
+              "3":{"name":"support.constant.header-cookie"},
               "4":{"name":"string.unquoted.sticky.name"},
               "5":{"name":"invalid.illegal"}
           },
@@ -152,7 +152,7 @@
           "beginCaptures":{
               "1":{"name":"variable.parameter"},
               "2":{"name":"entity.name.function"},
-              "3":{"name":"storage.type.header-cookie"},
+              "3":{"name":"support.constant.header-cookie"},
               "4":{"name":"string.unquoted.sticky.name"},
               "5":{"name":"invalid.illegal"}
           },
@@ -174,8 +174,8 @@
               "1":{"name":"variable.parameter"},
               "2":{"name":"entity.name.function"},
               "3":{"name":"constant.language"},
-              "4":{"name":"storage.type.header-cookie"},
-              "5":{"name":"storage.type.header-cookie"},
+              "4":{"name":"support.constant.header-cookie"},
+              "5":{"name":"support.constant.header-cookie"},
               "6":{"name":"string.unquoted.sticky.name"},
               "7":{"name":"invalid.illegal"}
           },
@@ -193,7 +193,7 @@
             "name":"text.network.cisco.ace.sticky.timeout",
             "match":"(timeout)\\s+(\\d+)\\s*(?:\\s+(\\S+))?$",
             "captures":{
-                "1":{"name":"storage.type"},
+                "1":{"name":"support.constant"},
                 "2":{"name":"constant.language"},
                 "3":{"name":"invalid.illegal"}
             } 
@@ -204,7 +204,7 @@
             "name":"text.network.cisco.ace.sticky.timeout",
             "match":"(serverfarm)\\s+(\\S+)\\s*(?:\\s+(\\S+))?$",
             "captures":{
-                "1":{"name":"storage.type"},
+                "1":{"name":"support.constant"},
                 "2":{"name":"string.unquoted"},
                 "3":{"name":"invalid.illegal"}
             } 
@@ -215,7 +215,7 @@
             "name":"text.network.cisco.ace.sticky.timeout",
             "match":"(cookie\\s+insert)(\\s+browser-expire)?\\s*(?:\\s+(\\S+))?$",
             "captures":{
-                "1":{"name":"storage.type"},
+                "1":{"name":"support.constant"},
                 "2":{"name":"constant.language"},
                 "3":{"name":"invalid.illegal"}
             } 
@@ -226,9 +226,9 @@
             "name":"text.network.cisco.ace.sticky.http.cookie",
             "match":"(cookie\\s+offset)(\\s+\\d+)(?:\\s+(length)\\s+(\\d+))?\\s*(?:\\s+(\\S+))?$",
             "captures":{
-                "1":{"name":"storage.type"},
+                "1":{"name":"support.constant"},
                 "2":{"name":"constant.language"},
-                "3":{"name":"storage.type"},
+                "3":{"name":"support.constant"},
                 "4":{"name":"constant.language"},
                 "5":{"name":"invalid.illegal"}
             } 
@@ -239,12 +239,12 @@
             "name":"text.network.cisco.ace.sticky.http.content",
             "match":"(content)(?:\\s+(offset)\\s+(\\d+))?(?:\\s+(length)\\s+(\\d+))?(?:\\s+(begin-pattern)\\s+(\\S+))?\\s*(?:\\s+(\\S+))?$",
             "captures":{
-                "1":{"name":"storage.type"},
-                "2":{"name":"storage.type"},
+                "1":{"name":"support.constant"},
+                "2":{"name":"support.constant"},
                 "3":{"name":"constant.language"},
-                "4":{"name":"storage.type"},
+                "4":{"name":"support.constant"},
                 "5":{"name":"constant.language"},
-                "6":{"name":"storage.type"},
+                "6":{"name":"support.constant"},
                 "7":{"name":"string.unquoted"},
                 "8":{"name":"invalid.illegal"}
             } 
@@ -255,7 +255,7 @@
             "name":"text.network.cisco.ace.sticky.http.cookie-secondary",
             "match":"(cookie\\s+secondary)\\s+(\\S+)\\s*(?:\\s+(\\S+))?$",
             "captures":{
-                "1":{"name":"storage.type"},
+                "1":{"name":"support.constant"},
                 "2":{"name":"string.unquoted"},
                 "3":{"name":"invalid.illegal"}
             } 
@@ -266,9 +266,9 @@
             "name":"text.network.cisco.ace.sticky.http.static-cookie-value",
             "match":"(static\\s+cookie-value)\\s+(\\S+)\\s+(rserver)\\s+(\\S+)(?:\\s+(\\d+))?\\s*(?:\\s+(\\S+))?$",
             "captures":{
-                "1":{"name":"storage.type"},
+                "1":{"name":"support.constant"},
                 "2":{"name":"string.unquoted"},
-                "3":{"name":"storage.type"},
+                "3":{"name":"support.constant"},
                 "4":{"name":"string.unquoted"},
                 "5":{"name":"constant.language"},
                 "6":{"name":"invalid.illegal"}
@@ -280,9 +280,9 @@
             "name":"text.network.cisco.ace.sticky.http.static-content",
             "match":"(static\\s+content)\\s+(\\S+)\\s+(rserver)\\s+(\\S+)(?:\\s+(\\d+))?\\s*(?:\\s+(\\S+))?$",
             "captures":{
-                "1":{"name":"storage.type"},
+                "1":{"name":"support.constant"},
                 "2":{"name":"string.unquoted"},
-                "3":{"name":"storage.type"},
+                "3":{"name":"support.constant"},
                 "4":{"name":"string.unquoted"},
                 "5":{"name":"constant.language"},
                 "6":{"name":"invalid.illegal"}
@@ -294,8 +294,8 @@
             "name":"text.network.cisco.ace.sticky.replicate",
             "match":"(replicate)\\s+(sticky)\\s*(?:\\s+(\\S+))?$",
             "captures":{
-                "1":{"name":"storage.type"},
-                "2":{"name":"storage.type"},
+                "1":{"name":"support.constant"},
+                "2":{"name":"support.constant"},
                 "3":{"name":"invalid.illegal"}
             } 
           }]

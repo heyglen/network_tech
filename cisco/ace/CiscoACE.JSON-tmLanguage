@@ -1,8 +1,8 @@
 { 	
 	"name": "Cisco ACE",
 	"scopeName": "text.network.cisco.ace",
-	"fileTypes": ["ace"],
 	"uuid": "e5441a2e-8364-4339-b1e2-f79db773f565",
+  "fileTypes": ["ace"],
 	"patterns": [
     {"include":"#changeto"},
     {"include":"#crypto-import"},

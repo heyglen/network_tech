@@ -16,7 +16,7 @@
             "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S))",
             "beginCaptures":{
               "1":{"name":"variable.parameter"},
-              "2":{"name":"entity.name.function"}
+              "2":{"name":"entity.other.inherited-class"}
               },
             "patterns":[
                 { "include":"#switchport"},

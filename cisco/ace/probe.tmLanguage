@@ -29,7 +29,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -44,7 +44,7 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>5</key>
 						<dict>
@@ -54,7 +54,7 @@
 						<key>6</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>7</key>
 						<dict>
@@ -84,7 +84,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -124,7 +124,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -179,7 +179,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -189,7 +189,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>4</key>
 						<dict>
@@ -224,7 +224,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -254,7 +254,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -264,7 +264,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>4</key>
 						<dict>
@@ -289,7 +289,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -299,7 +299,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>4</key>
 						<dict>
@@ -324,7 +324,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -354,12 +354,12 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -369,7 +369,7 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>5</key>
 						<dict>
@@ -399,7 +399,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -617,7 +617,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -647,7 +647,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -657,7 +657,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>4</key>
 						<dict>
@@ -687,7 +687,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>

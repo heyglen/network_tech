@@ -1,4 +1,5 @@
 { "name": "Cisco ASA",
+  "uuid": "8e510814-afc1-45ba-879f-061aa5dda201"
   "foldingStartMarker":"^\\s*.+$",
   "foldingStopMarker":"^\\s*!.*$",
   "scopeName": "text.network.cisco.asa", 
@@ -8,7 +9,6 @@
   {"include":"#control"},
   {"include":"#ip_address"},
   {"include":"#number"},
-  {"include":"#variable"},
   {"include":"#operator"},
   {"include":"#url"},
   {"include":"#router"},
@@ -37,6 +37,7 @@
         }
       ]
     },
+
     "ip_address":{
       "patterns":[
       { "name":"constant.numeric.ip-address",
@@ -47,7 +48,7 @@
         }
       ]
     },
-    "number":{ 
+    "number":{
       "patterns":[
       { "name":"constant.numeric.integer.asa",
         "match":"\\b(?:[1-9]+[0-9]*|0)\\b"
@@ -69,7 +70,7 @@
         "match":"\\b(?i:eq|neq|gt|lt|range|ge|le)\\b"
         }
       ]
-    },    
+    },
     "url":{
       "patterns":[
       { "name":"string.unquoted.asa",
@@ -104,10 +105,10 @@
         "patterns":[
         { "name":"invalid.illegal.network-object.asa",
           "match":"(?:.*$)"}
-        ]        
+        ]
         }
       ]
-    },    
+    },
     "security-level":{
       "patterns":[
       { "name":"meta.asa.interface.security-level",
@@ -120,7 +121,7 @@
         "patterns":[
         { "name":"invalid.illegal.network-object.asa",
           "match":"(?:.*$)"}
-        ]        
+        ]
         }
       ]
     },
@@ -156,7 +157,6 @@
         }
       ]
     },
-  
     "group-object":{
       "patterns":[
       { "name":"meta.group-object.asa",
@@ -169,7 +169,7 @@
         "patterns":[
         { "name":"invalid.illegal.network-object.asa",
           "match":"(?:.*$)"}
-        ]        
+        ]
         }
       ]
     },
@@ -181,5 +181,4 @@
       ]
     }
   },
-  "uuid": "8e510814-afc1-45ba-879f-061aa5dda201"
 }

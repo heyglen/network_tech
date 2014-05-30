@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Cisco Real Server</string>
+	<string>Cisco ACE Real Server</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -43,7 +43,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>

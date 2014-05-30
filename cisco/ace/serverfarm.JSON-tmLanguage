@@ -51,7 +51,7 @@
               "match":"^\\s+(probe)\\s+(\\S+)\\s+$",
               "captures":{
                 "0":{"name":"meta.cisco.ace.serverfarm.probe"},
-                "1":{"name":"storage.type"},
+                "1":{"name":"support.constant"},
                 "2":{"name":"string.unquoted"}
               }
             }
