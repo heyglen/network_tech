@@ -1,5 +1,5 @@
 { "name": "Cisco ASA",
-  "uuid": "8e510814-afc1-45ba-879f-061aa5dda201"
+  "uuid": "8e510814-afc1-45ba-879f-061aa5dda201",
   "foldingStartMarker":"^\\s*.+$",
   "foldingStopMarker":"^\\s*!.*$",
   "scopeName": "text.network.cisco.asa", 
@@ -180,5 +180,5 @@
         }
       ]
     }
-  },
+  }
 }
