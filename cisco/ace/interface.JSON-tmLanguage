@@ -13,8 +13,8 @@
           "end":"^(?=(?:\\s*(?=(?:\n\\s*\n)*(?:\\s+\\S))$)|(?:\\S))",
           "beginCaptures":{
               "1":{"name":"variable.parameter"},
-              "2":{"name":"entity.name.function"},
-              "3":{"name":"constant.language"},
+              "2":{"name":"entity.other.inherited-class"},
+              "3":{"name":"entity.other.inherited-class"},
               "4":{"name":"invalid.illegal"}
           },
           "patterns":[

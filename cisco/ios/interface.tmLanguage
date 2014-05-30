@@ -60,7 +60,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.inherited-class</string>
 						</dict>
 					</dict>
 					<key>end</key>
