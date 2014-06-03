@@ -32,10 +32,6 @@
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>#operator</string>
-		</dict>
-		<dict>
-			<key>include</key>
 			<string>#url</string>
 		</dict>
 		<dict>
@@ -44,7 +40,7 @@
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>#interface_clause</string>
+			<string>#interface</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -69,6 +65,10 @@
 		<dict>
 			<key>include</key>
 			<string>#permit-ip-any-any</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#banner</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -97,6 +97,47 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>banner</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(banner)\s+(motd|exec)\s+(.+)$</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>markup.inserted</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(\s*$)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.banner</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>(?:.*$)</string>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>comment</key>
 		<dict>
 			<key>patterns</key>
@@ -171,7 +212,7 @@
 				</dict>
 			</array>
 		</dict>
-		<key>interface_clause</key>
+		<key>interface</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -183,13 +224,13 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>cisco.asa.interface</string>
+							<string>variable.parameter</string>
 						</dict>
 					</dict>
 					<key>end</key>
 					<string>(\s*$)</string>
 					<key>name</key>
-					<string>meta.interface.asa</string>
+					<string>text.network.cisco.asa.interface</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -222,7 +263,7 @@
 						</dict>
 					</dict>
 					<key>contentName</key>
-					<string>meta.interface-id.asa</string>
+					<string>text.network.cisco.asa.interface.id</string>
 					<key>end</key>
 					<string>([0-9][0-9/. ]*)\b</string>
 					<key>endCaptures</key>
@@ -266,12 +307,12 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>string.unquoted.asa.interface.nameif</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter.asa.interface.nameif.name</string>
+							<string>entity.other.inherited-class</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -299,18 +340,6 @@
 					<string>\b(?:[1-9]+[0-9]*|0)\b</string>
 					<key>name</key>
 					<string>constant.numeric.integer.asa</string>
-				</dict>
-			</array>
-		</dict>
-		<key>operator</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>match</key>
-					<string>\b(?i:eq|neq|gt|lt|range|ge|le)\b</string>
-					<key>name</key>
-					<string>keyword.operator.comparison.asa</string>
 				</dict>
 			</array>
 		</dict>
@@ -373,18 +402,18 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>string.unquoted.asa.interface.security-level</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter.asa.interface.security-level.level</string>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>
 					<string>(\s*$)</string>
 					<key>name</key>
-					<string>meta.asa.interface.security-level</string>
+					<string>text.network.cisco.asa.interface.security-level</string>
 					<key>patterns</key>
 					<array>
 						<dict>
