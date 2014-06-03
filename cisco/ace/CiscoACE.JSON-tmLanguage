@@ -20,7 +20,8 @@
     {"include":"text.network.cisco.ace.class-map"},
     {"include":"text.network.cisco.ace.policy"},
     {"include":"text.network.cisco.ace.acl"},
-    {"include":"text.network.cisco.ace.interface"}
+    {"include":"text.network.cisco.ace.interface"},
+    {"include":"text.network.cisco.ace.resource-class"}
  	],
   	"repository":{
       "hostname":{

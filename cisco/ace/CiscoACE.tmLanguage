@@ -78,6 +78,10 @@
 			<key>include</key>
 			<string>text.network.cisco.ace.interface</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.ace.resource-class</string>
+		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
