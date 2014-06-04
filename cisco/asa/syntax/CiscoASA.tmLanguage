@@ -16,10 +16,6 @@
 	<array>
 		<dict>
 			<key>include</key>
-			<string>#comment</string>
-		</dict>
-		<dict>
-			<key>include</key>
 			<string>#control</string>
 		</dict>
 		<dict>
@@ -73,6 +69,10 @@
 		<dict>
 			<key>include</key>
 			<string>text.network.cisco.asa.nat</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -135,26 +135,6 @@
 							<string>invalid.illegal</string>
 						</dict>
 					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>comment</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.comment.asa</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(!).*$\n?</string>
-					<key>name</key>
-					<string>text.network.cisco.asa.comment</string>
 				</dict>
 			</array>
 		</dict>

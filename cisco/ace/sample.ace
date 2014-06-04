@@ -24,6 +24,17 @@ aaa group server tacacs+ TACACS
 
 aaa authentication login default group TACACS local
 
+
+resource-class SILVER
+  limit-resource all minimum 5.00 maximum unlimited
+  limit-resource acl-memory minimum 10.00 maximum unlimited
+  limit-resource conc-connections minimum 10.00 maximum unlimited
+  limit-resource mgmt-connections minimum 5.00 maximum unlimited
+  limit-resource rate bandwidth minimum 10.00 maximum unlimited
+  limit-resource rate connections minimum 10.00 maximum unlimited
+  limit-resource rate ssl-connections minimum 5.00 maximum unlimited
+  limit-resource rate mgmt-traffic minimum 5.00 maximum unlimited
+
 access-list ALLOW_ANY line 1 extended permit ip any any
 access-list ALLOW_ANY line 1 extended deny ip any any
 access-list MGMT_ACL line 1 extended permit ip 1.1.1.1 1.1.1.1 any
