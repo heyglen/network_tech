@@ -22,6 +22,10 @@
 			<key>include</key>
 			<string>#comment</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>#show-pipes</string>
+		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -112,6 +116,46 @@
 					<string>(\s*no .*)$</string>
 					<key>name</key>
 					<string>text.network.cisco.remove</string>
+				</dict>
+			</array>
+		</dict>
+		<key>show-pipes</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(\|)\s+(?:(include)|(exclude)|(begin))\s+(.*)(?=\n)</string>
+					<key>name</key>
+					<string>text.network.cisco.show.pipe</string>
 				</dict>
 			</array>
 		</dict>

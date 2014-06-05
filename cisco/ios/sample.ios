@@ -1,5 +1,9 @@
 ! On router1
 
+vlan 20
+ name test
+
+ 
 interface Port-channel1
 	description Hello
 	switchport

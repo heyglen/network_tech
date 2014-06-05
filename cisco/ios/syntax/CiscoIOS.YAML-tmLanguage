@@ -9,10 +9,12 @@ patterns:
 - include: '#alias'
 - include: '#access-list'
 - include: text.network.cisco
+- include: text.network.cisco.ios.vlan
 - include: text.network.cisco.ios.vrf
 - include: text.network.cisco.ios.bgp
 - include: text.network.cisco.ios.ip.prefix-list
 - include: text.network.cisco.ios.interface
+- include: text.network.cisco.ios.route-map
 
 repository:
   access-list:

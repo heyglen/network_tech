@@ -28,6 +28,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>text.network.cisco.ios.vlan</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>text.network.cisco.ios.vrf</string>
 		</dict>
 		<dict>
@@ -41,6 +45,10 @@
 		<dict>
 			<key>include</key>
 			<string>text.network.cisco.ios.interface</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.ios.route-map</string>
 		</dict>
 	</array>
 	<key>repository</key>

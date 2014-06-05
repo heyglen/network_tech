@@ -228,7 +228,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(inherit)\s+(peer-policy)\s+(\S+)\s*(\s+\S+)?$</string>
+					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(inherit)\s+(peer-policy)\s+(\S+)\s*(\s\S.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.bgp.neighbor.inherit-peer-policy</string>
 				</dict>
@@ -268,7 +268,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(remote-as)\s+(\d+)\s*(\s+\S+)?$</string>
+					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(remote-as)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.bgp.neighbor.remote-as</string>
 				</dict>
@@ -313,7 +313,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(route-map)\s+(\S+)\s+(in|out)\s*(\s+\S+)?$</string>
+					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(route-map)\s+(\S+)\s+(in|out)\s*(\s\S.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.bgp.neighbor.route-map</string>
 				</dict>
@@ -348,7 +348,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(shutdown)\s*(\s+\S+)?$</string>
+					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(shutdown)\s*(\s\S.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.bgp.neighbor.inherit-peer-policy</string>
 				</dict>
@@ -393,7 +393,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(timers)\s+(\d+)\s+(\d+)\s*(\s+\S+)?$</string>
+					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(timers)\s+(\d+)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.bgp.neighbor.timer</string>
 				</dict>
@@ -438,7 +438,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(ttl-security)\s+(hops)\s+(\d+)\s*(\s+\S+)?$</string>
+					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(ttl-security)\s+(hops)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.bgp.neighbor.remote-as</string>
 				</dict>
@@ -478,7 +478,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(version)\s+(\d+)\s*(\s+\S+)?$</string>
+					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(version)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.bgp.neighbor.version</string>
 				</dict>

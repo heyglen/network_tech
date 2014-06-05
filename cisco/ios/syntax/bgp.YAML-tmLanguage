@@ -59,7 +59,7 @@ repository:
   neighbor-inherit-peer-policy:
     patterns:
     - name: text.network.cisco.ios.bgp.neighbor.inherit-peer-policy
-      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(inherit)\s+(peer-policy)\s+(\S+)\s*(\s+\S+)?$
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(inherit)\s+(peer-policy)\s+(\S+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
@@ -71,7 +71,7 @@ repository:
   neighbor-remote-as:
     patterns:
     - name: text.network.cisco.ios.bgp.neighbor.remote-as
-      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(remote-as)\s+(\d+)\s*(\s+\S+)?$
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(remote-as)\s+(\d+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
@@ -82,7 +82,7 @@ repository:
   neighbor-route-map:
     patterns:
     - name: text.network.cisco.ios.bgp.neighbor.route-map
-      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(route-map)\s+(\S+)\s+(in|out)\s*(\s+\S+)?$
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(route-map)\s+(\S+)\s+(in|out)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
@@ -94,7 +94,7 @@ repository:
   neighbor-shutdown:
     patterns:
     - name: text.network.cisco.ios.bgp.neighbor.inherit-peer-policy
-      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(shutdown)\s*(\s+\S+)?$
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(shutdown)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
@@ -104,7 +104,7 @@ repository:
   neighbor-timer:
     patterns:
     - name: text.network.cisco.ios.bgp.neighbor.timer
-      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(timers)\s+(\d+)\s+(\d+)\s*(\s+\S+)?$
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(timers)\s+(\d+)\s+(\d+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
@@ -116,7 +116,7 @@ repository:
   neighbor-ttl-security-hops:
     patterns:
     - name: text.network.cisco.ios.bgp.neighbor.remote-as
-      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(ttl-security)\s+(hops)\s+(\d+)\s*(\s+\S+)?$
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(ttl-security)\s+(hops)\s+(\d+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
@@ -128,7 +128,7 @@ repository:
   neighbor-version:
     patterns:
     - name: text.network.cisco.ios.bgp.neighbor.version
-      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(version)\s+(\d+)\s*(\s+\S+)?$
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(version)\s+(\d+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}

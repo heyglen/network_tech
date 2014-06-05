@@ -1,0 +1,45 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: vlan
+scopeName: text.network.cisco.ios.vlan
+uuid: 7740f442-243f-485b-96b6-4f1dd83494f3
+
+patterns:
+- include: '#vlan'
+- include: '#show-vlan'
+- include: 'text.network.cisco'
+
+repository:
+  vlan:
+    patterns:
+    - name: text.network.cisco.ios.vlan
+      begin: ^(vlan)\s+(\d+)\s*(\s\S.*)?$
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))
+      patterns:
+      - include: '#name'
+      - include: text.network.cisco
+  show-vlan:
+    patterns:
+    - name: text.network.cisco.ios.vlan.show
+      begin: ^\s*(show)\s+(vlan)(?:\s+(id)\s+(\d+))?
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: constant.numeric}
+      end: (?=\||\n)
+      patterns:
+      - include: '#name'
+      - include: text.network.cisco
+  name:
+    patterns:
+    - name: text.network.cisco.ios.vlan.name
+      match: ^\s*(name)\s+(\S+)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+        '4': {name: invalid.illegal}

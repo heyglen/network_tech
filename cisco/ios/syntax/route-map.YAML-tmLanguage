@@ -1,0 +1,34 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: Route Map
+scopeName: text.network.cisco.ios.route-map
+uuid: 6d331ea6-7d01-4c6e-a568-0deeb79312e9
+
+patterns:
+- include: '#route-map'
+
+repository:
+  route-map:
+    patterns:
+    - name: text.network.cisco.ios.route-map
+      begin: ^(route-map)\s+(\S+)\s+(?:(permit)|(deny))\s+(\d+)\s*(\s\S.*)?$
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+        '3': {name: entity.name.function}
+        '4': {name: keyword.other}
+        '5': {name: constant.numeric}
+        '6': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))
+      patterns:
+      - include: '#set-local-preference'
+      - include: text.network.cisco
+  set-local-preference:
+    patterns:
+    - name: text.network.cisco.ios.route-map.set.local-preference
+      match: ^\s*(set)\s+(local-preference)\s+(\d+)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: constant.numeric}
+        '4': {name: invalid.illegal}
