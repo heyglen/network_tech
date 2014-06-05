@@ -1,0 +1,137 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: IOS BGP
+scopeName: text.network.cisco.ios.bgp
+uuid: 34955740-df89-4de1-9001-10d53738fa23
+
+patterns:
+- include: '#bgp'
+
+repository:
+  address-family:
+    patterns:
+    - name: text.network.cisco.ios.bgp.address-family
+      begin: ^\s+(address-family)\s+(ipv4|6)\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))
+      patterns:
+      - include: '#neighbor-remote-as'
+      - include: '#neighbor-ttl-security-hops'
+      - include: '#neighbor-timer'
+      - include: '#neighbor-activate'
+      - include: '#neighbor-inherit-peer-policy'
+      - include: '#neighbor-route-map'
+      - include: '#neighbor-version'
+      - include: '#neighbor-shutdown'
+      - include: text.network.cisco.scope
+      - include: text.network.cisco
+
+  bgp:
+    patterns:
+    - name: text.network.cisco.ios.bgp
+      begin: ^(router)\s+(bgp)\s+(\d+)\s*(\s+\S.*)?$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: constant.language}
+        '4': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: '#address-family'
+      - include: '#neighbor-remote-as'
+      - include: text.network.cisco.scope
+      - include: text.network.cisco
+
+  neighbor-activate:
+    patterns:
+    - name: text.network.cisco.ios.bgp.neighbor.activate
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(activate)\s*(\s+\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: entity.name.function}
+        '4': {name: invalid.illegal}
+
+  neighbor-inherit-peer-policy:
+    patterns:
+    - name: text.network.cisco.ios.bgp.neighbor.inherit-peer-policy
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(inherit)\s+(peer-policy)\s+(\S+)\s*(\s+\S+)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: string.unquoted}
+        '6': {name: invalid.illegal}
+
+  neighbor-remote-as:
+    patterns:
+    - name: text.network.cisco.ios.bgp.neighbor.remote-as
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(remote-as)\s+(\d+)\s*(\s+\S+)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: constant.numeric}
+        '5': {name: invalid.illegal}
+
+  neighbor-route-map:
+    patterns:
+    - name: text.network.cisco.ios.bgp.neighbor.route-map
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(route-map)\s+(\S+)\s+(in|out)\s*(\s+\S+)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: support.constant}
+        '6': {name: invalid.illegal}
+
+  neighbor-shutdown:
+    patterns:
+    - name: text.network.cisco.ios.bgp.neighbor.inherit-peer-policy
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(shutdown)\s*(\s+\S+)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: keyword.other}
+        '4': {name: invalid.illegal}
+
+  neighbor-timer:
+    patterns:
+    - name: text.network.cisco.ios.bgp.neighbor.timer
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(timers)\s+(\d+)\s+(\d+)\s*(\s+\S+)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: constant.numeric}
+        '5': {name: constant.numeric}
+        '6': {name: invalid.illegal}
+
+  neighbor-ttl-security-hops:
+    patterns:
+    - name: text.network.cisco.ios.bgp.neighbor.remote-as
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(ttl-security)\s+(hops)\s+(\d+)\s*(\s+\S+)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: constant.numeric}
+        '6': {name: invalid.illegal}
+
+  neighbor-version:
+    patterns:
+    - name: text.network.cisco.ios.bgp.neighbor.version
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(version)\s+(\d+)\s*(\s+\S+)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: constant.numeric}
+        '5': {name: invalid.illegal}

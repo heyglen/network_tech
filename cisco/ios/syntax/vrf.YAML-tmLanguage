@@ -1,0 +1,49 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: VRF
+scopeName: text.network.cisco.ios.vrf
+uuid: e5441a2e-8364-4339-b1e2-f79db773f581
+
+patterns:
+- include: '#vrf'
+
+repository:
+  rd:
+    patterns:
+    - comment: Route Distinguisher
+      name: text.network.cisco.ios.vrf.definition.rd
+      match: ^\s*(rd)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)(?:\s+(\S+))?$
+      captures:
+        '0': {name: text.network.cisco.ios.rd.definition}
+        '1': {name: support.constant}
+        '2': {name: constant.numeric.rd}
+        '3': {name: invalid.illegal}
+
+  route-target:
+    patterns:
+    - comment: Route Distinguisher
+      name: text.network.cisco.ios.vrf.definition.rt
+      match: ^\s*(route-target)\s+(?:(export|import|both)|(\S+))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)$
+      captures:
+        '0': {name: text.network.cisco.ios.rt.definition}
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+        '4': {name: constant.numeric.rt}
+        '5': {name: invalid.illegal}
+
+  vrf:
+    patterns:
+    - name: text.network.cisco.ios.vrf.definition
+      begin: ^\s*(?:(?:(vrf)\s+(definition)\s+(\S+))|(ip\s+vrf\s+\S+))(\s+\S+)?\s*$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted.ios.vrf.definition.name}
+        '4': {name: invalid.deprecated}
+        '5': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: '#rd'
+      - include: '#route-target'
+      - include: text.network.cisco.scope
+      - include: text.network.cisco

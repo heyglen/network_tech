@@ -36,6 +36,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>text.network.cisco.ios.ip.prefix-list</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>text.network.cisco.ios.interface</string>
 		</dict>
 	</array>
@@ -67,9 +71,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.acl</string>
 					<key>patterns</key>

@@ -183,7 +183,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(activate)\s*(\s+\S.*)?$</string>
+					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(activate)\s*(\s+\S+)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.bgp.neighbor.activate</string>
 				</dict>

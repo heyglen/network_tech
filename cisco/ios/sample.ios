@@ -27,4 +27,18 @@ show vlan id 604 | include Po10
 ip access-list extended 1.1.1.1
   permit ip any any 
   no permit ip any any
-11.1.1.1:23 
+
+ip prefix-list NAME seq 10 permit 10.225.6.0/24
+ip prefix-list NAME seq 10 deny 10.225.6.0/24
+
+router bgp 123
+	address-family ipv4 vrf VRF-NAME
+		neighbor 1.1.1.1 activate
+		neighbor 1.1.1.1 shutdown
+		neighbor 1.1.1.1 ttl-security hops 1
+		neighbor 1.1.1.1 version 4
+		neighbor 1.1.1.1 timers 1 2
+		neighbor 1.1.1.1 remote-as 20
+		neighbor 1.1.1.1 route-map ROUTE-MAP-NAME in
+		neighbor 1.1.1.1 route-map ROUTE-MAP-NAME out
+		neighbor 1.1.1.1 inherit peer-policy POLICY-NAME
