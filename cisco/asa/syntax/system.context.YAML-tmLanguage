@@ -1,0 +1,29 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: Cisco ASA system context
+scopeName: text.network.cisco.asa.system.context
+uuid: 8e510814-afc1-45ba-879f-061aa6dda210
+
+patterns:
+- include: '#context'
+
+repository:
+  context:
+    patterns:
+    - name: text.network.cisco.asa.system.context
+      begin: ^\s*(context)\s+(\S+)\s*
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: string.unquoted}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))
+      patterns:
+      - include: '#allocate-interface'
+      - include: text.network.cisco.scope
+
+  allocate-interface:
+    patterns:
+    - name: text.network.cisco.asa.system.context.allocate-interface
+      begin: ^\s*(allocate\-interface)\s+(\S+)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+      end: \s*$
