@@ -1,0 +1,51 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: Cisco ASA object
+scopeName: text.network.cisco.asa.object
+uuid: 8e510814-afc1-45ba-879f-061aa5dda203
+
+patterns:
+- include: '#object_network'
+
+repository:
+  host:
+    patterns:
+    - name: text.network.cisco.asa.object.network.host
+      match: ^\s*(host)\s+((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\s*$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+
+  iprange:
+    patterns:
+    - name: text.network.cisco.asa.object.network.ip-range
+      match: \s*(range)\s+((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))\s+((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))\s*
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: constant.language}
+
+  nat:
+    patterns:
+    - name: text.network.cisco.asa.object.network.nat
+      match: ^\s*(nat)\s+(\(\S+,\S+\)\s+)?(static)\s+(\S+)(\s+dns)?\s*$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.other.inherited-class}
+        '3': {name: markup.inserted}
+        '4': {name: constant.character}
+        '5': {name: markup.inserted}
+
+  object_network:
+    patterns:
+    - name: text.network.cisco.asa.object.network
+      begin: ^\s*(object)\s+(network)\s+(\S+)\s*
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: markup.inserted}
+        '3': {name: string.unquoted}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))
+      patterns:
+      - include: '#host'
+      - include: '#nat'
+      - include: '#iprange'
+      - include: text.network.cisco.scope

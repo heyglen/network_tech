@@ -6,10 +6,6 @@
 	<array>
 		<string>asa</string>
 	</array>
-	<key>foldingStartMarker</key>
-	<string>^\s*.+$</string>
-	<key>foldingStopMarker</key>
-	<string>^\s*!.*$</string>
 	<key>name</key>
 	<string>Cisco ASA</string>
 	<key>patterns</key>
@@ -93,6 +89,10 @@
 		<dict>
 			<key>include</key>
 			<string>text.network.cisco.asa.object-group</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.asa.system.context</string>
 		</dict>
 	</array>
 	<key>repository</key>
