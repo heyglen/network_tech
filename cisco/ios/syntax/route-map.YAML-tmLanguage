@@ -13,7 +13,7 @@ repository:
     - name: text.network.cisco.ios.route-map
       begin: ^(route-map)\s+(\S+)\s+(?:(permit)|(deny))\s+(\d+)\s*(\s\S.*)?$
       beginCaptures:
-        '1': {name: support.constant}
+        '1': {name: variable.parameter}
         '2': {name: string.unquoted}
         '3': {name: entity.name.function}
         '4': {name: keyword.other}
