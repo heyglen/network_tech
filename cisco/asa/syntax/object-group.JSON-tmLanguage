@@ -82,11 +82,28 @@
           },
           "patterns":[
             { "include":"#network-object" },
+            { "include":"#group-object" },
             { "include":"text.network.cisco.scope" }
           ]        
         }
       ]
     },  
+    "group-object":{
+      "patterns":[
+      { "name":"text.network.cisco.asa.object-group.network.network-object",
+        "begin":"^\\s*(group-object)\\s+(\\S+)",
+        "beginCaptures":{
+          "1":{"name":"support.constant"},
+          "2":{"name":"string.unquoted"}
+          },
+        "end":"(\\s*$)",
+        "patterns":[
+        { "name":"invalid.illegal.network-object.asa",
+          "match":"(?:.*$)"}
+        ]        
+        }
+      ]
+    },
     "network-object":{
       "patterns":[
       { "name":"text.network.cisco.asa.object-group.network.network-object",

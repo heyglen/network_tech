@@ -11,7 +11,7 @@
       { "name":"text.network.cisco.asa.access-list",
         "begin":"^\\s*(access-list)\\s+([^ ]+)\\s+",
         "beginCaptures":{
-          "1":{"name":"constant.character.escape.access-list.asa"},
+          "1":{"name":"support.constant"},
           "2":{"name":"string.unquoted.acl-name.asa"}
           },
         "end":"(\\s*$)", 
@@ -48,8 +48,8 @@
         "name":"text.network.cisco.asa.accesslist.acl-dest-port-single",
         "begin":"\\s*(eq\\s+[a-z0-9-]+)|(gt\\s+[0-9]+)\\s*",
         "beginCaptures":{
-          "1":{"name":"variable.parameter.dest-port-range-start.asa"},
-          "2":{"name":"variable.parameter.dest-port-range-end.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"constant.numeric"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -64,9 +64,10 @@
       "patterns":[
       { 
         "name":"text.network.cisco.asa.accesslist.acl-dest-port-range",
-        "begin":"\\s*(range\\s+[a-z0-9-]+\\s+[a-z0-9-]+)\\s*",
+        "begin":"\\s*(range)\\s+([a-z0-9-]+\\s+[a-z0-9-]+)\\s*",
         "beginCaptures":{
-          "1":{"name":"variable.parameter.dest-port-range.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"constant.numeric"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -80,9 +81,10 @@
     "acl-dest-port-object-group":{
       "patterns":[
       { 
-        "begin":"\\s*(object-group\\s+[^ ]+)\\s*",
+        "begin":"\\s*(object-group)\\s+([^ ]+)\\s*",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.dest-port-object-group.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"string.quoted.double.json.dest-port-object-group.asa"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -96,9 +98,10 @@
     "acl-src-port-single":{
       "patterns":[
       { 
-        "begin":"\\s*(eq\\s+[a-z0-9-]+)\\s*",
+        "begin":"\\s*(eq)\\s+([a-z0-9-]+)\\s*",
         "beginCaptures":{
-          "1":{"name":"variable.parameter.dest-port-range.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"constant.numeric"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -116,9 +119,10 @@
     "acl-src-port-range":{
       "patterns":[
       { 
-        "begin":"\\s*(range\\s+[a-z0-9-]+\\s+[a-z0-9-]+)\\s*",
+        "begin":"\\s*(range)\\s+([a-z0-9-]+\\s+[a-z0-9-]+)\\s*",
         "beginCaptures":{
-          "1":{"name":"variable.parameter.dest-port-range.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"constant.numeric"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -136,9 +140,10 @@
     "acl-src-port-object-group":{
       "patterns":[
       { 
-        "begin":"\\s*(object-group\\s+[^ ]+)\\s*",
+        "begin":"\\s*(object-group)\\s+([^ ]+)\\s*",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.dest-port-object-group.asa"}
+          "1":{"name":"string.quoted.double.json.dest-port-object-group.asa"},
+          "2":{"name":"string.quoted.double.json.dest-port-object-group.asa"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -156,9 +161,10 @@
     "acl-dest-object-group":{
       "patterns":[
       { 
-        "begin":"\\s*(object-group\\s+[^ ]+)\\s+",
+        "begin":"\\s*(object-group)\\s+([^ ]+)\\s+",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.dest-object-group.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"string.quoted.double.json.dest-object-group.asa"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -175,9 +181,10 @@
     "acl-dest-object":{
       "patterns":[
       { 
-        "begin":"\\s*(object\\s+[^ ]+)\\s+",
+        "begin":"\\s*(object)\\s+([^ ]+)\\s+",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.dest-object.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"string.quoted.double.json.dest-object.asa"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -194,9 +201,10 @@
     "acl-dest-host":{
       "patterns":[
       { 
-        "begin":"\\s*(host\\s+((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))\\s+",
+        "begin":"\\s*(host)\\s+(((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))\\s+",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.acl-dest-host.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"constant.numeric"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -215,7 +223,7 @@
       { 
         "begin":"\\s*(((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(?:\\s+)((255|254|252|248|240|224|192|128|0+|\\.){7}))\\s+",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.dest-ip-subnet.asa"}
+          "1":{"name":"constant.numeric"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -234,7 +242,7 @@
       { 
         "begin":"\\s*(any|any4|any6)\\s+",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.dest-any.asa"}
+          "1":{"name":"entity.other.attribute-name"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -251,9 +259,10 @@
     "acl-source-object-group":{
       "patterns":[
       { 
-        "begin":"\\s*(object-group\\s+[^ ]+)\\s+",
+        "begin":"\\s*(object-group)\\s+([^ ]+)\\s*",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.source-objgrp.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"string.quoted.double.json.source-objgrp.asa"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -274,9 +283,10 @@
     "acl-source-object":{
       "patterns":[
       { 
-        "begin":"\\s*(object\\s+[^ ]+)\\s+",
+        "begin":"\\s*(object)\\s+([^ ]+)\\s*",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.source-object.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"string.quoted.double.json.source-object.asa"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -297,9 +307,10 @@
     "acl-source-host":{
       "patterns":[
       { 
-        "begin":"\\s*(host\\s+((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))\\s+",
+        "begin":"\\s*(host)\\s+(((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))\\s*",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.source-host.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"constant.numeric"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -320,9 +331,9 @@
     "acl-source-ip-subnet":{
       "patterns":[
       { 
-        "begin":"\\s*(((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(?:\\s+)((255|254|252|248|240|224|192|128|0+|\\.){7}))\\s+",
+        "begin":"\\s*(((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(?:\\s+)((255|254|252|248|240|224|192|128|0+|\\.){7}))\\s*",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.source-ip-subnet.asa"}
+          "1":{"name":"constant.numeric"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -345,7 +356,7 @@
       { 
         "begin":"\\s*(any|any4|any6)\\s+",
         "beginCaptures":{
-          "1":{"name":"string.quoted.double.json.source-any.asa"}
+          "1":{"name":"entity.other.attribute-name"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -366,9 +377,10 @@
     "acl-permit-object-group":{
       "patterns":[
       { 
-        "begin":"\\s*(object-group\\s+[^ ]+)\\s+",
+        "begin":"\\s*(object-group)\\s+([^ ]+)\\s*",
         "beginCaptures":{
-          "1":{"name":"support.constant.permit-objgrp.asa"}
+          "1":{"name":"markup.inserted"},
+          "2":{"name":"support.constant.permit-objgrp.asa"}
           },
         "end":"(\\s*$)", 
         "patterns":[
@@ -387,7 +399,7 @@
       "patterns":[
       { 
         "name":"text.network.cisco.asa.access-list.protocol",
-        "begin":"\\s*(ip|tcp|udp|icmp|gre|esp|ah)\\s+",
+        "begin":"\\s*(ip|tcp|udp|icmp|gre|esp|ah)\\s*",
         "beginCaptures":{
           "1":{"name":"support.constant.protocol.asa"}
           },
@@ -408,7 +420,7 @@
       "patterns":[
       { 
         "name":"text.network.cisco.asa.access-list.permit",
-        "begin":"\\s*(extended permit)\\s+",
+        "begin":"\\s*(extended permit)\\s*",
         "beginCaptures":{
           "1":{"name":"markup.inserted.permit.asa"}
           },
@@ -426,7 +438,7 @@
       "patterns":[
       { 
         "name":"text.network.cisco.asa.access-list.deny",
-        "begin":"\\s*(extended deny)\\s+",
+        "begin":"\\s*(extended deny)\\s*",
         "beginCaptures":{
           "1":{"name":"keyword.operator.comparison.deny.asa"}
           },
@@ -443,7 +455,7 @@
       "patterns":[
       { 
         "name":"text.network.cisco.asa.access-list.line-number",
-        "begin":"\\s*(line\\s+[0-9]+)\\s+",
+        "begin":"\\s*(line\\s+[0-9]+)\\s*",
         "beginCaptures":{
           "1":{"name":"keyword.operator.comparison.line-number.asa"}
           },

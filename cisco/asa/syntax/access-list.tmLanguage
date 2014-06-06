@@ -25,7 +25,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>constant.character.escape.access-list.asa</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -77,7 +77,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>string.quoted.double.json.dest-any.asa</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -116,13 +116,18 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(host\s+((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))\s+</string>
+					<string>\s*(host)\s+(((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))\s+</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>string.quoted.double.json.acl-dest-host.asa</string>
+							<string>markup.inserted</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -167,7 +172,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>string.quoted.double.json.dest-ip-subnet.asa</string>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -206,10 +211,15 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(object\s+[^ ]+)\s+</string>
+					<string>\s*(object)\s+([^ ]+)\s+</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>markup.inserted</string>
+						</dict>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>string.quoted.double.json.dest-object.asa</string>
@@ -251,10 +261,15 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(object-group\s+[^ ]+)\s+</string>
+					<string>\s*(object-group)\s+([^ ]+)\s+</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>markup.inserted</string>
+						</dict>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>string.quoted.double.json.dest-object-group.asa</string>
@@ -296,10 +311,15 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(object-group\s+[^ ]+)\s*</string>
+					<string>\s*(object-group)\s+([^ ]+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>markup.inserted</string>
+						</dict>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>string.quoted.double.json.dest-port-object-group.asa</string>
@@ -329,13 +349,18 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(range\s+[a-z0-9-]+\s+[a-z0-9-]+)\s*</string>
+					<string>\s*(range)\s+([a-z0-9-]+\s+[a-z0-9-]+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter.dest-port-range.asa</string>
+							<string>markup.inserted</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -370,12 +395,12 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter.dest-port-range-start.asa</string>
+							<string>markup.inserted</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter.dest-port-range-end.asa</string>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -404,7 +429,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(extended deny)\s+</string>
+					<string>\s*(extended deny)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -439,7 +464,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(extended permit)\s+</string>
+					<string>\s*(extended permit)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -478,7 +503,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(line\s+[0-9]+)\s+</string>
+					<string>\s*(line\s+[0-9]+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -535,10 +560,15 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(object-group\s+[^ ]+)\s+</string>
+					<string>\s*(object-group)\s+([^ ]+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>markup.inserted</string>
+						</dict>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>support.constant.permit-objgrp.asa</string>
@@ -584,7 +614,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(ip|tcp|udp|icmp|gre|esp|ah)\s+</string>
+					<string>\s*(ip|tcp|udp|icmp|gre|esp|ah)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -655,7 +685,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>string.quoted.double.json.source-any.asa</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -710,13 +740,18 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(host\s+((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))\s+</string>
+					<string>\s*(host)\s+(((?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))))\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>string.quoted.double.json.source-host.asa</string>
+							<string>markup.inserted</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -771,13 +806,13 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(?:\s+)((255|254|252|248|240|224|192|128|0+|\.){7}))\s+</string>
+					<string>\s*(((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(?:\s+)((255|254|252|248|240|224|192|128|0+|\.){7}))\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>string.quoted.double.json.source-ip-subnet.asa</string>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -832,10 +867,15 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(object\s+[^ ]+)\s+</string>
+					<string>\s*(object)\s+([^ ]+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>markup.inserted</string>
+						</dict>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>string.quoted.double.json.source-object.asa</string>
@@ -893,10 +933,15 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(object-group\s+[^ ]+)\s+</string>
+					<string>\s*(object-group)\s+([^ ]+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>markup.inserted</string>
+						</dict>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>string.quoted.double.json.source-objgrp.asa</string>
@@ -954,10 +999,15 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(object-group\s+[^ ]+)\s*</string>
+					<string>\s*(object-group)\s+([^ ]+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.quoted.double.json.dest-port-object-group.asa</string>
+						</dict>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>string.quoted.double.json.dest-port-object-group.asa</string>
@@ -1003,13 +1053,18 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(range\s+[a-z0-9-]+\s+[a-z0-9-]+)\s*</string>
+					<string>\s*(range)\s+([a-z0-9-]+\s+[a-z0-9-]+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter.dest-port-range.asa</string>
+							<string>markup.inserted</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -1052,13 +1107,18 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(eq\s+[a-z0-9-]+)\s*</string>
+					<string>\s*(eq)\s+([a-z0-9-]+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter.dest-port-range.asa</string>
+							<string>markup.inserted</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>

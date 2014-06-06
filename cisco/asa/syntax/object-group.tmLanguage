@@ -21,6 +21,42 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>group-object</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(group-object)\s+(\S+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(\s*$)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.object-group.network.network-object</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>(?:.*$)</string>
+							<key>name</key>
+							<string>invalid.illegal.network-object.asa</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>icmp-object</key>
 		<dict>
 			<key>patterns</key>
@@ -325,6 +361,10 @@
 						<dict>
 							<key>include</key>
 							<string>#network-object</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#group-object</string>
 						</dict>
 						<dict>
 							<key>include</key>
