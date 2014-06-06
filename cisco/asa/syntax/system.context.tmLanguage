@@ -30,6 +30,33 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.system.context.allocate-interface</string>
+				</dict>
+			</array>
+		</dict>
+		<key>config-url</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(config\-url)\s+(\S+)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
 							<string>string.unquoted</string>
 						</dict>
 					</dict>
@@ -72,9 +99,31 @@
 						</dict>
 						<dict>
 							<key>include</key>
-							<string>text.network.cisco.scope</string>
+							<string>#control</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#config-url</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>control</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.asa</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(no\s+.*)\s*</string>
 				</dict>
 			</array>
 		</dict>

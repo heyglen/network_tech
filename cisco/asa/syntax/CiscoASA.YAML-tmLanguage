@@ -43,7 +43,7 @@ repository:
 
   control:
     patterns:
-    - match: \b(no\s+.*|no sh|shut|shutdown|reload|reset|activate)\b
+    - match: \s*(no\s+.*|no sh|shut|shutdown|reload|reset|activate)\s*
       captures:
         '1': {name: keyword.control.asa}
 

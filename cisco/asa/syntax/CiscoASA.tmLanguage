@@ -152,7 +152,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\b(no\s+.*|no sh|shut|shutdown|reload|reset|activate)\b</string>
+					<string>\s*(no\s+.*|no sh|shut|shutdown|reload|reset|activate)\s*</string>
 				</dict>
 			</array>
 		</dict>
