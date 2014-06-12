@@ -6,14 +6,27 @@ vlan 20
  
 interface Port-channel1
 	description Hello
+	vrf forwarding RED
+	ip access-group acl-in in
+ 	ip access-group acl-out out
 	switchport
 	switchport mode trunk
 	switchport trunk allowed vlan add 604,608
 	switchport trunk allowed vlan remove 604-608,200
 	switchport mode access
 	switchport access vlan 23
-	no switchport
 	ip address 1.1.1.0 255.255.255.0 secondary
+	ip redirects
+	ipv6 redirects
+	ip proxy-arp
+	ipv6 address general-prefix 0:0:0:1::/64 eui-64
+	ipv6 nd prefix FF02::/64
+	standby version 2
+ 	standby 1 ip 10.225.6.254
+ 	standby 1 priority 200
+ 	standby 1 preempt
+ 	standby 2 ipv6 autoconfig
+	no switchport
 	shutdown
 
 vrf definition RED
