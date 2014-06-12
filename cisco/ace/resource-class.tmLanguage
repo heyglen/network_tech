@@ -156,8 +156,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.resource-class</string>
 					<key>patterns</key>

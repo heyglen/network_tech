@@ -200,6 +200,7 @@ interface vlan 2
   description Network Interface
   ip address 1.1.1.1 255.255.255.224
   peer ip address 1.1.1.1 255.255.255.224
+  alias 1.1.1.1 255.255.255.0
   access-group input ALLOW_ANY
   nat-pool 29 1.1.1.1 1.1.1.1 netmask 255.255.255.255 pat
   service-policy input L4-POLICY-1

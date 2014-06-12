@@ -1,0 +1,52 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: Cisco ACE Resource Class
+scopeName: text.network.cisco.ace.resource-class
+fileTypes: []
+uuid: 4caf4d6d-9457-4c7c-91c9-2a882d3cf4df
+
+patterns:
+- include: '#resource-class'
+
+repository:
+  limit-resource-quantity:
+    patterns:
+    - name: text.network.cisco.ace.resource-class.quantity
+      match: ^\s+(limit-resource)\s+(acl-memory|all|buffer syslog|conc-connections|http-comp|mgmt-connections|proxy-connections|regexp|sticky|xlates)\s+(minimum)\s+(\d+(?:\.\d+)?)\s+(maximum)\s+(equal-to-min|unlimited)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: constant.language}
+        '5': {name: support.constant}
+        '6': {name: support.constant}
+        '7': {name: string.unquoted}
+        '8': {name: invalid.illegal}
+
+  limit-resource-rate:
+    patterns:
+    - name: text.network.cisco.ace.resource-class.acl.memory
+      match: ^\s+(limit-resource)\s+(rate)\s+(bandwidth|connections|inspect-conn|mac-miss|mgmt-traffic|ssl-connections|syslog)\s+(minimum)\s+(\d+(?:\.\d+)?)\s+(maximum)\s+(equal-to-min|unlimited)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: constant.language}
+        '6': {name: support.constant}
+        '7': {name: support.constant}
+        '8': {name: string.unquoted}
+        '9': {name: invalid.illegal}
+
+  resource-class:
+    patterns:
+    - name: text.network.cisco.ace.resource-class
+      begin: ^(resource-class)\s+(\S+)\s*(\s\S.*)?$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: string.unquoted}
+        '3': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: text.network.cisco.scope
+      - include: '#limit-resource-quantity'
+      - include: '#limit-resource-rate'
