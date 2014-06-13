@@ -124,10 +124,12 @@ repository:
   acl-dest-port-single:
     patterns:
     - name: text.network.cisco.asa.accesslist.acl-dest-port-single
-      begin: \s*(eq\s+[a-z0-9-]+)|(gt\s+[0-9]+)\s*
+      begin: \s*(eq)\s+([a-z0-9-]+)|(gt)\s+([0-9]+)\s*
       beginCaptures:
         '1': {name: markup.inserted}
         '2': {name: constant.numeric}
+        '3': {name: markup.inserted}
+        '4': {name: constant.numeric}
       end: (\s*$)
       patterns:
       - include: '#acl-log'
