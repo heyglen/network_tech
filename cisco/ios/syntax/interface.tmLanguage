@@ -269,7 +269,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(interface)\s+(\D+)(?:\s+)?(\d+(?:\d+/)*(?:\.\d+)?)</string>
+					<string>^\s*(interface)\s+(\D+)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -289,7 +289,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.interface</string>
 					<key>patterns</key>
@@ -309,6 +309,10 @@
 						<dict>
 							<key>include</key>
 							<string>#shutdown</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#vrf-legacy</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -349,6 +353,14 @@
 						<dict>
 							<key>include</key>
 							<string>#ip-proxy-arp</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ip-helper</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#no-shutdown</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -394,6 +406,41 @@
 					<string>\s*(ip\s+address)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d(?=[^:])(?:(?:\s+(?:(?:255|254|252|248|240|224|192|128|0)\.){3}(?:255|254|252|248|240|224|192|128|0))))(\s+secondary)?(?:\s+(\S.*))?</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.interface.ip</string>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-helper</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(ip)\s+(helper-address)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)(?:\s+(\S.*))?</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.ipv4.helper</string>
 				</dict>
 			</array>
 		</dict>
@@ -567,6 +614,36 @@
 				</dict>
 			</array>
 		</dict>
+		<key>no-shutdown</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(no)\s+(shutdown)(?:\s+(\S.*))?</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.ipv4.helper</string>
+				</dict>
+			</array>
+		</dict>
 		<key>shutdown</key>
 		<dict>
 			<key>patterns</key>
@@ -577,16 +654,11 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.tag</string>
+							<string>keyword.other</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(no\s+shutdown)|(shutdown)\s*$</string>
+					<string>^\s*(shutdown)\s*$</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.interface.ip</string>
 				</dict>
@@ -694,6 +766,36 @@
 					</dict>
 					<key>match</key>
 					<string>\s*(vrf\s+forwarding)\s+(\S+)(?:\s+(\S.*))?</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.vrf</string>
+				</dict>
+			</array>
+		</dict>
+		<key>vrf-legacy</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.deprecated</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*ip\s+vrf\s+forwarding\s+\S+(?:\s+(\S.*))?</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.interface.vrf</string>
 				</dict>

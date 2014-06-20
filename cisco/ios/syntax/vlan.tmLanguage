@@ -111,7 +111,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>variable.parameter</string>
 						</dict>
 						<key>2</key>
 						<dict>

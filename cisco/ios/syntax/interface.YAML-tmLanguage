@@ -19,17 +19,18 @@ repository:
   interface:
     patterns:
     - name: text.network.cisco.ios.interface
-      begin: ^\s*(interface)\s+(\D+)(?:\s+)?(\d+(?:\d+/)*(?:\.\d+)?)
+      begin: ^\s*(interface)\s+(\D+)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: entity.other.inherited-class}
         '3': {name: constant.numeric}
-      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))
       patterns:
       - include: '#switchport'
       - include: '#ip'
       - include: '#ipv6'
       - include: '#shutdown'
+      - include: '#vrf-legacy'
       - include: '#vrf'
       - include: '#access-group'
       - include: '#ipv6-nd-prefix'
@@ -40,6 +41,8 @@ repository:
       - include: '#hsrp-preempt'
       - include: '#ip-redirects'
       - include: '#ip-proxy-arp'
+      - include: '#ip-helper'
+      - include: '#no-shutdown'
       - include: text.network.cisco.scope
       - include: text.network.cisco
 
@@ -73,6 +76,16 @@ repository:
         '3': {name: constant.numeric}
         '4': {name: constant.numeric}
         '5': {name: invalid.illegal}
+  
+  vrf-legacy:
+    patterns:
+    - name: text.network.cisco.ios.interface.vrf
+      match: \s*ip\s+vrf\s+forwarding\s+\S+(?:\s+(\S.*))?
+      captures:
+        '0': {name: invalid.deprecated}
+        '2': {name: string.unquoted}
+        '3': {name: invalid.illegal}
+
   vrf:
     patterns:
     - name: text.network.cisco.ios.interface.vrf
@@ -162,6 +175,25 @@ repository:
         '2': {name: support.constant}
         '3': {name: invalid.illegal}
 
+  ip-helper:
+    patterns:
+    - name: text.network.cisco.ios.interface.ipv4.helper
+      match: \s*(ip)\s+(helper-address)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)(?:\s+(\S.*))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: constant.numeric}
+        '4': {name: invalid.illegal}
+
+  no-shutdown:
+    patterns:
+    - name: text.network.cisco.ios.interface.ipv4.helper
+      match: \s*(no)\s+(shutdown)(?:\s+(\S.*))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+
   mode:
     patterns:
     - name: text.network.cisco.ios.interface.switchport.mode
@@ -173,10 +205,9 @@ repository:
   shutdown:
     patterns:
     - name: text.network.cisco.ios.interface.ip
-      match: ^\s*(no\s+shutdown)|(shutdown)\s*$
+      match: ^\s*(shutdown)\s*$
       captures:
-        '1': {name: variable.parameter}
-        '2': {name: entity.name.tag}
+        '1': {name: keyword.other}
 
   switchport:
     patterns:

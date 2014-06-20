@@ -3,9 +3,12 @@
 vlan 20
  name test
 
- 
+ip route vrf RED 1.1.1.0 255.255.255.0 2.2.2.2
+
+ip vrf asdf 
 interface Port-channel1
 	description Hello
+	ip vrf forwarding RED
 	vrf forwarding RED
 	ip access-group acl-in in
  	ip access-group acl-out out
@@ -22,11 +25,13 @@ interface Port-channel1
 	ipv6 address general-prefix 0:0:0:1::/64 eui-64
 	ipv6 nd prefix FF02::/64
 	standby version 2
- 	standby 1 ip 10.225.6.254
- 	standby 1 priority 200
+ 	standby 1 ip 1.1.1.1
+ 	standby 1 priority 200 asd
  	standby 1 preempt
  	standby 2 ipv6 autoconfig
+ 	ip helper-address 1.1.1.1
 	no switchport
+	no shutdown
 	shutdown
 
 vrf definition RED
@@ -41,7 +46,7 @@ route-map blah_blah permit 10
 
 show vlan id 604 | include Po10
 
-ip access-list extended 1.1.1.1
+ip access-list extended ACL-NAME
   permit ip any any 
   no permit ip any any
 

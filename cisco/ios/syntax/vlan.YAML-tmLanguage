@@ -15,7 +15,7 @@ repository:
     - name: text.network.cisco.ios.vlan
       begin: ^(vlan)\s+(\d+)\s*(\s\S.*)?$
       beginCaptures:
-        '1': {name: support.constant}
+        '1': {name: variable.parameter}
         '2': {name: constant.numeric}
         '3': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))

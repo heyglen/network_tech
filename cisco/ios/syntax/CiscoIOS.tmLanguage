@@ -16,6 +16,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#static-route</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#alias</string>
 		</dict>
 		<dict>
@@ -59,20 +63,25 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(ip access-list)\s+(standard|extended)\s+(\S+)\s+$</string>
+					<string>^\s*(ip)\s+(access-list)\s+(standard|extended)\s+(\S+)\s+$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>variable.parameter</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>support.constant</string>
 						</dict>
 						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>string.unquoted</string>
@@ -158,6 +167,61 @@
 					<string>^\s*permit ip any any\s+</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.acl.permit-ip-any-any</string>
+				</dict>
+			</array>
+		</dict>
+		<key>static-route</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s*(\s+\S.*)?$</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.routing.static</string>
 				</dict>
 			</array>
 		</dict>

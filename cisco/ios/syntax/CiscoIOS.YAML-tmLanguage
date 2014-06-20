@@ -6,6 +6,7 @@ uuid: e5441a2e-8364-4339-b1e2-f79de773f570
 
 patterns:
 - include: '#remove-configuration'
+- include: '#static-route'
 - include: '#alias'
 - include: '#access-list'
 - include: text.network.cisco
@@ -20,11 +21,12 @@ repository:
   access-list:
     patterns:
     - name: text.network.cisco.ios.acl
-      begin: ^\s*(ip access-list)\s+(standard|extended)\s+(\S+)\s+$
+      begin: ^\s*(ip)\s+(access-list)\s+(standard|extended)\s+(\S+)\s+$
       beginCaptures:
-        '1': {name: support.constant}
-        '2': {name: entity.name.function}
-        '3': {name: string.unquoted}
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
       patterns:
       - include: '#permit-ip-any-any'
@@ -41,6 +43,20 @@ repository:
         '2': {name: entity.name.function}
         '3': {name: support.constant}
         '4': {name: string.unquoted}
+
+  static-route:
+    patterns:
+    - name: text.network.cisco.ios.routing.static
+      match: ^\s*(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s*(\s+\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: constant.numeric}
+        '6': {name: constant.numeric}
+        '7': {name: constant.numeric}
+        '8': {name: invalid.illegal}
 
   permit-ip-any-any:
     patterns:
