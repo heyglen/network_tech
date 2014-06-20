@@ -252,11 +252,21 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(serverfarm)\s+(\S+)\s*(?:\s+(\S+))?$</string>
+					<string>(serverfarm)\s+(\S+)(?:\s+(backup)\s+(\S+))?\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.sticky.timeout</string>
 				</dict>
@@ -383,9 +393,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.sticky.http.content</string>
 					<key>patterns</key>
@@ -458,9 +466,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.sticky.http.cookie</string>
 					<key>patterns</key>
@@ -541,9 +547,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.sticky.http.header</string>
 					<key>patterns</key>
@@ -618,9 +622,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.sticky.http.ip-netmask</string>
 					<key>patterns</key>
@@ -680,9 +682,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.sticky.http.l4</string>
 					<key>patterns</key>
@@ -747,9 +747,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.sticky.http.radius</string>
 					<key>patterns</key>
@@ -809,9 +807,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.sticky.rtsp</string>
 					<key>patterns</key>
@@ -876,9 +872,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.sticky.sip</string>
 					<key>patterns</key>

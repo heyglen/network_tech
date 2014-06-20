@@ -109,7 +109,7 @@ sticky http-cookie domain.root name
   cookie insert browser-expire
   cookie secondary name
   static cookie-value value rserver name 90
-  serverfarm SERVERFARM1
+  serverfarm SERVERFARM1 backup SERVERFARM2
   invalid line
 
 sticky layer4-payload L4_PAYLOAD_GROUP
