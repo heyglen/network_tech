@@ -82,6 +82,7 @@ rserver host RSERVER2
 
 serverfarm host SERVERFARM1
   description 
+  predictor leastconns slowstart 60
   probe PROBE1
   rserver RSERVER1 80
     inservice

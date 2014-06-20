@@ -26,6 +26,17 @@ repository:
         '1': {name: support.constant}
         '2': {name: string.unquoted}
 
+  predictor-leastconn:
+    patterns:
+    - name: text.network.cisco.ace.serverfarm.predictor.leastconn
+      match: ^\s+(predictor)\s+(leastconns)(?:\s+(slowstart)\s+(\d+))?\s*(\s+\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: constant.language}
+        '5': {name: invalid.illegal}
+
   rserver:
     patterns:
     - name: text.network.cisco.ace.serverfarm.rserver
@@ -54,3 +65,4 @@ repository:
       - include: text.network.cisco.scope
       - include: '#rserver'
       - include: '#probe'
+      - include: '#predictor-leastconn'
