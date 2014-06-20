@@ -389,7 +389,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(eq\s+[a-z0-9-]+)|(gt\s+[0-9]+)\s*</string>
+					<string>\s*(eq)\s+([a-z0-9-]+)|(gt)\s+([0-9]+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -398,6 +398,16 @@
 							<string>markup.inserted</string>
 						</dict>
 						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>markup.inserted</string>
+						</dict>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>constant.numeric</string>

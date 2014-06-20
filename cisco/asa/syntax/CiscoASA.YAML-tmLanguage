@@ -10,14 +10,12 @@ patterns:
 - include: '#number'
 - include: '#url'
 - include: '#router'
-- include: '#interface'
-- include: '#nameif'
-- include: '#security-level'
 - include: '#description'
 - include: '#group-object'
 - include: '#port-object'
 - include: '#permit-ip-any-any'
 - include: '#banner'
+- include: '#ip_verify_reverse-path'
 - include: text.network.cisco.asa.nat
 - include: text.network.cisco
 - include: text.network.cisco.asa.access-group
@@ -26,6 +24,7 @@ patterns:
 - include: text.network.cisco.asa.object
 - include: text.network.cisco.asa.object-group
 - include: text.network.cisco.asa.system.context
+- include: text.network.cisco.asa.interface
 
 repository:
   banner:
@@ -43,7 +42,7 @@ repository:
 
   control:
     patterns:
-    - match: \b(no\s+.*|no sh|shut|shutdown|reload|reset|activate)\b
+    - match: \s*(no\s+.*|no sh|shut|shutdown|reload|reset|activate)\s*
       captures:
         '1': {name: keyword.control.asa}
 
@@ -59,46 +58,22 @@ repository:
       - name: invalid.illegal.network-object.asa
         match: (?:.*$)
 
-  interface:
+  ip_verify_reverse-path:
     patterns:
-    - name: text.network.cisco.asa.interface
-      begin: ^\s*(interface|int)\s+(?=[A-Za-z-]+[0-9/. ]*)
-      beginCaptures:
-        '1': {name: variable.parameter}
-      end: (\s*$)
-      patterns:
-      - include: '#interface_id'
-      - name: invalid.illegal.cisco.asa.interface
-        match: (?:.*$)
-
-  interface_id:
-    patterns:
-    - contentName: text.network.cisco.asa.interface.id
-      begin: \b(?i:(?i:fast|gigabit|tengigabit|)ethernet|null|bvi|virtual-?[a-z]*|port-channel|fa|gi|e|se|serial|lo|loopback|tun|tunnel|management)(?=\s?[0-9])
-      beginCaptures:
-        '0': {name: support.constant.type.interface.asa}
-      end: ([0-9][0-9/. ]*)\b
-      endCaptures:
-        '1': {name: constant.numeric.interface-number.asa}
-
-  ip_address:
-    patterns:
-    - name: constant.numeric.ip-address
-      match: \s(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s
-    - name: invalid.illegal.ip-address
-      match: (\s|\.)(?:(?:25[6-9]|2[6-9][0-9]|[3-9]?[0-9][0-9]?)\.)\b
-
-  nameif:
-    patterns:
-    - name: text.network.cisco.asa.interface.nameif
-      begin: ^\s*(nameif)\s+([A-Za-z0-9_-]+)
+    - name: text.network.cisco.asa.ip_verify_reverse-path
+      begin: ^\s*(ip verify reverse-path interface)\s+(\S+)\s*
       beginCaptures:
         '1': {name: support.constant}
         '2': {name: entity.other.inherited-class}
       end: (\s*$)
       patterns:
-      - match: (?:.*$)
-        name: invalid.illegal.network-object.asa
+      - name: invalid.illegal.network-object.asa
+        match: (?:.*$)
+
+  ip_address:
+    patterns:
+    - name: constant.numeric.ip-address
+      match: \s*(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s*
 
   number:
     patterns:
@@ -122,17 +97,6 @@ repository:
       - name: invalid.illegal.router-id.asa
         match: (?:.*$)
 
-  security-level:
-    patterns:
-    - name: text.network.cisco.asa.interface.security-level
-      begin: ^\s*(security-level)\s+(\d+)
-      beginCaptures:
-        '1': {name: support.constant}
-        '2': {name: constant.numeric}
-      end: (\s*$)
-      patterns:
-      - match: (?:.*$)
-        name: invalid.illegal.network-object.asa
 
   url:
     patterns:

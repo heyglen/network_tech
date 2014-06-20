@@ -25,27 +25,27 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>support.constant.1</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>string.unquoted</string>
+							<string>string.unquoted.2</string>
 						</dict>
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant.3</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant.4</string>
 						</dict>
 						<key>5</key>
 						<dict>
 							<key>name</key>
-							<string>entity.other.inherited-class</string>
+							<string>entity.other.inherited-class.5</string>
 						</dict>
 					</dict>
 					<key>end</key>

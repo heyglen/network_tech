@@ -32,18 +32,6 @@
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>#interface</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#nameif</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#security-level</string>
-		</dict>
-		<dict>
-			<key>include</key>
 			<string>#description</string>
 		</dict>
 		<dict>
@@ -61,6 +49,10 @@
 		<dict>
 			<key>include</key>
 			<string>#banner</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#ip_verify_reverse-path</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -93,6 +85,10 @@
 		<dict>
 			<key>include</key>
 			<string>text.network.cisco.asa.system.context</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.asa.interface</string>
 		</dict>
 	</array>
 	<key>repository</key>
@@ -152,7 +148,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\b(no\s+.*|no sh|shut|shutdown|reload|reset|activate)\b</string>
+					<string>\s*(no\s+.*|no sh|shut|shutdown|reload|reset|activate)\s*</string>
 				</dict>
 			</array>
 		</dict>
@@ -192,96 +188,25 @@
 				</dict>
 			</array>
 		</dict>
-		<key>interface</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>^\s*(interface|int)\s+(?=[A-Za-z-]+[0-9/. ]*)</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>variable.parameter</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(\s*$)</string>
-					<key>name</key>
-					<string>text.network.cisco.asa.interface</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#interface_id</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>(?:.*$)</string>
-							<key>name</key>
-							<string>invalid.illegal.cisco.asa.interface</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>interface_id</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>\b(?i:(?i:fast|gigabit|tengigabit|)ethernet|null|bvi|virtual-?[a-z]*|port-channel|fa|gi|e|se|serial|lo|loopback|tun|tunnel|management)(?=\s?[0-9])</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant.type.interface.asa</string>
-						</dict>
-					</dict>
-					<key>contentName</key>
-					<string>text.network.cisco.asa.interface.id</string>
-					<key>end</key>
-					<string>([0-9][0-9/. ]*)\b</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric.interface-number.asa</string>
-						</dict>
-					</dict>
-				</dict>
-			</array>
-		</dict>
 		<key>ip_address</key>
 		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\s(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s</string>
+					<string>\s*(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\s*</string>
 					<key>name</key>
 					<string>constant.numeric.ip-address</string>
 				</dict>
-				<dict>
-					<key>match</key>
-					<string>(\s|\.)(?:(?:25[6-9]|2[6-9][0-9]|[3-9]?[0-9][0-9]?)\.)\b</string>
-					<key>name</key>
-					<string>invalid.illegal.ip-address</string>
-				</dict>
 			</array>
 		</dict>
-		<key>nameif</key>
+		<key>ip_verify_reverse-path</key>
 		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(nameif)\s+([A-Za-z0-9_-]+)</string>
+					<string>^\s*(ip verify reverse-path interface)\s+(\S+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -298,7 +223,7 @@
 					<key>end</key>
 					<string>(\s*$)</string>
 					<key>name</key>
-					<string>text.network.cisco.asa.interface.nameif</string>
+					<string>text.network.cisco.asa.ip_verify_reverse-path</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -365,42 +290,6 @@
 							<string>(?:.*$)</string>
 							<key>name</key>
 							<string>invalid.illegal.router-id.asa</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>security-level</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>^\s*(security-level)\s+(\d+)</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(\s*$)</string>
-					<key>name</key>
-					<string>text.network.cisco.asa.interface.security-level</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>match</key>
-							<string>(?:.*$)</string>
-							<key>name</key>
-							<string>invalid.illegal.network-object.asa</string>
 						</dict>
 					</array>
 				</dict>
