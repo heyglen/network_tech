@@ -277,9 +277,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*class\s))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.policy.policy-class</string>
 					<key>patterns</key>
@@ -330,9 +328,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.policy.policy-class-management</string>
 					<key>patterns</key>
@@ -379,9 +375,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.policy.policy-lb-class</string>
 					<key>patterns</key>
@@ -447,9 +441,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.policy.load-balance</string>
 					<key>patterns</key>
@@ -497,9 +489,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.policy.map</string>
 					<key>patterns</key>
@@ -557,9 +547,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.policy.map.management</string>
 					<key>patterns</key>

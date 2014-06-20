@@ -174,7 +174,7 @@ policy-map type management first-match remote_mgmt_allow_policy
     permit
     deny
 
-policy-map type loadbalance first-match L4-POLICY-1
+policy-map type loadbalance first-match L7-POLICY-1
   class class-default
     sticky-serverfarm STICKY1
     serverfarm serverfarm1 backup serverfarm2
@@ -185,7 +185,7 @@ policy-map multi-match L4-POLICY-1
   description L4 POLICY-1
   class L4-CLASS-1
     loadbalance vip inservice
-    loadbalance policy L4-POLICY-1
+    loadbalance policy L7-POLICY-1
     loadbalance vip icmp-reply
     nat dynamic 29 vlan 3996
 
