@@ -81,7 +81,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s+(rserver)\s+(\S+)\s+(\d+)$</string>
+					<string>^\s+(rserver)\s+(\S+)\s+(\d+)?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
@@ -154,8 +154,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.serverfarm</string>
 					<key>patterns</key>

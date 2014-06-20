@@ -104,9 +104,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.rserver</string>
 					<key>patterns</key>
