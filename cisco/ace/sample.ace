@@ -212,6 +212,9 @@ interface vlan 2
 ip route 1.1.1.1 255.255.255.255 2.2.2.2
 
 snmp-server contact "Someone"
+snmp-server location "Here"
+snmp-server community public group Network-Monitor
+
 snmp-server host 1.1.1.1 traps version 2c public
 snmp-server trap-source vlan 1
 snmp-server enable traps slb vserver

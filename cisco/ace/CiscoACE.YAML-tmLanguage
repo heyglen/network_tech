@@ -16,6 +16,7 @@ patterns:
 - include: '#snmp-contact'
 - include: '#snmp-location'
 - include: '#snmp-community'
+- include: '#snmp-host'
 - include: text.network.cisco
 - include: text.network.cisco.ace.probe
 - include: text.network.cisco.ace.rserver
@@ -28,6 +29,20 @@ patterns:
 - include: text.network.cisco.ace.resource-class
 
 repository:
+  snmp-host:
+    patterns:
+    - name: text.network.cisco.ace.snmp.host
+      match: ^\s*(snmp-server)\s+(host)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+(traps)\s+(version)\s+(2c)\s+(\S+)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: constant.numeric}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: support.constant}
+        '7': {name: string.unquoted}
+        '8': {name: invalid.illegal}
+
   snmp-community:
     patterns:
     - name: text.network.cisco.ace.snmp.community
