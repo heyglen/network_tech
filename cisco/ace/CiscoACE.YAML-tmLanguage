@@ -17,6 +17,11 @@ patterns:
 - include: '#snmp-location'
 - include: '#snmp-community'
 - include: '#snmp-host'
+- include: '#snmp-trap-source'
+- include: '#snmp-trap-slb-enable'
+- include: '#snmp-trap-snmp-enable'
+- include: '#snmp-trap-syslog-enable'
+- include: '#snmp-trap-link-ietf'
 - include: text.network.cisco
 - include: text.network.cisco.ace.probe
 - include: text.network.cisco.ace.rserver
@@ -29,6 +34,59 @@ patterns:
 - include: text.network.cisco.ace.resource-class
 
 repository:
+  snmp-trap-link-ietf:
+    patterns:
+    - name: text.network.cisco.ace.snmp.trap.ietf
+      match: ^\s*(snmp-server)\s+(trap)\s+(link)\s+(ietf)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: invalid.illegal}
+  snmp-trap-snmp-enable:
+    patterns:
+    - name: text.network.cisco.ace.snmp.trap.snmp
+      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(snmp)\s+(authentication|linkup|linkdown)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: invalid.illegal}
+  snmp-trap-syslog-enable:
+    patterns:
+    - name: text.network.cisco.ace.snmp.trap.syslog
+      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(syslog)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: invalid.illegal}
+  snmp-trap-slb-enable:
+    patterns:
+    - name: text.network.cisco.ace.snmp.trap.slb
+      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(slb)\s+(vserver|real)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: invalid.illegal}
+  snmp-trap-source:
+    patterns:
+    - name: text.network.cisco.ace.snmp.trap.source
+      match: ^\s*(snmp-server)\s+(trap-source)\s+(vlan)\s+(\d+)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: constant.numeric}
+        '5': {name: invalid.illegal}
   snmp-host:
     patterns:
     - name: text.network.cisco.ace.snmp.host
