@@ -1,0 +1,40 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: Cisco ASA Policy Map
+scopeName: text.network.cisco.asa.policy
+uuid: 2f2986dd-256a-44d3-b552-a5f6535845fa
+
+patterns:
+- include: '#policy-map'
+
+repository:
+  policy-map:
+    patterns:
+    - name: text.network.cisco.asa.policy.map
+      begin: ^(policy-map)\s+(global_policy)\s*$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))
+      patterns:
+      - include: '#policy-class'
+      - include: text.network.cisco.scope
+
+  policy-class:
+    patterns:
+    - name: text.network.cisco.asa.policy.policy-class
+      begin: \s+(class)\s+(inspection_default)\s*$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*class\s))
+      patterns:
+      - include: '#policy-class-inspect'
+
+  policy-class-inspect:
+    patterns:
+    - name: text.network.cisco.asa.policy.policy-class.inspect
+      match: \s+(inspect)\s+(dns (\S+)|ftp|h323 h225|h323 ras|ip-options|netbios|rsh|rtsp|skinny|esmtp|sqlnet|sunrpc|tftp|sip|xdmcp|icmp|pptp)\s*$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
