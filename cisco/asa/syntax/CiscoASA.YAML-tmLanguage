@@ -16,6 +16,9 @@ patterns:
 - include: '#permit-ip-any-any'
 - include: '#banner'
 - include: '#ip_verify_reverse-path'
+- include: '#mtu'
+- include: '#hostname'
+- include: '#terminal'
 - include: text.network.cisco.asa.nat
 - include: text.network.cisco
 - include: text.network.cisco.asa.access-group
@@ -25,7 +28,9 @@ patterns:
 - include: text.network.cisco.asa.object-group
 - include: text.network.cisco.asa.system.context
 - include: text.network.cisco.asa.interface
-
+- include: text.network.cisco.asa.aaa-server
+- include: text.network.cisco.asa.policy
+  
 repository:
   banner:
     patterns:
@@ -103,3 +108,29 @@ repository:
     - name: string.unquoted.asa
       begin: \b(https?|t?ftps?|flash|disk[0-9]|scp|ssh|telnet):(?=[A-Za-z0-9_./-])
       end: (?=\s+)
+
+  mtu:
+    patterns:
+    - name: text.network.cisco.asa.mtu
+      match: ^\s*(mtu)\s+(\S+)\s+([0-9]+)\s*$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.other.inherited-class}
+        '3': {name: constant.numeric.integer}  
+
+  hostname:
+    patterns:
+    - name: text.network.cisco.asa.hostname
+      match: ^\s*(hostname)\s+(\S+)\s*$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+
+  terminal:
+    patterns:
+    - name: text.network.cisco.asa.hostname
+      match: ^\s*(terminal)\s+(width\s([0-9]+))\s*$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: constant.numeric}

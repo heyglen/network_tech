@@ -56,6 +56,18 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#mtu</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#hostname</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#terminal</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>text.network.cisco.asa.nat</string>
 		</dict>
 		<dict>
@@ -89,6 +101,14 @@
 		<dict>
 			<key>include</key>
 			<string>text.network.cisco.asa.interface</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.asa.aaa-server</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.asa.policy</string>
 		</dict>
 	</array>
 	<key>repository</key>
@@ -188,6 +208,31 @@
 				</dict>
 			</array>
 		</dict>
+		<key>hostname</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(hostname)\s+(\S+)\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.hostname</string>
+				</dict>
+			</array>
+		</dict>
 		<key>ip_address</key>
 		<dict>
 			<key>patterns</key>
@@ -233,6 +278,36 @@
 							<string>invalid.illegal.network-object.asa</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>mtu</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric.integer</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(mtu)\s+(\S+)\s+([0-9]+)\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.mtu</string>
 				</dict>
 			</array>
 		</dict>
@@ -292,6 +367,36 @@
 							<string>invalid.illegal.router-id.asa</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>terminal</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(terminal)\s+(width\s([0-9]+))\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.hostname</string>
 				</dict>
 			</array>
 		</dict>
