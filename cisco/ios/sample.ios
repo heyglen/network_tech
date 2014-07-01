@@ -64,3 +64,6 @@ router bgp 123
 		neighbor 1.1.1.1 route-map ROUTE-MAP-NAME in
 		neighbor 1.1.1.1 route-map ROUTE-MAP-NAME out
 		neighbor 1.1.1.1 inherit peer-policy POLICY-NAME
+
+write
+configure terminal
