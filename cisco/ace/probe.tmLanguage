@@ -68,7 +68,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(expect)\s+(regex)\s+(\S+)(?:\s+(offset)\s+(\d+))?(?:\s+(cache)\s+(\d+))?\s*(?:\s+(\S+))?$</string>
+					<string>(expect)\s+(regex)\s+((?:".*")|\S+)(?:\s+(offset)\s+(\d+))?(?:\s+(cache)\s+(\d+))?\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.probe.expect</string>
 				</dict>
@@ -450,9 +450,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.probe.http</string>
 					<key>patterns</key>
@@ -552,9 +550,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.probe.tcp</string>
 					<key>patterns</key>
