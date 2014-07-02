@@ -52,6 +52,23 @@ probe tcp TCP-PROBE1
   ip address 10.0.0.1 routed
   ip address 2001:DB8:12::15 routed
 
+probe https HTTPS-PROBE1
+  open 20
+  receive 20
+  passdetect interval 30
+  passdetect count 2
+  ip address 10.0.0.1 routed
+  ip address 2001:DB8:12::15 routed
+  header Host header-value domain.root
+  port 80
+  request method get url /index.html
+  expect regex *hello* offset 20 cache 30
+  expect regex "hello world" offset 20 cache 30
+  expect status 200 200
+  hash
+  interval 40
+  faildetect 3
+
 probe http HTTP-PROBE1
   description HTTP Health Probe
   open 20
@@ -64,6 +81,7 @@ probe http HTTP-PROBE1
   port 80
   request method get url /index.html
   expect regex *hello* offset 20 cache 30
+  expect regex "hello world" offset 20 cache 30
   expect status 200 200
   hash
   interval 40

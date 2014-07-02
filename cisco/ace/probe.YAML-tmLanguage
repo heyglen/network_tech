@@ -6,7 +6,7 @@ uuid: e30f827f-a6b5-4a81-a619-a7f9ce82fe91
 
 patterns:
 - include: '#probe-http'
-
+- include: '#probe-https'
 - include: '#probe-tcp'
 
 repository:
@@ -127,6 +127,33 @@ repository:
     patterns:
     - name: text.network.cisco.ace.probe.http
       begin: ^(probe)\s+(http)\s+(\S+)\s*(\S.*)?$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: entity.name.function}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: '#ipv4-address'
+      - include: '#ipv6-address'
+      - include: '#open'
+      - include: '#interval'
+      - include: '#pass-detect'
+      - include: '#fail-detect'
+      - include: '#port'
+      - include: '#receive'
+      - include: '#request-method'
+      - include: '#expect-regex'
+      - include: '#hash'
+      - include: '#expect-status'
+      - include: '#http-header'
+      - include: text.network.cisco.scope
+      - include: text.invalid
+
+  probe-https:
+    patterns:
+    - name: text.network.cisco.ace.probe.https
+      begin: ^(probe)\s+(https)\s+(\S+)\s*(\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: entity.name.function}
