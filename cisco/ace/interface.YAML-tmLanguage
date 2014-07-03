@@ -35,6 +35,7 @@ repository:
       - include: '#shutdown'
       - include: '#alias-ip'
       - include: text.network.cisco.scope
+      - include: text.network.cisco      
 
   ip:
     patterns:

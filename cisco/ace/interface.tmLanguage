@@ -162,6 +162,10 @@
 							<key>include</key>
 							<string>text.network.cisco.scope</string>
 						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
 					</array>
 				</dict>
 			</array>
