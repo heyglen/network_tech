@@ -1,10 +1,6 @@
 {
-  "scope": [
-    "text.network.cisco.ios - source - meta.tag, punctuation.definition.tag.begin",
-  ],
+  "scope": "text.network.cisco.ios",
   "completions": [
-    { "trigger": "vrf", "contents": "vrf definition ${1:VRF-Name}\n\tdescription ${2:VRF Name}\n\trd ${3:000}:${4:000}\n\troute-target both ${5:000}:${6:000}$0" },
-    { "trigger": "prefix-list", "contents": "ip prefix-list ${1:LEAK-} seq ${2:10} permit ${3:1.1.1.0}/${4:24}$0" },
-    { "trigger": "route-map", "contents": "route-map ${1:Route Map Name} permit ${2:10}\n\tdescription ${3:Route Map Description}\n\tmatch ${4: Match Clause}\n\tset ${5:Set Clause}$0" }
+        { "trigger": "wr", "contents": "write" }
   ]
 }

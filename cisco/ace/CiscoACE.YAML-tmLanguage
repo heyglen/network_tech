@@ -5,10 +5,12 @@ fileTypes: [ace]
 uuid: e5441a2e-8364-4339-b1e2-f79db773f565
 
 patterns:
+- include: '#copy'
 - include: '#changeto'
 - include: '#crypto-import'
 - include: '#crypto-verify'
 - include: '#remove-configuration'
+- include: '#configure-terminal'
 - include: '#ssl-proxy'
 - include: '#serverfarm'
 - include: '#hostname'
@@ -147,6 +149,15 @@ repository:
       patterns:
       - include: '#key-data'
 
+  configure-terminal:
+    patterns:
+    - name: text.network.cisco.ace.configure-termial
+      match: ^\s*(configure)\s+(terminal)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+
   changeto:
     patterns:
     - comment: Keywords
@@ -229,7 +240,7 @@ repository:
   ssl-proxy:
     patterns:
     - name: text.network.cisco.ace.ssl-proxy
-      begin: ^\s*(no)?(\S*)\s*(ssl-proxy)\s+(service)\s+(\S+)\s*(\S*.*)?$
+      begin: ^\s*(ssl-proxy)\s+(service)\s+(\S+)\s*(\S*.*)?$
       beginCaptures:
         '0': {name: meta.cisco.ace.ssl-proxy}
         '1': {name: ''}
@@ -242,3 +253,42 @@ repository:
       patterns:
       - include: text.network.cisco.scope
       - include: text.network.cisco
+
+  copy:
+    patterns:
+    - name: text.network.cisco.ace.copy
+      begin: ^\s*(copy)\s+
+      beginCaptures:
+        '1': {name: 'support.constant'}
+      end: (?=\s*$)
+      patterns:
+      - include: '#copy-run-start'
+      - include: '#copy-start-run'
+      - include: '#copy-run-ftp'
+
+  copy-run-start:
+    patterns:
+    - name: text.network.cisco.ace.copy.run-start
+      match: (running-config)\s+(startup-config)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+
+  copy-run-ftp:
+    patterns:
+    - name: text.network.cisco.ace.copy.run-ftp
+      match: (running-config)\s+(t?ftp)(://)((?:\d+\.){3}\d+)(\/\S*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.name.function}
+        '3': {name: support.constant}
+        '4': {name: constant.language}
+        '5': {name: support.constant}
+
+  copy-start-run:
+    patterns:
+    - name: text.network.cisco.ace.copy.start-run
+      match: (startup-config)\s+(running-config)
+      captures:
+        '1': {name: keyword.other}
+        '2': {name: keyword.other}

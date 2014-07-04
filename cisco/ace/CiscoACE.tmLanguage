@@ -12,6 +12,10 @@
 	<array>
 		<dict>
 			<key>include</key>
+			<string>#copy</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#changeto</string>
 		</dict>
 		<dict>
@@ -25,6 +29,10 @@
 		<dict>
 			<key>include</key>
 			<string>#remove-configuration</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#configure-terminal</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -217,6 +225,163 @@
 					<string>^(\S*)\s*(changeto)\s+(\S+)\s*(\S*.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.keywords</string>
+				</dict>
+			</array>
+		</dict>
+		<key>configure-terminal</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(configure)\s+(terminal)\s*(?:\s+(\S.*))?$</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.configure-termial</string>
+				</dict>
+			</array>
+		</dict>
+		<key>copy</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(copy)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\s*$)</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.copy</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#copy-run-start</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#copy-start-run</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#copy-run-ftp</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>copy-run-ftp</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(running-config)\s+(t?ftp)(://)((?:\d+\.){3}\d+)(\/\S*)?</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.copy.run-ftp</string>
+				</dict>
+			</array>
+		</dict>
+		<key>copy-run-start</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(running-config)\s+(startup-config)</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.copy.run-start</string>
+				</dict>
+			</array>
+		</dict>
+		<key>copy-start-run</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(startup-config)\s+(running-config)</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.copy.start-run</string>
 				</dict>
 			</array>
 		</dict>
@@ -835,7 +1000,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(no)?(\S*)\s*(ssl-proxy)\s+(service)\s+(\S+)\s*(\S*.*)?$</string>
+					<string>^\s*(ssl-proxy)\s+(service)\s+(\S+)\s*(\S*.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>

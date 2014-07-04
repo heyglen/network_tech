@@ -1,0 +1,12 @@
+{
+    "scope": "text.network.cisco.ace",
+    "completions": [
+        { "trigger": "write", "contents": "copy running-config startup-config" },
+        "copy",
+        "changeto",
+        "configure terminal",
+        "clear",
+        "show"
+    ]
+}
+

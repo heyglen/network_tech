@@ -1,7 +1,11 @@
 ! On load-balancer-1
 
+copy running-config startup-config
+copy running-config tftp://1.1.1.1/asdf
+copy startup-config running-config 
 hostname lb-1
 changeto context-1
+configure terminal
 
 logging enable
 logging standby
@@ -51,6 +55,7 @@ probe tcp TCP-PROBE1
   faildetect 3
   ip address 10.0.0.1 routed
   ip address 2001:DB8:12::15 routed
+
 
 probe https HTTPS-PROBE1
   open 20
