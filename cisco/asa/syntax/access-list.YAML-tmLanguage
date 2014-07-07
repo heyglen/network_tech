@@ -35,6 +35,7 @@ repository:
       - include: '#acl-dest-port-object-group'
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
+      - include: '#acl-inactive'
       - name: invalid.illegal.access-list.asa
         match: (?:.*$)
 
@@ -50,6 +51,7 @@ repository:
       - include: '#acl-dest-port-object-group'
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
+      - include: '#acl-inactive'
       - match: (?:.*$)
         name: invalid.illegal.access-list.asa
 
@@ -64,6 +66,7 @@ repository:
       - include: '#acl-dest-port-object-group'
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
+      - include: '#acl-inactive'
       - match: (?:.*$)
         name: invalid.illegal.access-list.asa
 
@@ -79,6 +82,7 @@ repository:
       - include: '#acl-dest-port-object-group'
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
+      - include: '#acl-inactive'
       - match: (?:.*$)
         name: invalid.illegal.access-list.asa
 
@@ -94,6 +98,7 @@ repository:
       - include: '#acl-dest-port-object-group'
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
+      - include: '#acl-inactive'
       - match: (?:.*$)
         name: invalid.illegal.access-list.asa
 
@@ -106,6 +111,7 @@ repository:
       end: (\s*$)
       patterns:
       - include: '#acl-log'
+      - include: '#acl-inactive'
       - name: invalid.illegal.access-list.asa
         match: (?:.*$)
 
@@ -119,6 +125,7 @@ repository:
       end: (\s*$)
       patterns:
       - include: '#acl-log'
+      - include: '#acl-inactive'
       - name: invalid.illegal.dest-port-range.asa
         match: (?:.*$)
 
@@ -134,6 +141,7 @@ repository:
       end: (\s*$)
       patterns:
       - include: '#acl-log'
+      - include: '#acl-inactive'
       - name: invalid.illegal.dest-port.asa
         match: (?:.*$)
 
@@ -204,6 +212,15 @@ repository:
         '4':  {name: constant.numeric}
         '5':  {name: support.constant}
         '6':  {name: support.constant}
+
+  acl-inactive:
+    patterns:
+    - comment: ACL Inactive
+      name: text.network.cisco.asa.access-list.inactive
+      match: \s*(inactive)(?:\s+(\(inactive\)))?\s*
+      captures:
+        '1':  {name: invalid.deprecated}
+        '2':  {name: comment.block.documentation}
 
   acl-permit-object-group:
     patterns:

@@ -105,6 +105,10 @@
 							<string>#acl-log</string>
 						</dict>
 						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
 							<key>match</key>
 							<string>(?:.*$)</string>
 							<key>name</key>
@@ -155,6 +159,10 @@
 							<string>#acl-log</string>
 						</dict>
 						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
 							<key>match</key>
 							<string>(?:.*$)</string>
 							<key>name</key>
@@ -198,6 +206,10 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
 						</dict>
 						<dict>
 							<key>match</key>
@@ -250,6 +262,10 @@
 							<string>#acl-log</string>
 						</dict>
 						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
 							<key>match</key>
 							<string>(?:.*$)</string>
 							<key>name</key>
@@ -300,6 +316,10 @@
 							<string>#acl-log</string>
 						</dict>
 						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
 							<key>match</key>
 							<string>(?:.*$)</string>
 							<key>name</key>
@@ -336,6 +356,10 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
 						</dict>
 						<dict>
 							<key>match</key>
@@ -376,6 +400,10 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
 						</dict>
 						<dict>
 							<key>match</key>
@@ -426,6 +454,10 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
 						</dict>
 						<dict>
 							<key>match</key>
@@ -508,6 +540,33 @@
 							<string>invalid.illegal.access-list.asa</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>acl-inactive</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.deprecated</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>comment.block.documentation</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>ACL Inactive</string>
+					<key>match</key>
+					<string>\s*(inactive)(?:\s+(\(inactive\)))?\s*</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.access-list.inactive</string>
 				</dict>
 			</array>
 		</dict>
