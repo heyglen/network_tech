@@ -612,10 +612,43 @@
 			<key>patterns</key>
 			<array>
 				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
 					<key>comment</key>
 					<string>ACL logs</string>
 					<key>match</key>
-					<string>\s*log\s*</string>
+					<string>\s*(log)(?:\s+(informational|notifications)(?:\s+(interval)\s+(\d+))?(?:\s+(disable))?(?:\s+(default))?)?\s*</string>
 					<key>name</key>
 					<string>variable.parameter.log.asa</string>
 				</dict>

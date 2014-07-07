@@ -196,7 +196,14 @@ repository:
     patterns:
     - comment: ACL logs
       name: variable.parameter.log.asa
-      match: \s*log\s*
+      match: \s*(log)(?:\s+(informational|notifications)(?:\s+(interval)\s+(\d+))?(?:\s+(disable))?(?:\s+(default))?)?\s*
+      captures:
+        '1':  {name: variable.parameter}
+        '2':  {name: support.constant}
+        '3':  {name: support.constant}
+        '4':  {name: constant.numeric}
+        '5':  {name: support.constant}
+        '6':  {name: support.constant}
 
   acl-permit-object-group:
     patterns:
