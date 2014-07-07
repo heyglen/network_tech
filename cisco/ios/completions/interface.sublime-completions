@@ -1,0 +1,16 @@
+{
+    "scope": "text.network.cisco.ios.interface",
+    "completions": [
+    	"ip",
+    	"vrf",
+    	"forwarding",
+    	"priority",
+    	"proxy-arp",
+    	"redirects",
+    	"shutdown",
+    	"no",
+    	"description",
+    	"standby",
+        "address"
+    ]
+}

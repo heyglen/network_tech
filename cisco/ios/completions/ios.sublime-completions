@@ -1,0 +1,35 @@
+{
+    "scope": "text.network.cisco.ios",
+    "completions": [
+        "copy",
+        "configure terminal",
+        "clear",
+        "show",
+        "debug",
+        "exit",
+		"ping",
+		"reload",
+		"ssh",
+		"telnet",
+		"terminal",
+		"traceroute",
+		"undebug",
+		"write",
+        "aaa",
+        "access-list",
+        "config-register",
+        "end",
+        "ft",
+        "hostname",
+        "interface",
+        "ip",
+        "ipv6",
+        "line",
+        "login",
+        "logging",
+        "ntp",
+        "ssh",
+        "tacacs-server"
+    ]
+}
+
