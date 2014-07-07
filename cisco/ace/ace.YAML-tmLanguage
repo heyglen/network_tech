@@ -1,0 +1,375 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: Cisco ACE
+scopeName: text.network.cisco.ace
+fileTypes: [ace]
+uuid: e5441a2e-8364-4339-b1e2-f79db773f565
+
+patterns:
+- include: '#copy'
+- include: '#changeto'
+- include: '#crypto-import'
+- include: '#crypto-verify'
+- include: '#remove-configuration'
+- include: '#configure-terminal'
+- include: '#ssl-proxy'
+- include: '#ssl-proxy'
+- include: '#logging'
+- include: '#serverfarm'
+- include: '#hostname'
+- include: '#route'
+- include: '#snmp-contact'
+- include: '#snmp-location'
+- include: '#snmp-community'
+- include: '#snmp-host'
+- include: '#snmp-trap-source'
+- include: '#snmp-trap-slb-enable'
+- include: '#snmp-trap-snmp-enable'
+- include: '#snmp-trap-syslog-enable'
+- include: '#snmp-trap-link-ietf'
+- include: text.network.cisco
+- include: text.network.cisco.ace.probe
+- include: text.network.cisco.ace.rserver
+- include: text.network.cisco.ace.serverfarm
+- include: text.network.cisco.ace.sticky
+- include: text.network.cisco.ace.class-map
+- include: text.network.cisco.ace.policy
+- include: text.network.cisco.ace.acl
+- include: text.network.cisco.ace.interface
+- include: text.network.cisco.ace.resource-class
+
+repository:
+  snmp-trap-link-ietf:
+    patterns:
+    - name: text.network.cisco.ace.snmp.trap.ietf
+      match: ^\s*(snmp-server)\s+(trap)\s+(link)\s+(ietf)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: invalid.illegal}
+  snmp-trap-snmp-enable:
+    patterns:
+    - name: text.network.cisco.ace.snmp.trap.snmp
+      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(snmp)\s+(authentication|linkup|linkdown)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: invalid.illegal}
+  snmp-trap-syslog-enable:
+    patterns:
+    - name: text.network.cisco.ace.snmp.trap.syslog
+      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(syslog)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: invalid.illegal}
+  snmp-trap-slb-enable:
+    patterns:
+    - name: text.network.cisco.ace.snmp.trap.slb
+      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(slb)\s+(vserver|real)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: invalid.illegal}
+  snmp-trap-source:
+    patterns:
+    - name: text.network.cisco.ace.snmp.trap.source
+      match: ^\s*(snmp-server)\s+(trap-source)\s+(vlan)\s+(\d+)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: constant.numeric}
+        '5': {name: invalid.illegal}
+  snmp-host:
+    patterns:
+    - name: text.network.cisco.ace.snmp.host
+      match: ^\s*(snmp-server)\s+(host)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+(traps)\s+(version)\s+(2c)\s+(\S+)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: constant.numeric}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: support.constant}
+        '7': {name: string.unquoted}
+        '8': {name: invalid.illegal}
+
+  snmp-community:
+    patterns:
+    - name: text.network.cisco.ace.snmp.community
+      match: ^\s*(snmp-server)\s+(community)\s+(\S+)\s+(group)\s+(\S+)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: support.constant}
+        '5': {name: string.unquoted}
+        '6': {name: invalid.illegal}
+
+  snmp-contact:
+    patterns:
+    - name: text.network.cisco.ace.snmp.contact
+      match: ^\s*(snmp-server)\s+(contact)\s+(.*)$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+
+  snmp-location:
+    patterns:
+    - name: text.network.cisco.ace.snmp.location
+      match: ^\s*(snmp-server)\s+(location)\s+(.*)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+
+  certificate-key-import:
+    patterns:
+    - name: text.pki.format.base64
+      begin: ^(\s*)(-----.*-----)(\s*)\n$
+      beginCaptures:
+        '1': {name: invalid.illegal}
+        '2': {name: constant.language}
+        '3': {name: invalid.illegal}
+      end: \n^(\s*)(-----.*-----)(\s*)\n$
+      endCaptures:
+        '1': {name: invalid.illegal}
+        '2': {name: constant.language}
+        '3': {name: invalid.illegal}
+      patterns:
+      - include: '#key-data'
+
+  configure-terminal:
+    patterns:
+    - name: text.network.cisco.ace.configure-termial
+      match: ^\s*(configure)\s+(terminal)\s*(?:\s+(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+
+  changeto:
+    patterns:
+    - comment: Keywords
+      name: text.network.cisco.ace.keywords
+      match: ^(\S*)\s*(changeto)\s+(\S+)\s*(\S*.*)?$
+      captures:
+        '0': {name: text.network.cisco.ace.changeto}
+        '1': {name: invalid.illegal}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+
+  crypto-import:
+    patterns:
+    - name: text.network.cisco.ace.crypto.import
+      begin: ^(\S*)\s*(crypto)\s+(import)\s+(\S+)\s+(\S+)\s*(\S*.*)?$
+      beginCaptures:
+        '0': {name: meta.cisco.ace.crypto.import}
+        '1': {name: invalid.illegal}
+        '2': {name: keyword.other}
+        '3': {name: variable.parameter}
+        '4': {name: variable.parameter}
+        '5': {name: string.unquoted}
+        '6': {name: invalid.illegal}
+      end: ^(?=\s*$|\S)
+      endCaptures:
+        '0': {name: keyword.control}
+      patterns:
+      - include: '#certificate-key-import'
+
+  crypto-verify:
+    patterns:
+    - name: text.network.cisco.ace.pki.verify
+      match: ^(\S*)\s*(crypto verify)\s+(\S+\s+\S+)\s*(\S*.*)?$
+      captures:
+        '0': {name: text.network.cisco.ace.pki.verify}
+        '1': {name: invalid.illegal}
+        '2': {name: keyword.other}
+        '3': {name: variable.parameter}
+        '4': {name: invalid.illegal}
+
+  hostname:
+    patterns:
+    - comment: Keywords
+      name: text.network.cisco.ace.hostname
+      match: ^\s*(hostname)\s+(\S+)\s*(\S*.*)?$
+      captures:
+        '0': {name: text.network.cisco.ace.hostname}
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+        '3': {name: invalid.illegal}
+
+  key-data:
+    patterns:
+    - name: pki.key.data
+      match: ^(\S*)(\s*)(\S*)\n$
+      captures:
+        '1': {name: comment.line}
+        '2': {name: invalid.illegal}
+        '3': {name: comment.line}
+
+  remove-configuration:
+    patterns:
+    - name: text.network.cisco.ios.remove
+      match: (\s*no .*)$
+      captures:
+        '1': {name: keyword.other}
+
+  route:
+    patterns:
+    - name: text.network.cisco.ace.route
+      match: ^(ip\s+route)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+((?:(?:255|254|252|248|240|224|192|128|0)\.){3}(?:255|254|252|248|240|224|192|128|0))\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s*(\s+\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: constant.numeric}
+        '4': {name: constant.numeric}
+        '5': {name: invalid.illegal}
+
+  ssl-proxy:
+    patterns:
+    - name: text.network.cisco.ace.ssl-proxy
+      begin: ^\s*(ssl-proxy)\s+(service)\s+(\S+)\s*(\S*.*)?$
+      beginCaptures:
+        '0': {name: meta.cisco.ace.ssl-proxy}
+        '1': {name: ''}
+        '2': {name: invalid.illegal}
+        '3': {name: keyword.other}
+        '4': {name: variable.parameter}
+        '5': {name: string.unquoted}
+        '6': {name: invalid.illegal}
+      end: ^(?=\s*$|\S)
+      patterns:
+      - include: text.network.cisco.scope
+      - include: text.network.cisco
+
+  copy:
+    patterns:
+    - name: text.network.cisco.ace.copy
+      begin: ^\s*(copy)\s+
+      beginCaptures:
+        '1': {name: 'support.constant'}
+      end: (?=\s*$)
+      patterns:
+      - include: '#copy-run-start'
+      - include: '#copy-start-run'
+      - include: '#copy-run-ftp'
+
+  logging:
+    patterns:
+    - name: text.network.cisco.ace.logging
+      begin: ^\s*(logging)\s+
+      beginCaptures:
+        '1': {name: 'support.constant'}
+      end: (?=\s*$)
+      patterns:
+      - include: '#logging-enable'
+      - include: '#logging-standby'
+      - include: '#logging-timestamp'
+      - include: '#logging-trap'
+      - include: '#logging-history'
+      - include: '#logging-buffered'
+      - include: '#logging-persistent'
+      - include: '#logging-device-id'
+      - include: '#logging-host'
+
+  logging-enable:
+    patterns:
+    - name: text.network.cisco.ace.logging.enable
+      match: (enable)\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: invalid.illegal}
+        
+  logging-standby:
+    patterns:
+    - name: text.network.cisco.ace.logging.standby
+      match: (standby)\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: invalid.illegal}
+
+  logging-timestamp:
+    patterns:
+    - name: text.network.cisco.ace.logging.timestamp
+      match: (timestamp)\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: invalid.illegal}
+  
+  logging-trap:
+    patterns:
+    - name: text.network.cisco.ace.logging.trap
+      match: (trap)\s+([0-7])\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: invalid.illegal}
+        
+  logging-history:
+    patterns:
+    - name: text.network.cisco.ace.logging.history
+      match: (history)\s+([0-7])\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: invalid.illegal}
+        
+  logging-buffered:
+    patterns:
+    - name: text.network.cisco.ace.logging.buffered
+      match: (buffered)\s+([0-7])\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: invalid.illegal}
+        
+  logging-persistent:
+    patterns:
+    - name: text.network.cisco.ace.logging.persistent
+      match: (persistent)\s+([0-7])\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: invalid.illegal}
+        
+
+  copy-run-start:
+    patterns:
+    - name: text.network.cisco.ace.copy.run-start
+      match: (running-config)\s+(startup-config)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+
+  copy-run-ftp:
+    patterns:
+    - name: text.network.cisco.ace.copy.run-ftp
+      match: (running-config)\s+(t?ftp)(://)((?:\d+\.){3}\d+)(\/\S*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.name.function}
+        '3': {name: support.constant}
+        '4': {name: constant.language}
+        '5': {name: support.constant}
+
+  copy-start-run:
+    patterns:
+    - name: text.network.cisco.ace.copy.start-run
+      match: (startup-config)\s+(running-config)
+      captures:
+        '1': {name: keyword.other}
+        '2': {name: keyword.other}
