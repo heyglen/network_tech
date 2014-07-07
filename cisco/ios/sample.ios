@@ -5,6 +5,8 @@ vlan 20
 
 ip route vrf RED 1.1.1.0 255.255.255.0 2.2.2.2
 
+show run interface p1
+
 ip vrf asdf 
 interface Port-channel1
 	description Hello
@@ -14,6 +16,7 @@ interface Port-channel1
  	ip access-group acl-out out
 	switchport
 	switchport mode trunk
+	switchport trunk encapsulation dot1q
 	switchport trunk allowed vlan add 604,608
 	switchport trunk allowed vlan remove 604-608,200
 	switchport mode access

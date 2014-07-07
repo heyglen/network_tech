@@ -1,0 +1,86 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: Cisco IOS
+scopeName: text.network.cisco.ios
+fileTypes: [ios]
+uuid: e5441a2e-8364-4339-b1e2-f79de773f570
+
+patterns:
+- include: '#remove-configuration'
+- include: '#static-route'
+- include: '#alias'
+- include: '#write'
+- include: '#access-list'
+- include: '#config-t'
+- include: text.network.cisco
+- include: text.network.cisco.ios.vlan
+- include: text.network.cisco.ios.vrf
+- include: text.network.cisco.ios.bgp
+- include: text.network.cisco.ios.ip.prefix-list
+- include: text.network.cisco.ios.scope.interface
+- include: text.network.cisco.ios.route-map
+
+repository:
+  access-list:
+    patterns:
+    - name: text.network.cisco.ios.acl
+      begin: ^\s*(ip)\s+(access-list)\s+(standard|extended)\s+(\S+)\s+$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: '#permit-ip-any-any'
+      - include: text.network.ip
+      - include: text.network.cisco
+      - include: text.network.cisco.scope
+
+  write:
+    patterns:
+    - name: text.network.cisco.ios.write
+      match: ^\s*(write)(?:\s+(net))?\s*(?:\s*(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+  config-t:
+    patterns:
+    - name: text.network.cisco.ios.write
+      match: ^\s*(configure)\s+(terminal)\s*(?:\s*(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+
+  alias:
+    patterns:
+    - name: text.network.cisco.ios.alias
+      match: ^\s*(alias)\s+(bgp\s+\S+|l2\s+\S+|scope\s+address-family\s+\S+|scope\s+\S+|\S+)\s+(\S+)\s+(.*)$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.name.function}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+
+  static-route:
+    patterns:
+    - name: text.network.cisco.ios.routing.static
+      match: ^\s*(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s*(\s+\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: constant.numeric}
+        '6': {name: constant.numeric}
+        '7': {name: constant.numeric}
+        '8': {name: invalid.illegal}
+
+  permit-ip-any-any:
+    patterns:
+    - comment: ' '
+      name: text.network.cisco.ios.acl.permit-ip-any-any
+      match: ^\s*permit ip any any\s+
+      captures:
+        '0': {name: entity.name.function}
