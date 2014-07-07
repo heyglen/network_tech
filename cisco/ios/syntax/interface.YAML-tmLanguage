@@ -5,6 +5,7 @@ uuid: 0f297425-7bd7-431d-bfbd-824e3f9aad68
 
 patterns:
 - include: '#interface'
+- include: '#show-run-int'
 
 repository:
   access:
@@ -223,11 +224,22 @@ repository:
 
   trunk:
     patterns:
-    - name: text.network.cisco.ios.interface.switchport.mode
+    - name: text.network.cisco.ios.interface.switchport.trunk
       match: (trunk)\s+(allowed\s+vlan)\s+(?:(add)|(remove))?\s+(\d+(?:\s*[,-]\s*(?:\d+))*)
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: entity.name.function}
         '4': {name: entity.name.tag}
+        '5': {name: constant.numeric.vlan.id}
+  
+  show-run-int:
+    patterns:
+    - name: text.network.cisco.ios.interface.show.run
+      match: (show)\s+(run)\s+(interface)\s+(\D+)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: entity.name.function}
+        '4': {name: entity.other.inherited-class}
         '5': {name: constant.numeric.vlan.id}

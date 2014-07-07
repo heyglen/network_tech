@@ -10,6 +10,10 @@
 			<key>include</key>
 			<string>#interface</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>#show-run-int</string>
+		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -644,6 +648,46 @@
 				</dict>
 			</array>
 		</dict>
+		<key>show-run-int</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric.vlan.id</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(show)\s+(run)\s+(interface)\s+(\D+)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.show.run</string>
+				</dict>
+			</array>
+		</dict>
 		<key>shutdown</key>
 		<dict>
 			<key>patterns</key>
@@ -737,7 +781,7 @@
 					<key>match</key>
 					<string>(trunk)\s+(allowed\s+vlan)\s+(?:(add)|(remove))?\s+(\d+(?:\s*[,-]\s*(?:\d+))*)</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.switchport.mode</string>
+					<string>text.network.cisco.ios.interface.switchport.trunk</string>
 				</dict>
 			</array>
 		</dict>
