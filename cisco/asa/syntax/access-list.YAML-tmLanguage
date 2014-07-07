@@ -10,7 +10,7 @@ repository:
   access-list:
     patterns:
     - name: text.network.cisco.asa.access-list
-      begin: ^\s*(access-list)\s+([^ ]+)\s+
+      begin: ^\s*(access-list)\s+(\S+)\s+
       beginCaptures:
         '1': {name: support.constant}
         '2': {name: string.unquoted.acl-name.asa}
@@ -21,6 +21,7 @@ repository:
       - include: '#acl-extended-permit'
       - include: '#acl-extended-deny'
       - include: '#acl-information'
+      - include: '#acl-cache'
       - name: invalid.illegal.access-list.asa
         match: (?:.*$)
 
@@ -36,6 +37,7 @@ repository:
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
       - include: '#acl-inactive'
+      - include: '#acl-hex-id'
       - name: invalid.illegal.access-list.asa
         match: (?:.*$)
 
@@ -52,6 +54,7 @@ repository:
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
       - include: '#acl-inactive'
+      - include: '#acl-hex-id'
       - match: (?:.*$)
         name: invalid.illegal.access-list.asa
 
@@ -67,6 +70,7 @@ repository:
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
       - include: '#acl-inactive'
+      - include: '#acl-hex-id'
       - match: (?:.*$)
         name: invalid.illegal.access-list.asa
 
@@ -83,6 +87,7 @@ repository:
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
       - include: '#acl-inactive'
+      - include: '#acl-hex-id'
       - match: (?:.*$)
         name: invalid.illegal.access-list.asa
 
@@ -99,6 +104,7 @@ repository:
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
       - include: '#acl-inactive'
+      - include: '#acl-hex-id'
       - match: (?:.*$)
         name: invalid.illegal.access-list.asa
 
@@ -112,6 +118,7 @@ repository:
       patterns:
       - include: '#acl-log'
       - include: '#acl-inactive'
+      - include: '#acl-hex-id'
       - name: invalid.illegal.access-list.asa
         match: (?:.*$)
 
@@ -126,6 +133,7 @@ repository:
       patterns:
       - include: '#acl-log'
       - include: '#acl-inactive'
+      - include: '#acl-hex-id'
       - name: invalid.illegal.dest-port-range.asa
         match: (?:.*$)
 
@@ -142,6 +150,7 @@ repository:
       patterns:
       - include: '#acl-log'
       - include: '#acl-inactive'
+      - include: '#acl-hex-id'
       - name: invalid.illegal.dest-port.asa
         match: (?:.*$)
 
@@ -178,13 +187,26 @@ repository:
         '1': {name: constant.numeric}
         '2': {name: support.constant}
         '3': {name: constant.numeric}
-      end: (\s*$)
-      patterns:
-      - include: '#acl-remark'
-      - include: '#acl-extended-permit'
-      - include: '#acl-extended-deny'
-      - name: invalid.illegal.access-list.asa
-        match: (?:.*$)
+
+  acl-hex-id:
+    patterns:
+    - name: text.network.cisco.asa.access-list.hex-id
+      match: (?<= )(0x[0-9a-f]+)
+      captures:
+        '1': {name: comment.block.documentation}
+
+  acl-cache:
+    patterns:
+    - name: text.network.cisco.asa.access-list.cache
+      match: (?<=cached\s)(ACL log flows. total) (\d+)(, denied) (\d+) (\(deny-flow-max) (\d+)(\))\s*\r?\n
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: constant.numeric}
+        '5': {name: support.constant}
+        '6': {name: constant.numeric}
+        '7': {name: support.constant}
 
   acl-line-number:
     patterns:
@@ -204,7 +226,7 @@ repository:
     patterns:
     - comment: ACL logs
       name: variable.parameter.log.asa
-      match: \s*(log)(?:\s+(informational|notifications)(?:\s+(interval)\s+(\d+))?(?:\s+(disable))?(?:\s+(default))?)?\s*
+      match: \s*(log)(?:\s+(informational|debugging|notifications)(?:\s+(interval)\s+(\d+))?(?:\s+(disable))?(?:\s+(default))?)?\s*
       captures:
         '1':  {name: variable.parameter}
         '2':  {name: support.constant}
