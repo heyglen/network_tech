@@ -20,6 +20,7 @@ repository:
       - include: '#acl-remark'
       - include: '#acl-extended-permit'
       - include: '#acl-extended-deny'
+      - include: '#acl-information'
       - name: invalid.illegal.access-list.asa
         match: (?:.*$)
 
@@ -158,6 +159,22 @@ repository:
       patterns:
       - include: '#acl-protocol'
       - include: '#acl-permit-object-group'
+      - name: invalid.illegal.access-list.asa
+        match: (?:.*$)
+
+  acl-information:
+    patterns:
+    - name: text.network.cisco.asa.access-list.information
+      match: (?<=;\s)(\d+) (elements; name hash:) (0x[0-9a-f]+)
+      captures:
+        '1': {name: constant.numeric}
+        '2': {name: support.constant}
+        '3': {name: constant.numeric}
+      end: (\s*$)
+      patterns:
+      - include: '#acl-remark'
+      - include: '#acl-extended-permit'
+      - include: '#acl-extended-deny'
       - name: invalid.illegal.access-list.asa
         match: (?:.*$)
 

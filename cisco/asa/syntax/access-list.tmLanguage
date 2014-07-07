@@ -56,6 +56,10 @@
 							<string>#acl-extended-deny</string>
 						</dict>
 						<dict>
+							<key>include</key>
+							<string>#acl-information</string>
+						</dict>
+						<dict>
 							<key>match</key>
 							<string>(?:.*$)</string>
 							<key>name</key>
@@ -496,6 +500,59 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-permit-object-group</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>(?:.*$)</string>
+							<key>name</key>
+							<string>invalid.illegal.access-list.asa</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>acl-information</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(\s*$)</string>
+					<key>match</key>
+					<string>(?&lt;=;\s)(\d+) (elements; name hash:) (0x[0-9a-f]+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.access-list.information</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#acl-remark</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-extended-permit</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-extended-deny</string>
 						</dict>
 						<dict>
 							<key>match</key>
