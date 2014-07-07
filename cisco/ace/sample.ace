@@ -1,11 +1,11 @@
 ! On load-balancer-1
-
 copy running-config startup-config
 copy running-config tftp://1.1.1.1/asdf
 copy startup-config running-config 
 hostname lb-1
 changeto context-1
 configure terminal
+
 
 logging enable
 logging standby
