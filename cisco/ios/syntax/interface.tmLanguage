@@ -165,11 +165,26 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(standby)(\s+\d+)?\s+(preempt)(?:\s+(\S.*))?</string>
+					<string>\s*(standby)(\s+\d+)?\s+(preempt)(?:\s+(delay)\s+(reload)\s+(\d+))?(?:\s+(\S.*))?</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.interface.hsrp.preempt</string>
 				</dict>

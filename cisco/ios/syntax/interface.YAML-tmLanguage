@@ -134,12 +134,15 @@ repository:
   hsrp-preempt:
     patterns:
     - name: text.network.cisco.ios.interface.hsrp.preempt
-      match: \s*(standby)(\s+\d+)?\s+(preempt)(?:\s+(\S.*))?
+      match: \s*(standby)(\s+\d+)?\s+(preempt)(?:\s+(delay)\s+(reload)\s+(\d+))?(?:\s+(\S.*))?
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
         '3': {name: support.constant}
-        '4': {name: invalid.illegal}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: constant.numeric}
+        '7': {name: invalid.illegal}
 
   hsrp-ipv6:
     patterns:
