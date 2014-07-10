@@ -283,8 +283,9 @@ repository:
       - include: '#logging-history'
       - include: '#logging-buffered'
       - include: '#logging-persistent'
-      - include: '#logging-device-id'
       - include: '#logging-host'
+      - include: '#logging-queue'
+      - include: '#logging-device-id'
 
   logging-enable:
     patterns:
@@ -326,7 +327,28 @@ repository:
       captures:
         '1': {name: support.constant}
         '2': {name: constant.language}
+        '3': {name: invalid.illegal}  
+
+
+  logging-queue:
+    patterns:
+    - name: text.network.cisco.ace.logging.queue
+      match: (queue)\s+(\d+)\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
         '3': {name: invalid.illegal}
+        
+  logging-device-id:
+    patterns:
+    - name: text.network.cisco.ace.logging.device-id
+      match: (device-id)\s+(?:(hostname)|(string)\s+(\S+))\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: invalid.illegal}
         
   logging-buffered:
     patterns:
@@ -336,6 +358,17 @@ repository:
         '1': {name: support.constant}
         '2': {name: constant.language}
         '3': {name: invalid.illegal}
+  
+  logging-host:
+    patterns:
+    - name: text.network.cisco.ace.logging.host
+      match: (host)\s+((?:\d+\.){3}\d+)\s+(tcp|udp)/(\d+)\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: support.constant}
+        '4': {name: constant.language}
+        '5': {name: invalid.illegal}
         
   logging-persistent:
     patterns:

@@ -14,6 +14,7 @@ logging trap 6
 logging history 3
 logging buffered 4
 logging persistent 3
+logging queue 4096
 logging device-id string LB-NAME
 logging host 1.1.1.1 udp/514
 

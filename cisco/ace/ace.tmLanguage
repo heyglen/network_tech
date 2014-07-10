@@ -618,11 +618,15 @@
 						</dict>
 						<dict>
 							<key>include</key>
-							<string>#logging-device-id</string>
+							<string>#logging-host</string>
 						</dict>
 						<dict>
 							<key>include</key>
-							<string>#logging-host</string>
+							<string>#logging-queue</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#logging-device-id</string>
 						</dict>
 					</array>
 				</dict>
@@ -655,6 +659,46 @@
 					<string>(buffered)\s+([0-7])\s*(\S*.*)?</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.logging.buffered</string>
+				</dict>
+			</array>
+		</dict>
+		<key>logging-device-id</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(device-id)\s+(?:(hostname)|(string)\s+(\S+))\s*(\S*.*)?</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.logging.device-id</string>
 				</dict>
 			</array>
 		</dict>
@@ -713,6 +757,46 @@
 				</dict>
 			</array>
 		</dict>
+		<key>logging-host</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(host)\s+((?:\d+\.){3}\d+)\s+(tcp|udp)/(\d+)\s*(\S*.*)?</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.logging.host</string>
+				</dict>
+			</array>
+		</dict>
 		<key>logging-persistent</key>
 		<dict>
 			<key>patterns</key>
@@ -740,6 +824,36 @@
 					<string>(persistent)\s+([0-7])\s*(\S*.*)?</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.logging.persistent</string>
+				</dict>
+			</array>
+		</dict>
+		<key>logging-queue</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(queue)\s+(\d+)\s*(\S*.*)?</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.logging.queue</string>
 				</dict>
 			</array>
 		</dict>
