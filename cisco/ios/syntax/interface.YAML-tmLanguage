@@ -51,6 +51,7 @@ repository:
       - include: '#ipv6-nd-prefix'
       - include: '#hsrp-version'
       - include: '#hsrp-ip'
+      - include: '#hsrp-track'
       - include: '#hsrp-ipv6'
       - include: '#hsrp-priority'
       - include: '#hsrp-preempt'
@@ -161,6 +162,19 @@ repository:
         '3': {name: support.constant}
         '4': {name: constant.numeric}
         '5': {name: invalid.illegal}
+
+  hsrp-track:
+    patterns:
+    - name: text.network.cisco.ios.interface.hsrp.track
+      match: \s*(standby)(\s+\d+)?\s+(track)\s+(\d+)\s+(decrement)\s+(\d+)(?:\s+(\S.*))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: constant.numeric}
+        '5': {name: support.constant}
+        '6': {name: constant.numeric}
+        '7': {name: invalid.illegal}
 
   access-group:
     patterns:

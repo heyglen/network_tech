@@ -5,8 +5,6 @@ vlan 20
 
 ip route vrf RED 1.1.1.0 255.255.255.0 2.2.2.2
 
-show run interface p1
-
 ip vrf asdf 
 interface Port-channel1
 	description Hello
@@ -29,9 +27,10 @@ interface Port-channel1
 	ipv6 nd prefix FF02::/64
 	standby version 2
  	standby 1 ip 1.1.1.1
- 	standby 1 priority 200 asd
+ 	standby 1 priority 200 
  	standby 1 preempt
  	standby 2 ipv6 autoconfig
+ 	standby 1 track 1 decrement 10
  	ip helper-address 1.1.1.1
 	no switchport
 	no shutdown
