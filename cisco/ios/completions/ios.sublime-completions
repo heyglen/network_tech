@@ -11,6 +11,7 @@
         "ospf ",
         "bgp ",
         "eigrp ",
+        "default ",
         "definition ",
         "clear ",
         "show ",
