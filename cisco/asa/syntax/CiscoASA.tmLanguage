@@ -68,6 +68,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#username</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>text.network.cisco.asa.nat</string>
 		</dict>
 		<dict>
@@ -396,7 +400,7 @@
 					<key>match</key>
 					<string>^\s*(terminal)\s+(width\s([0-9]+))\s*$</string>
 					<key>name</key>
-					<string>text.network.cisco.asa.hostname</string>
+					<string>text.network.cisco.asa.terminal</string>
 				</dict>
 			</array>
 		</dict>
@@ -411,6 +415,51 @@
 					<string>(?=\s+)</string>
 					<key>name</key>
 					<string>string.unquoted.asa</string>
+				</dict>
+			</array>
+		</dict>
+		<key>username</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric.integer</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(username)\s+(\S+)\s+(password)\s+(\S+)\s+(encrypted privilege)\s+([0-9]+)\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.username</string>
 				</dict>
 			</array>
 		</dict>
