@@ -6,14 +6,9 @@ access-list mpls_acl; 906 elements; name hash: 0xbe299002
 access-list mpls_acl line 1 extended deny icmp any host 1.1.1.1 
 access-list mpls_acl line 2 extended deny icmp any host 1.1.1.1 timestamp-request 
 access-list mpls_acl line 3 extended deny icmp any host 1.1.1.1 traceroute 
-access-list mpls_acl line 4 extended permit tcp object-group group1 host 192.168.21.20 eq sqlnet 0x2e7027d7
-access-list mpls_acl line 17 extended permit tcp any host 10.225.144.14 eq domain log informational interval 300 0x2e7027d7
-access-list udvnet_acl line 53 extended permit icmp host 193.209.238.66 host 193.3.40.65 echo log informational interval 300 
-access-list udvnet_acl line 51 extended permit tcp 172.18.8.0 255.255.255.0 object-group Patrol-RT-Service_ref_2 eq 2059 inactive (inactive)
-access-list udvnet_acl line 51 extended permit tcp 172.18.8.0 255.255.255.0 object-group Patrol-RT-Service_ref_2 eq 2059 inactive (hitcnt=0)
-
-
-
-int vlan1
- description
-  \r?\n\s+(alert-interval) (\d+)
+access-list mpls_acl line 4 extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
+access-list mpls_acl line 17 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 0x2e7027d7
+access-list udvnet_acl line 53 extended permit icmp host 2.2.2.2 host 1.1.1.1 echo log informational interval 300 
+access-list udvnet_acl line 51 extended permit tcp host 2.2.2.2 object-group group-2 eq 2059 inactive (inactive)
+access-list udvnet_acl line 51 extended permit tcp host 1.1.1.1 object-group group-3 eq 2059 inactive (hitcnt=0)
+access-list udvnet_acl line 51 extended permit 41 host 1.1.1.1
