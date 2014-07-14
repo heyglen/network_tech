@@ -1,0 +1,9 @@
+{
+    "scope": "text.network.cisco.ios.vrf",
+    "completions": [
+        "description ",
+        "route-target ",
+    	"both ",
+        "rd "
+    ]
+}

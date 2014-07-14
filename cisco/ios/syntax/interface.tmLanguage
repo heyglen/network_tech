@@ -3,46 +3,32 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Interface</string>
+	<string>Cisco IOS Interface</string>
 	<key>patterns</key>
 	<array>
 		<dict>
 			<key>include</key>
 			<string>#interface</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>#interface-port-type</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#interface-keyword</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#interface-default</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#show-run-int</string>
+		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
-		<key>access</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric.vlan.id</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(access)\s+(vlan)\s+(\d+)</string>
-					<key>name</key>
-					<string>text.network.cisco.ios.interface.switchport.mode</string>
-				</dict>
-			</array>
-		</dict>
 		<key>access-group</key>
 		<dict>
 			<key>patterns</key>
@@ -183,11 +169,26 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(standby)(\s+\d+)?\s+(preempt)(?:\s+(\S.*))?</string>
+					<string>\s*(standby)(\s+\d+)?\s+(preempt)(?:\s+(delay)\s+(reload)\s+(\d+))?(?:\s+(\S.*))?</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.interface.hsrp.preempt</string>
 				</dict>
@@ -233,6 +234,56 @@
 				</dict>
 			</array>
 		</dict>
+		<key>hsrp-track</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(standby)(\s+\d+)?\s+(track)\s+(\d+)\s+(decrement)\s+(\d+)(?:\s+(\S.*))?</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.hsrp.track</string>
+				</dict>
+			</array>
+		</dict>
 		<key>hsrp-version</key>
 		<dict>
 			<key>patterns</key>
@@ -269,7 +320,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(interface)\s+(\D+)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
+					<string>(?i)^\s*(interface)\s+((port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)?Ethernet)|vlan))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -280,9 +331,14 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.other.inherited-class</string>
+							<string>text.network.cisco.ios.interface.name</string>
 						</dict>
 						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>constant.numeric</string>
@@ -296,7 +352,19 @@
 					<array>
 						<dict>
 							<key>include</key>
-							<string>#switchport</string>
+							<string>#switchport-trunk-allowed-vlan</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-access-vlan</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-encapsulation</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-mode</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -336,6 +404,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#hsrp-track</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#hsrp-ipv6</string>
 						</dict>
 						<dict>
@@ -371,6 +443,96 @@
 							<string>text.network.cisco</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>interface-default</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>text.network.cisco.ios.interface.name</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?i)^\s*(default)\s+(interface)\s+((port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)?Ethernet)|vlan))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.default</string>
+				</dict>
+			</array>
+		</dict>
+		<key>interface-keyword</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(interface)(\s+\S+$)?</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface-keyword</string>
+				</dict>
+			</array>
+		</dict>
+		<key>interface-port-type</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^(?i)(interface)\s+(port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)?Ethernet)|vlan)\s+</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.port-type</string>
 				</dict>
 			</array>
 		</dict>
@@ -589,31 +751,6 @@
 				</dict>
 			</array>
 		</dict>
-		<key>mode</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.function</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(mode)\s+(trunk|access|capture|fabricpath)\s*</string>
-					<key>name</key>
-					<string>text.network.cisco.ios.interface.switchport.mode</string>
-				</dict>
-			</array>
-		</dict>
 		<key>no-shutdown</key>
 		<dict>
 			<key>patterns</key>
@@ -644,64 +781,7 @@
 				</dict>
 			</array>
 		</dict>
-		<key>shutdown</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.other</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>^\s*(shutdown)\s*$</string>
-					<key>name</key>
-					<string>text.network.cisco.ios.interface.ip</string>
-				</dict>
-			</array>
-		</dict>
-		<key>switchport</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>^\s*(switchport)\s+</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>$</string>
-					<key>name</key>
-					<string>text.network.cisco.ios.interface.switchport</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#mode</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#trunk</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#access</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>trunk</key>
+		<key>show-run-int</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -726,7 +806,7 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.tag</string>
+							<string>entity.other.inherited-class</string>
 						</dict>
 						<key>5</key>
 						<dict>
@@ -735,9 +815,184 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(trunk)\s+(allowed\s+vlan)\s+(?:(add)|(remove))?\s+(\d+(?:\s*[,-]\s*(?:\d+))*)</string>
+					<string>(show)\s+(run)\s+(interface)\s+(\D+)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.show.run</string>
+				</dict>
+			</array>
+		</dict>
+		<key>shutdown</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(shutdown)\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.shutdown</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-access-vlan</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric.vlan.id</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(switchport)\s+(access)\s+(?:(vlan)\s+(\d+)?)?</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.switchport.access</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-mode</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(switchport)\s+(?:(mode)\s+(trunk|access|capture|fabricpath)?)?</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.interface.switchport.mode</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-allowed-vlan</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>vlan</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)\s+(?:(?:(add)|(remove))(?:\s+(?&lt;vlan&gt;\d+)(?:\s*([,-])\s*(?&lt;vlan&gt;\d+))*)?)?)?</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.switchport.trunk.allowed.vlan</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-encapsulation</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(switchport)\s+(trunk)\s+(encapsulation)\s+(dot1q)?</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.switchport.trunk.encapsulation</string>
 				</dict>
 			</array>
 		</dict>
@@ -803,7 +1058,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.ios.interface</string>
+	<string>text.network.cisco.ios.scope.interface</string>
 	<key>uuid</key>
 	<string>0f297425-7bd7-431d-bfbd-824e3f9aad68</string>
 </dict>

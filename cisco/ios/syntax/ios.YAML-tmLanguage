@@ -8,13 +8,15 @@ patterns:
 - include: '#remove-configuration'
 - include: '#static-route'
 - include: '#alias'
+- include: '#write'
 - include: '#access-list'
+- include: '#config-t'
 - include: text.network.cisco
 - include: text.network.cisco.ios.vlan
 - include: text.network.cisco.ios.vrf
 - include: text.network.cisco.ios.bgp
 - include: text.network.cisco.ios.ip.prefix-list
-- include: text.network.cisco.ios.interface
+- include: text.network.cisco.ios.scope.interface
 - include: text.network.cisco.ios.route-map
 
 repository:
@@ -33,6 +35,23 @@ repository:
       - include: text.network.ip
       - include: text.network.cisco
       - include: text.network.cisco.scope
+
+  write:
+    patterns:
+    - name: text.network.cisco.ios.write
+      match: ^\s*(write)(?:\s+(net))?\s*(?:\s*(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+  config-t:
+    patterns:
+    - name: text.network.cisco.ios.write
+      match: ^\s*(configure)\s+(terminal)\s*(?:\s*(\S.*))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
 
   alias:
     patterns:

@@ -14,6 +14,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#probe-https</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#probe-tcp</string>
 		</dict>
 	</array>
@@ -68,7 +72,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(expect)\s+(regex)\s+(\S+)(?:\s+(offset)\s+(\d+))?(?:\s+(cache)\s+(\d+))?\s*(?:\s+(\S+))?$</string>
+					<string>(expect)\s+(regex)\s+((?:".*")|\S+)(?:\s+(offset)\s+(\d+))?(?:\s+(cache)\s+(\d+))?\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.probe.expect</string>
 				</dict>
@@ -450,11 +454,109 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.probe.http</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#ipv4-address</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ipv6-address</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#open</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#interval</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#pass-detect</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#fail-detect</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#port</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#receive</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#request-method</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#expect-regex</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#hash</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#expect-status</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#http-header</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.invalid</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>probe-https</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^(probe)\s+(https)\s+(\S+)\s*(\S.*)?$</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.probe.https</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -552,9 +654,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.probe.tcp</string>
 					<key>patterns</key>

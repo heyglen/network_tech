@@ -1,9 +1,0 @@
-{
-  "scope": [
-    "text.network.cisco.ios.vrf.definition - source - meta.tag, punctuation.definition.tag.begin",
-  ],
-  "completions": [
-    { "trigger": "rd", "contents": "rd ${1:ASN}:${2:000}$0" },
-    { "trigger": "route-target", "contents": "route-target ${1:both}${2:export}${3:import} ${4:ASN}:${5:000}$0" }
-   ]
-}

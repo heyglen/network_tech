@@ -1,32 +1,58 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Interface
-scopeName: text.network.cisco.ios.interface
+name: Cisco IOS Interface
+scopeName: text.network.cisco.ios.scope.interface
 uuid: 0f297425-7bd7-431d-bfbd-824e3f9aad68
 
 patterns:
 - include: '#interface'
+- include: '#interface-port-type'
+- include: '#interface-keyword'
+- include: '#interface-default'
+- include: '#show-run-int'
 
 repository:
-  access:
+
+  interface-port-type:
     patterns:
-    - name: text.network.cisco.ios.interface.switchport.mode
-      match: (access)\s+(vlan)\s+(\d+)
+    - name: text.network.cisco.ios.interface.port-type
+      match: ^(?i)(interface)\s+(port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)?Ethernet)|vlan)\s+
+      captures:
+        '1': {name: variable.parameter}
+        '2': {name: entity.other.inherited-class}
+
+  interface-keyword:
+    patterns:
+    - name: text.network.cisco.ios.interface-keyword
+      match: ^\s*(interface)(\s+\S+$)?
+      captures:
+        '1': {name: variable.parameter}
+        '2': {name: entity.other.inherited-class}
+
+  interface-default:
+    patterns:
+    - name: text.network.cisco.ios.interface.default
+      match: (?i)^\s*(default)\s+(interface)\s+((port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)?Ethernet)|vlan))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)
       captures:
         '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: constant.numeric.vlan.id}
-
+        '2': {name: variable.parameter}
+        '3': {name: text.network.cisco.ios.interface.name}
+        '4': {name: entity.other.inherited-class}
+        '5': {name: constant.numeric}
   interface:
     patterns:
     - name: text.network.cisco.ios.interface
-      begin: ^\s*(interface)\s+(\D+)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)
+      begin: (?i)^\s*(interface)\s+((port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)?Ethernet)|vlan))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)
       beginCaptures:
         '1': {name: variable.parameter}
-        '2': {name: entity.other.inherited-class}
-        '3': {name: constant.numeric}
+        '2': {name: text.network.cisco.ios.interface.name}
+        '3': {name: entity.other.inherited-class}
+        '4': {name: constant.numeric}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))
       patterns:
-      - include: '#switchport'
+      - include: '#switchport-trunk-allowed-vlan'
+      - include: '#switchport-access-vlan'
+      - include: '#switchport-trunk-encapsulation'
+      - include: '#switchport-mode'
       - include: '#ip'
       - include: '#ipv6'
       - include: '#shutdown'
@@ -36,6 +62,7 @@ repository:
       - include: '#ipv6-nd-prefix'
       - include: '#hsrp-version'
       - include: '#hsrp-ip'
+      - include: '#hsrp-track'
       - include: '#hsrp-ipv6'
       - include: '#hsrp-priority'
       - include: '#hsrp-preempt'
@@ -76,7 +103,7 @@ repository:
         '3': {name: constant.numeric}
         '4': {name: constant.numeric}
         '5': {name: invalid.illegal}
-  
+
   vrf-legacy:
     patterns:
     - name: text.network.cisco.ios.interface.vrf
@@ -118,12 +145,15 @@ repository:
   hsrp-preempt:
     patterns:
     - name: text.network.cisco.ios.interface.hsrp.preempt
-      match: \s*(standby)(\s+\d+)?\s+(preempt)(?:\s+(\S.*))?
+      match: \s*(standby)(\s+\d+)?\s+(preempt)(?:\s+(delay)\s+(reload)\s+(\d+))?(?:\s+(\S.*))?
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
         '3': {name: support.constant}
-        '4': {name: invalid.illegal}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: constant.numeric}
+        '7': {name: invalid.illegal}
 
   hsrp-ipv6:
     patterns:
@@ -146,6 +176,19 @@ repository:
         '3': {name: support.constant}
         '4': {name: constant.numeric}
         '5': {name: invalid.illegal}
+
+  hsrp-track:
+    patterns:
+    - name: text.network.cisco.ios.interface.hsrp.track
+      match: \s*(standby)(\s+\d+)?\s+(track)\s+(\d+)\s+(decrement)\s+(\d+)(?:\s+(\S.*))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: constant.numeric}
+        '5': {name: support.constant}
+        '6': {name: constant.numeric}
+        '7': {name: invalid.illegal}
 
   access-group:
     patterns:
@@ -194,40 +237,63 @@ repository:
         '2': {name: support.constant}
         '3': {name: invalid.illegal}
 
-  mode:
+  switchport-mode:
     patterns:
     - name: text.network.cisco.ios.interface.switchport.mode
-      match: (mode)\s+(trunk|access|capture|fabricpath)\s*
-      captures:
-        '1': {name: support.constant}
-        '2': {name: entity.name.function}
-
-  shutdown:
-    patterns:
-    - name: text.network.cisco.ios.interface.ip
-      match: ^\s*(shutdown)\s*$
-      captures:
-        '1': {name: keyword.other}
-
-  switchport:
-    patterns:
-    - name: text.network.cisco.ios.interface.switchport
-      begin: ^\s*(switchport)\s+
-      beginCaptures:
-        '1': {name: support.constant}
-      end: $
-      patterns:
-      - include: '#mode'
-      - include: '#trunk'
-      - include: '#access'
-
-  trunk:
-    patterns:
-    - name: text.network.cisco.ios.interface.switchport.mode
-      match: (trunk)\s+(allowed\s+vlan)\s+(?:(add)|(remove))?\s+(\d+(?:\s*[,-]\s*(?:\d+))*)
+      match: ^\s*(switchport)\s+(?:(mode)\s+(trunk|access|capture|fabricpath)?)?
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: entity.name.function}
-        '4': {name: entity.name.tag}
+
+  shutdown:
+    patterns:
+    - name: text.network.cisco.ios.interface.shutdown
+      match: ^\s*(shutdown)\s*$
+      captures:
+        '1': {name: keyword.other}
+
+  switchport-trunk-allowed-vlan:
+    patterns:
+    - name: text.network.cisco.ios.interface.switchport.trunk.allowed.vlan
+      match: ^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)\s+(?:(?:(add)|(remove))(?:\s+(?<vlan>\d+)(?:\s*([,-])\s*(?<vlan>\d+))*)?)?)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: entity.name.function}
+        '6': {name: keyword.other}
+        '8': {name: support.constant}
+        'vlan': {name: constant.numeric}
+
+  switchport-trunk-encapsulation:
+    patterns:
+    - name: text.network.cisco.ios.interface.switchport.trunk.encapsulation
+      match: ^\s*(switchport)\s+(trunk)\s+(encapsulation)\s+(dot1q)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+
+  switchport-access-vlan:
+    patterns:
+    - name: text.network.cisco.ios.interface.switchport.access
+      match: ^\s*(switchport)\s+(access)\s+(?:(vlan)\s+(\d+)?)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: constant.numeric.vlan.id}
+
+  show-run-int:
+    patterns:
+    - name: text.network.cisco.ios.interface.show.run
+      match: (show)\s+(run)\s+(interface)\s+(\D+)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: entity.name.function}
+        '4': {name: entity.other.inherited-class}
         '5': {name: constant.numeric.vlan.id}

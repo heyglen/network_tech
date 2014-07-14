@@ -1,7 +1,11 @@
 ! On load-balancer-1
-
+copy running-config startup-config
+copy running-config tftp://1.1.1.1/asdf
+copy startup-config running-config 
 hostname lb-1
 changeto context-1
+configure terminal
+
 
 logging enable
 logging standby
@@ -10,6 +14,7 @@ logging trap 6
 logging history 3
 logging buffered 4
 logging persistent 3
+logging queue 4096
 logging device-id string LB-NAME
 logging host 1.1.1.1 udp/514
 
@@ -52,6 +57,24 @@ probe tcp TCP-PROBE1
   ip address 10.0.0.1 routed
   ip address 2001:DB8:12::15 routed
 
+
+probe https HTTPS-PROBE1
+  open 20
+  receive 20
+  passdetect interval 30
+  passdetect count 2
+  ip address 10.0.0.1 routed
+  ip address 2001:DB8:12::15 routed
+  header Host header-value domain.root
+  port 80
+  request method get url /index.html
+  expect regex *hello* offset 20 cache 30
+  expect regex "hello world" offset 20 cache 30
+  expect status 200 200
+  hash
+  interval 40
+  faildetect 3
+
 probe http HTTP-PROBE1
   description HTTP Health Probe
   open 20
@@ -64,6 +87,7 @@ probe http HTTP-PROBE1
   port 80
   request method get url /index.html
   expect regex *hello* offset 20 cache 30
+  expect regex "hello world" offset 20 cache 30
   expect status 200 200
   hash
   interval 40
@@ -212,6 +236,9 @@ interface vlan 2
 ip route 1.1.1.1 255.255.255.255 2.2.2.2
 
 snmp-server contact "Someone"
+snmp-server location "Here"
+snmp-server community public group Network-Monitor
+
 snmp-server host 1.1.1.1 traps version 2c public
 snmp-server trap-source vlan 1
 snmp-server enable traps slb vserver

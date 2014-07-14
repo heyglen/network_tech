@@ -18,6 +18,7 @@ patterns:
 - include: '#ip_verify_reverse-path'
 - include: '#mtu'
 - include: '#hostname'
+- include: '#changeto'
 - include: '#terminal'
 - include: '#username'
 - include: text.network.cisco.asa.nat
@@ -45,6 +46,16 @@ repository:
       patterns:
       - name: invalid.illegal
         match: (?:.*$)
+
+  changeto:
+    patterns:
+    - name: text.network.cisco.asa.changeto
+      match: ^\s*(changeto)\s+(?:(context)\s+(\S+))|(system)$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: support.constant}
 
   control:
     patterns:

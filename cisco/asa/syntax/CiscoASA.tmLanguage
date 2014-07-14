@@ -64,6 +64,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#changeto</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#terminal</string>
 		</dict>
 		<dict>
@@ -155,6 +159,41 @@
 							<string>invalid.illegal</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>changeto</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(changeto)\s+(?:(context)\s+(\S+))|(system)$</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.changeto</string>
 				</dict>
 			</array>
 		</dict>

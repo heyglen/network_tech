@@ -5,6 +5,8 @@ vlan 20
 
 ip route vrf RED 1.1.1.0 255.255.255.0 2.2.2.2
 
+default interface GigabitEthernet0/1
+
 ip vrf asdf 
 interface Port-channel1
 	description Hello
@@ -14,6 +16,7 @@ interface Port-channel1
  	ip access-group acl-out out
 	switchport
 	switchport mode trunk
+	switchport trunk encapsulation dot1q
 	switchport trunk allowed vlan add 604,608
 	switchport trunk allowed vlan remove 604-608,200
 	switchport mode access
@@ -26,9 +29,10 @@ interface Port-channel1
 	ipv6 nd prefix FF02::/64
 	standby version 2
  	standby 1 ip 1.1.1.1
- 	standby 1 priority 200 asd
+ 	standby 1 priority 200 
  	standby 1 preempt
  	standby 2 ipv6 autoconfig
+ 	standby 1 track 1 decrement 10
  	ip helper-address 1.1.1.1
 	no switchport
 	no shutdown
@@ -64,3 +68,6 @@ router bgp 123
 		neighbor 1.1.1.1 route-map ROUTE-MAP-NAME in
 		neighbor 1.1.1.1 route-map ROUTE-MAP-NAME out
 		neighbor 1.1.1.1 inherit peer-policy POLICY-NAME
+
+write
+configure terminal

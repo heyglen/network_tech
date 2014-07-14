@@ -7,5 +7,5 @@ ip prefix-list ${1:LEAK-} seq ${2:10} permit ${3:1.1.1.0}/${4:24}
 	</content>
 	<tabTrigger>ipl</tabTrigger>
 	<description>Cisco IP Prefix List</description>
-	<!-- <scope>source.python</scope> -->
+	<scope>text.network.cisco.ios</scope>
 </snippet>

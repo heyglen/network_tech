@@ -298,6 +298,10 @@
 							<key>include</key>
 							<string>#nat-dynamic</string>
 						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
 					</array>
 				</dict>
 			</array>
@@ -344,6 +348,10 @@
 						<dict>
 							<key>include</key>
 							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
 						</dict>
 					</array>
 				</dict>
@@ -395,6 +403,10 @@
 						<dict>
 							<key>include</key>
 							<string>#forward</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
 						</dict>
 					</array>
 				</dict>
@@ -452,6 +464,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.network.cisco.scope</string>
 						</dict>
 					</array>
@@ -497,6 +513,10 @@
 						<dict>
 							<key>include</key>
 							<string>#policy-class</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -559,6 +579,10 @@
 						<dict>
 							<key>include</key>
 							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
 						</dict>
 					</array>
 				</dict>

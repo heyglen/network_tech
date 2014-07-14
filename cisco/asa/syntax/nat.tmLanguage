@@ -10,6 +10,10 @@
 			<key>include</key>
 			<string>#nat</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>#static</string>
+		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -204,6 +208,73 @@
 					<string>(\s*$)</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.nat.source.static</string>
+				</dict>
+			</array>
+		</dict>
+		<key>static</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(static)\s+(\()(\S+)(,)(\S+)(\))\s+(\S+)\s+(\S+)(?:\s+(netmask)\s+(\S+))?</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>10</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>9</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(\s*$)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.nat.static</string>
 				</dict>
 			</array>
 		</dict>

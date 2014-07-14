@@ -19,7 +19,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(access-list)\s+([^ ]+)\s+</string>
+					<string>^\s*(access-list)\s+(\S+)\s+</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -56,12 +56,70 @@
 							<string>#acl-extended-deny</string>
 						</dict>
 						<dict>
+							<key>include</key>
+							<string>#acl-information</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-cache</string>
+						</dict>
+						<dict>
 							<key>match</key>
 							<string>(?:.*$)</string>
 							<key>name</key>
 							<string>invalid.illegal.access-list.asa</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>acl-cache</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?&lt;=cached\s)(ACL log flows. total) (\d+)(, denied) (\d+) (\(deny-flow-max) (\d+)(\))\s*\r?\n</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.access-list.cache</string>
 				</dict>
 			</array>
 		</dict>
@@ -99,6 +157,14 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hex-id</string>
 						</dict>
 						<dict>
 							<key>match</key>
@@ -151,6 +217,14 @@
 							<string>#acl-log</string>
 						</dict>
 						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hex-id</string>
+						</dict>
+						<dict>
 							<key>match</key>
 							<string>(?:.*$)</string>
 							<key>name</key>
@@ -194,6 +268,14 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hex-id</string>
 						</dict>
 						<dict>
 							<key>match</key>
@@ -246,6 +328,14 @@
 							<string>#acl-log</string>
 						</dict>
 						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hex-id</string>
+						</dict>
+						<dict>
 							<key>match</key>
 							<string>(?:.*$)</string>
 							<key>name</key>
@@ -296,6 +386,14 @@
 							<string>#acl-log</string>
 						</dict>
 						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hex-id</string>
+						</dict>
+						<dict>
 							<key>match</key>
 							<string>(?:.*$)</string>
 							<key>name</key>
@@ -332,6 +430,14 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hex-id</string>
 						</dict>
 						<dict>
 							<key>match</key>
@@ -372,6 +478,14 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hex-id</string>
 						</dict>
 						<dict>
 							<key>match</key>
@@ -422,6 +536,14 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-inactive</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hex-id</string>
 						</dict>
 						<dict>
 							<key>match</key>
@@ -507,6 +629,83 @@
 				</dict>
 			</array>
 		</dict>
+		<key>acl-hex-id</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>comment.block.documentation</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?&lt;= )(0x[0-9a-f]+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.access-list.hex-id</string>
+				</dict>
+			</array>
+		</dict>
+		<key>acl-inactive</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.deprecated</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>comment.block.documentation</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>ACL Inactive</string>
+					<key>match</key>
+					<string>\s*(inactive)(?:\s+(\(inactive\)))?\s*</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.access-list.inactive</string>
+				</dict>
+			</array>
+		</dict>
+		<key>acl-information</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?&lt;=;\s)(\d+) (elements; name hash:) (0x[0-9a-f]+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.access-list.information</string>
+				</dict>
+			</array>
+		</dict>
 		<key>acl-line-number</key>
 		<dict>
 			<key>patterns</key>
@@ -555,10 +754,43 @@
 			<key>patterns</key>
 			<array>
 				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
 					<key>comment</key>
 					<string>ACL logs</string>
 					<key>match</key>
-					<string>\s*log\s*</string>
+					<string>\s*(log)(?:\s+(informational|debugging|notifications)(?:\s+(interval)\s+(\d+))?(?:\s+(disable))?(?:\s+(default))?)?\s*</string>
 					<key>name</key>
 					<string>variable.parameter.log.asa</string>
 				</dict>
