@@ -920,7 +920,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(ip|tcp|udp|icmp|gre|esp|ah)\s*</string>
+					<string>\s*(ip|tcp|udp|icmp|gre|esp|ah|(\d+))\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>

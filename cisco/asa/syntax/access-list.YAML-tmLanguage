@@ -281,7 +281,7 @@ repository:
   acl-protocol:
     patterns:
     - name: text.network.cisco.asa.access-list.protocol
-      begin: \s*(ip|tcp|udp|icmp|gre|esp|ah)\s*
+      begin: \s*(ip|tcp|udp|icmp|gre|esp|ah|(\d+))\s*
       beginCaptures:
         '1': {name: support.constant.protocol.asa}
       end: (\s*$)
