@@ -32,6 +32,7 @@ patterns:
 - include: text.network.cisco.asa.interface
 - include: text.network.cisco.asa.aaa-server
 - include: text.network.cisco.asa.policy
+- include: text.network.cisco.asa.tunnel-group
   
 repository:
   banner:
