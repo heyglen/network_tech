@@ -5,6 +5,8 @@ vlan 20
 
 ip route vrf RED 1.1.1.0 255.255.255.0 2.2.2.2
 
+default interface GigabitEthernet0/1
+
 ip vrf asdf 
 interface Port-channel1
 	description Hello

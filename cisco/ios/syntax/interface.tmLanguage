@@ -20,6 +20,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#interface-default</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#show-run-int</string>
 		</dict>
 	</array>
@@ -439,6 +443,46 @@
 							<string>text.network.cisco</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>interface-default</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>text.network.cisco.ios.interface.name</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?i)^\s*(default)\s+(interface)\s+((port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)?Ethernet)|vlan))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
+					<key>name</key>
+					<string>text.network.cisco.ios.interface.default</string>
 				</dict>
 			</array>
 		</dict>

@@ -7,6 +7,7 @@ patterns:
 - include: '#interface'
 - include: '#interface-port-type'
 - include: '#interface-keyword'
+- include: '#interface-default'
 - include: '#show-run-int'
 
 repository:
@@ -27,6 +28,16 @@ repository:
         '1': {name: variable.parameter}
         '2': {name: entity.other.inherited-class}
 
+  interface-default:
+    patterns:
+    - name: text.network.cisco.ios.interface.default
+      match: (?i)^\s*(default)\s+(interface)\s+((port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)?Ethernet)|vlan))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: variable.parameter}
+        '3': {name: text.network.cisco.ios.interface.name}
+        '4': {name: entity.other.inherited-class}
+        '5': {name: constant.numeric}
   interface:
     patterns:
     - name: text.network.cisco.ios.interface
