@@ -10,6 +10,7 @@ access-list mpls_acl line 4 extended permit tcp object-group group1 host 192.168
 access-list mpls_acl line 17 extended permit tcp any host 10.225.144.14 eq domain log informational interval 300 0x2e7027d7
 access-list udvnet_acl line 53 extended permit icmp host 193.209.238.66 host 193.3.40.65 echo log informational interval 300 
 access-list udvnet_acl line 51 extended permit tcp 172.18.8.0 255.255.255.0 object-group Patrol-RT-Service_ref_2 eq 2059 inactive (inactive)
+access-list udvnet_acl line 51 extended permit tcp 172.18.8.0 255.255.255.0 object-group Patrol-RT-Service_ref_2 eq 2059 inactive (hitcnt=0)
 
 
 

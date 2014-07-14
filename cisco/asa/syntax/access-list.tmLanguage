@@ -160,6 +160,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#acl-hitcount</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#acl-inactive</string>
 						</dict>
 						<dict>
@@ -218,6 +222,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#acl-hitcount</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#acl-inactive</string>
 						</dict>
 						<dict>
@@ -268,6 +276,10 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hitcount</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -329,6 +341,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#acl-hitcount</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#acl-inactive</string>
 						</dict>
 						<dict>
@@ -387,6 +403,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#acl-hitcount</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#acl-inactive</string>
 						</dict>
 						<dict>
@@ -430,6 +450,10 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hitcount</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -478,6 +502,10 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hitcount</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -536,6 +564,10 @@
 						<dict>
 							<key>include</key>
 							<string>#acl-log</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#acl-hitcount</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -646,6 +678,38 @@
 					<string>(?&lt;= )(0x[0-9a-f]+)</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.access-list.hex-id</string>
+				</dict>
+			</array>
+		</dict>
+		<key>acl-hitcount</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>ACL hitcount</string>
+					<key>match</key>
+					<string>\s*(\(hitcnt=)(\d+)(\))\s*</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.access-list.hitcount</string>
 				</dict>
 			</array>
 		</dict>
