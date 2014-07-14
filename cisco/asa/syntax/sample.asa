@@ -1,3 +1,5 @@
+changeto context fw-context-1
+
 access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
             alert-interval 300
 access-list mpls_acl; 906 elements; name hash: 0xbe299002
