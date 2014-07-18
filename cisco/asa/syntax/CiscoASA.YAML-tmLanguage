@@ -20,6 +20,7 @@ patterns:
 - include: '#hostname'
 - include: '#changeto'
 - include: '#terminal'
+- include: '#username'
 - include: text.network.cisco.asa.nat
 - include: text.network.cisco
 - include: text.network.cisco.asa.access-group
@@ -31,6 +32,7 @@ patterns:
 - include: text.network.cisco.asa.interface
 - include: text.network.cisco.asa.aaa-server
 - include: text.network.cisco.asa.policy
+- include: text.network.cisco.asa.tunnel-group
   
 repository:
   banner:
@@ -139,9 +141,21 @@ repository:
 
   terminal:
     patterns:
-    - name: text.network.cisco.asa.hostname
+    - name: text.network.cisco.asa.terminal
       match: ^\s*(terminal)\s+(width\s([0-9]+))\s*$
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: constant.numeric}
+
+  username:
+    patterns:
+    - name: text.network.cisco.asa.username
+      match: ^\s*(username)\s+(\S+)\s+(password)\s+(\S+)\s+(encrypted privilege)\s+([0-9]+)\s*$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: support.constant}
+        '6': {name: constant.numeric.integer}
