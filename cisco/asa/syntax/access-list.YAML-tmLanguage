@@ -36,6 +36,7 @@ repository:
       - include: '#acl-dest-port-object-group'
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
+      - include: '#acl-hitcount'
       - include: '#acl-inactive'
       - include: '#acl-hex-id'
       - name: invalid.illegal.access-list.asa
@@ -53,6 +54,7 @@ repository:
       - include: '#acl-dest-port-object-group'
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
+      - include: '#acl-hitcount'
       - include: '#acl-inactive'
       - include: '#acl-hex-id'
       - match: (?:.*$)
@@ -69,6 +71,7 @@ repository:
       - include: '#acl-dest-port-object-group'
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
+      - include: '#acl-hitcount'
       - include: '#acl-inactive'
       - include: '#acl-hex-id'
       - match: (?:.*$)
@@ -86,6 +89,7 @@ repository:
       - include: '#acl-dest-port-object-group'
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
+      - include: '#acl-hitcount'
       - include: '#acl-inactive'
       - include: '#acl-hex-id'
       - match: (?:.*$)
@@ -103,6 +107,7 @@ repository:
       - include: '#acl-dest-port-object-group'
       - include: '#acl-dest-port-range'
       - include: '#acl-log'
+      - include: '#acl-hitcount'
       - include: '#acl-inactive'
       - include: '#acl-hex-id'
       - match: (?:.*$)
@@ -117,6 +122,7 @@ repository:
       end: (\s*$)
       patterns:
       - include: '#acl-log'
+      - include: '#acl-hitcount'
       - include: '#acl-inactive'
       - include: '#acl-hex-id'
       - name: invalid.illegal.access-list.asa
@@ -132,6 +138,7 @@ repository:
       end: (\s*$)
       patterns:
       - include: '#acl-log'
+      - include: '#acl-hitcount'
       - include: '#acl-inactive'
       - include: '#acl-hex-id'
       - name: invalid.illegal.dest-port-range.asa
@@ -149,6 +156,7 @@ repository:
       end: (\s*$)
       patterns:
       - include: '#acl-log'
+      - include: '#acl-hitcount'
       - include: '#acl-inactive'
       - include: '#acl-hex-id'
       - name: invalid.illegal.dest-port.asa
@@ -244,6 +252,16 @@ repository:
         '1':  {name: invalid.deprecated}
         '2':  {name: comment.block.documentation}
 
+  acl-hitcount:
+    patterns:
+    - comment: ACL hitcount
+      name: text.network.cisco.asa.access-list.hitcount
+      match: \s*(\(hitcnt=)(\d+)(\))\s*
+      captures:
+        '1':  {name: support.constant}
+        '2':  {name: constant.numeric}
+        '3':  {name: support.constant}
+
   acl-permit-object-group:
     patterns:
     - begin: \s*(object-group)\s+([^ ]+)\s*
@@ -263,7 +281,7 @@ repository:
   acl-protocol:
     patterns:
     - name: text.network.cisco.asa.access-list.protocol
-      begin: \s*(ip|tcp|udp|icmp|gre|esp|ah)\s*
+      begin: \s*(ip|tcp|udp|icmp|gre|esp|ah|(\d+))\s*
       beginCaptures:
         '1': {name: support.constant.protocol.asa}
       end: (\s*$)
