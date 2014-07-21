@@ -1,0 +1,42 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: Cisco ACE Context
+scopeName: text.network.cisco.ace.context
+fileTypes: []
+uuid: 2a953f19-2cc4-4342-9b01-702f165648a1
+
+patterns:
+- include: '#context'
+
+repository:
+  resource-member:
+    patterns:
+    - name: text.network.cisco.ace.context.resource-member
+      match: ^\s+(member)\s+(\S+)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+        '3': {name: invalid.illegal}
+
+  allocate-interface:
+    patterns:
+    - name: text.network.cisco.ace.context.allocate-interface
+      match: ^\s+(allocate-interface)\s+(vlan)\s+(\d+)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: constant.language}
+        '4': {name: invalid.illegal}
+
+  context:
+    patterns:
+    - name: text.network.cisco.ace.resource-class
+      begin: ^(context)\s+(\S+)\s*(\s\S.*)?$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: string.unquoted}
+        '3': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: text.network.cisco.scope
+      - include: '#allocate-interface'
+      - include: '#resource-member'
