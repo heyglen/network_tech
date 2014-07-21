@@ -6,6 +6,14 @@ context context-1
   allocate-interface vlan 2
   member BRONZE
 
+ft group 3
+  peer 1
+  priority 100
+  peer priority 50
+  associate-context context-1
+  inservice
+
+
 ! On load-balancer-1
 copy running-config startup-config
 copy running-config tftp://1.1.1.1/asdf

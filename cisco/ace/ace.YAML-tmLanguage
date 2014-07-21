@@ -37,6 +37,7 @@ patterns:
 - include: text.network.cisco.ace.interface
 - include: text.network.cisco.ace.resource-class
 - include: text.network.cisco.ace.context
+- include: text.network.cisco.ace.ft-group
 
 repository:
   snmp-trap-link-ietf:
