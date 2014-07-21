@@ -1,0 +1,13 @@
+<snippet>
+	<description>Cisco ACE SSL Probe</description>
+	<tabTrigger>probessl</tabTrigger>
+	<scope>text.network.cisco.ace</scope>
+	<content><![CDATA[
+probe https ${1:PROBE-NAME}_PROBE
+  ${2:port }
+  ${3:header Host header-value domain.root }
+  ${4:request method get url /index.html }
+  ${5:expect status 200 200 }
+
+]]></content>
+</snippet>
