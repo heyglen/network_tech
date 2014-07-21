@@ -1,3 +1,11 @@
+! On Admin context
+
+context context-1
+  description blah blah
+  allocate-interface vlan 1
+  allocate-interface vlan 2
+  member BRONZE
+
 ! On load-balancer-1
 copy running-config startup-config
 copy running-config tftp://1.1.1.1/asdf
