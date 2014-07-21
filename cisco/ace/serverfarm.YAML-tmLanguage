@@ -14,7 +14,7 @@ repository:
       match: ^(\S*)\s*(inservice)\s*(\S*.*)?$
       captures:
         '1': {name: invalid.illegal}
-        '2': {name: constant.language}
+        '2': {name: support.constant}
         '3': {name: invalid.illegal}
 
   probe:

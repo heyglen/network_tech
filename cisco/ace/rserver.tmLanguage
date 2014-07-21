@@ -23,7 +23,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>constant.language</string>
+							<string>support.constant</string>
 						</dict>
 					</dict>
 					<key>match</key>

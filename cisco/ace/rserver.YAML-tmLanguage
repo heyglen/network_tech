@@ -12,7 +12,7 @@ repository:
     - name: text.network.cisco.ace.rserver.inservice
       match: (inservice)\s*(?:\s+(\S+))?$
       captures:
-        '1': {name: constant.language}
+        '1': {name: support.constant}
 
   ip-address:
     patterns:
