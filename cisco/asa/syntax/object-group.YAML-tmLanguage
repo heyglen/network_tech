@@ -126,7 +126,7 @@ repository:
   object-group_service:
     patterns:
     - name: text.network.cisco.asa.object-group.service
-      begin: ^\s*(object-group)\s+(service)\s+([A-Za-z0-9_-]+)(?:\s+)?(tcp|udp|tcp-udp)?
+      begin: ^\s*(object-group)\s+(service)\s+([A-Za-z0-9_-]+)(?:\s+)?(tcp-udp|tcp|udp)?
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: entity.name.function}

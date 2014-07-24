@@ -376,7 +376,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(object-group)\s+(service)\s+([A-Za-z0-9_-]+)(?:\s+)?(tcp|udp|tcp-udp)?</string>
+					<string>^\s*(object-group)\s+(service)\s+([A-Za-z0-9_-]+)(?:\s+)?(tcp-udp|tcp|udp)?</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>

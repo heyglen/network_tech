@@ -12,3 +12,7 @@ access-list udvnet_acl line 53 extended permit icmp host 2.2.2.2 host 1.1.1.1 ec
 access-list udvnet_acl line 51 extended permit tcp host 2.2.2.2 object-group group-2 eq 2059 inactive (inactive)
 access-list udvnet_acl line 51 extended permit tcp host 1.1.1.1 object-group group-3 eq 2059 inactive (hitcnt=0)
 access-list udvnet_acl line 51 extended permit 41 host 1.1.1.1
+
+object-group service NAME tcp-udp
+ description blah
+ port-object eq 1234
