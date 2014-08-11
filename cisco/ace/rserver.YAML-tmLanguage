@@ -39,3 +39,4 @@ repository:
       - include: '#ip-address'
       - include: '#inservice'
       - include: text.network.cisco.scope
+      - include: text.network.cisco
