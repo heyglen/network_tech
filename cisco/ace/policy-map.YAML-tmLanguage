@@ -45,11 +45,12 @@ repository:
   loadbalance-vip-icmp-reply:
     patterns:
     - name: text.network.cisco.ace.policy.policy-class.lb.icmp-reply
-      match: (loadbalance\s+vip)\s+(icmp-reply)\s*(?:\s+(\S+))?$
+      match: (loadbalance\s+vip)\s+(icmp-reply)(\s+active)?\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}
-        '3': {name: invalid.illegal}
+        '3': {name: support.constant}
+        '4': {name: invalid.illegal}
 
   loadbalance-vip-inservice:
     patterns:

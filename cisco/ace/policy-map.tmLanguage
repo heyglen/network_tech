@@ -146,11 +146,16 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(loadbalance\s+vip)\s+(icmp-reply)\s*(?:\s+(\S+))?$</string>
+					<string>(loadbalance\s+vip)\s+(icmp-reply)(\s+active)?\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.policy.policy-class.lb.icmp-reply</string>
 				</dict>
