@@ -3,15 +3,29 @@ sublime-network
 
 Network configuration syntax, completions and snippets for Sublime Text
 
-Downlaod / intstall git
+Installation
+ Downlaod / intstall git
 
-Sublime Text -> Preferences -> Browse Packages...
-Browse to the User folder
+ Sublime Text -> Preferences -> Browse Packages...
+ 
+ Browse to the User folder
 
-Open Git Bash (Windows: Right click in folder -> Git Bash)
+ Open Git Bash (Windows: Right click in folder -> Git Bash)
 
-In the bash console type:
- git clone https://github.com/heyglen/sublime-network.git
+ In the bash console type:
+  git clone https://github.com/heyglen/sublime-network.git
 
 Feature and bug fix requests:
+
  https://github.com/heyglen/sublime-network/issues
+
+Installing Updates:
+
+ Sublime Text -> Preferences -> Browse Packages...
+ 
+ Browse to the User folder
+
+ Open Git Bash (Windows: Right click in folder -> Git Bash)
+
+ In the bash console type:
+  git pull
