@@ -1,9 +1,9 @@
-					sublime-network
+# sublime-network
 
 
 Network configuration syntax, completions and snippets for Sublime Text
 
-~Installation
+**Installation**
  Download and intstall git
 
  Sublime Text -> Preferences -> Browse Packages...
@@ -13,9 +13,10 @@ Network configuration syntax, completions and snippets for Sublime Text
  Open Git Bash (Windows: Right click in folder -> Git Bash)
 
  In the bash console type:
+```Shell
   git clone https://github.com/heyglen/sublime-network.git
-
-~Update
+```
+**Update**
 
  Sublime Text -> Preferences -> Browse Packages...
  
@@ -24,13 +25,15 @@ Network configuration syntax, completions and snippets for Sublime Text
  Open Git Bash (Windows: Right click in folder -> Git Bash)
 
  In the bash console type:
+```Shell
   git pull
+```
 
-~Feature Requests and Bug Reporting:
+**Feature Requests and Bug Reporting**
 
  https://github.com/heyglen/sublime-network/issues
 
-~Use
+**Use**
 
 Open the command prompt (Windows: Ctrl+Shift+p) and type one of the following:
 	Set Syntax: Cisco ACE
