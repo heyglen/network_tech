@@ -13,5 +13,5 @@ Open Git Bash (Windows: Right click in folder -> Git Bash)
 In the bash console type:
  git clone https://github.com/heyglen/sublime-network.git
 
-Feature requests and bug fix requests:
+Feature and bug fix requests:
  https://github.com/heyglen/sublime-network/issues
