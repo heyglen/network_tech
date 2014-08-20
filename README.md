@@ -40,3 +40,17 @@ Open the command prompt (Windows: Ctrl+Shift+p) and type one of the following:
  * Set Syntax: Cisco ACE
  * Set Syntax: Cisco IOS
  * Set Syntax: Cisco ASA
+
+**Useful Settings**
+
+To be prompted with the snippets and auto-completions:
+
+Sublime Text -> Preferences -> Settings - User
+
+Add the sublime-network scope to auto completions setting:
+```JSON
+{
+"auto_complete_selector": "source - comment, meta.tag - punctuation.definition.tag.begin, text.network",
+...
+}
+```
