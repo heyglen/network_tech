@@ -3,7 +3,7 @@ sublime-network
 
 Network configuration syntax, completions and snippets for Sublime Text
 
-Installation
+~Installation
  Downlaod / intstall git
 
  Sublime Text -> Preferences -> Browse Packages...
@@ -15,11 +15,7 @@ Installation
  In the bash console type:
   git clone https://github.com/heyglen/sublime-network.git
 
-Feature and bug fix requests:
-
- https://github.com/heyglen/sublime-network/issues
-
-Installing Updates:
+~Update
 
  Sublime Text -> Preferences -> Browse Packages...
  
@@ -29,3 +25,7 @@ Installing Updates:
 
  In the bash console type:
   git pull
+
+~Feature Requests and Bug Reporting:
+
+ https://github.com/heyglen/sublime-network/issues
