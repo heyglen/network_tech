@@ -32,7 +32,7 @@ git pull
 
 **Feature Requests and Bug Reporting**
 
-[Sublime-Network GitHub Issues][https://github.com/heyglen/sublime-network/issues]
+[Sublime-Network GitHub Issues](https://github.com/heyglen/sublime-network/issues)
 
 **Use**
 
