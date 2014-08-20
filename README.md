@@ -36,6 +36,6 @@ Network configuration syntax, completions and snippets for Sublime Text
 **Use**
 
 Open the command prompt (Windows: Ctrl+Shift+p) and type one of the following:
-*Set Syntax: Cisco ACE
-*Set Syntax: Cisco IOS
-*Set Syntax: Cisco ASA
+ * Set Syntax: Cisco ACE
+ * Set Syntax: Cisco IOS
+ * Set Syntax: Cisco ASA
