@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Prefix-list
-scopeName: text.network.cisco.ios.ip.prefix-list
+name: Base Prefix-list
+scopeName: text.network.cisco.base.ip.prefix-list
 uuid: c427e44c-9718-4589-a780-c2c837ec8967
 
 patterns:
@@ -9,7 +9,7 @@ patterns:
 repository:
   prefix-list:
     patterns:
-    - name: text.network.cisco.ios.ip.prefix-list
+    - name: text.network.cisco.base.ip.prefix-list
       match: ^\s*(ip)\s+(prefix-list)\s+(\S+)\s+(seq)\s+(\d+)\s+(?:(permit)|(deny))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)/[123]?\d)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}

@@ -1,0 +1,6 @@
+{
+  "scope": "text.network.cisco.ios",
+  "completions": [
+        { "trigger": "wr", "contents": "write" }
+  ]
+}

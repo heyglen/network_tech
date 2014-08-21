@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Route Map</string>
+	<string>Base Route Map</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -56,7 +56,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.route-map</string>
+					<string>text.network.cisco.base.route-map</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -102,13 +102,13 @@
 					<key>match</key>
 					<string>^\s*(set)\s+(local-preference)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.route-map.set.local-preference</string>
+					<string>text.network.cisco.base.route-map.set.local-preference</string>
 				</dict>
 			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.ios.route-map</string>
+	<string>text.network.cisco.base.route-map</string>
 	<key>uuid</key>
 	<string>6d331ea6-7d01-4c6e-a568-0deeb79312e9</string>
 </dict>

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>IOS BGP</string>
+	<string>Cisco Base BGP</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -51,7 +51,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.bgp.address-family</string>
+					<string>text.network.cisco.base.bgp.address-family</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -131,7 +131,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.bgp</string>
+					<string>text.network.cisco.base.bgp</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -185,7 +185,7 @@
 					<key>match</key>
 					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(activate)\s*(\s+\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.bgp.neighbor.activate</string>
+					<string>text.network.cisco.base.bgp.neighbor.activate</string>
 				</dict>
 			</array>
 		</dict>
@@ -230,7 +230,7 @@
 					<key>match</key>
 					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(inherit)\s+(peer-policy)\s+(\S+)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.bgp.neighbor.inherit-peer-policy</string>
+					<string>text.network.cisco.base.bgp.neighbor.inherit-peer-policy</string>
 				</dict>
 			</array>
 		</dict>
@@ -270,7 +270,7 @@
 					<key>match</key>
 					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(remote-as)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.bgp.neighbor.remote-as</string>
+					<string>text.network.cisco.base.bgp.neighbor.remote-as</string>
 				</dict>
 			</array>
 		</dict>
@@ -315,7 +315,7 @@
 					<key>match</key>
 					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(route-map)\s+(\S+)\s+(in|out)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.bgp.neighbor.route-map</string>
+					<string>text.network.cisco.base.bgp.neighbor.route-map</string>
 				</dict>
 			</array>
 		</dict>
@@ -350,7 +350,7 @@
 					<key>match</key>
 					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(shutdown)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.bgp.neighbor.inherit-peer-policy</string>
+					<string>text.network.cisco.base.bgp.neighbor.inherit-peer-policy</string>
 				</dict>
 			</array>
 		</dict>
@@ -395,7 +395,7 @@
 					<key>match</key>
 					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(timers)\s+(\d+)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.bgp.neighbor.timer</string>
+					<string>text.network.cisco.base.bgp.neighbor.timer</string>
 				</dict>
 			</array>
 		</dict>
@@ -440,7 +440,7 @@
 					<key>match</key>
 					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(ttl-security)\s+(hops)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.bgp.neighbor.remote-as</string>
+					<string>text.network.cisco.base.bgp.neighbor.remote-as</string>
 				</dict>
 			</array>
 		</dict>
@@ -480,13 +480,13 @@
 					<key>match</key>
 					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(version)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.bgp.neighbor.version</string>
+					<string>text.network.cisco.base.bgp.neighbor.version</string>
 				</dict>
 			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.ios.bgp</string>
+	<string>text.network.cisco.base.bgp</string>
 	<key>uuid</key>
 	<string>34955740-df89-4de1-9001-10d53738fa23</string>
 </dict>

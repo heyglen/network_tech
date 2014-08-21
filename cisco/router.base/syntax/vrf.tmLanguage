@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>VRF</string>
+	<string>Base VRF</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -23,7 +23,7 @@
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>text.network.cisco.ios.rd.definition</string>
+							<string>text.network.cisco.base.rd.definition</string>
 						</dict>
 						<key>1</key>
 						<dict>
@@ -46,7 +46,7 @@
 					<key>match</key>
 					<string>^\s*(rd)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)(?:\s+(\S+))?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.vrf.definition.rd</string>
+					<string>text.network.cisco.base.vrf.definition.rd</string>
 				</dict>
 			</array>
 		</dict>
@@ -60,7 +60,7 @@
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>text.network.cisco.ios.rt.definition</string>
+							<string>text.network.cisco.base.rt.definition</string>
 						</dict>
 						<key>1</key>
 						<dict>
@@ -93,7 +93,7 @@
 					<key>match</key>
 					<string>^\s*(route-target)\s+(?:(export|import|both)|(\S+))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.vrf.definition.rt</string>
+					<string>text.network.cisco.base.vrf.definition.rt</string>
 				</dict>
 			</array>
 		</dict>
@@ -133,11 +133,9 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:
-\s*
-)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.vrf.definition</string>
+					<string>text.network.cisco.base.vrf.definition</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -162,7 +160,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.ios.vrf</string>
+	<string>text.network.cisco.base.vrf</string>
 	<key>uuid</key>
 	<string>e5441a2e-8364-4339-b1e2-f79db773f581</string>
 </dict>

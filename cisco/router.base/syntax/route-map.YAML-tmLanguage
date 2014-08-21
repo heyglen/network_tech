@@ -1,7 +1,7 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 ---
-name: Route Map
-scopeName: text.network.cisco.ios.route-map
+name: Base Route Map
+scopeName: text.network.cisco.base.route-map
 uuid: 6d331ea6-7d01-4c6e-a568-0deeb79312e9
 
 patterns:
@@ -10,7 +10,7 @@ patterns:
 repository:
   route-map:
     patterns:
-    - name: text.network.cisco.ios.route-map
+    - name: text.network.cisco.base.route-map
       begin: ^(route-map)\s+(\S+)\s+(?:(permit)|(deny))\s+(\d+)\s*(\s\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -25,7 +25,7 @@ repository:
       - include: text.network.cisco
   set-local-preference:
     patterns:
-    - name: text.network.cisco.ios.route-map.set.local-preference
+    - name: text.network.cisco.base.route-map.set.local-preference
       match: ^\s*(set)\s+(local-preference)\s+(\d+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}

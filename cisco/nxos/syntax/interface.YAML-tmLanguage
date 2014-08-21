@@ -1,0 +1,76 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: NXOS Interface
+scopeName: text.network.cisco.base.nxos.interface
+fileTypes: []
+uuid: a5379637-12c4-488a-ba8c-7f101650b25d
+
+patterns:
+- include: '#interface'
+- include: '#interface-default'
+- include: '#interface-port-type'
+
+repository:
+  interface:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface
+      begin: (?i)^\s*(interface)\s+(Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: entity.other.inherited-class}
+        '3': {name: constant.numeric}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))
+      patterns:
+      - include: text.network.cisco.base.scope.interface
+      - include: '#service-policy'
+      - include: '#spanning-tree-trunk-edge'
+      - include: '#vpc'
+
+  interface-port-type:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.port-type
+      match: ^(?i)(interface)\s+(Ethernet|VLAN|Port-Channel)\s+
+      captures:
+        '1': {name: variable.parameter}
+        '2': {name: entity.other.inherited-class}
+
+  interface-default:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.default
+      match: (?i)^\s*(default)\s+(interface)\s+(Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: variable.parameter}
+        '3': {name: entity.other.inherited-class}
+        '4': {name: constant.numeric}
+        '5': {name: constant.numeric}
+
+  service-policy:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.service-policy
+      match: (?i)^\s*(service-policy)\s+(type)\s+(queuing)\s+(output)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: string.unquoted}
+
+  vpc:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.vpc
+      match: (?i)^\s*(vpc)\s+(\d+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+
+  spanning-tree-trunk-edge:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.spanning-tree.trunk.edge
+      match: (?i)^\s*(spanning-tree)\s+(port)\s+(type)\s+(edge)\s+(trunk)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: support.constant}

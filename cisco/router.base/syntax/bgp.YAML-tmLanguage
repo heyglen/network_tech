@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: IOS BGP
-scopeName: text.network.cisco.ios.bgp
+name: Cisco Base BGP
+scopeName: text.network.cisco.base.bgp
 uuid: 34955740-df89-4de1-9001-10d53738fa23
 
 patterns:
@@ -9,7 +9,7 @@ patterns:
 repository:
   address-family:
     patterns:
-    - name: text.network.cisco.ios.bgp.address-family
+    - name: text.network.cisco.base.bgp.address-family
       begin: ^\s+(address-family)\s+(ipv4|6)\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -32,7 +32,7 @@ repository:
 
   bgp:
     patterns:
-    - name: text.network.cisco.ios.bgp
+    - name: text.network.cisco.base.bgp
       begin: ^(router)\s+(bgp)\s+(\d+)\s*(\s+\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -48,7 +48,7 @@ repository:
 
   neighbor-activate:
     patterns:
-    - name: text.network.cisco.ios.bgp.neighbor.activate
+    - name: text.network.cisco.base.bgp.neighbor.activate
       match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(activate)\s*(\s+\S.*)?$
       captures:
         '1': {name: support.constant}
@@ -58,7 +58,7 @@ repository:
 
   neighbor-inherit-peer-policy:
     patterns:
-    - name: text.network.cisco.ios.bgp.neighbor.inherit-peer-policy
+    - name: text.network.cisco.base.bgp.neighbor.inherit-peer-policy
       match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(inherit)\s+(peer-policy)\s+(\S+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
@@ -70,7 +70,7 @@ repository:
 
   neighbor-remote-as:
     patterns:
-    - name: text.network.cisco.ios.bgp.neighbor.remote-as
+    - name: text.network.cisco.base.bgp.neighbor.remote-as
       match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(remote-as)\s+(\d+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
@@ -81,7 +81,7 @@ repository:
 
   neighbor-route-map:
     patterns:
-    - name: text.network.cisco.ios.bgp.neighbor.route-map
+    - name: text.network.cisco.base.bgp.neighbor.route-map
       match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(route-map)\s+(\S+)\s+(in|out)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
@@ -93,7 +93,7 @@ repository:
 
   neighbor-shutdown:
     patterns:
-    - name: text.network.cisco.ios.bgp.neighbor.inherit-peer-policy
+    - name: text.network.cisco.base.bgp.neighbor.inherit-peer-policy
       match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(shutdown)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
@@ -103,7 +103,7 @@ repository:
 
   neighbor-timer:
     patterns:
-    - name: text.network.cisco.ios.bgp.neighbor.timer
+    - name: text.network.cisco.base.bgp.neighbor.timer
       match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(timers)\s+(\d+)\s+(\d+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
@@ -115,7 +115,7 @@ repository:
 
   neighbor-ttl-security-hops:
     patterns:
-    - name: text.network.cisco.ios.bgp.neighbor.remote-as
+    - name: text.network.cisco.base.bgp.neighbor.remote-as
       match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(ttl-security)\s+(hops)\s+(\d+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
@@ -127,7 +127,7 @@ repository:
 
   neighbor-version:
     patterns:
-    - name: text.network.cisco.ios.bgp.neighbor.version
+    - name: text.network.cisco.base.bgp.neighbor.version
       match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(version)\s+(\d+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}

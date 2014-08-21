@@ -4,19 +4,23 @@
 <dict>
 	<key>fileTypes</key>
 	<array>
-		<string>ios</string>
+		<string>nxos</string>
 	</array>
 	<key>name</key>
-	<string>Cisco IOS</string>
+	<string>Cisco NXOS</string>
 	<key>patterns</key>
 	<array>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.base.nxos.interface</string>
+		</dict>
 		<dict>
 			<key>include</key>
 			<string>text.network.cisco.base</string>
 		</dict>
 	</array>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.ios</string>
+	<string>text.network.cisco.base.nxos</string>
 	<key>uuid</key>
 	<string>e5441a2e-8364-4339-b1e2-f79de773f570</string>
 </dict>

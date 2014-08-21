@@ -227,6 +227,7 @@ policy-map multi-match L4-POLICY-1
     loadbalance vip inservice
     loadbalance policy L7-POLICY-1
     loadbalance vip icmp-reply
+    loadbalance vip icmp-reply active
     nat dynamic 29 vlan 3996
 
 interface vlan 1

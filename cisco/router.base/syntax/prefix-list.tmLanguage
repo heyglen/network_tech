@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Prefix-list</string>
+	<string>Base Prefix-list</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -69,13 +69,13 @@
 					<key>match</key>
 					<string>^\s*(ip)\s+(prefix-list)\s+(\S+)\s+(seq)\s+(\d+)\s+(?:(permit)|(deny))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)/[123]?\d)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.ip.prefix-list</string>
+					<string>text.network.cisco.base.ip.prefix-list</string>
 				</dict>
 			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.ios.ip.prefix-list</string>
+	<string>text.network.cisco.base.ip.prefix-list</string>
 	<key>uuid</key>
 	<string>c427e44c-9718-4589-a780-c2c837ec8967</string>
 </dict>

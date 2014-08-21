@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>vlan</string>
+	<string>Base VLAN</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -47,7 +47,7 @@
 					<key>match</key>
 					<string>^\s*(name)\s+(\S+)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.vlan.name</string>
+					<string>text.network.cisco.base.vlan.name</string>
 				</dict>
 			</array>
 		</dict>
@@ -84,7 +84,7 @@
 					<key>end</key>
 					<string>(?=\||\n)</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.vlan.show</string>
+					<string>text.network.cisco.base.vlan.show</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -127,7 +127,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.vlan</string>
+					<string>text.network.cisco.base.vlan</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -144,7 +144,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.ios.vlan</string>
+	<string>text.network.cisco.base.vlan</string>
 	<key>uuid</key>
 	<string>7740f442-243f-485b-96b6-4f1dd83494f3</string>
 </dict>

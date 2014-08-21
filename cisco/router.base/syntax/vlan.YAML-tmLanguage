@@ -1,7 +1,7 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 ---
-name: vlan
-scopeName: text.network.cisco.ios.vlan
+name: Base VLAN
+scopeName: text.network.cisco.base.vlan
 uuid: 7740f442-243f-485b-96b6-4f1dd83494f3
 
 patterns:
@@ -12,7 +12,7 @@ patterns:
 repository:
   vlan:
     patterns:
-    - name: text.network.cisco.ios.vlan
+    - name: text.network.cisco.base.vlan
       begin: ^(vlan)\s+(\d+)\s*(\s\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -24,7 +24,7 @@ repository:
       - include: text.network.cisco
   show-vlan:
     patterns:
-    - name: text.network.cisco.ios.vlan.show
+    - name: text.network.cisco.base.vlan.show
       begin: ^\s*(show)\s+(vlan)(?:\s+(id)\s+(\d+))?
       beginCaptures:
         '1': {name: support.constant}
@@ -37,7 +37,7 @@ repository:
       - include: text.network.cisco
   name:
     patterns:
-    - name: text.network.cisco.ios.vlan.name
+    - name: text.network.cisco.base.vlan.name
       match: ^\s*(name)\s+(\S+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}

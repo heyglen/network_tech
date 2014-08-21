@@ -3,16 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Cisco IOS Interface</string>
+	<string>Cisco Base Interface</string>
 	<key>patterns</key>
 	<array>
 		<dict>
 			<key>include</key>
 			<string>#interface</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#interface-port-type</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -25,6 +21,98 @@
 		<dict>
 			<key>include</key>
 			<string>#show-run-int</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#switchport-trunk-allowed-vlan</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#switchport-access-vlan</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#switchport-trunk-encapsulation</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#switchport-mode</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#ip</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#ipv6</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#shutdown</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#vrf-legacy</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#vrf</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#access-group</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#ipv6-nd-prefix</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#hsrp-version</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#hsrp-ip</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#hsrp-track</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#hsrp-ipv6</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#hsrp-priority</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#hsrp-preempt</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#ip-redirects</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#ip-proxy-arp</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#ip-helper</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#no-shutdown</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.scope</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco</string>
 		</dict>
 	</array>
 	<key>repository</key>
@@ -60,7 +148,7 @@
 					<key>match</key>
 					<string>\s*(ip\s+access-group)\s+(\S+)\s+(in|out)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.vrf</string>
+					<string>text.network.cisco.base.interface.vrf</string>
 				</dict>
 			</array>
 		</dict>
@@ -100,7 +188,7 @@
 					<key>match</key>
 					<string>\s*(standby)(\s+\d+)?\s+(ip)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.hsrp.ip</string>
+					<string>text.network.cisco.base.interface.hsrp.ip</string>
 				</dict>
 			</array>
 		</dict>
@@ -140,7 +228,7 @@
 					<key>match</key>
 					<string>\s*(standby)(\s+\d+)?\s+(ipv6)\s+(autoconfig)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.hsrp.ipv6</string>
+					<string>text.network.cisco.base.interface.hsrp.ipv6</string>
 				</dict>
 			</array>
 		</dict>
@@ -190,7 +278,7 @@
 					<key>match</key>
 					<string>\s*(standby)(\s+\d+)?\s+(preempt)(?:\s+(delay)\s+(reload)\s+(\d+))?(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.hsrp.preempt</string>
+					<string>text.network.cisco.base.interface.hsrp.preempt</string>
 				</dict>
 			</array>
 		</dict>
@@ -230,7 +318,7 @@
 					<key>match</key>
 					<string>\s*(standby)(\s+\d+)?\s+(priority)\s+(\d+)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.hsrp.priority</string>
+					<string>text.network.cisco.base.interface.hsrp.priority</string>
 				</dict>
 			</array>
 		</dict>
@@ -280,7 +368,7 @@
 					<key>match</key>
 					<string>\s*(standby)(\s+\d+)?\s+(track)\s+(\d+)\s+(decrement)\s+(\d+)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.hsrp.track</string>
+					<string>text.network.cisco.base.interface.hsrp.track</string>
 				</dict>
 			</array>
 		</dict>
@@ -310,7 +398,7 @@
 					<key>match</key>
 					<string>\s*(standby\s+version)\s+(\d)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.hsrp.version</string>
+					<string>text.network.cisco.base.interface.hsrp.version</string>
 				</dict>
 			</array>
 		</dict>
@@ -320,7 +408,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?i)^\s*(interface)\s+((port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)?Ethernet)|vlan))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
+					<string>(?i)^\s*(interface)\s+(dummy)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -331,23 +419,13 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>text.network.cisco.ios.interface.name</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
 							<string>entity.other.inherited-class</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface</string>
+					<string>text.network.cisco.base.interface</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -466,7 +544,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>text.network.cisco.ios.interface.name</string>
+							<string>text.network.cisco.base.interface.name</string>
 						</dict>
 						<key>4</key>
 						<dict>
@@ -480,9 +558,9 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?i)^\s*(default)\s+(interface)\s+((port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)?Ethernet)|vlan))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
+					<string>(?i)^\s*(default)\s+(interface)\s+((port-channel|vlan))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.default</string>
+					<string>text.network.cisco.base.interface.default</string>
 				</dict>
 			</array>
 		</dict>
@@ -507,7 +585,7 @@
 					<key>match</key>
 					<string>^\s*(interface)(\s+\S+$)?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface-keyword</string>
+					<string>text.network.cisco.base.interface-keyword</string>
 				</dict>
 			</array>
 		</dict>
@@ -532,7 +610,7 @@
 					<key>match</key>
 					<string>^(?i)(interface)\s+(port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)?Ethernet)|vlan)\s+</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.port-type</string>
+					<string>text.network.cisco.base.interface.port-type</string>
 				</dict>
 			</array>
 		</dict>
@@ -567,7 +645,7 @@
 					<key>match</key>
 					<string>\s*(ip\s+address)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d(?=[^:])(?:(?:\s+(?:(?:255|254|252|248|240|224|192|128|0)\.){3}(?:255|254|252|248|240|224|192|128|0))))(\s+secondary)?(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.ip</string>
+					<string>text.network.cisco.base.interface.ip</string>
 				</dict>
 			</array>
 		</dict>
@@ -602,7 +680,7 @@
 					<key>match</key>
 					<string>\s*(ip)\s+(helper-address)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.ipv4.helper</string>
+					<string>text.network.cisco.base.interface.ipv4.helper</string>
 				</dict>
 			</array>
 		</dict>
@@ -632,7 +710,7 @@
 					<key>match</key>
 					<string>\s*(ip)\s+(proxy-arp)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.ipv4.proxy-arp</string>
+					<string>text.network.cisco.base.interface.ipv4.proxy-arp</string>
 				</dict>
 			</array>
 		</dict>
@@ -662,7 +740,7 @@
 					<key>match</key>
 					<string>\s*(ip(?:v6)?)\s+(redirects)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.redirects</string>
+					<string>text.network.cisco.base.interface.redirects</string>
 				</dict>
 			</array>
 		</dict>
@@ -707,7 +785,7 @@
 					<key>match</key>
 					<string>\s*(ipv6\s+address)\s+(\S+\s+)?((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)(/1?\d?\d)(\s+eui-64)?(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.ipv6</string>
+					<string>text.network.cisco.base.interface.ipv6</string>
 				</dict>
 			</array>
 		</dict>
@@ -747,7 +825,7 @@
 					<key>match</key>
 					<string>\s*(ipv6\s+nd\s+prefix)\s+(\S+\s+)?((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)(/1?\d?\d)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.ipv6.nd.prefix</string>
+					<string>text.network.cisco.base.interface.ipv6.nd.prefix</string>
 				</dict>
 			</array>
 		</dict>
@@ -777,7 +855,7 @@
 					<key>match</key>
 					<string>\s*(no)\s+(shutdown)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.ipv4.helper</string>
+					<string>text.network.cisco.base.interface.ipv4.helper</string>
 				</dict>
 			</array>
 		</dict>
@@ -817,7 +895,7 @@
 					<key>match</key>
 					<string>(show)\s+(run)\s+(interface)\s+(\D+)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.show.run</string>
+					<string>text.network.cisco.base.interface.show.run</string>
 				</dict>
 			</array>
 		</dict>
@@ -837,7 +915,7 @@
 					<key>match</key>
 					<string>^\s*(shutdown)\s*$</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.shutdown</string>
+					<string>text.network.cisco.base.interface.shutdown</string>
 				</dict>
 			</array>
 		</dict>
@@ -872,7 +950,7 @@
 					<key>match</key>
 					<string>^\s*(switchport)\s+(access)\s+(?:(vlan)\s+(\d+)?)?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.switchport.access</string>
+					<string>text.network.cisco.base.interface.switchport.access</string>
 				</dict>
 			</array>
 		</dict>
@@ -902,7 +980,7 @@
 					<key>match</key>
 					<string>^\s*(switchport)\s+(?:(mode)\s+(trunk|access|capture|fabricpath)?)?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.switchport.mode</string>
+					<string>text.network.cisco.base.interface.switchport.mode</string>
 				</dict>
 			</array>
 		</dict>
@@ -957,7 +1035,7 @@
 					<key>match</key>
 					<string>^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)(?:(?:(?:\s+(?:(add)|(remove)))?)(?:\s+(?&lt;vlan&gt;\d+)(?:\s*([,-])\s*(?&lt;vlan&gt;\d+))*)?)?)?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.switchport.trunk.allowed.vlan</string>
+					<string>text.network.cisco.base.interface.switchport.trunk.allowed.vlan</string>
 				</dict>
 			</array>
 		</dict>
@@ -992,7 +1070,7 @@
 					<key>match</key>
 					<string>^\s*(switchport)\s+(trunk)\s+(encapsulation)\s+(dot1q)?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.switchport.trunk.encapsulation</string>
+					<string>text.network.cisco.base.interface.switchport.trunk.encapsulation</string>
 				</dict>
 			</array>
 		</dict>
@@ -1022,7 +1100,7 @@
 					<key>match</key>
 					<string>\s*(vrf\s+forwarding)\s+(\S+)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.vrf</string>
+					<string>text.network.cisco.base.interface.vrf</string>
 				</dict>
 			</array>
 		</dict>
@@ -1052,13 +1130,13 @@
 					<key>match</key>
 					<string>\s*ip\s+vrf\s+forwarding\s+\S+(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.ios.interface.vrf</string>
+					<string>text.network.cisco.base.interface.vrf</string>
 				</dict>
 			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.ios.scope.interface</string>
+	<string>text.network.cisco.base.scope.interface</string>
 	<key>uuid</key>
 	<string>0f297425-7bd7-431d-bfbd-824e3f9aad68</string>
 </dict>
