@@ -256,7 +256,7 @@ repository:
   switchport-trunk-allowed-vlan:
     patterns:
     - name: text.network.cisco.ios.interface.switchport.trunk.allowed.vlan
-      match: ^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)\s+(?:(?:(add)|(remove))(?:\s+(?<vlan>\d+)(?:\s*([,-])\s*(?<vlan>\d+))*)?)?)?
+      match: ^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)(?:(?:(?:\s+(?:(add)|(remove)))?)(?:\s+(?<vlan>\d+)(?:\s*([,-])\s*(?<vlan>\d+))*)?)?)?
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}

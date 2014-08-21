@@ -17,6 +17,7 @@ interface Port-channel1
 	switchport
 	switchport mode trunk
 	switchport trunk encapsulation dot1q
+	switchport trunk allowed vlan 604
 	switchport trunk allowed vlan add 604,608
 	switchport trunk allowed vlan remove 604-608,200
 	switchport mode access

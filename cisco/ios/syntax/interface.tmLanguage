@@ -955,7 +955,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)\s+(?:(?:(add)|(remove))(?:\s+(?&lt;vlan&gt;\d+)(?:\s*([,-])\s*(?&lt;vlan&gt;\d+))*)?)?)?</string>
+					<string>^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)(?:(?:(?:\s+(?:(add)|(remove)))?)(?:\s+(?&lt;vlan&gt;\d+)(?:\s*([,-])\s*(?&lt;vlan&gt;\d+))*)?)?)?</string>
 					<key>name</key>
 					<string>text.network.cisco.ios.interface.switchport.trunk.allowed.vlan</string>
 				</dict>
