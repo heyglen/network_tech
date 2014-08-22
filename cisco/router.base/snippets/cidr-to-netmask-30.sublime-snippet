@@ -1,8 +1,0 @@
-<snippet>
-	<content><![CDATA[
- 255.255.255.252
-]]></content>
-	<description>CIDR to netmask Expansion</description>
-	<tabTrigger>/30</tabTrigger>
-	<scope>text.cisco.ios</scope>
-</snippet>

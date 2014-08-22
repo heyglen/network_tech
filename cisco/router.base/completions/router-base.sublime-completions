@@ -1,6 +1,7 @@
 {
     "scope": "text.network.cisco.base",
     "completions": [
+        "channel-group ",
         "copy ",
         "running-config ",
         "startup-config ",

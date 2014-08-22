@@ -1,0 +1,73 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: Cisco ACE ACL
+scopeName: text.network.cisco.ace.acl
+uuid: 79529eb2-c1de-4465-aab8-0f19daef3f7a
+
+patterns:
+- include: '#acl'
+
+repository:
+  access-group:
+    patterns:
+    - name: text.network.cisco.ace.interface.access-group
+      match: (access-group)\s+(input|output)\s+(\S+)(?:\s+(\S+))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+
+  acl:
+    patterns:
+    - name: text.network.cisco.ace.acl
+      begin: ^\s*(access-list)\s+(\S+)\s+(?:(line)\s+(\d+)\s+)?
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+        '3': {name: support.constant}
+        '4': {name: constant.language}
+      end: $
+      patterns:
+      - include: '#extended'
+
+  extended:
+    patterns:
+    - name: text.network.cisco.ace.acl.extended
+      match: (?<=\s)(extended)\s+(?:(permit)|(deny))\s+(ip)\s+
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.name.function}
+        '3': {name: keyword.other}
+        '4': {name: support.constant}
+
+  nat-pool:
+    patterns:
+    - name: text.network.cisco.ace.interface.nat-pool
+      match: (nat-pool)\s+(\d+)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d\s+){2})(netmask)\s+(\S+)\s+(pat)\s*(\s+\S+)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: constant.numeric}
+        '4': {name: support.constant}
+        '5': {name: constant.numeric}
+        '6': {name: support.constant}
+        '7': {name: invalid.illegal}
+
+  service-policy:
+    patterns:
+    - name: text.network.cisco.ace.policy.interface.service-policy
+      match: (service-policy)\s+(input|output)\s+(\S+)(?:\s+(\S+))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+
+  shutdown:
+    patterns:
+    - name: text.network.cisco.ace.interface.shutdown
+      match: (no\s+shutdown)|(shutdown)(?:\s+(\S+))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: keyword.other}
+        '3': {name: invalid.illegal}

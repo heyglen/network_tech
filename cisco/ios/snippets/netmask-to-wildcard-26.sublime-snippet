@@ -4,5 +4,5 @@
 ]]></content>
 	<description>Netmask to wildcard Conversion</description>
 	<tabTrigger>255.255.255.192</tabTrigger>
-	<scope>text.cisco.ios</scope>
+	<scope>text.network.cisco.base.ios</scope>
 </snippet>

@@ -1,8 +1,8 @@
 <snippet>
 	<content><![CDATA[
-0.0.0.1
+0.0.0.127
 ]]></content>
 	<description>Netmask to wildcard Conversion</description>
-	<tabTrigger>255.255.255.254</tabTrigger>
-	<scope>text.cisco.ios</scope>
+	<tabTrigger>255.255.255.128</tabTrigger>
+	<scope>text.network.cisco.base.ios</scope>
 </snippet>

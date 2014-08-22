@@ -1,0 +1,149 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: Cisco ACE Class Map
+scopeName: text.network.cisco.ace.class-map
+uuid: d7c7c43e-beb6-4d6b-9824-85042480b7b8
+
+patterns:
+- include: '#class-map'
+
+- include: '#class-map-http'
+
+- include: '#class-map-management'
+
+repository:
+  class-map:
+    patterns:
+    - name: text.network.cisco.ace.class-map
+      begin: ^(class-map)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: entity.name.function}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: '#match-virtual'
+      - include: text.network.cisco.scope
+
+  class-map-http:
+    patterns:
+    - name: text.network.cisco.ace.class-map-http
+      begin: ^(class-map)\s+(type)\s+(http)\s+(inspect)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: entity.name.function}
+        '4': {name: support.constant}
+        '5': {name: entity.name.function}
+        '6': {name: string.unquoted}
+        '7': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: '#match-http-content'
+      - include: '#match-http-content-length'
+      - include: '#match-http-header'
+      - include: '#match-http-url'
+      - include: text.network.cisco.scope
+
+  class-map-management:
+    patterns:
+    - name: text.network.cisco.ace.class-map-management
+      begin: ^(class-map)\s+(type)\s+(management)\s+(match-(?:all|any))\s+(\S+)(?:\s+(\S.*))?$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: entity.name.function}
+        '4': {name: support.constant}
+        '5': {name: string.unquoted}
+        '6': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: '#match-protocol'
+
+  match-http-content:
+    patterns:
+    - name: text.network.cisco.ace.class-map.http.match-content
+      match: (\d+\s+)?(match)\s+(content)\s+(\S+)(?:\s+(offset)\s+(\d+))?\s*(?:\s+(\S+))?$
+      captures:
+        '1': {name: constant.language}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: entity.name.function}
+        '5': {name: support.constant}
+        '6': {name: constant.language}
+        '7': {name: invalid.illegal}
+
+  match-http-content-length:
+    patterns:
+    - name: text.network.cisco.ace.class-map.http.match-content-length
+      match: (\d+\s+)?(match)\s+(content)\s+(length)\s+(?:(eq|gt|lt)\s+(\d+)|(range)\s+(\d+)\s+(\d+))\s*(?:\s+(\S+))?$
+      captures:
+        '1': {name: constant.language}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: constant.language}
+        '7': {name: support.constant}
+        '8': {name: constant.language}
+        '9': {name: constant.language}
+        '10': {name: invalid.illegal}
+
+  match-http-header:
+    patterns:
+    - name: text.network.cisco.ace.class-map.http.match-header
+      match: (\d+\s+)?(match)\s+(header)\s+(\S+)\s+(header-value)\s+(\S+)\s*(?:\s+(\S+))?$
+      captures:
+        '1': {name: constant.language}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: support.constant}
+        '6': {name: string.unquoted}
+        '7': {name: invalid.illegal}
+
+  match-http-url:
+    patterns:
+    - name: text.network.cisco.ace.class-map.http.match-url
+      match: (\d+\s+)?(match)\s+(url)\s+(\S+)\s*(?:\s+(\S+))?$
+      captures:
+        '1': {name: constant.language}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: invalid.illegal}
+
+  match-protocol:
+    patterns:
+    - name: text.network.cisco.ace.class-map.protocol
+      match: (\d+\s+)?(match)\s+(protocol)\s+(http|https|icmp|icmpv6|kalap-udp|snmp|ssh|telnet|xml-https)\s+(?:(any)|(anyv6)|(source-address)\s+(\S+)(?:\s+(\S+))?)\s*(?:\s+(\S+))?$
+      captures:
+        '1': {name: constant.language}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: entity.name.function}
+        '5': {name: support.constant}
+        '6': {name: support.constant}
+        '7': {name: support.constant}
+        '8': {name: constant.language}
+        '9': {name: constant.language}
+        '10': {name: invalid.illegal}
+
+  match-virtual:
+    patterns:
+    - name: text.network.cisco.ace.class-map.match-virtual
+      match: (\d+\s+)?(match)\s+(virtual-address)\s+(\S+)\s+(?:(any)|(?:(tcp|udp)\s+(?:(any)|(?:(eq)\s+(\d+))|(?:(range)\s+(\d+)\s+(\d+)))))\s*(?:\s+(\S+))?$
+      captures:
+        '1': {name: constant.language}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: constant.language}
+        '5': {name: entity.name.function}
+        '6': {name: support.constant}
+        '7': {name: entity.name.function}
+        '8': {name: support.constant}
+        '9': {name: constant.language}
+        '10': {name: support.constant}
+        '11': {name: constant.language}
+        '12': {name: constant.language}
+        '13': {name: invalid.illegal}
