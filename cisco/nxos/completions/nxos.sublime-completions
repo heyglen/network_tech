@@ -2,7 +2,6 @@
     "scope": "text.network.cisco.base.nxos",
     "completions": [
         "fex ",
-        "service-policy ",
         "ethernet "
     ]
 }

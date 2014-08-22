@@ -6,8 +6,6 @@
         "object-group ",
         "access-list ",
         "access-group ",
-        "line ",
-        "line ",
         "network "
     ]
 }

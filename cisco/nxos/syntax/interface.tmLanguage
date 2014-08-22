@@ -118,6 +118,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#spanning-tree-bpduguard</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#channel-group</string>
 						</dict>
 						<dict>
@@ -230,6 +234,41 @@
 					<string>(?i)^\s*(service-policy)\s+(type)\s+(queuing)\s+(output)\s+(\S+)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.nxos.interface.service-policy</string>
+				</dict>
+			</array>
+		</dict>
+		<key>spanning-tree-bpduguard</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.key</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?i)^\s*(spanning-tree)\s+(bpduguard)\s+(?:(enable)|(disable))</string>
+					<key>name</key>
+					<string>text.network.cisco.base.nxos.interface.spanning-tree.bpduguard</string>
 				</dict>
 			</array>
 		</dict>

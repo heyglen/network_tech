@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ASA interface
+name: .
 scopeName: text.network.cisco.asa.interface
 uuid: 8e510814-afc1-45ca-879f-061aa5dda202
 

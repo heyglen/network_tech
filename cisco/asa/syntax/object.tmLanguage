@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Cisco ASA object</string>
+	<string>.</string>
 	<key>patterns</key>
 	<array>
 		<dict>

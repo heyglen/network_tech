@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ASA AAA
+name: .
 scopeName: text.network.cisco.asa.aaa-server
 uuid: 8e510814-afc1-45ba-879f-061aa5eda204
 

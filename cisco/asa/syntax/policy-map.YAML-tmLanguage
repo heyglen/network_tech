@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ASA Policy Map
+name: .
 scopeName: text.network.cisco.asa.policy
 uuid: 2f2986dd-256a-44d3-b552-a5f6535845fa
 

@@ -3,10 +3,10 @@ default interface Ethernet0/1
 interface Ethernet
 
 interface Ethernet 100/0/1
-	ip address 1.1.1.0 255.255.255.0
 	service-policy type queuing output POLICY
 	spanning-tree port type edge trunk
-	no shutdown
+	spanning-tree bpduguard enable 
+	spanning-tree bpduguard disable
 	channel-group 91 mode active
 	vpc 123
 

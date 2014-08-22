@@ -1,0 +1,25 @@
+{
+    "scope": "text.network.cisco.base.nxos.interface",
+    "completions": [
+        "spanning-tree ",
+        "mode ",
+        "edge ",
+        "port ",
+        "bpduguard ",
+        "enable ",
+        "disable ",
+        "queuing ",
+        "output ",
+        "type ",
+        "vpc ",
+        "channel-group ",
+        "service-policy ",
+        "access ",
+        "active ",
+        "on ",
+        "shutdown ",
+        "no ",
+        "trunk "
+    ]
+}
+
