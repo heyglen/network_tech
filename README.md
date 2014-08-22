@@ -27,7 +27,6 @@ Add the sublime-network scope to auto completions setting in between the bracket
 ```JSON
 {
 "auto_complete_selector": "text.network",
-...
 }
 ```
 **Installation**
