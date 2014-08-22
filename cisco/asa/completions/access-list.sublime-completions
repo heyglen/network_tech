@@ -1,0 +1,23 @@
+{
+    "scope": "text.network.cisco.asa.access-list",
+    "completions": [
+        "line ",
+        "host ",
+        "extended ",
+        "permit ",
+        "deny ",
+        "inactive ",
+        "tcp ",
+        "udp ",
+        "icmp ",
+        "any ",
+        "any4 ",
+        "any6 ",
+        "object ",
+        "log ",
+        "eq ",
+        "range ",
+        "object-group "
+    ]
+}
+

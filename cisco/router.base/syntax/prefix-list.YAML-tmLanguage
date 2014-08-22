@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Base Prefix-list
+name: .
 scopeName: text.network.cisco.base.ip.prefix-list
 uuid: c427e44c-9718-4589-a780-c2c837ec8967
 

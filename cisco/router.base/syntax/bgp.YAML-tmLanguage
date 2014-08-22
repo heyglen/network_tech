@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco Base BGP
+name: .
 scopeName: text.network.cisco.base.bgp
 uuid: 34955740-df89-4de1-9001-10d53738fa23
 

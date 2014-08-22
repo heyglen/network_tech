@@ -1,5 +1,5 @@
 {
-    "scope": "text.network.cisco.ios",
+    "scope": "text.network.cisco.base",
     "completions": [
         "copy ",
         "running-config ",
@@ -34,7 +34,6 @@
         "prefix-list ",
 		"seq ",
 		"undebug ",
-		"write ",
         "aaa ",
         "access-list ",
         "config-register ",

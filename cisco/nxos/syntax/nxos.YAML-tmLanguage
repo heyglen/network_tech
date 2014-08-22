@@ -6,4 +6,5 @@ uuid: e5441a2e-8364-4339-b1e2-f79de773f570
 
 patterns:
 - include: text.network.cisco.base.nxos.interface
+- include: text.network.cisco.base.nxos.show
 - include: text.network.cisco.base

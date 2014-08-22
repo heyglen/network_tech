@@ -1,0 +1,14 @@
+{
+    "scope": "text.network.cisco.asa",
+    "completions": [
+        "write ",
+        "nameif ",
+        "object-group ",
+        "access-list ",
+        "access-group ",
+        "line ",
+        "line ",
+        "network "
+    ]
+}
+

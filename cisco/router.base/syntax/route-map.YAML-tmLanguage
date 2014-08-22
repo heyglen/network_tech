@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 ---
-name: Base Route Map
+name: .
 scopeName: text.network.cisco.base.route-map
 uuid: 6d331ea6-7d01-4c6e-a568-0deeb79312e9
 

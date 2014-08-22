@@ -3,9 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Cisco Base Interface</string>
+	<string>.</string>
 	<key>patterns</key>
 	<array>
+		<dict>
+			<key>include</key>
+			<string>#interface-run-int</string>
+		</dict>
 		<dict>
 			<key>include</key>
 			<string>#interface</string>
@@ -17,10 +21,6 @@
 		<dict>
 			<key>include</key>
 			<string>#interface-default</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#show-run-int</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -859,46 +859,6 @@
 				</dict>
 			</array>
 		</dict>
-		<key>show-run-int</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.function</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>entity.other.inherited-class</string>
-						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric.vlan.id</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(show)\s+(run)\s+(interface)\s+(\D+)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
-					<key>name</key>
-					<string>text.network.cisco.base.interface.show.run</string>
-				</dict>
-			</array>
-		</dict>
 		<key>shutdown</key>
 		<dict>
 			<key>patterns</key>
@@ -1136,7 +1096,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.scope.interface</string>
+	<string>text.network.cisco.base.interface</string>
 	<key>uuid</key>
 	<string>0f297425-7bd7-431d-bfbd-824e3f9aad68</string>
 </dict>

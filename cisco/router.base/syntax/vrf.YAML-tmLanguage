@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Base VRF
+name: .
 scopeName: text.network.cisco.base.vrf
 uuid: e5441a2e-8364-4339-b1e2-f79db773f581
 

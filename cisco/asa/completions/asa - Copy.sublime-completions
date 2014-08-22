@@ -1,0 +1,9 @@
+{
+    "scope": "text.network.cisco.asa",
+    "completions": [
+        "write ",
+        "nameif ",
+        "network "
+    ]
+}
+

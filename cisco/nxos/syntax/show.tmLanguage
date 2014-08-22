@@ -2,76 +2,59 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>fileTypes</key>
+	<array/>
 	<key>name</key>
 	<string>.</string>
 	<key>patterns</key>
 	<array>
 		<dict>
 			<key>include</key>
-			<string>#route-map</string>
+			<string>#show-int</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#show-run-int</string>
 		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
-		<key>route-map</key>
+		<key>show-int</key>
 		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>begin</key>
-					<string>^(route-map)\s+(\S+)\s+(?:(permit)|(deny))\s+(\d+)\s*(\s\S.*)?$</string>
-					<key>beginCaptures</key>
+					<key>captures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>string.unquoted</string>
+							<string>variable.parameter</string>
 						</dict>
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.inherited-class</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.other</string>
-						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
 							<string>constant.numeric</string>
 						</dict>
-						<key>6</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
-						</dict>
 					</dict>
-					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))</string>
+					<key>match</key>
+					<string>^(?i)\s*(show)\s+(interface)(?:\s+(ethernet|port-channel|vlan)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.route-map</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#set-local-preference</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>text.network.cisco</string>
-						</dict>
-					</array>
+					<string>text.network.cisco.base.nxos.show.run.interface</string>
 				</dict>
 			</array>
 		</dict>
-		<key>set-local-preference</key>
+		<key>show-run-int</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -91,25 +74,30 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
+							<string>variable.parameter</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>invalid.illegal</string>
+							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(set)\s+(local-preference)\s+(\d+)\s*(\s\S.*)?$</string>
+					<string>^(?i)\s*(show)\s+(run)\s+(interface)(?:\s+(ethernet|port-channel|vlan)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.route-map.set.local-preference</string>
+					<string>text.network.cisco.base.nxos.show.interface</string>
 				</dict>
 			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.route-map</string>
+	<string>text.network.cisco.base.nxos.show</string>
 	<key>uuid</key>
-	<string>6d331ea6-7d01-4c6e-a568-0deeb79312e9</string>
+	<string>b1546df2-7c0d-4b83-89a4-b1b2be929f2e</string>
 </dict>
 </plist>

@@ -7,16 +7,17 @@ patterns:
 - include: '#remove-configuration'
 - include: '#static-route'
 - include: '#alias'
-- include: '#write'
 - include: '#access-list'
 - include: '#config-t'
+- include: '#copy'
 - include: text.network.cisco
 - include: text.network.cisco.base.vlan
 - include: text.network.cisco.base.vrf
 - include: text.network.cisco.base.bgp
 - include: text.network.cisco.base.ip.prefix-list
-- include: text.network.cisco.base.scope.interface
+- include: text.network.cisco.base.interface
 - include: text.network.cisco.base.route-map
+- include: text.network.cisco.base.show
 
 repository:
   access-list:
@@ -35,17 +36,9 @@ repository:
       - include: text.network.cisco
       - include: text.network.cisco.scope
 
-  write:
-    patterns:
-    - name: text.network.cisco.base.write
-      match: ^\s*(write)(?:\s+(net))?\s*(?:\s*(\S.*))?$
-      captures:
-        '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: invalid.illegal}
   config-t:
     patterns:
-    - name: text.network.cisco.base.write
+    - name: text.network.cisco.base.configure.terminal
       match: ^\s*(configure)\s+(terminal)\s*(?:\s*(\S.*))?$
       captures:
         '1': {name: support.constant}
@@ -83,3 +76,42 @@ repository:
       match: ^\s*permit ip any any\s+
       captures:
         '0': {name: entity.name.function}
+
+  copy:
+    patterns:
+    - name: text.network.cisco.base.copy
+      begin: ^\s*(copy)\s+
+      beginCaptures:
+        '1': {name: 'support.constant'}
+      end: (?=\s*$)
+      patterns:
+      - include: '#copy-run-start'
+      - include: '#copy-start-run'
+      - include: '#copy-run-ftp'
+
+  copy-run-start:
+    patterns:
+    - name: text.network.cisco.base.copy.run-start
+      match: (running-config)\s+(startup-config)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+
+  copy-run-ftp:
+    patterns:
+    - name: text.network.cisco.base.copy.run-ftp
+      match: (running-config)\s+(t?ftp)(://)((?:\d+\.){3}\d+)(\/\S*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.name.function}
+        '3': {name: support.constant}
+        '4': {name: constant.language}
+        '5': {name: support.constant}
+
+  copy-start-run:
+    patterns:
+    - name: text.network.cisco.base.copy.start-run
+      match: (startup-config)\s+(running-config)
+      captures:
+        '1': {name: keyword.other}
+        '2': {name: keyword.other}

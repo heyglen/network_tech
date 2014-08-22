@@ -5,6 +5,8 @@ vlan 20
 
 ip route vrf RED 1.1.1.0 255.255.255.0 2.2.2.2
 
+
+show run interface Vlan 1
 default interface Vlan 1
 
 ip vrf asdf 
@@ -71,5 +73,5 @@ router bgp 123
 		neighbor 1.1.1.1 route-map ROUTE-MAP-NAME out
 		neighbor 1.1.1.1 inherit peer-policy POLICY-NAME
 
-write
+
 configure terminal

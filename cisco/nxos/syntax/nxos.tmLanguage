@@ -16,6 +16,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>text.network.cisco.base.nxos.show</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>text.network.cisco.base</string>
 		</dict>
 	</array>

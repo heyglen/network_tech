@@ -5,7 +5,7 @@
 	<key>fileTypes</key>
 	<array/>
 	<key>name</key>
-	<string>NXOS Interface</string>
+	<string>.</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -23,6 +23,56 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>channel-group</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(channel-group)\s+(\d+)(?:\s+(?:(force)|(?:(mode)\s+(?:(active)|(on)|(passive)))?))?</string>
+					<key>name</key>
+					<string>text.network.cisco.base.nxos.interface.channel-group</string>
+				</dict>
+			</array>
+		</dict>
 		<key>interface</key>
 		<dict>
 			<key>patterns</key>
@@ -56,7 +106,7 @@
 					<array>
 						<dict>
 							<key>include</key>
-							<string>text.network.cisco.base.scope.interface</string>
+							<string>text.network.cisco.base.interface</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -65,6 +115,10 @@
 						<dict>
 							<key>include</key>
 							<string>#spanning-tree-trunk-edge</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#channel-group</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -209,7 +263,7 @@
 						<key>5</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>entity.other.inherited-class</string>
 						</dict>
 					</dict>
 					<key>match</key>

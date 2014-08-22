@@ -14,7 +14,44 @@
 			<key>include</key>
 			<string>text.network.cisco.base</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>#write</string>
+		</dict>
 	</array>
+	<key>repository</key>
+	<dict>
+		<key>write</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(write)(?:\s+(net))?\s*(?:\s*(\S.*))?$</string>
+					<key>name</key>
+					<string>text.network.cisco.base.write</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
 	<key>scopeName</key>
 	<string>text.network.cisco.base.ios</string>
 	<key>uuid</key>

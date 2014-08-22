@@ -1,7 +1,9 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
 name: IP
 patterns:
-- {include: '#ipv4'}
-- {include: '#ipv6'}
+- include: '#ipv4'
+- include: '#ipv6'
+
 repository:
   ipv4:
     patterns:

@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco
+name: .
 scopeName: text.network.cisco
 uuid: c9ea5cbe-6199-445e-8629-82ed61e98c95
 

@@ -1,0 +1,34 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: .
+scopeName: text.network.cisco.base.show
+fileTypes: []
+uuid: 7e58277e-6948-4150-8d1b-9def2dd1b683
+
+patterns:
+- include: '#show-run-int'
+- include: '#show-int'
+
+repository:
+
+  show-run-int:
+    patterns:
+    - name: text.network.cisco.base.show.run.interface
+      match: ^(?i)\s*(show)\s+(run)\s+(interface)(?:\s+((?:port-channel|vlan))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: variable.parameter}
+        '4': {name: entity.other.inherited-class}
+        '5': {name: constant.numeric}
+
+  show-int:
+    patterns:
+    - name: text.network.cisco.base.show.run.interface
+      match: ^(?i)\s*(show)\s+(interface)(?:\s+((?:port-channel|vlan))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: variable.parameter}
+        '3': {name: entity.other.inherited-class}
+        '4': {name: constant.numeric}
+

@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 ---
-name: Base VLAN
+name: .
 scopeName: text.network.cisco.base.vlan
 uuid: 7740f442-243f-485b-96b6-4f1dd83494f3
 

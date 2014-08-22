@@ -7,4 +7,7 @@ interface Ethernet 100/0/1
 	service-policy type queuing output POLICY
 	spanning-tree port type edge trunk
 	no shutdown
+	channel-group 91 mode active
 	vpc 123
+
+
