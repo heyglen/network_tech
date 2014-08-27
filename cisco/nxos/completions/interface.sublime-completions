@@ -2,6 +2,7 @@
     "scope": "text.network.cisco.base.nxos.interface",
     "completions": [
         "spanning-tree ",
+        "switchport ",
         "mode ",
         "edge ",
         "port ",

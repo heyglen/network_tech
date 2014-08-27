@@ -1,9 +1,15 @@
 {
-    "scope": "text.network.cisco.ios.vrf",
+    "scope": "text.network.cisco.base.vrf",
     "completions": [
         "description ",
         "route-target ",
-    	"both ",
+        "both ",
+    	"address-family ",
+    	"exit-address-family ",
+    	"export ",
+    	"map ",
+    	"ipv4 ",
+    	"ipv6 ",
         "rd "
     ]
 }

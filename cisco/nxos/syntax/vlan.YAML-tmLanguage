@@ -1,0 +1,42 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: .
+scopeName: text.network.cisco.base.nxos.vlan
+fileTypes: []
+uuid: f54adac1-abc0-4097-843e-b3ee96f1112e
+
+patterns:
+- include: '#vlan'
+
+repository:
+  vlan:
+    patterns:
+    - name: text.network.cisco.base.vlan
+      begin: ^(vlan)\s+(\d+)\s*(\s\S.*)?$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: constant.numeric}
+        '3': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))
+      patterns:
+      - include: '#name'
+      - include: '#mode'
+      - include: text.network.cisco
+
+  name:
+    patterns:
+    - name: text.network.cisco.base.vlan.name
+      match: ^\s*(name)\s+(\S+)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+
+  mode:
+    patterns:
+    - name: text.network.cisco.base.vlan.name
+      match: ^\s*(mode)\s+(fabricpath)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+        '4': {name: invalid.illegal}

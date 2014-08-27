@@ -15,7 +15,6 @@ patterns:
 - include: text.network.cisco.base.vrf
 - include: text.network.cisco.base.bgp
 - include: text.network.cisco.base.ip.prefix-list
-- include: text.network.cisco.base.interface
 - include: text.network.cisco.base.route-map
 - include: text.network.cisco.base.show
 

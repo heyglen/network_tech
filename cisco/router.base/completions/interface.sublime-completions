@@ -1,5 +1,5 @@
 {
-    "scope": "text.network.cisco.ios.interface",
+    "scope": "text.network.cisco.base.interface",
     "completions": [
     	"ip ",
     	"vrf ",

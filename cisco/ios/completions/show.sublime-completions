@@ -1,0 +1,10 @@
+{
+    "scope": "text.network.cisco.base.ios.show",
+    "completions": [
+        "ip ",
+        "vrf ",
+        "route ",
+        "show "
+    ]
+}
+

@@ -1,6 +1,16 @@
 {
     "scope": "text.network.cisco.base.ios",
     "completions": [
+        "ip ",
+        "ipv6 ",
+        "vlan ",
+        "vrf ",
+        "interface ",
+        "vlan ",
+        "FastEthernet ",
+        "GigabitEthernet ",
+        "TenGigabitEthernet ",
+        "general-prefix ",
         "write "
     ]
 }

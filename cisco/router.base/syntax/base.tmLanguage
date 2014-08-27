@@ -52,10 +52,6 @@
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>text.network.cisco.base.interface</string>
-		</dict>
-		<dict>
-			<key>include</key>
 			<string>text.network.cisco.base.route-map</string>
 		</dict>
 		<dict>

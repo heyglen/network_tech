@@ -10,20 +10,12 @@
 	<array>
 		<dict>
 			<key>include</key>
-			<string>#show-int</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#show-vlan</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#show-run-int</string>
+			<string>#vlan</string>
 		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
-		<key>show-int</key>
+		<key>mode</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -38,27 +30,22 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>entity.other.inherited-class</string>
+							<string>string.unquoted</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
+							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^(?i)\s*(show)\s+(interface)(?:\s+(ethernet|port-channel|vlan)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?))?</string>
+					<string>^\s*(mode)\s+(fabricpath)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.base.nxos.show.run.interface</string>
+					<string>text.network.cisco.base.vlan.name</string>
 				</dict>
 			</array>
 		</dict>
-		<key>show-run-int</key>
+		<key>name</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -73,70 +60,59 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>variable.parameter</string>
+							<string>string.unquoted</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>entity.other.inherited-class</string>
-						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
+							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^(?i)\s*(show)\s+(run)\s+(interface)(?:\s+(ethernet|port-channel|vlan)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?))?</string>
+					<string>^\s*(name)\s+(\S+)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.base.nxos.show.interface</string>
+					<string>text.network.cisco.base.vlan.name</string>
 				</dict>
 			</array>
 		</dict>
-		<key>show-vlan</key>
+		<key>vlan</key>
 		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(show)\s+(vlan)(?:\s+(id)\s+(\d+))?</string>
+					<string>^(vlan)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>variable.parameter</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>constant.numeric</string>
 						</dict>
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
+							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=\||\n)</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.base.vlan.show</string>
+					<string>text.network.cisco.base.vlan</string>
 					<key>patterns</key>
 					<array>
 						<dict>
 							<key>include</key>
 							<string>#name</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#mode</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -148,8 +124,8 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.nxos.show</string>
+	<string>text.network.cisco.base.nxos.vlan</string>
 	<key>uuid</key>
-	<string>b1546df2-7c0d-4b83-89a4-b1b2be929f2e</string>
+	<string>f54adac1-abc0-4097-843e-b3ee96f1112e</string>
 </dict>
 </plist>

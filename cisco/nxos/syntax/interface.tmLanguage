@@ -79,7 +79,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?i)^\s*(interface)\s+(Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)</string>
+					<string>(?i)^\s*(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -110,6 +110,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#service-policy</string>
 						</dict>
 						<dict>
@@ -127,6 +131,30 @@
 						<dict>
 							<key>include</key>
 							<string>#vpc</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#no-shutdown</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#shutdown</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-encapsulation</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-access-vlan</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-mode</string>
 						</dict>
 					</array>
 				</dict>
@@ -166,7 +194,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?i)^\s*(default)\s+(interface)\s+(Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)</string>
+					<string>(?i)^\s*(default)\s+(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.nxos.interface.default</string>
 				</dict>
@@ -191,9 +219,39 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^(?i)(interface)\s+(Ethernet|VLAN|Port-Channel)\s+</string>
+					<string>^(?i)(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s+</string>
 					<key>name</key>
 					<string>text.network.cisco.base.nxos.interface.port-type</string>
+				</dict>
+			</array>
+		</dict>
+		<key>no-shutdown</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(no)\s+(shutdown)(?:\s+(\S.*))?</string>
+					<key>name</key>
+					<string>text.network.cisco.base.nxos.interface.ipv4.helper</string>
 				</dict>
 			</array>
 		</dict>
@@ -234,6 +292,26 @@
 					<string>(?i)^\s*(service-policy)\s+(type)\s+(queuing)\s+(output)\s+(\S+)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.nxos.interface.service-policy</string>
+				</dict>
+			</array>
+		</dict>
+		<key>shutdown</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(shutdown)\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.base.nxos.interface.shutdown</string>
 				</dict>
 			</array>
 		</dict>
@@ -309,6 +387,161 @@
 					<string>(?i)^\s*(spanning-tree)\s+(port)\s+(type)\s+(edge)\s+(trunk)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.nxos.interface.spanning-tree.trunk.edge</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-access-vlan</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric.vlan.id</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(switchport)\s+(access)\s+(?:(vlan)\s+(\d+)?)?</string>
+					<key>name</key>
+					<string>text.network.cisco.base.nxos.interface.switchport.access</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-mode</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(switchport)\s+(?:(mode)\s+(trunk|access|capture|fabricpath)?)?</string>
+					<key>name</key>
+					<string>text.network.cisco.base.nxos.interface.switchport.mode</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-allowed-vlan</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>vlan</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)(?:(?:(?:\s+(?:(add)|(remove)))?)(?:\s+(?&lt;vlan&gt;\d+)(?:\s*([,-])\s*(?&lt;vlan&gt;\d+))*)?)?)?</string>
+					<key>name</key>
+					<string>text.network.cisco.base.nxos.interface.switchport.trunk.allowed.vlan</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-encapsulation</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(switchport)\s+(trunk)\s+(encapsulation)\s+(dot1q)?</string>
+					<key>name</key>
+					<string>text.network.cisco.base.nxos.interface.switchport.trunk.encapsulation</string>
 				</dict>
 			</array>
 		</dict>

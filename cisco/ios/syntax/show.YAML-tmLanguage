@@ -1,0 +1,22 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: .
+scopeName: text.network.cisco.base.ios.show
+uuid: 7e5558b5-171e-4364-8eb5-961720a8fa5a
+
+patterns:
+- include: "#show-ip-route"
+
+
+repository:
+  show-ip-route:
+    patterns:
+    - name: text.network.cisco.base.show.ip.route
+      match: ^\s*(show)\s+(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?(?:\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: entity.other.inherited-class}
+        '6': {name: constant.numeric}
+        '7': {name: invalid.illegal}

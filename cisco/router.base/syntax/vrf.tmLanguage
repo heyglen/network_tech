@@ -13,6 +13,126 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>address-family</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(address-family)\s+(ipv(?:4|6))\s*$</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|\s*(?:exit-)?address-family|\s*exit|\s*end)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.vrf.address-family</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#rd</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#route-target</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>exit-address-family</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>text.network.cisco.base.rt.definition</string>
+						</dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric.rt</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>Route Distinguisher</string>
+					<key>match</key>
+					<string>^\s*(exit-address-family)\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.base.vrf.definition.address-family-exit</string>
+				</dict>
+			</array>
+		</dict>
+		<key>export-map</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>Export Map</string>
+					<key>match</key>
+					<string>^\s*(export\s+map)\s+(\S+)$</string>
+					<key>name</key>
+					<string>text.network.cisco.base.vrf.definition.export.map</string>
+				</dict>
+			</array>
+		</dict>
 		<key>rd</key>
 		<dict>
 			<key>patterns</key>
@@ -91,7 +211,7 @@
 					<key>comment</key>
 					<string>Route Distinguisher</string>
 					<key>match</key>
-					<string>^\s*(route-target)\s+(?:(export|import|both)|(\S+))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)$</string>
+					<string>^\s*(route-target)\s+(?:(export|import|both)|(\S+))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)\s*$</string>
 					<key>name</key>
 					<string>text.network.cisco.base.vrf.definition.rt</string>
 				</dict>
@@ -144,7 +264,19 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#address-family</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#exit-address-family</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#route-target</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#export-map</string>
 						</dict>
 						<dict>
 							<key>include</key>

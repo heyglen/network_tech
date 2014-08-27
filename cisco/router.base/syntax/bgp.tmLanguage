@@ -19,7 +19,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s+(address-family)\s+(ipv4|6)\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$</string>
+					<string>^\s+(address-family)\s+(ipv(?:4|6))\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -49,7 +49,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|\s*(?:exit-)?address-family|\s*exit|\s*end)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.bgp.address-family</string>
 					<key>patterns</key>
@@ -57,6 +57,10 @@
 						<dict>
 							<key>include</key>
 							<string>#neighbor-remote-as</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ipv4-network</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -136,6 +140,10 @@
 					<array>
 						<dict>
 							<key>include</key>
+							<string>#exit-address-family</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#address-family</string>
 						</dict>
 						<dict>
@@ -151,6 +159,71 @@
 							<string>text.network.cisco</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>exit-address-family</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(exit-address-family)\s*(\s\S.*)?$</string>
+					<key>name</key>
+					<string>text.network.cisco.base.bgp.address-family.exit</string>
+				</dict>
+			</array>
+		</dict>
+		<key>ipv4-network</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s+(network)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)(?:\s+(mask)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+))?\s*(\s+\S.*)?$</string>
+					<key>name</key>
+					<string>text.network.cisco.base.bgp.network.ipv4</string>
 				</dict>
 			</array>
 		</dict>

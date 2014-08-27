@@ -37,6 +37,7 @@
 		"undebug ",
         "aaa ",
         "access-list ",
+        "access-group ",
         "config-register ",
         "end ",
         "ft ",

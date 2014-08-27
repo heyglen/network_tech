@@ -22,7 +22,29 @@ repository:
     patterns:
     - comment: Route Distinguisher
       name: text.network.cisco.base.vrf.definition.rt
-      match: ^\s*(route-target)\s+(?:(export|import|both)|(\S+))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)$
+      match: ^\s*(route-target)\s+(?:(export|import|both)|(\S+))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)\s*$
+      captures:
+        '0': {name: text.network.cisco.base.rt.definition}
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+        '4': {name: constant.numeric.rt}
+        '5': {name: invalid.illegal}
+
+  export-map:
+    patterns:
+    - comment: Export Map
+      name: text.network.cisco.base.vrf.definition.export.map
+      match: ^\s*(export\s+map)\s+(\S+)$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+
+  exit-address-family:
+    patterns:
+    - comment: Route Distinguisher
+      name: text.network.cisco.base.vrf.definition.address-family-exit
+      match: ^\s*(exit-address-family)\s*$
       captures:
         '0': {name: text.network.cisco.base.rt.definition}
         '1': {name: support.constant}
@@ -42,6 +64,23 @@ repository:
         '4': {name: invalid.deprecated}
         '5': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: '#rd'
+      - include: '#address-family'
+      - include: '#exit-address-family'
+      - include: '#route-target'
+      - include: '#export-map'
+      - include: text.network.cisco.scope
+      - include: text.network.cisco
+
+  address-family:
+    patterns:
+    - name: text.network.cisco.base.vrf.address-family
+      begin: ^\s*(address-family)\s+(ipv(?:4|6))\s*$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|\s*(?:exit-)?address-family|\s*exit|\s*end)
       patterns:
       - include: '#rd'
       - include: '#route-target'

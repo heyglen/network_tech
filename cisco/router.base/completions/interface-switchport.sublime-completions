@@ -1,5 +1,5 @@
 {
-    "scope": "text.network.cisco.ios.interface.switchport",
+    "scope": "text.network.cisco.base.interface.switchport",
     "completions": [
         "trunk",
         "access ",

@@ -14,7 +14,7 @@ repository:
   interface:
     patterns:
     - name: text.network.cisco.base.nxos.interface
-      begin: (?i)^\s*(interface)\s+(Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)
+      begin: (?i)^\s*(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: entity.other.inherited-class}
@@ -22,16 +22,23 @@ repository:
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))
       patterns:
       - include: text.network.cisco.base.interface
+      - include: text.network.cisco.scope
       - include: '#service-policy'
       - include: '#spanning-tree-trunk-edge'
       - include: '#spanning-tree-bpduguard'
       - include: '#channel-group'
       - include: '#vpc'
+      - include: '#no-shutdown'
+      - include: '#shutdown'
+      - include: '#switchport-trunk-allowed-vlan'
+      - include: '#switchport-trunk-encapsulation'
+      - include: '#switchport-access-vlan'
+      - include: '#switchport-mode'
 
   interface-port-type:
     patterns:
     - name: text.network.cisco.base.nxos.interface.port-type
-      match: ^(?i)(interface)\s+(Ethernet|VLAN|Port-Channel)\s+
+      match: ^(?i)(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s+
       captures:
         '1': {name: variable.parameter}
         '2': {name: entity.other.inherited-class}
@@ -39,7 +46,7 @@ repository:
   interface-default:
     patterns:
     - name: text.network.cisco.base.nxos.interface.default
-      match: (?i)^\s*(default)\s+(interface)\s+(Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)
+      match: (?i)^\s*(default)\s+(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)
       captures:
         '1': {name: support.constant}
         '2': {name: variable.parameter}
@@ -100,3 +107,80 @@ repository:
         '6': {name: entity.other.inherited-class}
         '7': {name: entity.other.inherited-class}
 
+
+
+  no-shutdown:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.ipv4.helper
+      match: \s*(no)\s+(shutdown)(?:\s+(\S.*))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+
+  shutdown:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.shutdown
+      match: ^\s*(shutdown)\s*$
+      captures:
+        '1': {name: keyword.other}
+
+
+  switchport-mode:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.switchport.mode
+      match: ^\s*(switchport)\s+(?:(mode)\s+(trunk|access|capture|fabricpath)?)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: entity.name.function}
+
+  shutdown:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.shutdown
+      match: ^\s*(shutdown)\s*$
+      captures:
+        '1': {name: keyword.other}
+
+  switchport-trunk-allowed-vlan:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.switchport.trunk.allowed.vlan
+      match: ^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)(?:(?:(?:\s+(?:(add)|(remove)))?)(?:\s+(?<vlan>\d+)(?:\s*([,-])\s*(?<vlan>\d+))*)?)?)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: entity.name.function}
+        '6': {name: keyword.other}
+        '8': {name: support.constant}
+        'vlan': {name: constant.numeric}
+
+  switchport-trunk-encapsulation:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.switchport.trunk.encapsulation
+      match: ^\s*(switchport)\s+(trunk)\s+(encapsulation)\s+(dot1q)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+
+  switchport-access-vlan:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.switchport.access
+      match: ^\s*(switchport)\s+(access)\s+(?:(vlan)\s+(\d+)?)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: constant.numeric.vlan.id}
+
+  switchport-mode:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.switchport.mode
+      match: ^\s*(switchport)\s+(?:(mode)\s+(trunk|access|capture|fabricpath)?)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: entity.name.function}
