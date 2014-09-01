@@ -1,0 +1,12 @@
+{
+    "scope": "text.network.cisco.base.route-map",
+    "completions": [
+        "set ",
+        "ip ",
+        "address ",
+        "prefix-list ",
+        "rt ",
+        "extcommunity ",
+        "match "
+    ]
+}
