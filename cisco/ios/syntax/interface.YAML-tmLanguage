@@ -79,6 +79,7 @@ repository:
       - include: '#subinterface-encapsulation'
       - include: '#ipv6'
       - include: '#shutdown'
+      - include: '#service-policy'
       - include: '#vrf-legacy'
       - include: '#vrf'
       - include: '#access-group'
@@ -130,9 +131,9 @@ repository:
   vrf-legacy:
     patterns:
     - name: text.network.cisco.base.ios.interface.vrf
-      match: \s*ip\s+vrf\s+forwarding\s+\S+(?:\s+(\S.*))?
+      match: \s*(ip\s+vrf\s+forwarding)\s+(\S+)(?:\s+(\S.*))?
       captures:
-        '0': {name: invalid.deprecated}
+        '1': {name: invalid.deprecated}
         '2': {name: string.unquoted}
         '3': {name: invalid.illegal}
 
@@ -200,6 +201,16 @@ repository:
         '4': {name: constant.numeric}
         '5': {name: invalid.illegal}
 
+  service-policy:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.service-policy
+      match: \s*(service-policy)\s+(input|output)\s+(\S+)(?:\s+(\S.*))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+
   hsrp-track:
     patterns:
     - name: text.network.cisco.base.ios.interface.hsrp.track
@@ -215,7 +226,7 @@ repository:
 
   access-group:
     patterns:
-    - name: text.network.cisco.base.ios.interface.vrf
+    - name: text.network.cisco.base.ios.interface.access-group
       match: \s*(ip\s+access-group)\s+(\S+)\s+(in|out)(?:\s+(\S.*))?
       captures:
         '1': {name: support.constant}

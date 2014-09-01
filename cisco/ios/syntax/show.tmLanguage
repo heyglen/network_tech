@@ -43,7 +43,7 @@
 						<key>5</key>
 						<dict>
 							<key>name</key>
-							<string>entity.other.inherited-class</string>
+							<string>string.unquoted</string>
 						</dict>
 						<key>6</key>
 						<dict>

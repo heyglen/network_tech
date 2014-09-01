@@ -13,6 +13,51 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>match-prefix-list</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(match)\s+(ip)\s+(address)\s+(prefix-list)\s+(\S+)\s*(\s\S.*)?$</string>
+					<key>name</key>
+					<string>text.network.cisco.base.route-map.match.prefix-list</string>
+				</dict>
+			</array>
+		</dict>
 		<key>route-map</key>
 		<dict>
 			<key>patterns</key>
@@ -65,9 +110,57 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#set-extcommunity</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#match-prefix-list</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.network.cisco</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>set-extcommunity</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(set)\s+(extcommunity)\s+(rt)\s+(\d+:\d+)\s*(\s\S.*)?$</string>
+					<key>name</key>
+					<string>text.network.cisco.base.route-map.set.extcommunity</string>
 				</dict>
 			</array>
 		</dict>

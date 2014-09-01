@@ -48,7 +48,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>string.unquoted</string>
 						</dict>
 						<key>3</key>
 						<dict>

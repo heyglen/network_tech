@@ -4,13 +4,14 @@ scopeName: text.network.cisco.base.ip.prefix-list
 uuid: c427e44c-9718-4589-a780-c2c837ec8967
 
 patterns:
-- include: '#prefix-list'
+- include: '#ipv4-prefix-list'
+- include: '#ipv6-prefix-list'
 
 repository:
-  prefix-list:
+  ipv4-prefix-list:
     patterns:
-    - name: text.network.cisco.base.ip.prefix-list
-      match: ^\s*(ip)\s+(prefix-list)\s+(\S+)\s+(seq)\s+(\d+)\s+(?:(permit)|(deny))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)/[123]?\d)\s*(\s\S.*)?$
+    - name: text.network.cisco.base.ipv4.prefix-list
+      match: ^\s*(ip)\s+(prefix-list)\s+(\S+)\s+(seq)\s+(\d+)\s+(?:(permit)|(deny))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)/[123]?\d)(?:\s+(ge|le)\s+(\d+))?\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}
@@ -20,4 +21,23 @@ repository:
         '6': {name: entity.name.function}
         '7': {name: keyword.other}
         '8': {name: constant.numeric}
-        '9': {name: invalid.illegal}
+        '9': {name: support.constant}
+        '10': {name: constant.numeric}
+        '11': {name: invalid.illegal}
+
+  ipv6-prefix-list:
+    patterns:
+    - name: text.network.cisco.base.ipv6.prefix-list
+      match: ^\s*(ipv6)\s+(prefix-list)\s+(\S+)\s+(seq)\s+(\d+)\s+(?:(permit)|(deny))\s+((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?(?:/\d+))(?:\s+(ge|le)\s+(\d+))?\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: support.constant}
+        '5': {name: constant.numeric}
+        '6': {name: entity.name.function}
+        '7': {name: keyword.other}
+        '8': {name: constant.numeric}
+        '9': {name: support.constant}
+        '10': {name: constant.numeric}
+        '11': {name: invalid.illegal}

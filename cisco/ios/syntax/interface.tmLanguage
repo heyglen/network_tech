@@ -148,7 +148,7 @@
 					<key>match</key>
 					<string>\s*(ip\s+access-group)\s+(\S+)\s+(in|out)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.vrf</string>
+					<string>text.network.cisco.base.ios.interface.access-group</string>
 				</dict>
 			</array>
 		</dict>
@@ -464,6 +464,10 @@
 						<dict>
 							<key>include</key>
 							<string>#shutdown</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#service-policy</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -868,6 +872,41 @@
 				</dict>
 			</array>
 		</dict>
+		<key>service-policy</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(service-policy)\s+(input|output)\s+(\S+)(?:\s+(\S.*))?</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.service-policy</string>
+				</dict>
+			</array>
+		</dict>
 		<key>shutdown</key>
 		<dict>
 			<key>patterns</key>
@@ -1110,7 +1149,7 @@
 				<dict>
 					<key>captures</key>
 					<dict>
-						<key>0</key>
+						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>invalid.deprecated</string>
@@ -1127,7 +1166,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*ip\s+vrf\s+forwarding\s+\S+(?:\s+(\S.*))?</string>
+					<string>\s*(ip\s+vrf\s+forwarding)\s+(\S+)(?:\s+(\S.*))?</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.interface.vrf</string>
 				</dict>

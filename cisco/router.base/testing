@@ -31,6 +31,9 @@ ip access-list extended ACL-NAME
 
 ip prefix-list NAME seq 10 permit 10.225.6.0/24
 ip prefix-list NAME seq 10 deny 10.225.6.0/24
+ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1
+ipv6 prefix-list NAME seq 10 permit ::/0
+ipv6 prefix-list NAME seq 200 deny ::/0 ge 1
 
 router bgp 123
 	address-family ipv4 vrf VRF-NAME
@@ -45,6 +48,18 @@ router bgp 123
 		neighbor 1.1.1.1 route-map ROUTE-MAP-NAME in
 		neighbor 1.1.1.1 route-map ROUTE-MAP-NAME out
 		neighbor 1.1.1.1 inherit peer-policy POLICY
+	exit-address-family
+	address-family ipv6 vrf VRF-NAME
+		network ::/0
+		neighbor ::1 activate
+		neighbor ::1 shutdown
+		neighbor ::1 remote-as 1
+		neighbor ::1 ttl-security hops 1
+		neighbor ::1 version 4
+		neighbor ::1 timers 1 2
+		neighbor ::1 route-map  ROUTE-MAP-NAME in
+		neighbor ::1 route-map  ROUTE-MAP-NAME out
+		neighbor ::1 inherit peer-policy POLICY
 	exit-address-family
 
 
