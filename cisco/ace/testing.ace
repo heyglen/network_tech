@@ -17,7 +17,7 @@ ft group 3
 ! On load-balancer-1
 copy running-config startup-config
 copy running-config tftp://1.1.1.1/asdf
-copy startup-config running-config 
+copy startup-config running-config
 hostname lb-1
 changeto context-1
 configure terminal
@@ -59,7 +59,7 @@ resource-class SILVER
 access-list ALLOW_ANY line 1 extended permit ip any any
 access-list ALLOW_ANY line 1 extended deny ip any any
 access-list MGMT_ACL line 1 extended permit ip 1.1.1.1 1.1.1.1 any
- 
+
 probe tcp TCP-PROBE1
   description TCP Health Probe
   open 20
@@ -110,7 +110,6 @@ probe http HTTP-PROBE1
   faildetect 3
   invalid statement
 
-
 rserver host RSERVER1
   description hello
   ip address 1.1.1.1
@@ -121,7 +120,8 @@ rserver host RSERVER2
   inservice
 
 serverfarm host SERVERFARM1
-  description 
+  description
+  no probe
   predictor leastconns slowstart 60
   probe PROBE1
   rserver RSERVER1 80
@@ -130,19 +130,19 @@ serverfarm host SERVERFARM1
     inservice
 
 sticky sip-header name1 name2
-  description 
+  description
 
 sticky rtsp-header session RTSP_GROUP
-  description 
+  description
 
 sticky radius framed-ip calling-station-id name
-  description 
+  description
 
 sticky radius framed-ip username name
-  description 
+  description
 
 sticky http-cookie domain.root name
-  description 
+  description
   timeout 60
   replicate sticky
   cookie offset 90 length 90
@@ -153,19 +153,19 @@ sticky http-cookie domain.root name
   invalid line
 
 sticky layer4-payload L4_PAYLOAD_GROUP
-  description 
+  description
   timeout 30
   replicate sticky
   serverfarm SERVERFARM1
-  
+
 sticky http-header name1 name2
-  description 
+  description
   timeout 30
   replicate sticky
   serverfarm SERVERFARM1
 
 sticky http-content HTTP_CONTENT_GROUP
-  description 
+  description
   timeout 30
   replicate sticky
   static content value rserver name 80
@@ -180,7 +180,7 @@ sticky v6-prefix 64 address source STICKY1
   serverfarm SERVERFARM1
 
 sticky ip-netmask 255.255.255.255 address source STICKY1
-  description 
+  description
   timeout 60
   replicate sticky
   serverfarm SERVERFARM1
@@ -218,6 +218,8 @@ policy-map type loadbalance first-match L7-POLICY-1
   class class-default
     sticky-serverfarm STICKY1
     serverfarm serverfarm1 backup serverfarm2
+    action ACTION-LIST
+    ssl-proxy client SSL-CLIENT
     drop
     forward
 
@@ -229,6 +231,10 @@ policy-map multi-match L4-POLICY-1
     loadbalance vip icmp-reply
     loadbalance vip icmp-reply active
     nat dynamic 29 vlan 3996
+    appl-parameter http advanced-options APPL-PARAM
+    ssl-proxy server SSL-SERVER
+    connection advanced-options CONNECTION-OPTIONS
+
 
 interface vlan 1
   description Management

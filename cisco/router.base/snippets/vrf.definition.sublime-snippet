@@ -1,0 +1,19 @@
+<snippet>
+    <description>Cisco VRF Definition</description>
+    <scope>text.network.cisco.base</scope>
+    <tabTrigger>definition</tabTrigger>
+    <content>
+<![CDATA[
+definition ${1:name}
+  description ${2:${1:name}}
+  rd ${3:AS}:${4:#}${5:unique-id}
+  route-target ${6:both|import|export} ${3:AS}:${4:#}
+  address-family ipv4
+  exit-address-family
+  address-family ipv6
+  exit-address-family
+ exit
+$0
+]]>
+    </content>
+</snippet>

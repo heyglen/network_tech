@@ -1,0 +1,9 @@
+<snippet>
+    <description>ipv6 address</description>
+    <scope>text.network.cisco.base.ios.interface</scope>
+    <tabTrigger>ipv6</tabTrigger>
+    <content><![CDATA[
+ipv6 address ${1:general-prefix} ${2:::/64} ${3:eui-64}$0
+]]></content>
+</snippet>
+

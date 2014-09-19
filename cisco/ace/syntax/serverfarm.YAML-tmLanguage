@@ -48,6 +48,8 @@ repository:
         '3': {name: constant.language}
       end: ^(?=(?:\s+(?:desc|dws|faila|inb|par|pre|re|rs|tr))|\S)
       patterns:
+      - include: text.network.cisco.scope
+      - include: text.network.cisco
       - include: '#probe'
       - include: '#inservice'
 
@@ -63,6 +65,7 @@ repository:
       end: ^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))
       patterns:
       - include: text.network.cisco.scope
+      - include: text.network.cisco
       - include: '#rserver'
       - include: '#probe'
       - include: '#predictor-leastconn'

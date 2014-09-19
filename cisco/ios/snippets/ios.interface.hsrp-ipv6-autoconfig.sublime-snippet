@@ -1,0 +1,9 @@
+<snippet>
+    <description>ipv6 autoconfig</description>
+    <scope>text.network.cisco.base.ios.interface</scope>
+    <tabTrigger>standby</tabTrigger>
+    <content><![CDATA[
+standby ${1:0} ipv6 autoconfig
+]]></content>
+</snippet>
+

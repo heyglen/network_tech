@@ -32,8 +32,10 @@ ip access-list extended ACL-NAME
 ip prefix-list NAME seq 10 permit 10.225.6.0/24
 ip prefix-list NAME seq 10 deny 10.225.6.0/24
 ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1
+ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1 le 2
 ipv6 prefix-list NAME seq 10 permit ::/0
 ipv6 prefix-list NAME seq 200 deny ::/0 ge 1
+ipv6 prefix-list NAME seq 200 deny ::/0 ge 1 le 2
 
 router bgp 123
 	address-family ipv4 vrf VRF-NAME

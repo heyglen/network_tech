@@ -2,9 +2,7 @@
     "scope": "text.network.cisco.base.vrf",
     "completions": [
         "description ",
-        "route-target ",
         "both ",
-    	"address-family ",
     	"exit-address-family ",
     	"export ",
     	"map ",

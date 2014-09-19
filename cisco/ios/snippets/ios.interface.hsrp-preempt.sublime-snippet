@@ -1,0 +1,9 @@
+<snippet>
+    <description>preempt</description>
+    <scope>text.network.cisco.base.ios.interface</scope>
+    <tabTrigger>standby</tabTrigger>
+    <content><![CDATA[
+standby ${1:0} preempt
+]]></content>
+</snippet>
+

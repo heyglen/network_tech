@@ -1,6 +1,22 @@
 write
 
+ipv6 unicast-routing
+
 show ip route vrf green 1.1.1.1
+show ip route 1.1.1.1
+show ip route
+
+show ipv6 route vrf red 1::1
+show ipv6 route 1::1
+show ipv6 route
+
+ip access-list extended acl
+ permit tcp any any eq bgp
+ permit icmp any any
+ permit tcp 1.1.1.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
+ permit tcp 1.1.1.0 0.0.0.63 1.2.3.0 0.0.0.255 established
+ deny ip any any
+ exit
 
 interface vlan 123
 	description Hello
@@ -29,6 +45,7 @@ interface vlan 123
  	standby 1 priority 200
  	standby 1 preempt
  	standby 2 ipv6 autoconfig
+ 	standby 2 ipv6 0::/64
  	standby 1 track 1 decrement 10
  	ip helper-address 1.1.1.1
 	no switchport

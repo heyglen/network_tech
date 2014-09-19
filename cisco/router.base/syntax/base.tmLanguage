@@ -24,10 +24,6 @@
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>#access-list</string>
-		</dict>
-		<dict>
-			<key>include</key>
 			<string>#config-t</string>
 		</dict>
 		<dict>

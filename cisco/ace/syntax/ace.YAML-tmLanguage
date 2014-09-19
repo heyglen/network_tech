@@ -296,7 +296,7 @@ repository:
       captures:
         '1': {name: support.constant}
         '2': {name: invalid.illegal}
-        
+
   logging-standby:
     patterns:
     - name: text.network.cisco.ace.logging.standby
@@ -312,7 +312,7 @@ repository:
       captures:
         '1': {name: support.constant}
         '2': {name: invalid.illegal}
-  
+
   logging-trap:
     patterns:
     - name: text.network.cisco.ace.logging.trap
@@ -321,7 +321,7 @@ repository:
         '1': {name: support.constant}
         '2': {name: constant.language}
         '3': {name: invalid.illegal}
-        
+
   logging-history:
     patterns:
     - name: text.network.cisco.ace.logging.history
@@ -329,7 +329,7 @@ repository:
       captures:
         '1': {name: support.constant}
         '2': {name: constant.language}
-        '3': {name: invalid.illegal}  
+        '3': {name: invalid.illegal}
 
 
   logging-queue:
@@ -340,7 +340,7 @@ repository:
         '1': {name: support.constant}
         '2': {name: constant.language}
         '3': {name: invalid.illegal}
-        
+
   logging-device-id:
     patterns:
     - name: text.network.cisco.ace.logging.device-id
@@ -351,7 +351,7 @@ repository:
         '3': {name: support.constant}
         '4': {name: string.unquoted}
         '5': {name: invalid.illegal}
-        
+
   logging-buffered:
     patterns:
     - name: text.network.cisco.ace.logging.buffered
@@ -360,7 +360,7 @@ repository:
         '1': {name: support.constant}
         '2': {name: constant.language}
         '3': {name: invalid.illegal}
-  
+
   logging-host:
     patterns:
     - name: text.network.cisco.ace.logging.host
@@ -371,7 +371,7 @@ repository:
         '3': {name: support.constant}
         '4': {name: constant.language}
         '5': {name: invalid.illegal}
-        
+
   logging-persistent:
     patterns:
     - name: text.network.cisco.ace.logging.persistent
@@ -380,7 +380,7 @@ repository:
         '1': {name: support.constant}
         '2': {name: constant.language}
         '3': {name: invalid.illegal}
-        
+
 
   copy-run-start:
     patterns:

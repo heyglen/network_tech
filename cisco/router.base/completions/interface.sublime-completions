@@ -1,8 +1,6 @@
 {
     "scope": "text.network.cisco.base.interface",
     "completions": [
-    	"ip ",
-    	"vrf ",
     	"forwarding ",
     	"priority ",
     	"proxy-arp ",

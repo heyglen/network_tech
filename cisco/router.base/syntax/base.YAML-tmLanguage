@@ -8,7 +8,7 @@ patterns:
 - include: '#ipv4-route'
 - include: '#ipv6-route'
 - include: '#alias'
-- include: '#access-list'
+# - include: '#access-list'
 - include: '#config-t'
 - include: '#copy'
 - include: text.network.cisco

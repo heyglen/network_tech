@@ -1,0 +1,11 @@
+<snippet>
+    <description>Cisco VRF Route Distinguisher</description>
+    <scope>text.network.cisco.base.vrf.definition</scope>
+    <tabTrigger>rd</tabTrigger>
+    <content>
+<![CDATA[
+rd ${1:AS}:${2:#}
+$0
+]]>
+    </content>
+</snippet>

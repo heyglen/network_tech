@@ -21,6 +21,163 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>action</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(action)\s+(\S+)\s*(?:\s+(\S+))?$</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.policy.policy-lb-class.action</string>
+				</dict>
+			</array>
+		</dict>
+		<key>appl-http</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)(http)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.policy.map.appl.http</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#appl-http-adv-opts</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>appl-http-adv-opts</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)(advanced-options)\s+(\S+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.policy.map.appl.http.adv-options</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#protocol</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>appl-parameter</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)^\s*(appl-parameter)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.policy.map.appl</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#appl-http</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>connection-options</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(connection)\s+(advanced-options)\s+(\S+)\s*(?:\s+(\S+))?$</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.policy.map.connection</string>
+				</dict>
+			</array>
+		</dict>
 		<key>deny</key>
 		<dict>
 			<key>patterns</key>
@@ -305,6 +462,18 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#appl-parameter</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ssl-proxy-server</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#connection-options</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.network.cisco</string>
 						</dict>
 					</array>
@@ -408,6 +577,14 @@
 						<dict>
 							<key>include</key>
 							<string>#forward</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#action</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ssl-proxy-client</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -635,6 +812,76 @@
 					<string>(serverfarm)\s+(\S+)(?:\s+(backup)\s+(\S+))?(?:\s+(aggregate-state))?\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.policy.class.serverfarm</string>
+				</dict>
+			</array>
+		</dict>
+		<key>ssl-proxy-client</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(ssl-proxy)\s+(client)\s+(\S+)\s*(?:\s+(\S+))?$</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.policy.policy-lb-class.ssl-proxy-client</string>
+				</dict>
+			</array>
+		</dict>
+		<key>ssl-proxy-server</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(ssl-proxy)\s+(server)\s+(\S+)\s*(?:\s+(\S+))?$</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.policy.map.ssl-proxy</string>
 				</dict>
 			</array>
 		</dict>

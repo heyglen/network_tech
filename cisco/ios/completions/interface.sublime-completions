@@ -3,9 +3,7 @@
     "completions": [
         "description ",
         "address ",
-        "vrf ",
         "forwarding ",
-        "standby ",
         "priority ",
         "preempt ",
         "end ",
@@ -14,7 +12,6 @@
         "out ",
         "switchport ",
         "mode ",
-        "encapsulation ",
         "dot1q ",
         "vlan ",
         "allowed ",
@@ -23,7 +20,7 @@
         "access ",
         "trunk ",
         "capture ",
-        "proxy-arp ",
+        "proxy-arp",
         "eui-64 ",
         "secondary ",
         "autoconfig ",
@@ -31,10 +28,8 @@
         "helper-address ",
         "shutdown ",
         "version ",
-        "redirects ",
-        "no ",
-        "ipv6 ",
-        "ip "
+        "redirects",
+        "no "
     ]
 }
 

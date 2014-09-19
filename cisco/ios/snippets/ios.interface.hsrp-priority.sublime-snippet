@@ -1,0 +1,8 @@
+<snippet>
+    <description>priority</description>
+    <scope>text.network.cisco.base.ios.interface</scope>
+    <tabTrigger>standby</tabTrigger>
+    <content><![CDATA[
+standby ${1:0} priority ${2:200}
+]]></content>
+</snippet>

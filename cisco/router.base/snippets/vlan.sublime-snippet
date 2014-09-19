@@ -1,0 +1,14 @@
+<snippet>
+    <description>Cisco VLAN</description>
+    <scope>text.network.cisco.base</scope>
+    <tabTrigger>vlan</tabTrigger>
+    <content>
+<![CDATA[
+vlan ${1:#}
+ name ${2:VLAN-$1}
+
+$0
+
+]]>
+    </content>
+</snippet>

@@ -1,0 +1,8 @@
+<snippet>
+    <description>ip</description>
+    <scope>text.network.cisco.base.ios.interface</scope>
+    <tabTrigger>standby</tabTrigger>
+    <content><![CDATA[
+standby ${1:0} ip ${2:1.2.3.4}
+]]></content>
+</snippet>

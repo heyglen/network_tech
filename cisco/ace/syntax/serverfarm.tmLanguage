@@ -153,6 +153,14 @@
 					<array>
 						<dict>
 							<key>include</key>
+							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#probe</string>
 						</dict>
 						<dict>
@@ -202,6 +210,10 @@
 						<dict>
 							<key>include</key>
 							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
 						</dict>
 						<dict>
 							<key>include</key>

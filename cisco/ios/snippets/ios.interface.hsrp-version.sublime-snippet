@@ -1,0 +1,9 @@
+<snippet>
+    <description>version</description>
+    <scope>text.network.cisco.base.ios.interface</scope>
+    <tabTrigger>standby</tabTrigger>
+    <content><![CDATA[
+standby version ${1:2}$0
+]]></content>
+</snippet>
+

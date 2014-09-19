@@ -94,7 +94,61 @@ repository:
       - include: '#loadbalance-vip-inservice'
       - include: '#loadbalance-vip-icmp-reply'
       - include: '#nat-dynamic'
+      - include: '#appl-parameter'
+      - include: '#ssl-proxy-server'
+      - include: '#connection-options'
       - include: text.network.cisco
+
+  connection-options:
+    patterns:
+    - name: text.network.cisco.ace.policy.map.connection
+      match: ^\s*(connection)\s+(advanced-options)\s+(\S+)\s*(?:\s+(\S+))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+
+  ssl-proxy-server:
+    patterns:
+    - name: text.network.cisco.ace.policy.map.ssl-proxy
+      match: ^\s*(ssl-proxy)\s+(server)\s+(\S+)\s*(?:\s+(\S+))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+
+  appl-parameter:
+    patterns:
+    - name: text.network.cisco.ace.policy.map.appl
+      begin: (?i)^\s*(appl-parameter)
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#appl-http'
+
+  appl-http:
+    patterns:
+    - name: text.network.cisco.ace.policy.map.appl.http
+      begin: (?i)(http)
+      beginCaptures:
+        '1': {name: entity.name.function}
+      end: (?=$)
+      patterns:
+      - include: '#appl-http-adv-opts'
+
+  appl-http-adv-opts:
+    patterns:
+    - name: text.network.cisco.ace.policy.map.appl.http.adv-options
+      begin: (?i)(advanced-options)\s+(\S+)
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+      end: (?=$)
+      patterns:
+      - include: '#protocol'
 
   policy-class-management:
     patterns:
@@ -125,7 +179,28 @@ repository:
       - include: '#serverfarm'
       - include: '#drop'
       - include: '#forward'
+      - include: '#action'
+      - include: '#ssl-proxy-client'
       - include: text.network.cisco
+
+  action:
+    patterns:
+    - name: text.network.cisco.ace.policy.policy-lb-class.action
+      match: ^\s*(action)\s+(\S+)\s*(?:\s+(\S+))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+        '3': {name: invalid.illegal}
+
+  ssl-proxy-client:
+    patterns:
+    - name: text.network.cisco.ace.policy.policy-lb-class.ssl-proxy-client
+      match: ^\s*(ssl-proxy)\s+(client)\s+(\S+)\s*(?:\s+(\S+))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
 
   policy-load-balance:
     patterns:
