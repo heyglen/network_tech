@@ -1,6 +1,6 @@
 <snippet>
 	<tabTrigger>ip</tabTrigger>
-	<description>Prefix List</description>
+	<description>prefix-list</description>
     <scope>text.network.cisco.base</scope>
     <content>
 <![CDATA[

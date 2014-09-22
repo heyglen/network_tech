@@ -86,7 +86,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.connection-state</string>
 				</dict>
@@ -108,7 +108,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.dst-any</string>
 					<key>patterns</key>
@@ -141,7 +141,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.dst-mask</string>
 					<key>patterns</key>
@@ -174,7 +174,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.dst-network</string>
 					<key>patterns</key>
@@ -208,7 +208,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.dst-port</string>
 					<key>patterns</key>
@@ -237,7 +237,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.dst-port-operator</string>
 					<key>patterns</key>
@@ -256,7 +256,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?i)^\s*(?:(permit)|(deny))</string>
+					<string>(?i)^\s*(?:(permit)|(deny))\s+</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -271,7 +271,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=$\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.permission</string>
 					<key>patterns</key>
@@ -300,7 +300,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.protocol</string>
 					<key>patterns</key>
@@ -333,7 +333,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.src-any</string>
 					<key>patterns</key>
@@ -370,7 +370,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.src-ip</string>
 					<key>patterns</key>
@@ -403,7 +403,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.src-network</string>
 					<key>patterns</key>
@@ -437,7 +437,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.src-port</string>
 					<key>patterns</key>
@@ -470,7 +470,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?=$)</string>
+					<string>(?=\n)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.acl.src-port-operator</string>
 					<key>patterns</key>

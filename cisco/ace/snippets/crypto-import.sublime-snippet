@@ -1,6 +1,6 @@
 <snippet>
-	<description>Crypto Key Import</description>
-	<tabTrigger>cryptoimport</tabTrigger>
+	<description>import terminal</description>
+	<tabTrigger>crypto</tabTrigger>
 	<scope>text.network.cisco.ace</scope>
 	<content><![CDATA[
 crypto import terminal ${1:Subject-CN_${2:25122014}}${3:.crt}${4:.key}
@@ -21,5 +21,6 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 -----END XXXX-----}
 quit
 
+$0
 ]]></content>
 </snippet>

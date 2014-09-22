@@ -1,0 +1,8 @@
+<snippet>
+    <description>tcp any any</description>
+    <scope>text.network.cisco.base.ios.acl.permission</scope>
+    <tabTrigger>tcp</tabTrigger>
+    <content><![CDATA[
+tcp any any
+]]></content>
+</snippet>

@@ -1,0 +1,11 @@
+<snippet>
+    <description>access-list extended</description>
+    <scope>text.network.cisco.base.ios</scope>
+    <tabTrigger>ip</tabTrigger>
+    <content><![CDATA[
+ip access-list extended ${1:acl-name}
+  $0
+ exit
+
+]]></content>
+</snippet>

@@ -1,13 +1,11 @@
 <snippet>
-	<description>ACE SSL Proxy</description>
+	<description>service</description>
 	<tabTrigger>ssl-proxy</tabTrigger>
 	<scope>text.network.cisco.ace</scope>
 	<content><![CDATA[
-ssl-proxy service ${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}${4:_TERM}${5:_INIT}
-  ${6:chaingroup ${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_CHAINGROUP}
-  ${7:authgroup ${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_AUTHGROUP}
-  cert ${8:Subject-CN}_${9:25122014}}.crt
-  key ${8:Subject-CN}.key
+ssl-proxy service ${1:SSL-PROXY-NAME_SSL-PROXY}
+  $0
+ exit
 
 ]]></content>
 </snippet>

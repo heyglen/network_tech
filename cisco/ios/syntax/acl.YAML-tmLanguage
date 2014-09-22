@@ -27,11 +27,11 @@ repository:
   permission:
     patterns:
     - name: text.network.cisco.base.ios.acl.permission
-      begin: (?i)^\s*(?:(permit)|(deny))
+      begin: (?i)^\s*(?:(permit)|(deny))\s+
       beginCaptures:
         '1': {name: entity.name.function}
         '2': {name: keyword.other}
-      end: (?=$)
+      end: (?=$\n)
       patterns:
       - include: '#protocol'
 
@@ -41,7 +41,7 @@ repository:
       begin: (?i)(icmp|tcp|udp|ip)
       beginCaptures:
         '1': {name: support.constant}
-      end: (?=$)
+      end: (?=\n)
       patterns:
       - include: '#source-any'
       - include: '#source-network'
@@ -52,7 +52,7 @@ repository:
       begin: (?i)(any)
       beginCaptures:
         '1': {name: keyword.other}
-      end: (?=$)
+      end: (?=\n)
       patterns:
       - include: '#source-port'
       - include: '#destination-network'
@@ -64,7 +64,7 @@ repository:
       begin: (?i)((?:\d+\.){3}\d+)
       beginCaptures:
         '1': {name: constant.numeric}
-      end: (?=$)
+      end: (?=\n)
       patterns:
       - include: '#source-mask'
 
@@ -74,7 +74,7 @@ repository:
       begin: (?i)((?:\d+\.){3}\d+)
       beginCaptures:
         '1': {name: constant.numeric}
-      end: (?=$)
+      end: (?=\n)
       patterns:
       - include: '#source-port-operator'
       - include: '#destination-network'
@@ -85,7 +85,7 @@ repository:
       begin: (?i)(?:(eq))
       beginCaptures:
         '1': {name: support.constant}
-      end: (?=$)
+      end: (?=\n)
       patterns:
       - include: '#source-port'
 
@@ -96,7 +96,7 @@ repository:
       beginCaptures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
-      end: (?=$)
+      end: (?=\n)
       patterns:
       - include: '#destination-network'
       - include: '#destination-any'
@@ -107,7 +107,7 @@ repository:
       begin: (?i)(any)
       beginCaptures:
         '1': {name: keyword.other}
-      end: (?=$)
+      end: (?=\n)
       patterns:
       - include: '#destination-port-operator'
       - include: '#connection-state'
@@ -118,7 +118,7 @@ repository:
       begin: (?i)((?:\d+\.){3}\d+)
       beginCaptures:
         '1': {name: constant.numeric}
-      end: (?=$)
+      end: (?=\n)
       patterns:
       - include: '#destination-mask'
 
@@ -128,7 +128,7 @@ repository:
       begin: (?i)((?:\d+\.){3}\d+)
       beginCaptures:
         '1': {name: constant.numeric}
-      end: (?=$)
+      end: (?=\n)
       patterns:
       - include: '#destination-port-operator'
       - include: '#connection-state'
@@ -139,7 +139,7 @@ repository:
       begin: (?i)(eq)
       beginCaptures:
         '1': {name: support.constant}
-      end: (?=$)
+      end: (?=\n)
       patterns:
       - include: '#destination-port'
 
@@ -150,7 +150,7 @@ repository:
       beginCaptures:
         '1': {name: constant.numeric}
         '2': {name: support.constant}
-      end: (?=$)
+      end: (?=\n)
       patterns:
       - include: '#connection-state'
 
@@ -160,7 +160,7 @@ repository:
       begin: (?i)(established)
       beginCaptures:
         '1': {name: support.constant}
-      end: (?=$)
+      end: (?=\n)
 
 
   switchport-access-vlan:

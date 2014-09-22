@@ -1,12 +1,11 @@
 <snippet>
-	<description>Cisco ACE Source Sticky</description>
+	<description>source</description>
 	<tabTrigger>stickysource</tabTrigger>
 	<scope>text.network.cisco.ace</scope>
 	<content><![CDATA[
-sticky ip-netmask 255.255.255.255 address source ${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_SRCIP_STICKY
-  timeout ${4:60}
-  replicate sticky
-  serverfarm ${5:${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_FARM} ${6:backup ${7:${1:SYSTEM-NAME}_${2:PRD|PRE|QUA|DEV|TST}_${3:SERVICE-NAME}_FARM}}
+sticky ip-netmask 255.255.255.255 address source ${1:STICKY-FARM_SRCIP_STICKY}
+  $0
+ exit
 
 ]]></content>
 </snippet>

@@ -1,0 +1,8 @@
+<snippet>
+    <description>icmp any any</description>
+    <scope>text.network.cisco.base.ios.acl.permission</scope>
+    <tabTrigger>icmp</tabTrigger>
+    <content><![CDATA[
+icmp any any
+]]></content>
+</snippet>

@@ -1,0 +1,8 @@
+<snippet>
+    <description>udp any any</description>
+    <scope>text.network.cisco.base.ios.acl.permission</scope>
+    <tabTrigger>udp</tabTrigger>
+    <content><![CDATA[
+udp any any
+]]></content>
+</snippet>
