@@ -2,7 +2,6 @@
     "scope": "text.network.cisco.base.ios.interface",
     "completions": [
         "description ",
-        "address ",
         "forwarding ",
         "priority ",
         "preempt ",
@@ -11,24 +10,15 @@
         "in ",
         "out ",
         "switchport ",
-        "mode ",
         "dot1q ",
         "vlan ",
         "allowed ",
-        "remove ",
-        "add ",
-        "access ",
-        "trunk ",
         "capture ",
-        "proxy-arp",
         "eui-64 ",
-        "secondary ",
         "autoconfig ",
         "decrement ",
-        "helper-address ",
         "shutdown ",
         "version ",
-        "redirects",
         "no "
     ]
 }

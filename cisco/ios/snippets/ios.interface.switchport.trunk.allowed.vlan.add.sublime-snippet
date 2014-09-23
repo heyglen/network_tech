@@ -1,0 +1,8 @@
+<snippet>
+    <description>add</description>
+    <scope>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan</scope>
+    <tabTrigger>add</tabTrigger>
+    <content><![CDATA[
+add ${1:0}
+]]></content>
+</snippet>

@@ -1,9 +1,8 @@
 <snippet>
-    <description>VRF Forwarding</description>
+    <description>helper-address</description>
     <scope>text.network.cisco.base.ios.interface</scope>
-    <tabTrigger>vrf</tabTrigger>
+    <tabTrigger>ip</tabTrigger>
     <content><![CDATA[
-vrf forwarding ${1:name}$0
+ip helper-address ${1:1.2.3.4}
 ]]></content>
 </snippet>
-

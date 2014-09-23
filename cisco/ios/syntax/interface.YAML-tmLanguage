@@ -8,30 +8,6 @@ patterns:
 - include: '#interface-run-int'
 - include: '#interface-keyword'
 - include: '#interface-default'
-- include: '#switchport-trunk-allowed-vlan'
-- include: '#switchport-access-vlan'
-- include: '#switchport-trunk-encapsulation'
-- include: '#switchport-mode'
-- include: '#ip'
-- include: '#ipv6'
-- include: '#shutdown'
-- include: '#vrf-legacy'
-- include: '#vrf'
-- include: '#access-group'
-- include: '#ipv6-nd-prefix'
-- include: '#hsrp-ipv6-auto'
-- include: '#hsrp-version'
-- include: '#hsrp-ip'
-- include: '#hsrp-track'
-- include: '#hsrp-ipv6'
-- include: '#hsrp-priority'
-- include: '#hsrp-preempt'
-- include: '#ip-redirects'
-- include: '#ip-proxy-arp'
-- include: '#ip-helper'
-- include: '#no-shutdown'
-- include: text.network.cisco.scope
-- include: text.network.cisco
 
 repository:
 
@@ -72,17 +48,13 @@ repository:
         '3': {name: constant.numeric}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))
       patterns:
-      - include: '#switchport-trunk-allowed-vlan'
-      - include: '#switchport-access-vlan'
-      - include: '#switchport-trunk-encapsulation'
-      - include: '#switchport-mode'
+      - include: '#switchport'
       - include: '#ip'
+      - include: '#vrf'
       - include: '#subinterface-encapsulation'
       - include: '#ipv6'
       - include: '#shutdown'
       - include: '#service-policy'
-      - include: '#vrf-legacy'
-      - include: '#vrf'
       - include: '#access-group'
       - include: '#ipv6-nd-prefix'
       - include: '#hsrp-version'
@@ -98,15 +70,178 @@ repository:
       - include: text.network.cisco.scope
       - include: text.network.cisco
 
+  vrf:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.vrf
+      begin: (?i)^\s*(vrf)\s
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#vrf-forwarding'
+
+  vrf-forwarding:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.vrf.forwarding
+      begin: (?i)\s*(forwarding)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#vrf-forwarding-name'
+
+  vrf-forwarding-name:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.vrf.forwarding.name
+      match: (?i)\s*(\S+)
+      captures:
+        '1': {name: string.unquoted}
+
   ip:
     patterns:
     - name: text.network.cisco.base.ios.interface.ip
-      match: \s*(ip\s+address)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d(?=[^:])(?:(?:\s+(?:(?:255|254|252|248|240|224|192|128|0)\.){3}(?:255|254|252|248|240|224|192|128|0))))(\s+secondary)?(?:\s+(\S.*))?
+      begin: (?i)^\s*(ip)\s
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#ip-address'
+      - include: '#ip-redirects'
+      - include: '#ip-proxy-arp'
+      - include: '#ip-vrf'
+      - include: '#ip-access-group'
+      - include: '#ip-helper'
+
+  ip-helper:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.ip.helper
+      begin: (?i)\s*(helper-address)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#ip-helper-ip'
+
+  ip-helper-ip:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.ip.helper.ip
+      match: (?i)\s*((?:\d+\.){3}\d+)\s+
+      captures:
+        '1': {name: constant.numeric}
+
+  ip-access-group:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.access-group
+      begin: (?i)\s*(access-group)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#ip-access-group-name'
+
+  ip-access-group-name:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.access-group.name
+      begin: (?i)\s*(\S+)\s+
+      beginCaptures:
+        '1': {name: string.unquoted}
+      end: (?=$)
+      patterns:
+      - include: '#ip-access-group-name-in'
+      - include: '#ip-access-group-name-out'
+
+  ip-access-group-name-in:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.access-group.name.in
+      match: (?i)\s*(in)\s+
       captures:
         '1': {name: support.constant}
-        '2': {name: constant.numeric.ipv4}
-        '3': {name: support.constant}
-        '4': {name: invalid.illegal}
+
+  ip-access-group-name-out:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.access-group.name.out
+      match: (?i)\s*(out)\s+
+      captures:
+        '1': {name: support.constant}
+
+  ip-vrf:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.ip.vrf
+      begin: (?i)\s*(vrf)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#ip-vrf-forwarding'
+
+  ip-vrf-forwarding:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.ip.vrf.forwarding
+      begin: (?i)\s*(forwarding)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#ip-vrf-forwarding-name'
+
+  ip-vrf-forwarding-name:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.ip.vrf.forwarding.name
+      match: (?i)\s*(\S+)
+      captures:
+        '1': {name: string.unquoted}
+
+  ip-redirects:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.ip.redirects
+      match: (?i)\s*(redirects)
+      captures:
+        '1': {name: support.constant}
+
+  ip-proxy-arp:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.ipv4.proxy-arp
+      match: (?i)\s*(proxy-arp)
+      captures:
+        '1': {name: support.constant}
+
+  ip-address:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.ip.address
+      begin: (?i)\s*(address)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#ip-address-ip'
+
+  ip-address-ip:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.ip.address.ip
+      begin: (?i)\s*((?:\d+\.){3}\d+)\s+
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=$)
+      patterns:
+      - include: '#ip-address-ip-net'
+
+  ip-address-ip-net:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.ip.address.ip.net
+      begin: (?i)\s*((?:\d+\.){3}\d+)\s+
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=$)
+      patterns:
+      - include: '#ip-address-ip-net-secondary'
+
+  ip-address-ip-net-secondary:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.ip.address.ip.net.secondary
+      match: (?i)\s*(secondary)
+      captures:
+        '1': {name: support.constant}
+
   ipv6:
     patterns:
     - name: text.network.cisco.base.ios.interface.ipv6
@@ -129,24 +264,6 @@ repository:
         '3': {name: constant.numeric}
         '4': {name: constant.numeric}
         '5': {name: invalid.illegal}
-
-  vrf-legacy:
-    patterns:
-    - name: text.network.cisco.base.ios.interface.vrf
-      match: \s*(ip\s+vrf\s+forwarding)\s+(\S+)(?:\s+(\S.*))?
-      captures:
-        '1': {name: invalid.deprecated}
-        '2': {name: string.unquoted}
-        '3': {name: invalid.illegal}
-
-  vrf:
-    patterns:
-    - name: text.network.cisco.base.ios.interface.vrf
-      match: \s*(vrf\s+forwarding)\s+(\S+)(?:\s+(\S.*))?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: string.unquoted}
-        '3': {name: invalid.illegal}
 
   hsrp-ipv6-auto-1:
     patterns:
@@ -239,44 +356,6 @@ repository:
         '6': {name: constant.numeric}
         '7': {name: invalid.illegal}
 
-  access-group:
-    patterns:
-    - name: text.network.cisco.base.ios.interface.access-group
-      match: \s*(ip\s+access-group)\s+(\S+)\s+(in|out)(?:\s+(\S.*))?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: string.unquoted}
-        '3': {name: support.constant}
-        '4': {name: invalid.illegal}
-
-  ip-redirects:
-    patterns:
-    - name: text.network.cisco.base.ios.interface.redirects
-      match: \s*(ip(?:v6)?)\s+(redirects)(?:\s+(\S.*))?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: invalid.illegal}
-
-  ip-proxy-arp:
-    patterns:
-    - name: text.network.cisco.base.ios.interface.ipv4.proxy-arp
-      match: \s*(ip)\s+(proxy-arp)(?:\s+(\S.*))?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: invalid.illegal}
-
-  ip-helper:
-    patterns:
-    - name: text.network.cisco.base.ios.interface.ipv4.helper
-      match: \s*(ip)\s+(helper-address)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)(?:\s+(\S.*))?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: constant.numeric}
-        '4': {name: invalid.illegal}
-
   no-shutdown:
     patterns:
     - name: text.network.cisco.base.ios.interface.ipv4.helper
@@ -286,45 +365,12 @@ repository:
         '2': {name: support.constant}
         '3': {name: invalid.illegal}
 
-  switchport-mode:
-    patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.mode
-      match: ^\s*(switchport)\s+(?:(mode)\s+(trunk|access|capture|fabricpath)?)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: entity.name.function}
-
   shutdown:
     patterns:
     - name: text.network.cisco.base.ios.interface.shutdown
       match: ^\s*(shutdown)\s*$
       captures:
         '1': {name: keyword.other}
-
-  switchport-trunk-allowed-vlan:
-    patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan
-      match: ^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)(?:(?:(?:\s+(?:(add)|(remove)))?)(?:\s+(?<vlan>\d+)(?:\s*([,-])\s*(?<vlan>\d+))*)?)?)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: support.constant}
-        '4': {name: support.constant}
-        '5': {name: entity.name.function}
-        '6': {name: keyword.other}
-        '8': {name: support.constant}
-        'vlan': {name: constant.numeric}
-
-  switchport-trunk-encapsulation:
-    patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.trunk.encapsulation
-      match: (?i)^\s*(switchport)\s+(trunk)\s+(encapsulation)\s+(dot1q)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: support.constant}
-        '4': {name: support.constant}
 
   subinterface-encapsulation:
     patterns:
@@ -335,12 +381,146 @@ repository:
         '2': {name: support.constant}
         '3': {name: constant.numeric}
 
+  switchport:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport
+      begin: (?i)^\s*(switchport)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-mode'
+      - include: '#switchport-trunk'
+      - include: '#switchport-access'
+
+  switchport-access:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.access
+      begin: (?i)\s*(access)\s+
+      beginCaptures:
+        '1': {name: entity.name.function}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-access-vlan'
+
   switchport-access-vlan:
     patterns:
     - name: text.network.cisco.base.ios.interface.switchport.access
-      match: ^\s*(switchport)\s+(access)\s+(?:(vlan)\s+(\d+)?)?
+      begin: (?i)\s*(vlan)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-access-vlan-id'
+
+  switchport-access-vlan-id:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.access
+      match: (?i)\s*(\d+)\s+
+      captures:
+        '1': {name: constant.numeric}
+
+  switchport-trunk:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk
+      begin: (?i)\s*(trunk)\s+
+      beginCaptures:
+        '1': {name: entity.name.function}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-encapsulation'
+      - include: '#switchport-trunk-allowed'
+
+  switchport-trunk-allowed:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed
+      begin: (?i)\s*(allowed)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-allowed-vlan'
+
+  switchport-trunk-allowed-vlan:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan
+      begin: (?i)\s*(vlan)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-allowed-vlan-add'
+      - include: '#switchport-trunk-allowed-vlan-remove'
+      - include: '#switchport-trunk-allowed-vlan-ids'
+
+  switchport-trunk-allowed-vlan-add:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.add
+      begin: (?i)\s*(add)\s+
+      beginCaptures:
+        '1': {name: entity.name.function}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-allowed-vlan-ids'
+
+  switchport-trunk-allowed-vlan-remove:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.remove
+      begin: (?i)\s*(remove)\s+
+      beginCaptures:
+        '1': {name: keyword.other}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-allowed-vlan-ids'
+
+  switchport-trunk-allowed-vlan-ids:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.ids
+      begin: (?i)\s*(?:(?<vlanid>\d+)([,]|[-])?)+
+      beginCaptures:
+        'vlanid': {name: constant.numeric}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-encapsulation'
+
+  switchport-trunk-encapsulation:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.encapsulation
+      begin: (?i)\s*(encapsulation)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-encapsulation-dot1q'
+
+  switchport-trunk-encapsulation-dot1q:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.encapsulation.dot1q
+      match: (?i)\s*(dot1q)\s+
       captures:
         '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: support.constant}
-        '4': {name: constant.numeric.vlan.id}
+
+  switchport-mode:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.mode
+      begin: (?i)\s*(mode)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-mode-trunk'
+      - include: '#switchport-mode-access'
+
+  switchport-mode-trunk:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.mode.trunk
+      match: (?i)(?<=\s)(trunk)\s*$
+      captures:
+        '1': {name: entity.name.function}
+
+  switchport-mode-access:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.mode.access
+      match: (?i)\s*(access)\s*$
+      captures:
+        '1': {name: entity.name.function}

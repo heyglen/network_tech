@@ -1,0 +1,8 @@
+<snippet>
+    <description>encapsulation dot1q</description>
+    <scope>text.network.cisco.base.ios.interface.switchport</scope>
+    <tabTrigger>encapsulation</tabTrigger>
+    <content><![CDATA[
+trunk encapsulation dot1q
+]]></content>
+</snippet>

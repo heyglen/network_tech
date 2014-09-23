@@ -22,144 +22,9 @@
 			<key>include</key>
 			<string>#interface-default</string>
 		</dict>
-		<dict>
-			<key>include</key>
-			<string>#switchport-trunk-allowed-vlan</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#switchport-access-vlan</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#switchport-trunk-encapsulation</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#switchport-mode</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#ip</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#ipv6</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#shutdown</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#vrf-legacy</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#vrf</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#access-group</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#ipv6-nd-prefix</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#hsrp-ipv6-auto</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#hsrp-version</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#hsrp-ipv6-auto-1</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#hsrp-ip</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#hsrp-track</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#hsrp-ipv6</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#hsrp-priority</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#hsrp-preempt</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#ip-redirects</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#ip-proxy-arp</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#ip-helper</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#no-shutdown</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>text.network.cisco.scope</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>text.network.cisco</string>
-		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
-		<key>access-group</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>string.unquoted</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>\s*(ip\s+access-group)\s+(\S+)\s+(in|out)(?:\s+(\S.*))?</string>
-					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.access-group</string>
-				</dict>
-			</array>
-		</dict>
 		<key>hsrp-ip</key>
 		<dict>
 			<key>patterns</key>
@@ -242,41 +107,6 @@
 					<string>\s*(standby)(\s+\d+)?\s+(ipv6)\s+((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)(/1?\d?\d)(?:\s+(\S.*))?</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.interface.hsrp.ipv6</string>
-				</dict>
-			</array>
-		</dict>
-		<key>hsrp-ipv6-auto</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>\s*(standby)(\s+\d+)?\s+(ipv6)\s+(autoconfig)</string>
-					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.hsrp.ipv6.autoconfig</string>
 				</dict>
 			</array>
 		</dict>
@@ -528,23 +358,15 @@
 					<array>
 						<dict>
 							<key>include</key>
-							<string>#switchport-trunk-allowed-vlan</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#switchport-access-vlan</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#switchport-trunk-encapsulation</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#switchport-mode</string>
+							<string>#switchport</string>
 						</dict>
 						<dict>
 							<key>include</key>
 							<string>#ip</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#vrf</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -561,14 +383,6 @@
 						<dict>
 							<key>include</key>
 							<string>#service-policy</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#vrf-legacy</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#vrf</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -725,37 +539,113 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>captures</key>
+					<key>begin</key>
+					<string>(?i)^\s*(ip)\s</string>
+					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>2</key>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.ip</string>
+					<key>patterns</key>
+					<array>
 						<dict>
-							<key>name</key>
-							<string>constant.numeric.ipv4</string>
+							<key>include</key>
+							<string>#ip-address</string>
 						</dict>
-						<key>3</key>
+						<dict>
+							<key>include</key>
+							<string>#ip-redirects</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ip-proxy-arp</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ip-vrf</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ip-access-group</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ip-helper</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-access-group</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(access-group)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
-						</dict>
 					</dict>
-					<key>match</key>
-					<string>\s*(ip\s+address)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d(?=[^:])(?:(?:\s+(?:(?:255|254|252|248|240|224|192|128|0)\.){3}(?:255|254|252|248|240|224|192|128|0))))(\s+secondary)?(?:\s+(\S.*))?</string>
+					<key>end</key>
+					<string>(?=$)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.ip</string>
+					<string>text.network.cisco.base.ios.interface.access-group</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#ip-access-group-name</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
-		<key>ip-helper</key>
+		<key>ip-access-group-name</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(\S+)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.access-group.name</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#ip-access-group-name-in</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ip-access-group-name-out</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-access-group-name-in</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -767,26 +657,187 @@
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>2</key>
+					</dict>
+					<key>match</key>
+					<string>(?i)\s*(in)\s+</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.access-group.name.in</string>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-access-group-name-out</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>3</key>
+					</dict>
+					<key>match</key>
+					<string>(?i)\s*(out)\s+</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.access-group.name.out</string>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-address</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(address)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.ip.address</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#ip-address-ip</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-address-ip</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*((?:\d+\.){3}\d+)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>constant.numeric</string>
 						</dict>
-						<key>4</key>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.ip.address.ip</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#ip-address-ip-net</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-address-ip-net</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*((?:\d+\.){3}\d+)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>invalid.illegal</string>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.ip.address.ip.net</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#ip-address-ip-net-secondary</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-address-ip-net-secondary</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(ip)\s+(helper-address)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)(?:\s+(\S.*))?</string>
+					<string>(?i)\s*(secondary)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.ipv4.helper</string>
+					<string>text.network.cisco.base.ios.interface.ip.address.ip.net.secondary</string>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-helper</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(helper-address)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.ip.helper</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#ip-helper-ip</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-helper-ip</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?i)\s*((?:\d+\.){3}\d+)\s+</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.ip.helper.ip</string>
 				</dict>
 			</array>
 		</dict>
@@ -802,19 +853,9 @@
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
-						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(ip)\s+(proxy-arp)(?:\s+(\S.*))?</string>
+					<string>(?i)\s*(proxy-arp)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.interface.ipv4.proxy-arp</string>
 				</dict>
@@ -832,21 +873,89 @@
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>2</key>
+					</dict>
+					<key>match</key>
+					<string>(?i)\s*(redirects)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.ip.redirects</string>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-vrf</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(vrf)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>3</key>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.ip.vrf</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#ip-vrf-forwarding</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-vrf-forwarding</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(forwarding)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>invalid.illegal</string>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.ip.vrf.forwarding</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#ip-vrf-forwarding-name</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>ip-vrf-forwarding-name</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(ip(?:v6)?)\s+(redirects)(?:\s+(\S.*))?</string>
+					<string>(?i)\s*(\S+)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.redirects</string>
+					<string>text.network.cisco.base.ios.interface.ip.vrf.forwarding.name</string>
 				</dict>
 			</array>
 		</dict>
@@ -1050,7 +1159,102 @@
 				</dict>
 			</array>
 		</dict>
+		<key>switchport</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)^\s*(switchport)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-mode</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-access</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-access</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(access)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.access</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-access-vlan</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>switchport-access-vlan</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(vlan)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.access</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-access-vlan-id</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-access-vlan-id</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -1060,26 +1264,11 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric.vlan.id</string>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(switchport)\s+(access)\s+(?:(vlan)\s+(\d+)?)?</string>
+					<string>(?i)\s*(\d+)\s+</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.interface.switchport.access</string>
 				</dict>
@@ -1090,28 +1279,133 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>captures</key>
+					<key>begin</key>
+					<string>(?i)\s*(mode)\s+</string>
+					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>2</key>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.mode</string>
+					<key>patterns</key>
+					<array>
 						<dict>
-							<key>name</key>
-							<string>support.constant</string>
+							<key>include</key>
+							<string>#switchport-mode-trunk</string>
 						</dict>
-						<key>3</key>
+						<dict>
+							<key>include</key>
+							<string>#switchport-mode-access</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-mode-access</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>entity.name.function</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(switchport)\s+(?:(mode)\s+(trunk|access|capture|fabricpath)?)?</string>
+					<string>(?i)\s*(access)\s*$</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.switchport.mode</string>
+					<string>text.network.cisco.base.ios.interface.switchport.mode.access</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-mode-trunk</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?i)(?&lt;=\s)(trunk)\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.mode.trunk</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(trunk)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-encapsulation</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-allowed</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-allowed</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(allowed)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
@@ -1120,53 +1414,122 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>captures</key>
+					<key>begin</key>
+					<string>(?i)\s*(vlan)\s+</string>
+					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>2</key>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan</string>
+					<key>patterns</key>
+					<array>
 						<dict>
-							<key>name</key>
-							<string>support.constant</string>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan-add</string>
 						</dict>
-						<key>3</key>
 						<dict>
-							<key>name</key>
-							<string>support.constant</string>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan-remove</string>
 						</dict>
-						<key>4</key>
 						<dict>
-							<key>name</key>
-							<string>support.constant</string>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan-ids</string>
 						</dict>
-						<key>5</key>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-allowed-vlan-add</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(add)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>entity.name.function</string>
 						</dict>
-						<key>6</key>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.add</string>
+					<key>patterns</key>
+					<array>
 						<dict>
-							<key>name</key>
-							<string>keyword.other</string>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan-ids</string>
 						</dict>
-						<key>8</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>vlan</key>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-allowed-vlan-ids</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(?:(?&lt;vlanid&gt;\d+)([,]|[-])?)+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>vlanid</key>
 						<dict>
 							<key>name</key>
 							<string>constant.numeric</string>
 						</dict>
 					</dict>
-					<key>match</key>
-					<string>^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)(?:(?:(?:\s+(?:(add)|(remove)))?)(?:\s+(?&lt;vlan&gt;\d+)(?:\s*([,-])\s*(?&lt;vlan&gt;\d+))*)?)?)?</string>
+					<key>end</key>
+					<string>(?=$)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan</string>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.ids</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-encapsulation</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-allowed-vlan-remove</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(remove)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.remove</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan-ids</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
@@ -1175,6 +1538,35 @@
 			<key>patterns</key>
 			<array>
 				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(encapsulation)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.encapsulation</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-encapsulation-dot1q</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-encapsulation-dot1q</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
 					<key>captures</key>
 					<dict>
 						<key>1</key>
@@ -1182,26 +1574,11 @@
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?i)^\s*(switchport)\s+(trunk)\s+(encapsulation)\s+(dot1q)?</string>
+					<string>(?i)\s*(dot1q)\s+</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.switchport.trunk.encapsulation</string>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.encapsulation.dot1q</string>
 				</dict>
 			</array>
 		</dict>
@@ -1210,32 +1587,60 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>captures</key>
+					<key>begin</key>
+					<string>(?i)^\s*(vrf)\s</string>
+					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>string.unquoted</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
-						</dict>
 					</dict>
-					<key>match</key>
-					<string>\s*(vrf\s+forwarding)\s+(\S+)(?:\s+(\S.*))?</string>
+					<key>end</key>
+					<string>(?=$)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.interface.vrf</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#vrf-forwarding</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
-		<key>vrf-legacy</key>
+		<key>vrf-forwarding</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(forwarding)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.vrf.forwarding</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#vrf-forwarding-name</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>vrf-forwarding-name</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -1245,23 +1650,13 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>invalid.deprecated</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
 							<string>string.unquoted</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(ip\s+vrf\s+forwarding)\s+(\S+)(?:\s+(\S.*))?</string>
+					<string>(?i)\s*(\S+)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.vrf</string>
+					<string>text.network.cisco.base.ios.interface.vrf.forwarding.name</string>
 				</dict>
 			</array>
 		</dict>

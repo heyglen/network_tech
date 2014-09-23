@@ -20,12 +20,11 @@ ip access-list extended acl
 
 interface vlan 123
 	description Hello
-	ip vrf forwarding RED
 	vrf forwarding RED
-	ip access-group acl-in in
- 	ip access-group acl-out out
-	switchport
+	switchport mode
+	switchport mode access
 	switchport mode trunk
+	switchport trunk
 	switchport trunk encapsulation dot1q
 	encapsulation dot1q 123
 	switchport trunk encapsulation Dot1q
@@ -34,10 +33,13 @@ interface vlan 123
 	switchport trunk allowed vlan remove 604-608,200
 	switchport mode access
 	switchport access vlan 23
-	ip address 1.1.1.0 255.255.255.0 secondary
-	ip redirects
+	ip address 1.1.1.0 255.255.255.0
+ 	ip helper-address 1.1.1.1
+	ip access-group acl-in in
+ 	ip access-group acl-out out
 	ipv6 redirects
 	ip proxy-arp
+	ip vrf forwarding name
 	ipv6 address general-prefix 0:0:0:1::/64 eui-64
 	ipv6 nd prefix FF02::/64
 	standby version 2
@@ -47,7 +49,7 @@ interface vlan 123
  	standby 2 ipv6 autoconfig
  	standby 2 ipv6 0::/64
  	standby 1 track 1 decrement 10
- 	ip helper-address 1.1.1.1
+
 	no switchport
 	no shutdown
 	shutdown

@@ -1,5 +1,5 @@
 <snippet>
-	<description>rserver</description>
+	<description>serverfarm-rserver</description>
 	<tabTrigger>rserver</tabTrigger>
 	<scope>text.network.cisco.ace.serverfarm</scope>
 	<content><![CDATA[

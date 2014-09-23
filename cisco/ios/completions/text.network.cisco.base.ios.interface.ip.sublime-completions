@@ -1,0 +1,8 @@
+{
+    "scope": "text.network.cisco.base.ios.interface.ip",
+    "completions": [
+        "proxy-arp",
+        "redirects"
+    ]
+}
+

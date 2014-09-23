@@ -1,0 +1,8 @@
+<snippet>
+    <description>allowed</description>
+    <scope>text.network.cisco.base.ios.interface.switchport</scope>
+    <tabTrigger>trunk</tabTrigger>
+    <content><![CDATA[
+trunk allowed vlan
+]]></content>
+</snippet>
