@@ -1,0 +1,10 @@
+<snippet>
+    <description>route-map</description>
+    <scope>text.network.cisco.base.bgp</scope>
+    <tabTrigger>neighbor</tabTrigger>
+    <content>
+<![CDATA[
+neighbor ${1:<ip>} route-map ${2:NAME} ${3:in|out}
+]]>
+    </content>
+</snippet>

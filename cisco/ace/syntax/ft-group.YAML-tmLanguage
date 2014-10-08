@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ACE FT Group
+name: .
 scopeName: text.network.cisco.ace.ft-group
 fileTypes: []
 uuid: 46ec8291-342f-4bc5-b536-f10ba06e9669

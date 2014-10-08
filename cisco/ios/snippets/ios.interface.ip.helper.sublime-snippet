@@ -1,8 +1,0 @@
-<snippet>
-    <description>helper-address</description>
-    <scope>text.network.cisco.base.ios.interface</scope>
-    <tabTrigger>ip</tabTrigger>
-    <content><![CDATA[
-ip helper-address ${1:1.2.3.4}
-]]></content>
-</snippet>

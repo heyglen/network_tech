@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ACE Policy Map
+name: .
 scopeName: text.network.cisco.ace.policy
 uuid: 2f2986dd-256a-44d3-b551-a5f6535845fa
 
@@ -205,7 +205,7 @@ repository:
   policy-load-balance:
     patterns:
     - name: text.network.cisco.ace.policy.load-balance
-      begin: ^(policy-map)\s+(type)\s+(loadbalance)\s+(first-match|genericfirst-match|http\s+first-match|radius\s+first-match|rdp\s+first-match|rtsp\s+first-match|sip\s+first-match)\s+(\S+)\s*(\s+\S+)?\s*$
+      begin: ^\s*(policy-map)\s+(type)\s+(loadbalance)\s+(first-match|genericfirst-match|http\s+first-match|radius\s+first-match|rdp\s+first-match|rtsp\s+first-match|sip\s+first-match)\s+(\S+)\s*(\s+\S+)?\s*$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: support.constant}
@@ -222,7 +222,7 @@ repository:
   policy-map:
     patterns:
     - name: text.network.cisco.ace.policy.map
-      begin: ^(policy-map)\s+(multi-match)\s+(\S+)\s*(\s+\S+)?$
+      begin: ^\s*(policy-map)\s+(multi-match)\s+(\S+)\s*(\s+\S+)?$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: support.constant}
@@ -237,7 +237,7 @@ repository:
   policy-map-management:
     patterns:
     - name: text.network.cisco.ace.policy.map.management
-      begin: ^(policy-map)\s+(type)\s+(management)\s+(first-match)\s+(\S+)\s*(?:\s+(\S.*))?$
+      begin: ^\s*(policy-map)\s+(type)\s+(management)\s+(first-match)\s+(\S+)\s*(?:\s+(\S.*))?$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: support.constant}

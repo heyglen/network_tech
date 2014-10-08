@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ACE Real Server
+name: .
 scopeName: text.network.cisco.ace.rserver
 uuid: f330d178-b813-4a4c-a3c1-8b2476ffdc0b
 

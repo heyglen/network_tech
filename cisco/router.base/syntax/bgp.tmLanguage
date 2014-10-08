@@ -44,7 +44,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s]))</string>
 					<key>name</key>
 					<string>text.network.cisco.base.bgp</string>
 					<key>patterns</key>
@@ -134,7 +134,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|\s*(?:exit-)?address-family|\s*exit|\s*end)</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s])|\s*(?:exit-)?address-family|\s*exit|\s*end)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.bgp.ipv4-address-family</string>
 					<key>patterns</key>
@@ -676,11 +676,16 @@
 						<key>6</key>
 						<dict>
 							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(timers)\s+(\d+)\s+(\d+)\s*(\s\S.*)?$</string>
+					<string>^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(timers)\s+(\d+)\s+(\d+)(?:\s+(\d+))?\s*(\s\S.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.base.bgp.ipv4-neighbor.timer</string>
 				</dict>
@@ -847,7 +852,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|\s*(?:exit-)?address-family|\s*exit|\s*end)</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s])|\s*(?:exit-)?address-family|\s*exit|\s*end)</string>
 					<key>name</key>
 					<string>text.network.cisco.base.bgp.ipv6-address-family</string>
 					<key>patterns</key>

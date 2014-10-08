@@ -1,0 +1,10 @@
+<snippet>
+    <description>ttl-security</description>
+    <scope>text.network.cisco.base.bgp</scope>
+    <tabTrigger>neighbor</tabTrigger>
+    <content>
+<![CDATA[
+neighbor ${1:<ip>} ttl-security hops ${2:hop-count}
+]]>
+    </content>
+</snippet>

@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ACE Context
+name: .
 scopeName: text.network.cisco.ace.context
 fileTypes: []
 uuid: 2a953f19-2cc4-4342-9b01-702f165648a1

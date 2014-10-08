@@ -1,8 +1,6 @@
 {
     "scope": "text.network.cisco.base.ios",
     "completions": [
-        "vlan ",
-        "vlan ",
         "FastEthernet ",
         "GigabitEthernet ",
         "TenGigabitEthernet ",

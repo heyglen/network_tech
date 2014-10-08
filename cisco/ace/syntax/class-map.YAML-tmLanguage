@@ -1,20 +1,18 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ACE Class Map
+name: .
 scopeName: text.network.cisco.ace.class-map
 uuid: d7c7c43e-beb6-4d6b-9824-85042480b7b8
 
 patterns:
 - include: '#class-map'
-
 - include: '#class-map-http'
-
 - include: '#class-map-management'
 
 repository:
   class-map:
     patterns:
     - name: text.network.cisco.ace.class-map
-      begin: ^(class-map)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$
+      begin: ^\s*(class-map)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: entity.name.function}
@@ -23,12 +21,13 @@ repository:
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
       patterns:
       - include: '#match-virtual'
+      - include: text.network.cisco
       - include: text.network.cisco.scope
 
   class-map-http:
     patterns:
     - name: text.network.cisco.ace.class-map-http
-      begin: ^(class-map)\s+(type)\s+(http)\s+(inspect)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$
+      begin: ^\s*(class-map)\s+(type)\s+(http)\s+(inspect)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: support.constant}
@@ -48,7 +47,7 @@ repository:
   class-map-management:
     patterns:
     - name: text.network.cisco.ace.class-map-management
-      begin: ^(class-map)\s+(type)\s+(management)\s+(match-(?:all|any))\s+(\S+)(?:\s+(\S.*))?$
+      begin: ^\s*(class-map)\s+(type)\s+(management)\s+(match-(?:all|any))\s+(\S+)(?:\s+(\S.*))?$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: support.constant}

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Cisco ACE Class Map</string>
+	<string>.</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -27,7 +27,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^(class-map)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$</string>
+					<string>^\s*(class-map)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -63,6 +63,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.network.cisco.scope</string>
 						</dict>
 					</array>
@@ -75,7 +79,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^(class-map)\s+(type)\s+(http)\s+(inspect)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$</string>
+					<string>^\s*(class-map)\s+(type)\s+(http)\s+(inspect)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -150,7 +154,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^(class-map)\s+(type)\s+(management)\s+(match-(?:all|any))\s+(\S+)(?:\s+(\S.*))?$</string>
+					<string>^\s*(class-map)\s+(type)\s+(management)\s+(match-(?:all|any))\s+(\S+)(?:\s+(\S.*))?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>

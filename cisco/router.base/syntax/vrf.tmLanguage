@@ -164,7 +164,7 @@
 					<key>comment</key>
 					<string>Route Distinguisher</string>
 					<key>match</key>
-					<string>^\s*(rd)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)(?:\s+(\S+))?$</string>
+					<string>^\s*(rd)\s+((?:(?:\d+\.){3})?\d+:\d+)(?:\s+(\S+))?$</string>
 					<key>name</key>
 					<string>text.network.cisco.base.vrf.definition.rd</string>
 				</dict>

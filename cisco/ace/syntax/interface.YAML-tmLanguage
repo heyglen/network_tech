@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ACE Interface
+name: .
 scopeName: text.network.cisco.ace.interface
 uuid: e02f3d4a-062d-484e-8e8c-c12027fe9308
 
@@ -24,7 +24,7 @@ repository:
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: entity.other.inherited-class}
-        '3': {name: entity.other.inherited-class}
+        '3': {name: constant.numeric}
         '4': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
       patterns:
@@ -35,7 +35,7 @@ repository:
       - include: '#shutdown'
       - include: '#alias-ip'
       - include: text.network.cisco.scope
-      - include: text.network.cisco      
+      - include: text.network.cisco
 
   ip:
     patterns:

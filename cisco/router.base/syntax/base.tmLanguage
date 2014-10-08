@@ -12,10 +12,6 @@
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>#ipv4-route</string>
-		</dict>
-		<dict>
-			<key>include</key>
 			<string>#ipv6-route</string>
 		</dict>
 		<dict>

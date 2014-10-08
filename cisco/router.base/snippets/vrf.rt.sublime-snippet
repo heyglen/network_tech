@@ -1,5 +1,5 @@
 <snippet>
-    <description>Cisco VRF Route Target</description>
+    <description>route target</description>
     <scope>text.network.cisco.base.vrf.definition</scope>
     <tabTrigger>route-target</tabTrigger>
     <content>

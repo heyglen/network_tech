@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Cisco ACE Policy Map</string>
+	<string>.</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -600,7 +600,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^(policy-map)\s+(type)\s+(loadbalance)\s+(first-match|genericfirst-match|http\s+first-match|radius\s+first-match|rdp\s+first-match|rtsp\s+first-match|sip\s+first-match)\s+(\S+)\s*(\s+\S+)?\s*$</string>
+					<string>^\s*(policy-map)\s+(type)\s+(loadbalance)\s+(first-match|genericfirst-match|http\s+first-match|radius\s+first-match|rdp\s+first-match|rtsp\s+first-match|sip\s+first-match)\s+(\S+)\s*(\s+\S+)?\s*$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -662,7 +662,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^(policy-map)\s+(multi-match)\s+(\S+)\s*(\s+\S+)?$</string>
+					<string>^\s*(policy-map)\s+(multi-match)\s+(\S+)\s*(\s+\S+)?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -714,7 +714,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^(policy-map)\s+(type)\s+(management)\s+(first-match)\s+(\S+)\s*(?:\s+(\S.*))?$</string>
+					<string>^\s*(policy-map)\s+(type)\s+(management)\s+(first-match)\s+(\S+)\s*(?:\s+(\S.*))?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>

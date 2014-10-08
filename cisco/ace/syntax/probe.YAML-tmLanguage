@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ACE Probe
+name: .
 scopeName: text.network.cisco.ace.probe
 fileTypes: []
 uuid: e30f827f-a6b5-4a81-a619-a7f9ce82fe91
@@ -126,7 +126,7 @@ repository:
   probe-http:
     patterns:
     - name: text.network.cisco.ace.probe.http
-      begin: ^(probe)\s+(http)\s+(\S+)\s*(\S.*)?$
+      begin: ^\s*(probe)\s+(http)\s+(\S+)\s*(\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: entity.name.function}
@@ -153,7 +153,7 @@ repository:
   probe-https:
     patterns:
     - name: text.network.cisco.ace.probe.https
-      begin: ^(probe)\s+(https)\s+(\S+)\s*(\S.*)?$
+      begin: ^\s*(probe)\s+(https)\s+(\S+)\s*(\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: entity.name.function}
@@ -180,7 +180,7 @@ repository:
   probe-tcp:
     patterns:
     - name: text.network.cisco.ace.probe.tcp
-      begin: ^(probe)\s+(tcp)\s+(\S+)\s*(\S.*)?$
+      begin: ^\s*(probe)\s+(tcp)\s+(\S+)\s*(\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: entity.name.function}

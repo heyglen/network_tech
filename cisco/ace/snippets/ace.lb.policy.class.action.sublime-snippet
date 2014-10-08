@@ -1,0 +1,8 @@
+<snippet>
+    <description>action policy class</description>
+    <tabTrigger>action</tabTrigger>
+    <scope>text.network.cisco.ace.policy.policy-lb-class</scope>
+    <content><![CDATA[
+action ${1:ACTION_LIST_NAME}
+]]></content>
+</snippet>

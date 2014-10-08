@@ -1,0 +1,8 @@
+<snippet>
+    <description>delete</description>
+    <tabTrigger>checkpoint</tabTrigger>
+    <scope>text.network.cisco.ace</scope>
+    <content><![CDATA[
+checkpoint delete ${1:<Change#>}
+]]></content>
+</snippet>

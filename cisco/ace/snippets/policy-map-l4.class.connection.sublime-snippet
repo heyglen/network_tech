@@ -1,0 +1,8 @@
+<snippet>
+    <description>advanced-options policy class</description>
+    <tabTrigger>connection</tabTrigger>
+    <scope>text.network.cisco.ace.policy.policy-class</scope>
+    <content><![CDATA[
+connection advanced-options ${1:CONNECTION-OPTIONS_NAME}
+]]></content>
+</snippet>

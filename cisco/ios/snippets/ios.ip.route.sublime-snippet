@@ -1,0 +1,9 @@
+<snippet>
+    <description>vrf static route</description>
+    <scope>text.network.cisco.base.ios.ip</scope>
+    <tabTrigger>route</tabTrigger>
+    <content><![CDATA[
+route vrf ${1:NAME} ${2:1.2.3.0} ${3:255.255.255.0} ${4:vlan0} ${5:1.2.3.4}
+]]></content>
+</snippet>
+

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Cisco ACE Interface</string>
+	<string>.</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -120,7 +120,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>entity.other.inherited-class</string>
+							<string>constant.numeric</string>
 						</dict>
 						<key>4</key>
 						<dict>

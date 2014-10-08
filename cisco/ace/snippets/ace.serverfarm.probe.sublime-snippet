@@ -1,0 +1,8 @@
+<snippet>
+	<description>serverfarm probe</description>
+	<tabTrigger>probe</tabTrigger>
+	<scope>text.network.cisco.ace.serverfarm</scope>
+	<content><![CDATA[
+probe ${1:NAME}
+]]></content>
+</snippet>

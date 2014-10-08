@@ -5,8 +5,10 @@ fileTypes: [ace]
 uuid: e5441a2e-8364-4339-b1e2-f79db773f565
 
 patterns:
+- include: '#checkpoint-create'
 - include: '#copy'
 - include: '#changeto'
+- include: '#crypto-delete'
 - include: '#crypto-import'
 - include: '#crypto-verify'
 - include: '#remove-configuration'
@@ -38,6 +40,7 @@ patterns:
 - include: text.network.cisco.ace.resource-class
 - include: text.network.cisco.ace.context
 - include: text.network.cisco.ace.ft-group
+- include: text.network.cisco.ace.parameter-map
 
 repository:
   snmp-trap-link-ietf:
@@ -177,15 +180,13 @@ repository:
   crypto-import:
     patterns:
     - name: text.network.cisco.ace.crypto.import
-      begin: ^(\S*)\s*(crypto)\s+(import)\s+(\S+)\s+(\S+)\s*(\S*.*)?$
+      begin: ^\s*(crypto)\s+(import)\s+(\S+)\s+(\S+)\s*(\S*.*)?$
       beginCaptures:
-        '0': {name: meta.cisco.ace.crypto.import}
-        '1': {name: invalid.illegal}
-        '2': {name: keyword.other}
-        '3': {name: variable.parameter}
-        '4': {name: variable.parameter}
-        '5': {name: string.unquoted}
-        '6': {name: invalid.illegal}
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: invalid.illegal}
       end: ^(?=\s*$|\S)
       endCaptures:
         '0': {name: keyword.control}
@@ -195,12 +196,23 @@ repository:
   crypto-verify:
     patterns:
     - name: text.network.cisco.ace.pki.verify
-      match: ^(\S*)\s*(crypto verify)\s+(\S+\s+\S+)\s*(\S*.*)?$
+      match: ^(\S*)\s*(crypto\s+verify)\s+(\S+\s+\S+)\s*(\S*.*)?$
       captures:
         '0': {name: text.network.cisco.ace.pki.verify}
-        '1': {name: invalid.illegal}
+        '1': {name: keyword.other}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+
+  crypto-delete:
+    patterns:
+    - name: text.network.cisco.ace.pki.delete
+      match: ^\s*(crypto)\s+(delete)\s+(\S+)\s*(\S*.*)?$
+      captures:
+        '0': {name: text.network.cisco.ace.pki.verify}
+        '1': {name: support.constant}
         '2': {name: keyword.other}
-        '3': {name: variable.parameter}
+        '3': {name: string.unquoted}
         '4': {name: invalid.illegal}
 
   hostname:
@@ -360,6 +372,18 @@ repository:
         '1': {name: support.constant}
         '2': {name: constant.language}
         '3': {name: invalid.illegal}
+
+  checkpoint-create:
+    patterns:
+    - name: text.network.cisco.ace.checkpoint.create
+      match: (checkpoint)\s+(?:(create)|(rollback)|(delete))\s+(\S+)(?:\s+(\S.*))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.name.function}
+        '3': {name: keyword.other}
+        '4': {name: keyword.other}
+        '5': {name: string.unquoted.name}
+        '6': {name: invalid.illegal}
 
   logging-host:
     patterns:

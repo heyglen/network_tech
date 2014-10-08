@@ -1,8 +1,0 @@
-<snippet>
-    <description>trunk</description>
-    <scope>text.network.cisco.base.ios.interface.switchport</scope>
-    <tabTrigger>mode</tabTrigger>
-    <content><![CDATA[
-mode trunk
-]]></content>
-</snippet>

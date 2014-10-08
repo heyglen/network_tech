@@ -1,0 +1,8 @@
+<snippet>
+    <description>trunk</description>
+    <scope>text.network.cisco.base.ios.interface.switchport, text.network.cisco.base.nxos.interface.switchport</scope>
+    <tabTrigger>mode</tabTrigger>
+    <content><![CDATA[
+mode trunk
+]]></content>
+</snippet>

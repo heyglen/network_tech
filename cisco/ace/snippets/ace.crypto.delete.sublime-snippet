@@ -1,0 +1,8 @@
+<snippet>
+    <description>delete</description>
+    <tabTrigger>crypto</tabTrigger>
+    <scope>text.network.cisco.ace</scope>
+    <content><![CDATA[
+crypto delete ${1:KEY_NAME}
+]]></content>
+</snippet>

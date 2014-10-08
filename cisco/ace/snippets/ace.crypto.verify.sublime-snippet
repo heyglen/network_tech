@@ -1,0 +1,8 @@
+<snippet>
+    <description>verify</description>
+    <tabTrigger>crypto</tabTrigger>
+    <scope>text.network.cisco.ace</scope>
+    <content><![CDATA[
+crypto verify ${1:KEY_NAME} ${2:CERT_NAME}
+]]></content>
+</snippet>

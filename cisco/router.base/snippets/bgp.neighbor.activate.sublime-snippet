@@ -1,0 +1,10 @@
+<snippet>
+    <description>activate</description>
+    <scope>text.network.cisco.base.bgp</scope>
+    <tabTrigger>neighbor</tabTrigger>
+    <content>
+<![CDATA[
+neighbor ${1:<ip>} activate
+]]>
+    </content>
+</snippet>

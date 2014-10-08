@@ -1,0 +1,10 @@
+<snippet>
+    <description>announce prefix</description>
+    <scope>text.network.cisco.base.bgp</scope>
+    <tabTrigger>network</tabTrigger>
+    <content>
+<![CDATA[
+network ${1:<network>} ${2:mask 255.255.255.0}
+]]>
+    </content>
+</snippet>

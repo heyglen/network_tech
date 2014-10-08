@@ -3,6 +3,6 @@
     <tabTrigger>nat</tabTrigger>
     <scope>text.network.cisco.ace.policy.policy-class</scope>
     <content><![CDATA[
-    nat dynamic ${1:NAT-ID} vlan ${1:VLAN-ID}
+nat dynamic ${1:NAT-ID} vlan ${2:VLAN-ID}
 ]]></content>
 </snippet>

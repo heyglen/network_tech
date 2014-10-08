@@ -1,0 +1,12 @@
+<snippet>
+	<tabTrigger>router</tabTrigger>
+	<description>bgp</description>
+    <scope>text.network.cisco.base</scope>
+    <content>
+<![CDATA[
+router bgp ${1:AS}
+  $0
+ exit
+]]>
+    </content>
+</snippet>

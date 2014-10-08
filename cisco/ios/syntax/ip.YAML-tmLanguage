@@ -1,0 +1,129 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: .
+scopeName: text.network.cisco.base.ios.ip
+fileTypes: []
+uuid: c6d683e0-8d6b-401c-9762-acaea7667b26
+
+patterns:
+- include: "#ip"
+
+repository:
+
+  ip:
+    patterns:
+    - name: text.network.cisco.base.ios.ip
+      begin: (?i)^\s*?(ip)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$\n)
+      patterns:
+      - include: '#route'
+
+  route:
+    patterns:
+    - name: text.network.cisco.base.ios.ip.route
+      begin: (?i)(route)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=\n)
+      patterns:
+      - include: '#vrf'
+      - include: '#network'
+
+  vrf:
+    patterns:
+    - name: text.network.cisco.base.ios.ip.route.vrf
+      begin: (?i)(vrf)\s+(\S+)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+      end: (?=\n)
+      patterns:
+      - include: '#network'
+
+  network:
+    patterns:
+    - name: text.network.cisco.base.ios.ip.route.network
+      begin: (?i)((?:\d+\.){3}\d+)\s+
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=\n)
+      patterns:
+      - include: '#mask'
+
+  mask:
+    patterns:
+    - name: text.network.cisco.base.ios.ip.route.mask
+      begin: (?i)((?:\d+\.){3}\d+)\s+
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=\n)
+      patterns:
+      - include: '#interface'
+      - include: '#next-hop'
+
+  interface:
+    patterns:
+    - name: text.network.cisco.base.ios.ip.route.interface
+      begin: (?i)([^\d\s]+)\s*?(\d+)\s+
+      beginCaptures:
+        '1': {name: entity.name.function}
+        '2': {name: constant.numeric}
+      end: (?=\n)
+      patterns:
+      - include: '#next-hop'
+
+  next-hop:
+    patterns:
+    - name: text.network.cisco.base.ios.ip.route.next-hop
+      begin: (?i)((?:\d+\.){3}\d+)\s*?
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=\n)
+      patterns:
+      - include: '#name'
+      - include: '#permanent'
+      - include: '#track'
+      - include: '#tag'
+
+  name:
+    patterns:
+    - name: text.network.cisco.base.ios.ip.route.name
+      begin: (?i)(name)\s+(\S+)\s*?
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+      end: (?=\n)
+      patterns:
+      - include: '#permanent'
+      - include: '#track'
+      - include: '#tag'
+
+  permanent:
+    patterns:
+    - name: text.network.cisco.base.ios.ip.route.permanent
+      begin: (?i)(permanent)\s*?
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=\n)
+      patterns:
+      - include: '#tag'
+
+  track:
+    patterns:
+    - name: text.network.cisco.base.ios.ip.route.track
+      begin: (?i)(track)\s+(\d+)\s*?
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+      end: (?=\n)
+      patterns:
+      - include: '#tag'
+
+  tag:
+    patterns:
+    - name: text.network.cisco.base.ios.ip.route.tag
+      match: (?i)(tag)\s+(\d+)\s*?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}

@@ -1,0 +1,10 @@
+<snippet>
+    <description>timers</description>
+    <scope>text.network.cisco.base.bgp</scope>
+    <tabTrigger>neighbor</tabTrigger>
+    <content>
+<![CDATA[
+neighbor ${1:<ip>} timers ${2:<keepalive>} ${3:<holdtime>} ${4:[min-holdtime]}
+]]>
+    </content>
+</snippet>

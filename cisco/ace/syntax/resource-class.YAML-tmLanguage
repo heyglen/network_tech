@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ACE Resource Class
+name: .
 scopeName: text.network.cisco.ace.resource-class
 fileTypes: []
 uuid: 4caf4d6d-9457-4c7c-91c9-2a882d3cf4df

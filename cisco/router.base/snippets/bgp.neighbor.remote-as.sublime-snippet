@@ -1,0 +1,10 @@
+<snippet>
+    <description>remote-as</description>
+    <scope>text.network.cisco.base.bgp</scope>
+    <tabTrigger>neighbor</tabTrigger>
+    <content>
+<![CDATA[
+neighbor ${1:<ip>} remote-as ${2:1234}
+]]>
+    </content>
+</snippet>

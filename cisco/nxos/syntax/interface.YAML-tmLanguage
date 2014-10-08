@@ -30,10 +30,7 @@ repository:
       - include: '#vpc'
       - include: '#no-shutdown'
       - include: '#shutdown'
-      - include: '#switchport-trunk-allowed-vlan'
-      - include: '#switchport-trunk-encapsulation'
-      - include: '#switchport-access-vlan'
-      - include: '#switchport-mode'
+      - include: '#switchport'
 
   interface-port-type:
     patterns:
@@ -125,16 +122,6 @@ repository:
       captures:
         '1': {name: keyword.other}
 
-
-  switchport-mode:
-    patterns:
-    - name: text.network.cisco.base.nxos.interface.switchport.mode
-      match: ^\s*(switchport)\s+(?:(mode)\s+(trunk|access|capture|fabricpath)?)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: entity.name.function}
-
   shutdown:
     patterns:
     - name: text.network.cisco.base.nxos.interface.shutdown
@@ -142,45 +129,146 @@ repository:
       captures:
         '1': {name: keyword.other}
 
-  switchport-trunk-allowed-vlan:
+  switchport:
     patterns:
-    - name: text.network.cisco.base.nxos.interface.switchport.trunk.allowed.vlan
-      match: ^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)(?:(?:(?:\s+(?:(add)|(remove)))?)(?:\s+(?<vlan>\d+)(?:\s*([,-])\s*(?<vlan>\d+))*)?)?)?
-      captures:
+    - name: text.network.cisco.base.ios.interface.switchport
+      begin: (?i)^\s*(switchport)\s*
+      beginCaptures:
         '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: support.constant}
-        '4': {name: support.constant}
-        '5': {name: entity.name.function}
-        '6': {name: keyword.other}
-        '8': {name: support.constant}
-        'vlan': {name: constant.numeric}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-mode'
+      - include: '#switchport-trunk'
+      - include: '#switchport-access'
 
-  switchport-trunk-encapsulation:
+  switchport-access:
     patterns:
-    - name: text.network.cisco.base.nxos.interface.switchport.trunk.encapsulation
-      match: ^\s*(switchport)\s+(trunk)\s+(encapsulation)\s+(dot1q)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: support.constant}
-        '4': {name: support.constant}
+    - name: text.network.cisco.base.ios.interface.switchport.access
+      begin: (?i)\s*(access)\s+
+      beginCaptures:
+        '1': {name: entity.name.function}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-access-vlan'
 
   switchport-access-vlan:
     patterns:
-    - name: text.network.cisco.base.nxos.interface.switchport.access
-      match: ^\s*(switchport)\s+(access)\s+(?:(vlan)\s+(\d+)?)?
+    - name: text.network.cisco.base.ios.interface.switchport.access
+      begin: (?i)\s*(vlan)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-access-vlan-id'
+
+  switchport-access-vlan-id:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.access
+      match: (?i)\s*(\d+)\s+
+      captures:
+        '1': {name: constant.numeric}
+
+  switchport-trunk:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk
+      begin: (?i)\s*(trunk)\s+
+      beginCaptures:
+        '1': {name: entity.name.function}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-encapsulation'
+      - include: '#switchport-trunk-allowed'
+
+  switchport-trunk-allowed:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed
+      begin: (?i)\s*(allowed)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-allowed-vlan'
+
+  switchport-trunk-allowed-vlan:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan
+      begin: (?i)\s*(vlan)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-allowed-vlan-add'
+      - include: '#switchport-trunk-allowed-vlan-remove'
+      - include: '#switchport-trunk-allowed-vlan-ids'
+
+  switchport-trunk-allowed-vlan-add:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.add
+      begin: (?i)\s*(add)\s+
+      beginCaptures:
+        '1': {name: entity.name.function}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-allowed-vlan-ids'
+
+  switchport-trunk-allowed-vlan-remove:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.remove
+      begin: (?i)\s*(remove)\s+
+      beginCaptures:
+        '1': {name: keyword.other}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-allowed-vlan-ids'
+
+  switchport-trunk-allowed-vlan-ids:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.ids
+      begin: (?i)\s*(?:(?<vlanid>\d+)([,]|[-])?)+
+      beginCaptures:
+        'vlanid': {name: constant.numeric}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-encapsulation'
+
+  switchport-trunk-encapsulation:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.encapsulation
+      begin: (?i)\s*(encapsulation)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-trunk-encapsulation-dot1q'
+
+  switchport-trunk-encapsulation-dot1q:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.trunk.encapsulation.dot1q
+      match: (?i)\s*(dot1q)\s+
       captures:
         '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: support.constant}
-        '4': {name: constant.numeric.vlan.id}
 
   switchport-mode:
     patterns:
-    - name: text.network.cisco.base.nxos.interface.switchport.mode
-      match: ^\s*(switchport)\s+(?:(mode)\s+(trunk|access|capture|fabricpath)?)?
-      captures:
+    - name: text.network.cisco.base.ios.interface.switchport.mode
+      begin: (?i)\s*(mode)\s+
+      beginCaptures:
         '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: entity.name.function}
+      end: (?=$)
+      patterns:
+      - include: '#switchport-mode-trunk'
+      - include: '#switchport-mode-access'
+
+  switchport-mode-trunk:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.mode.trunk
+      match: (?i)(?<=\s)(trunk)\s*$
+      captures:
+        '1': {name: entity.name.function}
+
+  switchport-mode-access:
+    patterns:
+    - name: text.network.cisco.base.ios.interface.switchport.mode.access
+      match: (?i)\s*(access)\s*$
+      captures:
+        '1': {name: entity.name.function}

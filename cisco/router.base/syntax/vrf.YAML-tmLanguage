@@ -11,7 +11,8 @@ repository:
     patterns:
     - comment: Route Distinguisher
       name: text.network.cisco.base.vrf.definition.rd
-      match: ^\s*(rd)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)(?:\s+(\S+))?$
+      #match: ^\s*(rd)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)(?:\s+(\S+))?$
+      match: ^\s*(rd)\s+((?:(?:\d+\.){3})?\d+:\d+)(?:\s+(\S+))?$
       captures:
         '0': {name: text.network.cisco.base.rd.definition}
         '1': {name: support.constant}

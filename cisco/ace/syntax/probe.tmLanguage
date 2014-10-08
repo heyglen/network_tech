@@ -5,7 +5,7 @@
 	<key>fileTypes</key>
 	<array/>
 	<key>name</key>
-	<string>Cisco ACE Probe</string>
+	<string>.</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -429,7 +429,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^(probe)\s+(http)\s+(\S+)\s*(\S.*)?$</string>
+					<string>^\s*(probe)\s+(http)\s+(\S+)\s*(\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -529,7 +529,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^(probe)\s+(https)\s+(\S+)\s*(\S.*)?$</string>
+					<string>^\s*(probe)\s+(https)\s+(\S+)\s*(\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -629,7 +629,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^(probe)\s+(tcp)\s+(\S+)\s*(\S.*)?$</string>
+					<string>^\s*(probe)\s+(tcp)\s+(\S+)\s*(\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>

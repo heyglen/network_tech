@@ -1,0 +1,12 @@
+<snippet>
+    <description>vlan</description>
+    <tabTrigger>interface</tabTrigger>
+    <scope>text.network.cisco.ace</scope>
+    <content><![CDATA[
+interface vlan ${1:0}
+  $0
+  no shutdown
+ exit
+
+]]></content>
+</snippet>

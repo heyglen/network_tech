@@ -1,11 +1,10 @@
 <snippet>
-	<tabTrigger>ip</tabTrigger>
 	<description>prefix-list</description>
     <scope>text.network.cisco.base</scope>
+    <tabTrigger>ip</tabTrigger>
     <content>
 <![CDATA[
-ip prefix-list ${1:LEAK-} seq ${2:10} permit ${3:1.1.1.0}/${4:24}
-
+ip prefix-list ${1:NAME} seq ${2:10} permit ${3:1.2.3.0}/${4:24}
 ]]>
     </content>
 </snippet>

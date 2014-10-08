@@ -1,0 +1,12 @@
+<snippet>
+    <description>ipv4 vrf</description>
+    <scope>text.network.cisco.base.bgp</scope>
+    <tabTrigger>address-family</tabTrigger>
+    <content>
+<![CDATA[
+address-family ipv4 vrf ${1:NAME}
+ $0
+exit-address-family
+]]>
+    </content>
+</snippet>

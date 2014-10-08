@@ -1,0 +1,87 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: .
+scopeName: text.network.cisco.ace.parameter-map
+uuid: 74a739c6-c377-4803-abad-24139657386f
+
+patterns:
+- include: '#parameter-map-connection'
+
+repository:
+
+  parameter-map-connection:
+    patterns:
+    - name: text.network.cisco.base.ace.parameter-map.type.connection
+      begin: (?i)^\s*(parameter-map)\s+(type)\s+(connection)\s+(\S+)
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: entity.name.function}
+        '4': {name: string.unquoted}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))
+      patterns:
+      - include: '#set'
+
+  set:
+    patterns:
+    - name: text.network.cisco.base.ace.parameter-map.set
+      begin: (?i)^\s*(set)\s
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#set-tcp'
+
+  set-tcp:
+    patterns:
+    - name: text.network.cisco.base.ace.parameter-map.set.tcp
+      begin: (?i)\s*(tcp)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#set-tcp-buffer-share'
+      - include: '#set-tcp-wan-optimization'
+
+  set-tcp-wan-optimization:
+    patterns:
+    - name: text.network.cisco.base.ace.parameter-map.set.tcp.wan-optimization
+      begin: (?i)\s*(wan-optimization)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#set-tcp-wan-optimization-rtt'
+
+  set-tcp-wan-optimization-rtt:
+    patterns:
+    - name: text.network.cisco.base.ace.parameter-map.set.tcp.wan-optimization.rtt
+      begin: (?i)\s*(rtt)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#set-tcp-buffer-share-buffer'
+
+  set-tcp-wan-optimization-rtt-value:
+    patterns:
+    - name: text.network.cisco.base.ace.parameter-map.set.tcp.wan-optimization.rtt.value
+      match: (?i)\s*(\d+)
+      captures:
+        '1': {name: constant.numeric}
+
+  set-tcp-buffer-share:
+    patterns:
+    - name: text.network.cisco.base.ace.parameter-map.set.tcp.buffer-share
+      begin: (?i)\s*(buffer-share)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#set-tcp-buffer-share-buffer'
+
+  set-tcp-buffer-share-buffer:
+    patterns:
+    - name: text.network.cisco.base.ace.parameter-map.set.tcp.buffer-share.buffer
+      match: (?i)\s*(\d+)
+      captures:
+        '1': {name: constant.numeric}

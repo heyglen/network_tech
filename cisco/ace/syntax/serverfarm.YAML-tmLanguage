@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ACE Server Farm
+name: .
 scopeName: text.network.cisco.ace.serverfarm
 fileTypes: []
 uuid: a7ad6885-b478-425a-8b2e-795626f1fd0d

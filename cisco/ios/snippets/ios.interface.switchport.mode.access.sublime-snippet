@@ -1,8 +1,0 @@
-<snippet>
-    <description>access</description>
-    <scope>text.network.cisco.base.ios.interface.switchport</scope>
-    <tabTrigger>mode</tabTrigger>
-    <content><![CDATA[
-mode access
-]]></content>
-</snippet>

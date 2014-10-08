@@ -3,10 +3,9 @@
 	<tabTrigger>rserver</tabTrigger>
 	<scope>text.network.cisco.ace.serverfarm</scope>
 	<content><![CDATA[
-rserver ${1:fully.qualified.domain.name} ${2:#}
+rserver ${1:fully.qualified.domain.name} ${2:[port-number]}
   inservice
  exit
-$0
 
 ]]></content>
 </snippet>

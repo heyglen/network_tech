@@ -1,0 +1,8 @@
+<snippet>
+    <description>vlan</description>
+    <scope>text.network.cisco.base.ios.interface.switchport, text.network.cisco.base.nxos.interface.switchport</scope>
+    <tabTrigger>access</tabTrigger>
+    <content><![CDATA[
+access vlan ${1:0}
+]]></content>
+</snippet>

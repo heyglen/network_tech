@@ -1,0 +1,9 @@
+<snippet>
+    <description>route name</description>
+    <scope>text.network.cisco.base.ios.ip.route, text.network.cisco.base.ios.ip.route.vrf</scope>
+    <tabTrigger>name</tabTrigger>
+    <content><![CDATA[
+name ${1:NAME}
+]]></content>
+</snippet>
+

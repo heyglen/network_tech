@@ -1,0 +1,10 @@
+<snippet>
+    <description>version</description>
+    <scope>text.network.cisco.base.bgp</scope>
+    <tabTrigger>neighbor</tabTrigger>
+    <content>
+<![CDATA[
+neighbor ${1:<ip>} version ${2:4}
+]]>
+    </content>
+</snippet>

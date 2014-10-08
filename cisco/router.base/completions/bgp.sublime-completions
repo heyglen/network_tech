@@ -1,8 +1,6 @@
 {
     "scope": "text.network.cisco.base.bgp",
     "completions": [
-        "address-family ",
-        "exit-address-family ",
         "vrf ",
         "timers ",
         "route-map ",
@@ -12,13 +10,11 @@
         "peer-policy ",
         "activate ",
         "hops ",
-        "neighbor ",
         "mask ",
         "remote-as ",
         "shutdown ",
         "ttl-security ",
         "version ",
-
         "rd "
     ]
 }

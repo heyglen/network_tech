@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ACE Sticky
+name: .
 scopeName: text.network.cisco.ace.sticky
 fileTypes: []
 uuid: fb8d171a-b2d5-422a-a29f-9befd4a70e8f
@@ -39,7 +39,6 @@ repository:
         '2': {name: constant.language}
         '3': {name: support.constant}
         '4': {name: constant.language}
-        '5': {name: invalid.illegal}
 
   cookie-insert:
     patterns:
@@ -112,7 +111,7 @@ repository:
         '2': {name: entity.name.function}
         '3': {name: string.unquoted.sticky.name}
         '4': {name: invalid.illegal}
-      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
       patterns:
       - include: '#timeout'
       - include: '#replicate'
@@ -132,7 +131,7 @@ repository:
         '3': {name: support.constant.header-cookie}
         '4': {name: string.unquoted.sticky.name}
         '5': {name: invalid.illegal}
-      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
       patterns:
       - include: '#timeout'
       - include: '#replicate'
@@ -154,7 +153,7 @@ repository:
         '3': {name: support.constant.header-cookie}
         '4': {name: string.unquoted.sticky.name}
         '5': {name: invalid.illegal}
-      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
       patterns:
       - include: '#timeout'
       - include: '#replicate'
@@ -164,9 +163,9 @@ repository:
 
   sticky-ip-netmask:
     patterns:
-    - name: text.network.cisco.ace.sticky.http.ip-netmask
+    - name: text.network.cisco.ace.sticky.ip-netmask
       begin: ^(sticky)\s+(ip-netmask|v6-prefix)\s+(\S+)\s+(address)\s+(source|destination|both)\s+(\S+)\s*(?:\s+(\S+))?$
-      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
       captures:
         '1': {name: variable.parameter}
         '2': {name: entity.name.function}
@@ -184,14 +183,14 @@ repository:
 
   sticky-l4:
     patterns:
-    - name: text.network.cisco.ace.sticky.http.l4
+    - name: text.network.cisco.ace.sticky.l4
       begin: ^(sticky)\s+(layer4-payload)\s+(\S+)\s*(?:\s+(\S+))?$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: entity.name.function}
         '3': {name: string.unquoted.sticky.name}
         '4': {name: invalid.illegal}
-      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
       patterns:
       - include: '#timeout'
       - include: '#replicate'
@@ -201,7 +200,7 @@ repository:
 
   sticky-radius:
     patterns:
-    - name: text.network.cisco.ace.sticky.http.radius
+    - name: text.network.cisco.ace.sticky.radius
       begin: ^(sticky)\s+(radius\s+framed-ip)\s+(calling-station-id|username)\s+(\S+)\s*(?:\s+(\S+))?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -209,7 +208,7 @@ repository:
         '3': {name: support.constant.header-cookie}
         '4': {name: string.unquoted.sticky.name}
         '5': {name: invalid.illegal}
-      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
       patterns:
       - include: '#timeout'
       - include: '#replicate'
@@ -226,7 +225,7 @@ repository:
         '2': {name: entity.name.function}
         '3': {name: string.unquoted.sticky.name}
         '4': {name: invalid.illegal}
-      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
       patterns:
       - include: '#timeout'
       - include: '#replicate'
@@ -244,7 +243,7 @@ repository:
         '3': {name: support.constant.header-cookie}
         '4': {name: string.unquoted.sticky.name}
         '5': {name: invalid.illegal}
-      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
       patterns:
       - include: '#timeout'
       - include: '#replicate'

@@ -1,0 +1,14 @@
+<snippet>
+    <description>Vlan</description>
+    <scope>text.network.cisco.base.ios, text.network.cisco.base.nxos</scope>
+    <tabTrigger>interface</tabTrigger>
+    <content><![CDATA[
+interface Vlan ${1:0}
+  description ${2:}
+  $0
+  no shutdown
+ exit
+
+]]></content>
+</snippet>
+

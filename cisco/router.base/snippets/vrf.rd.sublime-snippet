@@ -1,11 +1,10 @@
 <snippet>
-    <description>Cisco VRF Route Distinguisher</description>
+    <description>route distinguisher</description>
     <scope>text.network.cisco.base.vrf.definition</scope>
     <tabTrigger>rd</tabTrigger>
     <content>
 <![CDATA[
-rd ${1:AS}:${2:#}
-$0
+rd ${1:<router-id>}:${2:#}
 ]]>
     </content>
 </snippet>

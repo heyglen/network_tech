@@ -1,0 +1,8 @@
+<snippet>
+    <description>offset</description>
+    <tabTrigger>cookie</tabTrigger>
+    <scope>text.network.cisco.ace.sticky.http.cookie</scope>
+    <content><![CDATA[
+cookie offset ${1:start-byte:0-999} length ${2:end-byte:0-999}
+]]></content>
+</snippet>

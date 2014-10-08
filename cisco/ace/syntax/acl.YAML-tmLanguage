@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco ACE ACL
+name: .
 scopeName: text.network.cisco.ace.acl
 uuid: 79529eb2-c1de-4465-aab8-0f19daef3f7a
 

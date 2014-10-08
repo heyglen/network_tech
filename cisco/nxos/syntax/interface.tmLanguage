@@ -142,19 +142,7 @@
 						</dict>
 						<dict>
 							<key>include</key>
-							<string>#switchport-trunk-allowed-vlan</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#switchport-trunk-encapsulation</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#switchport-access-vlan</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#switchport-mode</string>
+							<string>#switchport</string>
 						</dict>
 					</array>
 				</dict>
@@ -390,7 +378,102 @@
 				</dict>
 			</array>
 		</dict>
+		<key>switchport</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)^\s*(switchport)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-mode</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-access</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-access</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(access)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.access</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-access-vlan</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>switchport-access-vlan</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(vlan)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.access</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-access-vlan-id</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-access-vlan-id</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -400,28 +483,13 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric.vlan.id</string>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(switchport)\s+(access)\s+(?:(vlan)\s+(\d+)?)?</string>
+					<string>(?i)\s*(\d+)\s+</string>
 					<key>name</key>
-					<string>text.network.cisco.base.nxos.interface.switchport.access</string>
+					<string>text.network.cisco.base.ios.interface.switchport.access</string>
 				</dict>
 			</array>
 		</dict>
@@ -430,28 +498,133 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>captures</key>
+					<key>begin</key>
+					<string>(?i)\s*(mode)\s+</string>
+					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>2</key>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.mode</string>
+					<key>patterns</key>
+					<array>
 						<dict>
-							<key>name</key>
-							<string>support.constant</string>
+							<key>include</key>
+							<string>#switchport-mode-trunk</string>
 						</dict>
-						<key>3</key>
+						<dict>
+							<key>include</key>
+							<string>#switchport-mode-access</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-mode-access</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>entity.name.function</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(switchport)\s+(?:(mode)\s+(trunk|access|capture|fabricpath)?)?</string>
+					<string>(?i)\s*(access)\s*$</string>
 					<key>name</key>
-					<string>text.network.cisco.base.nxos.interface.switchport.mode</string>
+					<string>text.network.cisco.base.ios.interface.switchport.mode.access</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-mode-trunk</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?i)(?&lt;=\s)(trunk)\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.mode.trunk</string>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(trunk)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-encapsulation</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-allowed</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-allowed</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(allowed)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
@@ -460,57 +633,155 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>captures</key>
+					<key>begin</key>
+					<string>(?i)\s*(vlan)\s+</string>
+					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>2</key>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan</string>
+					<key>patterns</key>
+					<array>
 						<dict>
-							<key>name</key>
-							<string>support.constant</string>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan-add</string>
 						</dict>
-						<key>3</key>
 						<dict>
-							<key>name</key>
-							<string>support.constant</string>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan-remove</string>
 						</dict>
-						<key>4</key>
 						<dict>
-							<key>name</key>
-							<string>support.constant</string>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan-ids</string>
 						</dict>
-						<key>5</key>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-allowed-vlan-add</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(add)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>entity.name.function</string>
 						</dict>
-						<key>6</key>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.add</string>
+					<key>patterns</key>
+					<array>
 						<dict>
-							<key>name</key>
-							<string>keyword.other</string>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan-ids</string>
 						</dict>
-						<key>8</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>vlan</key>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-allowed-vlan-ids</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(?:(?&lt;vlanid&gt;\d+)([,]|[-])?)+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>vlanid</key>
 						<dict>
 							<key>name</key>
 							<string>constant.numeric</string>
 						</dict>
 					</dict>
-					<key>match</key>
-					<string>^\s*(switchport)\s+(trunk)\s+(allowed)\s+(?:(vlan)(?:(?:(?:\s+(?:(add)|(remove)))?)(?:\s+(?&lt;vlan&gt;\d+)(?:\s*([,-])\s*(?&lt;vlan&gt;\d+))*)?)?)?</string>
+					<key>end</key>
+					<string>(?=$)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.nxos.interface.switchport.trunk.allowed.vlan</string>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.ids</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-encapsulation</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-allowed-vlan-remove</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(remove)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.remove</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-allowed-vlan-ids</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
 		<key>switchport-trunk-encapsulation</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(encapsulation)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.encapsulation</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#switchport-trunk-encapsulation-dot1q</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>switchport-trunk-encapsulation-dot1q</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -522,26 +793,11 @@
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant</string>
-						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(switchport)\s+(trunk)\s+(encapsulation)\s+(dot1q)?</string>
+					<string>(?i)\s*(dot1q)\s+</string>
 					<key>name</key>
-					<string>text.network.cisco.base.nxos.interface.switchport.trunk.encapsulation</string>
+					<string>text.network.cisco.base.ios.interface.switchport.trunk.encapsulation.dot1q</string>
 				</dict>
 			</array>
 		</dict>

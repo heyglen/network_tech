@@ -12,11 +12,19 @@
 	<array>
 		<dict>
 			<key>include</key>
+			<string>#checkpoint-create</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#copy</string>
 		</dict>
 		<dict>
 			<key>include</key>
 			<string>#changeto</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#crypto-delete</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -142,6 +150,10 @@
 			<key>include</key>
 			<string>text.network.cisco.ace.ft-group</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.ace.parameter-map</string>
+		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -241,6 +253,51 @@
 					<string>^(\S*)\s*(changeto)\s+(\S+)\s*(\S*.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.keywords</string>
+				</dict>
+			</array>
+		</dict>
+		<key>checkpoint-create</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted.name</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(checkpoint)\s+(?:(create)|(rollback)|(delete))\s+(\S+)(?:\s+(\S.*))?</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.checkpoint.create</string>
 				</dict>
 			</array>
 		</dict>
@@ -401,24 +458,22 @@
 				</dict>
 			</array>
 		</dict>
-		<key>crypto-import</key>
+		<key>crypto-delete</key>
 		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>begin</key>
-					<string>^(\S*)\s*(crypto)\s+(import)\s+(\S+)\s+(\S+)\s*(\S*.*)?$</string>
-					<key>beginCaptures</key>
+					<key>captures</key>
 					<dict>
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>meta.cisco.ace.crypto.import</string>
+							<string>text.network.cisco.ace.pki.verify</string>
 						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>invalid.illegal</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -428,19 +483,51 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter</string>
+							<string>string.unquoted</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(crypto)\s+(delete)\s+(\S+)\s*(\S*.*)?$</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.pki.delete</string>
+				</dict>
+			</array>
+		</dict>
+		<key>crypto-import</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(crypto)\s+(import)\s+(\S+)\s+(\S+)\s*(\S*.*)?$</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
 							<string>variable.parameter</string>
 						</dict>
-						<key>5</key>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>string.unquoted</string>
 						</dict>
-						<key>6</key>
+						<key>5</key>
 						<dict>
 							<key>name</key>
 							<string>invalid.illegal</string>
@@ -483,17 +570,17 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>invalid.illegal</string>
+							<string>keyword.other</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.other</string>
+							<string>support.constant</string>
 						</dict>
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter</string>
+							<string>string.unquoted</string>
 						</dict>
 						<key>4</key>
 						<dict>
@@ -502,7 +589,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^(\S*)\s*(crypto verify)\s+(\S+\s+\S+)\s*(\S*.*)?$</string>
+					<string>^(\S*)\s*(crypto\s+verify)\s+(\S+\s+\S+)\s*(\S*.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.pki.verify</string>
 				</dict>

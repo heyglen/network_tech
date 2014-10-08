@@ -1,5 +1,10 @@
   ! On Admin context
 
+parameter-map type connection PARAM_MAP
+  set tcp buffer-share 123
+  set tcp wan-optimization rtt 0
+ exit
+
 context context-1
   description blah blah
   allocate-interface vlan 1
@@ -15,6 +20,10 @@ ft group 3
 
 
 ! On load-balancer-1
+checkpoint create NAME
+checkpoint delete NAME
+checkpoint rollback NAME
+
 copy running-config startup-config
 copy running-config tftp://1.1.1.1/asdf
 copy startup-config running-config
@@ -150,7 +159,6 @@ sticky http-cookie domain.root name
   cookie secondary name
   static cookie-value value rserver name 90
   serverfarm SERVERFARM1 backup SERVERFARM2
-  invalid line
 
 sticky layer4-payload L4_PAYLOAD_GROUP
   description
@@ -214,6 +222,7 @@ policy-map type management first-match remote_mgmt_allow_policy
     permit
     deny
 
+
 policy-map type loadbalance first-match L7-POLICY-1
   class class-default
     sticky-serverfarm STICKY1
@@ -235,6 +244,16 @@ policy-map multi-match L4-POLICY-1
     ssl-proxy server SSL-SERVER
     connection advanced-options CONNECTION-OPTIONS
 
+policy-map multi-match POLICY-NAME_L4POLICY
+  description DESCRIPTION
+
+ exit
+
+interface vlan 3
+
+  no shutdown
+ exit
+
 
 interface vlan 1
   description Management
@@ -243,6 +262,8 @@ interface vlan 1
   access-group input MGMT_ACL
   service-policy input remote_mgmt_allow_policy
   no shutdown
+
+
 
 interface vlan 2
   description Network Interface

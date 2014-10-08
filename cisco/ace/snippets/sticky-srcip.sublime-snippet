@@ -1,10 +1,10 @@
 <snippet>
-	<description>source</description>
-	<tabTrigger>stickysource</tabTrigger>
+	<description>ip source</description>
+	<tabTrigger>sticky</tabTrigger>
 	<scope>text.network.cisco.ace</scope>
 	<content><![CDATA[
-sticky ip-netmask 255.255.255.255 address source ${1:STICKY-FARM_SRCIP_STICKY}
-  $0
+sticky ip-netmask 255.255.255.255 address source ${1:STICKY_NAME}
+  serverfarm ${2:SERVERFARM_NAME}
  exit
 
 ]]></content>

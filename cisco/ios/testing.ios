@@ -2,6 +2,7 @@ write
 
 ipv6 unicast-routing
 
+
 show ip route vrf green 1.1.1.1
 show ip route 1.1.1.1
 show ip route
@@ -21,7 +22,6 @@ ip access-list extended acl
 interface vlan 123
 	description Hello
 	vrf forwarding RED
-	switchport mode
 	switchport mode access
 	switchport mode trunk
 	switchport trunk
@@ -53,3 +53,11 @@ interface vlan 123
 	no switchport
 	no shutdown
 	shutdown
+
+ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 name asdf permanent
+ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 track 2
+ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 tag 2
+ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 name hi track 4 tag 2
+ip route
+
+
