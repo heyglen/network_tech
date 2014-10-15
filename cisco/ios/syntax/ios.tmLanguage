@@ -40,6 +40,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#vrf-upgrade</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#write</string>
 		</dict>
 		<dict>
@@ -185,6 +189,61 @@
 					<string>^\s*(ipv6)(?:\s+(unicast-routing))?\s*(?:\s*(\S.*))?$</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.ipv6.unicast-routing</string>
+				</dict>
+			</array>
+		</dict>
+		<key>vrf-upgrade</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(vrf)\s+(upgrade-cli)\s+(multi-af-mode)\s+((?:non-)?common-policies)(?:(?:\s+(vrf)\s+(\S+)(?:\s+(force))?)|(\s+force))?</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.vrf.upgrade</string>
 				</dict>
 			</array>
 		</dict>

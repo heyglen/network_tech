@@ -1,0 +1,8 @@
+<snippet>
+	<description>probe interval</description>
+	<tabTrigger>interval</tabTrigger>
+	<scope>text.network.cisco.ace.probe</scope>
+	<content><![CDATA[
+interval ${1:60}
+]]></content>
+</snippet>

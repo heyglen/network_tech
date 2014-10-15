@@ -1,0 +1,8 @@
+<snippet>
+	<description>Host</description>
+	<tabTrigger>header</tabTrigger>
+	<scope>text.network.cisco.ace.probe.https, text.network.cisco.ace.probe.http</scope>
+	<content><![CDATA[
+header Host header-value ${1:server.domain.root}
+]]></content>
+</snippet>

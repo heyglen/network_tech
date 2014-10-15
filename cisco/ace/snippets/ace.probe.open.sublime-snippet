@@ -1,0 +1,8 @@
+<snippet>
+	<description>open</description>
+	<tabTrigger>open</tabTrigger>
+	<scope>text.network.cisco.ace.probe</scope>
+	<content><![CDATA[
+open ${1:1}
+]]></content>
+</snippet>

@@ -12,7 +12,11 @@
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>#class-map-http</string>
+			<string>#class-map-http-inspect</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#class-map-http-loadbalance</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -73,7 +77,7 @@
 				</dict>
 			</array>
 		</dict>
-		<key>class-map-http</key>
+		<key>class-map-http-inspect</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -144,6 +148,81 @@
 							<key>include</key>
 							<string>text.network.cisco.scope</string>
 						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>class-map-http-loadbalance</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(class-map)\s+(type)\s+(http)\s+(loadbalance)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.class-map-http</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#lb-match-http-header</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#lb-match-http-url</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
 					</array>
 				</dict>
 			</array>
@@ -199,6 +278,106 @@
 							<string>#match-protocol</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>lb-match-http-header</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(\d+\s+)?(match)\s+(http)\s+(header)\s+(\S+)\s+(header-value)\s+(\S+)\s*(?:\s+(\S+))?$</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.class-map.http.match-header</string>
+				</dict>
+			</array>
+		</dict>
+		<key>lb-match-http-url</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(\d+\s+)?(match)\s+(http)\s+(url)\s+(\S+)\s*(?:\s+(\S+))?$</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.class-map.http.match-url</string>
 				</dict>
 			</array>
 		</dict>
@@ -361,7 +540,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(\d+\s+)?(match)\s+(header)\s+(\S+)\s+(header-value)\s+(\S+)\s*(?:\s+(\S+))?$</string>
+					<string>\s*(\d+\s+)?(match)\s+(header)\s+(\S+)\s+(header-value)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.class-map.http.match-header</string>
 				</dict>

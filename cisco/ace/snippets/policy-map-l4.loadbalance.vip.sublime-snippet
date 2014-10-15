@@ -3,6 +3,6 @@
     <tabTrigger>loadbalance</tabTrigger>
     <scope>text.network.cisco.ace.policy.policy-class</scope>
     <content><![CDATA[
-    loadbalance vip inservice
+loadbalance vip inservice
 ]]></content>
 </snippet>

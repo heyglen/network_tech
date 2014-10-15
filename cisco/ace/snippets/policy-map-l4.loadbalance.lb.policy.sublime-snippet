@@ -3,6 +3,6 @@
     <tabTrigger>loadbalance</tabTrigger>
     <scope>text.network.cisco.ace.policy.policy-class</scope>
     <content><![CDATA[
-    loadbalance policy ${1:L7_POLICY}
+loadbalance policy ${1:NAME_L7POLICY}
 ]]></content>
 </snippet>

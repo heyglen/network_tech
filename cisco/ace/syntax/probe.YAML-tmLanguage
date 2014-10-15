@@ -148,6 +148,7 @@ repository:
       - include: '#expect-status'
       - include: '#http-header'
       - include: text.network.cisco.scope
+      - include: text.network.cisco
       - include: text.invalid
 
   probe-https:
@@ -175,6 +176,7 @@ repository:
       - include: '#expect-status'
       - include: '#http-header'
       - include: text.network.cisco.scope
+      - include: text.network.cisco
       - include: text.invalid
 
   probe-tcp:
@@ -198,6 +200,7 @@ repository:
       - include: '#receive'
       - include: '#send-data'
       - include: text.network.cisco.scope
+      - include: text.network.cisco
       - include: text.invalid
 
   receive:

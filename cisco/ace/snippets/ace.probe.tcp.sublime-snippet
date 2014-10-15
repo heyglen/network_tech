@@ -1,0 +1,12 @@
+<snippet>
+	<description>TCP</description>
+	<tabTrigger>probe</tabTrigger>
+	<scope>text.network.cisco.ace</scope>
+	<content><![CDATA[
+probe tcp ${1:PROBE-NAME_PROBE}
+  port ${2:0}
+ exit
+
+$0
+]]></content>
+</snippet>

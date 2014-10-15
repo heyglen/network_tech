@@ -1,0 +1,8 @@
+<snippet>
+	<description>url</description>
+	<tabTrigger>match</tabTrigger>
+	<scope>text.network.cisco.ace.class-map-http</scope>
+	<content><![CDATA[
+${1:2} match http url ${2:/}
+]]></content>
+</snippet>

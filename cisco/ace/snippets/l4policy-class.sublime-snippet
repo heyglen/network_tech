@@ -1,10 +1,14 @@
 <snippet>
-	<description>class</description>
+	<description>L4 policy class</description>
 	<tabTrigger>class</tabTrigger>
-	<scope>text.network.cisco.ace.l4policy</scope>
+	<scope>text.network.cisco.ace.policy.map</scope>
 	<content><![CDATA[
 class ${1:CLASS-NAME_L4CLASS}
-  $0
+  loadbalance vip inservice
+  loadbalance policy ${2:NAME_L7POLICY}
+  loadbalance vip icmp-reply
+  ${3:nat dynamic ${4:NAT-ID} vlan ${5:VLAN-ID}}
  exit
+$0
 ]]></content>
 </snippet>

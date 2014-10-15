@@ -1,0 +1,8 @@
+<snippet>
+    <description>changeto</description>
+    <tabTrigger>changeto</tabTrigger>
+    <scope>text.network.cisco.ace</scope>
+    <content><![CDATA[
+changeto ${1:NAME_CTX}
+]]></content>
+</snippet>

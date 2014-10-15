@@ -2,6 +2,10 @@ write
 
 ipv6 unicast-routing
 
+vrf upgrade-cli multi-af-mode common-policies vrf red
+vrf upgrade-cli multi-af-mode non-common-policies force
+vrf upgrade-cli multi-af-mode common-policies force
+vrf upgrade-cli multi-af-mode common-policies
 
 show ip route vrf green 1.1.1.1
 show ip route 1.1.1.1
@@ -57,7 +61,6 @@ interface vlan 123
 ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 name asdf permanent
 ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 track 2
 ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 tag 2
-ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 name hi track 4 tag 2
-ip route
+ip route 1.1.1.0 255.255.255.0 1.1.1.1 name NAME
 
 

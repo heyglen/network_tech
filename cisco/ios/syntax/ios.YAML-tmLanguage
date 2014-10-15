@@ -12,6 +12,7 @@ patterns:
 - include: text.network.cisco.base.ios.ip
 - include: "#ipv4-route"
 - include: "#ipv6-route"
+- include: "#vrf-upgrade"
 - include: "#write"
 - include: "#ipv6-general-prefix"
 - include: "#ipv6-unicast-routing"
@@ -26,6 +27,20 @@ repository:
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: invalid.illegal}
+
+  vrf-upgrade:
+    patterns:
+    - name: text.network.cisco.base.ios.vrf.upgrade
+      match: ^\s*(vrf)\s+(upgrade-cli)\s+(multi-af-mode)\s+((?:non-)?common-policies)(?:(?:\s+(vrf)\s+(\S+)(?:\s+(force))?)|(\s+force))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: entity.name.function}
+        '5': {name: support.constant}
+        '6': {name: string.unquoted}
+        '7': {name: support.constant}
+        '8': {name: support.constant}
 
   ipv6-unicast-routing:
     patterns:

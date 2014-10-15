@@ -1,0 +1,10 @@
+<snippet>
+    <description>upgrade-cli vrf</description>
+    <scope>text.network.cisco.base.ios</scope>
+    <tabTrigger>vrf</tabTrigger>
+    <content><![CDATA[
+vrf upgrade-cli multi-af-mode common-policies vrf ${1:NAME}
+
+]]></content>
+</snippet>
+

@@ -1,0 +1,8 @@
+<snippet>
+    <description>ip rserver</description>
+    <tabTrigger>ip</tabTrigger>
+    <scope>text.network.cisco.ace.rserver</scope>
+    <content><![CDATA[
+ip address ${1:1.2.3.4}
+]]></content>
+</snippet>

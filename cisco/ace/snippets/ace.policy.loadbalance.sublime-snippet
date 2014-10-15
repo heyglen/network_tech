@@ -1,9 +1,9 @@
 <snippet>
-	<description>L4 multi-match</description>
+	<description>L7 loadbalance</description>
 	<tabTrigger>policy-map</tabTrigger>
 	<scope>text.network.cisco.ace</scope>
 	<content><![CDATA[
-policy-map multi-match ${1:POLICY-NAME}_L4POLICY
+policy-map type loadbalance first-match ${1:POLICY-NAME_L7POLICY}
   description ${2:DESCRIPTION}
   $0
  exit

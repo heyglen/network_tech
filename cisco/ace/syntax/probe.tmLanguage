@@ -517,6 +517,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.invalid</string>
 						</dict>
 					</array>
@@ -617,6 +621,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.invalid</string>
 						</dict>
 					</array>
@@ -698,6 +706,10 @@
 						<dict>
 							<key>include</key>
 							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
 						</dict>
 						<dict>
 							<key>include</key>

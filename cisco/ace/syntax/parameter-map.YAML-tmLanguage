@@ -13,7 +13,7 @@ repository:
     - name: text.network.cisco.base.ace.parameter-map.type.connection
       begin: (?i)^\s*(parameter-map)\s+(type)\s+(connection)\s+(\S+)
       beginCaptures:
-        '1': {name: support.constant}
+        '1': {name: variable.parameter}
         '2': {name: support.constant}
         '3': {name: entity.name.function}
         '4': {name: string.unquoted}

@@ -102,6 +102,7 @@ probe https HTTPS-PROBE1
 
 probe http HTTP-PROBE1
   description HTTP Health Probe
+
   open 20
   receive 20
   passdetect interval 30
@@ -207,6 +208,11 @@ class-map type http inspect match-any map_name
  5 match header Host header-value domain.local
  6 match url /index.html
 
+class-map type http loadbalance match-any CLASS-NAME_L7CLASS
+  2 match http header Host header-value VALUE
+  2 match http url /
+ exit
+
 
 class-map type management match-any remote_access
   2 match protocol xml-https source-address 10.0.0.0 255.255.255.0
@@ -242,18 +248,7 @@ policy-map multi-match L4-POLICY-1
     nat dynamic 29 vlan 3996
     appl-parameter http advanced-options APPL-PARAM
     ssl-proxy server SSL-SERVER
-    connection advanced-options CONNECTION-OPTIONS
-
-policy-map multi-match POLICY-NAME_L4POLICY
-  description DESCRIPTION
-
- exit
-
-interface vlan 3
-
-  no shutdown
- exit
-
+    connection advanced-options CONNECTION-OPTIONS_NAME
 
 interface vlan 1
   description Management
@@ -262,8 +257,6 @@ interface vlan 1
   access-group input MGMT_ACL
   service-policy input remote_mgmt_allow_policy
   no shutdown
-
-
 
 interface vlan 2
   description Network Interface
@@ -290,3 +283,13 @@ snmp-server enable traps slb real
 snmp-server enable traps syslog
 snmp-server enable traps snmp linkup
 snmp-server enable traps snmp linkdown
+
+interface vlan 0
+  description Network Interface
+  ip address 1.2.3.4 255.255.255.0
+  peer ip address 1.2.3.4 255.255.255.0
+  access-group input NAME_ACL
+
+  no shutdown
+ exit
+

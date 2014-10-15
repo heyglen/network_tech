@@ -1,9 +1,9 @@
 <snippet>
-	<description>L4 match-any</description>
+	<description>L7 HTTP</description>
 	<tabTrigger>class-map</tabTrigger>
 	<scope>text.network.cisco.ace</scope>
 	<content><![CDATA[
-class-map match-any ${1:CLASS-NAME}_L4CLASS
+class-map type http loadbalance match-any ${1:CLASS-NAME_L7CLASS}
   description ${2:DESCRIPTION}
   $0
  exit

@@ -1,0 +1,9 @@
+<snippet>
+    <description>terminal</description>
+    <tabTrigger>configure</tabTrigger>
+    <scope>text.network.cisco.ace</scope>
+    <content><![CDATA[
+configure terminal
+
+]]></content>
+</snippet>

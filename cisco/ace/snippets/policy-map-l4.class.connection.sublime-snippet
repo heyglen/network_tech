@@ -1,5 +1,5 @@
 <snippet>
-    <description>advanced-options policy class</description>
+    <description>adv-opt policy class</description>
     <tabTrigger>connection</tabTrigger>
     <scope>text.network.cisco.ace.policy.policy-class</scope>
     <content><![CDATA[

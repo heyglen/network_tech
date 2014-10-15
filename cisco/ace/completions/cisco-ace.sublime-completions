@@ -2,13 +2,9 @@
     "scope": "text.network.cisco.ace",
     "completions": [
         { "trigger": "write", "contents": "copy running-config startup-config" },
-        "copy",
-        "changeto",
-        "configure terminal",
         "clear",
         "show",
         "backup",
-        "crypto",
         "compare",
         "clock",
         "debug",
@@ -36,11 +32,9 @@
 		"system",
 		"tac-pac",
 		"telnet",
-		"terminal",
 		"traceroute",
 		"undebug",
 		"untar",
-		"write",
 		"xml-show",
         "capture",
         "aaa",
@@ -73,15 +67,11 @@
         "object-group",
         "optimize",
         "parameter-map",
-        "peer",
-        "probe",
         "radius-server",
         "regex",
         "resource-class",
         "role",
-        "rserver",
         "script",
-        "service-policy",
         "shared-vlan-hostid",
         "snmp-server",
         "ssh",
@@ -94,4 +84,3 @@
         "vm-controller"
     ]
 }
-
