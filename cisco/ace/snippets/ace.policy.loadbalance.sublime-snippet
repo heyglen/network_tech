@@ -3,7 +3,7 @@
 	<tabTrigger>policy-map</tabTrigger>
 	<scope>text.network.cisco.ace</scope>
 	<content><![CDATA[
-policy-map type loadbalance first-match ${1:POLICY-NAME_L7POLICY}
+policy-map type loadbalance first-match ${1:POLICY-NAME}_L7POLICY
   description ${2:DESCRIPTION}
   $0
  exit

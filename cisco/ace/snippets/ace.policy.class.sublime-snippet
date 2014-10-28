@@ -1,8 +1,0 @@
-<snippet>
-    <description>class policy-map</description>
-    <tabTrigger>class</tabTrigger>
-    <scope>text.network.cisco.ace.policy.map</scope>
-    <content><![CDATA[
-class ${1:CLASS_NAME}
-]]></content>
-</snippet>

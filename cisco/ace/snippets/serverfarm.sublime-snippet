@@ -3,7 +3,7 @@
 	<tabTrigger>serverfarm</tabTrigger>
 	<scope>text.network.cisco.ace</scope>
 	<content><![CDATA[
-serverfarm host ${1:SERVER-FARM_FARM}
+serverfarm host ${1:SERVER-FARM}_FARM
   description ${2:DESCRIPTION}
   $0
  exit

@@ -3,7 +3,7 @@
 	<tabTrigger>probe</tabTrigger>
 	<scope>text.network.cisco.ace</scope>
 	<content><![CDATA[
-probe https ${1:NAME_PROBE}
+probe https ${1:NAME}_PROBE
   description ${2:DESCRIPTION}
   port 443
   header Host header-value ${3:server.domain.root}

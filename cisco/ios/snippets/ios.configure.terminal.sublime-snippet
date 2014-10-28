@@ -1,0 +1,10 @@
+<snippet>
+    <description>terminal</description>
+    <scope>text.network.cisco.base.ios</scope>
+    <tabTrigger>configure</tabTrigger>
+    <content><![CDATA[
+configure terminal
+
+]]></content>
+</snippet>
+
