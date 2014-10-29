@@ -10,6 +10,7 @@ patterns:
 - include: text.network.cisco.base.ios.show
 - include: text.network.cisco.base.ios.acl
 - include: text.network.cisco.base.ios.ip
+- include: text.network.cisco.base.ios.vty
 - include: "#ipv4-route"
 - include: "#ipv6-route"
 - include: "#vrf-upgrade"

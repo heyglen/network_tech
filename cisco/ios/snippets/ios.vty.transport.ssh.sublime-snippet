@@ -1,0 +1,10 @@
+<snippet>
+    <description>ssh</description>
+    <scope>text.network.cisco.base.ios.vty</scope>
+    <tabTrigger>transport</tabTrigger>
+    <content><![CDATA[
+transport input ssh
+
+]]></content>
+</snippet>
+

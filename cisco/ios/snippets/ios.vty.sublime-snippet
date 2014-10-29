@@ -1,0 +1,12 @@
+<snippet>
+    <description>vty</description>
+    <scope>text.network.cisco.base.ios</scope>
+    <tabTrigger>line</tabTrigger>
+    <content><![CDATA[
+line vty ${1:0} ${2:4}
+  $0
+ exit
+
+]]></content>
+</snippet>
+

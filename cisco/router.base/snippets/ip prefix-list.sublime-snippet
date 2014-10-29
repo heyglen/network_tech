@@ -1,6 +1,6 @@
 <snippet>
 	<description>prefix-list</description>
-    <scope>text.network.cisco.base</scope>
+    <scope>text.network.cisco.base - text.network.cisco.base.ios.interface</scope>
     <tabTrigger>ip</tabTrigger>
     <content>
 <![CDATA[

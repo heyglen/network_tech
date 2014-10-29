@@ -1,0 +1,11 @@
+<snippet>
+    <description>route-map</description>
+    <scope>text.network.cisco.base.ios</scope>
+    <tabTrigger>route-map</tabTrigger>
+    <content><![CDATA[
+route-map ${1:NAME} permit ${2:0}
+  $0
+ exit
+
+]]></content>
+</snippet>

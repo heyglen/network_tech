@@ -1,0 +1,8 @@
+<snippet>
+    <description>route vrf</description>
+    <scope>text.network.cisco.base.ios</scope>
+    <tabTrigger>ipv6</tabTrigger>
+    <content><![CDATA[
+ipv6 route vrf ${1:NAME} ${2:::/0} ${3:vlan${4:0}} ${5:::1}
+]]></content>
+</snippet>

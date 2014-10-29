@@ -1,0 +1,10 @@
+<snippet>
+    <description>soft-reconfiguration</description>
+    <scope>text.network.cisco.base.bgp</scope>
+    <tabTrigger>neighbor</tabTrigger>
+    <content>
+<![CDATA[
+neighbor ${1:<ip>} soft-reconfiguration ${2:inbound}
+]]>
+    </content>
+</snippet>

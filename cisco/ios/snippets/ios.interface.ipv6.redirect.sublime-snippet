@@ -1,9 +1,10 @@
 <snippet>
-    <description>forwarding</description>
+    <description>redirects</description>
     <scope>text.network.cisco.base.ios.interface, text.network.cisco.base.nxos.interface</scope>
-    <tabTrigger>vrf</tabTrigger>
+    <tabTrigger>ipv6</tabTrigger>
     <content><![CDATA[
-vrf forwarding ${1:NAME}
+ipv6 redirects
+
 ]]></content>
 </snippet>
 

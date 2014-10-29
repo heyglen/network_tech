@@ -1,0 +1,10 @@
+<snippet>
+    <description>telnet</description>
+    <scope>text.network.cisco.base.ios.vty</scope>
+    <tabTrigger>transport</tabTrigger>
+    <content><![CDATA[
+transport input telnet
+
+]]></content>
+</snippet>
+

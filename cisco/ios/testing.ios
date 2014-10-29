@@ -53,14 +53,19 @@ interface vlan 123
  	standby 2 ipv6 autoconfig
  	standby 2 ipv6 0::/64
  	standby 1 track 1 decrement 10
-
 	no switchport
 	no shutdown
 	shutdown
+
 
 ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 name asdf permanent
 ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 track 2
 ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 tag 2
 ip route 1.1.1.0 255.255.255.0 1.1.1.1 name NAME
+ipv6 route vrf green ::/64 vlan0 ::1
+
+line vty 0 4
+  access-class 1234 in vrf-also
+  transport input ssh telnet
 
 

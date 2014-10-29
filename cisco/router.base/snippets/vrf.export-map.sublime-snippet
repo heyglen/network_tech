@@ -1,0 +1,8 @@
+<snippet>
+    <description>map</description>
+    <scope>text.network.cisco.base.vrf</scope>
+    <tabTrigger>export</tabTrigger>
+    <content><![CDATA[
+export map ${1:NAME}
+]]></content>
+</snippet>

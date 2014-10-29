@@ -10,6 +10,11 @@ default interface Vlan 1
 ip vrf asdf
 
 
+route-map NAME permit 0
+ match ip address prefix-list asdf
+ set extcommunity rt 0:0
+ exit
+
 vrf definition RED
 	description RED VRF
 	no rd 1:2
@@ -49,6 +54,9 @@ router bgp 123
   neighbor 1.1.1.1 route-map ROUTE-MAP-NAME in
   neighbor 1.1.1.1 route-map ROUTE-MAP-NAME out
   neighbor 1.1.1.1 inherit peer-policy POLICY
+  neighbor 1.1.1.1 soft-reconfiguration inbound
+  neighbor 1.1.1.1 soft-reconfiguration outbound
+  neighbor 1.1.1.1 transport path-mtu-discovery
  exit-address-family
  address-family ipv6 vrf VRF-NAME
   network ::/0
@@ -61,6 +69,9 @@ router bgp 123
   neighbor ::1 route-map  ROUTE-MAP-NAME in
   neighbor ::1 route-map  ROUTE-MAP-NAME out
   neighbor ::1 inherit peer-policy POLICY
+  neighbor ::1 soft-reconfiguration inbound
+  neighbor ::1 soft-reconfiguration outbound
+  neighbor ::1 transport path-mtu-discovery
  exit-address-family
 
 

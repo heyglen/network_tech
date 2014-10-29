@@ -32,6 +32,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>text.network.cisco.base.ios.vty</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#ipv4-route</string>
 		</dict>
 		<dict>

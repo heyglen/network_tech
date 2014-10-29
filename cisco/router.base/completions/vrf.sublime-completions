@@ -4,7 +4,6 @@
         "description ",
         "both ",
     	"exit-address-family ",
-    	"export ",
     	"map ",
     	"ipv4 ",
     	"ipv6 ",

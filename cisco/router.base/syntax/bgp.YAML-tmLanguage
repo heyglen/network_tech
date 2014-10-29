@@ -52,6 +52,7 @@ repository:
       - include: '#ipv4-neighbor-send-community'
       - include: '#ipv4-neighbor-shutdown'
       - include: '#ipv4-neighbor-description'
+      - include: '#ipv4-path-mtu'
       - include: text.network.cisco.scope
       - include: text.network.cisco
 
@@ -80,6 +81,8 @@ repository:
       - include: '#ipv6-neighbor-version'
       - include: '#ipv6-neighbor-description'
       - include: '#ipv6-neighbor-shutdown'
+      - include: '#ipv6-soft-reconfiguration'
+      - include: '#ipv6-path-mtu'
       - include: text.network.cisco.scope
       - include: text.network.cisco
 
@@ -267,6 +270,28 @@ repository:
         '4': {name: constant.numeric}
         '5': {name: invalid.illegal}
 
+  ipv4-soft-reconfiguration:
+    patterns:
+    - name: text.network.cisco.base.bgp.ipv4-neighbor.version
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(soft-reconfiguration)\s+(inbound|outbound)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: invalid.illegal}
+
+  ipv4-path-mtu:
+    patterns:
+    - name: text.network.cisco.base.bgp.ipv4-neighbor.path-mtu
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)\s+(transport)\s+(path-mtu-discovery)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: invalid.illegal}
+
   ipv6-neighbor-activate:
     patterns:
     - name: text.network.cisco.base.bgp.ipv6.neighbor.activate
@@ -399,5 +424,27 @@ repository:
         '2': {name: constant.numeric}
         '3': {name: support.constant}
         '4': {name: constant.numeric}
+        '5': {name: invalid.illegal}
+
+  ipv6-soft-reconfiguration:
+    patterns:
+    - name: text.network.cisco.base.bgp.ipv6.neighbor.soft-reconfiguration
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)\s+(soft-reconfiguration)\s+(inbound|outbound)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: invalid.illegal}
+
+  ipv6-path-mtu:
+    patterns:
+    - name: text.network.cisco.base.bgp.ipv6.neighbor.path-mtu
+      match: ^\s+(neighbor)\s+((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)\s+(transport)\s+(path-mtu-discovery)\s*(\s\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
         '5': {name: invalid.illegal}
 

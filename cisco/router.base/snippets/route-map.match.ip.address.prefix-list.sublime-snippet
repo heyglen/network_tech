@@ -1,0 +1,9 @@
+<snippet>
+    <description>ip address prefix-list</description>
+    <scope>text.network.cisco.base.route-map</scope>
+    <tabTrigger>match</tabTrigger>
+    <content><![CDATA[
+match ip address prefix-list ${1:NAME}
+
+]]></content>
+</snippet>
