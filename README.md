@@ -9,7 +9,7 @@ Supports:
  * Cisco NXOS
  * Cisco ASA
 
-**Usage**
+## Usage
 
 Open the command prompt (Windows: Ctrl+Shift+p) and type one of the following:
  * Set Syntax: Cisco ACE
@@ -17,7 +17,7 @@ Open the command prompt (Windows: Ctrl+Shift+p) and type one of the following:
  * Set Syntax: Cisco NXOS
  * Set Syntax: Cisco ASA
 
-**Configure Auto Completion Suggestion Settings**
+### Configure Auto Completion Suggestion Settings
 
 To be prompted with the snippets and auto-completions:
 
@@ -29,34 +29,20 @@ Add the sublime-network scope to auto completions setting in between the bracket
 "auto_complete_selector": "text.network",
 }
 ```
-**Installation**
+## Installation
 
-Download and intstall git
+[Install Sublime Text 3](http://www.sublimetext.com/3)
 
-Sublime Text -> Preferences -> Browse Packages...
- 
-Browse to the User folder
+[Install Sublime Package Manager](https://sublime.wbond.net/installation)
 
-Open Git Bash (Windows: Right click in folder -> Git Bash)
+Sublime Text -> Tools -> Command Pallet
 
-In the bash console type:
-```Shell
-git clone https://github.com/heyglen/sublime-network.git
-```
+Type add repository
 
-**Updates**
+In the text box that appears docked to the bottom type:
 
-Sublime Text -> Preferences -> Browse Packages...
- 
-Browse to the User folder
+https://github.com/heyglen/sublime-network
 
-Open Git Bash (Windows: Right click in folder -> Git Bash)
-
-In the bash console type:
-```Shell
-git pull
-```
-
-**Feature Requests and Bug Reporting**
+## Feature Requests and Bug Reporting
 
 [Sublime-Network GitHub Issues](https://github.com/heyglen/sublime-network/issues)
