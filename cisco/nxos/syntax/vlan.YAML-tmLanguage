@@ -11,7 +11,7 @@ patterns:
 repository:
   vlan:
     patterns:
-    - name: text.network.cisco.base.vlan
+    - name: text.network.cisco.base.nxos.vlan
       begin: ^(vlan)\s+(\d+)\s*(\s\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -25,7 +25,7 @@ repository:
 
   name:
     patterns:
-    - name: text.network.cisco.base.vlan.name
+    - name: text.network.cisco.base.vlan.nxos.name
       match: ^\s*(name)\s+(\S+)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}
@@ -34,7 +34,7 @@ repository:
 
   mode:
     patterns:
-    - name: text.network.cisco.base.vlan.name
+    - name: text.network.cisco.base.nxos.vlan.name
       match: ^\s*(mode)\s+(fabricpath)\s*(\s\S.*)?$
       captures:
         '1': {name: support.constant}

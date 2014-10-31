@@ -1,0 +1,8 @@
+<snippet>
+	<description>[priority]</description>
+	<tabTrigger>priority</tabTrigger>
+	<scope>text.network.cisco.base.nxos.interface.hsrp</scope>
+	<content><![CDATA[
+priority ${1:0}
+]]></content>
+</snippet>

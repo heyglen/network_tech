@@ -1,9 +1,8 @@
 <snippet>
-    <description>address</description>
+    <description>redirects</description>
     <scope>text.network.cisco.base.ios.interface, text.network.cisco.base.nxos.interface</scope>
     <tabTrigger>ip</tabTrigger>
     <content><![CDATA[
-ip address ${1:1.2.3.0} ${2:255.255.255.0}$0
+ip redirects
 ]]></content>
 </snippet>
-

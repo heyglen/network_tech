@@ -1,0 +1,8 @@
+<snippet>
+	<description>name</description>
+	<tabTrigger>name</tabTrigger>
+	<scope>text.network.cisco.base.nxos.vlan</scope>
+	<content><![CDATA[
+name ${1:NAME}
+]]></content>
+</snippet>

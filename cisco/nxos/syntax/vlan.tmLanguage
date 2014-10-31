@@ -41,7 +41,7 @@
 					<key>match</key>
 					<string>^\s*(mode)\s+(fabricpath)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.base.vlan.name</string>
+					<string>text.network.cisco.base.nxos.vlan.name</string>
 				</dict>
 			</array>
 		</dict>
@@ -71,7 +71,7 @@
 					<key>match</key>
 					<string>^\s*(name)\s+(\S+)\s*(\s\S.*)?$</string>
 					<key>name</key>
-					<string>text.network.cisco.base.vlan.name</string>
+					<string>text.network.cisco.base.vlan.nxos.name</string>
 				</dict>
 			</array>
 		</dict>
@@ -103,7 +103,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.base.vlan</string>
+					<string>text.network.cisco.base.nxos.vlan</string>
 					<key>patterns</key>
 					<array>
 						<dict>

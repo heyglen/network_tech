@@ -1,0 +1,8 @@
+<snippet>
+	<description>hsrp ip</description>
+	<tabTrigger>ip</tabTrigger>
+	<scope>text.network.cisco.base.nxos.interface.hsrp</scope>
+	<content><![CDATA[
+ip ${1:1.2.3.4}
+]]></content>
+</snippet>

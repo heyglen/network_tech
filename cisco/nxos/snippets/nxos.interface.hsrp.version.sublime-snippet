@@ -1,0 +1,9 @@
+<snippet>
+	<description>version</description>
+	<tabTrigger>hsrp</tabTrigger>
+	<scope>text.network.cisco.base.nxos.interface</scope>
+	<content><![CDATA[
+hsrp version ${1:2}
+
+]]></content>
+</snippet>

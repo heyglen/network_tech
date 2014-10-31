@@ -21,16 +21,182 @@ repository:
         '3': {name: constant.numeric}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))
       patterns:
-      - include: text.network.cisco.base.interface
+      - include: text.network.cisco.base
       - include: text.network.cisco.scope
       - include: '#service-policy'
       - include: '#spanning-tree-trunk-edge'
       - include: '#spanning-tree-bpduguard'
       - include: '#channel-group'
       - include: '#vpc'
+      - include: '#ip'
       - include: '#no-shutdown'
       - include: '#shutdown'
       - include: '#switchport'
+      - include: '#hsrp-version'
+      - include: '#hsrp'
+      - include: '#mtu'
+
+
+  mtu:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.mtu
+      match: (?i)\s*(mtu)\s+(\d+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+
+
+  ip:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.ip
+      begin: (?i)^\s*(ip)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#address'
+      - include: '#redirects'
+      - include: '#ip-proxy-arp'
+      - include: '#arp'
+
+  hsrp:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.hsrp
+      begin: (?i)\s*(hsrp)\s+(\d+)
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: text.network.cisco.base
+      - include: text.network.cisco.scope
+      - include: '#hsrp-authentication'
+      - include: '#hsrp-preempt-delay-minimum'
+      - include: '#hsrp-priority'
+      - include: '#hsrp-ip'
+
+  hsrp-ip:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.hsrp.ip
+      match: (?i)\s*(ip)\s+((?:\d+\.){3}\d+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+
+  hsrp-priority:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.hsrp.priority
+      match: (?i)\s*(priority)\s+(\d+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+
+  hsrp-authentication:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.hsrp.authentication
+      match: (?i)\s*(authentication)\s+(md5)\s+(key-string)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.other.inherited-class}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+
+  hsrp-preempt-delay-minimum:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.hsrp.preempt.delay.minimum
+      match: (?i)\s*(preempt)\s+(delay)\s+(minimum)\s+(\d+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+
+  hsrp-version:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.hsrp.version
+      match: \s*(hsrp)\s+(version)\s+(1|2)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: constant.numeric}
+
+  arp:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.ip.arp
+      begin: (?i)\s*(arp)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#arp-timeout'
+      - include: '#arp-gratuitous-hsrp-duplicate'
+
+  arp-gratuitous-hsrp-duplicate:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.ip.arp.gratuitous-hsrp-duplicate
+      match: (?i)\s*(gratuitous)\s+(hsrp)\s+(duplicate)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+
+  arp-timeout:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.ip.arp.timeout
+      begin: (?i)\s*(timeout)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#arp-timeout-num'
+
+  arp-timeout-num:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.ip.arp.timeout.num
+      match: (?i)\s*(\d+)
+      captures:
+        '1': {name: constant.numeric}
+
+  redirects:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.ip.redirects
+      match: (?i)\s*(redirects)
+      captures:
+        '1': {name: support.constant}
+
+  proxy-arp:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.ipv4.proxy-arp
+      match: (?i)\s*(proxy-arp)
+      captures:
+        '1': {name: support.constant}
+
+  address:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.ip.address
+      begin: (?i)\s*(address)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#ip-address-ip'
+
+  ip-address-ip:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.ip.address.ip
+      begin: (?i)\s*((?:\d+\.){3}\d+/\d+)\s+
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=$)
+      patterns:
+      - include: '#ip-address-secondary'
+
+  ip-address-secondary:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.ip.address.ip.net.secondary
+      match: (?i)\s*(secondary)
+      captures:
+        '1': {name: support.constant}
 
   interface-port-type:
     patterns:
@@ -131,7 +297,7 @@ repository:
 
   switchport:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport
+    - name: text.network.cisco.base.nxos.interface.switchport
       begin: (?i)^\s*(switchport)\s*
       beginCaptures:
         '1': {name: support.constant}
@@ -143,7 +309,7 @@ repository:
 
   switchport-access:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.access
+    - name: text.network.cisco.base.nxos.interface.switchport.access
       begin: (?i)\s*(access)\s+
       beginCaptures:
         '1': {name: entity.name.function}
@@ -153,7 +319,7 @@ repository:
 
   switchport-access-vlan:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.access
+    - name: text.network.cisco.base.nxos.interface.switchport.access
       begin: (?i)\s*(vlan)\s+
       beginCaptures:
         '1': {name: support.constant}
@@ -163,14 +329,14 @@ repository:
 
   switchport-access-vlan-id:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.access
+    - name: text.network.cisco.base.nxos.interface.switchport.access
       match: (?i)\s*(\d+)\s+
       captures:
         '1': {name: constant.numeric}
 
   switchport-trunk:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.trunk
+    - name: text.network.cisco.base.nxos.interface.switchport.trunk
       begin: (?i)\s*(trunk)\s+
       beginCaptures:
         '1': {name: entity.name.function}
@@ -181,7 +347,7 @@ repository:
 
   switchport-trunk-allowed:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed
+    - name: text.network.cisco.base.nxos.interface.switchport.trunk.allowed
       begin: (?i)\s*(allowed)\s+
       beginCaptures:
         '1': {name: support.constant}
@@ -191,7 +357,7 @@ repository:
 
   switchport-trunk-allowed-vlan:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan
+    - name: text.network.cisco.base.nxos.interface.switchport.trunk.allowed.vlan
       begin: (?i)\s*(vlan)\s+
       beginCaptures:
         '1': {name: support.constant}
@@ -203,7 +369,7 @@ repository:
 
   switchport-trunk-allowed-vlan-add:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.add
+    - name: text.network.cisco.base.nxos.interface.switchport.trunk.allowed.vlan.add
       begin: (?i)\s*(add)\s+
       beginCaptures:
         '1': {name: entity.name.function}
@@ -213,7 +379,7 @@ repository:
 
   switchport-trunk-allowed-vlan-remove:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.remove
+    - name: text.network.cisco.base.nxos.interface.switchport.trunk.allowed.vlan.remove
       begin: (?i)\s*(remove)\s+
       beginCaptures:
         '1': {name: keyword.other}
@@ -223,7 +389,7 @@ repository:
 
   switchport-trunk-allowed-vlan-ids:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan.ids
+    - name: text.network.cisco.base.nxos.interface.switchport.trunk.allowed.vlan.ids
       begin: (?i)\s*(?:(?<vlanid>\d+)([,]|[-])?)+
       beginCaptures:
         'vlanid': {name: constant.numeric}
@@ -233,7 +399,7 @@ repository:
 
   switchport-trunk-encapsulation:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.trunk.encapsulation
+    - name: text.network.cisco.base.nxos.interface.switchport.trunk.encapsulation
       begin: (?i)\s*(encapsulation)\s+
       beginCaptures:
         '1': {name: support.constant}
@@ -243,14 +409,14 @@ repository:
 
   switchport-trunk-encapsulation-dot1q:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.trunk.encapsulation.dot1q
+    - name: text.network.cisco.base.nxos.interface.switchport.trunk.encapsulation.dot1q
       match: (?i)\s*(dot1q)\s+
       captures:
         '1': {name: support.constant}
 
   switchport-mode:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.mode
+    - name: text.network.cisco.base.nxos.interface.switchport.mode
       begin: (?i)\s*(mode)\s+
       beginCaptures:
         '1': {name: support.constant}
@@ -261,14 +427,14 @@ repository:
 
   switchport-mode-trunk:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.mode.trunk
+    - name: text.network.cisco.base.nxos.interface.switchport.mode.trunk
       match: (?i)(?<=\s)(trunk)\s*$
       captures:
         '1': {name: entity.name.function}
 
   switchport-mode-access:
     patterns:
-    - name: text.network.cisco.base.ios.interface.switchport.mode.access
+    - name: text.network.cisco.base.nxos.interface.switchport.mode.access
       match: (?i)\s*(access)\s*$
       captures:
         '1': {name: entity.name.function}

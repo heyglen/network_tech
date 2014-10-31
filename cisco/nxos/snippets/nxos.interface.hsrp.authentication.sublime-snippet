@@ -1,0 +1,8 @@
+<snippet>
+	<description>md5</description>
+	<tabTrigger>authentication</tabTrigger>
+	<scope>text.network.cisco.base.nxos.interface.hsrp</scope>
+	<content><![CDATA[
+authentication md5 key-string ${1:STRING}
+]]></content>
+</snippet>
