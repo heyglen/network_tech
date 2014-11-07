@@ -1,0 +1,10 @@
+<snippet>
+    <description> log neighbor changes</description>
+    <scope>text.network.cisco.base.nxos.bgp</scope>
+    <tabTrigger>log-neighbor-changes</tabTrigger>
+    <content>
+<![CDATA[
+log-neighbor-changes
+]]>
+    </content>
+</snippet>

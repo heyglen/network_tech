@@ -3,20 +3,49 @@ default interface Ethernet0/1
 interface Ethernet
 
 interface Vlan 20
-    shutdown
+  shutdown
 
 interface Ethernet 100/0/1
-    description this is a port
-	service-policy type queuing output POLICY
+  description this is a port
+  switchport
+  switchport mode trunk
+  switchport trunk encapsulation dot1q
+  switchport trunk allowed vlan add 1,2
+  switchport mode access
+  switchport access vlan 1
+  switchport 
+  ip redirects
+  service-policy type queuing output POLICY
 	spanning-tree port type edge trunk
 	spanning-tree bpduguard enable
 	spanning-tree bpduguard disable
-	channel-group 91 mode active
-    switchport mode trunk
-	vpc 123
-    no shutdown
-
+	channel-group 0 mode active
+  switchport mode trunk
+  vpc 1
+  vpc 123
+  no shutdown
 
 vlan 1
   name whatever
   mode fabricpath
+
+
+router bgp 1
+  vrf sds
+    log-neighbor-changes
+    address-family ipv4 unicast
+      network 1.2.3.0/24
+      neighbor 1.2.3.4
+        inherit peer NAME
+        remote-as 0
+        password 3 abcdefghijklmnopqrstuvwxyz
+        next-hop-self
+        no shutdown
+    address-family ipv6 unicast
+      neighbor ::
+        inherit peer NAME
+        remote-as 0
+        password 3 abcdefghijklmnopqrstuvwxyz
+        next-hop-self
+        no shutdown
+

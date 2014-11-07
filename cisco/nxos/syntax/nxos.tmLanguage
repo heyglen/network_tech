@@ -12,6 +12,10 @@
 	<array>
 		<dict>
 			<key>include</key>
+			<string>text.network.cisco.base.nxos.bgp</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>text.network.cisco.base.nxos.interface</string>
 		</dict>
 		<dict>

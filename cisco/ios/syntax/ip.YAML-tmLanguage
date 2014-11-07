@@ -11,13 +11,88 @@ repository:
 
   ip:
     patterns:
-    - name: text.network.cisco.base.ios.ip
+    - name: ip
       begin: (?i)^\s*?(ip)\s+
       beginCaptures:
         '1': {name: support.constant}
       end: (?=$\n)
       patterns:
       - include: '#route'
+      - include: '#prefix-list'
+
+  prefix-list:
+    patterns:
+    - name: prefix-list
+      begin: (?i)(prefix-list)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=\n)
+      patterns:
+      - include: '#prefix-list-name'
+
+  prefix-list-name:
+    patterns:
+    - name: name
+      begin: (?i)(\S+)\s+
+      beginCaptures:
+        '1': {name: string.unquoted}
+      end: (?=\n)
+      patterns:
+      - include: '#prefix-list-seq'
+      - include: '#prefix-list-access'
+
+  prefix-list-seq:
+    patterns:
+    - name: sequence
+      begin: (?i)(seq)\s+(\d+)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+      end: (?=\n)
+      patterns:
+      - include: '#prefix-list-access'
+
+  prefix-list-access:
+    patterns:
+    - name: access
+      begin: (?i)(?:(permit)|(deny))\s+
+      beginCaptures:
+        '1': {name: entity.name.function}
+        '2': {name: keyword.other}
+      end: (?=\n)
+      patterns:
+      - include: '#prefix-list-v4prefix'
+
+  prefix-list-v4prefix:
+    patterns:
+    - name: prefix
+      begin: (?i)((?:\d+\.){3}\d+/\d+)
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=\n)
+      patterns:
+      - include: '#prefix-list-ge'
+      - include: '#prefix-list-le'
+
+  prefix-list-ge:
+    patterns:
+    - name: ge
+      begin: (?i)(ge)\s+(\d+)
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+      end: (?=\n)
+      patterns:
+      - include: '#prefix-list-le'
+
+  prefix-list-le:
+    patterns:
+    - name: le
+      begin: (?i)(le)\s+(\d+)
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+      end: (?=\n)
 
   route:
     patterns:

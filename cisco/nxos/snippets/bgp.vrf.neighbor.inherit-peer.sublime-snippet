@@ -1,0 +1,10 @@
+<snippet>
+    <description>peer</description>
+    <scope>text.network.cisco.base.nxos.bgp & (ipv4.neighbor | ipv6.neighbor )</scope>
+    <tabTrigger>inherit</tabTrigger>
+    <content>
+<![CDATA[
+inherit peer ${1:NAME}
+]]>
+    </content>
+</snippet>

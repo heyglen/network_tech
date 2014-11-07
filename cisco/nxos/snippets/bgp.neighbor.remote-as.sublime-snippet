@@ -1,0 +1,10 @@
+<snippet>
+    <description>AS</description>
+    <scope>text.network.cisco.base.nxos.bgp & (ipv4.neighbor | ipv6.neighbor )</scope>
+    <tabTrigger>remote-as</tabTrigger>
+    <content>
+<![CDATA[
+remote-as ${1:0}
+]]>
+    </content>
+</snippet>

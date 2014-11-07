@@ -1,0 +1,8 @@
+<snippet>
+	<description>member</description>
+	<tabTrigger>vrf</tabTrigger>
+	<scope>text.network.cisco.base.nxos.interface</scope>
+	<content><![CDATA[
+vrf member ${1:NAME}
+]]></content>
+</snippet>

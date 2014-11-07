@@ -419,7 +419,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s+(class)\s+(class-default|\S+)(?:\s+(\S+))?$</string>
+					<string>\s+(class)\s+(class-default|\S+)(?:\s+(insert-before)\s+(\S+))?(?:\s+(\S+))?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -433,6 +433,16 @@
 							<string>string.unquoted</string>
 						</dict>
 						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>5</key>
 						<dict>
 							<key>name</key>
 							<string>invalid.illegal</string>
@@ -537,7 +547,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s+(class)\s+(class-default|\S+)(?:\s+(\S+))?$</string>
+					<string>\s+(class)\s+(class-default|\S+)(?:\s+(insert-before)\s+(\S+))?(?:\s+(\S+))?$</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -551,6 +561,16 @@
 							<string>string.unquoted</string>
 						</dict>
 						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>5</key>
 						<dict>
 							<key>name</key>
 							<string>invalid.illegal</string>

@@ -15,6 +15,41 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>backup-rserver</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^(\S*)\s*(backup-rserver)\s+(\S+)?\s*(\S*.*)?$</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.serverfarm.backup-rserver</string>
+				</dict>
+			</array>
+		</dict>
 		<key>inservice</key>
 		<dict>
 			<key>patterns</key>
@@ -35,11 +70,16 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^(\S*)\s*(inservice)\s*(\S*.*)?$</string>
+					<string>^(\S*)\s*(inservice)(\s+standby)?\s*(\S*.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.serverfarm.inservice</string>
 				</dict>
@@ -166,6 +206,10 @@
 						<dict>
 							<key>include</key>
 							<string>#inservice</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#backup-rserver</string>
 						</dict>
 					</array>
 				</dict>

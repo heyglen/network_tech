@@ -1,0 +1,10 @@
+<snippet>
+    <description>next hop self</description>
+    <scope>text.network.cisco.base.nxos.bgp & (ipv4.neighbor | ipv6.neighbor ) </scope>
+    <tabTrigger>next-hop-self</tabTrigger>
+    <content>
+<![CDATA[
+next-hop-self
+]]>
+    </content>
+</snippet>

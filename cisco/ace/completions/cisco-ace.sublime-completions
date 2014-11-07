@@ -4,7 +4,6 @@
         { "trigger": "write", "contents": "copy running-config startup-config" },
         "clear",
         "show",
-        "backup",
         "compare",
         "clock",
         "debug",

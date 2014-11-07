@@ -83,11 +83,13 @@ repository:
   policy-class:
     patterns:
     - name: text.network.cisco.ace.policy.policy-class
-      begin: \s+(class)\s+(class-default|\S+)(?:\s+(\S+))?$
+      begin: \s+(class)\s+(class-default|\S+)(?:\s+(insert-before)\s+(\S+))?(?:\s+(\S+))?$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: string.unquoted}
-        '3': {name: invalid.illegal}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*class\s))
       patterns:
       - include: '#loadbalance-policy'
@@ -168,11 +170,13 @@ repository:
   policy-lb-class:
     patterns:
     - name: text.network.cisco.ace.policy.policy-lb-class
-      begin: \s+(class)\s+(class-default|\S+)(?:\s+(\S+))?$
+      begin: \s+(class)\s+(class-default|\S+)(?:\s+(insert-before)\s+(\S+))?(?:\s+(\S+))?$
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: string.unquoted}
-        '3': {name: invalid.illegal}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))
       patterns:
       - include: '#sticky-serverfarm'

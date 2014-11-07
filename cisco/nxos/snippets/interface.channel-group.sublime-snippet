@@ -1,0 +1,10 @@
+<snippet>
+    <description>active</description>
+    <scope>text.network.cisco & interface</scope>
+    <tabTrigger>changnel-group</tabTrigger>
+    <content>
+<![CDATA[
+channel-group ${1:0} mode active
+]]>
+    </content>
+</snippet>

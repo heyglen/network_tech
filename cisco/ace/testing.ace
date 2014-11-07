@@ -92,6 +92,7 @@ probe https HTTPS-PROBE1
   ip address 2001:DB8:12::15 routed
   header Host header-value domain.root
   port 80
+  ssl version all
   request method get url /index.html
   expect regex *hello* offset 20 cache 30
   expect regex "hello world" offset 20 cache 30

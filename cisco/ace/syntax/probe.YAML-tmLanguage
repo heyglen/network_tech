@@ -24,6 +24,16 @@ repository:
         '7': {name: constant.language}
         '8': {name: invalid.illegal}
 
+  ssl-version:
+    patterns:
+    - name: text.network.cisco.ace.probe.ssl.version
+      match: (ssl)\s+(version)\s+(all)\s*(?:\s+(\S+))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: invalid.illegal}
+
   expect-status:
     patterns:
     - name: text.network.cisco.ace.probe.expect
@@ -175,6 +185,7 @@ repository:
       - include: '#hash'
       - include: '#expect-status'
       - include: '#http-header'
+      - include: '#ssl-version'
       - include: text.network.cisco.scope
       - include: text.network.cisco
       - include: text.invalid

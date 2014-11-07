@@ -41,38 +41,5 @@ ipv6 prefix-list NAME seq 10 permit ::/0
 ipv6 prefix-list NAME seq 200 deny ::/0 ge 1
 ipv6 prefix-list NAME seq 200 deny ::/0 ge 1 le 2
 
-router bgp 123
- address-family ipv4 vrf VRF-NAME
-  network 1.1.1.0
-  network 1.1.1.0 mask 255.255.255.0
-  neighbor 1.1.1.1 activate
-  neighbor 1.1.1.1 shutdown
-  neighbor 1.1.1.1 ttl-security hops 1
-  neighbor 1.1.1.1 version 4
-  neighbor 1.1.1.1 remote-as 20
-  neighbor 1.2.3.4 timers 1 2
-  neighbor 1.1.1.1 route-map ROUTE-MAP-NAME in
-  neighbor 1.1.1.1 route-map ROUTE-MAP-NAME out
-  neighbor 1.1.1.1 inherit peer-policy POLICY
-  neighbor 1.1.1.1 soft-reconfiguration inbound
-  neighbor 1.1.1.1 soft-reconfiguration outbound
-  neighbor 1.1.1.1 transport path-mtu-discovery
- exit-address-family
- address-family ipv6 vrf VRF-NAME
-  network ::/0
-  neighbor ::1 activate
-  neighbor ::1 shutdown
-  neighbor ::1 remote-as 1
-  neighbor ::1 ttl-security hops 1
-  neighbor ::1 version 4
-  neighbor ::1 timers 1 2
-  neighbor ::1 route-map  ROUTE-MAP-NAME in
-  neighbor ::1 route-map  ROUTE-MAP-NAME out
-  neighbor ::1 inherit peer-policy POLICY
-  neighbor ::1 soft-reconfiguration inbound
-  neighbor ::1 soft-reconfiguration outbound
-  neighbor ::1 transport path-mtu-discovery
- exit-address-family
-
 
 configure terminal

@@ -11,11 +11,22 @@ repository:
   inservice:
     patterns:
     - name: text.network.cisco.ace.serverfarm.inservice
-      match: ^(\S*)\s*(inservice)\s*(\S*.*)?$
+      match: ^(\S*)\s*(inservice)(\s+standby)?\s*(\S*.*)?$
       captures:
         '1': {name: invalid.illegal}
         '2': {name: support.constant}
-        '3': {name: invalid.illegal}
+        '3': {name: support.constant}
+        '4': {name: invalid.illegal}
+
+  backup-rserver:
+    patterns:
+    - name: text.network.cisco.ace.serverfarm.backup-rserver
+      match: ^(\S*)\s*(backup-rserver)\s+(\S+)?\s*(\S*.*)?$
+      captures:
+        '1': {name: invalid.illegal}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
 
   probe:
     patterns:
@@ -52,6 +63,7 @@ repository:
       - include: text.network.cisco
       - include: '#probe'
       - include: '#inservice'
+      - include: '#backup-rserver'
 
   serverfarm:
     patterns:

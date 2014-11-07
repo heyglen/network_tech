@@ -13,7 +13,7 @@ patterns:
 repository:
   interface:
     patterns:
-    - name: text.network.cisco.base.nxos.interface
+    - name: interface
       begin: (?i)^\s*(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)
       beginCaptures:
         '1': {name: variable.parameter}
@@ -21,6 +21,7 @@ repository:
         '3': {name: constant.numeric}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))
       patterns:
+      - include: '#no-shutdown'
       - include: text.network.cisco.base
       - include: text.network.cisco.scope
       - include: '#service-policy'
@@ -29,13 +30,21 @@ repository:
       - include: '#channel-group'
       - include: '#vpc'
       - include: '#ip'
-      - include: '#no-shutdown'
       - include: '#shutdown'
       - include: '#switchport'
       - include: '#hsrp-version'
       - include: '#hsrp'
+      - include: '#vrf'
       - include: '#mtu'
 
+
+  vrf:
+    patterns:
+    - name: text.network.cisco.base.nxos.interface.vrf.member
+      match: (?i)\s*(vrf\s+member)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
 
   mtu:
     patterns:
@@ -184,7 +193,7 @@ repository:
   ip-address-ip:
     patterns:
     - name: text.network.cisco.base.nxos.interface.ip.address.ip
-      begin: (?i)\s*((?:\d+\.){3}\d+/\d+)\s+
+      begin: (?i)\s*((?:\d+\.){3}\d+/\d+)
       beginCaptures:
         '1': {name: constant.numeric}
       end: (?=$)
@@ -270,8 +279,6 @@ repository:
         '6': {name: entity.other.inherited-class}
         '7': {name: entity.other.inherited-class}
 
-
-
   no-shutdown:
     patterns:
     - name: text.network.cisco.base.nxos.interface.ipv4.helper
@@ -297,7 +304,7 @@ repository:
 
   switchport:
     patterns:
-    - name: text.network.cisco.base.nxos.interface.switchport
+    - name: switchport
       begin: (?i)^\s*(switchport)\s*
       beginCaptures:
         '1': {name: support.constant}

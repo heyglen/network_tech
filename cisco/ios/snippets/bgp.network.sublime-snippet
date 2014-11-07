@@ -1,6 +1,6 @@
 <snippet>
     <description>announce prefix</description>
-    <scope>text.network.cisco.base.bgp</scope>
+    <scope>text.network.cisco.base.ios.bgp</scope>
     <tabTrigger>network</tabTrigger>
     <content>
 <![CDATA[

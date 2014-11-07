@@ -1,9 +1,9 @@
 <snippet>
     <description>address</description>
-    <scope>text.network.cisco.base.ios.interface</scope>
+    <scope>text.network.cisco.base.nxos.interface</scope>
     <tabTrigger>ip</tabTrigger>
     <content><![CDATA[
-ip address ${1:1.2.3.0} ${2:255.255.255.0}$0
+ip address ${1:1.2.3.0}/${2:24}$0
 ]]></content>
 </snippet>
 

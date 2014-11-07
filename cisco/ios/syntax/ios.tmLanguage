@@ -12,7 +12,7 @@
 	<array>
 		<dict>
 			<key>include</key>
-			<string>text.network.cisco.base</string>
+			<string>text.network.cisco.base.ios.bgp</string>
 		</dict>
 		<dict>
 			<key>include</key>

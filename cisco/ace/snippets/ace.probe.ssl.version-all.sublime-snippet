@@ -1,0 +1,9 @@
+<snippet>
+    <description>version all</description>
+    <tabTrigger>ssl</tabTrigger>
+    <scope>text.network.cisco.ace.probe.https</scope>
+    <content><![CDATA[
+ssl version all
+
+]]></content>
+</snippet>

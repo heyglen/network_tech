@@ -617,6 +617,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#ssl-version</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.network.cisco.scope</string>
 						</dict>
 						<dict>
@@ -816,6 +820,41 @@
 					<string>(send-data)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.probe.tcp.send-data</string>
+				</dict>
+			</array>
+		</dict>
+		<key>ssl-version</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(ssl)\s+(version)\s+(all)\s*(?:\s+(\S+))?$</string>
+					<key>name</key>
+					<string>text.network.cisco.ace.probe.ssl.version</string>
 				</dict>
 			</array>
 		</dict>

@@ -1,6 +1,6 @@
 <snippet>
     <description>route</description>
-    <scope>text.network.cisco.base.ios, text.network.cisco.base.nxos - text.network.cisco.base.ios.interface - text.network.cisco.base.nxos.interface</scope>
+    <scope>text.network.cisco.base.ios, text.network.cisco.base.nxos - text.network.cisco.base.ios.interface - interface</scope>
     <tabTrigger>ip</tabTrigger>
     <content><![CDATA[
 ip route vrf ${1:vrf-name} ${2:1.2.3.0} ${3:255.255.255.0} ${4:Vlan0} ${5:1.2.3.4}
