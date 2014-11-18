@@ -29,10 +29,6 @@ route-map blah_blah permit 10
 
 show vlan id 604 | include Po10
 
-ip access-list extended ACL-NAME
-  permit ip any any
-  no permit ip any any
-
 ip prefix-list NAME seq 10 permit 10.225.6.0/24
 ip prefix-list NAME seq 10 deny 10.225.6.0/24
 ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1

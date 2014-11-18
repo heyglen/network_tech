@@ -12,19 +12,23 @@
 	<array>
 		<dict>
 			<key>include</key>
-			<string>text.network.cisco.base.nxos.bgp</string>
+			<string>cisco.nxos.bgp</string>
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>text.network.cisco.base.nxos.interface</string>
+			<string>cisco.nxos.interface</string>
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>text.network.cisco.base.nxos.vlan</string>
+			<string>cisco.prefix-list</string>
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>text.network.cisco.base.nxos.show</string>
+			<string>nxos.vlan</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>cisco.nxos.show</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -32,7 +36,7 @@
 		</dict>
 	</array>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.nxos</string>
+	<string>cisco.nxos</string>
 	<key>uuid</key>
 	<string>e5441a2e-8364-4339-b1e2-f79de773f570</string>
 </dict>

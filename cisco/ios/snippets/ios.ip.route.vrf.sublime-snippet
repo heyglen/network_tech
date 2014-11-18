@@ -1,6 +1,6 @@
 <snippet>
     <description>route vrf</description>
-    <scope>text.network.cisco.base.ios.ip.route</scope>
+    <scope>cisco.ios & ip & route</scope>
     <tabTrigger>vrf</tabTrigger>
     <content><![CDATA[
 vrf ${1:NAME} ${2:1.2.3.0} ${3:255.255.255.0} ${4:vlan0} ${5:1.2.3.4}

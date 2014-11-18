@@ -1,7 +1,7 @@
 <snippet>
     <description>ssl-proxy policy class</description>
     <tabTrigger>ssl-proxy</tabTrigger>
-    <scope>text.network.cisco.ace.policy.policy-lb-class</scope>
+    <scope>cisco.ace.policy.policy-lb-class</scope>
     <content><![CDATA[
 ssl-proxy client ${1:SSL_PROXY_NAME}
 ]]></content>

@@ -1,7 +1,7 @@
 <snippet>
 	<description>[group id]</description>
 	<tabTrigger>hsrp</tabTrigger>
-	<scope>text.network.cisco.base.nxos.interface</scope>
+	<scope>cisco.nxos & interface</scope>
 	<content><![CDATA[
 hsrp ${1:0}
   $0

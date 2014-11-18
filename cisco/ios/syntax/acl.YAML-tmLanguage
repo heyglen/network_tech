@@ -10,7 +10,7 @@ repository:
 
   access-list:
     patterns:
-    - name: text.network.cisco.base.ios.acl
+    - name: ios.acl
       begin: (?i)^\s*(ip)\s+(access-list)\s+(extended)\s+(\S+)(?:\.\d+)?
       beginCaptures:
         '1': {name: variable.parameter}

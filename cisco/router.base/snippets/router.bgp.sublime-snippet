@@ -1,7 +1,7 @@
 <snippet>
 	<tabTrigger>router</tabTrigger>
 	<description>bgp</description>
-    <scope>text.network.cisco.base</scope>
+    <scope>cisco.ioscisco</scope>
     <content>
 <![CDATA[
 router bgp ${1:AS}

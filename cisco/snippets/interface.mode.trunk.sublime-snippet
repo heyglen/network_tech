@@ -1,6 +1,6 @@
 <snippet>
     <description>trunk</description>
-    <scope>text.network.cisco.base.ios.interface.switchport, (interface & switchport)</scope>
+    <scope>(cisco.ios | cisco.nxos) & interface & switchport</scope>
     <tabTrigger>mode</tabTrigger>
     <content><![CDATA[
 mode trunk

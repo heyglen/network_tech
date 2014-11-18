@@ -10,7 +10,7 @@ patterns:
 repository:
   route-map:
     patterns:
-    - name: text.network.cisco.base.route-map
+    - name: route-map
       begin: ^(route-map)\s+(\S+)\s+(?:(permit)|(deny))\s+(\d+)\s*(\s\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}

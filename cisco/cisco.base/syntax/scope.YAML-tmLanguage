@@ -9,7 +9,7 @@ patterns:
 repository:
   description:
     patterns:
-    - comment: Object Description
+    - comment: Description
       name: text.network.cisco.scope.description
       match: ^\s*description\s+.*$
       captures:

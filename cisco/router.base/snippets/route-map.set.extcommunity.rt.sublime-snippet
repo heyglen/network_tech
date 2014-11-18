@@ -1,6 +1,6 @@
 <snippet>
     <description>extcommunity rt</description>
-    <scope>text.network.cisco.base.route-map</scope>
+    <scope>cisco.ios & route-map</scope>
     <tabTrigger>set</tabTrigger>
     <content><![CDATA[
 set extcommunity rt ${1:0:0}

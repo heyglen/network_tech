@@ -1,6 +1,6 @@
 <snippet>
     <description>vpc</description>
-    <scope>text.network.cisco.base.nxos & interface</scope>
+    <scope>cisco.nxos & interface</scope>
     <tabTrigger>vpc</tabTrigger>
     <content><![CDATA[
 vpc ${1:0}

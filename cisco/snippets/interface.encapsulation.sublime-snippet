@@ -1,6 +1,6 @@
 <snippet>
     <description>dot1q</description>
-    <scope>text.network.cisco.base.ios.interface, text.network.cisco.base.nxos.interface</scope>
+    <scope>(cisco.ios | cisco.nxos) & interface</scope>
     <tabTrigger>encapsulation</tabTrigger>
     <content><![CDATA[
 encapsulation dot1Q ${1:#}$0

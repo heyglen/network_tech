@@ -1,6 +1,6 @@
 <snippet>
     <description>ipv4 address family</description>
-    <scope>text.network.cisco.base.nxos.bgp & vrf</scope>
+    <scope>cisco.nxos & bgp & vrf</scope>
     <tabTrigger>address-family</tabTrigger>
     <content>
 <![CDATA[

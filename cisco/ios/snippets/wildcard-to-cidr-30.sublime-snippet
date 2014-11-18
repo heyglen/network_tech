@@ -4,5 +4,5 @@ $1/30$0
 ]]></content>
 	<description>Wildcard to CIDR Conversion</description>
 	<tabTrigger>0.0.0.3</tabTrigger>
-	<scope>text.network.cisco.base.ios</scope>
+	<scope>cisco.ios</scope>
 </snippet>

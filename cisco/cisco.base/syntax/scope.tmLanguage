@@ -27,7 +27,7 @@
 						</dict>
 					</dict>
 					<key>comment</key>
-					<string>Object Description</string>
+					<string>Description</string>
 					<key>match</key>
 					<string>^\s*description\s+.*$</string>
 					<key>name</key>

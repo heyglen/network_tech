@@ -1,6 +1,6 @@
 <snippet>
     <description>shutdown</description>
-    <scope>text.network.cisco & (interface | ipv4.neighbor | ipv6.neighbor )</scope>
+    <scope>cisco.ios & (interface | ipv4.neighbor | ipv6.neighbor )</scope>
     <tabTrigger>no</tabTrigger>
     <content>
 <![CDATA[

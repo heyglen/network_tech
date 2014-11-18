@@ -1,7 +1,7 @@
 <snippet>
 	<description>gratuitous hsrp duplicate</description>
 	<tabTrigger>arp</tabTrigger>
-	<scope>text.network.cisco.base.nxos.interface</scope>
+	<scope>cisco.nxos & interface</scope>
 	<content><![CDATA[
 arp gratuitous hsrp duplicate
 

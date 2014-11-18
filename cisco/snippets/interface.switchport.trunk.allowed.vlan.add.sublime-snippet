@@ -1,6 +1,6 @@
 <snippet>
     <description>add</description>
-    <scope>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan, text.network.cisco.base.nxos.interface.switchport.trunk.allowed.vlan</scope>
+    <scope>(cisco.ios | cisco.nxos) & switchport & allowed & vlan</scope>
     <tabTrigger>add</tabTrigger>
     <content><![CDATA[
 add ${1:0}

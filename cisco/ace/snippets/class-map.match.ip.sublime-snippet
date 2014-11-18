@@ -1,7 +1,7 @@
 <snippet>
     <description>ip</description>
     <tabTrigger>match</tabTrigger>
-    <scope>text.network.cisco.ace.class-map</scope>
+    <scope>cisco.ace.class-map</scope>
     <content><![CDATA[
   ${1:2} match virtual-address ${2:1.2.3.4} any
 ]]></content>

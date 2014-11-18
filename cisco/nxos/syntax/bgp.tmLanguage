@@ -541,7 +541,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.nxos.bgp</string>
+	<string>cisco.nxos.bgp</string>
 	<key>uuid</key>
 	<string>34955740-df89-4de1-9001-10d53738fa23</string>
 </dict>

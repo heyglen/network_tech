@@ -1,7 +1,7 @@
 <snippet>
 	<description>port</description>
 	<tabTrigger>port</tabTrigger>
-	<scope>text.network.cisco.ace.probe</scope>
+	<scope>cisco.ace.probe</scope>
 	<content><![CDATA[
 port ${1:0}
 ]]></content>

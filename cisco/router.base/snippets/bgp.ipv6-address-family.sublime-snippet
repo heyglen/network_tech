@@ -1,6 +1,6 @@
 <snippet>
     <description>ipv6 vrf</description>
-    <scope>text.network.cisco.base.bgp</scope>
+    <scope>cisco.ios & bgp</scope>
     <tabTrigger>address-family</tabTrigger>
     <content>
 <![CDATA[

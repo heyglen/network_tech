@@ -1,6 +1,6 @@
 <snippet>
     <description> log neighbor changes</description>
-    <scope>text.network.cisco.base.nxos.bgp</scope>
+    <scope>cisco.nxos & bgp</scope>
     <tabTrigger>log-neighbor-changes</tabTrigger>
     <content>
 <![CDATA[

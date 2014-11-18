@@ -1,7 +1,7 @@
 <snippet>
 	<description>import terminal</description>
 	<tabTrigger>crypto</tabTrigger>
-	<scope>text.network.cisco.ace</scope>
+	<scope>cisco.ace</scope>
 	<content><![CDATA[
 crypto import terminal ${1:NAME}
 ${2:-----BEGIN XXXX-----

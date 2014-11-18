@@ -596,7 +596,7 @@
 					<key>end</key>
 					<string>(?=$)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.nxos.interface.ip</string>
+					<string>ipv4</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -689,7 +689,7 @@
 					<key>match</key>
 					<string>(?i)\s*(mtu)\s+(\d+)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.nxos.interface.mtu</string>
+					<string>mtu</string>
 				</dict>
 			</array>
 		</dict>
@@ -1367,13 +1367,13 @@
 					<key>match</key>
 					<string>(?i)\s*(vrf\s+member)\s+(\S+)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.nxos.interface.vrf.member</string>
+					<string>vrf.member</string>
 				</dict>
 			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.nxos.interface</string>
+	<string>cisco.nxos.interface</string>
 	<key>uuid</key>
 	<string>a5379637-12c4-488a-ba8c-7f101650b25d</string>
 </dict>

@@ -1,7 +1,7 @@
 <snippet>
     <description>input</description>
     <tabTrigger>service-policy</tabTrigger>
-    <scope>text.network.cisco.ace.interface</scope>
+    <scope>cisco.ace.interface</scope>
     <content><![CDATA[
 service-policy input ${1:NAME_L4POLICY}
 ]]></content>

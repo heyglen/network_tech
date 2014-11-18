@@ -1,7 +1,7 @@
 <snippet>
     <description>run start</description>
     <tabTrigger>copy</tabTrigger>
-    <scope>text.network.cisco.ace</scope>
+    <scope>cisco.ios | cisco.nxos | cisco.ace</scope>
     <content><![CDATA[
 copy running-config startup-config
 

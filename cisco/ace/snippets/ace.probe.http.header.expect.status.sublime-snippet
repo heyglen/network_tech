@@ -1,7 +1,7 @@
 <snippet>
 	<description>status</description>
 	<tabTrigger>expect</tabTrigger>
-	<scope>text.network.cisco.ace.probe.https, text.network.cisco.ace.probe.http</scope>
+	<scope>cisco.ace.probe.https, cisco.ace.probe.http</scope>
 	<content><![CDATA[
 expect status ${1:200} ${2:200}
 ]]></content>

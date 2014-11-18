@@ -1,7 +1,7 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 ---
 name: .
-scopeName: text.network.cisco.base.nxos.show
+scopeName: cisco.nxos.show
 fileTypes: []
 uuid: b1546df2-7c0d-4b83-89a4-b1b2be929f2e
 

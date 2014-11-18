@@ -1,0 +1,10 @@
+<snippet>
+    <description>helper-address</description>
+    <scope>(cisco.ios | cisco.nxos) & interface</scope>
+    <tabTrigger>ip</tabTrigger>
+    <content><![CDATA[
+ip helper-address ${1:1.2.3.4}
+
+]]></content>
+</snippet>
+

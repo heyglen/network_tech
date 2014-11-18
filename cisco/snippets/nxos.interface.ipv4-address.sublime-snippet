@@ -1,6 +1,6 @@
 <snippet>
     <description>address</description>
-    <scope>text.network.cisco.base.nxos.interface</scope>
+    <scope>cisco.nxos & interface</scope>
     <tabTrigger>ip</tabTrigger>
     <content><![CDATA[
 ip address ${1:1.2.3.0}/${2:24}$0

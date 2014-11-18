@@ -10,7 +10,7 @@ repository:
 
   bgp:
     patterns:
-    - name: text.network.cisco.base.ios.bgp
+    - name: bgp
       begin: ^(router)\s+(bgp)\s+(\d+)\s*(\s+\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}

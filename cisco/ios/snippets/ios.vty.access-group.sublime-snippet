@@ -1,6 +1,6 @@
 <snippet>
     <description>vty</description>
-    <scope>text.network.cisco.base.ios.vty</scope>
+    <scope>cisco.ios.vty</scope>
     <tabTrigger>access-class</tabTrigger>
     <content><![CDATA[
 access-class ${1:123} in ${2:vrf-also}

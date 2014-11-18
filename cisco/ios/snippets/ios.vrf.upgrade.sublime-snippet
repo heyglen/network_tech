@@ -1,6 +1,6 @@
 <snippet>
     <description>upgrade-cli vrf</description>
-    <scope>text.network.cisco.base.ios - text.network.cisco.base.ios.interface</scope>
+    <scope>cisco.ios - cisco.ios & interface</scope>
     <tabTrigger>vrf</tabTrigger>
     <content><![CDATA[
 vrf upgrade-cli multi-af-mode common-policies vrf ${1:NAME}

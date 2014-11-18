@@ -1,6 +1,6 @@
 <snippet>
     <description>ipv6</description>
-    <scope>text.network.cisco.base.vrf.definition</scope>
+    <scope>cisco.ios & vrf.definition</scope>
     <tabTrigger>address-family</tabTrigger>
     <content>
 <![CDATA[

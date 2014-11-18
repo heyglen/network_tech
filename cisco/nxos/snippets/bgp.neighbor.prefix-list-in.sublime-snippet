@@ -1,6 +1,6 @@
 <snippet>
     <description>in</description>
-    <scope>text.network.cisco.base.nxos.bgp & (ipv4.neighbor | ipv6.neighbor )</scope>
+    <scope>cisco.nxos & bgp & (ipv4.neighbor | ipv6.neighbor )</scope>
     <tabTrigger>prefix-list</tabTrigger>
     <content>
 <![CDATA[

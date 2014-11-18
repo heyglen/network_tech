@@ -1,6 +1,6 @@
 <snippet>
 	<description>host</description>
-	<scope>text.network.cisco.ace</scope>
+	<scope>cisco.ace</scope>
 	<tabTrigger>rserver</tabTrigger>
 	<content><![CDATA[
 rserver host ${1:fully.qualified.domain.name}

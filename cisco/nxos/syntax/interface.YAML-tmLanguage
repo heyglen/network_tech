@@ -1,7 +1,7 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 ---
 name: .
-scopeName: text.network.cisco.base.nxos.interface
+scopeName: cisco.nxos.interface
 fileTypes: []
 uuid: a5379637-12c4-488a-ba8c-7f101650b25d
 
@@ -40,7 +40,7 @@ repository:
 
   vrf:
     patterns:
-    - name: text.network.cisco.base.nxos.interface.vrf.member
+    - name: vrf.member
       match: (?i)\s*(vrf\s+member)\s+(\S+)
       captures:
         '1': {name: support.constant}
@@ -48,7 +48,7 @@ repository:
 
   mtu:
     patterns:
-    - name: text.network.cisco.base.nxos.interface.mtu
+    - name: mtu
       match: (?i)\s*(mtu)\s+(\d+)
       captures:
         '1': {name: support.constant}
@@ -57,7 +57,7 @@ repository:
 
   ip:
     patterns:
-    - name: text.network.cisco.base.nxos.interface.ip
+    - name: ipv4
       begin: (?i)^\s*(ip)\s+
       beginCaptures:
         '1': {name: support.constant}

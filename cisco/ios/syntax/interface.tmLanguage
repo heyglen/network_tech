@@ -45,23 +45,13 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(standby)(\s+\d+)?\s+(ip)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)(?:\s+(\S.*))?</string>
+					<string>(?i)\s*(ip)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.hsrp.ip</string>
+					<string>hsrp.ip</string>
 				</dict>
 			</array>
 		</dict>
@@ -75,17 +65,17 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>constant.numeric</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
+							<string>support.constant</string>
 						</dict>
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>constant.numeric</string>
 						</dict>
 						<key>4</key>
 						<dict>
@@ -95,22 +85,17 @@
 						<key>5</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-						<key>6</key>
-						<dict>
-							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(standby)(\s+\d+)?\s+(ipv6)\s+((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)(?:\s+(\S.*))?</string>
+					<string>(?i)\s*(ipv6)\s+((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.hsrp.ipv6</string>
+					<string>hsrp.ipv6</string>
 				</dict>
 			</array>
 		</dict>
-		<key>hsrp-ipv6-auto-1</key>
+		<key>hsrp-ipv6-autoconfig</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -125,33 +110,18 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-						<key>6</key>
+						<key>3</key>
 						<dict>
 							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(standby)(\s+\d+)?\s+(ipv6)\s+(autoconfig)</string>
+					<string>(?i)\s*(ipv6)\s+(autoconfig)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.hsrp.ipv6-auto1</string>
+					<string>hsrp.ipv6.autoconfig</string>
 				</dict>
 			</array>
 		</dict>
@@ -165,12 +135,12 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>constant.numeric</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
+							<string>support.constant</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -185,23 +155,18 @@
 						<key>5</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>6</key>
-						<dict>
-							<key>name</key>
 							<string>constant.numeric</string>
 						</dict>
-						<key>7</key>
+						<key>6</key>
 						<dict>
 							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(standby)(\s+\d+)?\s+(preempt)(?:\s+(delay)\s+(reload)\s+(\d+))?(?:\s+(\S.*))?</string>
+					<string>(?i)\s*(preempt)(?:\s+(delay)\s+(reload)\s+(\d+))?(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.hsrp.preempt</string>
+					<string>hsrp.preempt</string>
 				</dict>
 			</array>
 		</dict>
@@ -225,23 +190,13 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(standby)(\s+\d+)?\s+(priority)\s+(\d+)(?:\s+(\S.*))?</string>
+					<string>(?i)\s*(priority)\s+(\d+)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.hsrp.priority</string>
+					<string>hsrp.priority</string>
 				</dict>
 			</array>
 		</dict>
@@ -275,23 +230,13 @@
 						<key>5</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>6</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-						<key>7</key>
-						<dict>
-							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(standby)(\s+\d+)?\s+(track)\s+(\d+)\s+(decrement)\s+(\d+)(?:\s+(\S.*))?</string>
+					<string>(?i)\s*(track)\s+(\d+)\s+(decrement)\s+(\d+)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.hsrp.track</string>
+					<string>hsrp.track</string>
 				</dict>
 			</array>
 		</dict>
@@ -319,9 +264,9 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(standby\s+version)\s+(\d)(?:\s+(\S.*))?</string>
+					<string>(?i)\s*(version)\s+(\d)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.hsrp.version</string>
+					<string>hsrp.version</string>
 				</dict>
 			</array>
 		</dict>
@@ -353,7 +298,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface</string>
+					<string>interface</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -362,7 +307,15 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#ipv6</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#ip</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#standby</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -371,10 +324,6 @@
 						<dict>
 							<key>include</key>
 							<string>#subinterface-encapsulation</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#ipv6</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -387,34 +336,6 @@
 						<dict>
 							<key>include</key>
 							<string>#access-group</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#ipv6-nd-prefix</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#hsrp-version</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#hsrp-ip</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#hsrp-track</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#hsrp-ipv6</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#hsrp-priority</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#hsrp-preempt</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -540,7 +461,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?i)^\s*(ip)\s</string>
+					<string>(?i)^\s*(ip)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -552,7 +473,7 @@
 					<key>end</key>
 					<string>(?=$)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.ip</string>
+					<string>ip</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -957,7 +878,7 @@
 					<key>end</key>
 					<string>(?=$)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.ipv6</string>
+					<string>ipv6</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -967,6 +888,10 @@
 						<dict>
 							<key>include</key>
 							<string>#redirects</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ipv6-nd-prefix</string>
 						</dict>
 					</array>
 				</dict>
@@ -1051,9 +976,9 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>\s*(ipv6\s+nd\s+prefix)\s+(\S+\s+)?((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)(/1?\d?\d)(?:\s+(\S.*))?</string>
+					<string>(?i)\s*(nd\s+prefix)\s+(\S+\s+)?((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)(/1?\d?\d)(?:\s+(\S.*))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.ipv6.nd.prefix</string>
+					<string>nd.prefix</string>
 				</dict>
 			</array>
 		</dict>
@@ -1162,6 +1087,64 @@
 				</dict>
 			</array>
 		</dict>
+		<key>standby</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)^\s*(standby)(\s+\d+)?\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>standby</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#hsrp-ipv6</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#hsrp-ip</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#hsrp-version</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#hsrp-priority</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#hsrp-preempt</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#hsrp-track</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#hsrp-ipv6-autoconfig</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>subinterface-encapsulation</key>
 		<dict>
 			<key>patterns</key>
@@ -1210,7 +1193,7 @@
 					<key>end</key>
 					<string>(?=$)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.switchport</string>
+					<string>switchport</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -1398,7 +1381,7 @@
 					<key>end</key>
 					<string>(?=$)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.switchport.trunk</string>
+					<string>trunk</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -1431,7 +1414,7 @@
 					<key>end</key>
 					<string>(?=$)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed</string>
+					<string>allowed</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -1460,7 +1443,7 @@
 					<key>end</key>
 					<string>(?=$)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan</string>
+					<string>vlan</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -1695,7 +1678,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.ios.interface</string>
+	<string>cisco.ios.interface</string>
 	<key>uuid</key>
 	<string>9c962a32-2eb3-482f-95a6-fdf5a2e8fb9e</string>
 </dict>

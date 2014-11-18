@@ -1,6 +1,6 @@
 <snippet>
     <description>remote-as</description>
-    <scope>text.network.cisco.base.bgp</scope>
+    <scope>cisco.ios & bgp</scope>
     <tabTrigger>neighbor</tabTrigger>
     <content>
 <![CDATA[

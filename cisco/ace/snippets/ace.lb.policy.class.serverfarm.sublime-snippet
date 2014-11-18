@@ -1,7 +1,7 @@
 <snippet>
     <description>serverfarm policy class</description>
     <tabTrigger>serverfarm</tabTrigger>
-    <scope>text.network.cisco.ace.policy.policy-lb-class</scope>
+    <scope>cisco.ace.policy.policy-lb-class</scope>
     <content><![CDATA[
 serverfarm ${1:SERVERFARM_NAME}
 ]]></content>

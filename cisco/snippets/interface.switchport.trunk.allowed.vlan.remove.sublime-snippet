@@ -1,6 +1,6 @@
 <snippet>
     <description>remove</description>
-    <scope>text.network.cisco.base.ios.interface.switchport.trunk.allowed.vlan, text.network.cisco.base.nxos.interface.switchport.trunk.allowed.vlan</scope>
+    <scope>(cisco.ios | cisco.nxos) & interface & trunk</scope>
     <tabTrigger>remove</tabTrigger>
     <content><![CDATA[
 remove ${1:0}

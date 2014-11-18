@@ -1,7 +1,7 @@
 <snippet>
     <description>dynamic</description>
     <tabTrigger>nat</tabTrigger>
-    <scope>text.network.cisco.ace.policy.policy-class</scope>
+    <scope>cisco.ace.policy.policy-class</scope>
     <content><![CDATA[
 nat dynamic ${1:NAT-ID} vlan ${2:VLAN-ID}
 ]]></content>

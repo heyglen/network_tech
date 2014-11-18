@@ -1,6 +1,6 @@
 <snippet>
     <description>map</description>
-    <scope>text.network.cisco.base.vrf</scope>
+    <scope>cisco.ios & vrf.definition</scope>
     <tabTrigger>export</tabTrigger>
     <content><![CDATA[
 export map ${1:NAME}

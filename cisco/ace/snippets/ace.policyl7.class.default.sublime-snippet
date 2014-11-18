@@ -1,7 +1,7 @@
 <snippet>
 	<description>default L7 policy class</description>
 	<tabTrigger>class</tabTrigger>
-	<scope>text.network.cisco.ace.policy.load-balance</scope>
+	<scope>cisco.ace.policy.load-balance</scope>
 	<content><![CDATA[
 class class-default
   $0

@@ -101,7 +101,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.base.route-map</string>
+					<string>route-map</string>
 					<key>patterns</key>
 					<array>
 						<dict>

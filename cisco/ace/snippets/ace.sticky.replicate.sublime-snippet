@@ -1,7 +1,7 @@
 <snippet>
     <description>sticky</description>
     <tabTrigger>replicate</tabTrigger>
-    <scope>text.network.cisco.ace.sticky</scope>
+    <scope>cisco.ace.sticky</scope>
     <content><![CDATA[
 replicate sticky
 ]]></content>

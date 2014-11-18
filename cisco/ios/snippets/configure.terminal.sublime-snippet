@@ -1,6 +1,6 @@
 <snippet>
     <description>terminal</description>
-    <scope>text.network.cisco.base.ios</scope>
+    <scope>cisco.ios | cisco.nxos | cisco.ace</scope>
     <tabTrigger>configure</tabTrigger>
     <content><![CDATA[
 configure terminal

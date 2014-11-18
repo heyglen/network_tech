@@ -46,7 +46,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s]))</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.bgp</string>
+					<string>bgp</string>
 					<key>patterns</key>
 					<array>
 						<dict>

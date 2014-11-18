@@ -51,7 +51,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.acl</string>
+					<string>ios.acl</string>
 					<key>patterns</key>
 					<array>
 						<dict>

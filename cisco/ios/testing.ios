@@ -1,5 +1,11 @@
 write
 
+copy running-config startup-config
+copy running-config tftp://1.2.3.4/NAME
+copy startup-config running-config
+
+configure terminal
+
 ipv6 unicast-routing
 
 vrf upgrade-cli multi-af-mode common-policies vrf red
@@ -33,8 +39,10 @@ interface vlan 123
 	encapsulation dot1q 123
 	switchport trunk encapsulation Dot1q
 	switchport trunk allowed vlan 604
+  switchport trunk allowed vlan 
+  switchport trunk allowed vlan add 
 	switchport trunk allowed vlan add 604,608
-	switchport trunk allowed vlan remove 604-608,200
+  switchport trunk allowed vlan remove 604-608,200
 	switchport mode access
 	switchport access vlan 23
 	ip address 1.1.1.0 255.255.255.0
@@ -51,11 +59,13 @@ interface vlan 123
  	standby 1 priority 200
  	standby 1 preempt
  	standby 2 ipv6 autoconfig
- 	standby 2 ipv6 0::/64
+ 	standby 2 ipv6 0::
  	standby 1 track 1 decrement 10
 	no switchport
 	no shutdown
 	shutdown
+  exit
+  
 
 
 ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 name asdf permanent

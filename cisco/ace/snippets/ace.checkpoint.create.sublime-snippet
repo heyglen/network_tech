@@ -1,7 +1,7 @@
 <snippet>
     <description>create</description>
     <tabTrigger>checkpoint</tabTrigger>
-    <scope>text.network.cisco.ace</scope>
+    <scope>cisco.ace</scope>
     <content><![CDATA[
 checkpoint create ${1:<Change#>}
 ]]></content>

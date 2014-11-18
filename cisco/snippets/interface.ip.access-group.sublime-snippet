@@ -1,6 +1,6 @@
 <snippet>
     <description>access group</description>
-    <scope>text.network.cisco.base.ios.interface, text.network.cisco.base.nxos.interface</scope>
+    <scope>(cisco.ios | cisco.nxos) & interface</scope>
     <tabTrigger>ip</tabTrigger>
     <content><![CDATA[
 ip access-group ${1:acl-name} ${2:in|out}

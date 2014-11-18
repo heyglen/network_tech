@@ -124,7 +124,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.nxos.vlan</string>
+	<string>nxos.vlan</string>
 	<key>uuid</key>
 	<string>f54adac1-abc0-4097-843e-b3ee96f1112e</string>
 </dict>

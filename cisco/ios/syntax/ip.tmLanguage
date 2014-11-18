@@ -498,7 +498,7 @@
 					<key>end</key>
 					<string>(?=\n)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.ip.route</string>
+					<string>route</string>
 					<key>patterns</key>
 					<array>
 						<dict>

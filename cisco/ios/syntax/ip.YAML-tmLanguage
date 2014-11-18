@@ -96,7 +96,7 @@ repository:
 
   route:
     patterns:
-    - name: text.network.cisco.base.ios.ip.route
+    - name: route
       begin: (?i)(route)\s+
       beginCaptures:
         '1': {name: support.constant}

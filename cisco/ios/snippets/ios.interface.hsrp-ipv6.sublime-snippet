@@ -1,6 +1,6 @@
 <snippet>
     <description>ipv6</description>
-    <scope>text.network.cisco.base.ios.interface</scope>
+    <scope>cisco.ios & interface</scope>
     <tabTrigger>standby</tabTrigger>
     <content><![CDATA[
 standby ${1:0} ipv6 ${2:::/64}

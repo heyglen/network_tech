@@ -1,6 +1,6 @@
 <snippet>
     <description>vrf</description>
-    <scope>text.network.cisco.base</scope>
+    <scope>cisco.ios & - route</scope>
     <tabTrigger>definition</tabTrigger>
     <content>
 <![CDATA[

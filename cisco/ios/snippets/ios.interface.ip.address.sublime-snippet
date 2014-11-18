@@ -1,0 +1,10 @@
+<snippet>
+    <description>v4 address</description>
+    <scope>cisco.ios & interface & ip</scope>
+    <tabTrigger>address</tabTrigger>
+    <content><![CDATA[
+address ${1:1.2.3.4} ${2:255.255.255.0}
+
+]]></content>
+</snippet>
+

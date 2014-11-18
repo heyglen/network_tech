@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 name: .
-scopeName: text.network.cisco.base.nxos.bgp
+scopeName: cisco.nxos.bgp
 uuid: 34955740-df89-4de1-9001-10d53738fa23
 
 patterns:
@@ -10,7 +10,7 @@ repository:
 
   bgp:
     patterns:
-    - name: text.network.cisco.base.nxos.bgp
+    - name: bgp
       begin: ^(router)\s+(bgp)\s+(\d+)\s*(\s+\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}

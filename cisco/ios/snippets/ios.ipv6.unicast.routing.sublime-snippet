@@ -1,6 +1,6 @@
 <snippet>
     <description>unicast-routing</description>
-    <scope>text.network.cisco.base.ios - text.network.cisco.base.ios.interface</scope>
+    <scope>cisco.ios - interface</scope>
     <tabTrigger>ipv6</tabTrigger>
     <content><![CDATA[
 ipv6 unicast-routing

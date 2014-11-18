@@ -1,6 +1,6 @@
 <snippet>
     <description>TenGigabitEthernet</description>
-    <scope>text.network.cisco.base.ios</scope>
+    <scope>cisco.ios</scope>
     <tabTrigger>interface</tabTrigger>
     <content><![CDATA[
 interface TenGigabitEthernet${1:0}/${2:1}

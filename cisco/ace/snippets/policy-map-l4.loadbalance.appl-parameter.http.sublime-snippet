@@ -1,7 +1,7 @@
 <snippet>
     <description>http</description>
     <tabTrigger>appl-paramteter</tabTrigger>
-    <scope>text.network.cisco.ace.policy.policy-class</scope>
+    <scope>cisco.ace.policy.policy-class</scope>
     <content><![CDATA[
 appl-parameter http advanced-options ${1:APPL-PARAM_NAME}
 ]]></content>

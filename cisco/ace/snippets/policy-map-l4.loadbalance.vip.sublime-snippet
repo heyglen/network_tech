@@ -1,7 +1,7 @@
 <snippet>
     <description>vip inservice</description>
     <tabTrigger>loadbalance</tabTrigger>
-    <scope>text.network.cisco.ace.policy.policy-class</scope>
+    <scope>cisco.ace.policy.policy-class</scope>
     <content><![CDATA[
 loadbalance vip inservice
 ]]></content>

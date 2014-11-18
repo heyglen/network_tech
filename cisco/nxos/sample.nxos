@@ -5,8 +5,10 @@ interface Ethernet
 interface Vlan 20
   shutdown
 
+
 interface Ethernet 100/0/1
   description this is a port
+  vrf member NAME
   switchport
   switchport mode trunk
   switchport trunk encapsulation dot1q
@@ -49,3 +51,10 @@ router bgp 1
         next-hop-self
         no shutdown
 
+ip prefix-list NAME seq 10 permit 10.225.6.0/24
+ip prefix-list NAME seq 10 deny 10.225.6.0/24
+ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1
+ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1 le 2
+ipv6 prefix-list NAME seq 10 permit ::/0
+ipv6 prefix-list NAME seq 200 deny ::/0 ge 1
+ipv6 prefix-list NAME seq 200 deny ::/0 ge 1 le 2

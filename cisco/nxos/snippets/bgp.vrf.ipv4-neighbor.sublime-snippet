@@ -1,6 +1,6 @@
 <snippet>
     <description>IPv4</description>
-    <scope>text.network.cisco.base.nxos.bgp & ipv4.address.family</scope>
+    <scope>cisco.nxos & bgp & ipv4.address.family</scope>
     <tabTrigger>neighbor</tabTrigger>
     <content>
 <![CDATA[

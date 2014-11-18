@@ -1,7 +1,7 @@
 <snippet>
 	<description>name</description>
 	<tabTrigger>name</tabTrigger>
-	<scope>text.network.cisco.base.nxos.vlan</scope>
+	<scope>cisco.nxos.vlan</scope>
 	<content><![CDATA[
 name ${1:NAME}
 ]]></content>
