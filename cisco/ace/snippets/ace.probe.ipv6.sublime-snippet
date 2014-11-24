@@ -1,0 +1,8 @@
+<snippet>
+	<description>v6 address</description>
+	<scope>cisco.ace & probe.</scope>
+	<tabTrigger>ip</tabTrigger>
+	<content><![CDATA[
+ip address ${1:::}${2: routed}
+]]></content>
+</snippet>

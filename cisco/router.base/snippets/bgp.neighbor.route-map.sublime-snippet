@@ -1,5 +1,5 @@
 <snippet>
-    <description>route-map</description>
+    <description>neighbor</description>
     <scope>cisco.ios & bgp</scope>
     <tabTrigger>neighbor</tabTrigger>
     <content>

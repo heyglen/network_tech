@@ -1,0 +1,8 @@
+<snippet>
+    <description>response syn-to-close</description>
+    <tabTrigger>predictor</tabTrigger>
+    <scope>cisco.ace & serverfarm</scope>
+    <content><![CDATA[
+predictor response syn-to-close
+]]></content>
+</snippet>

@@ -38,7 +38,7 @@ repository:
 
   config-t:
     patterns:
-    - name: text.network.cisco.base.configure.terminal
+    - name: configure.terminal
       match: ^\s*(configure)\s+(terminal)\s*(?:\s*(\S.*))?$
       captures:
         '1': {name: support.constant}

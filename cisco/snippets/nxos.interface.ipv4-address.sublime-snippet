@@ -1,5 +1,5 @@
 <snippet>
-    <description>address</description>
+    <description>v4 address</description>
     <scope>cisco.nxos & interface</scope>
     <tabTrigger>ip</tabTrigger>
     <content><![CDATA[

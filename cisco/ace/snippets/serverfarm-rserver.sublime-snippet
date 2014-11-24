@@ -1,7 +1,7 @@
 <snippet>
-	<description>serverfarm-rserver</description>
+	<description>rserver</description>
 	<tabTrigger>rserver</tabTrigger>
-	<scope>cisco.ace.serverfarm</scope>
+	<scope>cisco.ace & serverfarm</scope>
 	<content><![CDATA[
 rserver ${1:fully.qualified.domain.name} ${2:[port-number]}
   inservice

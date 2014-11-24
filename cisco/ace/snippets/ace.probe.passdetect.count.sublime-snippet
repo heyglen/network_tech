@@ -1,0 +1,8 @@
+<snippet>
+	<description>count</description>
+	<scope>cisco.ace & probe.</scope>
+	<tabTrigger>passdetect</tabTrigger>
+	<content><![CDATA[
+passdetect count ${1:2}
+]]></content>
+</snippet>

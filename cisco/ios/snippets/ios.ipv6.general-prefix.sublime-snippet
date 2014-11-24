@@ -1,0 +1,8 @@
+<snippet>
+    <description>general prefix</description>
+    <scope>cisco.ios & (-interface & -show)</scope>
+    <tabTrigger>ipv6</tabTrigger>
+    <content><![CDATA[
+ipv6 general-prefix ${1:name} ${2:::/0}
+]]></content>
+</snippet>

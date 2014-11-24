@@ -1,7 +1,7 @@
 <snippet>
-	<description>get</description>
+	<description>request HTTP GET</description>
 	<tabTrigger>request</tabTrigger>
-	<scope>cisco.ace.probe.https & cisco.ace.probe.http</scope>
+	<scope>cisco.ace & (probe.https | probe.http)</scope>
 	<content><![CDATA[
 request method get url /$0
 ]]></content>

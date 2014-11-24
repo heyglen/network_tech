@@ -49,6 +49,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#export-map</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.network.cisco.scope</string>
 						</dict>
 						<dict>
@@ -255,7 +259,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.base.vrf.definition</string>
+					<string>vrf.definition</string>
 					<key>patterns</key>
 					<array>
 						<dict>

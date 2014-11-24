@@ -39,7 +39,7 @@ repository:
 
   predictor-leastconn:
     patterns:
-    - name: text.network.cisco.ace.serverfarm.predictor.leastconn
+    - name: predictor.leastconn
       match: ^\s+(predictor)\s+(leastconns)(?:\s+(slowstart)\s+(\d+))?\s*(\s+\S.*)?$
       captures:
         '1': {name: support.constant}
@@ -48,9 +48,30 @@ repository:
         '4': {name: constant.language}
         '5': {name: invalid.illegal}
 
+  predictor-response:
+    patterns:
+    - name: predictor.response
+      match: ^\s+(predictor)\s+(response)\s+(app-req-to-resp|syn-to-close|syn-to-synack)(?:\s+(samples)\s+(\d+))?\s*(\s+\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: constant.numeric}
+        '6': {name: invalid.illegal}
+
+  predictor-roundrobin:
+    patterns:
+    - name: predictor.roundrobin
+      match: ^\s+(predictor)\s+(roundrobin)\s*(\s+\S.*)?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+
   rserver:
     patterns:
-    - name: text.network.cisco.ace.serverfarm.rserver
+    - name: rserver
       begin: ^\s+(rserver)\s+(\S+)\s+(\d+)?$
       beginCaptures:
         '0': {name: meta.cisco.ace.serverfarm.rserver}
@@ -67,7 +88,7 @@ repository:
 
   serverfarm:
     patterns:
-    - name: text.network.cisco.ace.serverfarm
+    - name: serverfarm
       begin: ^(serverfarm)\s+(host|redirect)\s+(\S+)\s+(\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -81,3 +102,5 @@ repository:
       - include: '#rserver'
       - include: '#probe'
       - include: '#predictor-leastconn'
+      - include: '#predictor-roundrobin'
+      - include: '#predictor-response'

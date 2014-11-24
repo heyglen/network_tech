@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 name: Cisco ACE
-scopeName: text.network.cisco.ace
+scopeName: cisco.ace
 fileTypes: [ace]
 uuid: e5441a2e-8364-4339-b1e2-f79db773f565
 
@@ -29,7 +29,7 @@ patterns:
 - include: '#snmp-trap-syslog-enable'
 - include: '#snmp-trap-link-ietf'
 - include: text.network.cisco
-- include: text.network.cisco.ace.probe
+- include: cisco.ace.probe
 - include: text.network.cisco.ace.rserver
 - include: text.network.cisco.ace.serverfarm
 - include: text.network.cisco.ace.sticky
@@ -244,7 +244,7 @@ repository:
 
   route:
     patterns:
-    - name: text.network.cisco.ace.route
+    - name: ipv4.route
       match: ^(ip\s+route)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+((?:(?:255|254|252|248|240|224|192|128|0)\.){3}(?:255|254|252|248|240|224|192|128|0))\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s*(\s+\S.*)?$
       captures:
         '1': {name: support.constant}

@@ -5,6 +5,7 @@ copy running-config tftp://1.2.3.4/NAME
 copy startup-config running-config
 
 configure terminal
+default interface Vlan0
 
 ipv6 unicast-routing
 
@@ -77,10 +78,11 @@ ipv6 route vrf green ::/64 vlan0 ::1
 line vty 0 4
   access-class 1234 in vrf-also
   transport input ssh telnet
+ exit
 
 router bgp 123
  address-family ipv4 vrf VRF-NAME
-  network 1.1.1.0
+  network 1.1.1.0 
   network 1.1.1.0 mask 255.255.255.0
   neighbor 1.1.1.1 activate
   neighbor 1.1.1.1 shutdown
@@ -111,7 +113,14 @@ router bgp 123
   neighbor ::1 transport path-mtu-discovery
  exit-address-family
 
+
 ip prefix-list NAME seq 10 permit 1.2.3.0/24
 ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 1
 ip prefix-list NAME seq 10 permit 1.2.3.0/24 le 1
 ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 2 le 1
+
+do show ip interface brief vlan 0
+show ip interface brief vlan 0
+show standby vlan 0 brief
+show standby vlan 0 brief
+

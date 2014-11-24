@@ -10,7 +10,7 @@ repository:
 
   vty:
     patterns:
-    - name: text.network.cisco.base.ios.vty
+    - name: vty
       begin: (?i)^\s*(line)\s+(vty)\s+(\d+)\s+(\d+)
       beginCaptures:
         '1': {name: variable.parameter}
@@ -22,9 +22,10 @@ repository:
       - include: '#access-class'
       - include: '#transport'
 
+
   transport:
     patterns:
-    - name: text.network.cisco.base.ios.vty.transport
+    - name: transport
       match: (?i)\s*(transport)\s+(input)\s+(telnet|ssh)(?:\s+(telnet|ssh))?
       captures:
         '1': {name: support.constant}
@@ -34,7 +35,7 @@ repository:
 
   access-class:
     patterns:
-    - name: text.network.cisco.base.ios.vty.access-class
+    - name: access-class
       match: (?i)\s*(access-class)\s+(\d+)\s+(in)(?:\s+(vrf-also))?
       captures:
         '1': {name: support.constant}

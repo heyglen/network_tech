@@ -103,7 +103,6 @@ probe https HTTPS-PROBE1
 
 probe http HTTP-PROBE1
   description HTTP Health Probe
-
   open 20
   receive 20
   passdetect interval 30
@@ -133,6 +132,7 @@ rserver host RSERVER2
 serverfarm host SERVERFARM1
   description
   no probe
+  predictor round-robin
   predictor leastconns slowstart 60
   probe PROBE1
   rserver RSERVER1 80

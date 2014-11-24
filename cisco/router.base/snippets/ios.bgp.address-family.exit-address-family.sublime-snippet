@@ -1,0 +1,11 @@
+<snippet>
+	<description>exit-address-family</description>
+    <scope>cisco.ios & bgp & (ipv4-address-family | ipv6-address-family)</scope>
+    <tabTrigger>exit-address-family</tabTrigger>
+    <content>
+<![CDATA[
+exit-address-family
+
+]]>
+    </content>
+</snippet>

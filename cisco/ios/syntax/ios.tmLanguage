@@ -12,11 +12,15 @@
 	<array>
 		<dict>
 			<key>include</key>
-			<string>text.network.cisco.base.ios.bgp</string>
+			<string>cisco.ios.bgp</string>
 		</dict>
 		<dict>
 			<key>include</key>
 			<string>cisco.ios.interface</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.base</string>
 		</dict>
 		<dict>
 			<key>include</key>

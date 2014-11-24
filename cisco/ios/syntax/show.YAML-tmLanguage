@@ -6,9 +6,123 @@ uuid: 7e5558b5-171e-4364-8eb5-961720a8fa5a
 patterns:
 - include: "#show-ipv4-route"
 - include: "#show-ipv6-route"
+- include: "#do"
+- include: "#show"
+
 
 
 repository:
+  do:
+    patterns:
+    - name: do
+      begin: (?i)^\s*(do)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#show'
+
+  show:
+    patterns:
+    - name: show
+      begin: (?i)\s*(show)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#ip'
+      - include: '#standby'
+
+  standby:
+    patterns:
+    - name: standby
+      begin: (?i)\s*(standby)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#standby-vlan'
+
+  standby-vlan:
+    patterns:
+    - name: standby-vlan
+      begin: (?i)\s*(vlan)\s*
+      beginCaptures:
+        '1': {name: entity.other.inherited-class}
+      end: (?=$)
+      patterns:
+      - include: '#standby-vlan-id'
+
+  standby-vlan-id:
+    patterns:
+    - name: standby-vlan-id
+      begin: (?i)\s*(\d+)\s*
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=$)
+      patterns:
+      - include: '#standby-brief'
+
+  standby-brief:
+    patterns:
+    - name: standby-brief
+      begin: (?i)\s*(brief)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#interface'
+
+  ip:
+    patterns:
+    - name: ip
+      begin: (?i)\s*(ip)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#interface'
+
+  interface:
+    patterns:
+    - name: interface
+      begin: (?i)\s*(interface)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#brief'
+
+  brief:
+    patterns:
+    - name: brief
+      begin: (?i)\s*(brief)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#vlan'
+
+  vlan:
+    patterns:
+    - name: vlan
+      begin: (?i)\s*(vlan)\s*
+      beginCaptures:
+        '1': {name: entity.name.function}
+      end: (?=$)
+      patterns:
+      - include: '#vlan-id'
+
+  vlan-id:
+    patterns:
+    - name: vlan-id
+      begin: (?i)\s*(\d+)\s*
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=$)
+      patterns:
+      - include: '#access-class'
+
   show-ipv4-route:
     patterns:
     - name: text.network.cisco.base.show.ipv4.route

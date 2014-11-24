@@ -174,7 +174,7 @@
 					<key>match</key>
 					<string>^\s*(configure)\s+(terminal)\s*(?:\s*(\S.*))?$</string>
 					<key>name</key>
-					<string>text.network.cisco.base.configure.terminal</string>
+					<string>configure.terminal</string>
 				</dict>
 			</array>
 		</dict>

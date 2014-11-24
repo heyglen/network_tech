@@ -1,7 +1,7 @@
 <snippet>
-	<description>probe faildetect</description>
+	<description>faildetect</description>
 	<tabTrigger>faildetect</tabTrigger>
-	<scope>cisco.ace.probe</scope>
+	<scope>cisco.ace & probe.</scope>
 	<content><![CDATA[
 faildetect ${1:3}
 ]]></content>

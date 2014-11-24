@@ -1,0 +1,11 @@
+<snippet>
+    <description>interface</description>
+    <scope>cisco.nxos | cisco.ios</scope>
+    <tabTrigger>default</tabTrigger>
+    <content>
+<![CDATA[
+default interface ${1:Vlan0}
+
+]]>
+    </content>
+</snippet>

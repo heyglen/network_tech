@@ -136,7 +136,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s])|\s*(?:exit-)?address-family|\s*exit|\s*end)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.bgp.ipv4-address-family</string>
+					<string>ipv4-address-family</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -938,7 +938,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s])|\s*(?:exit-)?address-family|\s*exit|\s*end)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.bgp.ipv6-address-family</string>
+					<string>ipv6-address-family</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -1615,7 +1615,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.ios.bgp</string>
+	<string>cisco.ios.bgp</string>
 	<key>uuid</key>
 	<string>34955740-df89-4de1-9001-10d53738fa23</string>
 </dict>

@@ -1,6 +1,6 @@
 <snippet>
 	<description>host</description>
-	<scope>cisco.ace</scope>
+	<scope>cisco.ace & -(serverfarm)</scope>
 	<tabTrigger>rserver</tabTrigger>
 	<content><![CDATA[
 rserver host ${1:fully.qualified.domain.name}

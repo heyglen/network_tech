@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 name: .
-scopeName: text.network.cisco.base.ios.bgp
+scopeName: cisco.ios.bgp
 uuid: 34955740-df89-4de1-9001-10d53738fa23
 
 patterns:
@@ -27,7 +27,7 @@ repository:
 
   ipv4-address-family:
     patterns:
-    - name: text.network.cisco.base.ios.bgp.ipv4-address-family
+    - name: ipv4-address-family
       begin: ^\s*(address-family)\s+(ipv4)\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -58,7 +58,7 @@ repository:
 
   ipv6-address-family:
     patterns:
-    - name: text.network.cisco.base.ios.bgp.ipv6-address-family
+    - name: ipv6-address-family
       begin: ^\s*(address-family)\s+(ipv6)\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}

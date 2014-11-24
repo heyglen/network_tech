@@ -1,0 +1,9 @@
+<snippet>
+    <description>proxy-arp</description>
+    <scope>(cisco.ios | cisco.nxos) & interface</scope>
+    <tabTrigger>ip</tabTrigger>
+    <content><![CDATA[
+ip proxy-arp
+
+]]></content>
+</snippet>

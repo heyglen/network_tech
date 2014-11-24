@@ -4,5 +4,5 @@ $1/26$0
 ]]></content>
 	<description>Wildcard to CIDR Conversion</description>
 	<tabTrigger>0.0.0.63</tabTrigger>
-	<scope>cisco.ios</scope>
+	<scope>cisco.</scope>
 </snippet>

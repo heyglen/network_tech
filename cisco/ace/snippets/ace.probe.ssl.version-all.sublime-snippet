@@ -1,7 +1,7 @@
 <snippet>
     <description>version all</description>
     <tabTrigger>ssl</tabTrigger>
-    <scope>cisco.ace.probe.https</scope>
+    <scope>cisco.ace & probe.https</scope>
     <content><![CDATA[
 ssl version all
 

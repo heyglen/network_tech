@@ -25,7 +25,7 @@ repository:
 
   rserver:
     patterns:
-    - name: text.network.cisco.ace.rserver
+    - name: rserver
       begin: ^(rserver)\s+(?:(host|redirect)|(\S+))\s+(\S+)(\s+\S+)?\s*$
       beginCaptures:
         '1': {name: variable.parameter}

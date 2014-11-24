@@ -85,5 +85,6 @@ repository:
       patterns:
       - include: '#rd'
       - include: '#route-target'
+      - include: '#export-map'
       - include: text.network.cisco.scope
       - include: text.network.cisco

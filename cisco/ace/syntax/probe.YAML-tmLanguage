@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 name: .
-scopeName: text.network.cisco.ace.probe
+scopeName: cisco.ace.probe
 fileTypes: []
 uuid: e30f827f-a6b5-4a81-a619-a7f9ce82fe91
 
@@ -12,7 +12,7 @@ patterns:
 repository:
   expect-regex:
     patterns:
-    - name: text.network.cisco.ace.probe.expect
+    - name: expect
       match: (expect)\s+(regex)\s+((?:".*")|\S+)(?:\s+(offset)\s+(\d+))?(?:\s+(cache)\s+(\d+))?\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -26,7 +26,7 @@ repository:
 
   ssl-version:
     patterns:
-    - name: text.network.cisco.ace.probe.ssl.version
+    - name: version
       match: (ssl)\s+(version)\s+(all)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -36,7 +36,7 @@ repository:
 
   expect-status:
     patterns:
-    - name: text.network.cisco.ace.probe.expect
+    - name: expect
       match: (expect)\s+(status)\s+(\d+)\s+(\d+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -47,7 +47,7 @@ repository:
 
   fail-detect:
     patterns:
-    - name: text.network.cisco.ace.probe.fail-detect
+    - name: fail-detect
       match: (faildetect)\s?(\d+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -56,7 +56,7 @@ repository:
 
   hash:
     patterns:
-    - name: text.network.cisco.ace.probe.hash
+    - name: hash
       match: (hash)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: constant.language}
@@ -64,7 +64,7 @@ repository:
 
   http-header:
     patterns:
-    - name: text.network.cisco.ace.probe.header
+    - name: header
       match: (header)\s+(Accept|Accept-Charset|Accept-Encoding|Accept-Language|Authorization|Cache-Control|Connection|Content-MD5|Expect|From|Host|If-Match|Pragma|Referer|Transfer-Encoding|User-Agent|Via)\s+(?:(\d+)|(\S+))\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -76,7 +76,7 @@ repository:
 
   interval:
     patterns:
-    - name: text.network.cisco.ace.probe.interval
+    - name: interval
       match: (interval)\s?(\d+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -85,7 +85,7 @@ repository:
 
   ipv4-address:
     patterns:
-    - name: text.network.cisco.ace.probe.ipv4
+    - name: ipv4
       match: (ip\s+address)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)(?:\s+(routed))?\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -95,7 +95,7 @@ repository:
 
   ipv6-address:
     patterns:
-    - name: text.network.cisco.ace.probe.ipv6
+    - name: ipv6
       match: (ip\s+address)\s+((?:[0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,7}:|(?:[0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,5}(?::[0-9a-fA-F]{1,4}){1,2}|(?:[0-9a-fA-F]{1,4}:){1,4}(?::[0-9a-fA-F]{1,4}){1,3}|(?:[0-9a-fA-F]{1,4}:){1,3}(?::[0-9a-fA-F]{1,4}){1,4}|(?:[0-9a-fA-F]{1,4}:){1,2}(?::[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:(?:(?::[0-9a-fA-F]{1,4}){1,6})|:(?:(?::[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(?::[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(?:ffff(?::0{1,4}){0,1}:){0,1}(?:(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])|(?:[0-9a-fA-F]{1,4}:){1,4}:(?:(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9]))(?:\s+(routed))?\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -105,7 +105,7 @@ repository:
 
   open:
     patterns:
-    - name: text.network.cisco.ace.probe.open
+    - name: open
       match: (open)\s+(\d+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -114,7 +114,7 @@ repository:
 
   pass-detect:
     patterns:
-    - name: text.network.cisco.ace.probe.pass-detect
+    - name: pass-detect
       match: (passdetect)\s+(?:(?:(interval)\s(\d+))|(?:(count)\s+(\d+)))\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -126,7 +126,7 @@ repository:
 
   port:
     patterns:
-    - name: text.network.cisco.ace.probe.port
+    - name: port
       match: (port)\s+(\d+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -135,7 +135,7 @@ repository:
 
   probe-http:
     patterns:
-    - name: text.network.cisco.ace.probe.http
+    - name: probe.http
       begin: ^\s*(probe)\s+(http)\s+(\S+)\s*(\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -163,7 +163,7 @@ repository:
 
   probe-https:
     patterns:
-    - name: text.network.cisco.ace.probe.https
+    - name: probe.https
       begin: ^\s*(probe)\s+(https)\s+(\S+)\s*(\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -192,7 +192,7 @@ repository:
 
   probe-tcp:
     patterns:
-    - name: text.network.cisco.ace.probe.tcp
+    - name: probe.tcp
       begin: ^\s*(probe)\s+(tcp)\s+(\S+)\s*(\S.*)?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -216,7 +216,7 @@ repository:
 
   receive:
     patterns:
-    - name: text.network.cisco.ace.probe.receive
+    - name: receive
       match: (receive)\s+(\d+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -225,7 +225,7 @@ repository:
 
   request-method:
     patterns:
-    - name: text.network.cisco.ace.probe.request
+    - name: request
       match: (request\s+method)\s+(get|head)(?:\s+(url)\s+(\S+))?\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -236,7 +236,7 @@ repository:
 
   send-data:
     patterns:
-    - name: text.network.cisco.ace.probe.tcp.send-data
+    - name: send-data
       match: (send-data)\s+(\S+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}

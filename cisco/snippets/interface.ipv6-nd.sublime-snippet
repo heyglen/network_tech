@@ -3,7 +3,7 @@
     <scope>(cisco.ios | cisco.nxos) & interface</scope>
     <tabTrigger>ipv6</tabTrigger>
     <content><![CDATA[
-ipv6 nd prefix ${1:::/64}$0
+ipv6 nd prefix ${1:::/64}
 ]]></content>
 </snippet>
 

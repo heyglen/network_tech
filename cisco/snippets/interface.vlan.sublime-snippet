@@ -1,6 +1,6 @@
 <snippet>
     <description>Vlan</description>
-    <scope>(cisco.ios & cisco.nxos)</scope>
+    <scope>(cisco.ios | cisco.nxos)</scope>
     <tabTrigger>interface</tabTrigger>
     <content><![CDATA[
 interface Vlan ${1:0}

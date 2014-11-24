@@ -1,0 +1,8 @@
+<snippet>
+    <description>access-class</description>
+    <scope>cisco.ios & vty</scope>
+    <tabTrigger>access-class</tabTrigger>
+    <content><![CDATA[
+access-class ${1:1234} in ${2:vrf-also}
+]]></content>
+</snippet>

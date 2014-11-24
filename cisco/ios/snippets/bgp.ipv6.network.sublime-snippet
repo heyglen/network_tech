@@ -1,0 +1,10 @@
+<snippet>
+    <description>announce prefix</description>
+    <scope>cisco.ios & bgp & ipv6-address-family</scope>
+    <tabTrigger>network</tabTrigger>
+    <content>
+<![CDATA[
+network ${1:::}/${2:64}
+]]>
+    </content>
+</snippet>

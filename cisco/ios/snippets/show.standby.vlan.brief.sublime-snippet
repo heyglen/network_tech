@@ -1,0 +1,10 @@
+<snippet>
+    <description>vlan brief</description>
+    <scope>(cisco.ios | cisco.nxos) & show</scope>
+    <tabTrigger>standby</tabTrigger>
+    <content><![CDATA[
+standby vlan ${1:0} brief
+
+]]></content>
+</snippet>
+

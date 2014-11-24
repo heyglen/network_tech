@@ -44,7 +44,7 @@
 					<key>match</key>
 					<string>(?i)\s*(access-class)\s+(\d+)\s+(in)(?:\s+(vrf-also))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.vty.access-class</string>
+					<string>access-class</string>
 				</dict>
 			</array>
 		</dict>
@@ -79,7 +79,7 @@
 					<key>match</key>
 					<string>(?i)\s*(transport)\s+(input)\s+(telnet|ssh)(?:\s+(telnet|ssh))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.vty.transport</string>
+					<string>transport</string>
 				</dict>
 			</array>
 		</dict>
@@ -116,7 +116,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.vty</string>
+					<string>vty</string>
 					<key>patterns</key>
 					<array>
 						<dict>

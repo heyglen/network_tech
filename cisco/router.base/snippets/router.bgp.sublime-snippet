@@ -1,10 +1,10 @@
 <snippet>
 	<tabTrigger>router</tabTrigger>
 	<description>bgp</description>
-    <scope>cisco.ioscisco</scope>
+    <scope>cisco.ios & -ip</scope>
     <content>
 <![CDATA[
-router bgp ${1:AS}
+router bgp ${1:0}
   $0
  exit
 ]]>

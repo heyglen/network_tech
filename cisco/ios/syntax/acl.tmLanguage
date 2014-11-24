@@ -125,6 +125,68 @@
 				</dict>
 			</array>
 		</dict>
+		<key>destination-host</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)(host)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>dst-host</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#destination-host-ip</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>destination-host-ip</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)((?:\d+\.){3}\d+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>dst-ip</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#destination-port-operator</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#connection-state</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>destination-mask</key>
 		<dict>
 			<key>patterns</key>
@@ -311,6 +373,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#source-host</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#source-network</string>
 						</dict>
 					</array>
@@ -335,7 +401,7 @@
 					<key>end</key>
 					<string>(?=\n)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.acl.src-any</string>
+					<string>src-any</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -349,6 +415,68 @@
 						<dict>
 							<key>include</key>
 							<string>#destination-any</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>source-host</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)(host)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>src-host</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#source-host-ip</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>source-host-ip</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)((?:\d+\.){3}\d+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>src-ip</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#source-port-operator</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#destination-network</string>
 						</dict>
 					</array>
 				</dict>
@@ -378,6 +506,14 @@
 						<dict>
 							<key>include</key>
 							<string>#source-port-operator</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#destination-any</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#destination-host</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -442,6 +578,10 @@
 					<string>text.network.cisco.base.ios.acl.src-port</string>
 					<key>patterns</key>
 					<array>
+						<dict>
+							<key>include</key>
+							<string>#destination-host</string>
+						</dict>
 						<dict>
 							<key>include</key>
 							<string>#destination-network</string>

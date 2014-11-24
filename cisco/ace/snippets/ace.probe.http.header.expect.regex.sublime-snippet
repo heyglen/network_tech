@@ -1,7 +1,7 @@
 <snippet>
 	<description>regex</description>
 	<tabTrigger>expect</tabTrigger>
-	<scope>cisco.ace.probe.https, cisco.ace.probe.http</scope>
+	<scope>cisco.ace & (probe.https | probe.http)</scope>
 	<content><![CDATA[
 expect regex ${1:REGEX}
 ]]></content>
