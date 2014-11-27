@@ -1,0 +1,10 @@
+<snippet>
+    <description>write</description>
+    <scope>cisco.ios</scope>
+    <tabTrigger>write</tabTrigger>
+    <content><![CDATA[
+write
+
+]]></content>
+</snippet>
+

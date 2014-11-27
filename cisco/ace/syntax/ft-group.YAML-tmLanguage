@@ -55,9 +55,10 @@ repository:
 
   ft-group:
     patterns:
-    - name: text.network.cisco.ace.ft-group
+    - name: ft-group
       begin: ^(ft)\s+(group)\s+(\d+)\s*(\s\S.*)?$
       beginCaptures:
+        '0': {name: ft.group.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
         '3': {name: constant.language}

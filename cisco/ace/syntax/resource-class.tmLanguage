@@ -139,6 +139,11 @@
 					<string>^(resource-class)\s+(\S+)\s*(\s\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>resource-class.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -158,7 +163,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.resource-class</string>
+					<string>resource-class</string>
 					<key>patterns</key>
 					<array>
 						<dict>

@@ -11,8 +11,9 @@ repository:
   bgp:
     patterns:
     - name: bgp
-      begin: ^(router)\s+(bgp)\s+(\d+)\s*(\s+\S.*)?$
+      begin: ^(router)\s+(bgp)\s+(\d+)
       beginCaptures:
+        '0': {name: bgp.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
         '3': {name: constant.language}
@@ -29,6 +30,7 @@ repository:
     - name: vrf
       begin: ^\s*(vrf)\s+(\S+)$
       beginCaptures:
+        '0': {name: bgp.vrf.block}
         '1': {name: variable.parameter}
         '2': {name: string.unquoted}
       end: ^(?=(?:(?:\s*(?:vrf|exit))|\S))

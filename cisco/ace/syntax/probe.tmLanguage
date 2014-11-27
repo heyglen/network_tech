@@ -38,7 +38,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -93,7 +93,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -188,7 +188,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -432,6 +432,11 @@
 					<string>^\s*(probe)\s+(http)\s+(\S+)\s*(\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>probe.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -440,7 +445,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -536,6 +541,11 @@
 					<string>^\s*(probe)\s+(https)\s+(\S+)\s*(\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>probe.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -544,7 +554,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -644,6 +654,11 @@
 					<string>^\s*(probe)\s+(tcp)\s+(\S+)\s*(\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>probe.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -652,7 +667,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -768,7 +783,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>

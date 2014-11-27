@@ -74,7 +74,7 @@ repository:
     - name: rserver
       begin: ^\s+(rserver)\s+(\S+)\s+(\d+)?$
       beginCaptures:
-        '0': {name: meta.cisco.ace.serverfarm.rserver}
+        '0': {name: serverfarm.rserver.block}
         '1': {name: variable.parameter}
         '2': {name: string.unquoted}
         '3': {name: constant.language}
@@ -91,8 +91,9 @@ repository:
     - name: serverfarm
       begin: ^(serverfarm)\s+(host|redirect)\s+(\S+)\s+(\S.*)?$
       beginCaptures:
+        '0': {name: serverfarm.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted}
         '4': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))

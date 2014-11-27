@@ -1,0 +1,6 @@
+name: Symbol List
+scope: bgp.ipv4.address-family.block
+settings:
+  showInSymbolList: '1'
+  symbolTransformation: 's/\s*address-family\s+ipv4\s+vrf\s+(\S+)/v4 vrf: $1/gi;'
+uuid: 0A0DA1FC-59DE-4FD9-9A2C-63C6811A3C31

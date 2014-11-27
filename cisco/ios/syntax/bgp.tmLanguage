@@ -19,9 +19,14 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^(router)\s+(bgp)\s+(\d+)\s*(\s+\S.*)?$</string>
+					<string>^(router)\s+(bgp)\s+(\d+)$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>bgp.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -36,11 +41,6 @@
 						<dict>
 							<key>name</key>
 							<string>constant.language</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -104,9 +104,14 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(address-family)\s+(ipv4)\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$</string>
+					<string>^\s*(address-family)\s+(ipv4)\s+(vrf)\s+(\S+)$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>bgp.ipv4.address-family.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -126,11 +131,6 @@
 						<dict>
 							<key>name</key>
 							<string>string.unquoted</string>
-						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -235,7 +235,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>4</key>
 						<dict>
@@ -909,6 +909,11 @@
 					<string>^\s*(address-family)\s+(ipv6)\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>bgp.ipv6.address-family.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -1033,7 +1038,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>4</key>
 						<dict>

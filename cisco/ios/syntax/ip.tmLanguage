@@ -27,7 +27,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -297,7 +297,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -489,6 +489,11 @@
 					<string>(?i)(route)\s+</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>static.ipv4.route</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>

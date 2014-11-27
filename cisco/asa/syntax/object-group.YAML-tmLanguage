@@ -101,8 +101,9 @@ repository:
     - name: text.network.cisco.asa.object-group.icmp-type
       begin: ^\s*(object-group)\s+(icmp-type)\s+(\S+)\s*
       beginCaptures:
+        '0': {name: object-group.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))
       patterns:
@@ -114,8 +115,9 @@ repository:
     - name: text.network.cisco.asa.object-group.network
       begin: ^\s*(object-group)\s+(network)\s+(\S+)\s*
       beginCaptures:
+        '0': {name: object-group.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))
       patterns:
@@ -128,8 +130,9 @@ repository:
     - name: text.network.cisco.asa.object-group.service
       begin: ^\s*(object-group)\s+(service)\s+([A-Za-z0-9_-]+)(?:\s+)?(tcp-udp|tcp|udp)?
       beginCaptures:
+        '0': {name: object-group.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted}
         '4': {name: markup.inserted}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))

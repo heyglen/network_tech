@@ -9,8 +9,6 @@ patterns:
 - include: "#do"
 - include: "#show"
 
-
-
 repository:
   do:
     patterns:
@@ -32,6 +30,28 @@ repository:
       patterns:
       - include: '#ip'
       - include: '#standby'
+      - include: '#running-config'
+      - include: '#startup-config'
+
+  running-config:
+    patterns:
+    - name: running-config
+      begin: (?i)\s*(running-config)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#n/a'
+
+  startup-config:
+    patterns:
+    - name: startup-config
+      begin: (?i)\s*(startup-config)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#n/a'
 
   standby:
     patterns:
@@ -82,10 +102,71 @@ repository:
       end: (?=$)
       patterns:
       - include: '#interface'
+      - include: '#bgp'
+
+  bgp:
+    patterns:
+    - name: show.bgp
+      begin: (?i)\s*(bgp)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#vpnv6'
+
+  vpnv6:
+    patterns:
+    - name: vpnv6
+      begin: (?i)\s*(vpnv6)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#unicast'
+
+  unicast:
+    patterns:
+    - name: vpnv6-unicast
+      begin: (?i)\s*(unicast)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#bgp-ipv6-vrf'
+
+  bgp-ipv6-vrf:
+    patterns:
+    - name: bgp-ipv6-vrf
+      begin: (?i)\s*(vrf)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#bgp-ipv6-vrf-name'
+
+  bgp-ipv6-vrf-name:
+    patterns:
+    - name: bgp-ipv6-vrf-name
+      begin: (?i)\s*(\S+)\s*
+      beginCaptures:
+        '1': {name: string.unquoted}
+      end: (?=$)
+      patterns:
+      - include: '#bgp-ipv6-vrf-ip'
+
+  bgp-ipv6-vrf-ip:
+    patterns:
+    - name: bgp-ipv6-vrf-name-ip
+      begin: (?i)\s*(((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)(/1?\d?\d))
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=$)
+      patterns:
+      - include: '#na'
 
   interface:
     patterns:
-    - name: interface
+    - name: show.interface
       begin: (?i)\s*(interface)\s*
       beginCaptures:
         '1': {name: support.constant}
@@ -108,7 +189,7 @@ repository:
     - name: vlan
       begin: (?i)\s*(vlan)\s*
       beginCaptures:
-        '1': {name: entity.name.function}
+        '1': {name: entity.other.attribute-name}
       end: (?=$)
       patterns:
       - include: '#vlan-id'

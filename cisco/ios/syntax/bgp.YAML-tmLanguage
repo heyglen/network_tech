@@ -11,12 +11,12 @@ repository:
   bgp:
     patterns:
     - name: bgp
-      begin: ^(router)\s+(bgp)\s+(\d+)\s*(\s+\S.*)?$
+      begin: ^(router)\s+(bgp)\s+(\d+)$
       beginCaptures:
+        '0': {name: bgp.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
         '3': {name: constant.language}
-        '4': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s]))
       patterns:
       - include: '#exit-address-family'
@@ -28,13 +28,13 @@ repository:
   ipv4-address-family:
     patterns:
     - name: ipv4-address-family
-      begin: ^\s*(address-family)\s+(ipv4)\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$
+      begin: ^\s*(address-family)\s+(ipv4)\s+(vrf)\s+(\S+)$
       beginCaptures:
+        '0': {name: bgp.ipv4.address-family.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
         '3': {name: support.constant}
         '4': {name: string.unquoted}
-        '5': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s])|\s*(?:exit-)?address-family|\s*exit|\s*end)
       patterns:
       - include: '#ipv4-network'
@@ -61,6 +61,7 @@ repository:
     - name: ipv6-address-family
       begin: ^\s*(address-family)\s+(ipv6)\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$
       beginCaptures:
+        '0': {name: bgp.ipv6.address-family.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
         '3': {name: support.constant}
@@ -93,7 +94,7 @@ repository:
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
-        '3': {name: entity.name.function}
+        '3': {name: entity.other.attribute-name}
         '4': {name: invalid.illegal}
 
   ipv4-neighbor-next-hop-self:
@@ -299,7 +300,7 @@ repository:
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
-        '3': {name: entity.name.function}
+        '3': {name: entity.other.attribute-name}
         '4': {name: invalid.illegal}
 
   ipv6-neighbor-password:

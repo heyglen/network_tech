@@ -289,6 +289,11 @@
 					<string>^\s*(object-group)\s+(icmp-type)\s+(\S+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>object-group.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -297,7 +302,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -332,6 +337,11 @@
 					<string>^\s*(object-group)\s+(network)\s+(\S+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>object-group.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -340,7 +350,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -379,6 +389,11 @@
 					<string>^\s*(object-group)\s+(service)\s+([A-Za-z0-9_-]+)(?:\s+)?(tcp-udp|tcp|udp)?</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>object-group.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -387,7 +402,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>

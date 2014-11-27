@@ -1,9 +1,0 @@
-<snippet>
-    <description>terminal</description>
-    <tabTrigger>configure</tabTrigger>
-    <scope>cisco.ace</scope>
-    <content><![CDATA[
-configure terminal
-
-]]></content>
-</snippet>

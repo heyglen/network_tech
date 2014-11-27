@@ -57,6 +57,11 @@
 					<string>^\s*(access-list)\s+(\S+)\s+(?:(line)\s+(\d+)\s+)?</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>acl.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -81,7 +86,7 @@
 					<key>end</key>
 					<string>$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.acl</string>
+					<string>acl</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -107,7 +112,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>

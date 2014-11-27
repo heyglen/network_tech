@@ -92,7 +92,7 @@ repository:
 
   static-cookie-value:
     patterns:
-    - name: text.network.cisco.ace.sticky.http.static-cookie-value
+    - name: static-cookie-value
       match: (static\s+cookie-value)\s+(\S+)\s+(rserver)\s+(\S+)(?:\s+(\d+))?\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -104,11 +104,12 @@ repository:
 
   sticky-http-content:
     patterns:
-    - name: text.network.cisco.ace.sticky.http.content
+    - name: sticky.http.content
       begin: ^(sticky)\s+(http-content)\s+(\S+)\s*(?:\s+(\S+))?$
       beginCaptures:
+        '0': {name: sticky.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted.sticky.name}
         '4': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
@@ -123,11 +124,12 @@ repository:
 
   sticky-http-cookie:
     patterns:
-    - name: text.network.cisco.ace.sticky.http.cookie
+    - name: sticky.http.cookie
       begin: ^(sticky)\s+(http-cookie)\s+(\S+)\s+(\S+)\s*(?:\s+(\S+))?$
       beginCaptures:
+        '0': {name: sticky.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: support.constant.header-cookie}
         '4': {name: string.unquoted.sticky.name}
         '5': {name: invalid.illegal}
@@ -145,11 +147,12 @@ repository:
 
   sticky-http-header:
     patterns:
-    - name: text.network.cisco.ace.sticky.http.header
+    - name: sticky.http.header
       begin: ^(sticky)\s+(http-header)\s+(\S+)\s+(\S+)\s*(?:\s+(\S+))?$
       beginCaptures:
+        '0': {name: sticky.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: support.constant.header-cookie}
         '4': {name: string.unquoted.sticky.name}
         '5': {name: invalid.illegal}
@@ -163,12 +166,13 @@ repository:
 
   sticky-ip-netmask:
     patterns:
-    - name: text.network.cisco.ace.sticky.ip-netmask
+    - name: sticky.ip-netmask
       begin: ^(sticky)\s+(ip-netmask|v6-prefix)\s+(\S+)\s+(address)\s+(source|destination|both)\s+(\S+)\s*(?:\s+(\S+))?$
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
       captures:
+        '0': {name: sticky.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: constant.language}
         '4': {name: support.constant.header-cookie}
         '5': {name: support.constant.header-cookie}
@@ -183,11 +187,12 @@ repository:
 
   sticky-l4:
     patterns:
-    - name: text.network.cisco.ace.sticky.l4
+    - name: sticky.l4
       begin: ^(sticky)\s+(layer4-payload)\s+(\S+)\s*(?:\s+(\S+))?$
       beginCaptures:
+        '0': {name: sticky.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted.sticky.name}
         '4': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
@@ -200,11 +205,12 @@ repository:
 
   sticky-radius:
     patterns:
-    - name: text.network.cisco.ace.sticky.radius
+    - name: sticky.radius
       begin: ^(sticky)\s+(radius\s+framed-ip)\s+(calling-station-id|username)\s+(\S+)\s*(?:\s+(\S+))?$
       beginCaptures:
+        '0': {name: sticky.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: support.constant.header-cookie}
         '4': {name: string.unquoted.sticky.name}
         '5': {name: invalid.illegal}
@@ -218,11 +224,12 @@ repository:
 
   sticky-rtsp:
     patterns:
-    - name: text.network.cisco.ace.sticky.rtsp
+    - name: sticky.rtsp
       begin: ^(sticky)\s+(rtsp-header\s+session)\s+(\S+)\s*(?:\s+(\S+))?$
       beginCaptures:
+        '0': {name: sticky.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted.sticky.name}
         '4': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))
@@ -235,11 +242,12 @@ repository:
 
   sticky-sip:
     patterns:
-    - name: text.network.cisco.ace.sticky.sip
+    - name: sticky.sip
       begin: ^(sticky)\s+(sip-header)\s+(\S+)\s+(\S+)\s*(?:\s+(\S+))?$
       beginCaptures:
+        '0': {name: sticky.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: support.constant.header-cookie}
         '4': {name: string.unquoted.sticky.name}
         '5': {name: invalid.illegal}

@@ -22,10 +22,15 @@ show ipv6 route vrf red 1::1
 show ipv6 route 1::1
 show ipv6 route
 
+vlan 1
+ name VLAN-1
+
+
+
 ip access-list extended acl
  permit tcp any any eq bgp
  permit icmp any any
- permit tcp 1.1.1.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
+ permit tcp 1.1.1.0 0.0.0.63 1.2.3.0 0½.0.0.255 eq 1234
  permit tcp 1.1.1.0 0.0.0.63 1.2.3.0 0.0.0.255 established
  deny ip any any
  exit
@@ -80,6 +85,11 @@ line vty 0 4
   transport input ssh telnet
  exit
 
+vrf definition NAME
+  description 
+  
+ exit
+
 router bgp 123
  address-family ipv4 vrf VRF-NAME
   network 1.1.1.0 
@@ -118,9 +128,17 @@ ip prefix-list NAME seq 10 permit 1.2.3.0/24
 ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 1
 ip prefix-list NAME seq 10 permit 1.2.3.0/24 le 1
 ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 2 le 1
+ip prefix-list NAME seq 10 deny 0.0.0.0/0
 
 do show ip interface brief vlan 0
+show ip bgp vpnv6 unicast vrf MGMT 2A02:8E8:800:3001::/64
 show ip interface brief vlan 0
 show standby vlan 0 brief
 show standby vlan 0 brief
+show running-config
+show startup-config
+write
 
+
+
+ipv6 prefix-list IPv6-psam-dnoc-tools-bck-1169-in seq 10 permit 2a02:8e8:2004:1000::/64

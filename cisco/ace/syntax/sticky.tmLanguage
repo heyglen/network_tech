@@ -353,7 +353,7 @@
 					<key>match</key>
 					<string>(static\s+cookie-value)\s+(\S+)\s+(rserver)\s+(\S+)(?:\s+(\d+))?\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.sticky.http.static-cookie-value</string>
+					<string>static-cookie-value</string>
 				</dict>
 			</array>
 		</dict>
@@ -366,6 +366,11 @@
 					<string>^(sticky)\s+(http-content)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>sticky.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -374,7 +379,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -390,7 +395,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.sticky.http.content</string>
+					<string>sticky.http.content</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -434,6 +439,11 @@
 					<string>^(sticky)\s+(http-cookie)\s+(\S+)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>sticky.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -442,7 +452,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -463,7 +473,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.sticky.http.cookie</string>
+					<string>sticky.http.cookie</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -515,6 +525,11 @@
 					<string>^(sticky)\s+(http-header)\s+(\S+)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>sticky.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -523,7 +538,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -544,7 +559,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.sticky.http.header</string>
+					<string>sticky.http.header</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -580,6 +595,11 @@
 					<string>^(sticky)\s+(ip-netmask|v6-prefix)\s+(\S+)\s+(address)\s+(source|destination|both)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>captures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>sticky.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -588,7 +608,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -619,7 +639,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.sticky.ip-netmask</string>
+					<string>sticky.ip-netmask</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -655,6 +675,11 @@
 					<string>^(sticky)\s+(layer4-payload)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>sticky.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -663,7 +688,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -679,7 +704,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.sticky.l4</string>
+					<string>sticky.l4</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -715,6 +740,11 @@
 					<string>^(sticky)\s+(radius\s+framed-ip)\s+(calling-station-id|username)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>sticky.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -723,7 +753,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -744,7 +774,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.sticky.radius</string>
+					<string>sticky.radius</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -780,6 +810,11 @@
 					<string>^(sticky)\s+(rtsp-header\s+session)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>sticky.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -788,7 +823,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -804,7 +839,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.sticky.rtsp</string>
+					<string>sticky.rtsp</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -840,6 +875,11 @@
 					<string>^(sticky)\s+(sip-header)\s+(\S+)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>sticky.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -848,7 +888,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -869,7 +909,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*end)|(?:\s*exit))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.sticky.sip</string>
+					<string>sticky.sip</string>
 					<key>patterns</key>
 					<array>
 						<dict>

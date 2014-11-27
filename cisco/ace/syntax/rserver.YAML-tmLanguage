@@ -28,8 +28,9 @@ repository:
     - name: rserver
       begin: ^(rserver)\s+(?:(host|redirect)|(\S+))\s+(\S+)(\s+\S+)?\s*$
       beginCaptures:
+        '0': {name: rserver.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: invalid.illegal}
         '4': {name: string.unquoted}
         '5': {name: invalid.illegal}

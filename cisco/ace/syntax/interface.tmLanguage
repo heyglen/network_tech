@@ -107,6 +107,11 @@
 					<string>^(interface)\s+(\S+)(?:\s+)?(\d+)\s*(\s+\S+)?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>interface.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -131,7 +136,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.interface</string>
+					<string>interface</string>
 					<key>patterns</key>
 					<array>
 						<dict>

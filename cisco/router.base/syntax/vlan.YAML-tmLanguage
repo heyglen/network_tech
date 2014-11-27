@@ -15,6 +15,7 @@ repository:
     - name: text.network.cisco.base.vlan
       begin: ^(vlan)\s+(\d+)\s*(\s\S.*)?$
       beginCaptures:
+        '0': {name: vlan.block}
         '1': {name: variable.parameter}
         '2': {name: constant.numeric}
         '3': {name: invalid.illegal}

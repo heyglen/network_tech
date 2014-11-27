@@ -67,9 +67,9 @@ resource-class SILVER
 
 access-list ALLOW_ANY line 1 extended permit ip any any
 access-list ALLOW_ANY line 1 extended deny ip any any
-access-list MGMT_ACL line 1 extended permit ip 1.1.1.1 1.1.1.1 any
+access-list MGMT_ACL extended permit ip 1.1.1.1 1.1.1.1 any
 
-probe tcp TCP-PROBE1
+probe tcp NAME
   description TCP Health Probe
   open 20
   port 1234
@@ -83,7 +83,7 @@ probe tcp TCP-PROBE1
   ip address 2001:DB8:12::15 routed
 
 
-probe https HTTPS-PROBE1
+probe https HTTPS-NAME
   open 20
   receive 20
   passdetect interval 30
@@ -101,7 +101,7 @@ probe https HTTPS-PROBE1
   interval 40
   faildetect 3
 
-probe http HTTP-PROBE1
+probe http HTTP-NAME
   description HTTP Health Probe
   open 20
   receive 20
@@ -120,24 +120,32 @@ probe http HTTP-PROBE1
   faildetect 3
   invalid statement
 
-rserver host RSERVER1
+rserver redirect NAME
   description hello
   ip address 1.1.1.1
   inservice
 
-rserver host RSERVER2
+rserver host NAME
+  description hello
   ip address 1.1.1.1
   inservice
 
-serverfarm host SERVERFARM1
+serverfarm redirect NAME
+  description
+
+serverfarm host NAME
   description
   no probe
-  predictor round-robin
+  predictor roundrobin
+  predictor response app-req-to-resp
+  predictor response syn-to-close
+  predictor response syn-to-synack
+  predictor response syn-to-synack samples 20
   predictor leastconns slowstart 60
-  probe PROBE1
-  rserver RSERVER1 80
+  probe NAME
+  rserver NAME 80
     inservice
-  rserver RSERVER2 80
+  rserver NAME
     inservice
 
 sticky sip-header name1 name2
@@ -152,7 +160,7 @@ sticky radius framed-ip calling-station-id name
 sticky radius framed-ip username name
   description
 
-sticky http-cookie domain.root name
+sticky http-cookie domain.root http-cookie_name
   description
   timeout 60
   replicate sticky
@@ -160,19 +168,19 @@ sticky http-cookie domain.root name
   cookie insert browser-expire
   cookie secondary name
   static cookie-value value rserver name 90
-  serverfarm SERVERFARM1 backup SERVERFARM2
+  serverfarm NAME backup NAME
 
 sticky layer4-payload L4_PAYLOAD_GROUP
   description
   timeout 30
   replicate sticky
-  serverfarm SERVERFARM1
+  serverfarm NAME
 
 sticky http-header name1 name2
   description
   timeout 30
   replicate sticky
-  serverfarm SERVERFARM1
+  serverfarm NAME
 
 sticky http-content HTTP_CONTENT_GROUP
   description
@@ -180,20 +188,20 @@ sticky http-content HTTP_CONTENT_GROUP
   replicate sticky
   static content value rserver name 80
   content offset 10 length 20 begin-pattern expression1
-  serverfarm SERVERFARM1
+  serverfarm NAME
 
 
 sticky v6-prefix 64 address source STICKY1
   description
   timeout 30
   replicate sticky
-  serverfarm SERVERFARM1
+  serverfarm NAME
 
 sticky ip-netmask 255.255.255.255 address source STICKY1
   description
   timeout 60
   replicate sticky
-  serverfarm SERVERFARM1
+  serverfarm NAME
 
 class-map match-any L4-CLASS-1
   description L4 Class 1
@@ -229,11 +237,10 @@ policy-map type management first-match remote_mgmt_allow_policy
     permit
     deny
 
-
 policy-map type loadbalance first-match L7-POLICY-1
   class class-default
     sticky-serverfarm STICKY1
-    serverfarm serverfarm1 backup serverfarm2
+    serverfarm NAME backup NAME
     action ACTION-LIST
     ssl-proxy client SSL-CLIENT
     drop

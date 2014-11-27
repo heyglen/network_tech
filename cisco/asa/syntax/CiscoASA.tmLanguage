@@ -228,6 +228,11 @@
 					<string>^\s*(group-object)\s+([A-Za-z0-9_-]+)</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>object-group.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>

@@ -427,6 +427,11 @@
 					<string>(?i)^\s*(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>interface.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -947,7 +952,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -1056,7 +1061,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 					</dict>
 					<key>match</key>
@@ -1076,7 +1081,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 					</dict>
 					<key>match</key>
@@ -1098,7 +1103,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -1197,7 +1202,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 					</dict>
 					<key>end</key>

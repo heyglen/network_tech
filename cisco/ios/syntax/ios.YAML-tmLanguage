@@ -49,7 +49,7 @@ repository:
       match: (running-config)\s+(t?ftp)(://)((?:\d+\.){3}\d+)(\/\S*)?
       captures:
         '1': {name: support.constant}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: support.constant}
         '4': {name: constant.language}
         '5': {name: support.constant}
@@ -87,7 +87,7 @@ repository:
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: support.constant}
-        '4': {name: entity.name.function}
+        '4': {name: entity.other.attribute-name}
         '5': {name: support.constant}
         '6': {name: string.unquoted}
         '7': {name: support.constant}
@@ -124,7 +124,7 @@ repository:
         '4': {name: string.unquoted}
         '5': {name: constant.numeric}
         '6': {name: constant.numeric}
-        '7': {name: entity.name.function}
+        '7': {name: entity.other.attribute-name}
         '8': {name: constant.numeric}
         '9': {name: constant.numeric}
         '10': {name: invalid.illegal}

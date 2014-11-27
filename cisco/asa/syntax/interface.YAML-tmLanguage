@@ -11,7 +11,7 @@ repository:
   
   interface:
     patterns:
-    - name: text.network.cisco.asa.interface
+    - name: cisco.asa.interface
       begin: ^\s*(interface|int)\s+(?=[A-Za-z-]+[0-9/. ]*)
       beginCaptures:
         '1': {name: variable.parameter}
@@ -28,7 +28,7 @@ repository:
 
   interface_id:
     patterns:
-    - contentName: text.network.cisco.asa.interface.id
+    - contentName: cisco.asa.interface.id
       begin: \b(?i:(?i:fast|gigabit|tengigabit|)ethernet|null|bvi|virtual-?[a-z]*|port-channel|fa|gi|e|se|serial|lo|loopback|tun|tunnel|management)(?=\s?[0-9])
       beginCaptures:
         '0': {name: support.constant.type.interface.asa}

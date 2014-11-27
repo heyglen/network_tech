@@ -39,9 +39,10 @@ repository:
 
   resource-class:
     patterns:
-    - name: text.network.cisco.ace.resource-class
+    - name: resource-class
       begin: ^(resource-class)\s+(\S+)\s*(\s\S.*)?$
       beginCaptures:
+        '0': {name: resource-class.block}
         '1': {name: variable.parameter}
         '2': {name: string.unquoted}
         '3': {name: invalid.illegal}

@@ -84,6 +84,11 @@
 					<string>^(vlan)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>vlan.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>

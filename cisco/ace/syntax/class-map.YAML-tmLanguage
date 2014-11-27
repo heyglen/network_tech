@@ -12,11 +12,12 @@ patterns:
 repository:
   class-map:
     patterns:
-    - name: text.network.cisco.ace.class-map
+    - name: class-map.l4
       begin: ^\s*(class-map)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$
       beginCaptures:
+        '0': {name: class-map.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted}
         '4': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
@@ -30,11 +31,12 @@ repository:
     - name: text.network.cisco.ace.class-map-http
       begin: ^\s*(class-map)\s+(type)\s+(http)\s+(inspect)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$
       beginCaptures:
+        '0': {name: class-map.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
-        '3': {name: entity.name.function}
+        '3': {name: entity.other.attribute-name}
         '4': {name: support.constant}
-        '5': {name: entity.name.function}
+        '5': {name: entity.other.attribute-name}
         '6': {name: string.unquoted}
         '7': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
@@ -51,11 +53,12 @@ repository:
     - name: text.network.cisco.ace.class-map-http
       begin: ^\s*(class-map)\s+(type)\s+(http)\s+(loadbalance)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$
       beginCaptures:
+        '0': {name: class-map.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
-        '3': {name: entity.name.function}
+        '3': {name: entity.other.attribute-name}
         '4': {name: support.constant}
-        '5': {name: entity.name.function}
+        '5': {name: entity.other.attribute-name}
         '6': {name: string.unquoted}
         '7': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
@@ -70,9 +73,10 @@ repository:
     - name: text.network.cisco.ace.class-map-management
       begin: ^\s*(class-map)\s+(type)\s+(management)\s+(match-(?:all|any))\s+(\S+)(?:\s+(\S.*))?$
       beginCaptures:
+        '0': {name: class-map.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
-        '3': {name: entity.name.function}
+        '3': {name: entity.other.attribute-name}
         '4': {name: support.constant}
         '5': {name: string.unquoted}
         '6': {name: invalid.illegal}
@@ -88,7 +92,7 @@ repository:
         '1': {name: constant.language}
         '2': {name: support.constant}
         '3': {name: support.constant}
-        '4': {name: entity.name.function}
+        '4': {name: entity.other.attribute-name}
         '5': {name: support.constant}
         '6': {name: constant.language}
         '7': {name: invalid.illegal}
@@ -116,7 +120,7 @@ repository:
       captures:
         '1': {name: constant.language}
         '2': {name: support.constant}
-        '3': {name: entity.name.function}
+        '3': {name: entity.other.attribute-name}
         '4': {name: support.constant}
         '5': {name: string.unquoted}
         '6': {name: support.constant}
@@ -130,7 +134,7 @@ repository:
       captures:
         '1': {name: constant.language}
         '2': {name: support.constant}
-        '3': {name: entity.name.function}
+        '3': {name: entity.other.attribute-name}
         '4': {name: support.constant}
         '5': {name: string.unquoted}
         '6': {name: invalid.illegal}
@@ -167,7 +171,7 @@ repository:
         '1': {name: constant.language}
         '2': {name: support.constant}
         '3': {name: support.constant}
-        '4': {name: entity.name.function}
+        '4': {name: entity.other.attribute-name}
         '5': {name: support.constant}
         '6': {name: support.constant}
         '7': {name: support.constant}
@@ -184,9 +188,9 @@ repository:
         '2': {name: support.constant}
         '3': {name: support.constant}
         '4': {name: constant.language}
-        '5': {name: entity.name.function}
+        '5': {name: entity.other.attribute-name}
         '6': {name: support.constant}
-        '7': {name: entity.name.function}
+        '7': {name: entity.other.attribute-name}
         '8': {name: support.constant}
         '9': {name: constant.language}
         '10': {name: support.constant}

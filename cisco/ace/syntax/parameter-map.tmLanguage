@@ -22,6 +22,11 @@
 					<string>(?i)^\s*(parameter-map)\s+(type)\s+(connection)\s+(\S+)</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>parameter.map.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -35,7 +40,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>4</key>
 						<dict>

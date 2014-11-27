@@ -16,7 +16,7 @@ repository:
       match: (expect)\s+(regex)\s+((?:".*")|\S+)(?:\s+(offset)\s+(\d+))?(?:\s+(cache)\s+(\d+))?\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted}
         '4': {name: support.constant}
         '5': {name: constant.language}
@@ -40,7 +40,7 @@ repository:
       match: (expect)\s+(status)\s+(\d+)\s+(\d+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: constant.language}
         '4': {name: constant.language}
         '5': {name: invalid.illegal}
@@ -68,7 +68,7 @@ repository:
       match: (header)\s+(Accept|Accept-Charset|Accept-Encoding|Accept-Language|Authorization|Cache-Control|Connection|Content-MD5|Expect|From|Host|If-Match|Pragma|Referer|Transfer-Encoding|User-Agent|Via)\s+(?:(\d+)|(\S+))\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: support.constant}
         '4': {name: constant.language}
         '5': {name: string.quoted.single}
@@ -138,8 +138,9 @@ repository:
     - name: probe.http
       begin: ^\s*(probe)\s+(http)\s+(\S+)\s*(\S.*)?$
       beginCaptures:
+        '0': {name: probe.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted}
         '4': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
@@ -166,8 +167,9 @@ repository:
     - name: probe.https
       begin: ^\s*(probe)\s+(https)\s+(\S+)\s*(\S.*)?$
       beginCaptures:
+        '0': {name: probe.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted}
         '4': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
@@ -195,8 +197,9 @@ repository:
     - name: probe.tcp
       begin: ^\s*(probe)\s+(tcp)\s+(\S+)\s*(\S.*)?$
       beginCaptures:
+        '0': {name: probe.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: string.unquoted}
         '4': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
@@ -229,7 +232,7 @@ repository:
       match: (request\s+method)\s+(get|head)(?:\s+(url)\s+(\S+))?\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: support.constant}
         '4': {name: string.quoted.single}
         '5': {name: invalid.illegal}

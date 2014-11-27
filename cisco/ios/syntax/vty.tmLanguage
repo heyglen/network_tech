@@ -92,6 +92,11 @@
 					<string>(?i)^\s*(line)\s+(vty)\s+(\d+)\s+(\d+)</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>vty.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>

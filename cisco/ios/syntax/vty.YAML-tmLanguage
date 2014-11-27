@@ -13,6 +13,7 @@ repository:
     - name: vty
       begin: (?i)^\s*(line)\s+(vty)\s+(\d+)\s+(\d+)
       beginCaptures:
+        '0': {name: vty.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
         '3': {name: constant.numeric}

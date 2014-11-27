@@ -19,9 +19,10 @@ repository:
 
   acl:
     patterns:
-    - name: text.network.cisco.ace.acl
+    - name: acl
       begin: ^\s*(access-list)\s+(\S+)\s+(?:(line)\s+(\d+)\s+)?
       beginCaptures:
+        '0': {name: acl.block}
         '1': {name: support.constant}
         '2': {name: string.unquoted}
         '3': {name: support.constant}
@@ -36,7 +37,7 @@ repository:
       match: (?<=\s)(extended)\s+(?:(permit)|(deny))\s+(ip)\s+
       captures:
         '1': {name: support.constant}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: keyword.other}
         '4': {name: support.constant}
 

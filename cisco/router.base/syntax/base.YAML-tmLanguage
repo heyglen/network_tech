@@ -51,7 +51,7 @@ repository:
       match: ^\s*(alias)\s+(bgp\s+\S+|l2\s+\S+|scope\s+address-family\s+\S+|scope\s+\S+|\S+)\s+(\S+)\s+(.*)$
       captures:
         '1': {name: support.constant}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: support.constant}
         '4': {name: string.unquoted}
 
@@ -90,7 +90,7 @@ repository:
       name: text.network.cisco.base.acl.permit-ip-any-any
       match: ^\s*permit ip any any\s+
       captures:
-        '0': {name: entity.name.function}
+        '0': {name: entity.other.attribute-name}
 
   copy:
     patterns:
@@ -118,7 +118,7 @@ repository:
       match: (running-config)\s+(t?ftp)(://)((?:\d+\.){3}\d+)(\/\S*)?
       captures:
         '1': {name: support.constant}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: support.constant}
         '4': {name: constant.language}
         '5': {name: support.constant}

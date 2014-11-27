@@ -25,6 +25,122 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>bgp</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(bgp)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>show.bgp</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#vpnv6</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>bgp-ipv6-vrf</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(vrf)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>bgp-ipv6-vrf</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#bgp-ipv6-vrf-name</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>bgp-ipv6-vrf-ip</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)(/1?\d?\d))</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>bgp-ipv6-vrf-name-ip</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#na</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>bgp-ipv6-vrf-name</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(\S+)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>bgp-ipv6-vrf-name</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#bgp-ipv6-vrf-ip</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>brief</key>
 		<dict>
 			<key>patterns</key>
@@ -101,7 +217,7 @@
 					<key>end</key>
 					<string>(?=$)</string>
 					<key>name</key>
-					<string>interface</string>
+					<string>show.interface</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -137,6 +253,39 @@
 							<key>include</key>
 							<string>#interface</string>
 						</dict>
+						<dict>
+							<key>include</key>
+							<string>#bgp</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>running-config</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(running-config)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>running-config</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#n/a</string>
+						</dict>
 					</array>
 				</dict>
 			</array>
@@ -169,6 +318,14 @@
 						<dict>
 							<key>include</key>
 							<string>#standby</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#running-config</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#startup-config</string>
 						</dict>
 					</array>
 				</dict>
@@ -390,6 +547,64 @@
 				</dict>
 			</array>
 		</dict>
+		<key>startup-config</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(startup-config)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>startup-config</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#n/a</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>unicast</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(unicast)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>vpnv6-unicast</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#bgp-ipv6-vrf</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>vlan</key>
 		<dict>
 			<key>patterns</key>
@@ -402,7 +617,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -443,6 +658,35 @@
 						<dict>
 							<key>include</key>
 							<string>#access-class</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>vpnv6</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)\s*(vpnv6)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$)</string>
+					<key>name</key>
+					<string>vpnv6</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#unicast</string>
 						</dict>
 					</array>
 				</dict>

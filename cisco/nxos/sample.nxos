@@ -32,7 +32,7 @@ vlan 1
   mode fabricpath
 
 
-router bgp 1
+router bgp 1  
   vrf sds
     log-neighbor-changes
     address-family ipv4 unicast

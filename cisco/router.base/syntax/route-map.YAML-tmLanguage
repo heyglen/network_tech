@@ -15,7 +15,7 @@ repository:
       beginCaptures:
         '1': {name: variable.parameter}
         '2': {name: string.unquoted}
-        '3': {name: entity.name.function}
+        '3': {name: entity.other.attribute-name}
         '4': {name: keyword.other}
         '5': {name: constant.numeric}
         '6': {name: invalid.illegal}

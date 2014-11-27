@@ -35,7 +35,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.asa.interface</string>
+					<string>cisco.asa.interface</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -88,7 +88,7 @@
 						</dict>
 					</dict>
 					<key>contentName</key>
-					<string>text.network.cisco.asa.interface.id</string>
+					<string>cisco.asa.interface.id</string>
 					<key>end</key>
 					<string>([0-9][0-9/. ]*)\b</string>
 					<key>endCaptures</key>

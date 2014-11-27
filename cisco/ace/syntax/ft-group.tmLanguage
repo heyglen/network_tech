@@ -54,6 +54,11 @@
 					<string>^(ft)\s+(group)\s+(\d+)\s*(\s\S.*)?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ft.group.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -78,7 +83,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.ft-group</string>
+					<string>ft-group</string>
 					<key>patterns</key>
 					<array>
 						<dict>

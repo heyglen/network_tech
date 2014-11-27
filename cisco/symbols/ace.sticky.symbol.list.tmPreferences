@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+   <key>name</key>
+   <string>Symbol List</string>
+   <key>scope</key>
+   <string>sticky.block</string>
+   <key>settings</key>
+   <dict>
+      <key>showInSymbolList</key>
+      <string>1</string>
+      <key>symbolTransformation</key>
+      <string>
+s/^\s*sticky sip-header (\S+) (\S+)/sticky sip-header: $1 $2/gi;
+s/^\s*sticky rtsp-header session (\S+)/sticky rtsp-header: $1/gi;
+s/^\s*sticky radius framed-ip calling-station-id (\S+)/sticky radius: $1/gi;
+s/^\s*sticky radius framed-ip username (\S+)/sticky radius: $1/gi;
+s/^\s*sticky http-cookie (\S+) (\S+)/sticky http-cookie: $1 $2/gi;
+s/^\s*sticky layer4-payload (\S+)/sticky layer4-payload: $1/gi;
+s/^\s*sticky http-header (\S+) (\S+)/sticky http-header: $1 $2/gi;
+s/^\s*sticky http-content (\S+)/sticky http-content: $1/gi;
+s/^\s*sticky v6-prefix 64 address source (\S+)/sticky v6-prefix: $1/gi;
+s/^\s*sticky ip-netmask 255.255.255.255 address source (\S+)/sticky ip-netmask: $1/gi;
+      </string>
+   </dict>
+   <key>uuid</key>
+   <string>0A0DA1FC-59DE-4FD9-9A2C-63C6811A3C31</string>
+</dict>
+</plist>

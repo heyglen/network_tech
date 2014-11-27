@@ -16,6 +16,7 @@ repository:
     - name: interface
       begin: (?i)^\s*(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)
       beginCaptures:
+        '0': {name: interface.block}
         '1': {name: variable.parameter}
         '2': {name: entity.other.inherited-class}
         '3': {name: constant.numeric}
@@ -319,7 +320,7 @@ repository:
     - name: text.network.cisco.base.nxos.interface.switchport.access
       begin: (?i)\s*(access)\s+
       beginCaptures:
-        '1': {name: entity.name.function}
+        '1': {name: entity.other.attribute-name}
       end: (?=$)
       patterns:
       - include: '#switchport-access-vlan'
@@ -346,7 +347,7 @@ repository:
     - name: text.network.cisco.base.nxos.interface.switchport.trunk
       begin: (?i)\s*(trunk)\s+
       beginCaptures:
-        '1': {name: entity.name.function}
+        '1': {name: entity.other.attribute-name}
       end: (?=$)
       patterns:
       - include: '#switchport-trunk-encapsulation'
@@ -379,7 +380,7 @@ repository:
     - name: text.network.cisco.base.nxos.interface.switchport.trunk.allowed.vlan.add
       begin: (?i)\s*(add)\s+
       beginCaptures:
-        '1': {name: entity.name.function}
+        '1': {name: entity.other.attribute-name}
       end: (?=$)
       patterns:
       - include: '#switchport-trunk-allowed-vlan-ids'
@@ -437,11 +438,11 @@ repository:
     - name: text.network.cisco.base.nxos.interface.switchport.mode.trunk
       match: (?i)(?<=\s)(trunk)\s*$
       captures:
-        '1': {name: entity.name.function}
+        '1': {name: entity.other.attribute-name}
 
   switchport-mode-access:
     patterns:
     - name: text.network.cisco.base.nxos.interface.switchport.mode.access
       match: (?i)\s*(access)\s*$
       captures:
-        '1': {name: entity.name.function}
+        '1': {name: entity.other.attribute-name}

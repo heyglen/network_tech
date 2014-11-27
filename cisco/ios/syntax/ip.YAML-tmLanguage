@@ -57,7 +57,7 @@ repository:
     - name: access
       begin: (?i)(?:(permit)|(deny))\s+
       beginCaptures:
-        '1': {name: entity.name.function}
+        '1': {name: entity.other.attribute-name}
         '2': {name: keyword.other}
       end: (?=\n)
       patterns:
@@ -142,7 +142,7 @@ repository:
     - name: text.network.cisco.base.ios.ip.route.interface
       begin: (?i)([^\d\s]+)\s*?(\d+)\s+
       beginCaptures:
-        '1': {name: entity.name.function}
+        '1': {name: entity.other.attribute-name}
         '2': {name: constant.numeric}
       end: (?=\n)
       patterns:

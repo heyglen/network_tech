@@ -47,7 +47,7 @@
 					<key>match</key>
 					<string>^\s*(action)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.policy.policy-lb-class.action</string>
+					<string>policy-lb-class.action</string>
 				</dict>
 			</array>
 		</dict>
@@ -63,7 +63,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -238,7 +238,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -333,7 +333,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>3</key>
 						<dict>
@@ -398,7 +398,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -518,7 +518,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.policy.policy-class-management</string>
+					<string>policy-class-management</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -579,7 +579,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.policy.policy-lb-class</string>
+					<string>policy-lb-class</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -623,6 +623,11 @@
 					<string>^\s*(policy-map)\s+(type)\s+(loadbalance)\s+(first-match|genericfirst-match|http\s+first-match|radius\s+first-match|rdp\s+first-match|rtsp\s+first-match|sip\s+first-match)\s+(\S+)\s*(\s+\S+)?\s*$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>policy-map.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -636,12 +641,12 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>5</key>
 						<dict>
@@ -657,7 +662,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.policy.load-balance</string>
+					<string>policy.load-balance</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -685,6 +690,11 @@
 					<string>^\s*(policy-map)\s+(multi-match)\s+(\S+)\s*(\s+\S+)?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>policy-map.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -737,6 +747,11 @@
 					<string>^\s*(policy-map)\s+(type)\s+(management)\s+(first-match)\s+(\S+)\s*(?:\s+(\S.*))?$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>policy-map.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -750,7 +765,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>4</key>
 						<dict>
@@ -866,7 +881,7 @@
 					<key>match</key>
 					<string>^\s*(ssl-proxy)\s+(client)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.policy.policy-lb-class.ssl-proxy-client</string>
+					<string>ssl-proxy-client</string>
 				</dict>
 			</array>
 		</dict>

@@ -30,7 +30,7 @@ repository:
     - name: text.network.cisco.ace.policy.class.forward
       match: ^\s*(forward)\s*(?:\s+(\S+))?$
       captures:
-        '1': {name: entity.name.function}
+        '1': {name: entity.other.attribute-name}
         '2': {name: invalid.illegal}
 
   loadbalance-policy:
@@ -58,7 +58,7 @@ repository:
       match: (loadbalance\s+vip)\s+(inservice)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
-        '2': {name: entity.name.function}
+        '2': {name: entity.other.attribute-name}
         '3': {name: invalid.illegal}
 
   nat-dynamic:
@@ -77,7 +77,7 @@ repository:
     - name: text.network.cisco.ace.policy.class.permit
       match: ^\s*(permit)\s*(?:\s+(\S+))?$
       captures:
-        '1': {name: entity.name.function}
+        '1': {name: entity.other.attribute-name}
         '2': {name: invalid.illegal}
 
   policy-class:
@@ -136,7 +136,7 @@ repository:
     - name: text.network.cisco.ace.policy.map.appl.http
       begin: (?i)(http)
       beginCaptures:
-        '1': {name: entity.name.function}
+        '1': {name: entity.other.attribute-name}
       end: (?=$)
       patterns:
       - include: '#appl-http-adv-opts'
@@ -154,7 +154,7 @@ repository:
 
   policy-class-management:
     patterns:
-    - name: text.network.cisco.ace.policy.policy-class-management
+    - name: policy-class-management
       begin: \s+(class)\s+(class-default|\S+)(?:\s+(\S+))?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -169,7 +169,7 @@ repository:
 
   policy-lb-class:
     patterns:
-    - name: text.network.cisco.ace.policy.policy-lb-class
+    - name: policy-lb-class
       begin: \s+(class)\s+(class-default|\S+)(?:\s+(insert-before)\s+(\S+))?(?:\s+(\S+))?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -189,7 +189,7 @@ repository:
 
   action:
     patterns:
-    - name: text.network.cisco.ace.policy.policy-lb-class.action
+    - name: policy-lb-class.action
       match: ^\s*(action)\s+(\S+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -198,7 +198,7 @@ repository:
 
   ssl-proxy-client:
     patterns:
-    - name: text.network.cisco.ace.policy.policy-lb-class.ssl-proxy-client
+    - name: ssl-proxy-client
       match: ^\s*(ssl-proxy)\s+(client)\s+(\S+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -208,13 +208,14 @@ repository:
 
   policy-load-balance:
     patterns:
-    - name: text.network.cisco.ace.policy.load-balance
+    - name: policy.load-balance
       begin: ^\s*(policy-map)\s+(type)\s+(loadbalance)\s+(first-match|genericfirst-match|http\s+first-match|radius\s+first-match|rdp\s+first-match|rtsp\s+first-match|sip\s+first-match)\s+(\S+)\s*(\s+\S+)?\s*$
       beginCaptures:
+        '0': {name: policy-map.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
-        '3': {name: entity.name.function}
-        '4': {name: entity.name.function}
+        '3': {name: entity.other.attribute-name}
+        '4': {name: entity.other.attribute-name}
         '5': {name: string.unquoted}
         '6': {name: invalid.illegal}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))
@@ -228,6 +229,7 @@ repository:
     - name: text.network.cisco.ace.policy.map
       begin: ^\s*(policy-map)\s+(multi-match)\s+(\S+)\s*(\s+\S+)?$
       beginCaptures:
+        '0': {name: policy-map.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
         '3': {name: string.unquoted}
@@ -243,9 +245,10 @@ repository:
     - name: text.network.cisco.ace.policy.map.management
       begin: ^\s*(policy-map)\s+(type)\s+(management)\s+(first-match)\s+(\S+)\s*(?:\s+(\S.*))?$
       beginCaptures:
+        '0': {name: policy-map.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
-        '3': {name: entity.name.function}
+        '3': {name: entity.other.attribute-name}
         '4': {name: support.constant}
         '5': {name: string.unquoted}
         '6': {name: invalid.illegal}

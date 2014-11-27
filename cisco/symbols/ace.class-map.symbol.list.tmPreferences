@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+   <key>name</key>
+   <string>Symbol List</string>
+   <key>scope</key>
+   <string>class-map.block</string>
+   <key>settings</key>
+   <dict>
+      <key>showInSymbolList</key>
+      <string>1</string>
+      <key>symbolTransformation</key>
+      <string>
+      s/^\s*class-map\s+match-(?:any|all)\s+(\S+)/class-map l4: $1/gi;
+      s/^\s*class-map\s+type\s+http\s+inspect\s+match-(?:any|all)\s+(\S+)/class-map l7-inspect: $1/gi;
+      s/^\s*class-map\s+type\s+http\s+loadbalanace\s+match-(?:any|all)\s+(\S+)/class-map l7-lb: $1/gi;
+      s/^\s*class-map\s+type\s+management\s+match-(?:any|all)\s+(\S+)/class-map mgmt: $1/gi;
+   </string>
+   </dict>
+   <key>uuid</key>
+   <string>0A0DA1FC-59DE-4FD9-9A2C-63C6811A3C31</string>
+</dict>
+</plist>

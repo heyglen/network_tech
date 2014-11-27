@@ -1,0 +1,8 @@
+<snippet>
+    <description>allowed</description>
+    <scope>(cisco.ios | cisco.nxos) & (interface & switchport)</scope>
+    <tabTrigger>trunk</tabTrigger>
+    <content><![CDATA[
+trunk allowed vlan ${1:add}
+]]></content>
+</snippet>

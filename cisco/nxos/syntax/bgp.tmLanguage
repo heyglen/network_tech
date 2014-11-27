@@ -19,9 +19,14 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^(router)\s+(bgp)\s+(\d+)\s*(\s+\S.*)?$</string>
+					<string>^(router)\s+(bgp)\s+(\d+)</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>bgp.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -46,7 +51,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s]))</string>
 					<key>name</key>
-					<string>text.network.cisco.base.nxos.bgp</string>
+					<string>bgp</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -506,6 +511,11 @@
 					<string>^\s*(vrf)\s+(\S+)$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>bgp.vrf.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>

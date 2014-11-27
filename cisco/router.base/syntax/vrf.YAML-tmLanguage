@@ -59,6 +59,7 @@ repository:
     - name: vrf.definition
       begin: ^\s*(?:(?:(vrf)\s+(definition)\s+(\S+))|(ip\s+vrf\s+\S+))(\s+\S+)?\s*$
       beginCaptures:
+        '0': {name: vrf.block}
         '1': {name: variable.parameter}
         '2': {name: support.constant}
         '3': {name: string.unquoted.ios.vrf.definition.name}

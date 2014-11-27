@@ -230,6 +230,11 @@
 					<string>^\s*(?:(?:(vrf)\s+(definition)\s+(\S+))|(ip\s+vrf\s+\S+))(\s+\S+)?\s*$</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>vrf.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>

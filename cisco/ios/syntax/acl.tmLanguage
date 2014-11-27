@@ -22,6 +22,11 @@
 					<string>(?i)^\s*(ip)\s+(access-list)\s+(extended)\s+(\S+)(?:\.\d+)?</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>acl.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -324,7 +329,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function</string>
+							<string>entity.other.attribute-name</string>
 						</dict>
 						<key>2</key>
 						<dict>

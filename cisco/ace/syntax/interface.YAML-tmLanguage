@@ -19,9 +19,10 @@ repository:
 
   interface:
     patterns:
-    - name: text.network.cisco.ace.interface
+    - name: interface
       begin: ^(interface)\s+(\S+)(?:\s+)?(\d+)\s*(\s+\S+)?$
       beginCaptures:
+        '0': {name: interface.block}
         '1': {name: variable.parameter}
         '2': {name: entity.other.inherited-class}
         '3': {name: constant.numeric}
