@@ -5,7 +5,6 @@
     <content>
 <![CDATA[
 route-target ${1:both|import|export} ${2:AS}:${3:#}
-$0
 ]]>
     </content>
 </snippet>

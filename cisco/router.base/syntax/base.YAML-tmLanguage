@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Cisco Router Base
+name: .
 scopeName: text.network.cisco.base
 uuid: e5441a2e-8364-4339-b1e2-f79de773f570
 
