@@ -17,16 +17,23 @@ Open the command prompt (Windows: Ctrl+Shift+p) and type one of the following:
  * Set Syntax: Cisco NXOS
  * Set Syntax: Cisco ASA
 
-### Configure Auto Completion Suggestion Settings
+### Suggested Settings
 
 To be prompted with the snippets and auto-completions:
 
 Sublime Text -> Preferences -> Settings - User
 
-Add the sublime-network scope to auto completions setting in between the brackets:
+ * Auto completion pop-up window
+ * Scope highlighting
 ```JSON
 {
-"auto_complete_selector": "text.network",
+"auto_complete_selector": "cisco, source.python, text.html, source.js",
+"indent_guide_options":
+    [
+        "draw_normal",
+        "draw_active"
+    ],
+
 }
 ```
 ## Installation
