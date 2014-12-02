@@ -28,7 +28,7 @@ repository:
   ipv4-address-family:
     patterns:
     - name: ipv4-address-family
-      begin: ^\s*(address-family)\s+(ipv4)\s+(vrf)\s+(\S+)$
+      begin: ^\s*(address-family)\s+(ipv4)(?:\s+(vrf)\s+(\S+))?$
       beginCaptures:
         '0': {name: bgp.ipv4.address-family.block}
         '1': {name: variable.parameter}

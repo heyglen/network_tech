@@ -8,12 +8,16 @@
 	<array>
 		<dict>
 			<key>include</key>
-			<string>#access-list</string>
+			<string>#access-list-standard</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#access-list-extended</string>
 		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
-		<key>access-list</key>
+		<key>access-list-extended</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -61,6 +65,10 @@
 					<array>
 						<dict>
 							<key>include</key>
+							<string>#line-number</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#permission</string>
 						</dict>
 						<dict>
@@ -75,7 +83,95 @@
 				</dict>
 			</array>
 		</dict>
+		<key>access-list-standard</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)^\s*(ip)\s+(access-list)\s+(standard)\s+(\S+)(?:\.\d+)?</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>acl.block</string>
+						</dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))</string>
+					<key>name</key>
+					<string>ios.acl</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#line-number-standard</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#permission-standard</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>connection-state</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)(established)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.acl.connection-state</string>
+				</dict>
+			</array>
+		</dict>
+		<key>connection-state-standard</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -317,13 +413,71 @@
 				</dict>
 			</array>
 		</dict>
+		<key>line-number</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)^\s*(\d+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$\n)</string>
+					<key>name</key>
+					<string>line-number</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#permission</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>line-number-standard</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)^\s*(\d+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$\n)</string>
+					<key>name</key>
+					<string>line-number</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#permission-standard</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>permission</key>
 		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?i)^\s*(?:(permit)|(deny))\s+</string>
+					<string>(?i)(?:^\s*)?(?:(permit)|(deny))\s+</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -346,6 +500,48 @@
 						<dict>
 							<key>include</key>
 							<string>#protocol</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>permission-standard</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)(?:^\s*)?(?:(permit)|(deny))\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.attribute-name</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=$\n)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.acl.permission</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#source-any-standard</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#source-host-standard</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#source-network-standard</string>
 						</dict>
 					</array>
 				</dict>
@@ -425,6 +621,39 @@
 				</dict>
 			</array>
 		</dict>
+		<key>source-any-standard</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)(any)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>src-any</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#source-port-standard</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#connection-state-standard</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>source-host</key>
 		<dict>
 			<key>patterns</key>
@@ -487,6 +716,68 @@
 				</dict>
 			</array>
 		</dict>
+		<key>source-host-ip-standard</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)((?:\d+\.){3}\d+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>src-ip</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#source-port-operator-standard</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#connection-state-standard</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>source-host-standard</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)(host)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>src-host</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#source-host-ip-standard</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>source-mask</key>
 		<dict>
 			<key>patterns</key>
@@ -528,6 +819,39 @@
 				</dict>
 			</array>
 		</dict>
+		<key>source-mask-standard</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)((?:\d+\.){3}\d+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.acl.src-ip</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#source-port-operator-standard</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#connection-state-standard</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>source-network</key>
 		<dict>
 			<key>patterns</key>
@@ -552,6 +876,35 @@
 						<dict>
 							<key>include</key>
 							<string>#source-mask</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>source-network-standard</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)((?:\d+\.){3}\d+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.acl.src-network</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#source-mask-standard</string>
 						</dict>
 					</array>
 				</dict>
@@ -623,6 +976,69 @@
 						<dict>
 							<key>include</key>
 							<string>#source-port</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>source-port-operator-standard</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)(?:(eq))</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.acl.src-port-operator</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#source-port-standard</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>source-port-standard</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)(?:(\d+)|(bgp))</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>text.network.cisco.base.ios.acl.src-port</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#connection-state-standard</string>
 						</dict>
 					</array>
 				</dict>

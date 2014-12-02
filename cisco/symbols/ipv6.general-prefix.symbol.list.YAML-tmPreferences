@@ -1,0 +1,7 @@
+name: Symbol List
+scope: ios.ipv6.general-prefix
+settings:
+  showInSymbolList: '1'
+  symbolTransformation: "\n      s/^\\s*ipv6\\s+general-prefix\\s+(\\S+)\\s+(\\S+)/ipv6\
+    \ general-prefix $1 $2/gi;\n      "
+uuid: 0A0DA1FC-59DE-4FD9-9A2C-63C6811A3C31

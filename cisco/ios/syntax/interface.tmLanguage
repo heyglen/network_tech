@@ -65,19 +65,9 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-						<key>4</key>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>constant.numeric</string>
@@ -135,7 +125,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -150,14 +140,9 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
-						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
 							<string>constant.numeric</string>
 						</dict>
-						<key>6</key>
+						<key>5</key>
 						<dict>
 							<key>name</key>
 							<string>invalid.illegal</string>

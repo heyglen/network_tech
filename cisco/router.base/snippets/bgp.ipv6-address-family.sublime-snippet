@@ -1,5 +1,5 @@
 <snippet>
-    <description>ipv6 vrf</description>
+    <description>v6 vrf</description>
     <scope>cisco.ios & bgp</scope>
     <tabTrigger>address-family</tabTrigger>
     <content>

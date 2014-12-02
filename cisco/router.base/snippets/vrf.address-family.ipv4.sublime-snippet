@@ -1,5 +1,5 @@
 <snippet>
-    <description>ipv4</description>
+    <description>v4</description>
     <scope>cisco.ios & vrf.definition</scope>
     <tabTrigger>address-family</tabTrigger>
     <content>

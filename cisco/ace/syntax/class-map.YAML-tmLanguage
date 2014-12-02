@@ -182,7 +182,7 @@ repository:
   match-virtual:
     patterns:
     - name: text.network.cisco.ace.class-map.match-virtual
-      match: (\d+\s+)?(match)\s+(virtual-address)\s+(\S+)\s+(?:(any)|(?:(tcp|udp)\s+(?:(any)|(?:(eq)\s+(\d+))|(?:(range)\s+(\d+)\s+(\d+)))))\s*(?:\s+(\S+))?$
+      match: (\d+\s+)?(match)\s+(virtual-address)\s+(\S+)\s+(?:(any)|(?:(tcp|udp)\s+(?:(any)|(?:(eq)\s+(?:(\d+)|(https?)))|(?:(range)\s+(\d+)\s+(\d+)))))$
       captures:
         '1': {name: constant.language}
         '2': {name: support.constant}
@@ -193,7 +193,7 @@ repository:
         '7': {name: entity.other.attribute-name}
         '8': {name: support.constant}
         '9': {name: constant.language}
-        '10': {name: support.constant}
-        '11': {name: constant.language}
+        '10': {name: constant.language}
+        '11': {name: support.constant}
         '12': {name: constant.language}
-        '13': {name: invalid.illegal}
+        '13': {name: constant.language}

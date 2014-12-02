@@ -5,15 +5,14 @@
    <key>name</key>
    <string>Symbol List</string>
    <key>scope</key>
-   <string>bgp.ipv4.address-family.block</string>
+   <string>ios.ipv6.general-prefix</string>
    <key>settings</key>
    <dict>
       <key>showInSymbolList</key>
       <string>1</string>
       <key>symbolTransformation</key>
       <string>
-         s/address-family\s+ipv4\s+vrf\s+(\S+)/    bgp v4 address-family vrf: $1/gi;
-         s/address-family\s+ipv4/    bgp v4 address-family/gi;
+      s/^\s*ipv6\s+general-prefix\s+(\S+)\s+(\S+)/ipv6 general-prefix $1 $2/gi;
       </string>
    </dict>
    <key>uuid</key>

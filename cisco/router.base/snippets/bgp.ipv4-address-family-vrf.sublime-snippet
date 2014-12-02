@@ -1,10 +1,10 @@
 <snippet>
-    <description>v6</description>
-    <scope>cisco.ios & vrf.definition</scope>
+    <description>v4 vrf</description>
+    <scope>cisco.ios & bgp</scope>
     <tabTrigger>address-family</tabTrigger>
     <content>
 <![CDATA[
-address-family ipv6
+address-family ipv4 vrf ${1:NAME}
  $0
 exit-address-family
 ]]>

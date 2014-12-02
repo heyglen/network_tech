@@ -686,12 +686,12 @@
 						<key>10</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>constant.language</string>
 						</dict>
 						<key>11</key>
 						<dict>
 							<key>name</key>
-							<string>constant.language</string>
+							<string>support.constant</string>
 						</dict>
 						<key>12</key>
 						<dict>
@@ -701,7 +701,7 @@
 						<key>13</key>
 						<dict>
 							<key>name</key>
-							<string>invalid.illegal</string>
+							<string>constant.language</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -745,7 +745,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(\d+\s+)?(match)\s+(virtual-address)\s+(\S+)\s+(?:(any)|(?:(tcp|udp)\s+(?:(any)|(?:(eq)\s+(\d+))|(?:(range)\s+(\d+)\s+(\d+)))))\s*(?:\s+(\S+))?$</string>
+					<string>(\d+\s+)?(match)\s+(virtual-address)\s+(\S+)\s+(?:(any)|(?:(tcp|udp)\s+(?:(any)|(?:(eq)\s+(?:(\d+)|(https?)))|(?:(range)\s+(\d+)\s+(\d+)))))$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.class-map.match-virtual</string>
 				</dict>

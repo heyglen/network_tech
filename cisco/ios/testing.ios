@@ -91,6 +91,9 @@ vrf definition NAME
  exit
 
 router bgp 123
+ address-family ipv4
+  network 1.1.1.0
+ exit-address-family
  address-family ipv4 vrf VRF-NAME
   network 1.1.1.0 
   network 1.1.1.0 mask 255.255.255.0
