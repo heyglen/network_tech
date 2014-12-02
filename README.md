@@ -44,11 +44,19 @@ Sublime Text -> Preferences -> Settings - User
 
 Sublime Text -> Tools -> Command Pallet
 
-Type add repository
+Type 'add repository'
 
 In the text box that appears docked to the bottom type:
 
 https://github.com/heyglen/sublime-network
+
+Sublime Text -> Tools -> Command Pallet
+
+Type 'install package<enter>'
+
+A list of packages will come up
+
+Type 'sublime network<enter>'
 
 ## Feature Requests and Bug Reporting
 
