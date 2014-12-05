@@ -3,6 +3,6 @@
     <tabTrigger>changeto</tabTrigger>
     <scope>cisco.ace</scope>
     <content><![CDATA[
-changeto ${1:NAME_CTX}
+changeto ${1:Admin}
 ]]></content>
 </snippet>

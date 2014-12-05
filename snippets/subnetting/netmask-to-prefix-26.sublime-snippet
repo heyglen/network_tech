@@ -1,0 +1,8 @@
+<snippet>
+    <description>/26</description>
+    <tabTrigger>255.255.255.192</tabTrigger>
+    <scope>cisco.</scope>
+	<content><![CDATA[
+/26
+]]></content>
+</snippet>

@@ -50,7 +50,7 @@ repository:
 
   class-map-http-loadbalance:
     patterns:
-    - name: text.network.cisco.ace.class-map-http
+    - name: class-map-http
       begin: ^\s*(class-map)\s+(type)\s+(http)\s+(loadbalance)\s+(match-(?:all|any))\s+(\S+)(\s+\S+)?\s*$
       beginCaptures:
         '0': {name: class-map.block}

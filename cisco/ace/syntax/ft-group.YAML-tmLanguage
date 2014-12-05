@@ -5,6 +5,7 @@ fileTypes: []
 uuid: 46ec8291-342f-4bc5-b536-f10ba06e9669
 
 patterns:
+- include: '#ft-switchover'
 - include: '#ft-group'
 
 repository:
@@ -71,3 +72,14 @@ repository:
       - include: '#peer-priority'
       - include: '#associate-context'
       - include: '#inservice'
+
+  ft-switchover:
+    patterns:
+    - name: ft.switchover
+      match: ^\s*(ft)\s+(switchover)(?:\s+(all)|(\d+))?(?:\s+(force))?$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: entity.other.attribute-name}
+        '4': {name: constant.numeric}
+        '5': {name: keyword.other}

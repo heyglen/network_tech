@@ -182,6 +182,7 @@ repository:
       - include: '#timeout'
       - include: '#replicate'
       - include: '#serverfarm'
+      - include: text.network.cisco
       - include: text.network.cisco.scope
       - include: text.invalid
 

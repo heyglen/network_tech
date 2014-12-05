@@ -206,8 +206,8 @@ repository:
 
   show-ipv4-route:
     patterns:
-    - name: text.network.cisco.base.show.ipv4.route
-      match: ^\s*(show)\s+(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?(?:\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+))?
+    - name: show.ipv4.route
+      match: ^\s*(show)\s+(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?(?:\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)(?:\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)))?
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}
@@ -215,7 +215,7 @@ repository:
         '4': {name: support.constant}
         '5': {name: string.unquoted}
         '6': {name: constant.numeric}
-        '7': {name: invalid.illegal}
+        '7': {name: constant.numeric}
 
   show-ipv6-route:
     patterns:

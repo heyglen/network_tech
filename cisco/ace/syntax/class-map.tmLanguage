@@ -219,7 +219,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.class-map-http</string>
+					<string>class-map-http</string>
 					<key>patterns</key>
 					<array>
 						<dict>

@@ -12,6 +12,26 @@
 	<array>
 		<dict>
 			<key>include</key>
+			<string>#write-memory</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#reload</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#dir</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#boot-system</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#config-register</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#checkpoint-create</string>
 		</dict>
 		<dict>
@@ -157,6 +177,41 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>boot-system</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.attribute-name</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(boot)\s+(system)\s+(image:)(\S+)</string>
+					<key>name</key>
+					<string>boot-system</string>
+				</dict>
+			</array>
+		</dict>
 		<key>certificate-key-import</key>
 		<dict>
 			<key>patterns</key>
@@ -301,6 +356,36 @@
 				</dict>
 			</array>
 		</dict>
+		<key>config-register</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.deprecated</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(config-register)\s+(?:(0x1)|(0x0))</string>
+					<key>name</key>
+					<string>config-register</string>
+				</dict>
+			</array>
+		</dict>
 		<key>configure-terminal</key>
 		<dict>
 			<key>patterns</key>
@@ -354,6 +439,10 @@
 					<array>
 						<dict>
 							<key>include</key>
+							<string>#copy-ftp-image</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#copy-run-start</string>
 						</dict>
 						<dict>
@@ -365,6 +454,51 @@
 							<string>#copy-run-ftp</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>copy-ftp-image</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.attribute-name</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>([ts]?ftp)(://)((?:\d+\.){3}\d+)(?:(/)(\S*))?\s+(image:)</string>
+					<key>name</key>
+					<string>ftp-image</string>
 				</dict>
 			</array>
 		</dict>
@@ -592,6 +726,31 @@
 					<string>^(\S*)\s*(crypto\s+verify)\s+(\S+\s+\S+)\s*(\S*.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.pki.verify</string>
+				</dict>
+			</array>
+		</dict>
+		<key>dir</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(dir)\s+(\S+)</string>
+					<key>name</key>
+					<string>dir</string>
 				</dict>
 			</array>
 		</dict>
@@ -1029,6 +1188,26 @@
 					<string>(trap)\s+([0-7])\s*(\S*.*)?</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.logging.trap</string>
+				</dict>
+			</array>
+		</dict>
+		<key>reload</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(reload)</string>
+					<key>name</key>
+					<string>reload</string>
 				</dict>
 			</array>
 		</dict>
@@ -1527,6 +1706,36 @@
 							<string>text.network.cisco</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>write-memory</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(write)\s+(memory)(\s+all)?</string>
+					<key>name</key>
+					<string>write-memory</string>
 				</dict>
 			</array>
 		</dict>

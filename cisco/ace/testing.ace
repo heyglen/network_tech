@@ -1,5 +1,16 @@
   ! On Admin context
 
+config-register 0x1
+
+boot system image:xxx
+write memory all
+reload
+
+copy ftp://1.2.3.4/NAME.bin image: 
+dir NAME.bin
+
+ft switchover all
+
 parameter-map type connection PARAM_MAP
   set tcp buffer-share 123
   set tcp wan-optimization rtt 0

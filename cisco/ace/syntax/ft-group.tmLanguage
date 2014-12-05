@@ -10,6 +10,10 @@
 	<array>
 		<dict>
 			<key>include</key>
+			<string>#ft-switchover</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#ft-group</string>
 		</dict>
 	</array>
@@ -111,6 +115,46 @@
 							<string>#inservice</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>ft-switchover</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.attribute-name</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(ft)\s+(switchover)(?:\s+(all)|(\d+))?(?:\s+(force))?$</string>
+					<key>name</key>
+					<string>ft.switchover</string>
 				</dict>
 			</array>
 		</dict>

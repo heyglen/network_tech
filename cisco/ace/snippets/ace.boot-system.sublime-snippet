@@ -1,0 +1,8 @@
+<snippet>
+	<description>system image</description>
+	<scope>cisco.ace</scope>
+	<tabTrigger>boot</tabTrigger>
+	<content><![CDATA[
+boot system image:${1:NAME}
+]]></content>
+</snippet>

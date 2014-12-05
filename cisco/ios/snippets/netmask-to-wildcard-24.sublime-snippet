@@ -1,8 +1,0 @@
-<snippet>
-	<content><![CDATA[
-0.0.0.255
-]]></content>
-	<description>Netmask to wildcard Conversion</description>
-	<tabTrigger>255.255.255.0</tabTrigger>
-	<scope>cisco.</scope>
-</snippet>

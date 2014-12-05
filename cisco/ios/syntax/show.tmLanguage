@@ -371,13 +371,13 @@
 						<key>7</key>
 						<dict>
 							<key>name</key>
-							<string>invalid.illegal</string>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(show)\s+(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?(?:\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+))?</string>
+					<string>^\s*(show)\s+(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?(?:\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)(?:\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)))?</string>
 					<key>name</key>
-					<string>text.network.cisco.base.show.ipv4.route</string>
+					<string>show.ipv4.route</string>
 				</dict>
 			</array>
 		</dict>

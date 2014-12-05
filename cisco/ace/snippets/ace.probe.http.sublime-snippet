@@ -1,7 +1,7 @@
 <snippet>
 	<description>HTTP</description>
 	<tabTrigger>probe</tabTrigger>
-	<scope>cisco.ace</scope>
+	<scope>cisco.ace & (-serverfarm)</scope>
 	<content><![CDATA[
 probe http ${1:NAME_PROBE}
   description ${2:DESCRIPTION}
