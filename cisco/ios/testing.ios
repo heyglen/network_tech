@@ -22,10 +22,9 @@ show ipv6 route vrf red 1::1
 show ipv6 route 1::1
 show ipv6 route
 
+
 vlan 1
  name VLAN-1
-
-
 
 ip access-list extended acl
  permit tcp any any eq bgp
@@ -89,7 +88,7 @@ vrf definition NAME
   description 
   
  exit
-
+ 
 router bgp 123
  address-family ipv4
   network 1.1.1.0
@@ -125,7 +124,6 @@ router bgp 123
   neighbor ::1 soft-reconfiguration outbound
   neighbor ::1 transport path-mtu-discovery
  exit-address-family
-
 
 ip prefix-list NAME seq 10 permit 1.2.3.0/24
 ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 1

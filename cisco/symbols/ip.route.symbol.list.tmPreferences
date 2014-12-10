@@ -12,6 +12,8 @@
       <string>1</string>
       <key>symbolTransformation</key>
       <string>
+      s/ipv6\s+route\s+vrf\s+(\S+)\s+(\S+).*$/ipv6 route $1 $2/gi;
+      s/ipv6\s+route\s+(\S+)\s+.*$/ipv6 route $1/gi;
       s/route\s+(\S+)\s+(?:\S+\s+)?255.255.255.255\s+(\S+)/ipv4 route $1\/32/gi;
       s/route\s+(\S+)\s+(?:\S+\s+)?255.255.255.254\s+(\S+)/ipv4 route $1\/31/gi;
       s/route\s+(\S+)\s+(?:\S+\s+)?255.255.255.252\s+(\S+)/ipv4 route $1\/30/gi;

@@ -1,0 +1,105 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: .
+scopeName: cisco.nxos.vrf
+uuid: e5441a2e-8364-4339-b1e2-f79db773f581
+
+patterns:
+- include: '#vrf'
+- include: '#vrf-context'
+
+repository:
+  rd:
+    patterns:
+    - comment: Route Distinguisher
+      name: cisco.nxos.vrf.definition.rd
+      #match: ^\s*(rd)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)(?:\s+(\S+))?$
+      match: ^\s*(rd)\s+((?:(?:\d+\.){3})?\d+:\d+)(?:\s+(\S+))?$
+      captures:
+        '0': {name: text.network.cisco.base.rd.definition}
+        '1': {name: support.constant}
+        '2': {name: constant.numeric.rd}
+        '3': {name: invalid.illegal}
+
+  route-target:
+    patterns:
+    - comment: Route Distinguisher
+      name: cisco.nxos.vrf.definition.rt
+      match: ^\s*(route-target)\s+(?:(export|import|both)|(\S+))\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+:\d+)\s*$
+      captures:
+        '0': {name: text.network.cisco.base.rt.definition}
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+        '4': {name: constant.numeric.rt}
+        '5': {name: invalid.illegal}
+
+  export-map:
+    patterns:
+    - comment: Export Map
+      name: cisco.nxos.vrf.definition.export.map
+      match: ^\s*(export\s+map)\s+(\S+)$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+
+  exit-address-family:
+    patterns:
+    - comment: Route Distinguisher
+      name: cisco.nxos.vrf.definition.address-family-exit
+      match: ^\s*(exit-address-family)\s*$
+      captures:
+        '0': {name: text.network.cisco.base.rt.definition}
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: invalid.illegal}
+        '4': {name: constant.numeric.rt}
+        '5': {name: invalid.illegal}
+
+  vrf-context:
+    patterns:
+    - name: vrf.context
+      begin: ^\s*(?:(vrf)\s+(context)\s+(\S+))$
+      beginCaptures:
+        '0': {name: vrf-context.block}
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted.ios.vrf.definition.name}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: 'cisco.nxos.ip'
+
+  vrf:
+    patterns:
+    - name: vrf.definition
+      begin: ^\s*(?:(?:(vrf)\s+(definition)\s+(\S+))|(ip\s+vrf\s+\S+))(\s+\S+)?\s*$
+      beginCaptures:
+        '0': {name: vrf.block}
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted.ios.vrf.definition.name}
+        '4': {name: invalid.deprecated}
+        '5': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: '#rd'
+      - include: '#address-family'
+      - include: '#exit-address-family'
+      - include: '#route-target'
+      - include: '#export-map'
+      - include: text.network.cisco.scope
+      - include: text.network.cisco
+
+  address-family:
+    patterns:
+    - name: cisco.nxos.vrf.address-family
+      begin: ^\s*(address-family)\s+(ipv(?:4|6))\s*$
+      beginCaptures:
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|\s*(?:exit-)?address-family|\s*exit|\s*end)
+      patterns:
+      - include: '#rd'
+      - include: '#route-target'
+      - include: '#export-map'
+      - include: text.network.cisco.scope
+      - include: text.network.cisco

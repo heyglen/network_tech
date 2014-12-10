@@ -37,6 +37,7 @@ router bgp 1
     log-neighbor-changes
     address-family ipv4 unicast
       network 1.2.3.0/24
+      network 1.2.3.0/24
       neighbor 1.2.3.4
         inherit peer NAME
         remote-as 0
@@ -50,6 +51,7 @@ router bgp 1
         password 3 abcdefghijklmnopqrstuvwxyz
         next-hop-self
         no shutdown
+  exit
 
 ip prefix-list NAME seq 10 permit 10.225.6.0/24
 ip prefix-list NAME seq 10 deny 10.225.6.0/24
@@ -58,3 +60,5 @@ ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1 le 2
 ipv6 prefix-list NAME seq 10 permit ::/0
 ipv6 prefix-list NAME seq 200 deny ::/0 ge 1
 ipv6 prefix-list NAME seq 200 deny ::/0 ge 1 le 2
+
+ip route vrf test 10.229.92.48/28 Vlan0 1.2.3.4

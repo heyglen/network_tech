@@ -3,6 +3,6 @@
     <scope>cisco.nxos & interface & ipv4</scope>
     <tabTrigger>address</tabTrigger>
     <content><![CDATA[
-address ${1:1.2.3.4} ${2:255.255.255.0}
+address ${1:1.2.3.4}/${2:24}
 ]]></content>
 </snippet>

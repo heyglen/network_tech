@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>fileTypes</key>
-	<array/>
 	<key>name</key>
 	<string>.</string>
 	<key>patterns</key>
@@ -55,7 +53,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?i)^\s*?(ip)\s+</string>
+					<string>(?i)^\s*(ip)\s+</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -77,39 +75,6 @@
 						<dict>
 							<key>include</key>
 							<string>#prefix-list</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>mask</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>(?i)((?:\d+\.){3}\d+)\s+</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>constant.numeric</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(?=\n)</string>
-					<key>name</key>
-					<string>text.network.cisco.base.ios.ip.route.mask</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#interface</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#next-hop</string>
 						</dict>
 					</array>
 				</dict>
@@ -163,7 +128,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?i)((?:\d+\.){3}\d+)\s+</string>
+					<string>(?i)((?:\d+\.){3}\d+/\d+)\s+</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -175,12 +140,16 @@
 					<key>end</key>
 					<string>(?=\n)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.ip.route.network</string>
+					<string>ip.route.network</string>
 					<key>patterns</key>
 					<array>
 						<dict>
 							<key>include</key>
-							<string>#mask</string>
+							<string>#interface</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#next-hop</string>
 						</dict>
 					</array>
 				</dict>
@@ -595,7 +564,7 @@
 					<key>end</key>
 					<string>(?=\n)</string>
 					<key>name</key>
-					<string>text.network.cisco.base.ios.ip.route.vrf</string>
+					<string>ip.route.vrf</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -608,8 +577,8 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.ios.ip</string>
+	<string>cisco.nxos.ip</string>
 	<key>uuid</key>
-	<string>c6d683e0-8d6b-401c-9762-acaea7667b26</string>
+	<string>34955740-df89-4de1-9001-10d53738fa23</string>
 </dict>
 </plist>

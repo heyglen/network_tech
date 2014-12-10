@@ -1,8 +1,8 @@
 <snippet>
     <description>route</description>
-    <scope>(cisco.ios | cisco.nxos) & (-interface & -show)</scope>
+    <scope>(cisco.ios) & (-interface & -show)</scope>
     <tabTrigger>ip</tabTrigger>
     <content><![CDATA[
-ip route vrf ${1:vrf-name} ${2:1.2.3.0} ${3:255.255.255.0} ${4:Vlan0} ${5:1.2.3.4}
+ip route vrf ${1:vrf-name} ${2:1.2.3.0} ${3:255.255.255.0} ${4:Vlan${5:0}} ${6:1.2.3.4}
 ]]></content>
 </snippet>

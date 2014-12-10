@@ -49,7 +49,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s]))</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s])|(?:\s*exit))</string>
 					<key>name</key>
 					<string>bgp</string>
 					<key>patterns</key>
@@ -57,6 +57,14 @@
 						<dict>
 							<key>include</key>
 							<string>#vrf</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
 						</dict>
 					</array>
 				</dict>
@@ -211,9 +219,7 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>begin</key>
-					<string>^\s*(network)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)/\d+)$</string>
-					<key>beginCaptures</key>
+					<key>captures</key>
 					<dict>
 						<key>1</key>
 						<dict>
@@ -226,25 +232,10 @@
 							<string>constant.numeric</string>
 						</dict>
 					</dict>
-					<key>end</key>
-					<string>^(?=(?:(?:\s*(?:address-family|neighbor|vrf|exit))|\S))</string>
+					<key>match</key>
+					<string>^\s*(network)\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)/\d+)</string>
 					<key>name</key>
 					<string>ipv4.network</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#ipv4-address-family</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>text.network.cisco.scope</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>text.network.cisco</string>
-						</dict>
-					</array>
 				</dict>
 			</array>
 		</dict>

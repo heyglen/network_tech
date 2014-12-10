@@ -5,7 +5,8 @@
     <content>
 <![CDATA[
 address-family ipv4 unicast
-
+ $0
+exit
 ]]>
     </content>
 </snippet>

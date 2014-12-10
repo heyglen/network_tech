@@ -1,0 +1,12 @@
+<snippet>
+    <description>vrf</description>
+    <scope>cisco.nxos & bgp</scope>
+    <tabTrigger>vrf</tabTrigger>
+    <content>
+<![CDATA[
+vrf ${1:NAME}
+  $0
+ exit
+]]>
+    </content>
+</snippet>

@@ -1,0 +1,14 @@
+{
+    "always_show_minimap_viewport": true,
+    "auto_complete_selector": "cisco",
+    "color_scheme": "Packages/User/Flatland Monokai (SL).tmTheme",
+    "find_selected_text": true,
+    "indent_guide_options":
+    [
+        "draw_normal",
+        "draw_active"
+    ],
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true,
+    "word_separators": "\\()\"',;<>~!@#$%^&*|+=[]{}`~?"
+}

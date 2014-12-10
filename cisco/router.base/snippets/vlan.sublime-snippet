@@ -1,12 +1,12 @@
 <snippet>
     <description>add vlan</description>
-    <scope>cisco.ios</scope>
+    <scope>cisco.ios | cisco.nxos</scope>
     <tabTrigger>vlan</tabTrigger>
     <content>
 <![CDATA[
 vlan ${1:0}
- name ${2:VLAN-$1}
-
+  name ${2:VLAN-$1}
+ exit
 $0
 
 ]]>

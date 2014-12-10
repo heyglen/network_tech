@@ -1,6 +1,6 @@
 <snippet>
     <description>Port-Channel</description>
-    <scope>cisco.ios & cisco.nxos</scope>
+    <scope>cisco.ios | cisco.nxos</scope>
     <tabTrigger>interface</tabTrigger>
     <content><![CDATA[
 interface Port-Channel${1:0}

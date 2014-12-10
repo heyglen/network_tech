@@ -14,7 +14,7 @@ repository:
   interface:
     patterns:
     - name: interface
-      begin: (?i)^\s*(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)
+      begin: ^(?i)\s*(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s*(\d+(?:/\d+)*(?:\.\d+)?)
       beginCaptures:
         '0': {name: interface.block}
         '1': {name: variable.parameter}
@@ -71,7 +71,7 @@ repository:
 
   hsrp:
     patterns:
-    - name: text.network.cisco.base.nxos.interface.hsrp
+    - name: hsrp
       begin: (?i)\s*(hsrp)\s+(\d+)
       beginCaptures:
         '1': {name: support.constant}
@@ -211,7 +211,7 @@ repository:
   interface-port-type:
     patterns:
     - name: text.network.cisco.base.nxos.interface.port-type
-      match: ^(?i)(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s+
+      match: ^(?i)\s*(interface)\s+(Vlan|Ethernet|VLAN|Port-Channel)\s+
       captures:
         '1': {name: variable.parameter}
         '2': {name: entity.other.inherited-class}
