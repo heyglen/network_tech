@@ -1,7 +1,7 @@
 {
     "tab_size": 3,
     "translate_tabs_to_spaces": true,
-    "auto_complete_selector": "text.network",
+    "auto_complete_selector": "text.network., cisco.",
     "color_scheme": "Packages/User/Flatland Monokai (SL).tmTheme",
     "tab_size": 4,
         "translate_tabs_to_spaces": true,

@@ -5,8 +5,9 @@ fileTypes: [ace]
 uuid: e5441a2e-8364-4339-b1e2-f79db773f565
 
 patterns:
-- include: '#write-memory'
 - include: '#reload'
+- include: '#backup-context'
+- include: '#write-memory'
 - include: '#dir'
 - include: '#boot-system'
 - include: '#config-register'
@@ -35,6 +36,7 @@ patterns:
 - include: '#snmp-trap-link-ietf'
 - include: text.network.cisco
 - include: cisco.ace.probe
+- include: cisco.ace.show
 - include: text.network.cisco.ace.rserver
 - include: text.network.cisco.ace.serverfarm
 - include: text.network.cisco.ace.sticky
@@ -490,6 +492,15 @@ repository:
   reload:
     patterns:
     - name: reload
-      match: (reload)
+      match: ^\s*(reload)\s*$
       captures:
         '1': {name: keyword.other}
+
+  backup-context:
+    patterns:
+    - name: backup-context
+      match: ^(backup)\s+(?:(all)|(\S+))\s*$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}

@@ -8,6 +8,7 @@ patterns:
 - include: '#probe-http'
 - include: '#probe-https'
 - include: '#probe-tcp'
+- include: '#probe-icmp'
 
 repository:
   expect-regex:
@@ -158,6 +159,30 @@ repository:
       - include: '#hash'
       - include: '#expect-status'
       - include: '#http-header'
+      - include: text.network.cisco.scope
+      - include: text.network.cisco
+      - include: text.invalid
+
+  probe-icmp:
+    patterns:
+    - name: probe.icmp
+      begin: ^\s*(probe)\s+(icmp)\s+(\S+)\s*(\S.*)?$
+      beginCaptures:
+        '0': {name: probe.block}
+        '1': {name: variable.parameter}
+        '2': {name: entity.other.attribute-name}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: '#ipv4-address'
+      - include: '#ipv6-address'
+      - include: '#open'
+      - include: '#interval'
+      - include: '#pass-detect'
+      - include: '#fail-detect'
+      - include: '#port'
+      - include: '#receive'
       - include: text.network.cisco.scope
       - include: text.network.cisco
       - include: text.invalid

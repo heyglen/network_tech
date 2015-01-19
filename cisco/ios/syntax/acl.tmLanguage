@@ -1081,7 +1081,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>text.network.cisco.base.ios.acl</string>
+	<string>ios.acl</string>
 	<key>uuid</key>
 	<string>f3e93a29-a010-4073-8877-672418496fd4</string>
 </dict>

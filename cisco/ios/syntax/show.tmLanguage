@@ -375,7 +375,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(show)\s+(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?(?:\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)(?:\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)))?</string>
+					<string>^\s*(show)\s+(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?((?:\s+(?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)){1,2})?</string>
 					<key>name</key>
 					<string>show.ipv4.route</string>
 				</dict>

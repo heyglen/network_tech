@@ -4,7 +4,12 @@ config-register 0x1
 
 boot system image:xxx
 write memory all
+
+show run
+
 reload
+
+backup all
 
 copy ftp://1.2.3.4/NAME.bin image: 
 dir NAME.bin
@@ -36,7 +41,7 @@ checkpoint delete NAME
 checkpoint rollback NAME
 
 copy running-config startup-config
-copy running-config tftp://1.1.1.1/asdf
+copy running-config tftp://1.2.3.4/asdf
 copy startup-config running-config
 hostname lb-1
 changeto context-1
@@ -52,16 +57,16 @@ logging buffered 4
 logging persistent 3
 logging queue 4096
 logging device-id string LB-NAME
-logging host 1.1.1.1 udp/514
+logging host 1.2.3.4 udp/514
 
 login timeout 10
 
 tacacs-server key 7 "key"
-tacacs-server host 1.1.1.1
-tacacs-server host 1.1.1.1
+tacacs-server host 1.2.3.4
+tacacs-server host 1.2.3.4
 aaa group server tacacs+ TACACS
-  server 1.1.1.1
-  server 1.1.1.1
+  server 1.2.3.4
+  server 1.2.3.4
 
 aaa authentication login default group TACACS local
 
@@ -78,7 +83,7 @@ resource-class SILVER
 
 access-list ALLOW_ANY line 1 extended permit ip any any
 access-list ALLOW_ANY line 1 extended deny ip any any
-access-list MGMT_ACL extended permit ip 1.1.1.1 1.1.1.1 any
+access-list MGMT_ACL extended permit ip 1.2.3.4 1.2.3.4 any
 
 probe tcp NAME
   description TCP Health Probe
@@ -133,12 +138,12 @@ probe http HTTP-NAME
 
 rserver redirect NAME
   description hello
-  ip address 1.1.1.1
+  ip address 1.2.3.4
   inservice
 
 rserver host NAME
   description hello
-  ip address 1.1.1.1
+  ip address 1.2.3.4
   inservice
 
 serverfarm redirect NAME
@@ -216,10 +221,10 @@ sticky ip-netmask 255.255.255.255 address source STICKY1
 
 class-map match-any L4-CLASS-1
   description L4 Class 1
-  2 match virtual-address 1.1.1.1 any
-  match virtual-address 1.1.1.1 tcp any
-  match virtual-address 1.1.1.1 tcp eq 32
-  match virtual-address 1.1.1.1 tcp range 32 43
+  2 match virtual-address 1.2.3.4 any
+  match virtual-address 1.2.3.4 tcp any
+  match virtual-address 1.2.3.4 tcp eq 32
+  match virtual-address 1.2.3.4 tcp range 32 43
 
 class-map type http inspect match-any map_name
  2 match content expression offset 2
@@ -235,15 +240,15 @@ class-map type http loadbalance match-any CLASS-NAME_L7CLASS
 
 
 class-map type management match-any remote_access
-  2 match protocol xml-https source-address 10.0.0.0 255.255.255.0
+  2 match protocol xml-https source-address 1.2.3.0 255.255.255.0
   3 match protocol icmp any
-  5 match protocol ssh source-address 10.0.0.0 255.255.255.0
-  7 match protocol https source-address 10.0.0.0 255.255.255.0
-  8 match protocol snmp source-address 10.0.0.0 255.255.255.0
-  9 match protocol snmp source-address 10.0.0.0 255.255.255.0
-  10 match protocol http source-address 10.0.0.0 255.255.255.0
+  5 match protocol ssh source-address 1.2.3.0 255.255.255.0
+  7 match protocol https source-address 1.2.3.0 255.255.255.0
+  8 match protocol snmp source-address 1.2.3.0 255.255.255.0
+  9 match protocol snmp source-address 1.2.3.0 255.255.255.0
+  10 match protocol http source-address 1.2.3.0 255.255.255.0
 
-policy-map type management first-match remote_mgmt_allow_policy
+policy-map type management first-match NAME
   class remote_access
     permit
     deny
@@ -264,38 +269,38 @@ policy-map multi-match L4-POLICY-1
     loadbalance policy L7-POLICY-1
     loadbalance vip icmp-reply
     loadbalance vip icmp-reply active
-    nat dynamic 29 vlan 3996
+    nat dynamic 1 vlan 2
     appl-parameter http advanced-options APPL-PARAM
     ssl-proxy server SSL-SERVER
     connection advanced-options CONNECTION-OPTIONS_NAME
 
 interface vlan 1
   description Management
-  ip address 1.1.1.1 255.255.255.0
-  peer ip address 1.1.1.1 255.255.255.0
+  ip address 1.2.3.4 255.255.255.0
+  peer ip address 1.2.3.4 255.255.255.0
   access-group input MGMT_ACL
-  service-policy input remote_mgmt_allow_policy
+  service-policy input NAME
   no shutdown
 
 interface vlan 2
   description Network Interface
-  ip address 1.1.1.1 255.255.255.224
-  peer ip address 1.1.1.1 255.255.255.224
-  alias 1.1.1.1 255.255.255.0
+  ip address 1.2.3.4 255.255.255.224
+  peer ip address 1.2.3.4 255.255.255.224
+  alias 1.2.3.4 255.255.255.0
   access-group input ALLOW_ANY
-  nat-pool 29 1.1.1.1 1.1.1.1 netmask 255.255.255.255 pat
+  nat-pool 29 1.2.3.4 1.2.3.4 netmask 255.255.255.255 pat
   service-policy input L4-POLICY-1
-  service-policy input remote_mgmt_allow_policy
+  service-policy input NAME
   no shutdown
   shutdown
 
-ip route 1.1.1.1 255.255.255.255 2.2.2.2
+ip route 1.2.3.4 255.255.255.255 2.2.2.2
 
 snmp-server contact "Someone"
 snmp-server location "Here"
 snmp-server community public group Network-Monitor
 
-snmp-server host 1.1.1.1 traps version 2c public
+snmp-server host 1.2.3.4 traps version 2c public
 snmp-server trap-source vlan 1
 snmp-server enable traps slb vserver
 snmp-server enable traps slb real

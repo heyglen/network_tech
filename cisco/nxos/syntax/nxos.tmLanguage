@@ -12,6 +12,10 @@
 	<array>
 		<dict>
 			<key>include</key>
+			<string>cisco.nxos.acl</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>cisco.nxos.vrf</string>
 		</dict>
 		<dict>

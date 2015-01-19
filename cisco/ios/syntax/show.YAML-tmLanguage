@@ -207,7 +207,7 @@ repository:
   show-ipv4-route:
     patterns:
     - name: show.ipv4.route
-      match: ^\s*(show)\s+(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?(?:\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)(?:\s+((?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)|\d+)))?
+      match: ^\s*(show)\s+(ip)\s+(route)(?:\s+(vrf)\s+(\S+))?((?:\s+(?:(?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)){1,2})?
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}

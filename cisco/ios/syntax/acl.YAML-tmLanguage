@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 name: .
-scopeName: text.network.cisco.base.ios.acl
+scopeName: ios.acl
 uuid: f3e93a29-a010-4073-8877-672418496fd4
 
 patterns:

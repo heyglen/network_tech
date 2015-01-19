@@ -1,5 +1,6 @@
 write
 
+
 copy running-config startup-config
 copy running-config tftp://1.2.3.4/NAME
 copy startup-config running-config
@@ -9,16 +10,16 @@ default interface Vlan0
 
 ipv6 unicast-routing
 
-vrf upgrade-cli multi-af-mode common-policies vrf red
+vrf upgrade-cli multi-af-mode common-policies vrf NAME
 vrf upgrade-cli multi-af-mode non-common-policies force
 vrf upgrade-cli multi-af-mode common-policies force
 vrf upgrade-cli multi-af-mode common-policies
 
-show ip route vrf green 1.1.1.1
+show ip route vrf NAME 1.1.1.1
 show ip route 1.1.1.1
 show ip route
 
-show ipv6 route vrf red 1::1
+show ipv6 route vrf NAME 1::1
 show ipv6 route 1::1
 show ipv6 route
 
@@ -26,11 +27,11 @@ show ipv6 route
 vlan 1
  name VLAN-1
 
-ip access-list extended acl
+ip access-list extended NAME
  permit tcp any any eq bgp
  permit icmp any any
- permit tcp 1.1.1.0 0.0.0.63 1.2.3.0 0½.0.0.255 eq 1234
- permit tcp 1.1.1.0 0.0.0.63 1.2.3.0 0.0.0.255 established
+ permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
+ permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 established
  deny ip any any
  exit
 
@@ -43,22 +44,22 @@ interface vlan 123
 	switchport trunk encapsulation dot1q
 	encapsulation dot1q 123
 	switchport trunk encapsulation Dot1q
-	switchport trunk allowed vlan 604
   switchport trunk allowed vlan 
+	switchport trunk allowed vlan 123
   switchport trunk allowed vlan add 
-	switchport trunk allowed vlan add 604,608
-  switchport trunk allowed vlan remove 604-608,200
+	switchport trunk allowed vlan add 123,456
+  switchport trunk allowed vlan remove 123-124,125
 	switchport mode access
-	switchport access vlan 23
-	ip address 1.1.1.0 255.255.255.0
+	switchport access vlan 123
+	ip address 1.2.3.0 255.255.255.0
  	ip helper-address 1.1.1.1
-	ip access-group acl-in in
- 	ip access-group acl-out out
+	ip access-group NAME in
+ 	ip access-group NAME out
 	ipv6 redirects
 	ip proxy-arp
-	ip vrf forwarding name
+	ip vrf forwarding NAME
 	ipv6 address general-prefix 0:0:0:1::/64 eui-64
-	ipv6 nd prefix FF02::/64
+	ipv6 nd prefix ff02::/64
 	standby version 2
  	standby 1 ip 1.1.1.1
  	standby 1 priority 200
@@ -73,11 +74,11 @@ interface vlan 123
   
 
 
-ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 name asdf permanent
-ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 track 2
-ip route vrf green 1.1.1.0 255.255.255.0 vlan1 1.1.1.1 tag 2
-ip route 1.1.1.0 255.255.255.0 1.1.1.1 name NAME
-ipv6 route vrf green ::/64 vlan0 ::1
+ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 name asdf permanent
+ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 track 2
+ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 tag 2
+ip route 1.2.3.0 255.255.255.0 1.1.1.1 name NAME
+ipv6 route vrf NAME ::/64 vlan0 ::1
 
 line vty 0 4
   access-class 1234 in vrf-also
@@ -86,30 +87,30 @@ line vty 0 4
 
 vrf definition NAME
   description 
-  
+  rd 1.1.1.1:2
  exit
  
 router bgp 123
  address-family ipv4
-  network 1.1.1.0
+  network 1.2.3.0
  exit-address-family
- address-family ipv4 vrf VRF-NAME
-  network 1.1.1.0 
-  network 1.1.1.0 mask 255.255.255.0
+ address-family ipv4 vrf NAME
+  network 1.2.3.0 
+  network 1.2.3.0 mask 255.255.255.0
   neighbor 1.1.1.1 activate
   neighbor 1.1.1.1 shutdown
   neighbor 1.1.1.1 ttl-security hops 1
   neighbor 1.1.1.1 version 4
   neighbor 1.1.1.1 remote-as 20
   neighbor 1.2.3.4 timers 1 2
-  neighbor 1.1.1.1 route-map ROUTE-MAP-NAME in
-  neighbor 1.1.1.1 route-map ROUTE-MAP-NAME out
+  neighbor 1.1.1.1 route-map NAME in
+  neighbor 1.1.1.1 route-map NAME out
   neighbor 1.1.1.1 inherit peer-policy POLICY
   neighbor 1.1.1.1 soft-reconfiguration inbound
   neighbor 1.1.1.1 soft-reconfiguration outbound
   neighbor 1.1.1.1 transport path-mtu-discovery
  exit-address-family
- address-family ipv6 vrf VRF-NAME
+ address-family ipv6 vrf NAME
   network ::/0
   neighbor ::1 activate
   neighbor ::1 shutdown
@@ -117,8 +118,8 @@ router bgp 123
   neighbor ::1 ttl-security hops 1
   neighbor ::1 version 4
   neighbor ::1 timers 1 2
-  neighbor ::1 route-map  ROUTE-MAP-NAME in
-  neighbor ::1 route-map  ROUTE-MAP-NAME out
+  neighbor ::1 route-map NAME in
+  neighbor ::1 route-map NAME out
   neighbor ::1 inherit peer-policy POLICY
   neighbor ::1 soft-reconfiguration inbound
   neighbor ::1 soft-reconfiguration outbound
@@ -132,7 +133,7 @@ ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 2 le 1
 ip prefix-list NAME seq 10 deny 0.0.0.0/0
 
 do show ip interface brief vlan 0
-show ip bgp vpnv6 unicast vrf MGMT 2A02:8E8:800:3001::/64
+show ip bgp vpnv6 unicast vrf NAME ::/64
 show ip interface brief vlan 0
 show standby vlan 0 brief
 show standby vlan 0 brief
@@ -140,6 +141,4 @@ show running-config
 show startup-config
 write
 
-
-
-ipv6 prefix-list IPv6-psam-dnoc-tools-bck-1169-in seq 10 permit 2a02:8e8:2004:1000::/64
+ipv6 prefix-list NAME seq 10 permit ::/64

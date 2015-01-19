@@ -12,11 +12,15 @@
 	<array>
 		<dict>
 			<key>include</key>
-			<string>#write-memory</string>
+			<string>#reload</string>
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>#reload</string>
+			<string>#backup-context</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#write-memory</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -132,6 +136,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>cisco.ace.show</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>text.network.cisco.ace.rserver</string>
 		</dict>
 		<dict>
@@ -177,6 +185,36 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>backup-context</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^(backup)\s+(?:(all)|(\S+))\s*$</string>
+					<key>name</key>
+					<string>backup-context</string>
+				</dict>
+			</array>
+		</dict>
 		<key>boot-system</key>
 		<dict>
 			<key>patterns</key>
@@ -1205,7 +1243,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(reload)</string>
+					<string>^\s*(reload)\s*$</string>
 					<key>name</key>
 					<string>reload</string>
 				</dict>

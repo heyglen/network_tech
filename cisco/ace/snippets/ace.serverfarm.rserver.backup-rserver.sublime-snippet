@@ -1,7 +1,7 @@
 <snippet>
     <description>backup rserver</description>
     <tabTrigger>backup-rserver</tabTrigger>
-    <scope>cisco.ace</scope>
+    <scope>cisco.ace & rserver</scope>
     <content><![CDATA[
 backup-rserver ${1:NAME}
 ]]></content>

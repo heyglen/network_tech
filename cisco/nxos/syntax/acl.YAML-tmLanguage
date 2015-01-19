@@ -1,0 +1,105 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: .
+scopeName: cisco.nxos.acl
+uuid: 34955740-df89-4de1-9001-10d53738fa23
+
+patterns:
+- include: '#acl'
+
+repository:
+
+  acl:
+    patterns:
+    - name: acl
+      begin: ^(ip)\s+(access-list)\s+(\S+)
+      beginCaptures:
+        '0': {name: acl.block}
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:[^!\s])|(?:\s*exit))
+      patterns:
+      - include: '#seq'
+      - include: '#permit'
+      - include: '#deny'
+      - include: text.network.cisco
+
+  seq:
+    patterns:
+    - name: sequence
+      begin: (?i)^\s*(\d+)\s+
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=$\n)
+      patterns:
+      - include: '#permit'
+      - include: '#deny'
+
+  permit:
+    patterns:
+    - name: permit
+      begin: (?i)(permit)\s+
+      beginCaptures:
+        '1': {name: entity.other.attribute-name}
+      end: (?=$\n)
+      patterns:
+      - include: '#protocol'
+
+  deny:
+    patterns:
+    - name: deny
+      begin: (?i)(deny)\s+
+      beginCaptures:
+        '1': {name: keyword.other}
+      end: (?=$\n)
+      patterns:
+      - include: '#protocol'
+
+  protocol:
+    patterns:
+    - name: protocol
+      begin: (?i)(ip|tcp|udp)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$\n)
+      patterns:
+      - include: '#s-network'
+      - include: '#s-any'
+
+  s-network:
+    patterns:
+    - name: s-network
+      begin: (?i)((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d/[123]?\d)\s+
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=$\n)
+      patterns:
+      - include: '#d-network'
+      - include: '#d-any'
+
+  s-any:
+    patterns:
+    - name: s-any
+      begin: (?i)(any)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$\n)
+      patterns:
+      - include: '#d-network'
+      - include: '#d-any'
+
+  d-any:
+    patterns:
+    - name: d-any
+      begin: (?i)(any)
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$\n)
+
+  d-network:
+    patterns:
+    - name: d-network
+      begin: (?i)((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d/[123]?\d)
+      beginCaptures:
+        '1': {name: constant.numeric}
+      end: (?=$\n)

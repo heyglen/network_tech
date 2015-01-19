@@ -1,0 +1,50 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: .
+scopeName: cisco.ace.show
+uuid: 7e5558b5-171e-4364-8eb5-961720a8fa5a
+
+patterns:
+- include: "#do"
+- include: "#show"
+
+repository:
+  do:
+    patterns:
+    - name: do
+      begin: (?i)^\s*(do)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#show'
+
+  show:
+    patterns:
+    - name: show
+      begin: (?i)\s*(show)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#running-config'
+      - include: '#startup-config'
+
+  running-config:
+    patterns:
+    - name: running-config
+      begin: (?i)\s*((?:running-config)|(?:run))\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#n/a'
+
+  startup-config:
+    patterns:
+    - name: startup-config
+      begin: (?i)\s*((?:startup-config)|(?:start))\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#n/a'

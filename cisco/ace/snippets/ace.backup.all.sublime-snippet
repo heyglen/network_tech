@@ -1,0 +1,9 @@
+<snippet>
+    <description>all</description>
+    <tabTrigger>backup</tabTrigger>
+    <scope>cisco.ace & (-rserver | -serverfarm)</scope>
+    <content><![CDATA[
+backup all
+
+]]></content>
+</snippet>
