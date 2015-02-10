@@ -1,0 +1,8 @@
+<snippet>
+    <description>timeout</description>
+    <tabTrigger>ssh</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+ssh timeout ${1:15}
+]]></content>
+</snippet>

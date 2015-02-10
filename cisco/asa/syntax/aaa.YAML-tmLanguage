@@ -7,6 +7,7 @@ patterns:
 - include: '#aaa-server-host'
 - include: '#aaa-server-protocol'
 - include: '#aaa-authentication'
+- include: '#aaa-authentication-secure-http-client'
 - include: '#aaa-accounting'
 - include: '#aaa-authorization'
 
@@ -53,7 +54,7 @@ repository:
   aaa-authentication:
     patterns:
     - name: text.network.cisco.asa.aaa
-      begin: ^\s*(aaa)\s+(authentication)\s+(enable|ssh|http)\s+(console)\s+(\S+)\s+(\S+)?\s*
+      begin: ^\s*(aaa)\s+(authentication)\s+(enable|ssh|http|telnet)\s+(console)\s+(\S+)\s+(\S+)?\s*
       beginCaptures:
         '1': {name: support.constant}
         '2': {name: support.constant}
@@ -61,6 +62,16 @@ repository:
         '4': {name: support.constant}
         '5': {name: string.unquoted}
         '6': {name: support.constant}
+      end: (\s*$)
+
+  aaa-authentication-secure-http-client:
+    patterns:
+    - name: text.network.cisco.asa.aaa.secure-http-client
+      begin: ^\s*(aaa)\s+(authentication)\s+(secure-http-client)
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
       end: (\s*$)
 
   aaa-accounting:

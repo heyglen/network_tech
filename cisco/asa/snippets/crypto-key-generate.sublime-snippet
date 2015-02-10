@@ -1,0 +1,9 @@
+<snippet>
+    <description>key generate</description>
+    <tabTrigger>crypto</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+crypto key generate rsa modulus ${1:2048} noconfirm
+
+]]></content>
+</snippet>

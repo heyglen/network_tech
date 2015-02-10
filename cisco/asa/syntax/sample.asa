@@ -53,6 +53,15 @@ ssh key-exchange group dh-group14-sha1
 ssh timeout 15
 telnet timeout 15
 
+logging enable
+logging timestamp
+logging buffer-size 1234
+logging buffered informational
+logging trap informational
+logging asdm informational
+logging device-id string firewall
+
+logging host mgmt 1.2.3.4
 snmp-server host outside 1.2.3.4 community 0 private version 2c
 snmp-server host outside 1.2.3.4 community public
 snmp-server location here

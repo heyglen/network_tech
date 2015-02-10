@@ -1,8 +1,0 @@
-<snippet>
-	<description>hostname</description>
-	<tabTrigger>hostname</tabTrigger>
-	<scope>cisco.ace</scope>
-	<content><![CDATA[
-hostname ${1:LB-NAME}
-]]></content>
-</snippet>

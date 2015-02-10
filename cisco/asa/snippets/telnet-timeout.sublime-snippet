@@ -1,0 +1,8 @@
+<snippet>
+    <description>timeout</description>
+    <tabTrigger>telnet</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+telnet timeout ${1:15}
+]]></content>
+</snippet>

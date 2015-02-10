@@ -10,20 +10,29 @@ patterns:
 - include: '#control'
 - include: '#ip_address'
 - include: '#number'
+- include: '#domain-name'
+- include: '#crypto-key-generate'
+- include: '#enable-password'
+- include: '#passwd'
 - include: '#url'
 - include: '#router'
+- include: '#tftp-server'
+- include: '#monitor-interface'
 - include: '#description'
 - include: '#group-object'
 - include: '#port-object'
 - include: '#permit-ip-any-any'
 - include: '#banner'
+- include: '#password-encryption'
 - include: '#ip_verify_reverse-path'
 - include: '#mtu'
 - include: '#hostname'
 - include: '#changeto'
 - include: '#terminal'
+- include: '#pager'
 - include: '#username'
 - include: text.network.cisco.asa.snmp-server
+- include: text.network.cisco.asa.logging
 - include: text.network.cisco.asa.console
 - include: text.network.cisco.asa.nat
 - include: text.network.cisco
@@ -37,7 +46,7 @@ patterns:
 - include: text.network.cisco.asa.aaa-server
 - include: text.network.cisco.asa.policy
 - include: text.network.cisco.asa.tunnel-group
-  
+
 repository:
   banner:
     patterns:
@@ -61,6 +70,33 @@ repository:
         '2': {name: support.constant}
         '3': {name: string.unquoted}
         '4': {name: support.constant}
+
+  domain-name:
+    patterns:
+    - name: text.network.cisco.asa.domain-name
+      match: ^\s*(domain-name)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+
+  enable-password:
+    patterns:
+    - name: text.network.cisco.asa.enable-password
+      match: ^\s*(enable)\s+(password)\s+(\S+)\s+(encrypted)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: support.constant}
+
+  passwd:
+    patterns:
+    - name: text.network.cisco.asa.passwd
+      match: ^\s*(passwd)\s+(\S+)\s+(encrypted)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+        '3': {name: support.constant}
 
   control:
     patterns:
@@ -133,7 +169,7 @@ repository:
       captures:
         '1': {name: support.constant}
         '2': {name: entity.other.inherited-class}
-        '3': {name: constant.numeric.integer}  
+        '3': {name: constant.numeric.integer}
 
   write:
     patterns:
@@ -149,6 +185,25 @@ repository:
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}
+
+  password-encryption:
+    patterns:
+    - name: text.network.cisco.asa.password-encryption
+      match: ^\s*(password)\s+(encryption)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+
+  tftp-server:
+    patterns:
+    - name: text.network.cisco.asa.tftp-server
+      match: ^\s*(tftp-server)\s+(\S+)\s+(\d+\.\d+\.\d+\.\d+)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.other.inherited-class}
+        '3': {name: constant.numeric}
+        '4': {name: string.unquoted}
 
   hostname:
     patterns:
@@ -167,6 +222,15 @@ repository:
         '2': {name: support.constant}
         '3': {name: constant.numeric}
 
+  pager:
+    patterns:
+    - name: text.network.cisco.asa.pager
+      match: ^\s*(pager)\s+(lines)\s+(\d+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: constant.numeric}
+
   username:
     patterns:
     - name: text.network.cisco.asa.username
@@ -178,3 +242,24 @@ repository:
         '4': {name: string.unquoted}
         '5': {name: support.constant}
         '6': {name: constant.numeric.integer}
+
+  crypto-key-generate:
+    patterns:
+    - name: text.network.cisco.asa.crypto-key-generate
+      match: ^\s*(crypto)\s+(key)\s+(generate)\s+(rsa)\s+(modulus)\s+([0-9]+)\s+(noconfirm)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: support.constant}
+        '6': {name: constant.numeric}
+        '7': {name: support.constant}
+
+  monitor-interface:
+    patterns:
+    - name: text.network.cisco.asa.monitor-interface
+      match: ^\s*(monitor-interface)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.other.inherited-class}

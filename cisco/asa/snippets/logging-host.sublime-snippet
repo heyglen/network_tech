@@ -1,0 +1,8 @@
+<snippet>
+    <description>host</description>
+    <tabTrigger>logging</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+logging host ${1:INTERFACE} ${2:1.2.3.4}
+]]></content>
+</snippet>

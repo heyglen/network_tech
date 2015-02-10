@@ -1,0 +1,8 @@
+<snippet>
+    <description>server</description>
+    <tabTrigger>tftp-server</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+tftp-server ${1:INTERFACE} ${2:1.2.3.4} ${3:FILE_NAME}
+]]></content>
+</snippet>

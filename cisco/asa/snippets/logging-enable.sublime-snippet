@@ -1,0 +1,8 @@
+<snippet>
+    <description>enable</description>
+    <tabTrigger>logging</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+logging enable
+]]></content>
+</snippet>

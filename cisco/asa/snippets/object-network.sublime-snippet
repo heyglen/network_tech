@@ -1,0 +1,10 @@
+<snippet>
+    <description>subnet</description>
+    <tabTrigger>object</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+object network subnet-${1:1.2.3.0}_${2:24}
+  subnet ${1:1.2.3.0} ${3:255.255.255.0}
+
+]]></content>
+</snippet>

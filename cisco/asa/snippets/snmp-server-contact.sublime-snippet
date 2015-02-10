@@ -1,0 +1,8 @@
+<snippet>
+    <description>contact</description>
+    <tabTrigger>snmp-server</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+snmp-server contact ${1:CONTACT}
+]]></content>
+</snippet>

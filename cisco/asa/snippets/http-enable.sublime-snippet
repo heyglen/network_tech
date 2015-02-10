@@ -1,0 +1,9 @@
+<snippet>
+    <description>enable</description>
+    <tabTrigger>http</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+http enable
+
+]]></content>
+</snippet>

@@ -20,6 +20,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#aaa-authentication-secure-http-client</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#aaa-accounting</string>
 		</dict>
 		<dict>
@@ -72,7 +76,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(aaa)\s+(authentication)\s+(enable|ssh|http)\s+(console)\s+(\S+)\s+(\S+)?\s*</string>
+					<string>^\s*(aaa)\s+(authentication)\s+(enable|ssh|http|telnet)\s+(console)\s+(\S+)\s+(\S+)?\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -110,6 +114,38 @@
 					<string>(\s*$)</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.aaa</string>
+				</dict>
+			</array>
+		</dict>
+		<key>aaa-authentication-secure-http-client</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(aaa)\s+(authentication)\s+(secure-http-client)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(\s*$)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.aaa.secure-http-client</string>
 				</dict>
 			</array>
 		</dict>

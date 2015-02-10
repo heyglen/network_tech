@@ -32,11 +32,35 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#domain-name</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#crypto-key-generate</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#enable-password</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#passwd</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#url</string>
 		</dict>
 		<dict>
 			<key>include</key>
 			<string>#router</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#tftp-server</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#monitor-interface</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -60,6 +84,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#password-encryption</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#ip_verify_reverse-path</string>
 		</dict>
 		<dict>
@@ -80,11 +108,19 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#pager</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#username</string>
 		</dict>
 		<dict>
 			<key>include</key>
 			<string>text.network.cisco.asa.snmp-server</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.asa.logging</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -235,6 +271,116 @@
 				</dict>
 			</array>
 		</dict>
+		<key>crypto-key-generate</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(crypto)\s+(key)\s+(generate)\s+(rsa)\s+(modulus)\s+([0-9]+)\s+(noconfirm)?</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.crypto-key-generate</string>
+				</dict>
+			</array>
+		</dict>
+		<key>domain-name</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(domain-name)\s+(\S+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.domain-name</string>
+				</dict>
+			</array>
+		</dict>
+		<key>enable-password</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(enable)\s+(password)\s+(\S+)\s+(encrypted)?</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.enable-password</string>
+				</dict>
+			</array>
+		</dict>
 		<key>group-object</key>
 		<dict>
 			<key>patterns</key>
@@ -344,6 +490,31 @@
 				</dict>
 			</array>
 		</dict>
+		<key>monitor-interface</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(monitor-interface)\s+(\S+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.monitor-interface</string>
+				</dict>
+			</array>
+		</dict>
 		<key>mtu</key>
 		<dict>
 			<key>patterns</key>
@@ -383,6 +554,96 @@
 					<string>\b(?:[1-9]+[0-9]*|0)\b</string>
 					<key>name</key>
 					<string>constant.numeric.integer.asa</string>
+				</dict>
+			</array>
+		</dict>
+		<key>pager</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(pager)\s+(lines)\s+(\d+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.pager</string>
+				</dict>
+			</array>
+		</dict>
+		<key>passwd</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(passwd)\s+(\S+)\s+(encrypted)?</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.passwd</string>
+				</dict>
+			</array>
+		</dict>
+		<key>password-encryption</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(password)\s+(encryption)\s+(\S+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.password-encryption</string>
 				</dict>
 			</array>
 		</dict>
@@ -460,6 +721,41 @@
 					<string>^\s*(terminal)\s+(width\s([0-9]+))\s*$</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.terminal</string>
+				</dict>
+			</array>
+		</dict>
+		<key>tftp-server</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(tftp-server)\s+(\S+)\s+(\d+\.\d+\.\d+\.\d+)\s+(\S+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.tftp-server</string>
 				</dict>
 			</array>
 		</dict>

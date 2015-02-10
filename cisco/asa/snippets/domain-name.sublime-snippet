@@ -1,0 +1,8 @@
+<snippet>
+    <description>domain-name</description>
+    <tabTrigger>domain-name</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+domain-name ${1:domain.root}
+]]></content>
+</snippet>

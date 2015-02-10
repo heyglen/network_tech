@@ -1,0 +1,8 @@
+<snippet>
+    <description>interface</description>
+    <tabTrigger>monitor-interface</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+monitor-interface ${1:INTERFACE}
+]]></content>
+</snippet>

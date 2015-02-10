@@ -1,0 +1,8 @@
+<snippet>
+    <description>timestamp</description>
+    <tabTrigger>logging</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+logging timestamp
+]]></content>
+</snippet>

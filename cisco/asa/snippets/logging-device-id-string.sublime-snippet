@@ -1,0 +1,8 @@
+<snippet>
+    <description>device-id string</description>
+    <tabTrigger>logging</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+logging device-id string ${1:HOSTNAME}
+]]></content>
+</snippet>
