@@ -1,0 +1,43 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: .
+scopeName: text.network.cisco.asa.snmp-server
+uuid: 8e510814-afc1-45ba-879f-061aa5dda210
+
+patterns:
+- include: '#host'
+- include: '#location'
+- include: '#contact'
+
+repository:
+  host:
+    patterns:
+    - name: snmp-server.host
+      match: ^\s*(snmp-server)\s+(host)\s+(\S+)\s+(\d+\.\d+\.\d+\.\d+)\s+(community)(\s+[0-7])?\s+(\S+)(?:\s+(version)\s+(1|2c))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: entity.other.inherited-class}
+        '4': {name: constant.numeric}
+        '5': {name: support.constant}
+        '6': {name: constant.numeric}
+        '7': {name: string.unquoted}
+        '8': {name: support.constant}
+        '9': {name: constant.numeric}
+
+  location:
+    patterns:
+    - name: snmp-server.location
+      match: ^\s*(snmp-server)\s+(location)\s+(.*)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+
+  contact:
+    patterns:
+    - name: snmp-server.contact
+      match: ^\s*(snmp-server)\s+(contact)\s+(.*)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}

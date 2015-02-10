@@ -1,0 +1,9 @@
+<snippet>
+    <description>net</description>
+    <tabTrigger>write</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+write net
+
+]]></content>
+</snippet>

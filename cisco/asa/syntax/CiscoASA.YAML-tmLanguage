@@ -5,6 +5,8 @@ fileTypes: [asa]
 uuid: 8e510814-afc1-45ba-879f-061aa5dda201
 
 patterns:
+- include: '#write-net'
+- include: '#write'
 - include: '#control'
 - include: '#ip_address'
 - include: '#number'
@@ -21,6 +23,8 @@ patterns:
 - include: '#changeto'
 - include: '#terminal'
 - include: '#username'
+- include: text.network.cisco.asa.snmp-server
+- include: text.network.cisco.asa.console
 - include: text.network.cisco.asa.nat
 - include: text.network.cisco
 - include: text.network.cisco.asa.access-group
@@ -130,6 +134,21 @@ repository:
         '1': {name: support.constant}
         '2': {name: entity.other.inherited-class}
         '3': {name: constant.numeric.integer}  
+
+  write:
+    patterns:
+    - name: text.network.cisco.asa.write
+      match: ^\s*(write)
+      captures:
+        '1': {name: support.constant}
+
+  write-net:
+    patterns:
+    - name: text.network.cisco.asa.write-net
+      match: ^\s*(write)\s+(net)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
 
   hostname:
     patterns:

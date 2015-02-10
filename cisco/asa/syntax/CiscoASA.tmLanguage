@@ -12,6 +12,14 @@
 	<array>
 		<dict>
 			<key>include</key>
+			<string>#write-net</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#write</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#control</string>
 		</dict>
 		<dict>
@@ -73,6 +81,14 @@
 		<dict>
 			<key>include</key>
 			<string>#username</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.asa.snmp-server</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>text.network.cisco.asa.console</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -228,11 +244,6 @@
 					<string>^\s*(group-object)\s+([A-Za-z0-9_-]+)</string>
 					<key>beginCaptures</key>
 					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>object-group.block</string>
-						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -508,6 +519,51 @@
 					<string>^\s*(username)\s+(\S+)\s+(password)\s+(\S+)\s+(encrypted privilege)\s+([0-9]+)\s*$</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.username</string>
+				</dict>
+			</array>
+		</dict>
+		<key>write</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(write)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.write</string>
+				</dict>
+			</array>
+		</dict>
+		<key>write-net</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(write)\s+(net)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.write-net</string>
 				</dict>
 			</array>
 		</dict>
