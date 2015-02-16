@@ -1,0 +1,9 @@
+<snippet>
+    <description>service tcp</description>
+    <tabTrigger>object-group</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+object-group service ${1:NAME} tcp
+
+]]></content>
+</snippet>

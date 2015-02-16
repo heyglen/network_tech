@@ -10,6 +10,7 @@ patterns:
 - include: '#control'
 - include: '#ip_address'
 - include: '#number'
+- include: '#ssl-encryption'
 - include: '#domain-name'
 - include: '#crypto-key-generate'
 - include: '#enable-password'
@@ -242,6 +243,17 @@ repository:
         '4': {name: string.unquoted}
         '5': {name: support.constant}
         '6': {name: constant.numeric.integer}
+
+  ssl-encryption:
+    patterns:
+    - name: text.network.cisco.asa.ssl-encryption
+      match: ^\s*(ssl)\s+(encryption)\s+(\S+)\s+(\S+)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: string.unquoted}
+        '5': {name: string.unquoted}
 
   crypto-key-generate:
     patterns:

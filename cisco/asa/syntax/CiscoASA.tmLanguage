@@ -32,6 +32,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#ssl-encryption</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#domain-name</string>
 		</dict>
 		<dict>
@@ -691,6 +695,46 @@
 							<string>invalid.illegal.router-id.asa</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>ssl-encryption</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(ssl)\s+(encryption)\s+(\S+)\s+(\S+)\s+(\S+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.ssl-encryption</string>
 				</dict>
 			</array>
 		</dict>
