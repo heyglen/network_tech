@@ -31,7 +31,7 @@ repository:
     - contentName: cisco.asa.interface.id
       begin: \b(?i:(?i:fast|gigabit|tengigabit|)ethernet|null|bvi|virtual-?[a-z]*|port-channel|fa|gi|e|se|serial|lo|loopback|tun|tunnel|management)(?=\s?[0-9])
       beginCaptures:
-        '0': {name: support.constant.type.interface.asa}
+        '0': {name: entity.other.inherited-class.type.interface.asa}
       end: ([0-9][0-9/. ]*)\b
       endCaptures:
         '1': {name: constant.numeric.interface-number.asa}

@@ -1,9 +1,10 @@
 <snippet>
     <description>v6 address</description>
-    <scope>cisco.ios & interface</scope>
     <tabTrigger>ipv6</tabTrigger>
+    <scope>cisco.nxos & interface & (-hsrp)</scope>
     <content><![CDATA[
-ipv6 address ${1:general-prefix} ${2:0:0:0::/64} ${3:eui-64}$0
+ipv6 address ${1:0::0/0} ${2:eui64}
+  $0
+ exit
 ]]></content>
 </snippet>
-

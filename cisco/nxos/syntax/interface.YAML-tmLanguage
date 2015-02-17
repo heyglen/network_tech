@@ -25,6 +25,7 @@ repository:
       - include: '#no-shutdown'
       - include: text.network.cisco.base
       - include: text.network.cisco.scope
+      - include: '#ipv6-address'
       - include: '#service-policy'
       - include: '#spanning-tree-trunk-edge'
       - include: '#spanning-tree-bpduguard'
@@ -38,6 +39,17 @@ repository:
       - include: '#vrf'
       - include: '#mtu'
 
+
+  ipv6-address:
+    patterns:
+    - name: ipv6.address
+      match: (?i)\s*(ipv6)\s+(address)\s+(\S+)(\s+eui64)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: constant.numeric}
+        '4': {name: support.constant}
+        
 
   vrf:
     patterns:
@@ -68,15 +80,25 @@ repository:
       - include: '#redirects'
       - include: '#ip-proxy-arp'
       - include: '#arp'
+      - include: '#pim-sparse'
+
+  pim-sparse:
+    patterns:
+    - name: pim-sparse
+      match: (?i)\s*(pim)\s+(sparse-mode)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
 
   hsrp:
     patterns:
     - name: hsrp
-      begin: (?i)\s*(hsrp)\s+(\d+)
+      begin: (?i)\s*(hsrp)\s+(\d+)(\s+ipv6)?
       beginCaptures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
-      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
+        '3': {name: support.constant}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*hsrp))
       patterns:
       - include: text.network.cisco.base
       - include: text.network.cisco.scope
@@ -88,10 +110,11 @@ repository:
   hsrp-ip:
     patterns:
     - name: text.network.cisco.base.nxos.interface.hsrp.ip
-      match: (?i)\s*(ip)\s+((?:\d+\.){3}\d+)
+      match: (?i)\s*(ip)\s+((?:(?:\d+\.){3}\d+)|(?:((?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?|::))))(\s+secondary)?
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
+        '4': {name: support.constant}
 
   hsrp-priority:
     patterns:

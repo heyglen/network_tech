@@ -1,8 +1,0 @@
-<snippet>
-    <description>route</description>
-    <scope>(cisco.nxos) & (-interface & -show)</scope>
-    <tabTrigger>ip</tabTrigger>
-    <content><![CDATA[
-ip route ${1:1.2.3.0/24} ${2:Vlan${3:0}} ${4:1.2.3.4}
-]]></content>
-</snippet>

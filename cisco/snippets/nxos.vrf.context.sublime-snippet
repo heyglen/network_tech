@@ -1,0 +1,10 @@
+<snippet>
+    <description>context</description>
+    <scope>(cisco.nxos) & (-interface & -show)</scope>
+    <tabTrigger>vrf</tabTrigger>
+    <content><![CDATA[
+vrf context ${1:NAME}
+  $0
+ exit
+]]></content>
+</snippet>

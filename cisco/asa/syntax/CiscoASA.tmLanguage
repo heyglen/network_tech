@@ -251,7 +251,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(changeto)\s+(?:(context)\s+(\S+))|(system)$</string>
+					<string>^\s*(changeto)\s+(?:(?:(context)\s+(\S+))|(system))$</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.changeto</string>
 				</dict>

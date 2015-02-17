@@ -19,7 +19,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(allocate\-interface)\s+(\S+)\s*</string>
+					<string>(?i)^\s*(allocate\-interface)\s+((?i:fast|gigabit|tengigabit|)ethernet|null|bvi|virtual-?[a-z]*|port-channel|fa|gi|e|se|serial|lo|loopback|tun|tunnel|management)(\s*[0-9]+.*)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -31,6 +31,11 @@
 						<dict>
 							<key>name</key>
 							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -63,7 +68,7 @@
 					<key>end</key>
 					<string>\s*$</string>
 					<key>name</key>
-					<string>text.network.cisco.asa.system.context.allocate-interface</string>
+					<string>text.network.cisco.asa.system.context.config-url</string>
 				</dict>
 			</array>
 		</dict>
@@ -76,6 +81,11 @@
 					<string>^\s*(context)\s+(\S+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>asa.system.context</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -104,6 +114,10 @@
 						<dict>
 							<key>include</key>
 							<string>#config-url</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
 						</dict>
 					</array>
 				</dict>

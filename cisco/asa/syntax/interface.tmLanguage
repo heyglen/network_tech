@@ -84,7 +84,7 @@
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant.type.interface.asa</string>
+							<string>entity.other.inherited-class.type.interface.asa</string>
 						</dict>
 					</dict>
 					<key>contentName</key>

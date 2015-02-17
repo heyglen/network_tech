@@ -12,6 +12,7 @@ repository:
     - name: text.network.cisco.asa.system.context
       begin: ^\s*(context)\s+(\S+)\s*
       beginCaptures:
+        '0': {name: asa.system.context}
         '1': {name: variable.parameter}
         '2': {name: string.unquoted}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))
@@ -19,14 +20,16 @@ repository:
       - include: '#allocate-interface'
       - include: '#control'
       - include: '#config-url'
+      - include: text.network.cisco
 
   allocate-interface:
     patterns:
     - name: text.network.cisco.asa.system.context.allocate-interface
-      begin: ^\s*(allocate\-interface)\s+(\S+)\s*
+      begin: (?i)^\s*(allocate\-interface)\s+((?i:fast|gigabit|tengigabit|)ethernet|null|bvi|virtual-?[a-z]*|port-channel|fa|gi|e|se|serial|lo|loopback|tun|tunnel|management)(\s*[0-9]+.*)
       beginCaptures:
         '1': {name: support.constant}
         '2': {name: entity.other.inherited-class}
+        '3': {name: constant.numeric}
       end: \s*$
 
   control:
@@ -37,7 +40,7 @@ repository:
 
   config-url:
     patterns:
-    - name: text.network.cisco.asa.system.context.allocate-interface
+    - name: text.network.cisco.asa.system.context.config-url
       begin: ^\s*(config\-url)\s+(\S+)\s*
       beginCaptures:
         '1': {name: support.constant}

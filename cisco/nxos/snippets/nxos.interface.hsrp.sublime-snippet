@@ -3,7 +3,7 @@
 	<tabTrigger>hsrp</tabTrigger>
 	<scope>cisco.nxos & interface</scope>
 	<content><![CDATA[
-hsrp ${1:0}
+hsrp ${1:0} ${2:ipv6}
   $0
  exit
 ]]></content>

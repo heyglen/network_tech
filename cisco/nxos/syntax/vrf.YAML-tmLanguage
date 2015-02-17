@@ -67,6 +67,7 @@ repository:
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S))
       patterns:
       - include: 'cisco.nxos.ip'
+      - include: text.network.cisco
 
   vrf:
     patterns:

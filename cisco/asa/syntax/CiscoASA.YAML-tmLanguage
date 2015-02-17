@@ -65,7 +65,7 @@ repository:
   changeto:
     patterns:
     - name: text.network.cisco.asa.changeto
-      match: ^\s*(changeto)\s+(?:(context)\s+(\S+))|(system)$
+      match: ^\s*(changeto)\s+(?:(?:(context)\s+(\S+))|(system))$
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}
