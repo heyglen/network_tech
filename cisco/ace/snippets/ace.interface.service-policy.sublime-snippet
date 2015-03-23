@@ -1,8 +1,9 @@
 <snippet>
     <description>input</description>
-    <tabTrigger>access-group</tabTrigger>
+    <tabTrigger>service-policy</tabTrigger>
     <scope>cisco.ace & interface</scope>
     <content><![CDATA[
-access-group input ${1:NAME_ACL}
+service-policy input ${1:POLICY}
+
 ]]></content>
 </snippet>

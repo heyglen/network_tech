@@ -363,7 +363,7 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>string.unquoted</string>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>match</key>

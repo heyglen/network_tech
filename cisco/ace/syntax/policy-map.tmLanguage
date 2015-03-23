@@ -279,7 +279,7 @@
 					<key>match</key>
 					<string>(loadbalance\s+policy)\s+(\S+)\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.policy.policy-class.lb-policy</string>
+					<string>l4policy.policy-class.lb-policy</string>
 				</dict>
 			</array>
 		</dict>
@@ -314,7 +314,7 @@
 					<key>match</key>
 					<string>(loadbalance\s+vip)\s+(icmp-reply)(\s+active)?\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.policy.policy-class.lb.icmp-reply</string>
+					<string>l4policy.policy-class.lb.icmp-reply</string>
 				</dict>
 			</array>
 		</dict>
@@ -344,7 +344,7 @@
 					<key>match</key>
 					<string>(loadbalance\s+vip)\s+(inservice)\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.policy.policy-class.lb-vip-inservice</string>
+					<string>l4policy.policy-class.lb-vip-inservice</string>
 				</dict>
 			</array>
 		</dict>
@@ -384,7 +384,7 @@
 					<key>match</key>
 					<string>(nat\s+dynamic)\s+(\d+)\s+(vlan)\s+(\d+)\s*(?:\s+(\S+))?$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.policy.policy-class.nat-dynamic</string>
+					<string>l4policy.policy-class.nat-dynamic</string>
 				</dict>
 			</array>
 		</dict>
@@ -451,7 +451,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*class\s))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.policy.policy-class</string>
+					<string>l4policy.policy-class</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -719,7 +719,7 @@
 					<key>end</key>
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:class\s))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.policy.map</string>
+					<string>policy.map.l4</string>
 					<key>patterns</key>
 					<array>
 						<dict>

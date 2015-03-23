@@ -1,0 +1,11 @@
+<snippet>
+	<description>default</description>
+	<tabTrigger>class</tabTrigger>
+	<scope>cisco.ace & policy.load-balance</scope>
+	<content><![CDATA[
+class class-default
+  $0
+ exit
+
+]]></content>
+</snippet>

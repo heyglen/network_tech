@@ -142,7 +142,7 @@ repository:
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: support.constant}
-        '4': {name: string.unquoted}
+        '4': {name: constant.numeric}
 
   hsrp-version:
     patterns:

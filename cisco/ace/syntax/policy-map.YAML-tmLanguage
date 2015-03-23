@@ -35,7 +35,7 @@ repository:
 
   loadbalance-policy:
     patterns:
-    - name: text.network.cisco.ace.policy.policy-class.lb-policy
+    - name: l4policy.policy-class.lb-policy
       match: (loadbalance\s+policy)\s+(\S+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -44,7 +44,7 @@ repository:
 
   loadbalance-vip-icmp-reply:
     patterns:
-    - name: text.network.cisco.ace.policy.policy-class.lb.icmp-reply
+    - name: l4policy.policy-class.lb.icmp-reply
       match: (loadbalance\s+vip)\s+(icmp-reply)(\s+active)?\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -54,7 +54,7 @@ repository:
 
   loadbalance-vip-inservice:
     patterns:
-    - name: text.network.cisco.ace.policy.policy-class.lb-vip-inservice
+    - name: l4policy.policy-class.lb-vip-inservice
       match: (loadbalance\s+vip)\s+(inservice)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -63,7 +63,7 @@ repository:
 
   nat-dynamic:
     patterns:
-    - name: text.network.cisco.ace.policy.policy-class.nat-dynamic
+    - name: l4policy.policy-class.nat-dynamic
       match: (nat\s+dynamic)\s+(\d+)\s+(vlan)\s+(\d+)\s*(?:\s+(\S+))?$
       captures:
         '1': {name: support.constant}
@@ -82,7 +82,7 @@ repository:
 
   policy-class:
     patterns:
-    - name: text.network.cisco.ace.policy.policy-class
+    - name: l4policy.policy-class
       begin: \s+(class)\s+(class-default|\S+)(?:\s+(insert-before)\s+(\S+))?(?:\s+(\S+))?$
       beginCaptures:
         '1': {name: variable.parameter}
@@ -226,7 +226,7 @@ repository:
 
   policy-map:
     patterns:
-    - name: text.network.cisco.ace.policy.map
+    - name: policy.map.l4
       begin: ^\s*(policy-map)\s+(multi-match)\s+(\S+)\s*(\s+\S+)?$
       beginCaptures:
         '0': {name: policy-map.block}

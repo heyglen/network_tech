@@ -1,0 +1,9 @@
+<snippet>
+	<description>address</description>
+	<scope>cisco.ace & interface</scope>
+	<tabTrigger>alias</tabTrigger>
+	<content><![CDATA[
+alias ${1:1.2.3.4} ${2:255.255.255.0}
+
+]]></content>
+</snippet>

@@ -1,0 +1,9 @@
+<snippet>
+	<description>context</description>
+	<scope>cisco.ace & ft-group</scope>
+	<tabTrigger>associate-context</tabTrigger>
+	<content><![CDATA[
+associate-context ${1:CONTEXT-NAME}
+
+]]></content>
+</snippet>
