@@ -12,7 +12,8 @@
       <string>1</string>
       <key>symbolTransformation</key>
       <string>
-         s/^\s*parameter-map\s+type\s+connection\s+(\S+)/param-map: $1/gi;
+         s/^\s*parameter-map\s+type\s+connection\s+(\S+)/param-map conn: $1/gi;
+         s/^\s*parameter-map\s+type\s+(\S+)\s+(\S+)/param-map $1: $2/gi;
       </string>
    </dict>
    <key>uuid</key>

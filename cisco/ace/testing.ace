@@ -274,6 +274,12 @@ policy-map multi-match L4-POLICY-1
     ssl-proxy server SSL-SERVER
     connection advanced-options CONNECTION-OPTIONS_NAME
 
+ssl-proxy service NAME
+ key NAME.key
+ cert NAME.crt
+ exit
+
+
 interface vlan 1
   description Management
   ip address 1.2.3.4 255.255.255.0

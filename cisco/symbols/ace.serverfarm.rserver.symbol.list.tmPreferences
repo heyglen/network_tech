@@ -12,8 +12,8 @@
       <string>1</string>
       <key>symbolTransformation</key>
       <string>
-         s/^\s*rserver\s+(\S+)\s+(\d+)/     rserver: $1:$2/gi;
-         s/^\s*rserver\s+(\S+)\s+/     rserver: $1/gi;
+         s/^\s*rserver\s+(\S+)\s+(\d+)/     serverfarm-rserver: $1:$2/gi;
+         s/^\s*rserver\s+(\S+)\s+/     serverfarm-rserver: $1/gi;
       </string>
    </dict>
    <key>uuid</key>

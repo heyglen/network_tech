@@ -25,6 +25,31 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>hsrp-authentication</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?i)\s*(authentication)\s+(\S+)</string>
+					<key>name</key>
+					<string>hsrp.authentication</string>
+				</dict>
+			</array>
+		</dict>
 		<key>hsrp-ip</key>
 		<dict>
 			<key>patterns</key>
@@ -1130,6 +1155,10 @@
 						<dict>
 							<key>include</key>
 							<string>#hsrp-ipv6-autoconfig</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#hsrp-authentication</string>
 						</dict>
 					</array>
 				</dict>

@@ -108,6 +108,7 @@ repository:
       - include: '#hsrp-preempt'
       - include: '#hsrp-track'
       - include: '#hsrp-ipv6-autoconfig'
+      - include: '#hsrp-authentication'
 
   ip:
     patterns:
@@ -365,6 +366,14 @@ repository:
         '3': {name: support.constant}
         '4': {name: constant.numeric}
         '5': {name: invalid.illegal}
+
+  hsrp-authentication:
+    patterns:
+    - name: hsrp.authentication
+      match: (?i)\s*(authentication)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
 
   no-shutdown:
     patterns:

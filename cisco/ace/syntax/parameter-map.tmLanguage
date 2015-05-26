@@ -10,6 +10,10 @@
 			<key>include</key>
 			<string>#parameter-map-connection</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>#parameter-map-generic</string>
+		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -52,6 +56,55 @@
 					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ace.parameter-map.type.connection</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#set</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>parameter-map-generic</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)^\s*(parameter-map)\s+(type)\s+(\S+)\s+(\S+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>parameter.map.block</string>
+						</dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.attribute-name</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))</string>
+					<key>name</key>
+					<string>parameter-map.generic</string>
 					<key>patterns</key>
 					<array>
 						<dict>

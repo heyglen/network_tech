@@ -36,40 +36,40 @@ ip access-list extended NAME
  exit
 
 interface vlan 123
-	description Hello
-	vrf forwarding RED
-	switchport mode access
-	switchport mode trunk
-	switchport trunk
-	switchport trunk encapsulation dot1q
-	encapsulation dot1q 123
-	switchport trunk encapsulation Dot1q
+  description Hello
+  vrf forwarding RED
+  switchport mode access
+  switchport mode trunk
+  switchport trunk
+  switchport trunk encapsulation dot1q
+  encapsulation dot1q 123
+  switchport trunk encapsulation Dot1q
   switchport trunk allowed vlan 
-	switchport trunk allowed vlan 123
+  switchport trunk allowed vlan 123
   switchport trunk allowed vlan add 
-	switchport trunk allowed vlan add 123,456
+  switchport trunk allowed vlan add 123,456
   switchport trunk allowed vlan remove 123-124,125
-	switchport mode access
-	switchport access vlan 123
-	ip address 1.2.3.0 255.255.255.0
- 	ip helper-address 1.1.1.1
-	ip access-group NAME in
- 	ip access-group NAME out
-	ipv6 redirects
-	ip proxy-arp
-	ip vrf forwarding NAME
-	ipv6 address general-prefix 0:0:0:1::/64 eui-64
-	ipv6 nd prefix ff02::/64
-	standby version 2
- 	standby 1 ip 1.1.1.1
- 	standby 1 priority 200
- 	standby 1 preempt
- 	standby 2 ipv6 autoconfig
- 	standby 2 ipv6 0::
- 	standby 1 track 1 decrement 10
-	no switchport
-	no shutdown
-	shutdown
+  switchport mode access
+  switchport access vlan 123
+  ip address 1.2.3.0 255.255.255.0
+  ip helper-address 1.1.1.1
+  ip access-group NAME in
+  ip access-group NAME out
+  ipv6 redirects
+  ip proxy-arp
+  ip vrf forwarding NAME
+  ipv6 address general-prefix 0:0:0:1::/64 eui-64
+  ipv6 nd prefix ff02::/64
+  standby version 2
+  standby 1 ip 1.1.1.1
+  standby 1 priority 200
+  standby 1 preempt
+  standby 2 ipv6 autoconfig
+  standby 2 ipv6 0::
+  standby 1 track 1 decrement 10
+  no switchport
+  no shutdown
+  shutdown
   exit
   
 

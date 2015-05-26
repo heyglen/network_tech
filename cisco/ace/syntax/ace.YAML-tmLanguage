@@ -11,7 +11,9 @@ patterns:
 - include: '#dir'
 - include: '#boot-system'
 - include: '#config-register'
+- include: '#crypto-authgroup'
 - include: '#checkpoint-create'
+- include: '#crypto-chaingroup'
 - include: '#copy'
 - include: '#changeto'
 - include: '#crypto-delete'
@@ -19,7 +21,6 @@ patterns:
 - include: '#crypto-verify'
 - include: '#remove-configuration'
 - include: '#configure-terminal'
-- include: '#ssl-proxy'
 - include: '#ssl-proxy'
 - include: '#logging'
 - include: '#serverfarm'
@@ -52,30 +53,31 @@ patterns:
 repository:
   snmp-trap-link-ietf:
     patterns:
-    - name: text.network.cisco.ace.snmp.trap.ietf
-      match: ^\s*(snmp-server)\s+(trap)\s+(link)\s+(ietf)\s*(?:\s+(\S.*))?$
+    - name: snmp.trap.ietf
+      match: ^\s*(snmp-server)\s+(trap)\s+(link)\s+(ietf)$
       captures:
+        '0': {name: ace.snmp.trap.ietf.block}
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: support.constant}
         '4': {name: support.constant}
-        '5': {name: invalid.illegal}
   snmp-trap-snmp-enable:
     patterns:
-    - name: text.network.cisco.ace.snmp.trap.snmp
-      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(snmp)\s+(authentication|linkup|linkdown)\s*(?:\s+(\S.*))?$
+    - name: snmp.trap
+      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(snmp)\s+(authentication|linkup|linkdown)$
       captures:
+        '0': {name: ace.snmp.trap.enable.block}
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: support.constant}
         '4': {name: support.constant}
         '5': {name: support.constant}
-        '6': {name: invalid.illegal}
   snmp-trap-syslog-enable:
     patterns:
-    - name: text.network.cisco.ace.snmp.trap.syslog
-      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(syslog)\s*(?:\s+(\S.*))?$
+    - name: snmp.trap.syslog
+      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(syslog)$
       captures:
+        '0': {name: ace.snmp.trap.syslog.block}
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: support.constant}
@@ -84,9 +86,10 @@ repository:
         '6': {name: invalid.illegal}
   snmp-trap-slb-enable:
     patterns:
-    - name: text.network.cisco.ace.snmp.trap.slb
-      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(slb)\s+(vserver|real)\s*(?:\s+(\S.*))?$
+    - name: snmp.trap.slb
+      match: ^\s*(snmp-server)\s+(enable)\s+(traps)\s+(slb)\s+(vserver|real)$
       captures:
+        '0': {name: ace.snmp.trap.slb.block}
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: support.constant}
@@ -95,19 +98,21 @@ repository:
         '6': {name: invalid.illegal}
   snmp-trap-source:
     patterns:
-    - name: text.network.cisco.ace.snmp.trap.source
-      match: ^\s*(snmp-server)\s+(trap-source)\s+(vlan)\s+(\d+)\s*(?:\s+(\S.*))?$
+    - name: snmp.trap.source
+      match: ^\s*(snmp-server)\s+(trap-source)\s+(vlan)\s+(\d+)$
       captures:
+        '0': {name: ace.snmp.trap.source.block}
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: support.constant}
         '4': {name: constant.numeric}
-        '5': {name: invalid.illegal}
+  
   snmp-host:
     patterns:
-    - name: text.network.cisco.ace.snmp.host
-      match: ^\s*(snmp-server)\s+(host)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+(traps)\s+(version)\s+(2c)\s+(\S+)\s*(?:\s+(\S.*))?$
+    - name: snmp.host
+      match: ^\s*(snmp-server)\s+(host)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+(traps)\s+(version)\s+(1|2c)\s+(\S+)
       captures:
+        '0': {name: ace.snmp.host.block}
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: constant.numeric}
@@ -115,34 +120,35 @@ repository:
         '5': {name: support.constant}
         '6': {name: support.constant}
         '7': {name: string.unquoted}
-        '8': {name: invalid.illegal}
 
   snmp-community:
     patterns:
-    - name: text.network.cisco.ace.snmp.community
-      match: ^\s*(snmp-server)\s+(community)\s+(\S+)\s+(group)\s+(\S+)\s*(?:\s+(\S.*))?$
+    - name: snmp.community
+      match: ^\s*(snmp-server)\s+(community)\s+(\S+)\s+(group)\s+(\S+)$
       captures:
+        '0': {name: ace.snmp.community.block}
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: string.unquoted}
         '4': {name: support.constant}
         '5': {name: string.unquoted}
-        '6': {name: invalid.illegal}
 
   snmp-contact:
     patterns:
-    - name: text.network.cisco.ace.snmp.contact
+    - name: snmp.contact
       match: ^\s*(snmp-server)\s+(contact)\s+(.*)$
       captures:
+        '0': {name: ace.snmp.contact.block}
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: string.unquoted}
 
   snmp-location:
     patterns:
-    - name: text.network.cisco.ace.snmp.location
+    - name: snmp.location
       match: ^\s*(snmp-server)\s+(location)\s+(.*)
       captures:
+        '0': {name: ace.snmp.location.block}
         '1': {name: support.constant}
         '2': {name: support.constant}
         '3': {name: string.unquoted}
@@ -166,7 +172,7 @@ repository:
   configure-terminal:
     patterns:
     - name: text.network.cisco.ace.configure-termial
-      match: ^\s*(configure)\s+(terminal)\s*(?:\s+(\S.*))?$
+      match: ^\s*(configure)\s+(terminal)$
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}
@@ -194,7 +200,7 @@ repository:
         '3': {name: support.constant}
         '4': {name: string.unquoted}
         '5': {name: invalid.illegal}
-      end: ^(?=\s*$|\S)
+      end: ^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))
       endCaptures:
         '0': {name: keyword.control}
       patterns:
@@ -252,30 +258,94 @@ repository:
   route:
     patterns:
     - name: ipv4.route
-      match: ^(ip\s+route)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+((?:(?:255|254|252|248|240|224|192|128|0)\.){3}(?:255|254|252|248|240|224|192|128|0))\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s*(\s+\S.*)?$
+      match: ^(ip\s+route)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+((?:(?:255|254|252|248|240|224|192|128|0)\.){3}(?:255|254|252|248|240|224|192|128|0))\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)$
       captures:
         '1': {name: support.constant}
         '2': {name: constant.numeric}
         '3': {name: constant.numeric}
         '4': {name: constant.numeric}
-        '5': {name: invalid.illegal}
 
   ssl-proxy:
     patterns:
-    - name: text.network.cisco.ace.ssl-proxy
+    - name: ssl-proxy
       begin: ^\s*(ssl-proxy)\s+(service)\s+(\S+)\s*(\S*.*)?$
       beginCaptures:
-        '0': {name: meta.cisco.ace.ssl-proxy}
-        '1': {name: ''}
-        '2': {name: invalid.illegal}
-        '3': {name: keyword.other}
-        '4': {name: variable.parameter}
-        '5': {name: string.unquoted}
-        '6': {name: invalid.illegal}
-      end: ^(?=\s*$|\S)
+        '0': {name: ace.ssl-proxy.block}
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+        '4': {name: invalid.illegal}
+      end: ^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))
       patterns:
       - include: text.network.cisco.scope
       - include: text.network.cisco
+      - include: '#certificate'
+      - include: '#key'
+      - include: '#chaingroup'
+      - include: '#authgroup'
+
+  crypto-authgroup:
+    patterns:
+    - name: crypto-authgroup
+      begin: ^\s*(crypto)\s+(authgroup)\s+(\S+)
+      beginCaptures:
+        '0': {name: ace.crypto-authgroup.block}
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+      end: ^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: text.network.cisco.scope
+      - include: text.network.cisco
+      - include: '#certificate'
+
+  certificate:
+    patterns:
+    - name: certificate
+      match: (cert)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+
+  key:
+    patterns:
+    - name: key
+      match: (key)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+
+  chaingroup:
+    patterns:
+    - name: chaingroup
+      match: (chaingroup)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+
+  authgroup:
+    patterns:
+    - name: authgroup
+      match: (authgroup)\s+(\S+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+
+
+  crypto-chaingroup:
+    patterns:
+    - name: crypto-chaingroup
+      begin: ^\s*(crypto)\s+(chaingroup)\s+(\S+)
+      beginCaptures:
+        '0': {name: ace.crypto-chaingroup.block}
+        '1': {name: variable.parameter}
+        '2': {name: support.constant}
+        '3': {name: string.unquoted}
+      end: ^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))
+      patterns:
+      - include: text.network.cisco.scope
+      - include: text.network.cisco
+      - include: '#certificate'
 
   copy:
     patterns:

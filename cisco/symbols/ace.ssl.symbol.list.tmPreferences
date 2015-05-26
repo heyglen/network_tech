@@ -5,15 +5,17 @@
    <key>name</key>
    <string>Symbol List</string>
    <key>scope</key>
-      <string>interface.block</string>
+   <string>ace.ssl-proxy.block|ace.crypto-chaingroup.block|ace.crypto-authgroup.block</string>
    <key>settings</key>
    <dict>
       <key>showInSymbolList</key>
       <string>1</string>
       <key>symbolTransformation</key>
       <string>
-      s/^\s*inteface\s+(\S+)\s*(\d+)/interface: $1$2/gi;
-   </string>
+         s/^\s*ssl-proxy\s+service\s+(\S+)/ssl-proxy: $1/gi;
+         s/^\s*crypto\s+chaingroup\s+(\S+)/crypto chaingroup: $1/gi;
+         s/^\s*crypto\s+authgroup\s+(\S+)/crypto authgroup: $1/gi;
+      </string>
    </dict>
    <key>uuid</key>
    <string>0A0DA1FC-59DE-4FD9-9A2C-63C6811A3C31</string>

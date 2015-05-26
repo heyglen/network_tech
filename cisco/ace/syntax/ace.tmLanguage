@@ -36,7 +36,15 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#crypto-authgroup</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#checkpoint-create</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#crypto-chaingroup</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -65,10 +73,6 @@
 		<dict>
 			<key>include</key>
 			<string>#configure-terminal</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#ssl-proxy</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -185,6 +189,31 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>authgroup</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(authgroup)\s+(\S+)</string>
+					<key>name</key>
+					<string>authgroup</string>
+				</dict>
+			</array>
+		</dict>
 		<key>backup-context</key>
 		<dict>
 			<key>patterns</key>
@@ -250,6 +279,31 @@
 				</dict>
 			</array>
 		</dict>
+		<key>certificate</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(cert)\s+(\S+)</string>
+					<key>name</key>
+					<string>certificate</string>
+				</dict>
+			</array>
+		</dict>
 		<key>certificate-key-import</key>
 		<dict>
 			<key>patterns</key>
@@ -304,6 +358,31 @@
 							<string>#key-data</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>chaingroup</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(chaingroup)\s+(\S+)</string>
+					<key>name</key>
+					<string>chaingroup</string>
 				</dict>
 			</array>
 		</dict>
@@ -448,7 +527,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(configure)\s+(terminal)\s*(?:\s+(\S.*))?$</string>
+					<string>^\s*(configure)\s+(terminal)$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.configure-termial</string>
 				</dict>
@@ -630,6 +709,110 @@
 				</dict>
 			</array>
 		</dict>
+		<key>crypto-authgroup</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(crypto)\s+(authgroup)\s+(\S+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ace.crypto-authgroup.block</string>
+						</dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))</string>
+					<key>name</key>
+					<string>crypto-authgroup</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#certificate</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>crypto-chaingroup</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(crypto)\s+(chaingroup)\s+(\S+)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ace.crypto-chaingroup.block</string>
+						</dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))</string>
+					<key>name</key>
+					<string>crypto-chaingroup</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#certificate</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>crypto-delete</key>
 		<dict>
 			<key>patterns</key>
@@ -706,7 +889,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=\s*$|\S)</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>0</key>
@@ -826,6 +1009,31 @@
 					<string>^\s*(hostname)\s+(\S+)\s*(\S*.*)?$</string>
 					<key>name</key>
 					<string>text.network.cisco.ace.hostname</string>
+				</dict>
+			</array>
+		</dict>
+		<key>key</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(key)\s+(\S+)</string>
+					<key>name</key>
+					<string>key</string>
 				</dict>
 			</array>
 		</dict>
@@ -1296,14 +1504,9 @@
 							<key>name</key>
 							<string>constant.numeric</string>
 						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
-						</dict>
 					</dict>
 					<key>match</key>
-					<string>^(ip\s+route)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+((?:(?:255|254|252|248|240|224|192|128|0)\.){3}(?:255|254|252|248|240|224|192|128|0))\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s*(\s+\S.*)?$</string>
+					<string>^(ip\s+route)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+((?:(?:255|254|252|248|240|224|192|128|0)\.){3}(?:255|254|252|248|240|224|192|128|0))\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)$</string>
 					<key>name</key>
 					<string>ipv4.route</string>
 				</dict>
@@ -1316,6 +1519,11 @@
 				<dict>
 					<key>captures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ace.snmp.community.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -1341,16 +1549,11 @@
 							<key>name</key>
 							<string>string.unquoted</string>
 						</dict>
-						<key>6</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
-						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(snmp-server)\s+(community)\s+(\S+)\s+(group)\s+(\S+)\s*(?:\s+(\S.*))?$</string>
+					<string>^\s*(snmp-server)\s+(community)\s+(\S+)\s+(group)\s+(\S+)$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.snmp.community</string>
+					<string>snmp.community</string>
 				</dict>
 			</array>
 		</dict>
@@ -1361,6 +1564,11 @@
 				<dict>
 					<key>captures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ace.snmp.contact.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -1380,7 +1588,7 @@
 					<key>match</key>
 					<string>^\s*(snmp-server)\s+(contact)\s+(.*)$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.snmp.contact</string>
+					<string>snmp.contact</string>
 				</dict>
 			</array>
 		</dict>
@@ -1391,6 +1599,11 @@
 				<dict>
 					<key>captures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ace.snmp.host.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -1426,16 +1639,11 @@
 							<key>name</key>
 							<string>string.unquoted</string>
 						</dict>
-						<key>8</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
-						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(snmp-server)\s+(host)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+(traps)\s+(version)\s+(2c)\s+(\S+)\s*(?:\s+(\S.*))?$</string>
+					<string>^\s*(snmp-server)\s+(host)\s+((?:(?:[0-2]?\d?\d)\.){3}[0-2]?\d?\d)\s+(traps)\s+(version)\s+(1|2c)\s+(\S+)</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.snmp.host</string>
+					<string>snmp.host</string>
 				</dict>
 			</array>
 		</dict>
@@ -1446,6 +1654,11 @@
 				<dict>
 					<key>captures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ace.snmp.location.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -1465,7 +1678,7 @@
 					<key>match</key>
 					<string>^\s*(snmp-server)\s+(location)\s+(.*)</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.snmp.location</string>
+					<string>snmp.location</string>
 				</dict>
 			</array>
 		</dict>
@@ -1476,6 +1689,11 @@
 				<dict>
 					<key>captures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ace.snmp.trap.ietf.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -1496,16 +1714,11 @@
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
-						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(snmp-server)\s+(trap)\s+(link)\s+(ietf)\s*(?:\s+(\S.*))?$</string>
+					<string>^\s*(snmp-server)\s+(trap)\s+(link)\s+(ietf)$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.snmp.trap.ietf</string>
+					<string>snmp.trap.ietf</string>
 				</dict>
 			</array>
 		</dict>
@@ -1516,6 +1729,11 @@
 				<dict>
 					<key>captures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ace.snmp.trap.slb.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -1548,9 +1766,9 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(snmp-server)\s+(enable)\s+(traps)\s+(slb)\s+(vserver|real)\s*(?:\s+(\S.*))?$</string>
+					<string>^\s*(snmp-server)\s+(enable)\s+(traps)\s+(slb)\s+(vserver|real)$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.snmp.trap.slb</string>
+					<string>snmp.trap.slb</string>
 				</dict>
 			</array>
 		</dict>
@@ -1561,6 +1779,11 @@
 				<dict>
 					<key>captures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ace.snmp.trap.enable.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -1586,16 +1809,11 @@
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
-						<key>6</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
-						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(snmp-server)\s+(enable)\s+(traps)\s+(snmp)\s+(authentication|linkup|linkdown)\s*(?:\s+(\S.*))?$</string>
+					<string>^\s*(snmp-server)\s+(enable)\s+(traps)\s+(snmp)\s+(authentication|linkup|linkdown)$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.snmp.trap.snmp</string>
+					<string>snmp.trap</string>
 				</dict>
 			</array>
 		</dict>
@@ -1606,6 +1824,11 @@
 				<dict>
 					<key>captures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ace.snmp.trap.source.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -1626,16 +1849,11 @@
 							<key>name</key>
 							<string>constant.numeric</string>
 						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal</string>
-						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(snmp-server)\s+(trap-source)\s+(vlan)\s+(\d+)\s*(?:\s+(\S.*))?$</string>
+					<string>^\s*(snmp-server)\s+(trap-source)\s+(vlan)\s+(\d+)$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.snmp.trap.source</string>
+					<string>snmp.trap.source</string>
 				</dict>
 			</array>
 		</dict>
@@ -1646,6 +1864,11 @@
 				<dict>
 					<key>captures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>ace.snmp.trap.syslog.block</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
@@ -1678,9 +1901,9 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(snmp-server)\s+(enable)\s+(traps)\s+(syslog)\s*(?:\s+(\S.*))?$</string>
+					<string>^\s*(snmp-server)\s+(enable)\s+(traps)\s+(syslog)$</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.snmp.trap.syslog</string>
+					<string>snmp.trap.syslog</string>
 				</dict>
 			</array>
 		</dict>
@@ -1696,43 +1919,33 @@
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>meta.cisco.ace.ssl-proxy</string>
+							<string>ace.ssl-proxy.block</string>
 						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string></string>
+							<string>variable.parameter</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>invalid.illegal</string>
+							<string>support.constant</string>
 						</dict>
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.other</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>variable.parameter</string>
-						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
 							<string>string.unquoted</string>
 						</dict>
-						<key>6</key>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>invalid.illegal</string>
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=\s*$|\S)</string>
+					<string>^(?=(?:\s*(?=(?:\n\s*)*(?:\s+\S))$)|(?:\S))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.ssl-proxy</string>
+					<string>ssl-proxy</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -1742,6 +1955,22 @@
 						<dict>
 							<key>include</key>
 							<string>text.network.cisco</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#certificate</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#key</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#chaingroup</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#authgroup</string>
 						</dict>
 					</array>
 				</dict>
