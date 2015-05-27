@@ -1,0 +1,8 @@
+<snippet>
+    <description>/0</description>
+    <tabTrigger>0.0.0.0</tabTrigger>
+    <scope>cisco.</scope>
+    <content><![CDATA[
+/0
+]]></content>
+</snippet>

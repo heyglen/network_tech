@@ -3,6 +3,7 @@
     <tabTrigger>/27</tabTrigger>
     <scope>cisco.</scope>
     <content><![CDATA[
- 255.255.255.224 
+255.255.255.224
 ]]></content>
 </snippet>
+

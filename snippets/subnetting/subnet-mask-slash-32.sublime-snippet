@@ -1,8 +1,0 @@
-<snippet>
-    <description>255.255.255.255</description>
-    <tabTrigger>/32</tabTrigger>
-    <scope>cisco.</scope>
-	<content><![CDATA[
- 255.255.255.255 
-]]></content>
-</snippet>

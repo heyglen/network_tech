@@ -1,0 +1,8 @@
+<snippet>
+    <description>1.255.255.255</description>
+    <tabTrigger>/7</tabTrigger>
+    <scope>cisco.</scope>
+    <content><![CDATA[
+1.255.255.255
+]]></content>
+</snippet>

@@ -1,9 +1,8 @@
 <snippet>
-	<content><![CDATA[
-$1/24$0
+    <description>0.0.0.255</description>
+    <tabTrigger>/24</tabTrigger>
+    <scope>cisco.</scope>
+    <content><![CDATA[
+0.0.0.255
 ]]></content>
-	<description>Wildcard to CIDR Conversion</description>
-	<tabTrigger>0.0.0.255</tabTrigger>
-	<scope>cisco.</scope>
 </snippet>
-

@@ -2,7 +2,7 @@
     <tabTrigger>0.0.1.255</tabTrigger>
     <description>255.255.254.0</description>
     <scope>cisco.</scope>
-	<content><![CDATA[
-255.255.254.0
+    <content><![CDATA[
+    255.255.254.0
 ]]></content>
 </snippet>

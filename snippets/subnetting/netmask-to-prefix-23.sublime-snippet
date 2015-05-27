@@ -1,8 +1,8 @@
 <snippet>
-    <tabTrigger>255.255.254.0</tabTrigger>
-    <description>/23</description>
+    <description>23</description>
+    <tabTrigger>255.255.254.0 </tabTrigger>
     <scope>cisco.</scope>
-	<content><![CDATA[
-/23
+    <content><![CDATA[
+23
 ]]></content>
 </snippet>
