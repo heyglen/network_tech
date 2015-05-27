@@ -1,8 +1,8 @@
 <snippet>
-    <description>63.255.255.255</description>
-    <tabTrigger>/2</tabTrigger>
+    <tabTrigger>63.255.255.255</tabTrigger>
+    <description>/2</description>
     <scope>cisco.</scope>
     <content><![CDATA[
-63.255.255.255
+/2
 ]]></content>
 </snippet>

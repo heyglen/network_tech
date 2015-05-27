@@ -1,8 +1,8 @@
 <snippet>
-    <description>0.0.0.15</description>
-    <tabTrigger>/28</tabTrigger>
+    <tabTrigger>0.0.0.15</tabTrigger>
+    <description>/28</description>
     <scope>cisco.</scope>
     <content><![CDATA[
-0.0.0.15
+/28
 ]]></content>
 </snippet>
