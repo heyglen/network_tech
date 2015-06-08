@@ -1,7 +1,7 @@
 <snippet>
     <description>reverse-path</description>
     <tabTrigger>ip</tabTrigger>
-    <scope>text.network.cisco.asa</scope>
+    <scope>text.network.cisco.asa - text.network.cisco.asa.access-list</scope>
     <content><![CDATA[
 ip verify reverse-path interface ${1:INTERFACE}
 ]]></content>

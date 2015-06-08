@@ -1,0 +1,8 @@
+<snippet>
+    <description>network</description>
+    <tabTrigger>network-object</tabTrigger>
+    <scope>text.network.cisco.asa & text.network.cisco.asa.object-group.network</scope>
+    <content><![CDATA[
+network-object ${1:1.2.3.0} ${2:255.255.255.0}
+]]></content>
+</snippet>

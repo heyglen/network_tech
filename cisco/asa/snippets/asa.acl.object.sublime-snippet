@@ -1,0 +1,8 @@
+<snippet>
+    <description>object</description>
+    <tabTrigger>object</tabTrigger>
+    <scope>text.network.cisco.asa & text.network.cisco.asa.access-list.protocol </scope>
+    <content><![CDATA[
+object ${1:NAME} 
+]]></content>
+</snippet>

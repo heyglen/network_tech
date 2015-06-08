@@ -63,6 +63,21 @@
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
+						<key>10</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>11</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>12</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
@@ -86,26 +101,26 @@
 						<key>6</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
+							<string>support.constant</string>
 						</dict>
 						<key>7</key>
 						<dict>
 							<key>name</key>
-							<string>string.unquoted</string>
+							<string>constant.numeric</string>
 						</dict>
 						<key>8</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant</string>
+							<string>string.unquoted</string>
 						</dict>
 						<key>9</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
+							<string>support.constant</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(snmp-server)\s+(host)\s+(\S+)\s+(\d+\.\d+\.\d+\.\d+)\s+(community)(\s+[0-7])?\s+(\S+)(?:\s+(version)\s+(1|2c))?</string>
+					<string>^\s*(snmp-server)\s+(host)\s+(\S+)\s+(\d+\.\d+\.\d+\.\d+)\s+((?:(?:poll)|(?:trap))\s+)?(community)(\s+[0-7])?\s+(\S+)(?:\s+(version)\s+(1|(?:2c)))?(?:\s+(udp-port)\s+([0-9]+))?</string>
 					<key>name</key>
 					<string>snmp-server.host</string>
 				</dict>

@@ -1,0 +1,8 @@
+<snippet>
+    <description>any</description>
+    <tabTrigger>any</tabTrigger>
+    <scope>text.network.cisco.asa & text.network.cisco.asa.access-list.protocol </scope>
+    <content><![CDATA[
+any 
+]]></content>
+</snippet>

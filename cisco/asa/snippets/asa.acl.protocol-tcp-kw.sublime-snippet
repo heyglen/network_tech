@@ -1,0 +1,8 @@
+<snippet>
+    <description>tcp</description>
+    <tabTrigger>tcp</tabTrigger>
+    <scope>text.network.cisco.asa & (text.network.cisco.asa.access-list.deny | text.network.cisco.asa.access-list.permit) </scope>
+    <content><![CDATA[
+tcp 
+]]></content>
+</snippet>

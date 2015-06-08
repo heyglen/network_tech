@@ -6,7 +6,7 @@ hostname firewall
 interface port-channel 0
   nameif outside
   security-level 0
-  ip address 20.20.20.X 255.255.255.0 standby 20.20.20.Y
+  ip address 1.2.3.4 255.255.255.0 standby 1.2.3.5
   no shutdown
 
 ip verify reverse-path interface outside
@@ -63,6 +63,8 @@ logging device-id string firewall
 
 logging host mgmt 1.2.3.4
 snmp-server host outside 1.2.3.4 community 0 private version 2c
+snmp-server host outside 1.2.3.4 poll community 0 private version 2c
+snmp-server host outside 1.2.3.4 trap community 0 private version 2c udp-port 12
 snmp-server host outside 1.2.3.4 community public
 snmp-server location here
 snmp-server contact me

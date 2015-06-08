@@ -1,0 +1,8 @@
+<snippet>
+    <description>deny</description>
+    <tabTrigger>deny</tabTrigger>
+    <scope>text.network.cisco.asa & text.network.cisco.asa.access-list & -text.network.cisco.asa.access-list.protocol</scope>
+    <content><![CDATA[
+deny 
+]]></content>
+</snippet>

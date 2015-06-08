@@ -1,0 +1,8 @@
+<snippet>
+    <description>remark</description>
+    <tabTrigger>remark</tabTrigger>
+    <scope>text.network.cisco.asa & text.network.cisco.asa.access-list</scope>
+    <content><![CDATA[
+remark ${1:REMARK} 
+]]></content>
+</snippet>

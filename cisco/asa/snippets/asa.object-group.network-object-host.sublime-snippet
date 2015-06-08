@@ -1,0 +1,8 @@
+<snippet>
+    <description>host</description>
+    <tabTrigger>network-object</tabTrigger>
+    <scope>text.network.cisco.asa & text.network.cisco.asa.object-group.network</scope>
+    <content><![CDATA[
+network-object host ${1:1.2.3.4}
+]]></content>
+</snippet>

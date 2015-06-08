@@ -1,0 +1,8 @@
+<snippet>
+    <description>ip</description>
+    <tabTrigger>ip</tabTrigger>
+    <scope>text.network.cisco.asa & (text.network.cisco.asa.access-list.deny | text.network.cisco.asa.access-list.permit) </scope>
+    <content><![CDATA[
+ip 
+]]></content>
+</snippet>

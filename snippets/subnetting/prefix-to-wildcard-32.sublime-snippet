@@ -1,6 +1,6 @@
 <snippet>
     <description>0.0.0.0</description>
-    <tabTrigger>/32</tabTrigger>
+    <tabTrigger>.*/32</tabTrigger>
     <scope>cisco.</scope>
 	<content><![CDATA[
 0.0.0.0
