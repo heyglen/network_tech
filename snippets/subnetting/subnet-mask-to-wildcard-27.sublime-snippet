@@ -1,7 +1,7 @@
 <snippet>
     <tabTrigger>248.0.0.0</tabTrigger>
     <description>7.255.255.255</description>
-    <scope>cisco.</scope>
+    <scope>cisco. | text.network.</scope>
     <content><![CDATA[
 7.255.255.255
 ]]></content>

@@ -1,7 +1,7 @@
 <snippet>
     <tabTrigger>0.0.0.127</tabTrigger>
     <description>/25</description>
-    <scope>cisco.</scope>
+    <scope>cisco. | text.network.</scope>
     <content><![CDATA[
 /25
 ]]></content>

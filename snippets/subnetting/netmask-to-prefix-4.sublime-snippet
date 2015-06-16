@@ -1,7 +1,7 @@
 <snippet>
     <description>/4</description>
     <tabTrigger>240.0.0.0</tabTrigger>
-    <scope>cisco.</scope>
+    <scope>cisco. | text.network.</scope>
     <content><![CDATA[
 /4
 ]]></content>

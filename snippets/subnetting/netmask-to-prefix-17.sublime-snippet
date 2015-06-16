@@ -1,7 +1,7 @@
 <snippet>
     <description>/17</description>
     <tabTrigger>255.255.128.0</tabTrigger>
-    <scope>cisco.</scope>
+    <scope>cisco. | text.network.</scope>
     <content><![CDATA[
 /17
 ]]></content>

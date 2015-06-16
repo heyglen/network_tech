@@ -1,7 +1,7 @@
 <snippet>
     <description>252.0.0.0</description>
     <tabTrigger>/6</tabTrigger>
-    <scope>cisco.</scope>
+    <scope>cisco. | text.network.</scope>
     <content><![CDATA[
 252.0.0.0
 ]]></content>
