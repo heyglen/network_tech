@@ -1,0 +1,8 @@
+<snippet>
+    <description>icmp</description>
+    <tabTrigger>ipv6icmp</tabTrigger>
+    <scope>text.network.cisco.asa & -(cisco.asa.interface)</scope>
+    <content><![CDATA[
+ipv6 icmp ${1:permit} ${2:fe80::/64} ${3:NAMEIF}
+]]></content>
+</snippet>

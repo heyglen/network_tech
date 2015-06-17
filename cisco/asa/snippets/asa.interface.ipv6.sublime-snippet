@@ -1,0 +1,8 @@
+<snippet>
+    <description>v6 address</description>
+    <tabTrigger>ipv6address</tabTrigger>
+    <scope>cisco.asa.interface</scope>
+    <content><![CDATA[
+ipv6 address ${1:::1}/64 standby ${2:::1}
+]]></content>
+</snippet>

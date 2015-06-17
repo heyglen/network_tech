@@ -19,6 +19,60 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>enable</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?i)(enable)</string>
+					<key>name</key>
+					<string>enable</string>
+				</dict>
+			</array>
+		</dict>
+		<key>general-prefix</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?i)(general-prefix)\s+(\S+)\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\n)</string>
+					<key>name</key>
+					<string>general-prefix</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#ipv6-prefix</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>interface</key>
 		<dict>
 			<key>patterns</key>
@@ -109,6 +163,10 @@
 					<array>
 						<dict>
 							<key>include</key>
+							<string>#enable</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#v6-route</string>
 						</dict>
 						<dict>
@@ -119,7 +177,31 @@
 							<key>include</key>
 							<string>#ipv6-unicast-routing</string>
 						</dict>
+						<dict>
+							<key>include</key>
+							<string>#general-prefix</string>
+						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>ipv6-prefix</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?i)(\S+)</string>
+					<key>name</key>
+					<string>ipv6-prefix</string>
 				</dict>
 			</array>
 		</dict>

@@ -48,6 +48,9 @@ access-list acl-name line 51 extended permit tcp host 1.1.1.1 object-group group
 access-list acl-name line 51 extended permit 41 host 1.1.1.1
 access-group acl-name in interface outside
 
+mtu outside 1500
+fragment chain 1 outside
+
 http server enable
 http 1.2.3.0 255.255.255.0 outside
 telnet 1.2.3.0 255.255.255.0 outside

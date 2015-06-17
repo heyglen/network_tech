@@ -1,0 +1,8 @@
+<snippet>
+    <description>mtu</description>
+    <tabTrigger>mtu</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+mtu ${1:NAMEIF} ${2:1500}
+]]></content>
+</snippet>

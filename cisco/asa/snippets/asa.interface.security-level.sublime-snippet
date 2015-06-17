@@ -1,0 +1,8 @@
+<snippet>
+    <description>security-level</description>
+    <tabTrigger>security-level</tabTrigger>
+    <scope>cisco.asa.interface</scope>
+    <content><![CDATA[
+security-level ${1:100}
+]]></content>
+</snippet>

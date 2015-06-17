@@ -1,0 +1,8 @@
+<snippet>
+    <description>chain</description>
+    <tabTrigger>fragment</tabTrigger>
+    <scope>text.network.cisco.asa</scope>
+    <content><![CDATA[
+fragment chain ${1:1} ${2:NAMEIF}
+]]></content>
+</snippet>

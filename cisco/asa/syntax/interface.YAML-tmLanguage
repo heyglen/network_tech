@@ -20,8 +20,11 @@ repository:
       - include: '#interface_id'
       - include: '#nameif'
       - include: '#ip_address'
+      - include: '#ipv6_address'
+      - include: '#ipv6-nd-supress-ra'
       - include: '#vlan'
       - include: '#security-level'
+      - include: text.network.cisco
       - include: text.network.cisco.scope
       - name: invalid.illegal.cisco.asa.interface
         match: (?:.*$)
@@ -42,7 +45,7 @@ repository:
       begin: ^\s*(nameif)\s+([A-Za-z0-9_-]+)
       beginCaptures:
         '1': {name: support.constant}
-        '2': {name: entity.other.inherited-class}
+        '2': {name: string.unquoted}
       end: (\s*$)
       patterns:
       - match: (?:.*$)
@@ -86,3 +89,20 @@ repository:
       patterns:
       - match: (?:.*$)
         name: invalid.illegal.network-object.asa
+
+  ipv6_address:
+    patterns:
+    - name: constant.numeric.ip-address
+      match: \s*(ipv6\s+address)\s+(\S+)(?:\s+(standby)\s+(\S+))?\s*
+      captures:
+        '1': {name: support.constant.1}
+        '2': {name: constant.numeric.2}
+        '3': {name: support.constant.3}
+        '4': {name: constant.numeric.4}
+
+  ipv6-nd-supress-ra:
+    patterns:
+    - name: constant.numeric.ip-address
+      match: \s*(ipv6\s+nd\s+supress-ra)
+      captures:
+        '1': {name: support.constant.1}

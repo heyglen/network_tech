@@ -52,11 +52,23 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#ipv6_address</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#ipv6-nd-supress-ra</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#vlan</string>
 						</dict>
 						<dict>
 							<key>include</key>
 							<string>#security-level</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -153,6 +165,61 @@
 				</dict>
 			</array>
 		</dict>
+		<key>ipv6-nd-supress-ra</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant.1</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(ipv6\s+nd\s+supress-ra)</string>
+					<key>name</key>
+					<string>constant.numeric.ip-address</string>
+				</dict>
+			</array>
+		</dict>
+		<key>ipv6_address</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant.1</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric.2</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant.3</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric.4</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(ipv6\s+address)\s+(\S+)(?:\s+(standby)\s+(\S+))?\s*</string>
+					<key>name</key>
+					<string>constant.numeric.ip-address</string>
+				</dict>
+			</array>
+		</dict>
 		<key>nameif</key>
 		<dict>
 			<key>patterns</key>
@@ -170,7 +237,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.other.inherited-class</string>
+							<string>string.unquoted</string>
 						</dict>
 					</dict>
 					<key>end</key>

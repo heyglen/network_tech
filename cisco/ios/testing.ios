@@ -34,6 +34,8 @@ ip access-list extended NAME
  deny ip any any
  exit
 
+ipv6 general-prefix NNIT-MGMT ::/0
+
 interface vlan 123
   description Hello
   vrf forwarding RED
@@ -63,12 +65,15 @@ interface vlan 123
   standby 1 ip 1.1.1.1
   standby 1 priority 200
   standby 1 preempt
+  standby 1 preempt delay minimum 300 reload 300
   standby 2 ipv6 autoconfig
   standby 2 ipv6 0::
+  standby 2 ipv6 ::1/128
   standby 1 track 1 decrement 10
   no switchport
   no shutdown
   shutdown
+  ipv6 enable
   exit
   
 

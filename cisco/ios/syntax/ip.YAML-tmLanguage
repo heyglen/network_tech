@@ -21,6 +21,25 @@ repository:
       - include: '#v6-route'
       - include: '#v6prefix-list'
       - include: '#ipv6-unicast-routing'
+      - include: '#general-prefix'
+
+  general-prefix:
+    patterns:
+    - name: general-prefix
+      begin: (?i)(general-prefix)\s+(\S+)\s+
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+      end: (?=\n)
+      patterns:
+      - include: '#ipv6-prefix'
+
+  ipv6-prefix:
+    patterns:
+    - name: ipv6-prefix
+      match: (?i)(\S+)
+      captures:
+        '0': {name: constant.numeric}
 
   v6prefix-list:
     patterns:

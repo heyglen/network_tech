@@ -36,6 +36,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#fragment</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#domain-name</string>
 		</dict>
 		<dict>
@@ -45,6 +49,10 @@
 		<dict>
 			<key>include</key>
 			<string>#icmp-permit</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#icmpv6-permit</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -389,6 +397,36 @@
 				</dict>
 			</array>
 		</dict>
+		<key>fragment</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(fragment\s+chain)\s+(\d+)\s+(\S+)\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.fragment</string>
+				</dict>
+			</array>
+		</dict>
 		<key>group-object</key>
 		<dict>
 			<key>patterns</key>
@@ -482,6 +520,46 @@
 					<string>^\s*(icmp)\s+(permit)\s+(any)\s+(\S+)</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.icmp.permit</string>
+				</dict>
+			</array>
+		</dict>
+		<key>icmpv6-permit</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>markup.inserted</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(ipv6\s+icmp)\s+(permit)\s+(?:(any)|(\S+))\s+(\S+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.icmpv6.permit</string>
 				</dict>
 			</array>
 		</dict>
