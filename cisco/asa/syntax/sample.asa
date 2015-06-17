@@ -1,6 +1,8 @@
 changeto context fw-context-1
 
 terminal width 511
+terminal pager 0
+
 hostname firewall
 
 interface port-channel 0
@@ -12,11 +14,12 @@ interface port-channel 0
 ip verify reverse-path interface outside
 
 object-group network NAME
+  network-object host 1.2.3.4
 
 object-group service NAME tcp-udp
  description blah
  port-object eq 1234
-
+ 
 object network host-1.2.3.4
  host 1.2.3.4
 
@@ -25,6 +28,7 @@ object network obj-1.2.3.1-255
 
 object network subnet-1.2.3.0_24
  subnet 1.2.3.0 255.255.255.0
+
 
 object network obj-www.fqdn.com
  fqdn www.fqdn.com

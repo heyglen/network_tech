@@ -10,7 +10,7 @@ repository:
   access-group:
     patterns:
     - name: text.network.cisco.ace.interface.access-group
-      match: (access-group)\s+(input|output)\s+(\S+)(?:\s+(\S+))?$
+      match: (access-group)\s+(input|output)\s+(\S+)(?:\s+(\S+))?\s*$
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}

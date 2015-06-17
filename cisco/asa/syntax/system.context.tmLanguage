@@ -117,7 +117,15 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#member</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.network.cisco</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco.scope</string>
 						</dict>
 					</array>
 				</dict>
@@ -138,6 +146,33 @@
 					</dict>
 					<key>match</key>
 					<string>\s*(no\s+.*)\s*</string>
+				</dict>
+			</array>
+		</dict>
+		<key>member</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(member)\s+(\S+)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.system.context.member</string>
 				</dict>
 			</array>
 		</dict>

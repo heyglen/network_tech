@@ -1,7 +1,7 @@
 <snippet>
     <description>host</description>
     <tabTrigger>host</tabTrigger>
-    <scope>text.network.cisco.asa & text.network.cisco.asa.access-list.protocol </scope>
+    <scope>(text.network.cisco.asa.access-list.protocol | text.network.cisco.asa.object.network)</scope>
     <content><![CDATA[
 host ${1:1.2.3.4} 
 ]]></content>

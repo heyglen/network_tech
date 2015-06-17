@@ -10,6 +10,10 @@
 			<key>include</key>
 			<string>#access-list</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>#acl-alert-interval</string>
+		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -70,6 +74,31 @@
 							<string>invalid.illegal.access-list.asa</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>acl-alert-interval</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s+(alert-interval)\s+(\d+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.access-list.alert-interval</string>
 				</dict>
 			</array>
 		</dict>
@@ -531,7 +560,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(eq)\s+([a-z0-9-]+)|(gt)\s+([0-9]+)\s*</string>
+					<string>\s*(eq)\s+([a-z0-9-]+)|(gt)\s+([0-9]+)|(echo(?:-reply)?|redirect|traceroute|timestamp-(?:request|reply))\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -550,6 +579,11 @@
 							<string>markup.inserted</string>
 						</dict>
 						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>5</key>
 						<dict>
 							<key>name</key>
 							<string>constant.numeric</string>
@@ -593,10 +627,15 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(extended deny)\s*</string>
+					<string>\s*(extended)\s+(deny)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>keyword.operator.comparison.deny.asa</string>
@@ -628,10 +667,15 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(extended permit)\s*</string>
+					<string>\s*(extended) (permit)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>markup.inserted.permit.asa</string>
@@ -675,9 +719,9 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;= )(0x[0-9a-f]+)</string>
+					<string>\s*(0x[0-9a-f]+)</string>
 					<key>name</key>
-					<string>text.network.cisco.asa.access-list.hex-id</string>
+					<string>acl.hex-id</string>
 				</dict>
 			</array>
 		</dict>
@@ -696,9 +740,14 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
+							<string>comment.block.documentation</string>
 						</dict>
 						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>support.constant</string>
@@ -707,7 +756,7 @@
 					<key>comment</key>
 					<string>ACL hitcount</string>
 					<key>match</key>
-					<string>\s*(\(hitcnt=)(\d+)(\))\s*</string>
+					<string>\s*(\(hitcnt=)(?:(0)|(\d+))(\))\s*</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.access-list.hitcount</string>
 				</dict>
@@ -728,13 +777,23 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
 							<string>comment.block.documentation</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
 						</dict>
 					</dict>
 					<key>comment</key>
 					<string>ACL Inactive</string>
 					<key>match</key>
-					<string>\s*(inactive)(?:\s+(\(inactive\)))?\s*</string>
+					<string>\s*(inactive)(?:\s+(\()(inactive)(\)))?\s*</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.access-list.inactive</string>
 				</dict>
@@ -760,7 +819,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
+							<string>comment.block.documentation</string>
 						</dict>
 					</dict>
 					<key>match</key>
@@ -776,13 +835,18 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(line\s+[0-9]+)\s*</string>
+					<string>\s*(line)\s+([0-9]+)\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.operator.comparison.line-number.asa</string>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>

@@ -13,6 +13,31 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>fqdn</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(fqdn)\s+(\S+)\s*</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.object.network.fqdn</string>
+				</dict>
+			</array>
+		</dict>
 		<key>host</key>
 		<dict>
 			<key>patterns</key>
@@ -153,9 +178,47 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#subnet</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#fqdn</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.network.cisco.scope</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>subnet</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.language</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(subnet)\s+((?:\d+\.){3}\d+)\s+((?:\d+\.){3}\d+)\s*$</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.object.network.subnet</string>
 				</dict>
 			</array>
 		</dict>

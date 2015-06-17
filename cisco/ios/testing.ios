@@ -1,6 +1,5 @@
 write
 
-
 copy running-config startup-config
 copy running-config tftp://1.2.3.4/NAME
 copy startup-config running-config

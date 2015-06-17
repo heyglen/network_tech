@@ -15,6 +15,23 @@ repository:
         '1': {name: support.constant}
         '2': {name: constant.language}
 
+  subnet:
+    patterns:
+    - name: text.network.cisco.asa.object.network.subnet
+      match: ^\s*(subnet)\s+((?:\d+\.){3}\d+)\s+((?:\d+\.){3}\d+)\s*$
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: constant.language}
+
+  fqdn:
+    patterns:
+    - name: text.network.cisco.asa.object.network.fqdn
+      match: \s*(fqdn)\s+(\S+)\s*
+      captures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+
   iprange:
     patterns:
     - name: text.network.cisco.asa.object.network.ip-range
@@ -48,4 +65,6 @@ repository:
       - include: '#host'
       - include: '#nat'
       - include: '#iprange'
+      - include: '#subnet'
+      - include: '#fqdn'
       - include: text.network.cisco.scope

@@ -1,8 +1,8 @@
 <snippet>
     <description>hostname</description>
     <tabTrigger>hostname</tabTrigger>
-    <scope>text.network.cisco.asa | cisco.ace</scope>
+    <scope>(text.network.cisco.asa | cisco.) & -(text.network.cisco.asa.access-list | text.network.cisco.asa.object.network)</scope>
     <content><![CDATA[
-hostnanme ${1:HOSTNAME}
+hostname ${1:HOSTNAME}
 ]]></content>
 </snippet>

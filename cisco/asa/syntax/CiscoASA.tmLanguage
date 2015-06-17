@@ -44,6 +44,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#icmp-permit</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#enable-password</string>
 		</dict>
 		<dict>
@@ -446,6 +450,41 @@
 				</dict>
 			</array>
 		</dict>
+		<key>icmp-permit</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>markup.inserted</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(icmp)\s+(permit)\s+(any)\s+(\S+)</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.icmp.permit</string>
+				</dict>
+			</array>
+		</dict>
 		<key>ip_address</key>
 		<dict>
 			<key>patterns</key>
@@ -762,7 +801,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(terminal)\s+(width\s([0-9]+))\s*$</string>
+					<string>^\s*(terminal)\s+(width|pager)\s([0-9]+)\s*$</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.terminal</string>
 				</dict>

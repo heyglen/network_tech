@@ -12,7 +12,7 @@ repository:
   host:
     patterns:
     - name: snmp-server.host
-      match: ^\s*(snmp-server)\s+(host)\s+(\S+)\s+(\d+\.\d+\.\d+\.\d+)\s+((?:(?:poll)|(?:trap))\s+)?(community)(\s+[0-7])?\s+(\S+)(?:\s+(version)\s+(1|(?:2c)))?(?:\s+(udp-port)\s+([0-9]+))?
+      match: ^\s*(snmp-server)\s+(host)\s+(\S+)\s+(\d+\.\d+\.\d+\.\d+)\s+((?:(?:poll)|(?:trap))\s+)?(community)(\s+[0-8])?\s+(\S+)(?:\s+(version)\s+(1|(?:2c)))?(?:\s+(udp-port)\s+([0-9]+))?
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}

@@ -20,7 +20,9 @@ repository:
       - include: '#allocate-interface'
       - include: '#control'
       - include: '#config-url'
+      - include: '#member'
       - include: text.network.cisco
+      - include: text.network.cisco.scope
 
   allocate-interface:
     patterns:
@@ -42,6 +44,15 @@ repository:
     patterns:
     - name: text.network.cisco.asa.system.context.config-url
       begin: ^\s*(config\-url)\s+(\S+)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+        '2': {name: string.unquoted}
+      end: \s*$
+
+  member:
+    patterns:
+    - name: text.network.cisco.asa.system.context.member
+      begin: ^\s*(member)\s+(\S+)\s*
       beginCaptures:
         '1': {name: support.constant}
         '2': {name: string.unquoted}

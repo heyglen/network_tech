@@ -5,6 +5,7 @@ uuid: 8e510814-afc1-45ba-879f-061aa5dda202
 
 patterns:
 - include: '#access-list'
+- include: '#acl-alert-interval'
 
 repository:
   access-list:
@@ -147,12 +148,13 @@ repository:
   acl-dest-port-single:
     patterns:
     - name: text.network.cisco.asa.accesslist.acl-dest-port-single
-      begin: \s*(eq)\s+([a-z0-9-]+)|(gt)\s+([0-9]+)\s*
+      begin: \s*(eq)\s+([a-z0-9-]+)|(gt)\s+([0-9]+)|(echo(?:-reply)?|redirect|traceroute|timestamp-(?:request|reply))\s*
       beginCaptures:
         '1': {name: markup.inserted}
         '2': {name: constant.numeric}
         '3': {name: markup.inserted}
         '4': {name: constant.numeric}
+        '5': {name: constant.numeric}
       end: (\s*$)
       patterns:
       - include: '#acl-log'
@@ -165,9 +167,10 @@ repository:
   acl-extended-deny:
     patterns:
     - name: text.network.cisco.asa.access-list.deny
-      begin: \s*(extended deny)\s*
+      begin: \s*(extended)\s+(deny)\s*
       beginCaptures:
-        '1': {name: keyword.operator.comparison.deny.asa}
+        '1': {name: support.constant}
+        '2': {name: keyword.operator.comparison.deny.asa}
       end: (\s*$)
       patterns:
       - include: '#acl-protocol'
@@ -177,9 +180,10 @@ repository:
   acl-extended-permit:
     patterns:
     - name: text.network.cisco.asa.access-list.permit
-      begin: \s*(extended permit)\s*
+      begin: \s*(extended) (permit)\s*
       beginCaptures:
-        '1': {name: markup.inserted.permit.asa}
+        '1': {name: support.constant}
+        '2': {name: markup.inserted.permit.asa}
       end: (\s*$)
       patterns:
       - include: '#acl-protocol'
@@ -194,12 +198,20 @@ repository:
       captures:
         '1': {name: constant.numeric}
         '2': {name: support.constant}
-        '3': {name: constant.numeric}
+        '3': {name: comment.block.documentation}
+
+  acl-alert-interval:
+    patterns:
+    - name: text.network.cisco.asa.access-list.alert-interval
+      match: \s+(alert-interval)\s+(\d+)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
 
   acl-hex-id:
     patterns:
-    - name: text.network.cisco.asa.access-list.hex-id
-      match: (?<= )(0x[0-9a-f]+)
+    - name: acl.hex-id
+      match: \s*(0x[0-9a-f]+)
       captures:
         '1': {name: comment.block.documentation}
 
@@ -219,9 +231,10 @@ repository:
   acl-line-number:
     patterns:
     - name: text.network.cisco.asa.access-list.line-number
-      begin: \s*(line\s+[0-9]+)\s*
+      begin: \s*(line)\s+([0-9]+)\s*
       beginCaptures:
-        '1': {name: keyword.operator.comparison.line-number.asa}
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
       end: (\s*$)
       patterns:
       - include: '#acl-remark'
@@ -247,20 +260,23 @@ repository:
     patterns:
     - comment: ACL Inactive
       name: text.network.cisco.asa.access-list.inactive
-      match: \s*(inactive)(?:\s+(\(inactive\)))?\s*
+      match: \s*(inactive)(?:\s+(\()(inactive)(\)))?\s*
       captures:
         '1':  {name: invalid.deprecated}
-        '2':  {name: comment.block.documentation}
+        '2':  {name: support.constant}
+        '3':  {name: comment.block.documentation}
+        '4':  {name: support.constant}
 
   acl-hitcount:
     patterns:
     - comment: ACL hitcount
       name: text.network.cisco.asa.access-list.hitcount
-      match: \s*(\(hitcnt=)(\d+)(\))\s*
+      match: \s*(\(hitcnt=)(?:(0)|(\d+))(\))\s*
       captures:
         '1':  {name: support.constant}
-        '2':  {name: constant.numeric}
-        '3':  {name: support.constant}
+        '2':  {name: comment.block.documentation}
+        '3':  {name: constant.numeric}
+        '4':  {name: support.constant}
 
   acl-permit-object-group:
     patterns:

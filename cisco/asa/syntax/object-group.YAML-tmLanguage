@@ -13,7 +13,7 @@ patterns:
 repository:
   group-object:
     patterns:
-    - name: text.network.cisco.asa.object-group.network.network-object
+    - name: text.network.cisco.asa.object-group.network.group-object
       begin: ^\s*(group-object)\s+(\S+)
       beginCaptures:
         '1': {name: support.constant}

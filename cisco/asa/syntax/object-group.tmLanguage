@@ -44,7 +44,7 @@
 					<key>end</key>
 					<string>(\s*$)</string>
 					<key>name</key>
-					<string>text.network.cisco.asa.object-group.network.network-object</string>
+					<string>text.network.cisco.asa.object-group.network.group-object</string>
 					<key>patterns</key>
 					<array>
 						<dict>
