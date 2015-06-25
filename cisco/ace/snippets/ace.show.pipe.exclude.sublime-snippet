@@ -1,0 +1,8 @@
+<snippet>
+    <description>exclude</description>
+    <tabTrigger>exclude</tabTrigger>
+    <scope>cisco.ace & show & pipe</scope>
+    <content><![CDATA[
+exclude "${1:SEARCH_TERM}"
+]]></content>
+</snippet>

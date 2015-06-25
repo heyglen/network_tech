@@ -1,0 +1,17 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: .
+scopeName: cisco.ios.logging
+uuid: 9c962a32-2eb3-482f-95a6-fdf5afe8fb9e
+
+patterns:
+- include: '#logging-host'
+
+repository:
+
+  logging-host:
+    patterns:
+    - name: logging-host
+      match: ^(?i)\s*(logging)\s+((?:\d+\.){3}\d+)\s+
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}

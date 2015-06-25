@@ -4,6 +4,5 @@
     <tabTrigger>configure</tabTrigger>
     <content><![CDATA[
 configure terminal
-
 ]]></content>
 </snippet>

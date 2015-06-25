@@ -314,6 +314,15 @@ snmp-server enable traps syslog
 snmp-server enable traps snmp linkup
 snmp-server enable traps snmp linkdown
 
+logging host 1.2.3.4 udp/514
+
+show ip route | include "SEARCH_TERM"
+show ip route | begin "SEARCH_TERM"
+show ip route | exclude "SEARCH_TERM"
+show ip route | count
+show ip route | more
+
+
 interface vlan 0
   description Network Interface
   ip address 1.2.3.4 255.255.255.0

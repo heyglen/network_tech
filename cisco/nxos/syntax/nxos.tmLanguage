@@ -28,6 +28,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>cisco.nxos.logging</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>cisco.nxos.interface</string>
 		</dict>
 		<dict>

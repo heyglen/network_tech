@@ -1,0 +1,119 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: .
+scopeName: cisco.ace.logging
+uuid: 7e5558b5-171e-4364-8eb5-961720a8fa5c
+
+patterns:
+- include: "#logging"
+
+repository:
+  logging:
+    patterns:
+    - name: text.network.cisco.ace.logging
+      begin: ^\s*(logging)\s+
+      beginCaptures:
+        '1': {name: 'support.constant'}
+      end: (?=\s*$)
+      patterns:
+      - include: '#logging-enable'
+      - include: '#logging-standby'
+      - include: '#logging-timestamp'
+      - include: '#logging-trap'
+      - include: '#logging-history'
+      - include: '#logging-buffered'
+      - include: '#logging-persistent'
+      - include: '#logging-host'
+      - include: '#logging-queue'
+      - include: '#logging-device-id'
+
+  logging-host:
+    patterns:
+    - name: text.network.cisco.ace.logging.host
+      match: (host)\s+((?:\d+\.){3}\d+)(?:\s+(tcp|udp)/(\d+))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: support.constant}
+        '4': {name: constant.language}
+        '5': {name: invalid.illegal}
+
+  logging-persistent:
+    patterns:
+    - name: text.network.cisco.ace.logging.persistent
+      match: (persistent)\s+([0-7])\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: invalid.illegal}
+
+  logging-enable:
+    patterns:
+    - name: text.network.cisco.ace.logging.enable
+      match: (enable)\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: invalid.illegal}
+
+  logging-standby:
+    patterns:
+    - name: text.network.cisco.ace.logging.standby
+      match: (standby)\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: invalid.illegal}
+
+  logging-timestamp:
+    patterns:
+    - name: text.network.cisco.ace.logging.timestamp
+      match: (timestamp)\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: invalid.illegal}
+
+  logging-trap:
+    patterns:
+    - name: text.network.cisco.ace.logging.trap
+      match: (trap)\s+([0-7])\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: invalid.illegal}
+
+  logging-history:
+    patterns:
+    - name: text.network.cisco.ace.logging.history
+      match: (history)\s+([0-7])\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: invalid.illegal}
+
+
+  logging-queue:
+    patterns:
+    - name: text.network.cisco.ace.logging.queue
+      match: (queue)\s+(\d+)\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: invalid.illegal}
+
+  logging-device-id:
+    patterns:
+    - name: text.network.cisco.ace.logging.device-id
+      match: (device-id)\s+(?:(hostname)|(string)\s+(\S+))\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
+        '5': {name: invalid.illegal}
+
+  logging-buffered:
+    patterns:
+    - name: text.network.cisco.ace.logging.buffered
+      match: (buffered)\s+([0-7])\s*(\S*.*)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.language}
+        '3': {name: invalid.illegal}

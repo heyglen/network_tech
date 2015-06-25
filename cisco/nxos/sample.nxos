@@ -1,3 +1,6 @@
+logging server 1.2.3.4 6 use-vrf management facility local5
+
+
 default interface Ethernet0/1
 
 interface Ethernet

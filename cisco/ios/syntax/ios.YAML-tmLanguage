@@ -7,11 +7,13 @@ uuid: e5441a2e-8364-4339-b1e2-f79de773f570
 patterns:
 - include: cisco.ios.bgp
 - include: cisco.ios.interface
+- include: cisco.ios.logging
 - include: text.network.cisco.base
 - include: text.network.cisco.base.ios.show
 - include: ios.acl
 - include: text.network.cisco.base.ios.ip
 - include: text.network.cisco.base.ios.vty
+- include: "#logout"
 - include: "#ipv4-route"
 - include: "#ipv6-route"
 - include: "#vrf-upgrade"
@@ -34,6 +36,13 @@ repository:
       - include: '#copy-run-start'
       - include: '#copy-start-run'
       - include: '#copy-run-ftp'
+
+  logout:
+    patterns:
+    - name: logouti
+      match: \s*(logout)
+      captures:
+        '1': {name: support.constant}
 
   copy-run-start:
     patterns:

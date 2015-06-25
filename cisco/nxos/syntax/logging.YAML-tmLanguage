@@ -1,0 +1,22 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: .
+scopeName: cisco.nxos.logging
+uuid: e5441a2e-8364-4339-b1e2-f79db773f581
+
+patterns:
+- include: '#logging-server'
+
+repository:
+  logging-server:
+    patterns:
+    - name: logging.server
+      match: ^(?i)(logging\s+server)\s+((?:\d+\.){3}\d+)\s+(\d+)(?:\s+(use-vrf)\s+(\S+))?(?:\s+(facility)\s+(\S+))?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: constant.numeric}
+        '3': {name: constant.numeric}
+        '4': {name: support.constant}
+        '5': {name: string.unquoted}
+        '6': {name: support.constant}
+        '7': {name: support.constant}
+        

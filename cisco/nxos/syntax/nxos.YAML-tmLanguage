@@ -9,6 +9,7 @@ patterns:
 - include: cisco.nxos.vrf
 - include: cisco.nxos.ip
 - include: cisco.nxos.bgp
+- include: cisco.nxos.logging
 - include: cisco.nxos.interface
 - include: cisco.prefix-list
 - include: nxos.vlan

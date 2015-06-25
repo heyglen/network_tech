@@ -1,0 +1,8 @@
+<snippet>
+    <description>begin</description>
+    <tabTrigger>begin</tabTrigger>
+    <scope>cisco.ace & show & pipe</scope>
+    <content><![CDATA[
+begin "${1:SEARCH_TERM}"
+]]></content>
+</snippet>

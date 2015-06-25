@@ -28,6 +28,7 @@ repository:
       patterns:
       - include: '#running-config'
       - include: '#startup-config'
+      - include: '#other'
 
   running-config:
     patterns:
@@ -37,7 +38,7 @@ repository:
         '1': {name: support.constant}
       end: (?=$)
       patterns:
-      - include: '#n/a'
+      - include: '#other'
 
   startup-config:
     patterns:
@@ -47,4 +48,56 @@ repository:
         '1': {name: support.constant}
       end: (?=$)
       patterns:
-      - include: '#n/a'
+      - include: '#other'
+
+  other:
+    patterns:
+    - name: other
+      begin: (?i)\s*([^\|]*)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#pipe'
+
+  pipe:
+    patterns:
+    - name: pipe
+      begin: (?i)\s*(\|)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#operator'
+      - include: '#filter'
+
+  operator:
+    patterns:
+    - name: operator
+      begin: (?i)\s*(i(?:n(?:c(?:l(?:u(?:d(?:e)?)?)?)?)?)?|begin)|(exclude)\s+
+      beginCaptures:
+        '1': {name: entity.other.attribute-name}
+        '2': {name: keyword.other}
+      end: (?=$)
+      patterns:
+      - include: '#search-term'
+
+  filter:
+    patterns:
+    - name: filter
+      begin: (?i)\s*(count|more)\s*
+      beginCaptures:
+        '1': {name: support.constant}
+      end: (?=$)
+      patterns:
+      - include: '#pipe'
+
+  search-term:
+    patterns:
+    - name: search-term
+      begin: (?i)\s*([^\|]*)\s*
+      beginCaptures:
+        '1': {name: string.unquoted}
+      end: (?=$)
+      patterns:
+      - include: '#pipe'

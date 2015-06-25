@@ -2,7 +2,7 @@
 name: Cisco ACE
 scopeName: cisco.ace
 fileTypes: [ace]
-uuid: e5441a2e-8364-4339-b1e2-f79db773f565
+uuid: e5441a2e-8364-4349-b1e2-f79db773f565
 
 patterns:
 - include: '#reload'
@@ -22,9 +22,9 @@ patterns:
 - include: '#remove-configuration'
 - include: '#configure-terminal'
 - include: '#ssl-proxy'
-- include: '#logging'
 - include: '#serverfarm'
 - include: '#hostname'
+- include: '#system-defaults-http-parsing'
 - include: '#route'
 - include: '#snmp-contact'
 - include: '#snmp-location'
@@ -38,6 +38,7 @@ patterns:
 - include: text.network.cisco
 - include: cisco.ace.probe
 - include: cisco.ace.show
+- include: cisco.ace.logging
 - include: text.network.cisco.ace.rserver
 - include: text.network.cisco.ace.serverfarm
 - include: text.network.cisco.ace.sticky
@@ -51,6 +52,13 @@ patterns:
 - include: text.network.cisco.ace.parameter-map
 
 repository:
+  system-defaults-http-parsing:
+    patterns:
+    - name: system.defaults.http.parsing
+      match: ^\s*(system-defaults\s+http-parsing\s+allow-non-encoded-chars)
+      captures:
+        '1': {name: support.constant}
+
   snmp-trap-link-ietf:
     patterns:
     - name: snmp.trap.ietf
@@ -61,6 +69,7 @@ repository:
         '2': {name: support.constant}
         '3': {name: support.constant}
         '4': {name: support.constant}
+
   snmp-trap-snmp-enable:
     patterns:
     - name: snmp.trap
@@ -360,96 +369,6 @@ repository:
       - include: '#copy-start-run'
       - include: '#copy-run-ftp'
 
-  logging:
-    patterns:
-    - name: text.network.cisco.ace.logging
-      begin: ^\s*(logging)\s+
-      beginCaptures:
-        '1': {name: 'support.constant'}
-      end: (?=\s*$)
-      patterns:
-      - include: '#logging-enable'
-      - include: '#logging-standby'
-      - include: '#logging-timestamp'
-      - include: '#logging-trap'
-      - include: '#logging-history'
-      - include: '#logging-buffered'
-      - include: '#logging-persistent'
-      - include: '#logging-host'
-      - include: '#logging-queue'
-      - include: '#logging-device-id'
-
-  logging-enable:
-    patterns:
-    - name: text.network.cisco.ace.logging.enable
-      match: (enable)\s*(\S*.*)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: invalid.illegal}
-
-  logging-standby:
-    patterns:
-    - name: text.network.cisco.ace.logging.standby
-      match: (standby)\s*(\S*.*)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: invalid.illegal}
-
-  logging-timestamp:
-    patterns:
-    - name: text.network.cisco.ace.logging.timestamp
-      match: (timestamp)\s*(\S*.*)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: invalid.illegal}
-
-  logging-trap:
-    patterns:
-    - name: text.network.cisco.ace.logging.trap
-      match: (trap)\s+([0-7])\s*(\S*.*)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: constant.language}
-        '3': {name: invalid.illegal}
-
-  logging-history:
-    patterns:
-    - name: text.network.cisco.ace.logging.history
-      match: (history)\s+([0-7])\s*(\S*.*)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: constant.language}
-        '3': {name: invalid.illegal}
-
-
-  logging-queue:
-    patterns:
-    - name: text.network.cisco.ace.logging.queue
-      match: (queue)\s+(\d+)\s*(\S*.*)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: constant.language}
-        '3': {name: invalid.illegal}
-
-  logging-device-id:
-    patterns:
-    - name: text.network.cisco.ace.logging.device-id
-      match: (device-id)\s+(?:(hostname)|(string)\s+(\S+))\s*(\S*.*)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: support.constant}
-        '3': {name: support.constant}
-        '4': {name: string.unquoted}
-        '5': {name: invalid.illegal}
-
-  logging-buffered:
-    patterns:
-    - name: text.network.cisco.ace.logging.buffered
-      match: (buffered)\s+([0-7])\s*(\S*.*)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: constant.language}
-        '3': {name: invalid.illegal}
 
   checkpoint-create:
     patterns:
@@ -462,26 +381,6 @@ repository:
         '4': {name: keyword.other}
         '5': {name: string.unquoted.name}
         '6': {name: invalid.illegal}
-
-  logging-host:
-    patterns:
-    - name: text.network.cisco.ace.logging.host
-      match: (host)\s+((?:\d+\.){3}\d+)\s+(tcp|udp)/(\d+)\s*(\S*.*)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: constant.language}
-        '3': {name: support.constant}
-        '4': {name: constant.language}
-        '5': {name: invalid.illegal}
-
-  logging-persistent:
-    patterns:
-    - name: text.network.cisco.ace.logging.persistent
-      match: (persistent)\s+([0-7])\s*(\S*.*)?
-      captures:
-        '1': {name: support.constant}
-        '2': {name: constant.language}
-        '3': {name: invalid.illegal}
 
 
   copy-run-start:
