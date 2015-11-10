@@ -1,6 +1,6 @@
 <snippet>
     <description>/31</description>
-    <tabTrigger>255.255.255.254 </tabTrigger>
+    <tabTrigger>255.255.255.254</tabTrigger>
     <scope>cisco. | text.network.</scope>
     <content><![CDATA[
 /31
