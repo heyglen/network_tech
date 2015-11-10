@@ -109,6 +109,11 @@
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
+						<key>10</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
@@ -124,11 +129,36 @@
 							<key>name</key>
 							<string>support.constant</string>
 						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>9</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;=\s)(extended)\s+(?:(permit)|(deny))\s+(ip)\s+</string>
+					<string>(?&lt;=\s)(extended)\s+(?:(permit)|(deny))\s+(ip)\s+(?:(?:(\S+)\s+(\S+))|(any))\s+(?:(?:(\S+)\s+(\S+))|(any))</string>
 					<key>name</key>
-					<string>text.network.cisco.ace.acl.extended</string>
+					<string>extended</string>
 				</dict>
 			</array>
 		</dict>

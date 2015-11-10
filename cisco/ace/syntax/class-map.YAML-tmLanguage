@@ -182,7 +182,7 @@ repository:
   match-virtual:
     patterns:
     - name: text.network.cisco.ace.class-map.match-virtual
-      match: (\d+\s+)?(match)\s+(virtual-address)\s+(\S+)\s+(?:(any)|(?:(tcp|udp)\s+(?:(any)|(?:(eq)\s+(?:(\d+)|(\S+)))|(?:(range)\s+(\S+)\s+(\S+)))))$
+      match: (\d+\s+)?(match)\s+(virtual-address)\s+(\S+)\s+(?:(any)|(?:(tcp|udp)\s+(?:(any)|(?:(eq)\s+(?:(\d+)|(\S+)))|(?:(range)\s+(\S+)\s+(\S+)))))
       captures:
         '1': {name: constant.language}
         '2': {name: support.constant}

@@ -1,0 +1,8 @@
+<snippet>
+    <description>webhost-redirection</description>
+    <tabTrigger>webhost-redirection</tabTrigger>
+    <scope>redirect.rserver</scope>
+    <content><![CDATA[
+webhost-redirection http${1:s}://${2:hostname/path} ${3:301}
+]]></content>
+</snippet>

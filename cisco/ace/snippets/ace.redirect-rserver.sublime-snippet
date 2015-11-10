@@ -1,0 +1,13 @@
+<snippet>
+    <description>redirect</description>
+    <scope>cisco.ace & -(serverfarm)</scope>
+    <tabTrigger>rserver</tabTrigger>
+    <content><![CDATA[
+rserver redirect ${1:fully.qualified.domain.name}
+  webhost-redirection http${2:s}://${3:hostname/path} ${4:302}
+  inservice
+ exit
+
+$0
+]]></content>
+</snippet>
