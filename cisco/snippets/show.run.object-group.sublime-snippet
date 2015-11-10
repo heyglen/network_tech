@@ -1,0 +1,9 @@
+<snippet>
+    <description>run object-group</description>
+    <scope>(cisco.ios | cisco.nxos | text.network.cisco | cisco.ace)</scope>
+    <tabTrigger>showrunobject-group</tabTrigger>
+    <content><![CDATA[
+show run object-group id ${1:NAME} 
+]]></content>
+</snippet>
+

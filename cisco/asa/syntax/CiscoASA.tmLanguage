@@ -12,6 +12,22 @@
 	<array>
 		<dict>
 			<key>include</key>
+			<string>#show-run-object-group</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#show-run-access-list</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#show-run</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#show</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#write-net</string>
 		</dict>
 		<dict>
@@ -263,7 +279,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^\s*(changeto)\s+(?:(?:(context)\s+(\S+))|(system))$</string>
+					<string>^\s*(changeto)\s+(?:(?:(c(?:o(?:n(?:t(?:e(?:x(?:t)?)?)?)?)?)?)\s+(\S+))|(system))$</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.changeto</string>
 				</dict>
@@ -812,6 +828,131 @@
 							<string>invalid.illegal.router-id.asa</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>show</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(show)\s+</string>
+					<key>name</key>
+					<string>show</string>
+				</dict>
+			</array>
+		</dict>
+		<key>show-run</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(show)\s+(r(?:u(?:n(?:n(?:i(?:n(?:g(?:-(?:c(?:o(?:n(?:f(?:i(?:g)?)?)?)?)?)?)?)?)?)?)?)?)?)</string>
+					<key>name</key>
+					<string>show.run</string>
+				</dict>
+			</array>
+		</dict>
+		<key>show-run-access-list</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(show)\s+(r(?:u(?:n(?:n(?:i(?:n(?:g(?:-(?:c(?:o(?:n(?:f(?:i(?:g)?)?)?)?)?)?)?)?)?)?)?)?)?)\s+(access-list)(\s+\S+)?</string>
+					<key>name</key>
+					<string>show.run</string>
+				</dict>
+			</array>
+		</dict>
+		<key>show-run-object-group</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.attribute-name</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(show)\s+(r(?:u(?:n(?:n(?:i(?:n(?:g(?:-(?:c(?:o(?:n(?:f(?:i(?:g)?)?)?)?)?)?)?)?)?)?)?)?)?)\s+(object-group)\s+(?:(?:(id)\s+(\S+))|(network|service|icmp-type|protocol))</string>
+					<key>name</key>
+					<string>show.run</string>
 				</dict>
 			</array>
 		</dict>

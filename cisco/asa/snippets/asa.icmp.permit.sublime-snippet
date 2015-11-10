@@ -1,0 +1,7 @@
+<snippet>
+    <description>icmp</description>
+    <tabTrigger>icmp</tabTrigger>
+    <scope>text.network.cisco.asa & -(cisco.asa.interface | text.network.cisco.asa.access-list)</scope>
+    <content><![CDATA[
+icmp ${1:permit} ${2:any} ${3:NAMEIF}]]></content>
+</snippet>

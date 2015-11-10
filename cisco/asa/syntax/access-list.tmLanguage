@@ -221,7 +221,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -402,7 +402,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -464,7 +464,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -514,7 +514,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -566,7 +566,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -586,7 +586,7 @@
 						<key>5</key>
 						<dict>
 							<key>name</key>
-							<string>constant.numeric</string>
+							<string>support.constant</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -936,12 +936,12 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant.permit-objgrp.asa</string>
+							<string>string.unquoted</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -984,13 +984,18 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\s*(ip|tcp|udp|icmp|gre|esp|ah|(\d+))\s*</string>
+					<string>\s*(?:(ip|tcp|udp|icmp|gre|esp|ah)|(\d+))\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.constant.protocol.asa</string>
+							<string>constant.numeric</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -1116,7 +1121,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -1309,7 +1314,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -1375,7 +1380,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>string.quoted.double.json.dest-port-object-group.asa</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -1429,7 +1434,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -1483,7 +1488,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>markup.inserted</string>
+							<string>support.constant</string>
 						</dict>
 						<key>2</key>
 						<dict>

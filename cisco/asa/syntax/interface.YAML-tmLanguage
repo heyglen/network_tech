@@ -5,7 +5,6 @@ uuid: 8e510814-afc1-45ca-879f-061aa5dda202
 
 patterns:
 - include: '#interface'
-- include: '#interface'
 
 repository:
   
@@ -26,8 +25,7 @@ repository:
       - include: '#security-level'
       - include: text.network.cisco
       - include: text.network.cisco.scope
-      - name: invalid.illegal.cisco.asa.interface
-        match: (?:.*$)
+
 
   interface_id:
     patterns:

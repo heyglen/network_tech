@@ -4,10 +4,9 @@ scopeName: text.network.cisco.asa.object-group
 uuid: 8e510814-afc1-45ba-879f-061aa5dda204
 
 patterns:
+- include: '#object-group_protocol'
 - include: '#object-group_service'
-
 - include: '#object-group_icmp-type'
-
 - include: '#object-group_network'
 
 repository:
@@ -26,7 +25,7 @@ repository:
   icmp-object:
     patterns:
     - name: text.network.cisco.asa.object-group.icmp-type.icmp-object
-      begin: ^\s*(icmp-object)\s+(\S+)\s*
+      begin: ^\s*(icmp-object)\s+(\S+)
       beginCaptures:
         '1': {name: support.constant}
         '2': {name: markup.inserted.control.asa}
@@ -99,7 +98,7 @@ repository:
   object-group_icmp-type:
     patterns:
     - name: text.network.cisco.asa.object-group.icmp-type
-      begin: ^\s*(object-group)\s+(icmp-type)\s+(\S+)\s*
+      begin: ^\s*(object-group)\s+(icmp-type)\s+(\S+)
       beginCaptures:
         '0': {name: object-group.block}
         '1': {name: variable.parameter}
@@ -109,11 +108,12 @@ repository:
       patterns:
       - include: '#icmp-object'
       - include: text.network.cisco.scope
+      - include: text.network.cisco
 
   object-group_network:
     patterns:
     - name: text.network.cisco.asa.object-group.network
-      begin: ^\s*(object-group)\s+(network)\s+(\S+)\s*
+      begin: ^\s*(object-group)\s+(network)\s+(\S+)
       beginCaptures:
         '0': {name: object-group.block}
         '1': {name: variable.parameter}
@@ -124,6 +124,31 @@ repository:
       - include: '#network-object'
       - include: '#group-object'
       - include: text.network.cisco.scope
+      - include: text.network.cisco
+
+  object-group_protocol:
+    patterns:
+    - name: cisco.asa.object-group.protocol
+      begin: ^\s*(object-group)\s+(protocol)\s+(\S+)\s*
+      beginCaptures:
+        '0': {name: object-group.block}
+        '1': {name: variable.parameter}
+        '2': {name: entity.other.attribute-name}
+        '3': {name: string.unquoted}
+      end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))
+      patterns:
+      - include: '#protocol-object'
+      - include: text.network.cisco.scope
+      - include: text.network.cisco
+
+  protocol-object:
+    patterns:
+    - name: cisco.asa.object-group.protocol.protocol-object
+      match: ^\s*(protocol-object)\s+(?:(ah|eigrp|esp|gre|icmp|icmp6|igmp|igrp|ip|ipinip|ipsec|nos|ospf|pcp|pim|pptp|snp|tcp|udp)|(\d+))
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.other.attribute-name}
+        '3': {name: constant.numeric}
 
   object-group_service:
     patterns:
@@ -138,7 +163,9 @@ repository:
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))
       patterns:
       - include: '#port-object'
+      - include: '#service-object'
       - include: text.network.cisco.scope
+      - include: text.network.cisco
 
   port-object:
     patterns:
@@ -150,3 +177,17 @@ repository:
         '3': {name: constant.character}
         '4': {name: constant.character}
       end: (\s*$)
+
+  service-object:
+    patterns:
+    - name: text.network.cisco.asa.object-group.service.service-object
+      match: ^\s*(service-object)\s+(ah|eigrp|esp|gre|icmp|icmp6|igmp|igrp|ip|ipinip|ipsec|nos|object|ospf|pcp|pim|pptp|snp|tcp|tcp-udp|udp|\d+)\s+(source|destination)\s+(?:(?:(eq|gt|lt|neq)\s+(\S+))|(?:(range)\s+(\S+)\s+(\S+)))
+      captures:
+        '1': {name: support.constant}
+        '2': {name: entity.other.attribute-name}
+        '3': {name: support.constant}
+        '4': {name: entity.other.attribute-name}
+        '5': {name: constant.character}
+        '6': {name: entity.other.attribute-name}
+        '7': {name: constant.character}
+        '8': {name: constant.character}

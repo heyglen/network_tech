@@ -1,0 +1,9 @@
+<snippet>
+    <description>include</description>
+    <scope>(cisco.ios | cisco.nxos | text.network.cisco | cisco.ace) & show.run</scope>
+    <tabTrigger>running-config</tabTrigger>
+    <content><![CDATA[
+running-config | ${1:include} 
+]]></content>
+</snippet>
+

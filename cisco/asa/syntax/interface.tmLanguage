@@ -10,10 +10,6 @@
 			<key>include</key>
 			<string>#interface</string>
 		</dict>
-		<dict>
-			<key>include</key>
-			<string>#interface</string>
-		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -73,12 +69,6 @@
 						<dict>
 							<key>include</key>
 							<string>text.network.cisco.scope</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>(?:.*$)</string>
-							<key>name</key>
-							<string>invalid.illegal.cisco.asa.interface</string>
 						</dict>
 					</array>
 				</dict>

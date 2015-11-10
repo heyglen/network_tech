@@ -5,6 +5,10 @@ fileTypes: [asa]
 uuid: 8e510814-afc1-45ba-879f-061aa5dda201
 
 patterns:
+- include: '#show-run-object-group'
+- include: '#show-run-access-list'
+- include: '#show-run'
+- include: '#show'
 - include: '#write-net'
 - include: '#write'
 - include: '#control'
@@ -68,7 +72,7 @@ repository:
   changeto:
     patterns:
     - name: text.network.cisco.asa.changeto
-      match: ^\s*(changeto)\s+(?:(?:(context)\s+(\S+))|(system))$
+      match: ^\s*(changeto)\s+(?:(?:(c(?:o(?:n(?:t(?:e(?:x(?:t)?)?)?)?)?)?)\s+(\S+))|(system))$
       captures:
         '1': {name: support.constant}
         '2': {name: support.constant}
@@ -131,6 +135,44 @@ repository:
       patterns:
       - name: invalid.illegal.network-object.asa
         match: (?:.*$)
+
+  show:
+    patterns:
+    - name: show
+      match: ^\s*(show)\s+
+      captures:
+        '1': {name: support.constant}
+
+  show-run:
+    patterns:
+    - name: show.run
+      match: ^\s*(show)\s+(r(?:u(?:n(?:n(?:i(?:n(?:g(?:-(?:c(?:o(?:n(?:f(?:i(?:g)?)?)?)?)?)?)?)?)?)?)?)?)?)
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+  
+  show-run-object-group:
+    patterns:
+    - name: show.run
+      match: ^\s*(show)\s+(r(?:u(?:n(?:n(?:i(?:n(?:g(?:-(?:c(?:o(?:n(?:f(?:i(?:g)?)?)?)?)?)?)?)?)?)?)?)?)?)\s+(object-group)\s+(?:(?:(id)\s+(\S+))|(network|service|icmp-type|protocol))
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: support.constant}
+        '5': {name: string.unquoted}
+        '6': {name: entity.other.attribute-name}
+
+
+  show-run-access-list:
+    patterns:
+    - name: show.run
+      match: ^\s*(show)\s+(r(?:u(?:n(?:n(?:i(?:n(?:g(?:-(?:c(?:o(?:n(?:f(?:i(?:g)?)?)?)?)?)?)?)?)?)?)?)?)?)\s+(access-list)(\s+\S+)?
+      captures:
+        '1': {name: support.constant}
+        '2': {name: support.constant}
+        '3': {name: support.constant}
+        '4': {name: string.unquoted}
 
   ip_address:
     patterns:

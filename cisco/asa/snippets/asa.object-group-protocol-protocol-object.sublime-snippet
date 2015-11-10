@@ -1,0 +1,8 @@
+<snippet>
+    <description>protocol-object</description>
+    <tabTrigger>protocol-object</tabTrigger>
+    <scope>cisco.asa.object-group.protocol & -text.network.cisco.asa.access-list</scope>
+    <content><![CDATA[
+protocol-object ${1:tcp}
+]]></content>
+</snippet>

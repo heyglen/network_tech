@@ -1,9 +1,8 @@
 <snippet>
+    <scope>text.network.cisco.asa & -(show)</scope>
+    <tabTrigger>route</tabTrigger>
+    <description>route</description>
 	<content><![CDATA[
 route ${1:interface-name} ${2:network-ip} ${3:subnet-mask} ${4:gateway} 1
 ]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>route</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>text.network.cisco.asa</scope>
 </snippet>

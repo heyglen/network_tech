@@ -8,6 +8,10 @@
 	<array>
 		<dict>
 			<key>include</key>
+			<string>#object-group_protocol</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#object-group_service</string>
 		</dict>
 		<dict>
@@ -63,7 +67,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(icmp-object)\s+(\S+)\s*</string>
+					<string>^\s*(icmp-object)\s+(\S+)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -286,7 +290,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(object-group)\s+(icmp-type)\s+(\S+)\s*</string>
+					<string>^\s*(object-group)\s+(icmp-type)\s+(\S+)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
@@ -324,6 +328,10 @@
 							<key>include</key>
 							<string>text.network.cisco.scope</string>
 						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
 					</array>
 				</dict>
 			</array>
@@ -334,7 +342,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^\s*(object-group)\s+(network)\s+(\S+)\s*</string>
+					<string>^\s*(object-group)\s+(network)\s+(\S+)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
@@ -375,6 +383,62 @@
 						<dict>
 							<key>include</key>
 							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>object-group_protocol</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(object-group)\s+(protocol)\s+(\S+)\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>object-group.block</string>
+						</dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.attribute-name</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.unquoted</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:exit)|(?:\S))</string>
+					<key>name</key>
+					<string>cisco.asa.object-group.protocol</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#protocol-object</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
 						</dict>
 					</array>
 				</dict>
@@ -427,7 +491,15 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#service-object</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.network.cisco.scope</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>text.network.cisco</string>
 						</dict>
 					</array>
 				</dict>
@@ -467,6 +539,91 @@
 					<string>(\s*$)</string>
 					<key>name</key>
 					<string>text.network.cisco.asa.object-group.service.port-object</string>
+				</dict>
+			</array>
+		</dict>
+		<key>protocol-object</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.attribute-name</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(protocol-object)\s+(?:(ah|eigrp|esp|gre|icmp|icmp6|igmp|igrp|ip|ipinip|ipsec|nos|ospf|pcp|pim|pptp|snp|tcp|udp)|(\d+))</string>
+					<key>name</key>
+					<string>cisco.asa.object-group.protocol.protocol-object</string>
+				</dict>
+			</array>
+		</dict>
+		<key>service-object</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.attribute-name</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.attribute-name</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>constant.character</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.attribute-name</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>constant.character</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>constant.character</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(service-object)\s+(ah|eigrp|esp|gre|icmp|icmp6|igmp|igrp|ip|ipinip|ipsec|nos|object|ospf|pcp|pim|pptp|snp|tcp|tcp-udp|udp|\d+)\s+(source|destination)\s+(?:(?:(eq|gt|lt|neq)\s+(\S+))|(?:(range)\s+(\S+)\s+(\S+)))</string>
+					<key>name</key>
+					<string>text.network.cisco.asa.object-group.service.service-object</string>
 				</dict>
 			</array>
 		</dict>
