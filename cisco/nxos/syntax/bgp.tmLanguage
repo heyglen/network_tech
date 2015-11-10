@@ -544,7 +544,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?=(?:(?:\s*(?:vrf|exit))|\S))</string>
+					<string>^(?=((\s*((vrf)|(exit)))|\S))</string>
 					<key>name</key>
 					<string>vrf</string>
 					<key>patterns</key>

@@ -42,6 +42,7 @@ interface vlan 123
   switchport mode access
   switchport mode trunk
   switchport trunk
+  port-channel standalone-disable
   switchport trunk encapsulation dot1q
   encapsulation dot1q 123
   switchport trunk encapsulation Dot1q

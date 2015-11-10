@@ -405,6 +405,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#port-channel-standalone-disable</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>text.network.cisco.scope</string>
 						</dict>
 						<dict>
@@ -1063,6 +1067,31 @@
 					<string>\s*(no)\s+(shutdown)(?:\s+(\S.*))?</string>
 					<key>name</key>
 					<string>text.network.cisco.base.ios.interface.ipv4.helper</string>
+				</dict>
+			</array>
+		</dict>
+		<key>port-channel-standalone-disable</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.constant</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?i)\s*(port-channel)\s+(standalone-disable)</string>
+					<key>name</key>
+					<string>cisco.base.ios.interface.port-channel.standalone-disable</string>
 				</dict>
 			</array>
 		</dict>

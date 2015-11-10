@@ -33,7 +33,7 @@ repository:
         '0': {name: bgp.vrf.block}
         '1': {name: variable.parameter}
         '2': {name: string.unquoted}
-      end: ^(?=(?:(?:\s*(?:vrf|exit))|\S))
+      end: ^(?=((\s*((vrf)|(exit)))|\S))
       patterns:
       - include: '#ipv4-address-family'
       - include: '#ipv6-address-family'

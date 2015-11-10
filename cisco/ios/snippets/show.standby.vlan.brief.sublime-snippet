@@ -4,7 +4,6 @@
     <tabTrigger>standby</tabTrigger>
     <content><![CDATA[
 standby vlan ${1:0} brief
-
 ]]></content>
 </snippet>
 
