@@ -41,12 +41,14 @@ repository:
   interface:
     patterns:
     - name: interface
-      begin: (?i)^\s*(interface)\s+(port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)Ethernet)|vlan)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)
+      begin: (?i)^\s*(interface)\s+(range\s+)?(port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)Ethernet)|Gi|Fa|Te|Vl(?:an))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)(-\d+)?
       beginCaptures:
         '0': {name: interface.block}
         '1': {name: variable.parameter}
-        '2': {name: entity.other.inherited-class}
-        '3': {name: constant.numeric}
+        '2': {name: support.constant}
+        '3': {name: entity.other.inherited-class}
+        '4': {name: constant.numeric}
+        '5': {name: constant.numeric}
       end: ^(?=(?:\s*(?=(?:\n\s*\n)*(?:\s+\S))$)|(?:\S)|(?:\s*(?:exit|end)))
       patterns:
       - include: '#switchport'

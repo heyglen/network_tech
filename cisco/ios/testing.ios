@@ -85,6 +85,10 @@ ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 tag 2
 ip route 1.2.3.0 255.255.255.0 1.1.1.1 name NAME
 ipv6 route vrf NAME ::/64 vlan0 ::1
 
+interface range Gi1/0/1-20
+ exit
+  
+
 line vty 0 4
   access-class 1234 in vrf-also
   transport input ssh telnet

@@ -321,7 +321,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?i)^\s*(interface)\s+(port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)Ethernet)|vlan)(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)</string>
+					<string>(?i)^\s*(interface)\s+(range\s+)?(port-channel|(?:(?:(?:(?:Ten)?Gigabit)|Fast)Ethernet)|Gi|Fa|Te|Vl(?:an))(?:\s+)?(\d+(?:/\d+)*(?:\.\d+)?)(-\d+)?</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
@@ -337,9 +337,19 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.other.inherited-class</string>
+							<string>support.constant</string>
 						</dict>
 						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.other.inherited-class</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric</string>
+						</dict>
+						<key>5</key>
 						<dict>
 							<key>name</key>
 							<string>constant.numeric</string>
