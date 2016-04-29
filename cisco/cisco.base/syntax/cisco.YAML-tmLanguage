@@ -14,7 +14,7 @@ repository:
   comment:
     patterns:
     - name: text.network.cisco.comment
-      match: (!.*)$
+      match: ((?:!|#).*)$
       captures:
         '1': {name: comment.line}
 

@@ -43,7 +43,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(!.*)$</string>
+					<string>((?:!|#).*)$</string>
 					<key>name</key>
 					<string>text.network.cisco.comment</string>
 				</dict>

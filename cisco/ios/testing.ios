@@ -1,3 +1,5 @@
+! I am a comment
+# I am a comment
 write
 
 copy running-config startup-config
