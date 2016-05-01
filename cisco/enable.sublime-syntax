@@ -30,7 +30,7 @@ contexts:
 
   prototype:
     - include: pipe
-    - include: 'Packages/User/sublime-network/cisco/scope.sublime-syntax'
+    - include: 'Packages/sublime-network/cisco/scope.sublime-syntax'
 
   locations:
     - include: location_local
@@ -85,7 +85,7 @@ contexts:
           pop: true
           captures:
             1: comment.line
-        - include: Packages/User/sublime-network/cisco/configure_terminal.sublime-syntax
+        - include: Packages/sublime-network/cisco/configure_terminal.sublime-syntax
 
   pipe:
     - match: (?<=\s)(\|)[^{{comment}}]*

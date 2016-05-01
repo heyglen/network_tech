@@ -13,7 +13,15 @@ variables:
 
 contexts:
   main: 
+    - include: device_comment
     - include: comment
+
+  device_comment:
+    - match: '(?i)({{comment}}\s*on\s+\S.*)$'
+      scope: text.network.cisco.comment
+      captures:
+        0: cisco.scope
+        1: comment.line
 
   comment:
     - match: ({{comment}}.*)$

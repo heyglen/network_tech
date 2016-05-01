@@ -1,9 +1,9 @@
 %YAML 1.2
 ---
-name: Cisco IOS
-file-extensions: [cisco-ios]
-first_line_match: ^(?i)#!\s*cisco(\s+|\-)ios$\n?
-scope: text.network.cisco.ios
+name: Cisco NXOS
+file-extensions: [cisco-nxos]
+first_line_match: ^(?i)#!\s*cisco(\s+|\-)nxos$\n?
+scope: text.network.cisco.nxos
 
 
 variables:
@@ -27,18 +27,17 @@ variables:
     (?:
       (?:vlan)|
       (?:port-channel)|
-      (?:(?:(?:(?:Ten)?Gigabit)|(?:Fast))Ethernet)
+      (?:ethernet)
     )
   interface_numbers: |
-    (?x)
-    (?:\d+(?:/\d+)*(?:\.\d+)?)?
+    (?xi)
+    (?:\d+(?:/\d+)*(?:\.\d+)?)
   interface_number_ranged: |
     (?x)
     (?:\d+(?:/\d+)*(?:\.\d+)?)(?:-\d+)?
   network_target: |
     (?x)
-    (?:{{network_address}})|
-    (?:{{ip}})|
+    (?:{{ip_prefix}})|
     (?:any)
   protocol_target: |
     (?x)
@@ -67,12 +66,15 @@ variables:
 contexts:
 
   main:
-    - include: show
     - include: configure_terminal
-    - include: 'Packages/sublime-network/cisco/enable.sublime-syntax'
+    - include: enable
 
   prototype:
+    - include: show
     - include: 'Packages/sublime-network/cisco/global.sublime-syntax'
+
+  enable:
+    - include: 'Packages/sublime-network/cisco/enable.sublime-syntax'
 
   configure_terminal:
     - match: ^\s*(?:(configure)\s*(terminal))
@@ -85,90 +87,45 @@ contexts:
         2: support.constant
       push: 
         - meta_content_scope: text.network.cisco.configure_terminal
+        - include: logging
         - include: bgp
         - include: vty
         - include: vlan
-        - include: logging
         - include: interface
         - include: ip_route
         - include: prefix_list
-        - include: vrf_upgrade
-        - include: ipv6_unicast_routing
-        - include: ipv6_general_prefix
-        - include: extended_acl
-        - include: standard_acl
+        - include: acl
         - include: 'Packages/sublime-network/cisco/configure_terminal.sublime-syntax'
   
-  vrf_upgrade:
-    - match: ^\s*(vrf)\s+(upgrade-cli)\s+(multi-af-mode)\s+((?:non-)?common-policies)(?:(?:\s+(vrf)\s+(\S+)(?:\s+(force))?)|(\s+force))?
-      captures:
-        1: support.constant
-        2: support.constant
-        3: support.constant
-        4: support.constant
-        5: support.constant
-        6: string.unquoted
-        7: support.constant
-        8: support.constant
-
-  ipv6_general_prefix:
-    - match: \s*(ipv6\s+general-prefix)\s+(\S+\s+)?((?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:)|:)))(?:%.+)?)(/\d+)(?:\s+(\S.*))?
-      scope: ios.ipv6.general-prefix
-      captures:
-        1: support.constant
-        2: string.unquoted
-        3: constant.numeric
-        4: constant.numeric
-        5: invalid.illegal
-
   logging:
-    - match: ^(?i)\s*(logging)\s+((?:\d+\.){3}\d+)\s+
+    - match: >
+        (?ix)
+        ^\s*(logging\s+server)\s+
+        ({{ip}})\s+(\d+)(?:\s+(use-vrf)\s+(\S+))?(?:\s+(facility)\s+(\S+))?
       captures:
         1: support.constant
         2: constant.numeric
+        3: constant.numeric
+        4: support.constant
+        5: string.unquoted
+        6: support.constant
+        7: support.constant
 
-  standard_acl:
-    - match: ^\s*(ip)\s+(access-list)\s+(standard)\s+(\S+)
+  acl:
+    - match: ^\s*(ip)\s+(access-list)\s+(\S+)
       captures:
         0: cisco.scope
         1: variable.parameter
         2: support.constant
-        3: support.constant
-        4: string.unquoted
-      push:
-        - meta_content_scope: text.network.cisco.acl.standard
-        - include: standard_ace
-
-  standard_ace:
-    - include: standard_permission
-    - match: |
-        (?x)
-        ({{line_number}}\ +)?
-        (?:(permit)|(deny))\ +
-        ({{network_target}})
-      scope: text.network.cisco.acl.standard.ace
-      captures:
-        1: constant.numeric
-        2: entity.other.attribute-name
-        3: keyword.other
-        4: constant.numeric
-
-  extended_acl:
-    - match: ^\s*(ip)\s+(access-list)\s+(extended)\s+(\S+)
-      captures:
-        0: cisco.scope
-        1: variable.parameter
-        2: support.constant
-        3: support.constant
-        4: string.unquoted
+        3: string.unquoted
       push:
         - meta_content_scope: text.network.cisco.acl.extended
-        - include: extended_ace
+        - include: ace
 
-  extended_ace:
+  ace:
     - match: |
         (?x)
-        ({{line_number}}\ +)?
+        ({{line_number}}\ +)
         (?:(permit)|(deny))\ +
         ({{protocol_target}})\ +
         ({{network_target}})
@@ -361,11 +318,6 @@ contexts:
         1: support.constant
         2: constant.numeric
 
-  ipv6_unicast_routing:
-  - match: ^\s*(ipv6\s+unicast-routing)
-    captures:
-      1: support.constant
-
   ip_route: 
     - include: ipv4_route
     - include: ipv6_route
@@ -507,7 +459,7 @@ contexts:
 
   interface_block:
     - match: |
-        (?x)
+        (?xi)
         ^\s*(interface)\s+
         (?:
           (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
@@ -668,15 +620,6 @@ contexts:
         captures:
           1: support.constant
           2: support.constant
-
-  do_show:
-    - match: '^\s*(do)'
-      captures:
-          1: support.constant
-      push: 
-        - match: '$'
-          pop: true
-        - include: show
 
   show:
     - include: show_bgp

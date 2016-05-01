@@ -1,0 +1,51 @@
+// SYNTAX TEST "Packages/sublime-network/cisco/cisco.sublime-syntax"
+
+! This is a line comment | pipes are ignored
+// ^ text.network.cisco.comment
+//                       ^ text.network.cisco.comment
+
+
+# This is also a line comment | where pipes are not matched
+// ^ text.network.cisco.comment
+
+show running-config ! Inline comment | pipes are ignored
+//                  ^ text.network.cisco.comment
+
+show running-config # Inline comment  | pipes are ignored
+//                  ^ text.network.cisco.comment
+
+show running-config | include vlan ! Inline comment
+//                  ^ text.network.cisco.pipe
+//                                 ^ text.network.cisco.comment
+
+
+configure terminal
+hostname example ! Inline comment
+// <- text.network.cisco.configure_terminal
+// <- cisco.hostname
+end
+// <- text.network.cisco
+
+no vlan 123 ! Inline comment | pipes are ignored
+//^ text.network.cisco.removal
+//          ^ text.network.cisco.comment
+
+copy tftp://1.2.3.4/path startup-config ! Inline comment
+// <- support.constant
+//   ^ entity.other.attribute-name
+//       ^ support.constant
+//          ^ constant.language
+//                 ^ support.constant
+//                       ^ support.constant
+//                                      ^ text.network.cisco.comment
+
+copy running-config startup-config ! Inline comment
+//   ^ support.constant
+//                  ^ support.constant
+//                                 ^ text.network.cisco.comment
+
+logout
+// <- support.constant
+
+write
+// <- support.constant

@@ -1,0 +1,48 @@
+#! Cisco base
+
+# Line comment
+! Line comment
+
+vlan 20 ! Inline comment
+ name test # Incline comment
+
+
+show run interface Vlan 1
+default interface Vlan 1
+
+ip vrf asdf
+
+
+route-map NAME permit 0
+ match ip address prefix-list asdf
+ set extcommunity rt 0:0
+ exit
+
+vrf definition RED
+  description RED VRF
+  no rd 1:2
+  rd 1:2
+  rd 1.2.3.4:1
+  export map route-map-name
+  route-target both 1:2
+  address-family ipv4
+   export map route-map-name
+  exit-address-family
+  
+
+route-map blah_blah permit 10
+ set local-preference 220
+
+
+show vlan id 604 | include Po10
+
+ip prefix-list NAME seq 10 permit 10.225.6.0/24
+ip prefix-list NAME seq 10 deny 10.225.6.0/24
+ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1
+ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1 le 2
+ipv6 prefix-list NAME seq 10 permit ::/0
+ipv6 prefix-list NAME seq 200 deny ::/0 ge 1
+ipv6 prefix-list NAME seq 200 deny ::/0 ge 1 le 2
+
+
+configure terminal
