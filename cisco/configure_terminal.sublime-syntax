@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+name: Cisco Configure Terminal
+scope: text.network.cisco.configure_terminal
+hidden: true
+
+
+contexts:
+  main: 
+    - include: hostname
+    
+  hostname:
+    - match: ^\s*(hostname)\s*(\S+)
+      scope: text.network.cisco.configure_terminal
+      captures:
+        1: support.constant
+        2: string.unquoted
