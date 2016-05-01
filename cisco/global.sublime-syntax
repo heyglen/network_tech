@@ -1,0 +1,22 @@
+%YAML 1.2
+---
+name: Cisco Global
+scope: text.network.cisco
+hidden: true
+
+variables:
+  comment: '(?:!|#)'
+  drive: '(?<drive>(?:flash|disk(?<drive_number>[0-3])?):)'
+  uri: '(?<protocol>(?:t?ftp)|scp)(?<protocol_seperator>://)(?<hostname>(?:\d+\.){3}\d+)(?<path>\/\S*)'
+  locations: '(?:{{drive}}|{{uri}})'
+  pop_ctx: '^\s*(?:end|exit)\s*$'
+
+contexts:
+  main: 
+    - include: comment
+
+  comment:
+    - match: ({{comment}}.*)$
+      scope: text.network.cisco.comment
+      captures:
+        1: comment.line

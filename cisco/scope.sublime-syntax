@@ -1,0 +1,31 @@
+%YAML 1.2
+---
+name: Cisco Base
+file-extensions: [cisco-base]
+first_line_match: ^#!\s*cisco(\s+|\-)base$\n?
+scope: text.network.cisco
+hidden: false
+
+variables:
+  comment: '(?:!|#).*$'
+  pop_ctx: '^\s*(?:end|exit)\s*$'
+
+contexts:
+  main: 
+    - include: removal
+    - include: pop_ctx_word
+    - include: comment
+
+  removal:
+    - meta_include_prototype: false
+    - match: ^\s*(no\s[^{{comment}}]*)
+      scope: text.network.cisco.removal
+      captures:
+        1: keyword.other
+
+  pop_ctx_word:
+    - match: ({{pop_ctx}})
+      pop: true
+      captures:
+        1: comment.line
+
