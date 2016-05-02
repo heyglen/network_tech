@@ -1,0 +1,124 @@
+// SYNTAX TEST "Packages/sublime-network/cisco/nxos.sublime-syntax"
+#! cisco asa
+
+changeto context fw-context-1
+
+terminal width 511
+terminal pager 0
+show running-config | include blah blah
+
+configure terminal
+hostname firewall
+
+interface port-channel 0
+  nameif outside
+  security-level 0
+  ip address 1.2.3.4 255.255.255.0 standby 1.2.3.5
+  shutdown
+  no shutdown
+  end
+  
+ip verify reverse-path interface outside
+
+object-group service service
+  description blah
+  service-object tcp destination eq 1
+  service-object tcp destination gt 2
+  service-object tcp destination lt 3
+  service-object tcp destination range 4 5
+ exit
+ 
+object-group network NAME
+ description blah
+  network-object host 1.2.3.4
+ exit
+
+object-group service NAME tcp-udp
+ description blah
+ port-object eq 42
+ port-object range 4 5
+ exit
+ 
+object network host-1.2.3.4
+ description blah
+ host 1.2.3.4
+ exit
+
+object network obj-1.2.3.1-255
+ description blah
+ range 1.2.3.1 1.2.3.255
+ exit
+
+object network subnet-1.2.3.0_24
+ description blah
+ subnet 1.2.3.0 255.255.255.0
+exit
+
+object-group protocol TCPUDP
+ description blah
+ protocol-object udp
+ protocol-object tcp
+ exit
+
+object network obj-www.fqdn.com
+ description blah
+ fqdn www.fqdn.com
+ exit
+
+access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
+            alert-interval 300
+access-list acl-name; 906 elements; name hash: 0xbe299002
+access-list acl-name line 1 extended deny icmp any host 1.1.1.1
+access-list acl-name line 2 extended deny icmp any host 1.1.1.1 timestamp-request
+access-list acl-name line 3 extended deny icmp any host 1.1.1.1 traceroute
+access-list acl-name line 4 extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
+access-list acl-name line 5 extended permit object-group services object-group group1 object-group group2
+access-list acl-name line 17 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 0x2e7027d7
+access-list acl-name line 53 extended permit icmp host 2.2.2.2 host 1.1.1.1 echo log informational interval 300
+access-list acl-name line 51 extended permit tcp host 2.2.2.2 object-group group-2 eq 2059 inactive (inactive)
+access-list acl-name line 51 extended permit tcp host 1.1.1.1 object-group group-3 eq 2059 inactive (hitcnt=0)
+access-list acl-name line 51 extended permit 41 host 1.1.1.1
+access-group acl-name in interface outside
+
+mtu outside 1500
+fragment chain 1 outside
+ipv6 icmp permit fe80::/64 nameif
+
+http server enable
+http 1.2.3.0 255.255.255.0 outside
+telnet 1.2.3.0 255.255.255.0 outside
+ssh 1.2.3.0 255.255.255.0 outside
+ssh version 2
+ssh key-exchange group dh-group14-sha1
+ssh timeout 15
+telnet timeout 15
+
+logging enable
+logging timestamp
+logging buffer-size 1234
+logging buffered informational
+logging trap informational
+logging asdm informational
+logging device-id string firewall
+logging host mgmt 1.2.3.4
+
+username root password asdfasdfdsaf encrypted privilege 15
+
+snmp-server host outside 1.2.3.4 community public
+snmp-server host outside 1.2.3.4 community 0 private version 2c
+snmp-server host outside 1.2.3.4 poll community 0 private version 2c
+snmp-server host outside 1.2.3.4 trap community 0 private version 2c udp-port 12
+snmp-server location here
+snmp-server contact me
+
+aaa authentication http console TACACS+ LOCAL
+aaa authentication ssh console TACACS+ LOCAL
+aaa authentication enable console TACACS+ LOCAL
+aaa accounting command TACACS+
+aaa accounting enable console TACACS+
+aaa accounting telnet console TACACS+
+aaa accounting ssh console TACACS+
+aaa authorization exec authentication-server auto-enable
+
+
+end

@@ -87,14 +87,16 @@ contexts:
         2: support.constant
       push: 
         - meta_content_scope: text.network.cisco.configure_terminal
-        - include: logging
-        - include: bgp
+        - include: vrf
         - include: vty
-        - include: vlan
-        - include: interface
-        - include: ip_route
-        - include: prefix_list
+        - include: bgp
         - include: acl
+        - include: vlan
+        - include: logging
+        - include: route_map
+        - include: ip_route
+        - include: interface
+        - include: prefix_list
         - include: 'Packages/sublime-network/cisco/configure_terminal.sublime-syntax'
   
   logging:
@@ -340,6 +342,66 @@ contexts:
     - include: ipv4_route
     - include: ipv6_route
 
+  vrf_ip_route: 
+    - include: vrf_ipv4_route
+    - include: vrf_ipv6_route
+
+  vrf_ipv4_route:
+    - match: |
+        (?x) 
+        ^\s*(ip)\s+(route)\s+
+        ({{ip_prefix}})\s+
+        (?:({{interface_names}})\s*({{interface_numbers}})\s+)?
+        ({{ip}})
+        (?:
+          (?:\s+(name)\s+(\S+))?
+          (?:\s+(permanent))?
+          (?:\s+(track)\s+(\S+))?
+          (?:\s+(tag)\s+(\S+))?
+        )
+      captures:
+        1: support.constant             # ip
+        2: support.constant             # route
+        3: constant.numeric             # ip
+        4: entity.other.attribute-name  # next hop interface
+        5: constant.numeric             # next hop interface id
+        6: constant.numeric             # next hop ip
+        7: support.constant             # name 
+        8: string.unquoted             # name 
+        9: support.constant            # perminate
+        10: support.constant            # track
+        11: constant.numeric            # track id
+        12: support.constant            # tag
+        13: constant.numeric            # tag id
+
+  vrf_ipv6_route:
+    - match: |
+        (?x) 
+        ^\s*(ipv6)\s+(route)\s+
+        ({{ipv6_prefix}})\s+
+        (?:({{interface_names}})\s*({{interface_numbers}})\s+)?
+        ({{ipv6}})
+        (?:
+          (?:\s+(name)\s+(\S+))?
+          (?:\s+(permanent))?
+          (?:\s+(track)\s+(\S+))?
+          (?:\s+(tag)\s+(\S+))?
+        )
+      captures:
+        1: support.constant             # ip
+        2: support.constant             # route
+        3: constant.numeric             # ip
+        4: entity.other.attribute-name  # next hop interface
+        5: constant.numeric             # next hop interface id
+        6: constant.numeric             # next hop ip
+        7: support.constant             # name 
+        8: string.unquoted             # name 
+        9: support.constant            # perminate
+        10: support.constant            # track
+        11: constant.numeric            # track id
+        12: support.constant            # tag
+        13: constant.numeric            # tag id
+
   ipv4_route:
     - match: |
         (?x) 
@@ -456,6 +518,44 @@ contexts:
         11: support.constant              # operator
         12: constant.numeric              # prefix
 
+  vrf:
+    - match: '^\s*(vrf)\s+(context)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.vrf
+      - include: vrf_ip_route
+      - match: >
+          (?xi)
+          (?:(ip\s+pim\s+ssm\s+range)\s+({{ip_prefix}}))
+        captures:
+          1: support.constant
+          2: constant.numeric
+  
+  route_map:
+    - match: '^\s*(route-map)\s+(\S+)\s+(?:(permit)|(deny))\s+(\d+)?'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+        3: entity.other.attribute-name
+        4: keyword.other
+        5: constant.numeric
+      push:
+      - meta_content_scope: text.network.cisco.route_map
+      - match: >
+          (?xi)
+          (?:(match\s+ip\s+address)\s+(\S+))|
+          (?:(set\s+vrf)\s+(\S+))
+        captures:
+          1: support.constant   # match address 
+          2: string.unquoted    # match address name
+          3: support.constant   # set vrf     
+          4: string.unquoted    # set vrf name
+
   vlan:
     - match: '^\s*(vlan)\s+({{vlan_id}})'
       captures:
@@ -500,6 +600,7 @@ contexts:
       - match: |
           (?x)
           (?:(description\s+\S.*))|
+          (ipv6\s+enable)|
           (?:(vrf\s+member)\s+(\S*))|
           (port-channel\s+standalone-disable)|
           (?:(encapsulation\s+dot1q)\s+({{vlan_id}}))|
@@ -511,9 +612,9 @@ contexts:
           (?:(ipv6\s+nd\s+prefix)\s+({{ipv6_prefix}}))|
           (?:(ip\s+address)\s+({{ip}})\s+({{subnet_mask}})(\s+secondary)?)|
           (shutdown)|
-          (ipv6\s+enable)|
           (?:(service-policy\s+type\s+queuing\s+output)\s+(\S+))|
           (?:(channel-group)\s+(\d+)(?:\s+(?:(force)|(?:(mode)\s+(?:(active)|(on)|(passive)))?))?)|
+          (?:(channel-protocol)\s+(lacp)?)|
           (?:(vpc)\s+(\d+))|
           (?:(hsrp\s+version)\s+([1-2]))|
           (?:(ipv6\s+address)\s+({{ipv6_prefix}})(\s+eui-64)?)|
@@ -522,29 +623,29 @@ contexts:
           (?:(ip\s+arp\s+gratuitous\s+hsrp\s+duplicate))
         captures:
           1: comment.line                               # Description
-          2: support.constant                           # ip vrf forwarding
-          3: string.unquoted                            # vrf name
-          4: support.constant                           # port-channel standalone-disable
-          5: support.constant                           # encapsulation dot1q
-          6: constant.numeric                           # dot1q id
-          7: support.constant                           # ip helper-address
-          8: constant.numeric                           # dhcp-ip
-          9: support.constant                           # ip access-group
-          10: string.unquoted                           # acl name
-          11: support.constant                          # in / out
-          12: support.constant                          # proxy-arp
-          13: support.constant                          # ip redirects
-          14: support.constant                          # ipv6 address general-prefix
-          15: constant.numeric                          # ipv6 prefix
-          16: support.constant                          # eui-64
-          17: support.constant                          # ipv6 nd prefix
+          2: support.constant                           # ipv6 enable
+          3: support.constant                           # ip vrf forwarding
+          4: string.unquoted                            # vrf name
+          5: support.constant                           # port-channel standalone-disable
+          6: support.constant                           # encapsulation dot1q
+          7: constant.numeric                           # dot1q id
+          8: support.constant                           # ip helper-address
+          9: constant.numeric                           # dhcp-ip
+          10: support.constant                          # ip access-group
+          11: string.unquoted                           # acl name
+          12: support.constant                          # in / out
+          13: support.constant                          # proxy-arp
+          14: support.constant                          # ip redirects
+          15: support.constant                          # ipv6 address general-prefix
+          16: constant.numeric                          # ipv6 prefix
+          17: support.constant                          # eui-64
           18: support.constant                          # ipv6 nd prefix
-          19: support.constant                          # ip address
-          20: constant.numeric                          # ip address ipv4 address
-          21: constant.numeric                          # ip address ipv4 subnet mask
-          22: support.constant                          # ip address secondary
-          23: keyword.other                             # shutdown
-          24: support.constant                          # ipv6 enable
+          19: support.constant                          # ipv6 nd prefix
+          20: support.constant                          # ip address
+          21: constant.numeric                          # ip address ipv4 address
+          22: constant.numeric                          # ip address ipv4 subnet mask
+          23: support.constant                          # ip address secondary
+          24: keyword.other                             # shutdown
           25: support.constant                          # Service-policy
           26: string.unquoted                           # Service-policy
           27: support.constant                          # channel-group 
@@ -554,17 +655,19 @@ contexts:
           31: entity.other.inherited-class              # channel-group active
           32: entity.other.inherited-class              # channel-group on
           33: entity.other.inherited-class              # channel-group passive
-          34: support.constant                          # vpc
-          35: constant.numeric                          # vpc id
-          36: support.constant                          # hsrp version
-          37: constant.numeric                          # hsrp version number
-          38: support.constant                          # ipv6 address
-          39: constant.numeric                          # ipv6 prefix
-          40: support.constant                          # ipv6 eui-64
-          41: support.constant                          # ip pim sparse-mode
-          42: support.constant                          # ip arp timeout
-          43: constant.numeric                          # ip arp timeout number
-          44: support.constant                          # ip arp gratuitous hsrp duplicate
+          34: support.constant                          # channel-protocol
+          35: support.constant                          # channel-protocol lacp
+          36: support.constant                          # vpc
+          37: constant.numeric                          # vpc id
+          38: support.constant                          # hsrp version
+          39: constant.numeric                          # hsrp version number
+          40: support.constant                          # ipv6 address
+          41: constant.numeric                          # ipv6 prefix
+          42: support.constant                          # ipv6 eui-64
+          43: support.constant                          # ip pim sparse-mode
+          44: support.constant                          # ip arp timeout
+          45: constant.numeric                          # ip arp timeout number
+          46: support.constant                          # ip arp gratuitous hsrp duplicate
       - match: '(hsrp)\s+(\d+)(\s+ipv6)?'
         captures:
           1: support.constant
@@ -608,7 +711,8 @@ contexts:
         (spanning-tree)\s+
         (?:
           (port\s+type\s+edge)\s+(trunk)|
-          (bpduguard)\s+(?:(enable)|(disable))
+          (bpduguard)\s+(?:(enable)|(disable))|
+          (portfast\s+edge)
         )?
       captures: 
         1: support.constant                   # spanning-tree
@@ -617,6 +721,7 @@ contexts:
         4: support.constant                   # bpduguard
         5: entity.other.inherited-class       # bpduguard enable
         6: keyword.key                        # bpduguard disable
+        7: support.constant                   # portfast edge
 
   switchport:
     - match: '(switchport\s+mode\s+(?:trunk|access|capture))'

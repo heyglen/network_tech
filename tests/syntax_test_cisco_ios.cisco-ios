@@ -75,6 +75,19 @@ exit
      deny ip any any
      permit icmp any any
      exit
+  
+  vrf definition NAME
+    description management
+    rd 1.2.3.4:5
+    route-target export 1.2.3.4:5
+    route-target import 1.2.3.4:5
+     address-family ipv4
+     export map name
+     exit-address-family
+     !
+     address-family ipv6
+     exit-address-family
+   exit
 
   ip access-list standard NAME
    10 permit 1.2.3.0 0.0.0.255
@@ -162,10 +175,11 @@ interface range vlan 123-1
   standby 2 ipv6 autoconfig
   standby 2 ipv6 ::1
   standby 1 track 1 decrement 10
+  ipv6 enable
   no switchport
   no shutdown
   shutdown
-  ipv6 enable
+  
   exit
 
 line vty 0 4

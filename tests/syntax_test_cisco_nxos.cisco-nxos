@@ -14,6 +14,9 @@ show standby vlan0 brief
 configure terminal
   logging server 1.2.3.4 6 use-vrf management facility local5
 
+  ipv6 route vrf NAME ::/64 vlan0 ::1
+  ip route vrf NAME 1.2.3.0/24 vlan1 1.1.1.1 name asdf permanent
+
   default interface Ethernet0/1
   
   interface Vlan 20
@@ -48,7 +51,9 @@ configure terminal
     spanning-tree port type edge trunk
     spanning-tree bpduguard enable
     spanning-tree bpduguard disable
+    spanning-tree portfast edge
     channel-group 0 mode active
+    channel-protocol lacp
     vpc 123
     no shutdown
     hsrp version 2
@@ -69,6 +74,12 @@ vlan 1
   mode fabricpath
 exit
 
+vrf context management  
+  ip route 10.229.92.48/28 Vlan0 1.2.3.4
+  ipv6 route ::/0 Vlan0 ::1
+  ip pim ssm range 224.0.0.0/8
+exit
+
   router bgp 1  
     vrf sds
       log-neighbor-changes
@@ -78,7 +89,7 @@ exit
         neighbor 1.2.3.4
           inherit peer NAME
           remote-as 0
-          password 3 abcdefghijklmnopqrstuvwxyz
+          password 3 secret_password
           next-hop-self
           no shutdown
         exit
@@ -87,7 +98,7 @@ exit
         neighbor ::
           inherit peer NAME
           remote-as 0
-          password 3 abcdefghijklmnopqrstuvwxyz
+          password 3 secret_password
           next-hop-self
           no shutdown
           exit
@@ -102,6 +113,8 @@ exit
   ipv6 prefix-list NAME seq 10 permit ::/0
   ipv6 prefix-list NAME seq 200 deny ::/0 ge 1
   ipv6 prefix-list NAME seq 200 deny ::/0 ge 1 le 2
-  
-  ip route vrf test 10.229.92.48/28 Vlan0 1.2.3.4
+
+route-map rm-bck-to-service-segment permit 13990
+  match ip address ac-bck-to-stfm004-inside-328
+  set vrf stfm004-inside-328
 exit
