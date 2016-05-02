@@ -1,0 +1,12 @@
+%YAML 1.2
+---
+
+name: Cisco Comments
+scope: 'text.network.cisco'
+
+settings:
+   shellVariables:
+     - name: 'TM_COMMENT_START'
+       value: '! '
+     - name: 'TM_COMMENT_START_2'
+       value: '# '
