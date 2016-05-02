@@ -19,7 +19,7 @@ variables:
   ipv6_prefix_length: '(?:/1?\d?\d)'
   ipv6_prefix: '(?:(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?{{ipv6_prefix_length}}|::/0))'
   ipv6: '(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)'
-  vlan_id: '(?:(?:\d{2,3})|(?:[0-3]\d{2,3})|(?:40[0-9][0-5]))|[1-9]'
+  vlan_id: '(?:(?:\d{2,3})|(?:[0-3]\d{2,3})|(?:40[0-9][0-5])|[1-9])'
   vlan_range: '(?:{{vlan_id}}(?:[-,]{{vlan_id}})*)'
   network_address: '(?:{{ip}})\s+(?:{{ip}})'
   interface_names: |
@@ -52,7 +52,7 @@ variables:
     bgp|
     ssh|
     snmp
-  operators: '(?:eq|ge|le)'
+  operators: '(?:(?:eq)|(?:ge)|(?:le))'
   port_target: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
   drives: |
     (?x)
@@ -522,19 +522,19 @@ contexts:
         5: entity.other.attribute-name    # interface name
         6: constant.numeric               # interface number
       push:
-      - meta_content_scope: text.network.cisco.vlan
+      - meta_content_scope: text.network.cisco.interface
       - include: standby
       - include: switchport
       - match: |
           (?x)
-          (?:(description\s+\S*))|
+          (?:(description\s+\S.*))|
           (?:((?:ip\s+)?vrf\s+forwarding)\s+(\S*))|
           (port-channel\s+standalone-disable)|
           (?:(encapsulation\s+dot1q)\s+({{vlan_id}}))|
           (?:(ip\s+helper-address)\s+({{ip}}))|
           (?:(ip\s+access-group)\s+(\S+)\s+(in|out))|
           (?:(ip\s+proxy-arp))|
-          (?:(ip(?:v6)\s+redirects))|
+          (?:(ip(?:v6)?\s+redirects))|
           (?:(ipv6\s+address\s+general-prefix)\s+({{ipv6_prefix}}))(\s+eui-64)?|
           (?:(ipv6\s+nd\s+prefix)\s+({{ipv6_prefix}}))|
           (?:(ip\s+address)\s+({{ip}})\s+({{subnet_mask}})(\s+secondary)?)|
@@ -564,7 +564,7 @@ contexts:
           21: constant.numeric       # ip address ipv4 subnet mask
           22: support.constant       # ip address secondary
           23: keyword.other          # shutdown
-          24: support.constant       # ipv6 enable
+          25: support.constant       # ipv6 enable
 
   standby:
     - match: |
@@ -609,6 +609,9 @@ contexts:
         1: support.constant
     - include: switchport_trunk
     - include: switchport_access
+    - match: '(switchport)'
+      captures:
+        1: support.constant
 
   switchport_access:
     - match: ^\s*(switchport\s+access\s+vlan)\s+({{vlan_id}})
@@ -669,6 +672,7 @@ contexts:
           1: support.constant
           2: support.constant
 
+
   do_show:
     - match: '^\s*(do)'
       captures:
@@ -679,10 +683,38 @@ contexts:
         - include: show
 
   show:
+    - include: show_vlan
+    - include: show_interface
+    - include: show_run_interface
     - include: show_bgp
     - include: show_standby
     - include: show_ip_interface_brief
     - include: show_route 
+
+  show_vlan:
+    - match: '\s*(show\s+vlan)(\s+(id)\s+({{vlan_id}}))?'
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: support.constant
+        4: constant.numeric
+
+  show_interface:
+    - match: '\s*(show\s+interface)(?:(\s+{{interface_names}})\s*({{interface_numbers}}))?'
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: constant.numeric
+        4: support.constant
+
+  show_run_interface:
+    - match: '\s*(show\s+run\s+interface)(?:(\s+{{interface_names}})\s*({{interface_numbers}}))?'
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: constant.numeric
+        4: support.constant
+
 
   show_bgp:
     - match: |

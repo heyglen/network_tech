@@ -8,6 +8,13 @@
 ! On router01
 copy tftp://1.2.3.4/path startup-config ! Inline comment
 
+show vlan
+show vlan id 42
+show interface
+show interface gigabitethernet 0
+show run interface
+show run interface tengigabitethernet 0
+
 show ip route vrf NAME 1.1.1.1
 show ip route 1.1.1.1
 show ip route
@@ -130,6 +137,7 @@ interface range vlan 123-1
   port-channel standalone-disable
   switchport trunk encapsulation dot1q
   encapsulation dot1q 123
+  switchport
   switchport trunk encapsulation Dot1q
   switchport trunk allowed vlan 123
   switchport trunk allowed vlan add 123,456
@@ -140,6 +148,7 @@ interface range vlan 123-1
   ip helper-address 1.1.1.1
   ip access-group NAME in
   ip access-group NAME out
+  ip redirects
   ipv6 redirects
   ip proxy-arp
   ip vrf forwarding NAME
