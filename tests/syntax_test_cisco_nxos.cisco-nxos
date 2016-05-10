@@ -6,12 +6,21 @@ show vlan id 42
 show interface
 show interface ethernet 0
 show run interface
+show running-config | include something ! Inline comment
+show running-config | grep something ! Inline comment
+show run interface | exclude something
+show running-config | include "something else" ! Inline comment
 show run interface ethernet 0
 show ip interface brief vrf management
 copy running-config startup-config
-show standby vlan0 brief
+show standby vlan0 brief ! Inline comment
+
+! Line comment
 
 configure terminal
+  ! Line comment
+  hostname example
+
   logging server 1.2.3.4 6 use-vrf management facility local5
 
   ipv6 route vrf NAME ::/64 vlan0 ::1
@@ -113,6 +122,15 @@ exit
   ipv6 prefix-list NAME seq 10 permit ::/0
   ipv6 prefix-list NAME seq 200 deny ::/0 ge 1
   ipv6 prefix-list NAME seq 200 deny ::/0 ge 1 le 2
+
+line vty 0 4
+  access-class 42 in vrf-also
+  access-class ssh_access in vrf-also
+  transport input ssh telnet
+  transport input telnet ssh
+  transport input telnet
+  transport input ssh
+ exit
 
 route-map rm-bck-to-service-segment permit 13990
   match ip address ac-bck-to-stfm004-inside-328

@@ -1,0 +1,12 @@
+{
+    "auto_complete_selector": "text.network.cisco.asa.context",
+    "indent_guide_options":
+    [
+        "draw_normal",
+        "draw_active"
+    ],
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true,   
+    "word_separators": "\\()\"',;<>~!@#$%^&*|+=[]{}`~?",
+    "word_wrap": false
+}

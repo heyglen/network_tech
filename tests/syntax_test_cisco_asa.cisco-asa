@@ -2,23 +2,43 @@
 #! cisco asa
 
 changeto context fw-context-1
-
+copy running-config startup-config
 terminal width 511
 terminal pager 0
-show running-config | include blah blah
+show running-config | include something ! Inline comment
+show run interface | exclude something
+
+write
+write network
+
+! Line comment
 
 configure terminal
+! Line comment
+
 hostname firewall
+
+
+context firewall
+  description context
+    
+  allocate-interface Port-channel42.42
+  allocate-interface Port-channel42.42-Port-channel42.42
+  config-url disk0:/firewall.cfg
+  
+  exit
 
 interface port-channel 0
   nameif outside
   security-level 0
+  ipv6 address ::1/64 standby ::2
   ip address 1.2.3.4 255.255.255.0 standby 1.2.3.5
   shutdown
   no shutdown
-  end
+  exit
   
 ip verify reverse-path interface outside
+
 
 object-group service service
   description blah
@@ -67,17 +87,25 @@ object network obj-www.fqdn.com
 
 access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
             alert-interval 300
-access-list acl-name; 906 elements; name hash: 0xbe299002
-access-list acl-name line 1 extended deny icmp any host 1.1.1.1
-access-list acl-name line 2 extended deny icmp any host 1.1.1.1 timestamp-request
-access-list acl-name line 3 extended deny icmp any host 1.1.1.1 traceroute
-access-list acl-name line 4 extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
-access-list acl-name line 5 extended permit object-group services object-group group1 object-group group2
-access-list acl-name line 17 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 0x2e7027d7
-access-list acl-name line 53 extended permit icmp host 2.2.2.2 host 1.1.1.1 echo log informational interval 300
-access-list acl-name line 51 extended permit tcp host 2.2.2.2 object-group group-2 eq 2059 inactive (inactive)
-access-list acl-name line 51 extended permit tcp host 1.1.1.1 object-group group-3 eq 2059 inactive (hitcnt=0)
-access-list acl-name line 51 extended permit 41 host 1.1.1.1
+access-list acl-name; 42 elements; name hash: 0xbe299002
+access-list acl-name line 42 extended permit tcp host 2.2.2.2 object-group network-dst eq 2059 inactive (inactive)
+access-list acl-name line 42 extended permit tcp 2.2.2.2 255.255.255.0 object-group network-dst eq 2059 inactive (inactive)
+access-list acl-name line 42 extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
+
+access-list acl-name line 42 extended deny icmp any host 1.1.1.1
+access-list acl-name line 42 extended deny icmp any host 1.1.1.1 timestamp-request
+access-list acl-name line 42 extended deny icmp any host 1.1.1.1 traceroute
+
+access-list acl-name line 42 extended permit object-group services object-group network-src object-group network-dst
+access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 disable 0x2e7027d7
+access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 disable default 0x2e7027d7
+access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 default 0x2e7027d7
+access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log debugging interval 300 0x2e7027d7
+access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log notifications interval 300 0x2e7027d7
+access-list acl-name line 42 extended permit icmp host 2.2.2.2 host 1.1.1.1 echo log informational interval 300
+access-list acl-name line 42 extended permit tcp host 1.1.1.1 object-group group-3 eq 2059 inactive (hitcnt=0)
+access-list acl-name line 42 extended permit 41 host 1.1.1.1 host 2.2.2.2
+
 access-group acl-name in interface outside
 
 mtu outside 1500
@@ -92,6 +120,7 @@ ssh version 2
 ssh key-exchange group dh-group14-sha1
 ssh timeout 15
 telnet timeout 15
+icmp permit any noc
 
 logging enable
 logging timestamp
@@ -102,15 +131,24 @@ logging asdm informational
 logging device-id string firewall
 logging host mgmt 1.2.3.4
 
-username root password asdfasdfdsaf encrypted privilege 15
+username root password secret encrypted privilege 15
 
+ssl encryption 3des-sha1 des-sha1
+
+crypto key generate rsa modulus 2048
+crypto key generate rsa modulus 2048 noconfirm
+
+route outside 1.2.3.0 255.255.255.0 2.3.4.5 1
 snmp-server host outside 1.2.3.4 community public
 snmp-server host outside 1.2.3.4 community 0 private version 2c
 snmp-server host outside 1.2.3.4 poll community 0 private version 2c
 snmp-server host outside 1.2.3.4 trap community 0 private version 2c udp-port 12
-snmp-server location here
-snmp-server contact me
+snmp-server location datacenter
+snmp-server contact noc
 
+ssh key-exchange group diffehelman0
+
+monitor-interface inside
 aaa authentication http console TACACS+ LOCAL
 aaa authentication ssh console TACACS+ LOCAL
 aaa authentication enable console TACACS+ LOCAL

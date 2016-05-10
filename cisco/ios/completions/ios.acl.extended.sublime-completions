@@ -1,0 +1,14 @@
+{
+    "scope": "text.network.cisco.acl.extended",
+    "completions": [
+        { 
+            "trigger": "permit\tip", 
+            "contents": "${1:00} ${2:permit}${2/(p$)|(pe$)|(per$)|(perm$)|(permi$)|(d$)|(de$)|(den$)|.*/?1:ermit:?2:rmit:?3:mit:?4:it:?5:t:?6:eny:?7:ny:?8:y/i} ip $0"
+        },
+        { 
+            "trigger": "deny\tip", 
+            "contents": "${1:00} ${2:permit}${2/(p$)|(pe$)|(per$)|(perm$)|(permi$)|(d$)|(de$)|(den$)|.*/?1:ermit:?2:rmit:?3:mit:?4:it:?5:t:?6:eny:?7:ny:?8:y/i} ip ${3:source}${3/(a$)|(an$)|(h$)|(ho$)|(hos$)|.*/?1:ny:?2:y:?3:ost:?4:st:?5:t/i} $0"
+        },
+    ]
+}
+

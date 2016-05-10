@@ -1,5 +1,5 @@
 {
-    "scope": "cisco.ios & interface",
+    "scope": "text.network.cisco.ios & text.network.cisco.interface",
     "completions": [
         "description ",
         "forwarding ",

@@ -1,8 +1,0 @@
-<snippet>
-    <description>terminal</description>
-    <scope>cisco.ios | cisco.nxos | cisco.ace | text.network.cisco.asa </scope>
-    <tabTrigger>configure</tabTrigger>
-    <content><![CDATA[
-configure terminal
-]]></content>
-</snippet>

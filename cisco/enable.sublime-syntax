@@ -30,7 +30,6 @@ contexts:
 
   prototype:
     - include: pipe
-    - include: 'Packages/sublime-network/cisco/scope.sublime-syntax'
 
   locations:
     - include: location_local
@@ -45,7 +44,7 @@ contexts:
         4: support.constant
 
   location_local:
-    - match: ({{drive}}|(?:running|startup)-config)
+    - match: ({{drives}}|(?:running|startup)-config)
       captures:
         1: support.constant
 
@@ -74,18 +73,6 @@ contexts:
     - match: (?:\s|{{comment}}|$)
       pop: true
     - include: locations
-
-  configure_terminal:
-    - match: ^\s*(configure\s*terminal)
-      captures:
-        1: support.constant
-      push: 
-        - meta_content_scope: text.network.cisco.configure_terminal
-        - match: '{{pop_ctx}}'
-          pop: true
-          captures:
-            1: comment.line
-        - include: Packages/sublime-network/cisco/configure_terminal.sublime-syntax
 
   pipe:
     - match: (?<=\s)(\|)[^{{comment}}]*

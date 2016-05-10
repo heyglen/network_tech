@@ -1,0 +1,10 @@
+{
+  "scope": "text.network.cisco.asa.context",
+  "completions": [
+        "description",
+        { 
+            "trigger": "config-url\tdisk",
+            "contents": "config-url disk:${1:0}:${2:firewall.cfg} $0",
+        }
+  ]
+}

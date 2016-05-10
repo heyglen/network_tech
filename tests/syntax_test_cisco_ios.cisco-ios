@@ -5,6 +5,12 @@
 // <- text.network.cisco.comment
 //                       ^ text.network.cisco.comment
 
+write
+show running-config | include something ! Inline comment
+
+show running-config | include something ! Inline comment
+show run interface | exclude something
+
 ! On router01
 copy tftp://1.2.3.4/path startup-config ! Inline comment
 
@@ -37,6 +43,7 @@ show startup-config
 
 configure terminal
 
+! Line comment
 do show ipv6 route vrf NAME 1::1
 
 ip prefix-list NAME seq 10 permit 1.2.3.0/24
@@ -182,9 +189,16 @@ interface range vlan 123-1
   
   exit
 
+snmp-server host 152.73.224.65 version 2c LOBOSA
+snmp-server host 152.73.224.76 version 2c LOBOSA
+
 line vty 0 4
-  access-class 1234 in vrf-also
+  access-class 42 in vrf-also
+  access-class ssh_access in vrf-also
   transport input ssh telnet
+  transport input telnet ssh
+  transport input telnet
+  transport input ssh
  exit
 exit
 logout

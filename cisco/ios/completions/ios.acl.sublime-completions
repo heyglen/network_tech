@@ -1,8 +1,0 @@
-{
-    "scope": "ios.acl",
-    "completions": [
-        "permit ",
-        "deny "
-    ]
-}
-

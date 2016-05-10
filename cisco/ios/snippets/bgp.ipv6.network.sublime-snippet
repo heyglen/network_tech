@@ -1,6 +1,6 @@
 <snippet>
     <description>announce prefix</description>
-    <scope>cisco.ios & bgp & ipv6-address-family</scope>
+    <scope>text.network.cisco.ios & text.network.cisco.bgp.ipv6.address-family</scope>
     <tabTrigger>network</tabTrigger>
     <content>
 <![CDATA[

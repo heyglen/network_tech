@@ -1,11 +1,10 @@
 {
-    "scope": "cisco.ios",
+    "scope": "text.network.cisco.ios & interface.completion",
     "completions": [
         "FastEthernet ",
         "GigabitEthernet ",
         "TenGigabitEthernet ",
         "Port-Channel ",
-        "general-prefix "
     ]
 }
 

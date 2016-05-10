@@ -1,0 +1,42 @@
+{
+  "scope": "text.network.cisco.configure_terminal -ios.acl.ace.target_ip",
+  "completions": [
+        "aaa ",
+        "access-group ",
+        "access-list ",
+        "bgp ",
+        "config-register ",
+        "default ",
+        "eigrp ",
+        "end",
+        "exit",
+        "ft ",
+        "hostname ",
+        "logging ",
+        "ntp ",
+        "ospf ",
+        "ping ",
+        "prefix-list ",
+        "route ",
+        "route-map ",
+        "router ",
+        "seq ",
+        "tacacs-server ",
+        { 
+            "trigger": "ip access-list\tstandard", 
+            "contents": "ip access-list standard ${1:name}\n\t$0\n exit"
+        },
+        { 
+            "trigger": "ip access-list\textended", 
+            "contents": "ip access-list extended ${1:name}\n\t$0\n exit"
+        },
+        { 
+            "trigger": "line\tvty", 
+            "contents": "line vty ${1:0} ${2:4}\n\t$0\n exit"
+        },
+        { 
+            "trigger": "router\tbgp", 
+            "contents": "router bgp ${1:0}\n\t$0\n exit"
+        },
+  ]
+}

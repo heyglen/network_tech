@@ -1,0 +1,9 @@
+{
+  "scope": "text.network.cisco.bgp.ipv4.address-family & text.network.cisco.ios",
+  "completions": [
+        { 
+            "trigger": "network\tbgp network", 
+            "contents": "network ${1:1.2.3.0} mask ${2:255.255.255.0} $0"
+        },
+  ]
+}
