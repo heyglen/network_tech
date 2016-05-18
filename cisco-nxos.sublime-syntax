@@ -45,7 +45,7 @@ variables:
     (?:tcp)|
     (?:udp)|
     (?:icmp)
-  port_numbers: '(?:(?:(?:65535)|\d{1,4}))'
+  port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   port_names: |
     (?x)
     bgp|
@@ -229,7 +229,7 @@ contexts:
         2: support.constant
         3: support.constant
       push:
-        - meta_content_scope: text.network.cisco.bgp.vrf.ipv4_address-family
+        - meta_content_scope: text.network.cisco.bgp.vrf.ipv4_address_family
         - match: '({{pop_address_family_ctx}})'
           pop: true
           captures:
@@ -260,7 +260,7 @@ contexts:
         1: support.constant
         2: constant.numeric
       push:
-        - meta_content_scope: text.network.cisco.bgp.vrf.ipv4_address-family.neighbor
+        - meta_content_scope: text.network.cisco.bgp.vrf.ipv4_address_family.neighbor
         - match: |
             (?x) 
             (?:

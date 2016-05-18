@@ -1,8 +1,0 @@
-<snippet>
-	<description>mtu #</description>
-	<tabTrigger>mtu</tabTrigger>
-	<scope>cisco.nxos & interface</scope>
-	<content><![CDATA[
-mtu ${1:1500}
-]]></content>
-</snippet>

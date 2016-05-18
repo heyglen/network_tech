@@ -1,8 +1,0 @@
-<snippet>
-    <description>extcommunity rt</description>
-    <scope>cisco.ios & route-map</scope>
-    <tabTrigger>set</tabTrigger>
-    <content><![CDATA[
-set extcommunity rt ${1:0}:${2:0}
-]]></content>
-</snippet>

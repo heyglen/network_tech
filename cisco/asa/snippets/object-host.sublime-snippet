@@ -1,9 +1,0 @@
-<snippet>
-    <description>host</description>
-    <tabTrigger>object</tabTrigger>
-    <scope>text.network.cisco.asa & -text.network.cisco.asa.access-list</scope>
-    <content><![CDATA[
-object network host-${1:1.2.3.4}_32
-  host ${1:1.2.3.4}
-]]></content>
-</snippet>

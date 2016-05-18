@@ -1,8 +1,0 @@
-<snippet>
-    <description>global</description>
-    <scope>(cisco.nxos) & (-interface & -show) & ip</scope>
-    <tabTrigger>route</tabTrigger>
-    <content><![CDATA[
-route ${1:1.2.3.0/24} ${2:Vlan${3:0}} ${4:1.2.3.4} ${5:1.2.3.4}
-]]></content>
-</snippet>

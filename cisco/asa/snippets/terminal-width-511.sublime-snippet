@@ -1,9 +1,0 @@
-<snippet>
-    <description>width 511</description>
-    <tabTrigger>terminal</tabTrigger>
-    <scope>text.network.cisco.asa</scope>
-    <content><![CDATA[
-terminal width 511
-
-]]></content>
-</snippet>

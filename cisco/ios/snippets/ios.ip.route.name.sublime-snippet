@@ -1,9 +1,0 @@
-<snippet>
-    <description>route name</description>
-    <scope>cisco.ios & ip & route</scope>
-    <tabTrigger>name</tabTrigger>
-    <content><![CDATA[
-name ${1:NAME}
-]]></content>
-</snippet>
-

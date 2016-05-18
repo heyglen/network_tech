@@ -1,9 +1,0 @@
-<snippet>
-    <description>context</description>
-    <tabTrigger>changeto</tabTrigger>
-    <scope>text.network.cisco.asa</scope>
-    <content><![CDATA[
-changeto context ${1:NAME}
-
-]]></content>
-</snippet>

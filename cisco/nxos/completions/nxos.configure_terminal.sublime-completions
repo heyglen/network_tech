@@ -1,0 +1,41 @@
+{
+  "scope": "text.network.cisco.configure_terminal & -(ios.acl.ace.target_ip & text.network.cisco.interface)",
+  "completions": [
+        { 
+            "trigger": "ipprefix-list\tprefix-list", 
+            "contents": "ip prefix-list ${1:NAME} seq ${2:10} permit ${3:1.2.3.0}/${4:24}"
+        },
+        { 
+            "trigger": "default\tinterface", 
+            "contents": "default interface ${1:Vlan0}"
+        },
+        { 
+            "trigger": "vrfcontext\tvrf context", 
+            "contents": "vrf context ${1:NAME}\n\t$0\n exit"
+        },
+        { 
+            "trigger": "hostname\thostname",
+            "contents": "hostname ${1:HOSTNAME}"
+        },
+        { 
+            "trigger": "router\tbgp", 
+            "contents": "router bgp ${1:0}\n\t$0\n exit"
+        },
+        { 
+            "trigger": "line\tvty", 
+            "contents": "line vty ${1:0} ${2:4}\n\t$0\n exit"
+        },
+        { 
+            "trigger": "ipv6route\tipv6 route", 
+            "contents": "ipv6 route ${1:::/0} ${2:vlan${3:0}} ${4:::1}"
+        },
+        { 
+            "trigger": "iproutevrf\tip route vrf", 
+            "contents": "ip route vrf ${1:vrf-name} ${2:1.2.3.0}/${3:64} ${4:Vlan${5:0}} ${6:1.2.3.4}"
+        },
+        { 
+            "trigger": "iproute\tip route", 
+            "contents": "ip route ${1:1.2.3.0}/${2:64} ${3:Vlan${4:0}} ${5:1.2.3.4}"
+        },
+  ]
+}

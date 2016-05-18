@@ -1,8 +1,0 @@
-<snippet>
-	<description>delay minimum</description>
-	<tabTrigger>preempt</tabTrigger>
-	<scope>cisco.nxos & interface & hsrp</scope>
-	<content><![CDATA[
-preempt delay minimum ${1:0}
-]]></content>
-</snippet>

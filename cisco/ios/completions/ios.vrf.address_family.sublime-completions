@@ -1,0 +1,9 @@
+{
+  "scope": "text.network.cisco.ios & (text.network.cisco.vrf.ipv4_address_family | text.network.cisco.vrf.ipv4_address_family)",
+  "completions": [
+        { 
+            "trigger": "export\tmap", 
+            "contents": "export map ${1:NAME}"
+        },
+  ]
+}

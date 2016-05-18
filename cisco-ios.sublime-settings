@@ -1,5 +1,5 @@
 {
-    "auto_complete_selector": "text.network.cisco.ios",
+    "auto_complete_selector": "text.network.cisco.ios.",
     "indent_guide_options":
     [
         "draw_normal",

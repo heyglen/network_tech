@@ -1,8 +1,0 @@
-<snippet>
-    <description>priority</description>
-    <scope>cisco.ios & interface</scope>
-    <tabTrigger>standby</tabTrigger>
-    <content><![CDATA[
-standby ${1:0} priority ${2:200}
-]]></content>
-</snippet>

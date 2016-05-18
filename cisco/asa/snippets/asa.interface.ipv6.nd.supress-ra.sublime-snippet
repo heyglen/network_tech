@@ -1,8 +1,0 @@
-<snippet>
-    <description>supress ra</description>
-    <tabTrigger>ipv6ndsupress</tabTrigger>
-    <scope>cisco.asa.interface</scope>
-    <content><![CDATA[
-ipv6 nd supress-ra
-]]></content>
-</snippet>

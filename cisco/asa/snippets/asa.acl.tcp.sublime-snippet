@@ -1,8 +1,0 @@
-<snippet>
-    <description>tcp</description>
-    <tabTrigger>access-list</tabTrigger>
-    <scope>text.network.cisco.asa</scope>
-    <content><![CDATA[
-access-list ${1:NAME} extended permit tcp ${2:1.2.3.0 255.255.255.0} ${3:4.5.6.0 255.255.255.0} eq ${4:0}
-]]></content>
-</snippet>

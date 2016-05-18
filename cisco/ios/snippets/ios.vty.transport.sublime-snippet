@@ -1,8 +1,0 @@
-<snippet>
-    <description>transport</description>
-    <scope>cisco.ios & vty</scope>
-    <tabTrigger>transport</tabTrigger>
-    <content><![CDATA[
-transport input ${1:telnet }${2:ssh}
-]]></content>
-</snippet>

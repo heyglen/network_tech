@@ -1,0 +1,29 @@
+{
+  "scope": "text.network.cisco.ios & text.network.cisco.vrf",
+  "completions": [
+        { 
+            "trigger": "rd\tid", 
+            "contents": "rd ${1:<router-id>}:${2:#}"
+        },
+        { 
+            "trigger": "route-target\timport", 
+            "contents": "route-target import ${1:AS}:${2:#}"
+        },
+        { 
+            "trigger": "route-target\texport", 
+            "contents": "route-target export ${1:AS}:${2:#}"
+        },
+        { 
+            "trigger": "route-target\tboth", 
+            "contents": "route-target both ${1:AS}:${2:#}"
+        },
+        { 
+            "trigger": "address-family\tipv4", 
+            "contents": "address-family ipv4\n\t$0\n exit-address-family"
+        },
+        { 
+            "trigger": "address-family\tipv6", 
+            "contents": "address-family ipv6\n\t$0\n exit-address-family"
+        },
+  ]
+}

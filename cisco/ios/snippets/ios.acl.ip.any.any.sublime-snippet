@@ -1,8 +1,0 @@
-<snippet>
-    <description>ip any any</description>
-    <scope>cisco.ios.acl.permission</scope>
-    <tabTrigger>ip</tabTrigger>
-    <content><![CDATA[
-ip any any
-]]></content>
-</snippet>

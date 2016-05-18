@@ -1,8 +1,0 @@
-<snippet>
-    <description>forwarding</description>
-    <scope>cisco.ios & interface</scope>
-    <tabTrigger>vrf</tabTrigger>
-    <content><![CDATA[
-vrf forwarding ${1:name}
-]]></content>
-</snippet>

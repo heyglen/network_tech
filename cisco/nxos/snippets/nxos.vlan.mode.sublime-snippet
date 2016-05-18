@@ -1,8 +1,0 @@
-<snippet>
-	<description>fabricpath</description>
-	<tabTrigger>mode</tabTrigger>
-	<scope>cisco.nxos.vlan</scope>
-	<content><![CDATA[
-mode fabricpath
-]]></content>
-</snippet>

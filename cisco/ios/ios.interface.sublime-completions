@@ -1,0 +1,84 @@
+{
+    "scope": "text.network.cisco.interface & (text.network.cisco.ios)",
+    "completions": [
+        "description",
+        "shutdown",
+        "switchport",
+        { 
+            "trigger": "no\tshutdown", 
+            "contents": "no shutdown"
+        },
+        { 
+            "trigger": "encapsulation\tdot1q", 
+            "contents": "encapsulation dot1Q ${1:#}"
+        },
+        { 
+            "trigger": "ip\tvrf forwarding", 
+            "contents": "ip vrf forwarding ${1:name}"
+        },
+        { 
+            "trigger": "vrf\tforwarding", 
+            "contents": "vrf forwarding ${1:name}"
+        },
+        { 
+            "trigger": "standby\tip", 
+            "contents": "standby ${1:0} ip ${2:1.2.3.4}"
+        },
+        { 
+            "trigger": "standby\tversion", 
+            "contents": "standby version 2"
+        },
+        { 
+            "trigger": "standby\tipv6", 
+            "contents": "standby ${1:0} ipv6 ${2:::/64}"
+        },
+        { 
+            "trigger": "standby\tipv6 autoconfig", 
+            "contents": "standby ${1:0} ipv6 autoconfig"
+        },
+        { 
+            "trigger": "standby\tpreempt", 
+            "contents": "standby ${1:0} preempt"
+        },
+        { 
+            "trigger": "standby\tpriority", 
+            "contents": "standby ${1:0} priority ${2:200}"
+        },
+        { 
+            "trigger": "ip\tproxy-arp", 
+            "contents": "ip proxy-arp"
+        },
+        { 
+            "trigger": "proxy-arp\tproxy-arp", 
+            "contents": "ip proxy-arp"
+        },
+        { 
+            "trigger": "ipv6\taddress", 
+            "contents": "ipv6 address ${1:general-prefix} ${2:0:0:0::/64} ${3:eui-64}$0"
+        },
+        { 
+            "trigger": "switchport\ttrunk add", 
+            "contents": "switchport trunk allowed vlan add ${1:0}"
+        },
+        { 
+            "trigger": "ip\taddress", 
+            "contents": "ip address ${1:1.2.3.0} ${2:255.255.255.0}"
+        },
+        { 
+            "trigger": "ip\thelper-address", 
+            "contents": "ip helper-address ${1:1.2.3.4}"
+        },
+        { 
+            "trigger": "channel-group\tmode active", 
+            "contents": "channel-group ${1:0} mode active"
+        },
+        { 
+            "trigger": "arp\ttimeout", 
+            "contents": "arp timeout ${1:300}"
+        },
+        { 
+            "trigger": "ip\tip redirects", 
+            "contents": "ip${1:v6} redirects"
+        },
+    ]
+}

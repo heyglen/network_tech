@@ -1,8 +1,0 @@
-<snippet>
-    <description>privilege 15</description>
-    <tabTrigger>username</tabTrigger>
-    <scope>text.network.cisco.asa</scope>
-    <content><![CDATA[
-username ${1:USERNAME} password ${2:PASSWORD} encrypted privilege 15
-]]></content>
-</snippet>

@@ -1,8 +1,0 @@
-<snippet>
-    <description>udp</description>
-    <tabTrigger>udp</tabTrigger>
-    <scope>text.network.cisco.asa & (text.network.cisco.asa.access-list.deny | text.network.cisco.asa.access-list.permit) </scope>
-    <content><![CDATA[
-udp 
-]]></content>
-</snippet>

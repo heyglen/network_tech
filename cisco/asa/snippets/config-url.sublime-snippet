@@ -1,8 +1,0 @@
-<snippet>
-    <description>config-url</description>
-    <tabTrigger>config-url</tabTrigger>
-    <scope>text.network.cisco.asa.system.context</scope>
-    <content><![CDATA[
-config-url disk0:/${1:NAME}
-]]></content>
-</snippet>

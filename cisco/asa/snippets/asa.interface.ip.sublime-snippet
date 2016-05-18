@@ -1,8 +1,0 @@
-<snippet>
-    <description>v4 address</description>
-    <tabTrigger>ipaddress</tabTrigger>
-    <scope>cisco.asa.interface</scope>
-    <content><![CDATA[
-ip address ${1:1.2.3.4} ${2:255.255.255.0} standby ${3:1.2.3.5}
-]]></content>
-</snippet>

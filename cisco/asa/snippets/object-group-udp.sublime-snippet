@@ -1,9 +1,0 @@
-<snippet>
-    <description>service udp</description>
-    <tabTrigger>object-group</tabTrigger>
-    <scope>text.network.cisco.asa & -text.network.cisco.asa.access-list</scope>
-    <content><![CDATA[
-object-group service ${1:NAME} udp
-
-]]></content>
-</snippet>

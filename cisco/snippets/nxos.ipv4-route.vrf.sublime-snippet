@@ -1,8 +1,0 @@
-<snippet>
-    <description>route vrf</description>
-    <scope>(cisco.nxos) & (-interface & -show & -vrf.context)</scope>
-    <tabTrigger>ip</tabTrigger>
-    <content><![CDATA[
-ip route vrf ${1:NAME} ${2:1.2.3.0/24} ${3:Vlan${4:0}} ${5:1.2.3.4}
-]]></content>
-</snippet>

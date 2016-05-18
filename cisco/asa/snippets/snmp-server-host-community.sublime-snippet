@@ -1,8 +1,0 @@
-<snippet>
-    <description>host: community</description>
-    <tabTrigger>snmp-server</tabTrigger>
-    <scope>text.network.cisco.asa</scope>
-    <content><![CDATA[
-snmp-server host ${1:INTERFACE} ${2:1.2.3.4} community ${3:COMMUNITY}
-]]></content>
-</snippet>

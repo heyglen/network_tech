@@ -1,8 +1,0 @@
-<snippet>
-    <description>route</description>
-    <scope>cisco.ios & (-interface & -show)</scope>
-    <tabTrigger>ipv6</tabTrigger>
-    <content><![CDATA[
-ipv6 route ${1:::/0} ${2:vlan${3:0}} ${4:::1}
-]]></content>
-</snippet>

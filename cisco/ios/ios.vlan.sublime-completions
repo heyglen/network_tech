@@ -1,0 +1,9 @@
+{
+  "scope": "text.network.cisco.vlan & text.network.cisco.ios",
+  "completions": [
+        { 
+            "trigger": "vlane\tname", 
+            "contents": "name ${1:NAME}"
+        },
+  ]
+}

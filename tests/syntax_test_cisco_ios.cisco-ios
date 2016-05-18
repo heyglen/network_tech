@@ -88,11 +88,11 @@ exit
     rd 1.2.3.4:5
     route-target export 1.2.3.4:5
     route-target import 1.2.3.4:5
-     address-family ipv4
+    address-family ipv4
      export map name
      exit-address-family
      !
-     address-family ipv6
+    address-family ipv6
      exit-address-family
    exit
 
@@ -108,7 +108,7 @@ exit
       network 1.2.3.0
      exit-address-family
      address-family ipv4 vrf NAME
-      network 1.2.3.0 
+      network 1.2.3.0
       network 1.2.3.0 mask 255.255.255.0
       neighbor 1.1.1.1 activate
       neighbor 1.1.1.1 shutdown
@@ -169,6 +169,7 @@ interface range vlan 123-1
   ip access-group NAME in
   ip access-group NAME out
   ip redirects
+  channel-group 1 mode active
   ipv6 redirects
   ip proxy-arp
   ip vrf forwarding NAME

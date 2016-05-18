@@ -1,8 +1,0 @@
-<snippet>
-    <description>location</description>
-    <tabTrigger>snmp-server</tabTrigger>
-    <scope>text.network.cisco.asa</scope>
-    <content><![CDATA[
-snmp-server location ${1:LOCATION}
-]]></content>
-</snippet>

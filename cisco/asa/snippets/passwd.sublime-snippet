@@ -1,8 +1,0 @@
-<snippet>
-    <description>encrypted</description>
-    <tabTrigger>passwd</tabTrigger>
-    <scope>text.network.cisco.asa</scope>
-    <content><![CDATA[
-passwd ${1:PASSWORD} encrypted
-]]></content>
-</snippet>

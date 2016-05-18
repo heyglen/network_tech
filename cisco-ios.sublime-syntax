@@ -46,7 +46,7 @@ variables:
     (?:tcp)|
     (?:udp)|
     (?:icmp)
-  port_numbers: '(?:(?:(?:65535)|\d{1,4}))'
+  port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   port_names: |
     (?x)
     bgp|
@@ -285,7 +285,7 @@ contexts:
         3: support.constant
         4: string.unquoted
       push:
-        - meta_content_scope: text.network.cisco.bgp.ipv4.address-family
+        - meta_content_scope: text.network.cisco.bgp.ipv4.address_family
         - match: '({{pop_address_family_ctx}})'
           pop: true
           captures:
@@ -303,7 +303,7 @@ contexts:
         4: string.unquoted
         5: invalid.illegal
       push:
-        - meta_content_scope: text.network.cisco.bgp.ipv6.address-family
+        - meta_content_scope: text.network.cisco.bgp.ipv6.address_family
         - match: '({{pop_address_family_ctx}})'
           pop: true
           captures:
@@ -578,7 +578,7 @@ contexts:
     - include: interface_block
 
   interface_block:
-    - match: |
+    - match: >
         (?x)
         ^\s*(interface)\s+
         (?:
@@ -597,7 +597,7 @@ contexts:
       - meta_content_scope: text.network.cisco.interface
       - include: standby
       - include: switchport
-      - match: |
+      - match: >
           (?x)
           (?:(description\s+\S.*))|
           (?:((?:ip\s+)?vrf\s+forwarding)\s+(\S*))|
@@ -611,7 +611,8 @@ contexts:
           (?:(ipv6\s+nd\s+prefix)\s+({{ipv6_prefix}}))|
           (?:(ip\s+address)\s+({{ip}})\s+({{subnet_mask}})(\s+secondary)?)|
           (shutdown)|
-          (ipv6\s+enable)
+          (ipv6\s+enable)|
+          (?:(channel-group)\s+(\d+)\s+(mode)\s+(active))
         captures:
           1: comment.line                 # Description
           2: support.constant             # ip vrf forwarding
@@ -637,9 +638,13 @@ contexts:
           22: support.constant.secondary  # ip address secondary
           23: keyword.other               # shutdown
           24: support.constant            # ipv6 enable
-    - match: '^\s*(interface)\s+(?:.*)'
-      captures:
-        0: interface.completion
+          25: support.constant            # channel-group
+          26: constant.numeric            # channel-group id
+          27: support.constant            # channel-group mode
+          28: support.constant            # channel-group mode active
+      - match: '^\s*(interface)\s+(?:.*)'
+        captures:
+          0: interface.completion
 
 
   standby:
@@ -813,7 +818,7 @@ contexts:
         captures:
           1: support.constant        # export map
           2: string.unquoted         # export map name
-        
+
   do_show:
     - match: '^\s*(do)'
       captures:
@@ -830,7 +835,7 @@ contexts:
     - include: show_bgp
     - include: show_standby
     - include: show_ip_interface_brief
-    - include: show_route 
+    - include: show_route
 
   show_vlan:
     - match: '\s*(show\s+vlan)(\s+(id)\s+({{vlan_id}}))?'

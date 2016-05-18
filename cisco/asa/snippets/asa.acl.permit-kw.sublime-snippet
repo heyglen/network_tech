@@ -1,8 +1,0 @@
-<snippet>
-    <description>permit</description>
-    <tabTrigger>permit</tabTrigger>
-    <scope>text.network.cisco.asa & text.network.cisco.asa.access-list & -text.network.cisco.asa.access-list.protocol</scope>
-    <content><![CDATA[
-permit 
-]]></content>
-</snippet>

@@ -1,8 +1,11 @@
 {
     "scope": "text.network.cisco.base.nxos",
     "completions": [
-        "fex ",
-        "ethernet "
+        { 
+            "trigger": "showrunaccess-list\tshow run access-list", 
+            "contents": "show run access-list ${1:NAME}"
+        },
+
     ]
 }
 

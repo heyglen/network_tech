@@ -1,0 +1,58 @@
+{
+    "scope": "text.network.cisco.interface & text.network.cisco.nxos & -text.network.cisco.interface.hsrp",
+    "completions": [
+        "description",
+        { 
+            "trigger": "vrf\tmember", 
+            "contents": "vrf member ${1:NAME}"
+        },
+        { 
+            "trigger": "switchport\ttrunk add", 
+            "contents": "switchport trunk allowed vlan add ${1:0}"
+        },
+        { 
+            "trigger": "ip\tip redirects", 
+            "contents": "ip${1:v6} redirects"
+        },
+        { 
+            "trigger": "encapsulation\tdot1q", 
+            "contents": "encapsulation dot1Q ${1:#}$0"
+        },
+        { 
+            "trigger": "ip\taccess-group", 
+            "contents": "ip access-group ${1:acl_name} ${2:in|out}"
+        },
+        { 
+            "trigger": "ip\taddress", 
+            "contents": "ip address ${1:1.2.3.0}/${2:24}"
+        },
+        { 
+            "trigger": "mtu\t1500", 
+            "contents": "mtu ${1:1500}"
+        },
+        { 
+            "trigger": "ipv6\tnd prefix", 
+            "contents": "ipv6 nd prefix ${1:::/64}"
+        },
+        { 
+            "trigger": "arp\tgratuitous hsrp duplicate", 
+            "contents": "arp gratuitous hsrp duplicate"
+        },
+        { 
+            "trigger": "hsrp\tversion", 
+            "contents": "hsrp version ${1:2}"
+        },
+        { 
+            "trigger": "hsrp\tconfiguration mode", 
+            "contents": "hsrp ${1:0} ${2:ipv6}\n\t$0exit\n"
+        },
+        { 
+            "trigger": "ipv6address\tipv6 address", 
+            "contents": "ipv6 address ${1:0::0/0} ${2:eui64}"
+        },
+        { 
+            "trigger": "vpc\tvpc id", 
+            "contents": "vpc ${1:0}"
+        },
+    ]
+}

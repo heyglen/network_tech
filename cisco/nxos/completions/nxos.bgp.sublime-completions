@@ -1,0 +1,11 @@
+{
+    "scope": "text.network.cisco.bgp.vrf & text.network.cisco.nxos",
+    "completions": [
+        "log-neighbor-changes",
+        { 
+            "trigger": "ip\thsrp ip", 
+            "contents": "vrf ${1:NAME}\n\t$0\nexit"
+        },
+    ]
+}
+

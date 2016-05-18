@@ -1,0 +1,14 @@
+{
+    "scope": "text.network.cisco.asa.object_group",
+    "completions": [
+        { 
+            "trigger": "description\tdescription",
+            "contents": "description ${1:name} $0"
+        },
+        { 
+            "trigger": "group-object\tgroup",
+            "contents": "group-object ${1:name} $0"
+        },
+    ]
+}
+

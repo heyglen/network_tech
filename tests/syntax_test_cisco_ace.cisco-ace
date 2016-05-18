@@ -1,4 +1,4 @@
-  ! On Admin context
+! On Admin context
 
 config-register 0x1
 
@@ -10,7 +10,6 @@ backup all
 
 copy ftp://1.2.3.4/NAME.bin image: 
 dir NAME.bin
-
 
 
 ! On load-balancer-1
@@ -92,9 +91,24 @@ resource-class SILVER
   limit-resource rate mgmt-traffic minimum 5.00 maximum unlimited
 exit
 
-access-list ALLOW_ANY line 1 extended permit ip any any
-access-list ALLOW_ANY line 1 extended deny ip any any
-access-list MGMT_ACL extended permit ip 1.2.3.4 1.2.3.4 any
+object-group network NAME
+ description blah
+  network-object host 1.2.3.4
+  group-object group_name
+ exit
+
+object-group service NAME
+ description blah
+ port-object eq 42
+ port-object range 4 5
+ group-object group_name
+ exit
+
+
+access-list ALLOW_STUFF line 1 extended permit ip any any
+access-list ALLOW_STUFF line 1 extended deny ip any any
+access-list ALLOW_STUFF extended permit ip 1.2.3.4 255.255.255.0 any
+access-list ALLOW_STUFF extended permit ip host 1.2.3.4 host 1.2.3.4
 
 probe tcp NAME
   description TCP Health Probe
@@ -179,9 +193,33 @@ serverfarm host NAME
   exit
 
 serverfarm redirect NAME
+  rserver NAME 80
+    inservice
+   exit
+  rserver NAME
+    inservice
+   exit
   description
   exit
 
+sticky http-cookie domain.root http-cookie_name
+  description
+  timeout 60
+  replicate sticky
+  cookie offset 90 length 90
+  cookie insert browser-expire
+  cookie secondary name
+  static cookie-value value rserver name 90
+  serverfarm NAME
+  serverfarm NAME backup NAME
+  exit
+
+sticky layer4-payload L4_PAYLOAD_GROUP
+  description
+  timeout 30
+  replicate sticky
+  serverfarm NAME
+  exit
 
 sticky sip-header name1 name2
   description
@@ -197,24 +235,6 @@ sticky radius framed-ip calling-station-id name
 
 sticky radius framed-ip username name
   description
-  exit
-
-sticky http-cookie domain.root http-cookie_name
-  description
-  timeout 60
-  replicate sticky
-  cookie offset 90 length 90
-  cookie insert browser-expire
-  cookie secondary name
-  static cookie-value value rserver name 90
-  serverfarm NAME backup NAME
-  exit
-
-sticky layer4-payload L4_PAYLOAD_GROUP
-  description
-  timeout 30
-  replicate sticky
-  serverfarm NAME
   exit
 
 sticky http-header name1 name2
@@ -257,12 +277,12 @@ class-map match-any L4-CLASS-1
   exit
 
 class-map type http inspect match-any map_name
- 2 match content expression offset 2
- 3 match content length eq 4
- 4 match content length range 8 16
- 5 match header Host header-value domain.local
- 6 match url /index.html
-  exit
+  2 match content expression offset 2
+  match content length eq 4
+  4 match content length range 8 16
+  5 match header Host header-value domain.local
+  6 match url /index.html
+ exit
 
 class-map type http loadbalance match-any CLASS-NAME_L7CLASS
   2 match http header Host header-value VALUE
@@ -284,12 +304,13 @@ policy-map type management first-match NAME
   class remote_access
     permit
     deny
-  exit
+   exit
   exit
 
 policy-map type loadbalance first-match L7-POLICY-1
   class class-default
     sticky-serverfarm STICKY1
+    serverfarm NAME
     serverfarm NAME backup NAME
     action ACTION-LIST
     ssl-proxy client SSL-CLIENT
@@ -310,21 +331,13 @@ policy-map multi-match L4-POLICY-1
     ssl-proxy server SSL-SERVER
     connection advanced-options CONNECTION-OPTIONS_NAME
   exit
+ exit
+
 
 ssl-proxy service NAME
  key NAME.key
  cert NAME.crt
  exit
-
-
-interface vlan 1
-  description Management
-  ip address 1.2.3.4 255.255.255.0
-  peer ip address 1.2.3.4 255.255.255.0
-  access-group input MGMT_ACL
-  service-policy input NAME
-  no shutdown
-  exit
 
 interface vlan 2
   description Network Interface
@@ -353,6 +366,7 @@ snmp-server enable traps syslog
 snmp-server enable traps snmp linkup
 snmp-server enable traps snmp linkdown
 
+exit
 
 show ip route | include "SEARCH_TERM"
 show ip route | begin "SEARCH_TERM"

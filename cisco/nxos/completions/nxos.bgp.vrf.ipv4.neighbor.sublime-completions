@@ -1,0 +1,10 @@
+{
+    "scope": "text.network.cisco.bgp.vrf.ipv4_address_family.neighbor & text.network.cisco.nxos",
+    "completions": [
+        { 
+            "trigger": "inherit\tpeer", 
+            "contents": "inherit peer ${1:NAME}"
+        },
+    ]
+}
+

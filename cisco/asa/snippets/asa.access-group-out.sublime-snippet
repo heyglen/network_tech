@@ -1,8 +1,0 @@
-<snippet>
-    <description>access-group out</description>
-    <tabTrigger>access-group</tabTrigger>
-    <scope>text.network.cisco.asa</scope>
-    <content><![CDATA[
-access-group ${1:ACL_NAME} out interface ${2:INTERFACE_NAME}
-]]></content>
-</snippet>

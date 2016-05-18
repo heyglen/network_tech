@@ -1,9 +1,0 @@
-<snippet>
-    <description>v6 address</description>
-    <scope>cisco.ios & interface</scope>
-    <tabTrigger>ipv6</tabTrigger>
-    <content><![CDATA[
-ipv6 address ${1:general-prefix} ${2:0:0:0::/64} ${3:eui-64}$0
-]]></content>
-</snippet>
-

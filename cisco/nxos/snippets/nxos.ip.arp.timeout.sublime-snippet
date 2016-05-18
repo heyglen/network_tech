@@ -1,9 +1,0 @@
-<snippet>
-	<description>timeout</description>
-	<tabTrigger>arp</tabTrigger>
-	<scope>cisco.nxos & interface</scope>
-	<content><![CDATA[
-arp timeout 300
-
-]]></content>
-</snippet>

@@ -1,8 +1,0 @@
-<snippet>
-    <description>deny</description>
-    <tabTrigger>extended</tabTrigger>
-    <scope>text.network.cisco.asa & text.network.cisco.asa.access-list</scope>
-    <content><![CDATA[
-extended deny 
-]]></content>
-</snippet>

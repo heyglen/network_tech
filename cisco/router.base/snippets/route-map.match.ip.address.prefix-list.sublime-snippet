@@ -1,9 +1,0 @@
-<snippet>
-    <description>ip address prefix-list</description>
-    <scope>cisco.ios & route-map</scope>
-    <tabTrigger>match</tabTrigger>
-    <content><![CDATA[
-match ip address prefix-list ${1:NAME}
-
-]]></content>
-</snippet>

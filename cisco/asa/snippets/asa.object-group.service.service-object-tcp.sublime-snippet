@@ -1,8 +1,0 @@
-<snippet>
-    <description>tcp</description>
-    <tabTrigger>service-object</tabTrigger>
-    <scope>text.network.cisco.asa  & text.network.cisco.asa.object-group.service</scope>
-    <content><![CDATA[
- service-object tcp destination eq ${1:0}
-]]></content>
-</snippet>

@@ -1,8 +1,0 @@
-<snippet>
-    <scope>text.network.cisco.asa & -(show)</scope>
-    <tabTrigger>route</tabTrigger>
-    <description>route</description>
-	<content><![CDATA[
-route ${1:interface-name} ${2:network-ip} ${3:subnet-mask} ${4:gateway} 1
-]]></content>
-</snippet>

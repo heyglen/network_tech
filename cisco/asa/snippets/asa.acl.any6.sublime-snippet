@@ -1,8 +1,0 @@
-<snippet>
-    <description>any6</description>
-    <tabTrigger>any6</tabTrigger>
-    <scope>text.network.cisco.asa & text.network.cisco.asa.access-list.protocol </scope>
-    <content><![CDATA[
-any6 
-]]></content>
-</snippet>

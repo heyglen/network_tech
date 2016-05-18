@@ -1,8 +1,0 @@
-<snippet>
-    <description>allocate-interface</description>
-    <tabTrigger>allocate-interface</tabTrigger>
-    <scope>text.network.cisco.asa.system.context</scope>
-    <content><![CDATA[
-allocate-interface ${1:Port-channel1.123}
-]]></content>
-</snippet>

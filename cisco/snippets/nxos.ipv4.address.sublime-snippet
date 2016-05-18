@@ -1,8 +1,0 @@
-<snippet>
-    <description>v4 address</description>
-    <scope>cisco.nxos & interface & ipv4</scope>
-    <tabTrigger>address</tabTrigger>
-    <content><![CDATA[
-address ${1:1.2.3.4}/${2:24}
-]]></content>
-</snippet>

@@ -5,6 +5,11 @@
         { 
             "trigger": "config-url\tdisk",
             "contents": "config-url disk:${1:0}:${2:firewall.cfg} $0",
+        },
+        { 
+            "trigger": "allocate-interface\tPort-channel",
+            "contents": "allocate-interface ${1:Port-channel1.123} $0",
+
         }
   ]
 }

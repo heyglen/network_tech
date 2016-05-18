@@ -1,8 +1,0 @@
-<snippet>
-    <description>add</description>
-    <scope>(cisco.ios | cisco.nxos) & switchport & allowed & vlan</scope>
-    <tabTrigger>add</tabTrigger>
-    <content><![CDATA[
-add ${1:0}
-]]></content>
-</snippet>

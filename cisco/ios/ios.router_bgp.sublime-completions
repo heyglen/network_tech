@@ -2,6 +2,14 @@
   "scope": "text.network.cisco.bgp & text.network.cisco.ios",
   "completions": [
         { 
+            "trigger": "address-family\tipv4", 
+            "contents": "address-family ipv4\n\t$0\n exit-address-family"
+        },
+        { 
+            "trigger": "address-family\tipv6", 
+            "contents": "address-family ipv6\n\t$0\n exit-address-family"
+        },
+        { 
             "trigger": "address-family\tipv4 vrf", 
             "contents": "address-family ipv4 vrf ${1:name}\n\t$0\n exit-address-family"
         },

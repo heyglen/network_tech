@@ -1,9 +1,0 @@
-<snippet>
-	<description>version</description>
-	<tabTrigger>hsrp</tabTrigger>
-	<scope>cisco.nxos & interface</scope>
-	<content><![CDATA[
-hsrp version ${1:2}
-
-]]></content>
-</snippet>

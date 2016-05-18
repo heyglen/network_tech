@@ -1,7 +1,33 @@
 {
     "scope": "text.network.cisco.asa",
     "completions": [
-        "write "
+        "write ",
+        "nameif ",
+        { 
+            "trigger": "terminal\twidth",
+            "contents": "terminal width ${1:511}"
+        },
+        { 
+            "trigger": "terminal\tpager",
+            "contents": "terminal pager ${1:0}"
+        },
+        { 
+            "trigger": "changeto\tcontext", 
+            "contents": "changeto context ${1:name} $0"
+        },
+        { 
+            "trigger": "show\trun object-group", 
+            "contents": "show run object-group ${1:name}"
+        },
+        { 
+            "trigger": "write\tnet", 
+            "contents": "write net $0"
+        },
+        { 
+            "trigger": "changeto\tsystem", 
+            "contents": "changeto system $0"
+        }
+
     ]
 }
 

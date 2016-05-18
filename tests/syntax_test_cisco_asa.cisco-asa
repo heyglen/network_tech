@@ -9,7 +9,7 @@ show running-config | include something ! Inline comment
 show run interface | exclude something
 
 write
-write network
+write net
 
 ! Line comment
 
@@ -18,15 +18,16 @@ configure terminal
 
 hostname firewall
 
-
 context firewall
   description context
-    
   allocate-interface Port-channel42.42
   allocate-interface Port-channel42.42-Port-channel42.42
   config-url disk0:/firewall.cfg
   
   exit
+
+password encryption aes
+passwd SECRET encrypted
 
 interface port-channel 0
   nameif outside
@@ -36,7 +37,7 @@ interface port-channel 0
   shutdown
   no shutdown
   exit
-  
+
 ip verify reverse-path interface outside
 
 
@@ -46,17 +47,21 @@ object-group service service
   service-object tcp destination gt 2
   service-object tcp destination lt 3
   service-object tcp destination range 4 5
+  group-object group_name
  exit
  
 object-group network NAME
  description blah
   network-object host 1.2.3.4
+  group-object group_name
  exit
 
 object-group service NAME tcp-udp
  description blah
  port-object eq 42
  port-object range 4 5
+ group-object group_name
+ port-object eq 2
  exit
  
 object network host-1.2.3.4
@@ -87,11 +92,16 @@ object network obj-www.fqdn.com
 
 access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
             alert-interval 300
+access-list dmz03_acl remark this is a remark
 access-list acl-name; 42 elements; name hash: 0xbe299002
+access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq www
+access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq https
+access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq sunrpc
+access-list acl-name line 42 extended permit tcp host 2.2.2.2 object-group network-dst eq 2059 inactive (inactive)
 access-list acl-name line 42 extended permit tcp host 2.2.2.2 object-group network-dst eq 2059 inactive (inactive)
 access-list acl-name line 42 extended permit tcp 2.2.2.2 255.255.255.0 object-group network-dst eq 2059 inactive (inactive)
 access-list acl-name line 42 extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
-
+access-list acl-name extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1 timestamp-request
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1 traceroute
@@ -105,6 +115,8 @@ access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log 
 access-list acl-name line 42 extended permit icmp host 2.2.2.2 host 1.1.1.1 echo log informational interval 300
 access-list acl-name line 42 extended permit tcp host 1.1.1.1 object-group group-3 eq 2059 inactive (hitcnt=0)
 access-list acl-name line 42 extended permit 41 host 1.1.1.1 host 2.2.2.2
+access-list dmz03_acl extended deny ip any4 any4
+access-list dmz03_acl extended deny ip any6 any6
 
 access-group acl-name in interface outside
 
@@ -158,5 +170,5 @@ aaa accounting telnet console TACACS+
 aaa accounting ssh console TACACS+
 aaa authorization exec authentication-server auto-enable
 
+exit
 
-end

@@ -1,8 +1,0 @@
-<snippet>
-    <description>nameif</description>
-    <tabTrigger>nameif</tabTrigger>
-    <scope>cisco.asa.interface</scope>
-    <content><![CDATA[
-nameif ${1:NAME} 
-]]></content>
-</snippet>

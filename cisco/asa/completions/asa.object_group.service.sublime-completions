@@ -1,0 +1,21 @@
+{
+    "scope": "text.network.cisco.asa.object_group.service",
+    "completions": [
+        { 
+            "trigger": "port-object\tport",
+            "contents": "port-object eq ${1:0}"
+        },
+        { 
+            "trigger": "service-object\ttcp-udp",
+            "contents": "service-object tcp-udp destination eq ${1:1} $0"
+        },
+        { 
+            "trigger": "service-object\ttcp",
+            "contents": "service-object tcp destination eq ${1:1} $0"
+        },
+        { 
+            "trigger": "service-object\tudp",
+            "contents": "service-object udp destination eq ${1:1} $0"
+        },
+    ]
+}

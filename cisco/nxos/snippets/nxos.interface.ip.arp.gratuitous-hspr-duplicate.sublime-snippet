@@ -1,9 +1,0 @@
-<snippet>
-	<description>gratuitous hsrp duplicate</description>
-	<tabTrigger>arp</tabTrigger>
-	<scope>cisco.nxos & interface</scope>
-	<content><![CDATA[
-arp gratuitous hsrp duplicate
-
-]]></content>
-</snippet>

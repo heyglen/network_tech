@@ -1,8 +1,0 @@
-<snippet>
-    <description>icmp any any</description>
-    <scope>cisco.ios.acl.permission</scope>
-    <tabTrigger>icmp</tabTrigger>
-    <content><![CDATA[
-icmp any any
-]]></content>
-</snippet>

@@ -1,9 +1,0 @@
-<snippet>
-    <description>redirects</description>
-    <scope>(cisco.ios | cisco.nxos) & interface</scope>
-    <tabTrigger>ip</tabTrigger>
-    <content><![CDATA[
-ip${1:v6} redirects
-
-]]></content>
-</snippet>

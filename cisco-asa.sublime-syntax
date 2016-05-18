@@ -38,6 +38,8 @@ variables:
   network_target: |
     (?x)
     (?:{{ip_prefix}})|
+    (?:any4)|
+    (?:any6)|
     (?:any)
   management_protocols: |
     (?x)
@@ -51,7 +53,7 @@ variables:
      (?:tcp)|
      (?:udp)
     )
-  port_numbers: '(?:(?:(?:65535)|\d{1,4}))'
+  port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   icmp_types: |
     (?x)
     (?:echo-reply)|
@@ -76,10 +78,22 @@ variables:
   port_names: |
     (?x)
     (?:bgp)|
-    (?:ssh)|
+    (?:domain)|
+    (?:ftp)|
+    (?:https)|
+    (?:ldap)|
+    (?:ldaps)|
+    (?:nfs)|
+    (?:ntp)|
+    (?:rsh)|
+    (?:smtp)|
+    (?:snmptrap)|
     (?:snmp)|
     (?:sqlnet)|
-    (?:domain)
+    (?:ssh)|
+    (?:sunrpc)|
+    (?:syslog)|
+    (?:www)
   operators: >
     (?:
       (?:eq)|
@@ -133,26 +147,27 @@ contexts:
         2: support.constant
       push: 
         - meta_content_scope: text.network.cisco.configure_terminal
+        - include: aaa
         - include: acl
+        - include: snmp
+        - include: vlan
+        - include: logging
+        - include: objects
         - include: context
         - include: username
-        - include: vlan
-        - include: aaa
         - include: hostname
-        - include: crypto_key_generate
-        - include: ssl_encryption
-        - include: monitor_interface
-        - include: objects
-        - include: object_group
-        - include: logging
-        - include: snmp
-        - include: access_group
-        - include: ssh_key_exchange
         - include: ip_route
+        - include: password
         - include: interface
         - include: reverse_path
+        - include: access_group
+        - include: object_group
         - include: interface_mtu
         - include: fragment_chain
+        - include: ssl_encryption
+        - include: monitor_interface
+        - include: ssh_key_exchange
+        - include: crypto_key_generate
         - include: protocol_settings
 
   scope:
@@ -222,6 +237,7 @@ contexts:
   changeto:
     - match: ^\s*(changeto)\s+(?:(system)|(context))\s+(\S+)
       captures:
+        0: cisco.scope
         1: support.constant
         2: string.unquoted
         3: support.constant
@@ -247,6 +263,12 @@ contexts:
     - include: object_group_service
     - include: object_group_protocol
   
+  object_group_group_object:
+    - match: '^\s*(group-object)\s+(\S+)'
+      captures:
+        1: support.constant
+        2: string.unquoted
+    
   object_network:
     - match: '^\s*(object)\s+(network)\s+(\S+)'
       captures:
@@ -256,7 +278,7 @@ contexts:
         3: string.unquoted
       push:
         - meta_content_scope: text.network.cisco.asa.object_group.network
-        - include: description  
+        - include: description
         - match: |
             (?x) 
             (?:
@@ -286,7 +308,8 @@ contexts:
         3: string.unquoted
       push:
         - meta_content_scope: text.network.cisco.asa.object_group.protocol
-        - include: description  
+        - include: description
+        - include: object_group_group_object
         - match: |
             (?x) 
             (?:
@@ -308,7 +331,8 @@ contexts:
         3: string.unquoted
       push:
         - meta_content_scope: text.network.cisco.asa.object_group.network
-        - include: description  
+        - include: description
+        - include: object_group_group_object
         - match: |
             (?x) 
             (?:
@@ -375,6 +399,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.asa.object_group.service
         - include: description  
+        - include: object_group_group_object
         - match: >
             (?xi)
             ^\s*
@@ -412,8 +437,20 @@ contexts:
 
   acl:
     - include: acl_cached_log_flows
+    - include: acl_remark
     - include: acl_icmp
     - include: acl_ip
+
+  acl_remark:
+    - match: >
+        (?x)
+        (access-list)\s+
+        ([^;\s]+)\s+(remark)(\s+.*)?
+      captures:
+        1: support.constant                       # access-list
+        2: string.unquoted                        # access-list name
+        3: support.constant                       # remark
+        4: comment.unquoted                       # remark string
 
   acl_cached_log_flows:
     - match: >
@@ -435,10 +472,10 @@ contexts:
         (access-list)\s+
         (?:
           (?:
-            ([^;\s]+)(?:
+            ([^;\s]+)(?:  # acl name
               (?:(;)\s+(\d+)\s+(elements;\s+name\s+hash:)\s+(0x\h{8}))|
+              (?:\s+(line)\s+(\d+))?\s+
               (?:     # start ace: ip, tcp, udp
-                (?:\s+(line)\s+(\d+)\s+)?
                 (?:(extended)\s+(?:(permit)|(deny)))\s+
                 (?:     # start ip, tcp, udp
                   (?:   # start protocol
@@ -449,7 +486,7 @@ contexts:
                     (?:\s+(host)\s+({{ip}}))|
                     (?:\s+({{ip}})\s+({{subnet_mask}}))|
                     (?:\s+(object-group)\s+(\S+))|
-                    (?:\s+(any))
+                    (?:\s+(any(?:4|6)?))
                   )     # end l3 network source
                   (?:   # start l4 port source
                     (?:\s+({{operators}})\s+({{port_target}}))|
@@ -460,7 +497,7 @@ contexts:
                     (?:\s+(host)\s+({{ip}}))|
                     (?:\s+({{ip}})\s+({{subnet_mask}}))|
                     (?:\s+(object-group)\s+(\S+))|
-                    (?:\s+(any))
+                    (?:\s+(any(?:4|6)?))
                   )     # end l3 network destination
                   (?:   # start l4 port destination
                     (?:\s+({{operators}})\s+({{port_target}}))|
@@ -555,7 +592,7 @@ contexts:
                     (?:\s+(host)\s+({{ip}}))|
                     (?:\s+({{ip}})\s+({{subnet_mask}}))|
                     (?:\s+(object-group)\s+(\S+))|
-                    (?:\s+(any))
+                    (?:\s+(any(?:4|6)?))
                   )     # end l3 network source
                   (?:   # start icmp types source
                     (?:\s+({{icmp_types}}))|
@@ -565,7 +602,7 @@ contexts:
                     (?:\s+(host)\s+({{ip}}))|
                     (?:\s+({{ip}})\s+({{subnet_mask}}))|
                     (?:\s+(object-group)\s+(\S+))|
-                    (?:\s+(any))
+                    (?:\s+(any(?:4|6)?))
                   )     # end l3 network destination
                   (?:   # start icmp types destination
                     (?:\s+({{icmp_types}}))|
@@ -634,6 +671,10 @@ contexts:
         40: comment.unquoted             # hitcount
 
   icmp_protocol_settings:
+    - include: icmp_ipv4_protocol_settings
+    - include: icmp_ipv6_protocol_settings
+
+  icmp_ipv4_protocol_settings:
     - match: |
         (?xi)
         ^\s*
@@ -641,6 +682,23 @@ contexts:
           (icmp)\s+
           (?:(permit)|(deny))\s+
           ({{network_target}})\s+
+          (\S+)
+        )
+      captures:
+        1: support.constant             # http server enable
+        2: entity.other.attribute-name  # management protocol
+        3: keyword.other                # management network
+        4: constant.numeric             # management subnet mask
+        5: entity.other.attribute-name  # management nameif
+
+  icmp_ipv6_protocol_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (ipv6\s+icmp)\s+
+          (?:(permit)|(deny))\s+
+          ({{ipv6_prefix}})\s+
           (\S+)
         )
       captures:
@@ -709,6 +767,19 @@ contexts:
           2: support.constant
           3: support.constant
           4: string.unquoted
+
+  password:
+    - match: >
+        (?x)
+        ^\s*
+        (?:(password\s+encryption)\s+(aes))|
+        (?:(passwd)\s+(\S+)(\s+encrypted)?)
+      captures:
+        1: support.constant                 # password encryption
+        2: entity.other.attribute-name      # password encryption type
+        3: support.constant                 # passwd
+        4: string.unquoted                 # passwd value
+        5: support.constant                 # passwd encrypted
 
   username:
     - match: '^\s*(username)\s+(\S+)\s+(password)\s+(\S+)\s+(encrypted\s+privilege)\s+(\d+)'
@@ -843,7 +914,7 @@ contexts:
       captures:
         1: support.constant
         2: string.unquoted
-        3: constant.numeric
+        3: support.constant
         4: string.unquoted
 
   interface_mtu:
@@ -869,7 +940,7 @@ contexts:
         )
       captures:
         0: cisco.scope
-        1: variable.parameter               # interface
+        1: variable.parameter             # interface
         2: support.constant               # range
         3: entity.other.attribute-name    # interface name
         4: constant.numeric               # interface number
@@ -879,17 +950,17 @@ contexts:
       - meta_content_scope: text.network.cisco.interface
       - include: description
       - match: |
-          (?x)
+          (?x)^\s*
           (?:(ipv6\s+address)\s+({{ipv6_prefix}})(?:\s+(standby)\s+({{ipv6}}))?)|
           (?:(ip\s+address)\s+({{ip}}\s+{{subnet_mask}})(?:(\s+standby)\s+({{ip}}))?)|
           (shutdown)|
           (?:(nameif)\s+(\S+))|
           (?:(security-level)\s+(\S+))
         captures:
-          1: comment.line                              # Description
-          2: constant.numeric
-          3: support.constant
-          4: constant.numeric
+          1: support.constant                          # ipv6
+          2: constant.numeric                          # ipv6 address
+          3: support.constant                          # ipv6
+          4: constant.numeric                          # ipv6
           5: support.constant                          # ip address
           6: constant.numeric                          # ip address ipv4 address
           7: support.constant                          # ip address standby
@@ -983,7 +1054,7 @@ contexts:
         1: support.constant
 
   write_network:
-    - match: '^\s*(write)\s+(net(?:work))'
+    - match: '^\s*(write)\s+(net)'
       captures:
         1: support.constant
         2: support.constant
