@@ -1,5 +1,5 @@
 {
-    "auto_complete_selector": "text.network.cisco.nxos",
+    "auto_complete_selector": "text.network.cisco.",
     "indent_guide_options":
     [
         "draw_normal",

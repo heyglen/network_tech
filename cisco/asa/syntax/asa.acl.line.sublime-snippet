@@ -1,8 +1,0 @@
-<snippet>
-    <description>#</description>
-    <tabTrigger>line</tabTrigger>
-    <scope>text.network.cisco.asa & text.network.cisco.asa.access-list & -(text.network.cisco.asa.access-list.permit | text.network.cisco.asa.access-list.deny)</scope>
-    <content><![CDATA[
-line ${1:0} 
-]]></content>
-</snippet>
