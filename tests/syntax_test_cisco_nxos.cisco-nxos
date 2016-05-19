@@ -132,7 +132,7 @@ line vty 0 4
   transport input ssh
  exit
 
-route-map rm-bck-to-service-segment permit 13990
-  match ip address ac-bck-to-stfm004-inside-328
-  set vrf stfm004-inside-328
+route-map route_map_name permit 13990
+  match ip address acl_name
+  set vrf vrf_name
 exit

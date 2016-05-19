@@ -2,7 +2,7 @@
 
 config-register 0x1
 
-boot system image:xxx
+boot system image:image_name
 write memory all
 show running-config
 reload

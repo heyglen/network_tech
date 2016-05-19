@@ -1,5 +1,5 @@
 {
-    "scope": "(text.network.cisco.asa & text.network.cisco.configure_terminal) & -(text.network.cisco.asa. )",
+    "scope": "(text.network.cisco.asa & text.network.cisco.configure_terminal) & -(asa.acl_entry)",
     "completions": [
         { 
             "trigger": "username\tpassword",
@@ -47,7 +47,7 @@
         },
         { 
             "trigger": "context\tcontext",
-            "contents": "context ${1:NAME}\n\t$0\nexit"
+            "contents": "context ${1:NAME}\n    $0\nexit"
         },
         { 
             "trigger": "ssh\ttimeout",
@@ -111,7 +111,7 @@
         },
         { 
             "trigger": "object\thost",
-            "contents": "object network obj-${1:ip-address}_32\n\thost ${1:ip-address}\nexit"
+            "contents": "object network obj-${1:ip-address}_32\n    host ${1:ip-address}\nexit"
         },
         { 
             "trigger": "password\tencryption aes",
@@ -123,7 +123,7 @@
         },
         { 
             "trigger": "object\tnat",
-            "contents": "object network obj-${1:private-ip}_32\n\thost ${1:private-ip}\n\texit\nobject network obj-${2:public-ip}_32\nhost ${2:public-ip}\n\texit\n\tobject network obj-${1:private-ip}_32\n\tnat static obj-${2:public-ip}_32\n\texit"
+            "contents": "object network obj-${1:private-ip}_32\n    host ${1:private-ip}\n    exit\nobject network obj-${2:public-ip}_32\nhost ${2:public-ip}\n    exit\n    object network obj-${1:private-ip}_32\n    nat static obj-${2:public-ip}_32\n    exit"
         },
         { 
             "trigger": "access-group\tin",
@@ -135,27 +135,31 @@
         },
         { 
             "trigger": "object\thost",
-            "contents": "object network obj-${1:ip-address}_32\n\t$0\n exit"
+            "contents": "object network obj-${1:ip-address}_32\n    $0\n exit"
         },
         { 
             "trigger": "object-group\tfqdn", 
-            "contents": "object network fqdn-${1:server.domain.root}\n\t$0\n exit"
+            "contents": "object network fqdn-${1:server.domain.root}\n    $0\n exit"
         },
         { 
             "trigger": "object-group\tnetwork", 
-            "contents": "object-group network ${1:name}\n\t$0\n exit"
+            "contents": "object-group network ${1:name}\n    $0\n exit"
+        },
+        { 
+            "trigger": "object-group\tservice",
+            "contents": "object-group service ${1:name}\n    $0\n exit"
         },
         { 
             "trigger": "object-group\ttcp-udp",
-            "contents": "object-group service ${1:name} tcp-udp\n\t$0\n exit"
+            "contents": "object-group service ${1:name} tcp-udp\n    $0\n exit"
         },
         { 
             "trigger": "object-group\ttcp",
-            "contents": "object-group service ${1:name} tcp\n\t$0\n exit"
+            "contents": "object-group service ${1:name} tcp\n    $0\n exit"
         },
         { 
             "trigger": "object-group\tudp",
-            "contents": "object-group service ${1:name} udp\n\t$0\n exit"
+            "contents": "object-group service ${1:name} udp\n    $0\n exit"
         },
 
     ]

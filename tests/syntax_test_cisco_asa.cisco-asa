@@ -92,7 +92,8 @@ object network obj-www.fqdn.com
 
 access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
             alert-interval 300
-access-list dmz03_acl remark this is a remark
+access-list acl-name remark this is a remark
+access-list acl-name line 0 remark this is a remark
 access-list acl-name; 42 elements; name hash: 0xbe299002
 access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq www
 access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq https
@@ -105,7 +106,8 @@ access-list acl-name extended permit tcp object-group group1 host 1.1.1.1 eq sql
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1 timestamp-request
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1 traceroute
-
+access-list acl-name line 42 extended permit
+access-list acl-name line 42 extended deny
 access-list acl-name line 42 extended permit object-group services object-group network-src object-group network-dst
 access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 disable 0x2e7027d7
 access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 disable default 0x2e7027d7
@@ -115,8 +117,8 @@ access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log 
 access-list acl-name line 42 extended permit icmp host 2.2.2.2 host 1.1.1.1 echo log informational interval 300
 access-list acl-name line 42 extended permit tcp host 1.1.1.1 object-group group-3 eq 2059 inactive (hitcnt=0)
 access-list acl-name line 42 extended permit 41 host 1.1.1.1 host 2.2.2.2
-access-list dmz03_acl extended deny ip any4 any4
-access-list dmz03_acl extended deny ip any6 any6
+access-list acl-name extended deny ip any4 any4
+access-list acl-name extended deny ip any6 any6
 
 access-group acl-name in interface outside
 
@@ -141,7 +143,7 @@ logging buffered informational
 logging trap informational
 logging asdm informational
 logging device-id string firewall
-logging host mgmt 1.2.3.4
+logging host outside 1.2.3.4
 
 username root password secret encrypted privilege 15
 

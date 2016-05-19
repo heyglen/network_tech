@@ -148,7 +148,6 @@ contexts:
       push: 
         - meta_content_scope: text.network.cisco.configure_terminal
         - include: aaa
-        - include: acl
         - include: snmp
         - include: vlan
         - include: logging
@@ -159,6 +158,7 @@ contexts:
         - include: ip_route
         - include: password
         - include: interface
+        - include: access_list
         - include: reverse_path
         - include: access_group
         - include: object_group
@@ -435,24 +435,42 @@ contexts:
             6: support.constant             # range
             7: constant.numeric             # target range
 
-  acl:
-    - include: acl_cached_log_flows
-    - include: acl_remark
-    - include: acl_icmp
-    - include: acl_ip
+  access_list:
+    - include: access_list_cached_log_flows
+    - include: access_list_remark
+    - include: access_list_icmp
+    - include: access_list_ip
+    - include: building_access_list
 
-  acl_remark:
+  building_access_list:
     - match: >
         (?x)
         (access-list)\s+
-        ([^;\s]+)\s+(remark)(\s+.*)?
+        ([^;\s]+)\s+(?:(line)\s+(\d+)\s+)?(extended)\s+(?:(permit)|(deny))\s+.*
+      captures:
+        0: asa.acl_entry
+        1: support.constant                       # access-list
+        2: string.unquoted                        # access-list name
+        3: support.constant                       # line
+        4: constant.numeric                       # line number
+        5: support.constant                       # extended
+        6: entity.other.attribute-name            # permit
+        7: keyword.other                          # deny
+
+  access_list_remark:
+    - match: >
+        (?x)
+        (access-list)\s+
+        ([^;\s]+)\s+(?:(line)\s+(\d+)\s+)?(remark)(\s+.*)?
       captures:
         1: support.constant                       # access-list
         2: string.unquoted                        # access-list name
-        3: support.constant                       # remark
-        4: comment.unquoted                       # remark string
+        3: support.constant                       # line
+        4: constant.numeric                       # line number
+        5: support.constant                       # remark
+        6: comment.unquoted                       # remark string
 
-  acl_cached_log_flows:
+  access_list_cached_log_flows:
     - match: >
         (?x)
         access-list\s+cached\s+(\S+)\s+log\s+flows:\s+
@@ -466,7 +484,7 @@ contexts:
             0: comment.unquoted
           pop: true
 
-  acl_ip:
+  access_list_ip:
     - match: |
         (?x)
         (access-list)\s+
@@ -573,7 +591,7 @@ contexts:
         51: comment.unquoted             # ace hash
         52: comment.unquoted             # hitcount
 
-  acl_icmp:
+  access_list_icmp:
     - match: |
         (?x)
         (access-list)\s+

@@ -1,6 +1,0 @@
-name: Symbol List
-scope: interface
-settings:
-  showInSymbolList: '1'
-  symbolTransformation: s/interface\s+(\S+).*\n/interface $1/g;
-uuid: 0A0DA1FC-59DE-4FD9-9A2C-63C6811A3C31

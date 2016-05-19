@@ -1,7 +1,8 @@
-# sublime-network
+# Sublime Network
 
+Sublime Text 3 network configuration syntax highlighting and completions.
 
-Network configuration syntax highlighting, completions and snippets for Sublime Text.
+Sublime Text 2 is not supported.
 
 Supports:
  * Cisco ACE
