@@ -87,6 +87,7 @@ variables:
     (?:ntp)|
     (?:rsh)|
     (?:smtp)|
+    (?:telnet)|
     (?:snmptrap)|
     (?:snmp)|
     (?:sqlnet)|
