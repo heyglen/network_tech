@@ -4,19 +4,23 @@ Sublime Text 3 network configuration syntax highlighting and completions.
 
 Sublime Text 2 is not supported.
 
-Supports:
+## Documentation
+
+[Documentation is hosted on GitHub](https://github.com/heyglen/sublime-network/blob/master/README.md)
+
+
+ * [Getting Started](docs/getting_started.md)
+ * [Configuration Mode Aware](docs/configuration_modes.md)
+
+## Features
+
+Syntax and completions for
  * Cisco ACE
  * Cisco IOS
  * Cisco NXOS
  * Cisco ASA
 
-## Usage
-
-Open the command prompt (Windows: Ctrl+Shift+p) and type one of the following:
- * Set Syntax: Cisco ACE
- * Set Syntax: Cisco IOS
- * Set Syntax: Cisco NXOS
- * Set Syntax: Cisco ASA
+[Subnet Mask Conversions](docs/getting_started.md#mask-conversions)
 
 ## Installation
 

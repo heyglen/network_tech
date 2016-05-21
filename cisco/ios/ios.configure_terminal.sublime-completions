@@ -1,14 +1,9 @@
 {
   "scope": "text.network.cisco.configure_terminal & -(ios.acl.ace.target_ip & text.network.cisco.interface)",
   "completions": [
-        "exit",
         { 
             "trigger": "ipprefix-list\tprefix-list", 
             "contents": "ip prefix-list ${1:NAME} seq ${2:10} permit ${3:1.2.3.0}/${4:24}"
-        },
-        { 
-            "trigger": "hostname\thostname",
-            "contents": "hostname ${1:HOSTNAME}"
         },
         { 
             "trigger": "default\tinterface", 

@@ -599,7 +599,7 @@ contexts:
       - include: switchport
       - match: >
           (?x)
-          (?:(description\s+\S.*))|
+          (?:(description.*))|
           (?:((?:ip\s+)?vrf\s+forwarding)\s+(\S*))|
           (port-channel\s+standalone-disable)|
           (?:(encapsulation\s+dot1q)\s+({{vlan_id}}))|

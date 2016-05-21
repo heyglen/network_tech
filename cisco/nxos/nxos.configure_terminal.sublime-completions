@@ -14,10 +14,6 @@
             "contents": "vrf context ${1:NAME}\n\t$0\n exit"
         },
         { 
-            "trigger": "hostname\thostname",
-            "contents": "hostname ${1:HOSTNAME}"
-        },
-        { 
             "trigger": "router\tbgp", 
             "contents": "router bgp ${1:0}\n\t$0\n exit"
         },

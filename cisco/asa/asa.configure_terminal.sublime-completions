@@ -10,10 +10,6 @@
             "contents": "tftp-server ${1:INTERFACE} ${2:1.2.3.4} ${3:FILE_NAME}"
         },
         { 
-            "trigger": "hostname\thostname",
-            "contents": "hostname ${1:HOSTNAME}"
-        },
-        { 
             "trigger": "logging\tdevice-id string",
             "contents": "logging device-id string ${1:HOSTNAME}"
         },
