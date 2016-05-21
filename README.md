@@ -56,4 +56,6 @@ Type 'sublime network<enter>'
 
 ## Feature Requests and Bug Reporting
 
+The goal is to have highlighting and completions on frequently used commands, not full coverage.
+
 [Sublime-Network GitHub Issues](https://github.com/heyglen/sublime-network/issues)
