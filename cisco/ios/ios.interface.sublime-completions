@@ -1,7 +1,7 @@
 {
     "scope": "text.network.cisco.interface & (text.network.cisco.ios)",
     "completions": [
-        "description",
+        "description ",
         "shutdown",
         "switchport",
         { 

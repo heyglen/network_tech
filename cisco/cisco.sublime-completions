@@ -1,10 +1,11 @@
 {
     "scope": "text.network.cisco",
     "completions": [
+        "exit",
         "write",
         { 
             "trigger": "configure\tterminal", 
-            "contents": "configure terminal\n\t\t$0\n\texit"
+            "contents": "configure terminal\n\t$0\n\texit"
         },
 
     ]

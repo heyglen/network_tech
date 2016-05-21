@@ -2,25 +2,39 @@
 
 Sublime Text 3 network configuration syntax highlighting and completions.
 
-Sublime Text 2 is not supported.
+ * [Documentation](#documentation)
+ * [Install](#installation)
 
-Supports:
+## Documentation
+
+[Documentation is hosted on GitHub](https://github.com/heyglen/sublime-network/blob/master/README.md)
+
+### Syntax and Snippets
+![Cisco IOS Demo](/docs/img/cisco_ios_demo.gif)
+
+Notice that the syntax and completions are [aware of the configuration mode](docs/configuration_modes.md). You must exit out configuration modes using the `exit` command as if you were using the actual command line.
+
+### Mask Conversions
+![Mask Conversions Demo](/docs/img/mask_conversions_demo.gif)
+
+There are completions that convert between the different IPv4 mask types:
+ * Prefix Length
+ * Subnet Mask
+ * Wildard Mask
+
+The conversions are activated by typing the mask or opening the completions menu (Win: Ctrl+Space).
+
+### Supported Syntax & Completions
  * Cisco ACE
  * Cisco IOS
  * Cisco NXOS
  * Cisco ASA
 
-## Usage
-
-Open the command prompt (Windows: Ctrl+Shift+p) and type one of the following:
- * Set Syntax: Cisco ACE
- * Set Syntax: Cisco IOS
- * Set Syntax: Cisco NXOS
- * Set Syntax: Cisco ASA
-
 ## Installation
 
 [Install Sublime Text 3](http://www.sublimetext.com/3)
+
+*Sublime Text 2 is not supported*
 
 [Install Sublime Package Manager](https://sublime.wbond.net/installation)
 
@@ -41,5 +55,7 @@ A list of packages will come up
 Type 'sublime network<enter>'
 
 ## Feature Requests and Bug Reporting
+
+The goal is to have highlighting and completions on frequently used commands, not full coverage.
 
 [Sublime-Network GitHub Issues](https://github.com/heyglen/sublime-network/issues)
