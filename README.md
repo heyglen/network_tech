@@ -2,29 +2,32 @@
 
 Sublime Text 3 network configuration syntax highlighting and completions.
 
-Sublime Text 2 is not supported.
+ * [Documentation](#documentation)
+ * [Install](#installation)
 
 ## Documentation
 
 [Documentation is hosted on GitHub](https://github.com/heyglen/sublime-network/blob/master/README.md)
 
+### Syntax and Snippets
+![Cisco IOS Demo](/docs/img/cisco_ios_demo.gif)
 
- * [Getting Started](docs/getting_started.md)
- * [Configuration Mode Aware](docs/configuration_modes.md)
+Notice that the syntax and completions are [aware of the configuration mode](docs/configuration_modes.md). You must exit out configuration modes using the `exit` command as if you were using the actual command line.
 
-## Features
+### Mask Conversions
+![Mask Conversions Demo](/docs/img/mask_conversions_demo.gif)
 
-Syntax and completions for
+### Supported Syntax & Completions
  * Cisco ACE
  * Cisco IOS
  * Cisco NXOS
  * Cisco ASA
 
-[Subnet Mask Conversions](docs/getting_started.md#mask-conversions)
-
 ## Installation
 
 [Install Sublime Text 3](http://www.sublimetext.com/3)
+
+*Sublime Text 2 is not supported*
 
 [Install Sublime Package Manager](https://sublime.wbond.net/installation)
 
