@@ -190,8 +190,9 @@ interface range vlan 123-1
   
   exit
 
-snmp-server host 152.73.224.65 version 2c LOBOSA
-snmp-server host 152.73.224.76 version 2c LOBOSA
+snmp-server community TEST RO 1
+snmp-server host 1.2.3.4 version 2c TEST
+snmp-server host 1.2.3.4 version 2c TEST
 
 line vty 0 4
   access-class 42 in vrf-also
