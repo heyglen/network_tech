@@ -155,6 +155,26 @@ contexts:
     - include: show_drives
 
   snmp:
+    - include: snmp_trap
+    - include: snmp_poll
+  
+  snmp_poll:
+    - match: >
+        (?x)
+        \s*
+        (snmp-server)\s+
+        (community)\s+
+        (\S+)
+        (\s+(?:(?:RO)|(?:RW)))?
+        (\s+\S+)?
+      captures:
+        1: support.constant       # snmp-server
+        2: support.constant       # poll community
+        3: string.unquoted        # poll community value
+        4: support.constant       # RO / RW
+        5: string.unquoted        # ACL value
+
+  snmp_trap:
     - match: >
         (?x)
         \s*
@@ -163,14 +183,13 @@ contexts:
         ({{ip}})\s+
         (?:(version)\s+((?:1)|(?:2c))\s+)?
         (\S+)
-
       captures:
         1: support.constant       # snmp-server
         2: support.constant       # host
         3: constant.numeric       # ip
         4: support.constant       # version
         5: constant.numeric       # version number
-        6: string.unquoted        # community
+        6: string.unquoted        # trap community
 
   hostname:
     - match: ^\s*(hostname)\s*(\S+)
