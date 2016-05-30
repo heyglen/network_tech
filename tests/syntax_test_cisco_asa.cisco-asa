@@ -90,6 +90,13 @@ object network obj-www.fqdn.com
  fqdn www.fqdn.com
  exit
 
+object service tcp_1234
+ description blah
+ service tcp destination range 1 2
+ service tcp destination eq 1234
+ service udp source eq 1234
+ exit
+
 access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
             alert-interval 300
 access-list acl-name remark this is a remark
@@ -98,6 +105,9 @@ access-list acl-name; 42 elements; name hash: 0xbe299002
 access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq www
 access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq https
 access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq sunrpc
+access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 object dst_ports
+access-list acl-name line 42 extended permit tcp host 2.2.2.2 object src_ports host 3.3.3.3
+access-list acl-name line 42 extended permit tcp host 2.2.2.2 object-group src_ports host 3.3.3.3 object-group dst_ports
 access-list acl-name line 42 extended permit tcp host 2.2.2.2 object-group network-dst eq 2059 inactive (inactive)
 access-list acl-name line 42 extended permit tcp host 2.2.2.2 object-group network-dst eq 2059 inactive (inactive)
 access-list acl-name line 42 extended permit tcp 2.2.2.2 255.255.255.0 object-group network-dst eq 2059 inactive (inactive)
@@ -108,6 +118,8 @@ access-list acl-name line 42 extended deny icmp any host 1.1.1.1 timestamp-reque
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1 traceroute
 access-list acl-name line 42 extended permit
 access-list acl-name line 42 extended deny
+access-list acl-name line 42 extended permit object services object-group network-src object-group network-dst
+access-list acl-name line 42 extended permit object services object network-src object network-dst
 access-list acl-name line 42 extended permit object-group services object-group network-src object-group network-dst
 access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 disable 0x2e7027d7
 access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 disable default 0x2e7027d7
