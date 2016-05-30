@@ -478,8 +478,9 @@ contexts:
   changeto:
     - match: ^\s*(changeto)\s+(\S+)
       captures:
+        0: cisco.scope
         1: support.constant
-        2: support.constant
+        2: string.unquoted
 
   ft_switchover:
     - match: ^\s*(ft\s+switchover(?:\s+all)?)
