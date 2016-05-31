@@ -645,38 +645,47 @@ contexts:
             ([^;\s]+)(?:
               (?:     # start ace: icmp
                 (?:\s+(line)\s+(\d+)\s+)?
-                (?:(extended)\s+(?:(permit)|(deny)))\s+
+                (?:(extended)\s+(?:(permit)|(deny)))
+                \s+
                 (?:     # start ip, tcp, udp
                   (?:   # start protocol
                     (?:(object-group)\s+(\S+))|
                     (?:(object)\s+(\S+))|
                     (icmp)
                   )     # end protocol
+                  \s+
                   (?:   # l3 network source
-                    (?:\s+(host)\s+({{ip}}))|
-                    (?:\s+({{ip}})\s+({{subnet_mask}}))|
-                    (?:\s+(object-group)\s+(\S+))|
-                    (?:\s+(object)\s+(\S+))|
-                    (?:\s+(any(?:4|6)?))
+                    (?:(host)\s+({{ip}}))|
+                    (?:({{ip}})\s+({{subnet_mask}}))|
+                    (?:(object-group)\s+(\S+))|
+                    (?:(object)\s+(\S+))|
+                    (?:(any(?:4|6)?))
                   )     # end l3 network source
                   (?:   # start icmp types source
-                    (?:\s+({{icmp_types}}))|
-                    (?:\s+(object-group)\s+(\S+))|
-                    (?:\s+(object)\s+(\S+))
+                    \s+
+                    (?:
+                      (?:({{icmp_types}}))|
+                      (?:(object-group)\s+(\S+))|
+                      (?:(object)\s+(\S+))
+                    )
                   )?    # end icmp types source
+                  \s+
                   (?:   # start l3 network destination
-                    (?:\s+(host)\s+({{ip}}))|
-                    (?:\s+({{ip}})\s+({{subnet_mask}}))|
-                    (?:\s+(object-group)\s+(\S+))|
-                    (?:\s+(object)\s+(\S+))|
-                    (?:\s+(any(?:4|6)?))
+                    (?:(host)\s+({{ip}}))|
+                    (?:({{ip}})\s+({{subnet_mask}}))|
+                    (?:(object-group)\s+(\S+))|
+                    (?:(object)\s+(\S+))|
+                    (?:(any(?:4|6)?))
                   )     # end l3 network destination
                   (?:   # start icmp types destination
-                    (?:\s+({{icmp_types}}))|
-                    (?:\s+(object-group)\s+(\S+))|
-                    (?:\s+(object)\s+(\S+))
+                    \s+
+                    (?:
+                      (?:({{icmp_types}}))|
+                      (?:(object-group)\s+(\S+))|
+                      (?:(object)\s+(\S+))
+                    )
                   )?    # end icmp types destination
-                )       # end ip, tcp, udp
+                )       # end ip
                 (?:
                   (?:\s+(log)\s+(informational|debugging|notifications))?
                   (?:\s+(interval)\s+(\d+))?
@@ -708,7 +717,7 @@ contexts:
         9: string.unquoted.protocol.object.name   # protocol object-group name
         10: support.constant.protocol             # protocol object
         11: string.unquoted.protocol              # protocol object name
-        12: constant.numeric.protocol             # protocol        
+        12: constant.numeric.protocol             # protocol icmp
         13: support.constant.host                 # network host
         14: constant.numeric.host.ip              # network host ip
         15: constant.numeric                      # network ip
