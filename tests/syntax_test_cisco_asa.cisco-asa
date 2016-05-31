@@ -1,6 +1,8 @@
 // SYNTAX TEST "Packages/sublime-network/cisco/nxos.sublime-syntax"
 #! cisco asa
 
+! On firewall01
+
 changeto context fw-context-1
 copy running-config startup-config
 terminal width 511
