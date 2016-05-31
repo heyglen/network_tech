@@ -102,6 +102,7 @@ access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
 access-list acl-name remark this is a remark
 access-list acl-name line 0 remark this is a remark
 access-list acl-name; 42 elements; name hash: 0xbe299002
+access-list acl-name extended permit icmp any4 any4 object-group icmp_group
 access-list acl-name line 42 extended permit icmp any4 any4 object-group icmp_group
 access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq www
 access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq https
