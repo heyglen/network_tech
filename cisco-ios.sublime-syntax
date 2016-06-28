@@ -230,15 +230,17 @@ contexts:
     - include: standard_permission
     - match: |
         (?x)
-        ({{line_number}}\ +)?
-        (?:(permit)|(deny))\ +
-        ({{network_target}})
+        ({{line_number}}\s+)?
+        (?:(permit)|(deny))\s+
+        (?:(?:({{network_target}})|(?:(host)\s+({{ip}}))))
       scope: text.network.cisco.acl.standard.ace
       captures:
         1: constant.numeric
         2: entity.other.attribute-name
         3: keyword.other
         4: constant.numeric
+        5: support.constant
+        6: constant.numeric
 
   extended_acl:
     - match: ^\s*(ip)\s+(access-list)\s+(extended)\s+(\S+)
@@ -257,31 +259,36 @@ contexts:
         (?x)
         ({{line_number}}\s+)?
         (?:(permit)|(deny))\s+
-        ({{protocol_target}})\s+
-        (\S{0,3}$)?
+        ({{protocol_target}})
         (?:
-          ({{network_target}})
-          (?:\ +({{operators}})\ +({{port_target}}))?
-          (\ +established)?
-          (\ +{{network_target}})
-          (?:\ +({{operators}})\ +({{port_target}}))?
-          (\ +established)?
-        )?
+          (?:
+            (?:\s+(?:({{network_target}})|(?:(host)\s+({{ip}}))))
+            (?:\s+({{operators}})\s+({{port_target}}))?
+            (\s+established)?
+            (?:\s+(?:({{network_target}})|(?:(host)\s+({{ip}}))))
+            (?:\s+({{operators}})\s+({{port_target}}))?
+            (\s+established)?
+          )
+        )
       scope: text.network.cisco.acl.extended.ace
       captures:
         1: constant.numeric             # Line number
         2: entity.other.attribute-name  # Permit
         3: keyword.other                # Deny
         4: support.constant             # Protocol Name
-        5: ios.acl.ace.target_ip        # IP target scope
-        6: constant.numeric             # Source Network
-        7: support.constant             # Source Operator
-        8: constant.numeric             # Source Port
-        9: support.constant             # Source Established
-        10: constant.numeric.target_ip             # Destination Network
-        11: support.constant            # Destination Operator
-        12: constant.numeric            # Destination Port
-        13: support.constant            # Destination Established
+        5: constant.numeric             # Source Network
+        6: support.constant             # Source Host
+        7: constant.numeric             # Source Host IP
+        8: support.constant             # Source Operator
+        9: constant.numeric             # Source Port
+        10: support.constant            # Source Established
+        11: constant.numeric.target_ip  # Destination Network
+        12: support.constant            # Destination Host
+        13: constant.numeric            # Destination Host IP
+        14: support.constant            # Destination Operator
+        15: constant.numeric            # Destination Port
+        16: support.constant            # Destination Established
+        17: ios.acl.ace.target_ip       # IP target scope
 
   bgp:
     - match: ^\s*(router)\s+(bgp)\s+(\d+)
