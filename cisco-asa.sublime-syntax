@@ -51,7 +51,8 @@ variables:
     (?:
      (?:ip)|
      (?:tcp)|
-     (?:udp)
+     (?:udp)|
+     (?:tcp-udp)
     )
   port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   icmp_types: |
