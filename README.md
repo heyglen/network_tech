@@ -29,9 +29,7 @@ The conversions are activated by typing the mask or opening the completions menu
 
 ## Installation
 
-Install using Sublime Text 3 Pacakage Manager.
-
-[Install Sublime Package Manager](https://sublime.wbond.net/installation)
+Install using Sublime Text 3 [Package Manager](https://sublime.wbond.net/installation).
 
 *Sublime Text 2 is not supported*
 
