@@ -42,6 +42,6 @@
         { 
             "trigger": "show \trunning-config", 
             "contents": "show ${1:running-config}${1/(r$)|(ru$)|(run$)|(runn$)|(runni$)|(runnin$)|(running$)|(running-$)|(running-c$)|(running-co$)|(running-con$)|(running-conf$)|(running-confi$)|(s$)|(st$)|(sta$)|(star$)|(start$)|(startu$)|(startup$)|(startup-$)|(startup-c$)|(startup-co$)|(startup-con$)|(startup-conf$)|(startup-confi$)|.*/?1:unning-config:?2:nning-config:?3:ning-config:?4:ing-config:?5:ng-config:?6:g-config:?7:-config:?8:config:?9:onfig:?10:nfig:?11:fig:?12:ig:?13:g:?14:tartup-config:?15:artup-config:?16:rtup-config:?17:tup-config:?18:up-config:?19:p-config:?20:-config:?21:config:?22:onfig:?23:nfig:?24:fig:?25:ig:?26:g/i} $0"
-        },
+        }
   ]
 }
