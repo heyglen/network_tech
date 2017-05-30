@@ -1,7 +1,7 @@
 <snippet>
     <description>all</description>
     <tabTrigger>backup</tabTrigger>
-    <scope>cisco.ace & (-rserver | -serverfarm)</scope>
+    <scope>text.network.cisco.ace  (-rserver | -serverfarm)</scope>
     <content><![CDATA[
 backup all
 

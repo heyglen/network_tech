@@ -1,7 +1,7 @@
 <snippet>
 	<description>tcp</description>
 	<tabTrigger>match</tabTrigger>
-	<scope>cisco.ace & class-map.l4</scope>
+	<scope>text.network.cisco.class_map.match_any</scope>
 	<content><![CDATA[
   ${1:2} match virtual-address ${2:1.2.3.4} tcp eq ${3:0}
 ]]></content>

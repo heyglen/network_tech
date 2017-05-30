@@ -1,6 +1,6 @@
 <snippet>
 	<description>interval</description>
-	<scope>cisco.ace & probe.</scope>
+	<scope>text.network.cisco.ace  probe.</scope>
 	<tabTrigger>passdetect</tabTrigger>
 	<content><![CDATA[
 passdetect interval ${1:30}

@@ -1,7 +1,7 @@
 <snippet>
 	<description>least connections</description>
 	<tabTrigger>predictor</tabTrigger>
-	<scope>cisco.ace & serverfarm</scope>
+	<scope>text.network.cisco.ace  serverfarm</scope>
 	<content><![CDATA[
 predictor leastconns slowstart ${1:60}
 ]]></content>

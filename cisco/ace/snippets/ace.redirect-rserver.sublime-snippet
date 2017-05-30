@@ -1,6 +1,6 @@
 <snippet>
     <description>redirect</description>
-    <scope>cisco.ace & -(serverfarm)</scope>
+    <scope>text.network.cisco.ace  -(serverfarm)</scope>
     <tabTrigger>rserver</tabTrigger>
     <content><![CDATA[
 rserver redirect ${1:fully.qualified.domain.name}

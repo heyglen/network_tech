@@ -1,7 +1,7 @@
 <snippet>
 	<description>probe</description>
 	<tabTrigger>probe</tabTrigger>
-	<scope>cisco.ace & serverfarm</scope>
+	<scope>text.network.cisco.ace  serverfarm</scope>
 	<content><![CDATA[
 probe ${1:NAME}
 ]]></content>

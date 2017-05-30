@@ -1,7 +1,7 @@
 <snippet>
 	<description>host</description>
 	<tabTrigger>serverfarm</tabTrigger>
-	<scope>cisco.ace - (interface | sticky | policy-lb-class)</scope>
+	<scope>text.network.cisco.ace - (interface | sticky | policy-lb-class)</scope>
 	<content><![CDATA[
 serverfarm host ${1:SERVER-FARM}_FARM
   description ${2:DESCRIPTION}

@@ -1,6 +1,6 @@
 <snippet>
 	<description>certificate</description>
-	<scope>cisco.ace & (ssl-proxy|crypto-chaingroup|crypto-authgroup)</scope>
+	<scope>text.network.cisco.ace text.network.cisco.ace.ssl_proxy</scope>
 	<tabTrigger>cert</tabTrigger>
 	<content><![CDATA[
 cert ${1:NAME.crt}

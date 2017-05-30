@@ -1,7 +1,7 @@
 <snippet>
     <description>connection</description>
     <tabTrigger>parameter-map</tabTrigger>
-    <scope>cisco.ace - (interface)</scope>
+    <scope>text.network.cisco.ace - (interface)</scope>
     <content><![CDATA[
 parameter-map type connection ${1:PARAM_NAME}
   $0

@@ -1,6 +1,6 @@
 <snippet>
 	<description>receive</description>
-	<scope>cisco.ace & probe.</scope>
+	<scope>text.network.cisco.ace  probe.</scope>
 	<tabTrigger>receive</tabTrigger>
 	<content><![CDATA[
 receive ${1:20}

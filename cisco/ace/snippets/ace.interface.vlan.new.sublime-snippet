@@ -1,7 +1,7 @@
 <snippet>
     <description>new vlan</description>
     <tabTrigger>interface</tabTrigger>
-    <scope>cisco.ace & -(pipe)</scope>
+    <scope>text.network.cisco.ace  -(pipe)</scope>
     <content><![CDATA[
 interface vlan ${1:0}
   description ${2:DESCRIPTION}

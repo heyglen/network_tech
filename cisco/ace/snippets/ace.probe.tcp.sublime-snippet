@@ -1,7 +1,7 @@
 <snippet>
 	<description>TCP</description>
 	<tabTrigger>probe</tabTrigger>
-	<scope>cisco.ace & -serverfarm</scope>
+	<scope>text.network.cisco.ace -text.network.cisco.rserver.host</scope>
 	<content><![CDATA[
 probe tcp ${1:PROBE-NAME_PROBE}
   port ${2:0}

@@ -1,6 +1,6 @@
 <snippet>
 	<description>resource-class</description>
-	<scope>cisco.ace & context</scope>
+	<scope>text.network.cisco.ace  context</scope>
 	<tabTrigger>member</tabTrigger>
 	<content><![CDATA[
 member ${1:RESOURCE-CLASS}

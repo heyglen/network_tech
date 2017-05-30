@@ -1,9 +1,9 @@
 <snippet>
 	<description>rserver</description>
 	<tabTrigger>rserver</tabTrigger>
-	<scope>cisco.ace & serverfarm</scope>
+	<scope>text.network.cisco.rserver.host</scope>
 	<content><![CDATA[
-rserver ${1:fully.qualified.domain.name} ${2:[port-number]}
+rserver ${1:fully.qualified.domain.name} ${2:80}
   inservice
  exit
 

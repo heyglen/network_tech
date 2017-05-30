@@ -1,7 +1,7 @@
 <snippet>
     <description>begin</description>
     <tabTrigger>begin</tabTrigger>
-    <scope>cisco.ace & show & pipe</scope>
+    <scope>text.network.cisco.ace  text.network.cisco.pipe</scope>
     <content><![CDATA[
 begin "${1:SEARCH_TERM}"
 ]]></content>

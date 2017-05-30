@@ -1,7 +1,7 @@
 <snippet>
     <description>input</description>
     <tabTrigger>access-group</tabTrigger>
-    <scope>cisco.ace & interface</scope>
+    <scope>text.network.cisco.ace  interface</scope>
     <content><![CDATA[
 access-group input ${1:NAME_ACL}
 ]]></content>
