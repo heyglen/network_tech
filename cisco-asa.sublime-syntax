@@ -288,7 +288,8 @@ contexts:
              (?:(host)\s+({{ip}}))|
              (?:(fqdn)\s+(\S+))|
              (?:(subnet)\s+({{ip}})\s+({{subnet_mask}}))|
-             (?:(range)\s+({{ip}}\s+{{ip}}))
+             (?:(range)\s+({{ip}}\s+{{ip}}))|
+             (?:(nat)\s+\((\S+),(\S+)\)\s+(static)\s+({{ip}}))
             )
           captures:
             1: support.constant             # host
@@ -299,8 +300,12 @@ contexts:
             6: constant.numeric             # subnet network
             7: constant.numeric             # subnet subnet mask  
             8: support.constant             # range
-            9: constant.numeric             # ip low
-            10: constant.numeric             # ip high
+            9: constant.numeric             # range ips
+            10: support.constant            # nat
+            11: string.unquoted             # nat real
+            12: string.unquoted             # nat mapped
+            13: support.constant            # nat static
+            14: constant.numeric            # nat ip
 
   object_service:
     - match: '^\s*(object)\s+(service)\s+(\S+)'
