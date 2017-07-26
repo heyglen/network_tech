@@ -50,6 +50,7 @@ object-group service whatever
   service-object tcp destination gt 2
   service-object tcp destination lt 3
   service-object tcp destination range 4 5
+  service-object icmp
   group-object group_name
 
  
@@ -73,7 +74,7 @@ object network host-1.2.3.4
 object network obj-1.2.3.1-255
  description blah
  range 1.2.3.1 1.2.3.255
-
+ nat (inside,outside) static 1.2.3.4
 
 object network subnet-1.2.3.0_24
  description blah

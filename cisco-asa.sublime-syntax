@@ -6,11 +6,13 @@ file-extensions:
   - asa
 first_line_match: |
   (?xi)
+    \s*
     [#!]
     .*
     (?:
       (?:firewall)|
-      (?:fw)
+      (?:fw)|
+      (?:asa)
     )
 scope: text.network.cisco.asa
 
