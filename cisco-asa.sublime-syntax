@@ -1,8 +1,17 @@
 %YAML 1.2
 ---
 name: Cisco ASA
-file-extensions: [cisco-asa]
-first_line_match: ^(?i)#!\s*cisco(\s+|\-)asa$\n?
+file-extensions: 
+  - cisco-asa
+  - asa
+first_line_match: |
+  (?xi)
+    [#!]
+    .*
+    (?:
+      (?:firewall)|
+      (?:fw)
+    )
 scope: text.network.cisco.asa
 
 
@@ -27,7 +36,10 @@ variables:
     (?:
       (?:vlan)|
       (?:port-channel)|
-      (?:(?:(?:(?:Ten)?Gigabit)|(?:Fast))Ethernet)
+      (?:
+        (?:(?:(?:Ten)?Gigabit)|(?:Fast))
+          Ethernet
+        )
     )
   interface_numbers: |
     (?xi)
@@ -116,9 +128,36 @@ variables:
     )
   uri: '(?:(?:t?ftp)|scp)(?://)(?<hostname>(?:\d+\.){3}\d+)(?:\/\S*)'
   locations: '(?:{{drive}}|{{uri}})'
+  scope_object_network: '^\s*(object)\s+(network)\s+(\S+)'
+  scope_object_service: '^\s*(object)\s+(service)\s+(\S+)'
+  scope_object_group_protocol: '^\s*(object-group)\s+(protocol)\s+(\S+)'
+  scope_object_group_service: '^\s*(object-group)\s+(service)\s+(\S+)(\s+(?:tcp-udp)|(?:tcp)|(?:udp))?'
+  scope_object_group_network: '^\s*(object-group)\s+(network)\s+(\S+)'
+  scope_vlan: '^\s*(vlan)\s+({{vlan_id}})'
+  scope_context: '^\s*(context)\s+(\S+)'
+  scope_configure_terminal: '^\s*(?:(configure)\s*(terminal))'
+  scope_interface: |
+      (?xi)
+      ^\s*(interface)\s+
+      (?:
+        (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
+        ({{interface_names}})\s*({{interface_numbers}})
+      )
+  scope_configure_terminal_scopes: |
+    (?xi)
+    (?:
+      (?:{{scope_object_group_protocol}})|
+      (?:{{scope_object_group_service}})|
+      (?:{{scope_object_group_network}})|
+      (?:{{scope_vlan}})|
+      (?:{{scope_context}})|
+      (?:{{scope_interface}})|
+      (?:{{scope_configure_terminal}})|
+      (?:{{scope_object_network}})|
+      (?:{{scope_object_service}})
+    )
 
 contexts:
-
   main:
     - include: enable
 
@@ -139,7 +178,7 @@ contexts:
     - include: show_drives
 
   configure_terminal:
-    - match: ^\s*(?:(configure)\s*(terminal))
+    - match: '{{scope_configure_terminal}}'
       with_prototype:
         - include: do_show
         - include: scope
@@ -174,12 +213,15 @@ contexts:
 
   scope:
     - include: removal
-    - include: pop_ctx_word
     - include: comment
+    - include: pop_ctx_word
+
+  pop_context_on_unknown:
+    - match: '(?=^\s*\S.*$)'
+      pop: true
 
   removal:
     - meta_include_prototype: false
-    # - match: '^\s*(no\s[^{{comment}}]*)'
     - match: ^\s*(no\s[^[!#]]*)
       scope: text.network.cisco.removal
       captures:
@@ -274,7 +316,7 @@ contexts:
         2: string.unquoted
     
   object_network:
-    - match: '^\s*(object)\s+(network)\s+(\S+)'
+    - match: '{{scope_object_network}}'
       captures:
         0: cisco.scope
         1: variable.parameter
@@ -284,7 +326,8 @@ contexts:
         - meta_content_scope: text.network.cisco.asa.object.network
         - include: description
         - match: |
-            (?x) 
+            (?x)
+            ^\s*
             (?:
              (?:(host)\s+({{ip}}))|
              (?:(fqdn)\s+(\S+))|
@@ -307,9 +350,35 @@ contexts:
             12: string.unquoted             # nat mapped
             13: support.constant            # nat static
             14: constant.numeric            # nat ip
+        - include: pop_context_on_unknown
+
+  object_group_protocol:
+    - match: '{{scope_object_group_protocol}}'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.asa.object_group.protocol
+        - include: description
+        - include: object_group_group_object
+        - match: |
+            (?x)
+            ^\s*
+            (?:
+              (protocol-object)\s+
+              (?:
+                ({{protocol_target}})
+              )
+            )
+          captures:
+            1: support.constant             # protocol-object
+            2: constant.numeric             # protocol
+        - include: pop_context_on_unknown
 
   object_service:
-    - match: '^\s*(object)\s+(service)\s+(\S+)'
+    - match: '{{scope_object_service}}'
       captures:
         0: cisco.scope
         1: variable.parameter
@@ -319,7 +388,8 @@ contexts:
         - meta_content_scope: text.network.cisco.asa.object.service
         - include: description
         - match: |
-            (?x) 
+            (?x)
+            ^\s*
             (?:
              (?:(service)\s+(tcp|udp)\s+(source|destination))\s+(?:
                 (?:({{operators}})\s+({{port_target}}))|
@@ -335,32 +405,10 @@ contexts:
             6: support.constant             # operator
             7: constant.numeric             # operator port
             8: constant.numeric             # operator port
-
-  object_group_protocol:
-    - match: '^\s*(object-group)\s+(protocol)\s+(\S+)'
-      captures:
-        0: cisco.scope
-        1: variable.parameter
-        2: support.constant
-        3: string.unquoted
-      push:
-        - meta_content_scope: text.network.cisco.asa.object_group.protocol
-        - include: description
-        - include: object_group_group_object
-        - match: |
-            (?x) 
-            (?:
-              (protocol-object)\s+
-              (?:
-                ({{protocol_target}})
-              )
-            )
-          captures:
-            1: support.constant             # protocol-object
-            2: constant.numeric             # protocol
+        - include: pop_context_on_unknown
 
   object_group_network:
-    - match: '^\s*(object-group)\s+(network)\s+(\S+)'
+    - match: '{{scope_object_group_network}}'
       captures:
         0: cisco.scope
         1: variable.parameter
@@ -371,7 +419,8 @@ contexts:
         - include: description
         - include: object_group_group_object
         - match: |
-            (?x) 
+            (?x)
+            ^\s*
             (?:
               (network-object)\s+
               (?:
@@ -385,6 +434,7 @@ contexts:
             3: constant.numeric             # ip
             4: constant.numeric             # network
             5: constant.numeric             # subnet mask
+        - include: pop_context_on_unknown
   aaa:
     - match: |
         (?x) 
@@ -426,7 +476,7 @@ contexts:
         10: string.unquoted             # accounting management protocol tacas or local
 
   object_group_service:
-    - match: '^\s*(object-group)\s+(service)\s+(\S+)(\s+(?:tcp-udp)|(?:tcp)|(?:udp))?'
+    - match: '{{scope_object_group_service}}'
       captures:
         0: cisco.scope
         1: variable.parameter
@@ -479,6 +529,7 @@ contexts:
             6: constant.numeric             # target
             7: support.constant             # range
             8: constant.numeric             # target range
+        - include: pop_context_on_unknown
 
   access_list:
     - include: access_list_cached_log_flows
@@ -954,24 +1005,21 @@ contexts:
         5: constant.numeric              # metric
 
   vlan:
-    - match: '^\s*(vlan)\s+({{vlan_id}})'
+    - match: '{{scope_vlan}}'
       captures:
         0: cisco.scope
         1: variable.parameter
         2: constant.numeric
       push:
       - meta_content_scope: text.network.cisco.vlan
-      - match: (name)\s+(\S+)
+      - match: ^\s*(name)\s+(\S+)
         captures:
           1: support.constant
           2: string.unquoted
-      - match: (mode)\s+(fabricpath)
-        captures:
-          1: support.constant
-          2: support.constant
-  
+      - include: pop_context_on_unknown
+
   context:
-    - match: '^\s*(context)\s+(\S+)'
+    - match: '{{scope_context}}'
       captures:
         0: cisco.scope
         1: variable.parameter
@@ -979,7 +1027,7 @@ contexts:
       push:
       - meta_content_scope: text.network.cisco.asa.context
       - include: description
-      - match: (config-url)\s+(disk)(\d+)(:/)(\S+)
+      - match: ^\s*(config-url)\s+(disk)(\d+)(:/)(\S+)
         captures:
           1: support.constant
           2: support.constant
@@ -988,6 +1036,7 @@ contexts:
           5: string.unquoted
       - match: >
           (?xi)
+          ^\s*
           (allocate-interface)\s+
           (?:
             ({{interface_names}})\s*
@@ -1005,6 +1054,7 @@ contexts:
           4: support.constant
           5: entity.other.attribute-name
           6: constant.numeric
+      - include: pop_context_on_unknown
 
   fragment_chain:
     - match: '^\s*(fragment\s+chain)\s+(\d+)\s+(\S+)'
@@ -1035,13 +1085,7 @@ contexts:
         2: string.unquoted
 
   interface:
-    - match: |
-        (?xi)
-        ^\s*(interface)\s+
-        (?:
-          (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
-          ({{interface_names}})\s*({{interface_numbers}})
-        )
+    - match: '{{scope_interface}}'
       captures:
         0: cisco.scope
         1: variable.parameter             # interface
@@ -1054,12 +1098,15 @@ contexts:
       - meta_content_scope: text.network.cisco.interface
       - include: description
       - match: |
-          (?x)^\s*
-          (?:(ipv6\s+address)\s+({{ipv6_prefix}})(?:\s+(standby)\s+({{ipv6}}))?)|
-          (?:(ip\s+address)\s+({{ip}}\s+{{subnet_mask}})(?:(\s+standby)\s+({{ip}}))?)|
-          (shutdown)|
-          (?:(nameif)\s+(\S+))|
-          (?:(security-level)\s+(\S+))
+          (?x)
+          ^\s*
+          (?:
+            (?:(ipv6\s+address)\s+({{ipv6_prefix}})(?:\s+(standby)\s+({{ipv6}}))?)|
+            (?:(ip\s+address)\s+({{ip}}\s+{{subnet_mask}})(?:(\s+standby)\s+({{ip}}))?)|
+            (shutdown)|
+            (?:(nameif)\s+(\S+))|
+            (?:(security-level)\s+(\S+))
+          )
         captures:
           1: support.constant                          # ipv6
           2: constant.numeric                          # ipv6 address
@@ -1074,6 +1121,7 @@ contexts:
           11: entity.other.attribute-name               # nameif name
           12: support.constant                          # security-level
           13: constant.numeric                         # security-level id
+      - include: pop_context_on_unknown
 
   show:
     - include: show_vlan

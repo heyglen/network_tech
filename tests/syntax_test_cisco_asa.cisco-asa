@@ -1,5 +1,4 @@
-// SYNTAX TEST "Packages/sublime-network/cisco/nxos.sublime-syntax"
-#! cisco asa
+# cisco asa
 
 ! On firewall01
 
@@ -18,45 +17,47 @@ write net
 configure terminal
 ! Line comment
 
+vlan 1
+  name asdf
+ 
+
 hostname firewall
 
 context firewall
   description context
   allocate-interface Port-channel42.42
   allocate-interface Port-channel42.42-Port-channel42.42
-  config-url disk0:/firewall.cfg
-  
-  exit
+  config-url disk0:/firewall.cfg   
 
 password encryption aes
 passwd SECRET encrypted
 
+ip verify reverse-path interface outside
+
 interface port-channel 0
+  description blah
   nameif outside
   security-level 0
   ipv6 address ::1/64 standby ::2
   ip address 1.2.3.4 255.255.255.0 standby 1.2.3.5
-  shutdown
   no shutdown
-  exit
+  shutdown
+ 
 
-ip verify reverse-path interface outside
-
-
-object-group service service
+object-group service whatever
   description blah
   service-object tcp destination eq 1
   service-object tcp destination gt 2
   service-object tcp destination lt 3
   service-object tcp destination range 4 5
   group-object group_name
- exit
+
  
 object-group network NAME
  description blah
-  network-object host 1.2.3.4
-  group-object group_name
- exit
+ network-object host 1.2.3.4
+ group-object group_name
+
 
 object-group service NAME tcp-udp
  description blah
@@ -64,17 +65,15 @@ object-group service NAME tcp-udp
  port-object range 4 5
  group-object group_name
  port-object eq 2
- exit
  
 object network host-1.2.3.4
  description blah
  host 1.2.3.4
- exit
 
 object network obj-1.2.3.1-255
  description blah
  range 1.2.3.1 1.2.3.255
- exit
+
 
 object network subnet-1.2.3.0_24
  description blah
@@ -85,19 +84,19 @@ object-group protocol TCPUDP
  description blah
  protocol-object udp
  protocol-object tcp
- exit
+
 
 object network obj-www.fqdn.com
  description blah
  fqdn www.fqdn.com
- exit
+
 
 object service tcp_1234
  description blah
  service tcp destination range 1 2
  service tcp destination eq 1234
  service udp source eq 1234
- exit
+
 
 access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
             alert-interval 300
