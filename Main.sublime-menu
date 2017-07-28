@@ -1,0 +1,13 @@
+[
+    {
+        "id": "tools",
+        "children":
+        [
+            {
+                "caption": "Subnet Conversion",
+                "mnemonic": "S",
+                "command": "subnet"
+            }
+        ]
+    }
+]
