@@ -18,7 +18,7 @@ scope: text.network.cisco.asa
 
 
 variables:
-  comment: '(?:!|#)'
+  comment: '(?:[!#])'
   pop_ctx: '^\s*exit\s*$'
   pop_address_family_ctx: '^\s*(?:exit-address-family)\s*$'
   command_end: '(?:\s|{{comment}}|$)'
@@ -219,7 +219,7 @@ contexts:
     - include: pop_ctx_word
 
   pop_context_on_unknown:
-    - match: '(?=^\s*\S.*$)'
+    - match: '(?=^\s*[^{{comment}}\s].*$)'
       pop: true
 
   removal:
@@ -234,9 +234,27 @@ contexts:
       pop: true
       captures:
         1: comment.line
+    - match: '^\s*(end)\s*$'
+      captures:
+        1: comment.block.documentation
+      push:
+        - clear_scopes: true
+        - meta_content_scope: text.network.cisco.asa
 
   device_comment:
-    - match: '(?i)({{comment}}\s*on\s+\S.*)$'
+    - match: |
+        (?xi)
+        ^(
+          \s*
+          {{comment}}
+          \s+
+          (?:
+            (?:on)|
+            (?:devices?)
+          )
+          \s+
+          \S.*
+        )$
       scope: text.network.cisco.comment
       captures:
         0: cisco.scope

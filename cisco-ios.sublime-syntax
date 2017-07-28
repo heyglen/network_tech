@@ -1,13 +1,23 @@
 %YAML 1.2
 ---
 name: Cisco IOS
-file-extensions: [cisco-ios]
-first_line_match: ^(?i)#!\s*cisco(\s+|\-)ios$\n?
+file-extensions: 
+  - cisco-ios
+  - ios
+first_line_match: |
+  (?xi)
+    \s*
+    [#!]
+    .*
+    (?:
+      (?:router)|
+      (?:ios)|
+    )
 scope: text.network.cisco.ios
 
 
 variables:
-  comment: '(?:!|#)'
+  comment: '(?:[!#])'
   pop_ctx: '^\s*exit\s*$'
   pop_address_family_ctx: '^\s*(?:exit-address-family)\s*$'
   command_end: '(?:\s|{{comment}}|$)'
@@ -90,9 +100,20 @@ contexts:
 
   pop_ctx_word:
     - match: ({{pop_ctx}})
+      scope: scope.exit
       pop: true
       captures:
         1: comment.line
+    - match: '^\s*(end)\s*$'
+      captures:
+        1: comment.block.documentation
+      push:
+        - clear_scopes: true
+        - meta_content_scope: text.network.cisco.ios
+
+  pop_context_on_unknown:
+    - match: '(?=^\s*[^{{comment}}\s].*$)'
+      pop: true
 
   configure_terminal:
     - match: ^\s*(?:(configure)\s*(terminal))
@@ -122,8 +143,21 @@ contexts:
         - include: standard_acl
         - include: 'Packages/sublime-network/cisco/configure_terminal.sublime-syntax'
 
+
   device_comment:
-    - match: '(?i)({{comment}}\s*on\s+\S.*)$'
+    - match: |
+        (?xi)
+        ^(
+          \s*
+          {{comment}}
+          \s+
+          (?:
+            (?:on)|
+            (?:devices?)
+          )
+          \s+
+          \S.*
+        )$
       scope: text.network.cisco.comment
       captures:
         0: cisco.scope
@@ -225,11 +259,13 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.acl.standard
         - include: standard_ace
+        - include: pop_context_on_unknown
 
   standard_ace:
     - include: standard_permission
     - match: |
         (?x)
+        ^\s*
         ({{line_number}}\s+)?
         (?:(permit)|(deny))\s+
         (?:(?:({{network_target}})|(?:(host)\s+({{ip}}))))
@@ -253,10 +289,13 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.acl.extended
         - include: extended_ace
+        - include: pop_context_on_unknown
+
 
   extended_ace:
     - match: |
         (?x)
+        ^\s*
         ({{line_number}}\s+)?
         (?:(permit)|(deny))\s+
         ({{protocol_target}})
@@ -301,6 +340,7 @@ contexts:
         - meta_content_scope: text.network.cisco.bgp
         - include: ipv6_address_family
         - include: ipv4_address_family
+        - include: pop_context_on_unknown
 
   ipv4_address_family:
     - match: ^\s*(address-family)\s+(ipv4)(?:\s+(vrf)\s+(\S+))?
@@ -318,6 +358,7 @@ contexts:
             1: comment.line
         - include: ipv4_network
         - include: ipv4_neighbor
+        - include: pop_context_on_unknown
 
   ipv6_address_family:
     - match: ^\s*(address-family)\s+(ipv6)\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$
@@ -336,6 +377,7 @@ contexts:
             1: comment.line
         - include: ipv6_network
         - include: ipv6_neighbor
+        - include: pop_context_on_unknown
 
   ipv4_neighbor:
     - match: |
@@ -471,17 +513,20 @@ contexts:
   ipv4_route:
     - match: |
         (?x) 
-        ^\s*(ip)\s+(route)\s+
-        (?:(vrf)\s+(\S+)\s+)?
-        ({{ip}})\s+
-        ({{subnet_mask}})\s+
-        (?:({{interface_names}})\s*({{interface_numbers}})\s+)?
-        ({{ip}})
+        ^\s*
         (?:
-          (?:\s+(name)\s+(\S+))?
-          (?:\s+(permanent))?
-          (?:\s+(track)\s+(\S+))?
-          (?:\s+(tag)\s+(\S+))?
+          (ip)\s+(route)\s+
+          (?:(vrf)\s+(\S+)\s+)?
+          ({{ip}})\s+
+          ({{subnet_mask}})\s+
+          (?:({{interface_names}})\s*({{interface_numbers}})\s+)?
+          ({{ip}})
+          (?:
+            (?:\s+(name)\s+(\S+))?
+            (?:\s+(permanent))?
+            (?:\s+(track)\s+(\S+))?
+            (?:\s+(tag)\s+(\S+))?
+          )
         )
       captures:
         1: support.constant             # ip
@@ -504,7 +549,8 @@ contexts:
   ipv6_route:
     - match: |
         (?x) 
-        ^\s*(ipv6)\s+(route)\s+
+        ^\s*
+        (ipv6)\s+(route)\s+
         (?:(vrf)\s+(\S+)\s+)?
         ({{ipv6_prefix}})\s+
         (?:({{interface_names}})\s*({{interface_numbers}})\s+)?
@@ -594,10 +640,11 @@ contexts:
         2: constant.numeric
       push:
       - meta_content_scope: text.network.cisco.vlan
-      - match: (name)\s+(\S+)
+      - match: ^\s*(name)\s+(\S+)
         captures:
           1: support.constant
           2: string.unquoted
+      - include: pop_context_on_unknown
 
   interface:
     - include: interface_default
@@ -606,10 +653,13 @@ contexts:
   interface_block:
     - match: >
         (?x)
-        ^\s*(interface)\s+
+        ^\s*
         (?:
-          (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
-          ({{interface_names}})\s*({{interface_numbers}})
+          (interface)\s+
+          (?:
+            (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
+            ({{interface_names}})\s*({{interface_numbers}})
+          )
         )
       captures:
         0: cisco.scope.interface
@@ -623,22 +673,25 @@ contexts:
       - meta_content_scope: text.network.cisco.interface
       - include: standby
       - include: switchport
-      - match: >
+      - match: |
           (?x)
-          (?:(description.*))|
-          (?:((?:ip\s+)?vrf\s+forwarding)\s+(\S*))|
-          (port-channel\s+standalone-disable)|
-          (?:(encapsulation\s+dot1q)\s+({{vlan_id}}))|
-          (?:(ip\s+helper-address)\s+({{ip}}))|
-          (?:(ip\s+access-group)\s+(\S+)\s+(in|out))|
-          (?:(ip\s+proxy-arp))|
-          (?:(ip(?:v6)?\s+redirects))|
-          (?:(ipv6\s+address\s+general-prefix)\s+({{ipv6_prefix}}))(\s+eui-64)?|
-          (?:(ipv6\s+nd\s+prefix)\s+({{ipv6_prefix}}))|
-          (?:(ip\s+address)\s+({{ip}})\s+({{subnet_mask}})(\s+secondary)?)|
-          (shutdown)|
-          (ipv6\s+enable)|
-          (?:(channel-group)\s+(\d+)\s+(mode)\s+(active))
+          ^\s*
+          (?:
+            (?:(description.*))|
+            (?:((?:ip\s+)?vrf\s+forwarding)\s+(\S*))|
+            (port-channel\s+standalone-disable)|
+            (?:(encapsulation\s+dot1q)\s+({{vlan_id}}))|
+            (?:(ip\s+helper-address)\s+({{ip}}))|
+            (?:(ip\s+access-group)\s+(\S+)\s+(in|out))|
+            (?:(ip\s+proxy-arp))|
+            (?:(ip(?:v6)?\s+redirects))|
+            (?:(ipv6\s+address\s+general-prefix)\s+({{ipv6_prefix}}))(\s+eui-64)?|
+            (?:(ipv6\s+nd\s+prefix)\s+({{ipv6_prefix}}))|
+            (?:(ip\s+address)\s+({{ip}})\s+({{subnet_mask}})(\s+secondary)?)|
+            (shutdown)|
+            (ipv6\s+enable)|
+            (?:(channel-group)\s+(\d+)\s+(mode)\s+(active))
+          )
         captures:
           1: comment.line                 # Description
           2: support.constant             # ip vrf forwarding
@@ -668,26 +721,26 @@ contexts:
           26: constant.numeric            # channel-group id
           27: support.constant            # channel-group mode
           28: support.constant            # channel-group mode active
-      - match: '^\s*(interface)\s+(?:.*)'
-        captures:
-          0: interface.completion
-
+      - include: pop_context_on_unknown
 
   standby:
     - match: |
         (?x)
-        (standby)\s+(?:(\d+)|(?:(version)\s+([1-2])))\s+
+        ^\s*
         (?:
-          (?:(ip)\s+({{ip}}))|
-          (?:(preempt)(?:\s+(delay\s+minimum)\s+(\d+)(?:\s+(reload)\s+(\d+))?)?)|
-          (?:(track)\s+(\d+)\s+(decrement)\s+(\d+))|
-          (?:(priority)\s+(\d+))|
-          (?:(ipv6)\s+(?:
-             (?:(autoconfig))|
-             (?:({{ipv6}}))
+          (standby)\s+(?:(\d+)|(?:(version)\s+([1-2])))\s+
+          (?:
+            (?:(ip)\s+({{ip}}))|
+            (?:(preempt)(?:\s+(delay\s+minimum)\s+(\d+)(?:\s+(reload)\s+(\d+))?)?)|
+            (?:(track)\s+(\d+)\s+(decrement)\s+(\d+))|
+            (?:(priority)\s+(\d+))|
+            (?:(ipv6)\s+(?:
+               (?:(autoconfig))|
+               (?:({{ipv6}}))
+              )
             )
-          )
-        )?
+          )?
+        )
       captures: 
         1: support.constant       # standby
         2: constant.numeric       # standby id
@@ -711,12 +764,12 @@ contexts:
         20: constant.numeric       # ipv6 ip
 
   switchport:
-    - match: '(switchport\s+mode\s+(?:trunk|access|capture))'
+    - match: '^\s*(switchport\s+mode\s+(?:trunk|access|capture))'
       captures:
         1: support.constant
     - include: switchport_trunk
     - include: switchport_access
-    - match: '(switchport)'
+    - match: '^\s*(switchport)'
       captures:
         1: support.constant
 
@@ -729,11 +782,14 @@ contexts:
   switchport_trunk:
     - match: |
         (?xi)
-        ^\s*(switchport\s+trunk)\s+
+        ^\s*
         (?:
-          (encapsulation\s+dot1q)|
-          (allowed\s+vlan)\s+
-          (?:(?:(add)|(remove))\s+)?({{vlan_range}})
+          (switchport\s+trunk)\s+
+          (?:
+            (encapsulation\s+dot1q)|
+            (allowed\s+vlan)\s+
+            (?:(?:(add)|(remove))\s+)?({{vlan_range}})
+          )
         )
       captures: 
         1: support.constant               # switchport trunk
@@ -747,10 +803,13 @@ contexts:
   interface_default:
     - match: |
         (?x)
-        (default)\s+
-        (interface)\s+
-        ({{interface_names}})\s*
-        ({{interface_numbers}})
+        ^\s*
+        (?:
+          (default)\s+
+          (interface)\s+
+          ({{interface_names}})\s*
+          ({{interface_numbers}})
+        )
       captures:
         1: support.constant               # default
         2: support.constant               # interface
@@ -779,6 +838,7 @@ contexts:
         captures:
           1: support.constant
           2: support.constant
+      - include: pop_context_on_unknown
 
   vrf:
     - match: '^\s*(vrf)\s+(definition)\s+(\S+)'
@@ -792,9 +852,12 @@ contexts:
       - include: vrf_address_family
       - match: >
           (?xi)
-          (?:(description.*))|
-          (?:(rd)\s+([0-9\.:]+))|
-          (?:(route-target)\s+(import|export|both)\s+([0-9\.:]+))
+          ^\s*
+          (?:
+            (?:(description.*))|
+            (?:(rd)\s+([0-9\.:]+))|
+            (?:(route-target)\s+(import|export|both)\s+([0-9\.:]+))
+          )
         captures:
           1: comment.line                   # description
           2: support.constant               # rd
@@ -802,6 +865,7 @@ contexts:
           4: support.constant               # route-target
           5: entity.other.attribute-name    # route-target import/export/both
           6: constant.numeric               # route-target id
+      - include: pop_context_on_unknown
 
   vrf_address_family:
     - include: vrf_ipv4_address_family
@@ -821,10 +885,12 @@ contexts:
           1: comment.line
       - match: >
           (?xi)
+          \s*
           (?:(export\s+map)\s+(\S+))
         captures:
           1: support.constant        # export map
           2: string.unquoted         # export map name
+      - include: pop_context_on_unknown
 
   vrf_ipv6_address_family:
     - match: '^\s*(address-family)\s+(ipv6)'
@@ -840,10 +906,14 @@ contexts:
           1: comment.line
       - match: >
           (?xi)
-          (?:(export\s+map)\s+(\S+))
+          ^\s*
+          (?:
+            (?:(export\s+map)\s+(\S+))
+          )
         captures:
           1: support.constant        # export map
           2: string.unquoted         # export map name
+      - include: pop_context_on_unknown
 
   do_show:
     - match: '^\s*(do)'

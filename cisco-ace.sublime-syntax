@@ -1,13 +1,23 @@
 %YAML 1.2
 ---
 name: Cisco ACE
-file-extensions: [cisco-ace]
-first_line_match: ^(?i)#!\s*cisco(\s+|\-)ace$\n?
+file-extensions: 
+  - cisco-ace
+  - ace
+first_line_match: |
+  (?xi)
+    \s*
+    [#!]
+    .*
+    (?:
+      (?:ace)|
+    )
 scope: text.network.cisco.ace
 
 
+
 variables:
-  comment: '(?:!|#)'
+  comment: '(?:[!#])'
   pop_ctx: '^\s*exit\s*$'
   pop_address_family_ctx: '^\s*(?:exit-address-family)\s*$'
   command_end: '(?:\s|{{comment}}|$)'
@@ -139,7 +149,19 @@ contexts:
         - include: ssl_proxy_service
 
   device_comment:
-    - match: '(?i)({{comment}}\s*on\s+\S.*)$'
+    - match: |
+        (?xi)
+        ^(
+          \s*
+          {{comment}}
+          \s+
+          (?:
+            (?:on)|
+            (?:devices?)
+          )
+          \s+
+          \S.*
+        )$
       scope: text.network.cisco.comment
       captures:
         0: cisco.scope

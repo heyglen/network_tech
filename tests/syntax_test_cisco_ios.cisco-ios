@@ -1,9 +1,4 @@
-// SYNTAX TEST "Packages/sublime-network/cisco/ios.sublime-syntax"
 #! cisco ios
-
-! This is a line comment | pipes are ignored
-// <- text.network.cisco.comment
-//                       ^ text.network.cisco.comment
 
 write
 show running-config | include something ! Inline comment
@@ -12,6 +7,8 @@ show running-config | include something ! Inline comment
 show run interface | exclude something
 
 ! On router01
+# device router02
+
 copy tftp://1.2.3.4/path startup-config ! Inline comment
 
 show vlan
@@ -64,7 +61,6 @@ default interface Vlan0
 
 vlan 1
  name VLAN-1
-exit
 
   hostname example
   vrf upgrade-cli multi-af-mode common-policies vrf NAME
@@ -83,7 +79,6 @@ exit
      permit tcp host 1.2.3.4 host 1.2.3.0
      deny ip any any
      permit icmp any any
-     exit
   
   vrf definition NAME
     description management
@@ -92,23 +87,20 @@ exit
     route-target import 1.2.3.4:5
     address-family ipv4
      export map name
-     exit-address-family
-     !
+    ! A comment
     address-family ipv6
-     exit-address-family
-   exit
 
   ip access-list standard NAME
    10 permit 1.2.3.0 0.0.0.255
    permit 1.2.3.0 0.0.0.255
    20 deny 1.2.3.0 0.0.0.255
    deny any
-   exit
 
     router bgp 123
      address-family ipv4
       network 1.2.3.0
-     exit-address-family
+     address-family ipv4
+     address-family ipv4 vrf NAME
      address-family ipv4 vrf NAME
       network 1.2.3.0
       network 1.2.3.0 mask 255.255.255.0
@@ -130,7 +122,8 @@ exit
       neighbor 1.1.1.1 description description
       neighbor 1.1.1.1 version 4
       neighbor 1.1.1.1 transport path-mtu-discovery
-     exit-address-family
+
+     address-family ipv6 vrf NAME
      address-family ipv6 vrf NAME
       network ::/0
       neighbor ::1 activate
@@ -145,13 +138,13 @@ exit
       neighbor ::1 soft-reconfiguration inbound
       neighbor ::1 soft-reconfiguration outbound
       neighbor ::1 transport path-mtu-discovery
-     exit-address-family
-exit
+
 
 interface vlan123
-exit
 
-interface range vlan 123-1
+interface vlan123
+
+interface range GigabitEthernet1/1-2
   description Hello
   vrf forwarding RED
   switchport mode access
@@ -189,8 +182,6 @@ interface range vlan 123-1
   no switchport
   no shutdown
   shutdown
-  
-  exit
 
 snmp-server community TEST RO 1
 snmp-server host 1.2.3.4 version 2c TEST
@@ -203,6 +194,7 @@ line vty 0 4
   transport input telnet ssh
   transport input telnet
   transport input ssh
- exit
 exit
+
+end
 logout

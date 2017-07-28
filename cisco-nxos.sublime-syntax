@@ -1,13 +1,24 @@
 %YAML 1.2
 ---
 name: Cisco NXOS
-file-extensions: [cisco-nxos]
-first_line_match: ^(?i)#!\s*cisco(\s+|\-)nxos$\n?
+file-extensions: 
+  - cisco-nxos
+  - cisco-nexus
+  - nxos
+first_line_match: |
+  (?xi)
+    \s*
+    [#!]
+    .*
+    (?:
+      (?:nxos)|
+      (?:nexus)|
+    )
 scope: text.network.cisco.nxos
 
 
 variables:
-  comment: '(?:!|#)'
+  comment: '(?:[!#])'
   pop_ctx: '^\s*exit\s*$'
   pop_address_family_ctx: '^\s*(?:exit-address-family)\s*$'
   command_end: '(?:\s|{{comment}}|$)'
@@ -125,7 +136,19 @@ contexts:
         1: comment.line
 
   device_comment:
-    - match: '(?i)({{comment}}\s*on\s+\S.*)$'
+    - match: |
+        (?xi)
+        ^(
+          \s*
+          {{comment}}
+          \s+
+          (?:
+            (?:on)|
+            (?:devices?)
+          )
+          \s+
+          \S.*
+        )$
       scope: text.network.cisco.comment
       captures:
         0: cisco.scope

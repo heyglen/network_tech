@@ -1,6 +1,8 @@
 # cisco asa
 
 ! On firewall01
+# Device firewall02
+
 
 changeto context fw-context-1
 copy running-config startup-config
@@ -25,6 +27,7 @@ hostname firewall
 
 context firewall
   description context
+  ! A comment
   allocate-interface Port-channel42.42
   allocate-interface Port-channel42.42-Port-channel42.42
   config-url disk0:/firewall.cfg   
