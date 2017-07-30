@@ -1,17 +1,15 @@
-import sys
 import re
 import ipaddress
-import contextlib
 import logging
 
 import sublime
 import sublime_plugin
 
-logger = logging.getLogger(__name__)
-handler = logging.StreamHandler()
-handler.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
+logger = logging.getLogger('net_tech')
+# handler = logging.StreamHandler()
+# handler.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
 logger.handlers = []
-logger.addHandler(handler)
+# logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
 
@@ -54,9 +52,9 @@ ip = DotDict({
 
 sublime_ip = DotDict({
     'v4': {
-        'any':
-            # r"""(?:(?:(?:\d{1,3}\.){3}\d{1,3})(?:(?:/(?:\d{2}))|(?:\s+(?:(?:mask\s+)?(?:(\d{1,3}\.){3}\d{1,3}))))?)"""
-            r"""
+        'any': r"""
+            (?:
+                (?:host\s+(?:\d{1,3}\.){3}\d{1,3})|
                 (?:
                     (?:(?:\d{1,3}\.){3}\d{1,3})
                     (?:
@@ -70,7 +68,8 @@ sublime_ip = DotDict({
                         )
                     )?
                 )
-            """,
+            )
+        """.replace(' ', '').replace('\r', '').replace('\n', ''),
         'host': re.compile(r'(?:(?:\d{1,3}\.){3}\d{1,3})'),
         'network': {
             'netmask': re.compile(r'(?:(?:\d{1,3}\.){3}\d{1,3}\s+(?:\d{1,3}\.){3}\d{1,3})'),
@@ -82,18 +81,18 @@ sublime_ip = DotDict({
 
 class FindSubnetCommand(sublime_plugin.TextCommand):
     def network_contains(self, member, group):
-        result = False
-        if isinstance(member, ipaddress.IPv4Address):
-            result = member in group
-        elif isinstance(member, ipaddress.IPv4Network):
-            result = int(group.network_address) <= int(member.network_address) and \
-                int(group.broadcast_address) >= int(member.broadcast_address)
-        return result
+        return int(group.network_address) <= int(member.network_address) and \
+            int(group.broadcast_address) >= int(member.broadcast_address)
 
     def coerce_network(self, network):
+        for remove in ['host', 'mask']:
+            network = network.replace(remove, '')
+
         network = network.strip()
+
         try:
             network_object = ipaddress.ip_address(network)
+            network_object = ipaddress.ip_network(network + '/32')
         except ValueError:
             network_parts = network.split()
             cleaned_network = network
@@ -107,38 +106,50 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
 
     def get_network(self, network, find_all=False):
         search_network = self.coerce_network(network)
+
+        current_regions = self.view.sel()
+
         logger.debug('Searching for network {}'.format(search_network))
         if search_network is None:
             logger.debug('Invalid network {}'.format(network))
         else:
-            pattern = sublime_ip.v4.any
-            for replace in [' ', '\n', '\r']:
-                pattern = pattern.replace(replace, '')
+            for region in self.view.sel():
+                cursor = region.end()
+                searched_from_start = cursor is 0
 
-            logger.debug('self.view.sel() = {}'.format(self.view.sel()))
+                while True:
+                    found_region = self.view.find(
+                        sublime_ip.v4.any,
+                        cursor,
+                        sublime.IGNORECASE
+                    )
 
-            for index, region in enumerate(list(self.view.sel()) + [sublime.Region(0, 0)]):
-                logger.debug('Searching for {}'.format(pattern))
-                logger.debug('@Region #{}: {},{}'.format(index, region.begin(), region.end()))
+                    if not found_region:
+                        self.view.sel().clear()
 
-                search_from = region.end()
-                found_region = self.view.find(pattern, search_from, sublime.IGNORECASE)
-                logger.debug('Start search at point {}'.format(search_from))
+                        if not searched_from_start:
+                            self.view.sel().add(sublime.Region(0, 0))
+                            searched_from_start = True
+                            cursor = 0
+                            continue
 
-                if found_region:
-                    found_network = self.coerce_network(self.view.substr(found_region))
-                    if not self.network_contains(found_network, search_network):
-                        continue
+                        self.view.sel().add_all(current_regions)
+                        break
 
-                    self.view.show_at_center(found_region.begin())
-                    self.view.sel().clear()
-                    logger.debug('Found region {} {}'.format(found_region.begin(), found_region.end()))
-                    self.view.sel().add(sublime.Region(
-                        found_region.begin(),
-                        found_region.end()
-                    ))
-                else:
-                    logger.debug('{} not found'.format(search_network))
+                    network_re_match = self.view.substr(found_region)
+                    logger.debug('Network RE match {}'.format(network_re_match))
+                    found_network = self.coerce_network(network_re_match)
+
+                    if found_network.overlaps(search_network):
+                        self.view.sel().clear()
+                        self.view.show_at_center(found_region.begin())
+                        logger.debug('Found region {} {}'.format(found_region.begin(), found_region.end()))
+                        self.view.sel().add(sublime.Region(
+                            found_region.begin(),
+                            found_region.end()
+                        ))
+                        break
+                    cursor = found_region.end()
 
         self._find_input_panel(network)
 
