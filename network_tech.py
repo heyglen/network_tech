@@ -32,10 +32,9 @@ ip = DotDict({
             r"""
             (?xi)
             (?:
-                \b
                 (?P<ip>(?:\d{1,3}\.){3}\d{1,3})
                 (?:
-                    (?:/(?P<prefix_length>\d{2}\b))|
+                    (?:/(?P<prefix_length>\d{2}))|
                     (?:
                         \s+
                         (?:
@@ -48,20 +47,33 @@ ip = DotDict({
             """
         ),
         'network': {
-            'netmask': re.compile(r'(?:(?:\d{1,3}\.){3}\d{1,3} (?:\d{1,3}\.){3}\d{1,3})'),
+            'netmask': re.compile(r'(?:(?:\d{1,3}\.){3}\d{1,3}\s+(?:\d{1,3}\.){3}\d{1,3})'),
         }
     }
 })
 
 sublime_ip = DotDict({
     'v4': {
-        'any': re.compile(
-            r"""(?:\b(?:(?:\d{1,3}\.){3}\d{1,3})(?:(?:/(?:\d{2}\b))|(?:\s+(?:(?:mask\s+)?(?:(\d{1,3}\.){3}\d{1,3}))))?)"""
-
-        ),
+        'any':
+            # r"""(?:(?:(?:\d{1,3}\.){3}\d{1,3})(?:(?:/(?:\d{2}))|(?:\s+(?:(?:mask\s+)?(?:(\d{1,3}\.){3}\d{1,3}))))?)"""
+            r"""
+                (?:
+                    (?:(?:\d{1,3}\.){3}\d{1,3})
+                    (?:
+                        (?:/(?:\d{2}))|
+                        (?:
+                            \s+
+                            (?:
+                                (?:mask\s+)?
+                                (?:(\d{1,3}\.){3}\d{1,3})
+                            )
+                        )
+                    )?
+                )
+            """,
         'host': re.compile(r'(?:(?:\d{1,3}\.){3}\d{1,3})'),
         'network': {
-            'netmask': re.compile(r'(?:(?:\d{1,3}\.){3}\d{1,3} (?:\d{1,3}\.){3}\d{1,3})'),
+            'netmask': re.compile(r'(?:(?:\d{1,3}\.){3}\d{1,3}\s+(?:\d{1,3}\.){3}\d{1,3})'),
             'cidr': re.compile(r'\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d/\d?\d'),
         }
     }
@@ -99,15 +111,20 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
         if search_network is None:
             logger.debug('Invalid network {}'.format(network))
         else:
-            for region in self.view.sel():
-                logger.debug('Start search at point {}'.format(region.begin()))
-                logger.debug('Searching for {}'.format(sublime_ip.v4.any.pattern))
+            pattern = sublime_ip.v4.any
+            for replace in [' ', '\n', '\r']:
+                pattern = pattern.replace(replace, '')
 
-                found_region = self.view.find(
-                    sublime_ip.v4.any.pattern,
-                    region.end(),
-                    sublime.IGNORECASE
-                )
+            logger.debug('self.view.sel() = {}'.format(self.view.sel()))
+
+            for index, region in enumerate(list(self.view.sel()) + [sublime.Region(0, 0)]):
+                logger.debug('Searching for {}'.format(pattern))
+                logger.debug('@Region #{}: {},{}'.format(index, region.begin(), region.end()))
+
+                search_from = region.end()
+                found_region = self.view.find(pattern, search_from, sublime.IGNORECASE)
+                logger.debug('Start search at point {}'.format(search_from))
+
                 if found_region:
                     found_network = self.coerce_network(self.view.substr(found_region))
                     if not self.network_contains(found_network, search_network):
@@ -122,6 +139,7 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
                     ))
                 else:
                     logger.debug('{} not found'.format(search_network))
+
         self._find_input_panel(network)
 
     def _find_input_panel(self, network=''):
@@ -134,7 +152,8 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
         )
 
     def run(self, edit):
-        self._find_input_panel()
+        self._find_input_panel(network='1.1.1.1/24')
+
 
 class SubnetCommand(sublime_plugin.TextCommand):
     def run(self, edit):
