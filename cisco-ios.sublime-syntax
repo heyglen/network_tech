@@ -47,9 +47,11 @@ variables:
     (?:\d+(?:/\d+)*(?:\.\d+)?)(?:-\d+)?
   network_target: |
     (?x)
-    (?:{{network_address}})|
-    (?:{{ip}})|
-    (?:any)
+    (?:
+      (?:{{network_address}})|
+      (?:{{ip}})|
+      (?:any)
+    )
   protocol_target: |
     (?x)
     (?:ip)|
@@ -141,7 +143,6 @@ contexts:
         - include: ipv6_general_prefix
         - include: extended_acl
         - include: standard_acl
-        - include: 'Packages/sublime-network/cisco/configure_terminal.sublime-syntax'
 
 
   device_comment:
@@ -262,7 +263,6 @@ contexts:
         - include: pop_context_on_unknown
 
   standard_ace:
-    - include: standard_permission
     - match: |
         (?x)
         ^\s*

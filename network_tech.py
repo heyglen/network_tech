@@ -86,7 +86,7 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
             network_parts = network.split()
             cleaned_network = network
             if len(network_parts) is 2:
-                cleaned_network = '/'.join(network_parts)    
+                cleaned_network = '/'.join(network_parts)
             try:
                 network_object = ipaddress.ip_interface(cleaned_network).network
             except ValueError:

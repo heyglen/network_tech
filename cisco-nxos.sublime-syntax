@@ -48,8 +48,10 @@ variables:
     (?:\d+(?:/\d+)*(?:\.\d+)?)(?:-\d+)?
   network_target: |
     (?x)
-    (?:{{ip_prefix}})|
-    (?:any)
+    (?:
+      (?:{{ip_prefix}})|
+      (?:any)
+    )
   protocol_target: |
     (?x)
     (?:ip)|
@@ -97,7 +99,6 @@ contexts:
   configure_terminal:
     - match: ^\s*(?:(configure)\s*(terminal))
       with_prototype:
-        - include: do_show
         - include: scope
       captures:
         0: cisco.scope
@@ -194,15 +195,15 @@ contexts:
   ace:
     - match: |
         (?x)
-        ({{line_number}}\ +)
-        (?:(permit)|(deny))\ +
-        ({{protocol_target}})\ +
+        ({{line_number}}\s+)
+        (?:(permit)|(deny))\s+
+        ({{protocol_target}})\s+
         ({{network_target}})
-        (?:\ +({{operators}})\ +({{port_target}}))?
-        (\ +established)?
-        (\ +{{network_target}})
-        (?:\ +({{operators}})\ +({{port_target}}))?
-        (\ +established)?
+        (?:\s+({{operators}})\s+({{port_target}}))?
+        (\s+established)?
+        (\s+{{network_target}})
+        (?:\s+({{operators}})\s+({{port_target}}))?
+        (\s+established)?
       scope: text.network.cisco.acl.extended.ace
       captures:
         1: constant.numeric             # Line number
