@@ -54,7 +54,12 @@ sublime_ip = DotDict({
     'v4': {
         'any': r"""
             (?:
-                (?:host\s+(?:\d{1,3}\.){3}\d{1,3})|
+                (?:
+                    (?:
+                        (?:host)|
+                        (?:range)
+                    )\s+(?:(?:\d{1,3}\.){3}\d{1,3})
+                )|
                 (?:
                     (?:(?:\d{1,3}\.){3}\d{1,3})
                     (?:
@@ -78,39 +83,80 @@ sublime_ip = DotDict({
     }
 })
 
+class SearchHistory(list):
+    @property
+    def last(self):
+        last = None
+        if self:
+            last = self[0]
+        return last
 
-class FindSubnetCommand(sublime_plugin.TextCommand):
-    def network_contains(self, member, group):
+search_history = SearchHistory()
+
+
+class Network:
+    prefix_removals = [
+        'host',
+        'mask',
+        'range'
+    ]
+
+    @classmethod
+    def contains(self, group, member):
         return int(group.network_address) <= int(member.network_address) and \
             int(group.broadcast_address) >= int(member.broadcast_address)
 
-    def coerce_network(self, network):
-        for remove in ['host', 'mask']:
-            network = network.replace(remove, '')
+    @classmethod
+    def clean(cls, network_text):
+        for remove in cls.prefix_removals:
+            network_text = network_text.replace(remove, '')
+        network_text = network_text.strip()
+        return network_text
 
-        network = network.strip()
-
+    @classmethod
+    def get(cls, network_text):
+        network_text = cls.clean(network_text)
         try:
-            network_object = ipaddress.ip_address(network)
-            network_object = ipaddress.ip_network(network + '/32')
+            network = ipaddress.ip_address(network_text)
+            network = ipaddress.ip_network(network_text + '/32')
         except ValueError:
-            network_parts = network.split()
-            cleaned_network = network
+            network_parts = network_text.split()
+            cleaned_network = network_text
             if len(network_parts) is 2:
                 cleaned_network = '/'.join(network_parts)
             try:
-                network_object = ipaddress.ip_interface(cleaned_network).network
+                network = ipaddress.ip_interface(cleaned_network).network
             except ValueError:
-                network_object = None
-        return network_object
+                network = None
+        return network
+
+    @classmethod
+    def clean_region(cls, view, region):
+        text = view.substr(region)
+        for remove in cls.prefix_removals:
+            if text.startswith(remove):
+                cleaned = text.replace(remove, '').strip()
+                removed_characters = len(text) - len(cleaned)
+                return sublime.Region(region.begin() + removed_characters, region.end())
+        return region
+
+    @classmethod
+    def clean_regions(cls, view, regions):
+        cleaned = list()
+        for region in regions:
+            cleaned = cls.clean_region(view, region)
+        return cleaned
+
+class FindSubnetCommand(sublime_plugin.TextCommand):
 
     def get_network(self, network, find_all=False):
-        search_network = self.coerce_network(network)
+        search_history.append(network)
+        search_network = Network.get(network)
 
         current_regions = self.view.sel()
 
         logger.debug('Searching for network {}'.format(search_network))
-        if search_network is None:
+        if not search_network:
             logger.debug('Invalid network {}'.format(network))
         else:
             for region in self.view.sel():
@@ -138,9 +184,9 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
 
                     network_re_match = self.view.substr(found_region)
                     logger.debug('Network RE match {}'.format(network_re_match))
-                    found_network = self.coerce_network(network_re_match)
+                    found_network = Network.get(network_re_match)
 
-                    if found_network.overlaps(search_network):
+                    if Network.contains(search_network, found_network):
                         self.view.sel().clear()
                         self.view.show_at_center(found_region.begin())
                         logger.debug('Found region {} {}'.format(found_region.begin(), found_region.end()))
@@ -163,11 +209,77 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
         )
 
     def run(self, edit):
-        self._find_input_panel(network='1.1.1.1/24')
+        default_search = '10.139.4.0/24' if not search_history else search_history.last
+        self._find_input_panel(network=default_search)
 
 
-class SubnetCommand(sublime_plugin.TextCommand):
+class FindAllSubnetsCommand(sublime_plugin.TextCommand):
+
+    def get_network(self, networks, find_all=False):
+        search_history.append(networks)
+
+        search_networks = {Network.get(n) for n in networks.split(',')}
+
+        current_regions = self.view.sel()
+
+        logger.debug('Searching for network(s) {}'.format(networks))
+        for network in search_networks:
+            if not network:
+                message = 'Invalid network {}'.format(network)
+                logger.debug(message)
+                self.view.show_popup_menu(message)
+                return
+        else:
+            user_regions = self.view.sel()
+            self.view.sel().clear()
+            self.view.sel().add(sublime.Region(0, 0))
+
+            found_regions = self.view.find_all(
+                sublime_ip.v4.any,
+                sublime.IGNORECASE,
+            )
+
+            matching_networks = set()
+            found_networks = {self.view.substr(r) for r in found_regions}
+            logger.debug('Found {} IP like objects'.format(len(found_networks)))
+            for found_network in found_networks:
+                if found_network in matching_networks:
+                    continue
+                logger.debug('Getting network "{}"'.format(found_network))
+                
+                for search_network in search_networks:
+                    network_object = Network.get(found_network)
+                    if network_object and Network.contains(search_network, network_object):
+                        matching_networks.add(found_network)
+                        break
+
+            self.view.sel().clear()
+            if matching_networks:
+                moved_view = False
+                for region in found_regions:
+                    cleaned_region = Network.clean_region(self.view, region)
+                    if self.view.substr(cleaned_region) in matching_networks:
+                        self.view.sel().add(cleaned_region)
+                        if not moved_view:
+                            self.view.show_at_center(cleaned_region.begin())
+                            moved_view = True
+            else:
+                logger.debug('No matches')
+                self.view.sel().add_all(current_regions)
+                self.view.show_at_center(current_regions[0].begin())
+
+        # self._find_input_panel(networks)
+
+    def _find_input_panel(self, network=''):
+        self.view.window().show_input_panel(
+            caption='Find all Network(s) - comma seperated',
+            initial_text=network,
+            on_done=self.get_network,
+            on_change=None,
+            on_cancel=None
+        )
+
     def run(self, edit):
-        for region in self.view.sel():
-            text = self.view.substr(region)
-            self.view.replace(edit, region, text + 'hi')
+        default_search = '10.139.4.0/24' if not search_history else search_history.last
+        self._find_input_panel(network=default_search)
+
