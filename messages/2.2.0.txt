@@ -1,9 +1,16 @@
-Changes:
+Features:
    
+
     Cisco IOS & Cisco NXOS Syntax:
       
-      ACL ACE 'any' syntax bugfix
-    
+        Interface configuration mode snippets
+
+Bugfixes:
+
+    Cisco IOS & Cisco NXOS Syntax:
+      
+        ACL ACE 'any' syntax bugfix
+
     All:
       
-      Improved comment matching
+        Improved comment matching

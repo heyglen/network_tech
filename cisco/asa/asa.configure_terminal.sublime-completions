@@ -22,7 +22,27 @@
             "contents": "logging timestamp"
         },
         { 
-            "trigger": "monitor-interface\tinterface",
+            "trigger": "interface\tFastEthernet",
+            "contents": "interface ${1:FastEthernet}${2:0}"
+        },
+        { 
+            "trigger": "interface\tPort-Channel",
+            "contents": "interface ${1:Port-Channel}${2:1}"
+        },
+        { 
+            "trigger": "interface\tVlan",
+            "contents": "interface ${1:Vlan}${2:1}"
+        },
+        { 
+            "trigger": "interface\tGigabitEthernet",
+            "contents": "interface ${1:GigabitEthernet}${2:0}"
+        },
+        { 
+            "trigger": "interface\tTenGigabitEthernet",
+            "contents": "interface ${1:TenGigabitEthernet}${2:0}"
+        },
+        { 
+            "trigger": "monitor-interface\tmonitor interface",
             "contents": "monitor-interface ${1:nameif}"
         },
         { 
