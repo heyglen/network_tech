@@ -83,6 +83,7 @@ sublime_ip = DotDict({
     }
 })
 
+
 class SearchHistory(list):
     @property
     def last(self):
@@ -147,6 +148,7 @@ class Network:
             cleaned = cls.clean_region(view, region)
         return cleaned
 
+
 class FindSubnetCommand(sublime_plugin.TextCommand):
 
     def get_network(self, network, find_all=False):
@@ -189,7 +191,10 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
                     if Network.contains(search_network, found_network):
                         self.view.sel().clear()
                         self.view.show_at_center(found_region.begin())
-                        logger.debug('Found region {} {}'.format(found_region.begin(), found_region.end()))
+                        logger.debug('Found region {} {}'.format(
+                            found_region.begin(),
+                            found_region.end())
+                        )
                         self.view.sel().add(sublime.Region(
                             found_region.begin(),
                             found_region.end()
@@ -209,7 +214,7 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
         )
 
     def run(self, edit):
-        default_search = '10.139.4.0/24' if not search_history else search_history.last
+        default_search = '1.2.3.4/24' if not search_history else search_history.last
         self._find_input_panel(network=default_search)
 
 
@@ -230,7 +235,6 @@ class FindAllSubnetsCommand(sublime_plugin.TextCommand):
                 self.view.show_popup_menu(message)
                 return
         else:
-            user_regions = self.view.sel()
             self.view.sel().clear()
             self.view.sel().add(sublime.Region(0, 0))
 
@@ -246,7 +250,7 @@ class FindAllSubnetsCommand(sublime_plugin.TextCommand):
                 if found_network in matching_networks:
                     continue
                 logger.debug('Getting network "{}"'.format(found_network))
-                
+
                 for search_network in search_networks:
                     network_object = Network.get(found_network)
                     if network_object and Network.contains(search_network, network_object):
@@ -280,6 +284,5 @@ class FindAllSubnetsCommand(sublime_plugin.TextCommand):
         )
 
     def run(self, edit):
-        default_search = '10.139.4.0/24' if not search_history else search_history.last
+        default_search = '1.2.3.4/24' if not search_history else search_history.last
         self._find_input_panel(network=default_search)
-

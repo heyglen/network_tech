@@ -1,16 +1,18 @@
 Features:
    
+    Cisco NXOS / IOS / ASA Syntax:
 
-    Cisco IOS & Cisco NXOS Syntax:
-      
+        Autoindent when changing configuration mode
+
+    Cisco NXOS / IOS Syntax:
+
         Interface configuration mode snippets
 
 Bugfixes:
 
-    Cisco IOS & Cisco NXOS Syntax:
-      
+    Cisco IOS / NXOS Syntax:
+
         ACL ACE 'any' syntax bugfix
 
-    All:
-      
         Improved comment matching
+        No autocompleted commands on description and comment text 
