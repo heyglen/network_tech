@@ -1,5 +1,9 @@
 Features:
    
+    Cisco NXOS / IOS / ASA / ACE Syntax:
+
+        Accepts only valid subnet masks
+
     Cisco NXOS / IOS / ASA Syntax:
 
         Autoindent when changing configuration mode
@@ -8,6 +12,10 @@ Features:
 
         Interface configuration mode snippets
 
+    Cisco IOS Syntax:
+
+        Accepts only valid wildcard masks on ACL ACEs
+
 Bugfixes:
 
     Cisco IOS / NXOS Syntax:
@@ -15,6 +23,7 @@ Bugfixes:
         ACL ACE 'any' syntax bugfix
 
         Improved comment matching
+
         No autocompleted commands on description and comment text 
     
     Cisco IOS / NXOS / ACE / ASA Syntax:
