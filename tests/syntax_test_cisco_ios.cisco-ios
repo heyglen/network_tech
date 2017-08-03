@@ -1,13 +1,5 @@
 # cisco ios
 
-configure terminal
-  exit
-
-
-
-
-
-
 write
 show running-config | include something ! Inline comment
 
