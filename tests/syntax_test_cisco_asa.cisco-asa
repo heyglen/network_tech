@@ -17,11 +17,11 @@ write net
 ! Line comment
 
 configure terminal
+
 ! Line comment
 
 vlan 1
   name asdf
- 
 
 hostname firewall
 
@@ -37,8 +37,12 @@ passwd SECRET encrypted
 
 ip verify reverse-path interface outside
 
+interface vlan 0
+interface gigabitethernet 0
+interface tengigabitethernet 0
+interface fastethernet 0
 interface port-channel 0
-  description blah
+  description blah 
   nameif outside
   security-level 0
   ipv6 address ::1/64 standby ::2
@@ -88,7 +92,6 @@ object-group protocol TCPUDP
  description blah
  protocol-object udp
  protocol-object tcp
-
 
 object network obj-www.fqdn.com
  description blah

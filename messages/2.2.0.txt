@@ -1,6 +1,22 @@
-Features:
+New Features:
    
     Cisco NXOS / IOS / ASA / ACE Syntax:
+
+        Network aware search:
+
+            Command Pallet -> Network: Find
+            Command Pallet -> Network: Find All
+
+            Search using any format:
+                CIDR: 1.2.3.0/24
+                Netmask: 1.2.3.0 255.255.255.0
+                Wildcard: 1.2.3.0 0.0.0.255
+
+        Popup subnetting information on input of networks in the formats:
+
+            CIDR: 1.2.3.0/24
+            Netmask: 1.2.3.0 255.255.255.0
+            Wildcard: 1.2.3.0 0.0.0.255
 
         Accepts only valid subnet masks
 

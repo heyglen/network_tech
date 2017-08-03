@@ -6,11 +6,8 @@ import sublime
 import sublime_plugin
 
 logger = logging.getLogger('net_tech')
-# handler = logging.StreamHandler()
-# handler.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
 logger.handlers = []
-# logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARNING)
 
 
 class DotDict(dict):
@@ -38,7 +35,9 @@ ip = DotDict({
                         )
                         \s+
                     )?
-                    (?P<ip>(?:\d{1,3}\.){3}\d{1,3})
+                    (?P<ip>
+                        (?:(?:\d{1,3}\.){3}\d{1,3})
+                    )
                 )
                 (?:
                     (?:/(?P<prefix_length>\d{1,2}))|
@@ -57,7 +56,9 @@ ip = DotDict({
                     r"""
                     (?xi)
                     (?:
-                        (?P<ip>(?:\d{1,3}\.){3}\d{1,3})
+                        (?P<ip>
+                            (?:(?:\d{1,3}\.){3}\d{1,3})
+                        )
                         (?:
                             (?:/(?P<prefix_length>\d{1,2}))|
                             (?:
@@ -99,11 +100,6 @@ sublime_ip = DotDict({
                 )
             )
         """.replace(' ', '').replace('\r', '').replace('\n', ''),
-        'host': re.compile(r'(?:(?:\d{1,3}\.){3}\d{1,3})'),
-        'network': {
-            'netmask': re.compile(r'(?:(?:\d{1,3}\.){3}\d{1,3}\s+(?:\d{1,3}\.){3}\d{1,3})'),
-            'cidr': re.compile(r'\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d/\d?\d'),
-        }
     }
 })
 
@@ -119,6 +115,32 @@ class SearchHistory(list):
 search_history = SearchHistory()
 
 
+class Html:
+
+    @classmethod
+    def unordered_list(cls, items):
+        return cls._tag(
+            'ul',
+            content=[cls.li(i) for i in items],
+            style='list-style-type:none'
+        )
+
+    @classmethod
+    def _tag(cls, tag, content=None, style=None):
+        style = ' style="{}"'.format(style or '')
+        if isinstance(content, list):
+            content = ''.join(content)
+        content = str(content or '')
+        return '<{}{}>{}</{}>'.format(tag, style, content, tag)
+
+for tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'hr', 'div', 'span', 'li']:
+    setattr(
+        Html,
+        tag,
+        classmethod(lambda cls, text='': cls._tag(tag, content=text))
+    )
+
+
 class Network:
     prefix_removals = [
         'host',
@@ -127,7 +149,35 @@ class Network:
     ]
 
     @classmethod
-    def contains(self, group, member):
+    def get_network_on_cursor(cls, region, view):
+        point = region.end()
+        line_region = view.line(point)
+        word_region = view.word(point)
+        previous_word_end = view.find_by_class(
+            word_region.begin(),
+            forward=False,
+            classes=sublime.CLASS_WORD_END
+        )
+        previous_word_region = view.word(previous_word_end)
+        network_region = sublime.Region(
+            previous_word_region.begin(),
+            word_region.end()
+        )
+        if previous_word_region.end() < line_region.begin():
+            network_region = word_region
+        return view.substr(network_region)
+
+
+    @classmethod
+    def masks(cls, interface):
+        return [
+            '/' + str(interface.network.prefixlen),
+            str(interface.netmask),
+            str(interface.hostmask),
+        ]
+
+    @classmethod
+    def contains(cls, group, member):
         return int(group.network_address) <= int(member.network_address) and \
             int(group.broadcast_address) >= int(member.broadcast_address)
 
@@ -239,7 +289,9 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
         )
 
     def run(self, edit):
-        default_search = '1.2.3.4/24' if not search_history else search_history.last
+        under_cursor = Network.get_network_on_cursor(self.view.sel()[0], self.view)
+        # network = Network.get(under_cursor)
+        default_search = under_cursor if under_cursor else ''
         self._find_input_panel(network=default_search)
 
 
@@ -309,27 +361,38 @@ class FindAllSubnetsCommand(sublime_plugin.TextCommand):
         )
 
     def run(self, edit):
-        default_search = '1.2.3.4/24' if not search_history else search_history.last
+        default_search = Network.get_network_on_cursor(self.view.sel()[0], self.view)
+        default_search = default_search if ip.v4.network.search(default_search) else ''
         self._find_input_panel(network=default_search)
 
 
 class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
-    def on_query_completions(self, prefix, locations):
+    # def on_query_completions(self, prefix, locations):
+    def on_modified_async(self):
         for region in self.view.sel():
-            point = region.end()
-            line_region = self.view.line(point)
-            if self.view.match_selector(line_region.end(), 'text.network.cisco'):
-                text = self.view.substr(line_region)
-                match = ip.v4.network.search(text)
-                if match:
-                    logger.debug(match.groups())
-                    ip_address = match.group('ip')
-                    prefix_length = match.group('prefix_length')
-                    netmask = match.group('netmask')
-                    if prefix_length or netmask:
-                        logger.debug('Net match', match.groups())
-                        network = ipaddress.ip_interface('/'.join([ip_address, (prefix_length or netmask)]))
-                        if network:
-                            return [
-                                [str(network.network), 'worked']
-                            ]
+            match_text = Network.get_network_on_cursor(region, self.view)
+            match = ip.v4.network.search(match_text)
+            if match:
+                logger.debug('Matched {}'.format(match.groups()))
+                ip_address = match.group('ip')
+                prefix_length = match.group('prefix_length')
+                netmask = match.group('netmask')
+                if prefix_length or netmask:
+                    logger.debug('Net match', match.groups())
+                    network = ipaddress.ip_interface(
+                        '/'.join([ip_address, (prefix_length or netmask)])
+                    )
+                    if network:
+                        content = ''.join([
+                            Html.span('Network: ' + str(network.network.network_address)),
+                            Html.span('Broadcast: ' + str(network.network.broadcast_address)),
+                            Html.span('Masks:'),
+                            Html.unordered_list(Network.masks(network)),
+                        ])
+                        if self.view.is_popup_visible():
+                            self.view.update_popup(content)
+                        else:
+                            self.view.show_popup(
+                                content,
+                                flags=sublime.COOPERATE_WITH_AUTO_COMPLETE
+                            )
