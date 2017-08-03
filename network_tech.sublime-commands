@@ -1,12 +1,12 @@
 [
     {
-        "caption": "subnet",
-        "command": "subnet",
+        "caption": "Subnet: Find",
+        "command": "find_subnet",
         "args": {}
     },
     {
-        "caption": "Find Subnet",
-        "command": "find_subnet",
+        "caption": "Subnet: Find All",
+        "command": "find_all_subnets",
         "args": {}
     }
 ]

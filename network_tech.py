@@ -30,9 +30,18 @@ ip = DotDict({
             r"""
             (?xi)
             (?:
-                (?P<ip>(?:\d{1,3}\.){3}\d{1,3})
                 (?:
-                    (?:/(?P<prefix_length>\d{2}))|
+                    (?:
+                        (?:
+                            (?:host)|
+                            (?:range)
+                        )
+                        \s+
+                    )?
+                    (?P<ip>(?:\d{1,3}\.){3}\d{1,3})
+                )
+                (?:
+                    (?:/(?P<prefix_length>\d{1,2}))|
                     (?:
                         \s+
                         (?:
@@ -44,9 +53,24 @@ ip = DotDict({
             )
             """
         ),
-        'network': {
-            'netmask': re.compile(r'(?:(?:\d{1,3}\.){3}\d{1,3}\s+(?:\d{1,3}\.){3}\d{1,3})'),
-        }
+        'network':  re.compile(
+                    r"""
+                    (?xi)
+                    (?:
+                        (?P<ip>(?:\d{1,3}\.){3}\d{1,3})
+                        (?:
+                            (?:/(?P<prefix_length>\d{1,2}))|
+                            (?:
+                                \s+
+                                (?:
+                                    (?:mask\s+)?
+                                    (?P<netmask>(\d{1,3}\.){3}\d{1,3})
+                                )
+                            )
+                        )
+                    )
+                    """
+        ),
     }
 })
 
@@ -184,23 +208,24 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
                         self.view.sel().add_all(current_regions)
                         break
 
-                    network_re_match = self.view.substr(found_region)
+                    cleaned_region = Network.clean_region(self.view, found_region)
+                    network_re_match = self.view.substr(cleaned_region)
                     logger.debug('Network RE match {}'.format(network_re_match))
                     found_network = Network.get(network_re_match)
 
                     if Network.contains(search_network, found_network):
                         self.view.sel().clear()
-                        self.view.show_at_center(found_region.begin())
+                        self.view.show_at_center(cleaned_region.begin())
                         logger.debug('Found region {} {}'.format(
-                            found_region.begin(),
-                            found_region.end())
+                            cleaned_region.begin(),
+                            cleaned_region.end())
                         )
                         self.view.sel().add(sublime.Region(
-                            found_region.begin(),
-                            found_region.end()
+                            cleaned_region.begin(),
+                            cleaned_region.end()
                         ))
                         break
-                    cursor = found_region.end()
+                    cursor = cleaned_region.end()
 
         self._find_input_panel(network)
 
@@ -286,3 +311,25 @@ class FindAllSubnetsCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         default_search = '1.2.3.4/24' if not search_history else search_history.last
         self._find_input_panel(network=default_search)
+
+
+class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
+    def on_query_completions(self, prefix, locations):
+        for region in self.view.sel():
+            point = region.end()
+            line_region = self.view.line(point)
+            if self.view.match_selector(line_region.end(), 'text.network.cisco'):
+                text = self.view.substr(line_region)
+                match = ip.v4.network.search(text)
+                if match:
+                    logger.debug(match.groups())
+                    ip_address = match.group('ip')
+                    prefix_length = match.group('prefix_length')
+                    netmask = match.group('netmask')
+                    if prefix_length or netmask:
+                        logger.debug('Net match', match.groups())
+                        network = ipaddress.ip_interface('/'.join([ip_address, (prefix_length or netmask)]))
+                        if network:
+                            return [
+                                [str(network.network), 'worked']
+                            ]
