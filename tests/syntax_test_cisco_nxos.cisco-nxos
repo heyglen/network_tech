@@ -1,5 +1,4 @@
-// SYNTAX TEST "Packages/sublime-network/cisco/nxos.sublime-syntax"
-#! cisco nxos
+# cisco nxos
 
 show vlan
 show vlan id 42

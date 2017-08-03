@@ -1,4 +1,4 @@
-#! cisco ios
+# cisco ios
 
 configure terminal
   exit

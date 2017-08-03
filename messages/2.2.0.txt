@@ -16,3 +16,7 @@ Bugfixes:
 
         Improved comment matching
         No autocompleted commands on description and comment text 
+    
+    Cisco IOS / NXOS / ACE / ASA Syntax:
+
+        Syntax detection using first line on open
