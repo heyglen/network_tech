@@ -123,11 +123,10 @@ access-list acl-name line 42 extended permit tcp host 2.2.2.2 object-group netwo
 access-list acl-name line 42 extended permit tcp 2.2.2.2 255.255.255.0 object-group network-dst eq 2059 inactive (inactive)
 access-list acl-name line 42 extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
 access-list acl-name extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
-access-list acl-name line 42 extended deny icmp any host 1.1.1.1
+access-list acl-name line 42 extended deny icmp any host 1.1.1.1 log
+access-list acl-name line 42 extended deny tcp any host 1.1.1.1 log
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1 timestamp-request
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1 traceroute
-access-list acl-name line 42 extended permit
-access-list acl-name line 42 extended deny
 access-list acl-name line 42 extended permit object services object-group network-src object-group network-dst
 access-list acl-name line 42 extended permit object services object network-src object network-dst
 access-list acl-name line 42 extended permit object-group services object-group network-src object-group network-dst

@@ -1,24 +1,25 @@
 New Features:
    
-    Cisco NXOS / IOS / ASA / ACE Syntax:
+    Network aware search:
+    
 
-        Network aware search:
+        Command Pallet -> Network: Find
+        Command Pallet -> Network: Find All
 
-            Command Pallet -> Network: Find
-            Command Pallet -> Network: Find All
-
-            Search using any format:
-                CIDR: 1.2.3.0/24
-                Netmask: 1.2.3.0 255.255.255.0
-                Wildcard: 1.2.3.0 0.0.0.255
-
-        Popup subnetting information on input of networks in the formats:
-
+        Search using any format:
             CIDR: 1.2.3.0/24
             Netmask: 1.2.3.0 255.255.255.0
             Wildcard: 1.2.3.0 0.0.0.255
 
-        Accepts only valid subnet masks
+    Popup subnetting information on input of networks in the formats:
+
+        Supported on Cisco NXOS, IOS, ASA & ACE Syntax
+
+        CIDR: 1.2.3.0/24
+        Netmask: 1.2.3.0 255.255.255.0
+        Wildcard: 1.2.3.0 0.0.0.255
+
+    Accepts only valid subnet masks
 
     Cisco NXOS / IOS / ASA Syntax:
 
@@ -45,3 +46,9 @@ Bugfixes:
     Cisco IOS / NXOS / ACE / ASA Syntax:
 
         Syntax detection using first line on open
+
+    Cisco ASA:
+
+        object-group and object definition completions will not be suggested when creating an ACL
+
+        Bug in log statement on ACL

@@ -591,10 +591,18 @@ contexts:
     - include: access_list_remark
     - include: access_list_ip
     - include: access_list_icmp
+    - include: incomplete_access_list
     - include: building_access_list
 
+  # Used to avoid object(-group)? (network|service|protocol) completions from triggering
+  incomplete_access_list:
+    - match: |
+        (?x)
+        (access-list)\s+.*
+      scope: text.network.cisco.asa.access_list.incomplete
+
   building_access_list:
-    - match: >
+    - match: |
         (?x)
         (access-list)\s+
         ([^;\s]+)\s+(?:(line)\s+(\d+)\s+)?(extended)\s+(?:(permit)|(deny))\s+.*
@@ -680,7 +688,17 @@ contexts:
                   )?    # end l4 port destination 
                 )       # end ip, tcp, udp
                 (?:
-                  (?:\s+(log)\s+(informational|debugging|notifications))?
+                  (?:
+                    \s+(log)
+                    (?:
+                      \s+
+                      (
+                        (?:informational)|
+                        (?:debugging)|
+                        (?:notifications)
+                      )
+                    )?
+                  )?
                   (?:\s+(interval)\s+(\d+))?
                   (?:\s+(disable))?
                   (?:\s+(default))?
@@ -810,7 +828,17 @@ contexts:
                   )?    # end icmp types destination
                 )       # end ip
                 (?:
-                  (?:\s+(log)\s+(informational|debugging|notifications))?
+                  (?:
+                    \s+(log)
+                    (?:
+                      \s+
+                      (
+                        (?:informational)|
+                        (?:debugging)|
+                        (?:notifications)
+                      )
+                    )?
+                  )?
                   (?:\s+(interval)\s+(\d+))?
                   (?:\s+(disable))?
                   (?:\s+(default))?
