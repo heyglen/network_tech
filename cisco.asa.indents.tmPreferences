@@ -41,7 +41,7 @@
                             (?:service)|
                             (?:network)
                         )
-                    \s*\S+)|
+                    \s*\S+)
                 )
                 \s*(?:[#!].*)?$
             </string>
