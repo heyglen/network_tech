@@ -124,7 +124,9 @@ access-list acl-name line 42 extended permit tcp 2.2.2.2 255.255.255.0 object-gr
 access-list acl-name line 42 extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
 access-list acl-name extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1 log
+access-list acl-name line 42 extended deny icmp any host 1.1.1.1 log 1
 access-list acl-name line 42 extended deny tcp any host 1.1.1.1 log
+access-list acl-name line 42 extended deny tcp any host 1.1.1.1 log 1
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1 timestamp-request
 access-list acl-name line 42 extended deny icmp any host 1.1.1.1 traceroute
 access-list acl-name line 42 extended permit object services object-group network-src object-group network-dst
@@ -195,3 +197,4 @@ aaa authorization exec authentication-server auto-enable
 
 exit
 
+logout

@@ -692,10 +692,13 @@ contexts:
                     \s+(log)
                     (?:
                       \s+
-                      (
-                        (?:informational)|
-                        (?:debugging)|
-                        (?:notifications)
+                      (?:
+                        (
+                          (?:informational)|
+                          (?:debugging)|
+                          (?:notifications)
+                        )|
+                        ([0-7])
                       )
                     )?
                   )?
@@ -728,33 +731,33 @@ contexts:
         14: support.constant.protocol.object      # protocol object
         15: string.unquoted.protocol.object.name  # protocol object name
         16: constant.numeric.protocol             # protocol        
-        17: support.constant.net.src.host                 # network host
-        18: constant.numeric.net.src.host.ip              # network host ip
-        19: constant.numeric.net.src                      # network ip
-        20: constant.numeric.net.src                      # network subnet
-        21: support.constant.net.src                      # object-group
-        22: string.unquoted.net.src                      # object-group name
-        23: support.constant.net.src                      # object
-        24: string.unquoted.net.src                      # object name
-        25: constant.numeric.net.src                      # network any
-        26: support.constant.port.src                      # operator
-        27: constant.numeric.port.src                      # port target
-        28: support.constant.port.src                      # port range
-        29: constant.numeric.port.src                      # port range low
-        30: constant.numeric.port.src                      # port range high
-        31: support.constant.port.src                      # object-group
-        32: string.unquoted.port.src                       # object-group name
-        33: support.constant.port.src                      # object
-        34: string.unquoted.port.src                       # object name
+        17: support.constant.net.src.host         # network host
+        18: constant.numeric.net.src.host.ip      # network host ip
+        19: constant.numeric.net.src              # network ip
+        20: constant.numeric.net.src              # network subnet
+        21: support.constant.net.src              # object-group
+        22: string.unquoted.net.src               # object-group name
+        23: support.constant.net.src              # object
+        24: string.unquoted.net.src               # object name
+        25: constant.numeric.net.src              # network any
+        26: support.constant.port.src             # operator
+        27: constant.numeric.port.src             # port target
+        28: support.constant.port.src             # port range
+        29: constant.numeric.port.src             # port range low
+        30: constant.numeric.port.src             # port range high
+        31: support.constant.port.src             # object-group
+        32: string.unquoted.port.src              # object-group name
+        33: support.constant.port.src             # object
+        34: string.unquoted.port.src              # object name
         35: support.constant.host                 # network host
         36: constant.numeric.host.ip              # network host ip
-        37: constant.numeric.net.dst             # network ip
-        38: constant.numeric.net.dst             # network subnet
-        39: support.constant.net.dst             # object-group
-        40: string.unquoted.net.dst              # object-group name
-        41: support.constant.net.dst             # object
-        42: string.unquoted.net.dst              # object name
-        43: constant.numeric.net.dst             # network any
+        37: constant.numeric.net.dst              # network ip
+        38: constant.numeric.net.dst              # network subnet
+        39: support.constant.net.dst              # object-group
+        40: string.unquoted.net.dst               # object-group name
+        41: support.constant.net.dst              # object
+        42: string.unquoted.net.dst               # object name
+        43: constant.numeric.net.dst              # network any
         44: support.constant.port.dst             # operator
         45: constant.numeric.port.dst             # port target
         46: support.constant.port.dst             # port range
@@ -764,16 +767,17 @@ contexts:
         50: string.unquoted.port.dst              # object-group name
         51: support.constant.port.dst             # object
         52: string.unquoted.port.dst              # object name
-        53: support.constant             # log
-        54: string.unquoted              # log level
-        55: support.constant             # log interval
-        56: constant.numeric             # log interval value
-        57: support.constant             # disable
-        58: support.constant             # default
-        59: invalid.deprecated           # inactive
-        60: comment.unquoted             # inactive
-        61: comment.unquoted             # ace hash
-        62: comment.unquoted             # hitcount
+        53: support.constant                      # log
+        54: string.unquoted                       # log level
+        55: constant.numeric                      # log level numeric
+        56: support.constant                      # log interval
+        57: constant.numeric                      # log interval value
+        58: support.constant                      # disable
+        59: support.constant                      # default
+        60: invalid.deprecated                    # inactive
+        61: comment.unquoted                      # inactive
+        62: comment.unquoted                      # ace hash
+        63: comment.unquoted                      # hitcount
 
   access_list_icmp:
     - match: |
@@ -832,10 +836,13 @@ contexts:
                     \s+(log)
                     (?:
                       \s+
-                      (
-                        (?:informational)|
-                        (?:debugging)|
-                        (?:notifications)
+                      (?:
+                        (
+                          (?:informational)|
+                          (?:debugging)|
+                          (?:notifications)
+                        )|
+                        ([0-7])
                       )
                     )?
                   )?
@@ -885,28 +892,29 @@ contexts:
         26: string.unquoted                       # object name
         27: support.constant.host                 # network host
         28: constant.numeric.host.ip              # network host ip
-        29: constant.numeric             # network ip
-        30: constant.numeric             # network subnet
-        31: support.constant             # object-group
-        32: string.unquoted              # object-group name
-        33: support.constant             # object
-        34: string.unquoted              # object name
-        35: constant.numeric             # network any
-        36: support.constant             # icmp type destination
-        37: support.constant             # object-group
-        38: string.unquoted              # object-group name
-        39: support.constant             # object-group
-        40: string.unquoted              # object-group name
-        41: support.constant             # log
-        42: string.unquoted              # log level
-        43: support.constant             # log interval
-        44: constant.numeric             # log interval value
-        45: support.constant             # disable
-        46: support.constant             # default
-        47: invalid.deprecated.inactive  # inactive
-        48: comment.unquoted.inactive    # inactive
-        49: comment.unquoted             # ace hash
-        50: comment.unquoted             # hitcount
+        29: constant.numeric                      # network ip
+        30: constant.numeric                      # network subnet
+        31: support.constant                      # object-group
+        32: string.unquoted                       # object-group name
+        33: support.constant                      # object
+        34: string.unquoted                       # object name
+        35: constant.numeric                      # network any
+        36: support.constant                      # icmp type destination
+        37: support.constant                      # object-group
+        38: string.unquoted                       # object-group name
+        39: support.constant                      # object-group
+        40: string.unquoted                       # object-group name
+        41: support.constant                      # log
+        42: string.unquoted                       # log level
+        43: constant.numeric                      # log level numeric
+        44: support.constant                      # log interval
+        45: constant.numeric                      # log interval value
+        46: support.constant                      # disable
+        47: support.constant                      # default
+        48: invalid.deprecated.inactive           # inactive
+        49: comment.unquoted.inactive             # inactive
+        50: comment.unquoted                      # ace hash
+        51: comment.unquoted                      # hitcount
 
   icmp_protocol_settings:
     - include: icmp_ipv4_protocol_settings
