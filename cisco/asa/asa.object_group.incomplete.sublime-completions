@@ -1,0 +1,18 @@
+{
+    "scope": "text.network.cisco.asa.object_group.incomplete",
+    "completions": [
+        { 
+            "trigger": "service",
+            "contents": "service ${1:NAME} "
+        },
+        { 
+            "trigger": "protocol",
+            "contents": "protocol ${1:NAME} "
+        },
+        { 
+            "trigger": "network",
+            "contents": "network ${1:NAME} "
+        },
+    ]
+}
+

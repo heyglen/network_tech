@@ -37,6 +37,28 @@ New Features:
 
         packet-tracer highlighting and completions
 
+        object-group icmp-type support
+
+        ipv4 nd suppress-ra on interfaces
+
+        tftp server
+
+        pager lines
+
+        logging message id levels
+
+        timeouts
+
+        enable passwords
+
+        domain-name
+
+        banner exec text
+
+        policy-map
+
+        aaa
+
 Bugfixes:
 
     Cisco IOS / NXOS Syntax:
@@ -58,3 +80,5 @@ Bugfixes:
         Bug in log statement in ACLs
 
         Support for numeric log levels in ACLs
+
+        Matches more tcp port names
