@@ -106,38 +106,43 @@ variables:
   port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   icmp_types: |
     (?x)
-    (?:echo-reply)|
-    (?:unreachable)|
-    (?:source-quench)|
-    (?:redirect)|
-    (?:alternate-address)|
-    (?:echo)|
-    (?:router-advertisement)|
-    (?:router-solicitation)|
-    (?:time-exceeded)|
-    (?:parameter-problem)|
-    (?:timestamp-request)|
-    (?:timestamp-reply)|
-    (?:information-request)|
-    (?:information-reply)|
-    (?:address-mask-request)|
-    (?:address-mask-reply)|
-    (?:conversion-error)|
-    (?:mobile-redirect)|
-    (?:traceroute)
+    (?:
+      (?:echo-reply)|
+      (?:unreachable)|
+      (?:source-quench)|
+      (?:redirect)|
+      (?:alternate-address)|
+      (?:echo)|
+      (?:router-advertisement)|
+      (?:router-solicitation)|
+      (?:time-exceeded)|
+      (?:parameter-problem)|
+      (?:timestamp-request)|
+      (?:timestamp-reply)|
+      (?:information-request)|
+      (?:information-reply)|
+      (?:address-mask-request)|
+      (?:address-mask-reply)|
+      (?:conversion-error)|
+      (?:mobile-redirect)|
+      (?:traceroute)
+    )
   port_names: |
     (?x)
     (?:bgp)|
     (?:domain)|
     (?:ftp)|
     (?:https)|
+    (?:kerberos)|
     (?:ldaps)|
     (?:ldap)|
+    (?:lpd)|
     (?:nfs)|
     (?:ntp)|
     (?:rsh)|
     (?:smtp)|
     (?:telnet)|
+    (?:talk)|
     (?:snmptrap)|
     (?:snmp)|
     (?:sqlnet)|
@@ -168,7 +173,7 @@ variables:
   scope_object_network: '^\s*(object)\s+(network)\s+(\S+)'
   scope_object_service: '^\s*(object)\s+(service)\s+(\S+)'
   scope_object_group_protocol: '^\s*(object-group)\s+(protocol)\s+(\S+)'
-  scope_object_group_service: '^\s*(object-group)\s+(service)\s+(\S+)(\s+(?:tcp-udp)|(?:tcp)|(?:udp))?'
+  scope_object_group_service: '^\s*(object-group)\s+(service)\s+(\S+)(\s+(?:tcp)|(?:udp)|(?:tcp-udp))?'
   scope_object_group_network: '^\s*(object-group)\s+(network)\s+(\S+)'
   scope_vlan: '^\s*(vlan)\s+({{vlan_id}})'
   scope_context: '^\s*(context)\s+(\S+)'
@@ -364,7 +369,8 @@ contexts:
     - include: object_group_network
     - include: object_group_service
     - include: object_group_protocol
-  
+    - include: object_group_icmp
+
   object_group_group_object:
     - match: '^\s*(group-object)\s+(\S+)'
       captures:
@@ -534,11 +540,11 @@ contexts:
   object_group_service:
     - match: '{{scope_object_group_service}}'
       captures:
-        0: cisco.scope
-        1: variable.parameter
-        2: support.constant
-        3: string.unquoted
-        4: support.constant
+        0: cisco.scope            
+        1: variable.parameter     # object-group
+        2: support.constant       # service
+        3: string.unquoted        # name
+        4: constant.numeric       # protocol
       push:
         - meta_content_scope: text.network.cisco.asa.object_group.service
         - include: description  
@@ -585,6 +591,30 @@ contexts:
             6: constant.numeric             # target
             7: support.constant             # range
             8: constant.numeric             # target range
+        - include: pop_context_on_unknown
+
+  object_group_icmp:
+    - match: '\s*(object-group)\s+(icmp-type)\s+(\S+)'
+      captures:
+        0: cisco.scope            
+        1: variable.parameter     # object-group
+        2: support.constant       # icmp-type
+        3: string.unquoted        # name
+      push:
+        - meta_content_scope: text.network.cisco.asa.object_group.icmp_type
+        - include: description  
+        - include: object_group_group_object
+        - match: >
+            (?xi)
+            ^\s*
+            (icmp-object)\s+
+            (
+              {{icmp_types}}
+            )
+          captures:
+            1: support.constant             # port-object
+            2: support.constant             # operator
+            3: constant.numeric             # icmp_type
         - include: pop_context_on_unknown
 
   access_list:
