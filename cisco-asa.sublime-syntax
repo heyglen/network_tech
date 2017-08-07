@@ -213,6 +213,7 @@ contexts:
     - include: logout
     - include: configure_terminal
     - include: show_drives
+    - include: packet_tracer
 
   configure_terminal:
     - match: '{{scope_configure_terminal}}'
@@ -600,6 +601,28 @@ contexts:
         (?x)
         (access-list)\s+.*
       scope: text.network.cisco.asa.access_list.incomplete
+
+  packet_tracer:
+    - match: |
+        (?x)
+        (packet-tracer\s+input)\s+
+        (\S+)\s+
+        (
+          (?:tcp)|
+          (?:udp)
+        )\s+
+        ({{ip}})\s+
+        ({{port_numbers}})\s+
+        ({{ip}})\s+
+        ({{port_numbers}})\s+
+      captures:
+        1: support.constant                       # packet-tracer input
+        2: string.unquoted                        # interface name
+        3: support.constant                       # protocol
+        4: constant.numeric                       # source ip
+        5: constant.numeric                       # source port
+        6: constant.numeric                       # destination ip
+        7: constant.numeric                       # destination port
 
   building_access_list:
     - match: |

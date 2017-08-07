@@ -19,11 +19,11 @@ New Features:
         Netmask: 1.2.3.0 255.255.255.0
         Wildcard: 1.2.3.0 0.0.0.255
 
-    Accepts only valid subnet masks
+    Only valid subnet masks will highlight
 
-    Cisco NXOS / IOS / ASA Syntax:
-
-        Autoindent when changing configuration mode
+    Autoindent when changing configuration mode
+        
+        Supported on Cisco NXOS, IOS & ASA Syntax
 
     Cisco NXOS / IOS Syntax:
 
@@ -32,6 +32,10 @@ New Features:
     Cisco IOS Syntax:
 
         Accepts only valid wildcard masks on ACL ACEs
+
+    Cisco ASA Syntax:
+
+        packet-tracer highlighting and completions
 
 Bugfixes:
 
@@ -51,4 +55,6 @@ Bugfixes:
 
         object-group and object definition completions will not be suggested when creating an ACL
 
-        Bug in log statement on ACL
+        Bug in log statement in ACLs
+
+        Support for numeric log levels in ACLs
