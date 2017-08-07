@@ -20,7 +20,7 @@ configure terminal
 
 ! Line comment
 
-  banner exec                    ------------------------
+  banner exec BANNER TEXT
   domain-name nnithosting.com
   enable password secret_password encrypted
 
@@ -39,7 +39,8 @@ configure terminal
   aaa-server AAA_NAME (inside) host 1.2.3.4
    key *****
   user-identity default-domain LOCAL
-  
+  crypto ipsec security-association pmtu-aging infinite
+
   vlan 1
     name asdf
 

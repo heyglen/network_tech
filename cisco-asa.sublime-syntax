@@ -133,9 +133,9 @@ variables:
     (?x)
     (?:
      (?:ip)|
+     (?:tcp-udp)|
      (?:tcp)|
-     (?:udp)|
-     (?:tcp-udp)
+     (?:udp)
     )
   port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   icmp_types: |
@@ -207,7 +207,7 @@ variables:
   scope_object_network: '^\s*(object)\s+(network)\s+(\S+)'
   scope_object_service: '^\s*(object)\s+(service)\s+(\S+)'
   scope_object_group_protocol: '^\s*(object-group)\s+(protocol)\s+(\S+)'
-  scope_object_group_service: '^\s*(object-group)\s+(service)\s+(\S+)(\s+(?:tcp)|(?:udp)|(?:tcp-udp))?'
+  scope_object_group_service: '^\s*(object-group)\s+(service)\s+(\S+)(\s+(?:tcp-udp)|(?:tcp)|(?:udp))?'
   scope_object_group_network: '^\s*(object-group)\s+(network)\s+(\S+)'
   scope_vlan: '^\s*(vlan)\s+({{vlan_id}})'
   scope_context: '^\s*(context)\s+(\S+)'
