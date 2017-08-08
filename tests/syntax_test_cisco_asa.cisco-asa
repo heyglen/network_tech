@@ -196,6 +196,10 @@ configure terminal
   username root password secret encrypted privilege 15
 
   ssl encryption 3des-sha1 des-sha1
+  ssl cipher default custom "blah_blah"
+  ssl cipher sslv3 custom "blah_blah"
+  ssl cipher tlsv1 custom "blah_blah"
+  ssl cipher dtlsv1 custom "blah_blah"
 
   crypto key generate rsa modulus 2048
   crypto key generate rsa modulus 2048 noconfirm

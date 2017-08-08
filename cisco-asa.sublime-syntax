@@ -278,6 +278,7 @@ contexts:
         - include: ip_route
         - include: password
         - include: interface
+        - include: ssl_cipher
         - include: policy_map
         - include: domain_name
         - include: arp_timeout
@@ -429,6 +430,41 @@ contexts:
         3: string.unquoted
         4: string.unquoted
         5: string.unquoted
+
+  ssl_cipher:
+    - match: |
+        (?x)
+        ^\s*
+        (ssl)\s+
+        (cipher)\s+
+        (
+          (?:default)|
+          (?:dtlsv1)|
+          (?:sslv3)|
+          (?:tlsv1)|
+          (?:tlsv1\.1)|
+          (?:tlsv1\.2)
+        )\s+
+        (?:
+          (
+            (?:all)|
+            (?:low)|
+            (?:medium)|
+            (?:fips)|
+            (?:high)
+          )|
+          (?:
+            (custom)\s+
+            (\S+)
+          )
+        )
+      captures:
+        1: support.constant     # ssl
+        2: support.constant     # ssl cipher
+        3: constant.numeric     # ssl cipher version
+        4: constant.numeric     # ssl cipher version level
+        5: support.constant     # ssl cipher version custom
+        6: string.unquoted      # ssl cipher version custom string
 
   crypto_key_generate:
     - match: ^\s*(crypto)\s+(key)\s+(generate)\s+(rsa)\s+(modulus)\s+([0-9]+)\s+(noconfirm)?
