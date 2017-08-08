@@ -307,9 +307,33 @@ contexts:
     - include: comment
     - include: pop_ctx_word
 
-  pop_context_on_unknown:
-    - match: '(?=^\s*[^{{comment}}\s].*$)'
+  pop_context:
+    - match: '(?=.)'
       pop: true
+    
+  pop_context_twice:
+    - match: |
+        (?xm)
+        (?:
+          (?:(^\s*$)+)
+        )
+      set:
+        - pop_context
+        - pop_context
+
+
+  pop_context_on_unknown:
+    # - match: '(?=^\s*[^{{comment}}\s].*$)'
+    - match: |
+        (?xm)
+        (?:
+          (?:(^\s*$)+)
+        )
+      # (?=^\s*[^{{comment}}\s].*)
+      pop: true
+      # push:
+      #   - scope: text.network.cisco.asa text.network.cisco.configure_terminal
+      #     clear_scopes: true
 
   removal:
     - meta_include_prototype: false
@@ -746,6 +770,7 @@ contexts:
         - meta_content_scope: text.network.cisco.asa.policy_map.global
         - include: policy_map_class
         - include: pop_context_on_unknown
+        # - include: pop_context_twice
 
   policy_map_inspect_dns:
     - match: |
@@ -826,6 +851,7 @@ contexts:
         2: constant.numeric     # dns map
         3: string.unquoted      # dns map name
         4: constant.numeric     # inspect protocol
+    - include: pop_context_on_unknown
 
   policy_map_class_user_statistics:
     - match: |
@@ -846,6 +872,7 @@ contexts:
         2: support.constant     # connection
         3: support.constant     # embryonic-conn-max
         4: constant.numeric     # embryonic-conn-max number
+    - include: pop_context_on_unknown
 
   policy_map_class_set:
     - match: |
@@ -858,6 +885,7 @@ contexts:
       captures:
         1: support.constant     # user-statistics
         2: constant.numeric     # accounting
+    - include: pop_context_on_unknown
 
   aaa:
     - match: |

@@ -22,6 +22,8 @@ New Features:
             Wildcard: 1.2.3.0 0.0.0.255
 
         Only valid subnet masks will highlight
+  
+        Automatically add a newline at end of file on save
 
     Cisco NXOS, IOS & ASA Syntax
 
@@ -78,6 +80,8 @@ Bugfixes:
         Syntax detection using first line on open
 
     Cisco ASA:
+
+        tweaked syntax context changing logic
 
         object-group and object definition completions will not be suggested when creating an ACL
 

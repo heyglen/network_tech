@@ -35,8 +35,10 @@ configure terminal
 
   aaa-server AAA_NAME protocol tacacs+
    max-failed-attempts 2
+
   aaa-server AAA_NAME (inside) host 1.2.3.4
    key *****
+
   user-identity default-domain LOCAL
   crypto ipsec security-association pmtu-aging infinite
 
@@ -58,9 +60,13 @@ configure terminal
   ip verify reverse-path interface outside
 
   interface vlan 0
+
   interface gigabitethernet 0
+
   interface tengigabitethernet 0
+
   interface fastethernet 0
+
   interface port-channel 0
     description blah 
     nameif outside
@@ -72,7 +78,7 @@ configure terminal
     no shutdown
     shutdown
     ipv6 nd suppress-ra
-   
+    
 
   object-group service whatever
     description blah
@@ -82,8 +88,7 @@ configure terminal
     service-object tcp destination range 4 5
     service-object icmp
     group-object group_name
-  
-   
+
   object-group network NAME
    description blah
    network-object host 1.2.3.4
@@ -228,29 +233,33 @@ configure terminal
    parameters
     message-length maximum client auto
     message-length maximum 123
-  policy-map global_policy
-   class inspection_default
-    inspect dns dns_policy_map
-    inspect ftp
-    inspect h323 h225
-    inspect h323 ras
-    inspect ip-options
-    inspect netbios
-    inspect rsh
-    inspect rtsp
-    inspect skinny
-    inspect esmtp
-    inspect sqlnet
-    inspect sunrpc
-    inspect tftp
-    inspect sip
-    inspect xdmcp
-    inspect icmp
-    inspect icmp error
-   class class-default
-    user-statistics accounting
-    set connection embryonic-conn-max 1000
 
+
+  policy-map global_policy
+    class inspection_default
+      inspect dns dns_policy_map
+      inspect ftp
+      inspect h323 h225
+      inspect h323 ras
+      inspect ip-options
+      inspect netbios
+      inspect rsh
+      inspect rtsp
+      inspect skinny
+      inspect esmtp
+      inspect sqlnet
+      inspect sunrpc
+      inspect tftp
+      inspect sip
+      inspect xdmcp
+      inspect icmp
+      inspect icmp error
+      exit
+    class class-default
+      user-statistics accounting
+      set connection embryonic-conn-max 1000
+      exit
+    exit
   service-policy global_policy global
 
 exit
