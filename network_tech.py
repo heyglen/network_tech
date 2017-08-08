@@ -7,7 +7,7 @@ import sublime_plugin
 
 logger = logging.getLogger('net_tech')
 logger.handlers = []
-logger.setLevel(logging.WARNING)
+logger.setLevel(logging.DEBUG)
 
 
 class DotDict(dict):
@@ -140,6 +140,58 @@ for tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'hr', 'div', 'span', 'li']:
         classmethod(lambda cls, text='': cls._tag(tag, content=text))
     )
 
+class SelectionUtility:
+
+    @classmethod
+    def _get_word_on_cursor(cls, view, point):
+        if isinstance(point, sublime.Region):
+            point = point.end()
+        return view.word(point)
+
+    @classmethod
+    def _get_line_on_cursor(cls, view, point):
+        if isinstance(point, sublime.Region):
+            point = point.end()
+        return view.line(point)
+
+    @classmethod
+    def left_word(cls, view, region, repeat=1):
+        return cls._expand_words(
+            view,
+            region,
+            classes=sublime.CLASS_WORD_END,
+            repeat=repeat,
+            forward=False,
+        )
+
+    @classmethod
+    def right_word(cls, view, region, repeat=1):
+        return cls._expand_words(
+            view,
+            region,
+            classes=sublime.CLASS_WORD_START,
+            repeat=repeat,
+            forward=True,
+        )
+
+    @classmethod
+    def _expand_words(cls, view, region, classes, repeat=1, forward=True):
+        word = cls._get_word_on_cursor(view, region)
+        line = cls._get_line_on_cursor(view, region)
+        current_word = word
+        for expand in range(repeat):
+            next_word_end = view.find_by_class(
+                current_word.end() if forward else current_word.begin(),
+                forward=forward,
+                classes=classes
+            )
+            next_word = cls._get_word_on_cursor(view, next_word_end)
+            if line == cls._get_line_on_cursor(view, next_word):
+                current_word = cls._get_word_on_cursor(view, next_word_end)
+
+        start = word.begin() if forward else current_word.begin()
+        end = current_word.end() if forward else word.end()
+        return sublime.Region(start, end)
 
 class Network:
     prefix_removals = [
@@ -150,22 +202,23 @@ class Network:
 
     @classmethod
     def get_network_on_cursor(cls, region, view):
-        point = region.end()
-        line_region = view.line(point)
-        word_region = view.word(point)
-        previous_word_end = view.find_by_class(
-            word_region.begin(),
-            forward=False,
-            classes=sublime.CLASS_WORD_END
-        )
-        previous_word_region = view.word(previous_word_end)
-        network_region = sublime.Region(
-            previous_word_region.begin(),
-            word_region.end()
-        )
-        if previous_word_region.end() < line_region.begin():
-            network_region = word_region
-        return view.substr(network_region)
+        network = None
+        selection_functions = [
+            lambda view, region: SelectionUtility.left_word(view, region),
+            lambda view, region: SelectionUtility.right_word(view, region),
+            lambda view, region: SelectionUtility.left_word(view, region, repeat=2),
+            lambda view, region: SelectionUtility.right_word(view, region, repeat=2),
+            lambda view, region: SelectionUtility.right_word(view, SelectionUtility.left_word(view, region).begin(), repeat=2),
+        ]
+        for index, selection_function in enumerate(selection_functions):
+            selected = selection_function(view, region)
+            network_region = view.substr(selected)
+            logger.debug('Possible network under cursor: #{} {}'.format(index, network_region))
+            current_network = cls.get(network_region)
+            if current_network:
+                if network is None or current_network.prefixlen < network.prefixlen:
+                    network = current_network
+        return str(network)
 
 
     @classmethod
@@ -373,12 +426,11 @@ class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
             match_text = Network.get_network_on_cursor(region, self.view)
             match = ip.v4.network.search(match_text)
             if match:
-                logger.debug('Matched {}'.format(match.groups()))
                 ip_address = match.group('ip')
                 prefix_length = match.group('prefix_length')
                 netmask = match.group('netmask')
                 if prefix_length or netmask:
-                    logger.debug('Net match', match.groups())
+                    logger.debug('Network Regexp Match: {}'.format(match.groups()))
                     network = ipaddress.ip_interface(
                         '/'.join([ip_address, (prefix_length or netmask)])
                     )
