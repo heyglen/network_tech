@@ -3,7 +3,6 @@
 ! On firewall01
 # Device firewall02
 
-
 changeto context fw-context-1
 copy running-config startup-config
 terminal width 511
@@ -83,12 +82,13 @@ configure terminal
     service-object tcp destination range 4 5
     service-object icmp
     group-object group_name
-
+  
    
   object-group network NAME
    description blah
    network-object host 1.2.3.4
    group-object group_name
+
 
 
   object-group service NAME tcp-udp

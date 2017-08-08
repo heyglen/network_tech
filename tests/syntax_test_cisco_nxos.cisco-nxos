@@ -36,7 +36,8 @@ configure terminal
     20 deny ip 1.2.3.0/24 1.2.3.0/24
     10 permit ip any 1.2.3.0/24
     10 permit ip any any
-   exit
+    exit
+
   
   interface Ethernet 100/0/1
     description this is a port
