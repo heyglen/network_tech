@@ -1,6 +1,6 @@
 New Features:
    
-    Network aware search:
+    Network aware IPv4 searching:
     
 
         Command Pallet -> Network: Find
@@ -11,19 +11,21 @@ New Features:
             Netmask: 1.2.3.0 255.255.255.0
             Wildcard: 1.2.3.0 0.0.0.255
 
-    Popup subnetting information on input of networks in the formats:
+        The default search input is network or ip under the cursor by default.
 
-        Supported on Cisco NXOS, IOS, ASA & ACE Syntax
+    Cisco NXOS, IOS, ASA & ACE Syntax:
+    
+        Popup subnetting information on input of networks in the formats:
 
-        CIDR: 1.2.3.0/24
-        Netmask: 1.2.3.0 255.255.255.0
-        Wildcard: 1.2.3.0 0.0.0.255
+            CIDR: 1.2.3.0/24
+            Netmask: 1.2.3.0 255.255.255.0
+            Wildcard: 1.2.3.0 0.0.0.255
 
-    Only valid subnet masks will highlight
+        Only valid subnet masks will highlight
 
-    Autoindent when changing configuration mode
-        
-        Supported on Cisco NXOS, IOS & ASA Syntax
+    Cisco NXOS, IOS & ASA Syntax
+
+        Autoindent when changing configuration mode
 
     Cisco NXOS / IOS Syntax:
 
@@ -58,7 +60,7 @@ New Features:
         policy-map
 
         ssl ciphers
-        
+
         aaa
 
 Bugfixes:

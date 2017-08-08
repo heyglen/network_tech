@@ -7,7 +7,7 @@ import sublime_plugin
 
 logger = logging.getLogger('net_tech')
 logger.handlers = []
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARNING)
 
 
 class DotDict(dict):
@@ -218,7 +218,7 @@ class Network:
             if current_network:
                 if network is None or current_network.prefixlen < network.prefixlen:
                     network = current_network
-        return str(network)
+        return str(network) if network else ''
 
 
     @classmethod
@@ -343,7 +343,6 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         under_cursor = Network.get_network_on_cursor(self.view.sel()[0], self.view)
-        # network = Network.get(under_cursor)
         default_search = under_cursor if under_cursor else ''
         self._find_input_panel(network=default_search)
 
@@ -423,6 +422,8 @@ class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
     # def on_query_completions(self, prefix, locations):
     def on_modified_async(self):
         for region in self.view.sel():
+            if not self.view.match_selector(region.end(), 'text.network'):
+                continue
             match_text = Network.get_network_on_cursor(region, self.view)
             match = ip.v4.network.search(match_text)
             if match:
@@ -435,9 +436,13 @@ class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
                         '/'.join([ip_address, (prefix_length or netmask)])
                     )
                     if network:
+                        network_address = str(network.network.network_address)
+                        broadcast_address = str(network.network.broadcast_address)
+                        if network_address == broadcast_address:
+                            continue
                         content = ''.join([
-                            Html.span('Network: ' + str(network.network.network_address)),
-                            Html.span('Broadcast: ' + str(network.network.broadcast_address)),
+                            Html.span('Network: ' + network_address),
+                            Html.span('Broadcast: ' + broadcast_address),
                             Html.span('Masks:'),
                             Html.unordered_list(Network.masks(network)),
                         ])
