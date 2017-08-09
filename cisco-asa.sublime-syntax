@@ -311,29 +311,16 @@ contexts:
     - match: '(?=.)'
       pop: true
     
-  pop_context_twice:
-    - match: |
-        (?xm)
-        (?:
-          (?:(^\s*$)+)
-        )
-      set:
-        - pop_context
-        - pop_context
-
-
   pop_context_on_unknown:
     # - match: '(?=^\s*[^{{comment}}\s].*$)'
     - match: |
         (?xm)
         (?:
-          (?:(^\s*$)+)
+          (?:(^(?:(?:\s)|(!))*$)+)
         )
-      # (?=^\s*[^{{comment}}\s].*)
       pop: true
-      # push:
-      #   - scope: text.network.cisco.asa text.network.cisco.configure_terminal
-      #     clear_scopes: true
+      captures:
+        1: comment.line
 
   removal:
     - meta_include_prototype: false
@@ -770,7 +757,6 @@ contexts:
         - meta_content_scope: text.network.cisco.asa.policy_map.global
         - include: policy_map_class
         - include: pop_context_on_unknown
-        # - include: pop_context_twice
 
   policy_map_inspect_dns:
     - match: |

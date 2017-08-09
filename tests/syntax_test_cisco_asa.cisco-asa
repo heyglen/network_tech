@@ -72,7 +72,7 @@ configure terminal
     nameif outside
     security-level 0
     ipv6 address ::1/64
-    ipv6 address ::1/64 standby ::2
+    ipv6 address 12ab:34cd:56ef::a/64 standby 12ab:34cd:56ef::b
     ip address 1.2.3.4 255.255.255.0
     ip address 1.2.3.4 255.255.255.0 standby 1.2.3.5
     no shutdown
