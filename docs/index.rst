@@ -36,3 +36,4 @@ Table of Contents
    snippets
    context_info
    Search <network_search>
+   Bugs & Feature Requests <feature_requets_and_bugs>
