@@ -6,6 +6,8 @@ Configuration snippets and autocompetions are suggested based off the syntax and
 Mask Conversions
 ----------------
 
+Manually Trigger the Completions Popup: :kbd:`ctrl-space`
+
 .. image:: /_images/mask_conversions_demo.gif
 
 There are mask completions that convert between the different IPv4 mask types:
@@ -23,4 +25,4 @@ There are mask completions that convert between the different IPv4 mask types:
 
 The conversions are activated by typing the mask or opening the completions menu:
 
- - Windows: :kbd:`Ctrl-Space`
+ - Windows: :kbd:`ctrl-space`

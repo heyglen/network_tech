@@ -36,11 +36,3 @@ Table of Contents
    snippets
    context_info
    Search <network_search>
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
