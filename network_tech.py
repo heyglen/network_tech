@@ -1,7 +1,6 @@
 import re
 import ipaddress
 import logging
-import codecs
 
 import sublime
 import sublime_plugin
@@ -448,6 +447,7 @@ sublime_ip = DotDict()
 sublime_re_pattern_sub = re.compile(r'P<[^>]+>')
 CompiledReType = type(sublime_re_pattern_sub)
 
+
 def _clean_regexp(item):
     result = None
     if isinstance(item, dict):
@@ -473,6 +473,7 @@ class SearchHistory(list):
             last = self[0]
         return last
 
+
 class Html:
 
     @classmethod
@@ -497,6 +498,7 @@ for tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'hr', 'div', 'span', 'li']:
         tag,
         classmethod(lambda cls, text='': cls._tag(tag, content=text))
     )
+
 
 class SelectionUtility:
 
@@ -561,6 +563,7 @@ class SelectionUtility:
         end = current_word.end() if forward else word.end()
         return sublime.Region(start, end)
 
+
 class Network:
     prefix_removals = [
         'host',
@@ -572,22 +575,59 @@ class Network:
     def info(cls, network):
         """ Returns HTML formated information about the network """
         content = ''
+        neighbors = cls.get_neighbors(network)
+        logger.debug('Neighbors {}'.format(len(neighbors)))
+        before, _, after = cls.get_neighbors(network)
         network_address = str(network.network.network_address)
         broadcast_address = str(network.network.broadcast_address)
         if network_address != broadcast_address:
             if network.version is 4:
-                    content = ''.join([
-                        Html.span('# Addresses: {}'.format(network.network.num_addresses)),
-                        Html.span('Network: ' + network_address),
-                        Html.span('Broadcast: ' + broadcast_address),
-                        Html.span('Masks:'),
-                        Html.unordered_list(Network.masks(network)),
-                    ])
+                content = ''.join([
+                    Html.span('Network: {}'.format(network.network)),
+                    Html.span('Broadcast: {}'.format(broadcast_address)),
+                    Html.span('# Addresses: {}'.format(network.network.num_addresses)),
+                    Html.span('Masks:'),
+                    Html.unordered_list(Network.masks(network)),
+                ])
             else:
                 content = ''.join([
                     Html.span('Network: {}/{}'.format(network_address, network.network.prefixlen)),
                 ])
+            if before or after:
+                content += Html.span('Neighboring Networks')
+            if after:
+                content += Html.span(' Next: {}'.format(after.network))
+            if before:
+                content += Html.span(' Previous: {}'.format(before.network))
         return content
+
+    @classmethod
+    def _neighboring_network(cls, interface, after=True):
+        prefix = interface.network.prefixlen
+        network = interface.network
+        try:
+            neighbor = network.broadcast_address + 1 if after else network.network_address - 1
+        except ipaddress.AddressValueError:
+            return None
+        return ipaddress.ip_interface('{}/{}'.format(neighbor, prefix))
+
+    @classmethod
+    def get_neighbors(cls, networks, neighbors=1):
+        if not isinstance(networks, list):
+            networks = [networks]
+        if len(networks) is 0:
+            raise ValueError('No network defined')
+
+        before = cls._neighboring_network(networks[0], after=False)
+        after = cls._neighboring_network(networks[-1], after=True)
+
+        networks.insert(0, before)
+        networks.append(after)
+
+        remaining_neighbors = neighbors - 1
+        if remaining_neighbors > 0:
+            networks = cls.get_neighbors(networks, neighbors=remaining_neighbors)
+        return networks
 
     @classmethod
     def get_network_on_cursor(cls, region, view):
@@ -598,7 +638,9 @@ class Network:
             lambda view, region: SelectionUtility.right_word(view, region),
             lambda view, region: SelectionUtility.left_word(view, region, repeat=2),
             lambda view, region: SelectionUtility.right_word(view, region, repeat=2),
-            lambda view, region: SelectionUtility.right_word(view, SelectionUtility.left_word(view, region).begin(), repeat=2),
+            lambda view, region: SelectionUtility.right_word(
+                view, SelectionUtility.left_word(view, region).begin(), repeat=2
+            ),
         ]
         for index, selection_function in enumerate(selection_functions):
             selected = selection_function(view, region)
@@ -618,7 +660,6 @@ class Network:
                         network_region
                     ))
         return str(network) if network else ''
-
 
     @classmethod
     def masks(cls, interface):
@@ -651,7 +692,7 @@ class Network:
             netmask = match.group('netmask')
             wildcard = match.group('wildcard')
             mask = prefix_length or netmask or wildcard
-            
+
             try:
                 if mask:
                     network = ipaddress.ip_interface('/'.join([ip_address, mask]))
@@ -765,7 +806,6 @@ class FindSubnetCommand(sublime_plugin.TextCommand):
 class FindAllSubnetsCommand(sublime_plugin.TextCommand):
 
     def get_network(self, networks, find_all=False):
-
         search_networks = {Network.get(n) for n in networks.split(',')}
 
         current_regions = self.view.sel()
@@ -837,6 +877,8 @@ class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
             if self.view.is_popup_visible():
                 self.view.hide_popup()
             self.network_info(point=point, location=point)
+        else:
+            self.view.hide_popup()
 
     def on_modified_async(self):
         self.network_info()

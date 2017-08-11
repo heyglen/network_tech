@@ -18,7 +18,7 @@ Supported configurations:
 
 Set the syntax from the command pallet
 
-    :menuselection:`Tools --> Command Pallet` 
+    1. :menuselection:`Tools --> Command Pallet`  **OR**  :kbd:`Ctrl+Shift+p`
 
-    Command: `Set Syntax: Cisco IOS`
+    2. "Set Syntax: Cisco IOS" :kbd:`Enter`
 

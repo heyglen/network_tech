@@ -10,7 +10,6 @@ first_line_match: |
     [#!]
     .*
     (?:
-      (?:router)|
       (?:ios)
     )
 scope: text.network.cisco.ios

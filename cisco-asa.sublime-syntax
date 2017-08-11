@@ -10,8 +10,6 @@ first_line_match: |
     [#!]
     .*
     (?:
-      (?:firewall)|
-      (?:fw)|
       (?:asa)
     )
 scope: text.network.cisco.asa

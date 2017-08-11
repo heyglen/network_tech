@@ -1,92 +1,140 @@
-New Features:
+## [2.2.0] - 2017-08-11
+
+### Changed
+
+- Cisco ASA:
+
+    - Use 'exit' command when changing configuration modes:
+
+        *Good*
+
+        ```
+        configure terminal
+          object-group network whatever
+            network-object host 1.2.3.4
+            exit
+          hostname firewall01
+          exit
+        write
+        ```
+        *Bad*
+
+        ```
+        configure terminal
+          object-group network whatever
+            network-object host 1.2.3.4
+          hostname firewall01
+        write
+        ```
+
+### Added
    
-    Network aware IPv4 searching:
+- Network aware IPv4 searching:
+
+    Command Pallet -> Network: Find
+    Command Pallet -> Network: Find All
+
+    Search using any format:
+        CIDR: 1.2.3.0/24
+        Netmask: 1.2.3.0 255.255.255.0
+        Wildcard: 1.2.3.0 0.0.0.255
+
+    The default search input is network or ip under the cursor by default.
+
+
+- Cisco NXOS, IOS, ASA & ACE Syntax:
+
+    - Popup subnetting information on input of networks in the formats:
+
+        CIDR: 1.2.3.0/24
+        Netmask: 1.2.3.0 255.255.255.0
+        Wildcard: 1.2.3.0 0.0.0.255
+
+      Only valid subnet masks will highlight
+
+    - Automatically add a newline at end of file on save
+
+- Set Cisco ASA syntax if the first line is a comment with 'asa' in it
+- Set Cisco ASA syntax if the first line is a comment with 'asa' in it
+
+- Set Cisco NXOS syntax if the first line is a comment with 'nxos' or 'nexus' in it
+
+- Set Cisco IOS syntax if the first line is a comment with 'ios' in it
+
+- Set Cisco ACE syntax if the first line is a comment with 'ace' in it
+
+- Cisco NXOS, IOS & ASA Syntax
     
+    - Autoindent when changing configuration mode
 
-        Command Pallet -> Network: Find
-        Command Pallet -> Network: Find All
+- Cisco NXOS / IOS Syntax:
 
-        Search using any format:
-            CIDR: 1.2.3.0/24
-            Netmask: 1.2.3.0 255.255.255.0
-            Wildcard: 1.2.3.0 0.0.0.255
+    - Interface configuration mode snippets
 
-        The default search input is network or ip under the cursor by default.
+- Cisco IOS Syntax:
 
-    Cisco NXOS, IOS, ASA & ACE Syntax:
+    - Accepts only valid wildcard masks on ACL ACEs
+
+- Cisco ASA 
+
+    - Highlighting
+
+        - packet-tracer
+
+        - object-group icmp-type
+        
+        - interface ipv6 nd suppress-ra
+
+        - tftp server
+
+        - pager lines
+
+        - logging message id levels
+
+        - timeouts
+
+        - enable passwords
+
+        - domain-name
+
+        - banner exec text
+
+        - policy-map
+
+        - ssl ciphers
+
+        - aaa
+
+    - Snippets
+        
+        - packet-tracer
+
+    - Bugfix
+
+### Bugfixes
+
+- Cisco IOS / NXOS Syntax:
+
+    - Highlighting
+
+        - ACL ACE 'any'
+
+        - comments
+
+    - Snippets
     
-        Popup subnetting information on input of networks in the formats:
+        - comment text no longer offers completions
 
-            CIDR: 1.2.3.0/24
-            Netmask: 1.2.3.0 255.255.255.0
-            Wildcard: 1.2.3.0 0.0.0.255
+- Cisco ASA:
 
-        Only valid subnet masks will highlight
-  
-        Automatically add a newline at end of file on save
+    - Snippets
+      
+        - object-group and object definition no longer offers as a completion in an ACL
 
-    Cisco NXOS, IOS & ASA Syntax
-
-        Autoindent when changing configuration mode
-
-    Cisco NXOS / IOS Syntax:
-
-        Interface configuration mode snippets
-
-    Cisco IOS Syntax:
-
-        Accepts only valid wildcard masks on ACL ACEs
-
-    Cisco ASA Syntax:
-
-        packet-tracer highlighting and completions
-
-        object-group icmp-type support
-
-        ipv4 nd suppress-ra on interfaces
-
-        tftp server
-
-        pager lines
-
-        logging message id levels
-
-        timeouts
-
-        enable passwords
-
-        domain-name
-
-        banner exec text
-
-        policy-map
-
-        ssl ciphers
-
-        aaa
-
-Bugfixes:
-
-    Cisco IOS / NXOS Syntax:
-
-        ACL ACE 'any' syntax bugfix
-
-        Improved comment matching
-
-        No autocompleted commands on description and comment text 
+    - Highlighting
     
-    Cisco IOS / NXOS / ACE / ASA Syntax:
+        - ACLs log keyword
 
-        Syntax detection using first line on open
+        - Numeric log levels in ACLs
 
-    Cisco ASA:
-
-        tweaked syntax context changing logic
-
-        object-group and object definition completions will not be suggested when creating an ACL
-
-        Bug in log statement in ACLs
-
-        Support for numeric log levels in ACLs
-
-        Matches more tcp port names
+        - Missing named tcp ports
