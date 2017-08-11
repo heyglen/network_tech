@@ -24,6 +24,7 @@ Quick Start
 
 .. image:: /_images/cisco_ios_demo.gif
 
+😎
 
 Table of Contents
 =================
