@@ -6,8 +6,30 @@
 Welcome to Network Tech's documentation!
 ========================================
 
+Quick Start
+===========
+
+
+1. Install Sublime Text 3's `Package Manager <https://packagecontrol.io/installation>`_
+
+2. :menuselection:`Sublime Text 3 --> Tools --> Command Pallet`
+
+3. "Package Control: Install Package" :kbd:`enter`
+
+4. "Network Tech" :kbd:`enter`
+
+5. :menuselection:`Tools --> Command Pallet`
+
+6. "Set Syntax: Cisco IOS" :kbd:`enter`
+
+.. image:: /_images/cisco_ios_demo.gif
+
+
+Table of Contents
+=================
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    install
    syntax
