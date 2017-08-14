@@ -35,15 +35,17 @@ configure terminal
 
   aaa-server AAA_NAME protocol tacacs+
    max-failed-attempts 2
-
+   exit
   aaa-server AAA_NAME (inside) host 1.2.3.4
    key *****
+   exit
 
   user-identity default-domain LOCAL
   crypto ipsec security-association pmtu-aging infinite
 
   vlan 1
     name asdf
+   exit
 
   hostname firewall
 
@@ -53,6 +55,7 @@ configure terminal
     allocate-interface Port-channel42.42
     allocate-interface Port-channel42.42-Port-channel42.42
     config-url disk0:/firewall.cfg   
+   exit
 
   password encryption aes
   passwd SECRET encrypted
@@ -60,12 +63,16 @@ configure terminal
   ip verify reverse-path interface outside
 
   interface vlan 0
+   exit
 
   interface gigabitethernet 0
+   exit
 
   interface tengigabitethernet 0
+   exit
 
   interface fastethernet 0
+   exit
 
   interface port-channel 0
     description blah 
@@ -78,6 +85,7 @@ configure terminal
     no shutdown
     shutdown
     ipv6 nd suppress-ra
+   exit
     
 
   object-group service whatever
@@ -88,11 +96,13 @@ configure terminal
     service-object tcp destination range 4 5
     service-object icmp
     group-object group_name
+   exit
 
   object-group network NAME
    description blah
    network-object host 1.2.3.4
    group-object group_name
+   exit
 
 
 
@@ -102,15 +112,18 @@ configure terminal
    port-object range 4 5
    group-object group_name
    port-object eq 2
+   exit
    
   object network host-1.2.3.4
    description blah
    host 1.2.3.4
+   exit
 
   object network obj-1.2.3.1-255
    description blah
    range 1.2.3.1 1.2.3.255
    nat (inside,outside) static 1.2.3.4
+   exit
 
   object network subnet-1.2.3.0_24
    description blah
@@ -121,10 +134,12 @@ configure terminal
    description blah
    protocol-object udp
    protocol-object tcp
+   exit
 
   object network obj-www.fqdn.com
    description blah
    fqdn www.fqdn.com
+   exit
 
 
   object service tcp_1234
@@ -132,6 +147,7 @@ configure terminal
    service tcp destination range 1 2
    service tcp destination eq 1234
    service udp source eq 1234
+   exit
 
 
   access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
@@ -233,6 +249,8 @@ configure terminal
    parameters
     message-length maximum client auto
     message-length maximum 123
+   exit
+   exit
 
 
   policy-map global_policy

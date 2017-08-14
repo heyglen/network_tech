@@ -589,7 +589,7 @@ contexts:
             12: string.unquoted             # nat mapped
             13: support.constant            # nat static
             14: constant.numeric            # nat ip
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   object_group_protocol:
     - match: '{{scope_object_group_protocol}}'
@@ -614,7 +614,7 @@ contexts:
           captures:
             1: support.constant             # protocol-object
             2: constant.numeric             # protocol
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   object_service:
     - match: '{{scope_object_service}}'
@@ -644,7 +644,7 @@ contexts:
             6: support.constant             # operator
             7: constant.numeric             # operator port
             8: constant.numeric             # operator port
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   object_group_incomplete:
     - match: '^\s*object-group\s+\S+$'
@@ -677,7 +677,7 @@ contexts:
             3: constant.numeric             # ip
             4: constant.numeric             # network
             5: constant.numeric             # subnet mask
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   aaa_server_protocol:
     - match: |
@@ -700,7 +700,7 @@ contexts:
             1: support.constant
             2: constant.numeric             
 
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   aaa_server_host:
     - match: |
@@ -724,7 +724,7 @@ contexts:
             1: support.constant
             2: string.unquoted             
 
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
 
   policy_map:
@@ -754,7 +754,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.asa.policy_map.global
         - include: policy_map_class
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   policy_map_inspect_dns:
     - match: |
@@ -771,7 +771,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.asa.policy_map.inspect.dns
         - include: policy_map_inspect_dns_parameters
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   policy_map_inspect_dns_parameters:
     - match: |
@@ -783,7 +783,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.asa.policy_map.inspect.dns.parameters
         - include: dns_inspection_message_length
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   dns_inspection_message_length:
     - match: |
@@ -819,7 +819,7 @@ contexts:
         - include: policy_map_class_inspect
         - include: policy_map_class_user_statistics
         - include: policy_map_class_set
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   policy_map_class_inspect:
     - match: |
@@ -835,7 +835,7 @@ contexts:
         2: constant.numeric     # dns map
         3: string.unquoted      # dns map name
         4: constant.numeric     # inspect protocol
-    - include: pop_context_on_unknown
+    # - include: pop_context_on_unknown
 
   policy_map_class_user_statistics:
     - match: |
@@ -856,7 +856,7 @@ contexts:
         2: support.constant     # connection
         3: support.constant     # embryonic-conn-max
         4: constant.numeric     # embryonic-conn-max number
-    - include: pop_context_on_unknown
+    # - include: pop_context_on_unknown
 
   policy_map_class_set:
     - match: |
@@ -869,7 +869,7 @@ contexts:
       captures:
         1: support.constant     # user-statistics
         2: constant.numeric     # accounting
-    - include: pop_context_on_unknown
+    # - include: pop_context_on_unknown
 
   aaa:
     - match: |
@@ -965,7 +965,7 @@ contexts:
             6: constant.numeric             # target
             7: support.constant             # range
             8: constant.numeric             # target range
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   object_group_icmp:
     - match: '\s*(object-group)\s+(icmp-type)\s+(\S+)'
@@ -989,7 +989,7 @@ contexts:
             1: support.constant             # port-object
             2: support.constant             # operator
             3: constant.numeric             # icmp_type
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   access_list:
     - include: access_list_cached_log_flows
@@ -1570,7 +1570,7 @@ contexts:
         captures:
           1: support.constant
           2: string.unquoted
-      - include: pop_context_on_unknown
+      # - include: pop_context_on_unknown
 
   context:
     - match: '{{scope_context}}'
@@ -1608,7 +1608,7 @@ contexts:
           4: support.constant
           5: entity.other.attribute-name
           6: constant.numeric
-      - include: pop_context_on_unknown
+      # - include: pop_context_on_unknown
 
   fragment_chain:
     - match: '^\s*(fragment\s+chain)\s+(\d+)\s+(\S+)'
@@ -1711,7 +1711,7 @@ contexts:
           15: entity.other.attribute-name               # nameif name
           16: support.constant                          # security-level
           17: constant.numeric                          # security-level id
-      - include: pop_context_on_unknown
+      # - include: pop_context_on_unknown
 
   show:
     - include: show_vlan
