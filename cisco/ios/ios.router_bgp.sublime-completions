@@ -1,5 +1,5 @@
 {
-  "scope": "text.network.cisco.bgp & text.network.cisco.ios",
+  "scope": "text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco.bgp & -text.network.cisco.partial & - (text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco.bgp text.network.cisco)",
   "completions": [
         { 
             "trigger": "address-family\tipv4", 

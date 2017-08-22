@@ -257,16 +257,16 @@ contexts:
 
   configure_terminal:
     - match: '{{scope_configure_terminal}}'
-      with_prototype:
-        - include: do_show
-        - include: scope
+      # with_prototype:
+      #   - include: do_show
+      #   - include: scope
       captures:
         0: cisco.scope
         1: variable.parameter
         2: support.constant
-      push: 
-        - meta_content_scope: text.network.cisco.configure_terminal
-        - include: configure_terminal_scope
+      # push: 
+      #   - meta_content_scope: text.network.cisco.configure_terminal
+      #   - include: configure_terminal_scope
   
   configure_terminal_scope:
     - include: aaa

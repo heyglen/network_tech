@@ -164,7 +164,6 @@ contexts:
     - include: comment
     - include: pipe
     - include: scope
-    # - include: partials
 
   scope:
     - include: removal
@@ -240,16 +239,16 @@ contexts:
 
   configure_terminal:
     - match: ^\s*(?:(configure)\s*(terminal))
-      with_prototype:
-        - include: do_show
-        - include: scope
+      # with_prototype:
+      #   - include: do_show
+      #   - include: scope
       captures:
         0: cisco.scope
         1: variable.parameter
         2: support.constant
-      push: 
-        - meta_content_scope: text.network.cisco.configure_terminal
-        - include: configure_terminal_scope
+      # push: 
+        # - meta_content_scope: text.network.cisco.configure_terminal
+        # - include: configure_terminal_scope
 
   configure_terminal_scope:
     - include: bgp
@@ -385,6 +384,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.acl.standard
         - include: standard_ace
+        - include: partials
         # - include: pop_context_on_unknown
 
   standard_ace:
@@ -846,7 +846,7 @@ contexts:
           26: constant.numeric            # channel-group id
           27: support.constant            # channel-group mode
           28: support.constant            # channel-group mode active
-      # - include: pop_context_on_unknown
+      - include: partials
 
   standby:
     - match: |

@@ -177,7 +177,10 @@
             "trigger": "object-group\tudp",
             "contents": "object-group service ${1:name} udp\n    $0\n exit"
         },
-
+        { 
+            "trigger": "hostname\thostname",
+            "contents": "hostname ${1:HOSTNAME}"
+        },
     ]
 }
 

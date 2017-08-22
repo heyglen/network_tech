@@ -1,6 +1,5 @@
 # cisco ios
 
-
 write
 show running-config | include something ! Inline comment
 
@@ -38,122 +37,118 @@ show standby vlan1 brief
 show running-config
 show startup-config
 
-! Line comment
-do show ipv6 route vrf NAME 1::1
 
-ip prefix-list NAME seq 10 permit 1.2.3.0/24
-ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 1
-ip prefix-list NAME seq 10 permit 1.2.3.0/24 le 1
-ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 2 le 1
-ip prefix-list NAME seq 10 deny 0.0.0.0/0
-ipv6 prefix-list NAME seq 10 permit ::/64
-ipv6 route vrf NAME ::/64 vlan0 ::1
-ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 name asdf permanent
-ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 track 2
-ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 tag 2
-ip route 1.2.3.0 255.255.255.0 1.1.1.1 name NAME
-ipv6 unicast-routing
+configure terminal
+
+  ! Line comment
+  do show ipv6 route vrf NAME 1::1
+
+  ip prefix-list NAME seq 10 permit 1.2.3.0/24
+  ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 1
+  ip prefix-list NAME seq 10 permit 1.2.3.0/24 le 1
+  ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 2 le 1
+  ip prefix-list NAME seq 10 deny 0.0.0.0/0
+  ipv6 prefix-list NAME seq 10 permit ::/64
+  ipv6 route vrf NAME ::/64 vlan0 ::1
+  ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 name asdf permanent
+  ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 track 2
+  ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 tag 2
+  ip route 1.2.3.0 255.255.255.0 1.1.1.1 name NAME
+  ipv6 unicast-routing
 
 
-default interface Vlan0
+  default interface Vlan0
 
-vlan 1
-  name VLAN-1
+  vlan 1
+    name VLAN-1
   exit
   
-hostname example
-vrf upgrade-cli multi-af-mode common-policies vrf NAME
-vrf upgrade-cli multi-af-mode non-common-policies force
-vrf upgrade-cli multi-af-mode common-policies force
-vrf upgrade-cli multi-af-mode common-policies
+  hostname example
+  vrf upgrade-cli multi-af-mode common-policies vrf NAME
+  vrf upgrade-cli multi-af-mode non-common-policies force
+  vrf upgrade-cli multi-af-mode common-policies force
+  vrf upgrade-cli multi-af-mode common-policies
 
-ipv6 general-prefix NNIT-MGMT ::/0
+  ipv6 general-prefix NNIT-MGMT ::/0
 
-! Line comment
-ip access-list extended NAME ! This is a comment
- 2 permit tcp any any eq bgp
- permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
- permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 established
- permit tcp host 1.2.3.4 1.2.3.0 0.0.0.255 established
- permit tcp host 1.2.3.4 host 1.2.3.0
- deny ip any any
- permit icmp any any
+  ! Line comment
+  ip access-list extended NAME ! This is a comment
+   2 permit tcp any any eq bgp
+   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
+   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 established
+   permit tcp host 1.2.3.4 1.2.3.0 0.0.0.255 established
+   permit tcp host 1.2.3.4 host 1.2.3.0
+   deny ip any any
+   permit icmp any any
   exit
-
-vrf definition NAME
-  description management
-  rd 1.2.3.4:5
-  route-target export 1.2.3.4:5
-  route-target import 1.2.3.4:5
-  address-family ipv4
-    export map name
+  
+  vrf definition NAME
+    description management
+    rd 1.2.3.4:5
+    route-target export 1.2.3.4:5
+    route-target import 1.2.3.4:5
+    address-family ipv4
+      export map name
     exit
-  ! A comment
-  address-family ipv6
-    exit
-  exit
-
-ip access-list standard NAME
-  10 permit 1.2.3.0 0.0.0.255
-  permit 1.2.3.0 0.0.0.255
-  20 deny 1.2.3.0 0.0.0.255
-  deny any
-  exit
-
-
-router bgp 123
-  address-family ipv4
-    network 1.2.3.0
-    exit
-  address-family ipv4
-    exit
-  address-family ipv4 vrf NAME
-    exit-address-family
-  address-family ipv4 vrf NAME
-    network 1.2.3.0
-    network 1.2.3.0 mask 255.255.255.0
-    neighbor 1.1.1.1 activate
-    neighbor 1.1.1.1 shutdown
-    neighbor 1.1.1.1 next-hop-self
-    neighbor 1.1.1.1 soft-reconfiguration inbound
-    neighbor 1.1.1.1 soft-reconfiguration outbound
-    neighbor 1.1.1.1 password 1 secret
-    neighbor 1.1.1.1 prefix-list prefix_list in
-    neighbor 1.1.1.1 prefix-list prefix_list out
-    neighbor 1.1.1.1 route-map route_map in
-    neighbor 1.1.1.1 route-map route_map out
-    neighbor 1.1.1.1 inherit peer-policy policy
-    neighbor 1.1.1.1 send-community
-    neighbor 1.1.1.1 remote-as 20
-    neighbor 1.2.3.4 timers 1 2
-    neighbor 1.1.1.1 ttl-security hops 1
-    neighbor 1.1.1.1 description description 
-    neighbor 1.1.1.1 version 4
-    neighbor 1.1.1.1 transport path-mtu-discovery
-    exit
-
-   address-family ipv6 vrf NAME
-    exit
-   address-family ipv6 vrf NAME
-    network ::/0
-    neighbor ::1 activate
-    neighbor ::1 shutdown
-    neighbor ::1 remote-as 1
-    neighbor ::1 ttl-security hops 1
-    neighbor ::1 version 4
-    neighbor ::1 timers 1 2
-    neighbor ::1 route-map NAME in
-    neighbor ::1 route-map NAME out
-    neighbor ::1 inherit peer-policy POLICY
-    neighbor ::1 soft-reconfiguration inbound
-    neighbor ::1 soft-reconfiguration outbound
-    neighbor ::1 transport path-mtu-discovery
+    ! A comment
+    address-family ipv6
     exit
   exit
 
-
-interface Tunnel0
+  ip access-list standard NAME
+   10 permit 1.2.3.0 0.0.0.255
+   permit 1.2.3.0 0.0.0.255
+   20 deny 1.2.3.0 0.0.0.255
+   deny any
   exit
+
+  router bgp 123
+    address-family ipv4
+      network 1.2.3.0
+      exit
+    address-family ipv4 vrf NAME
+      exit-address-family
+    address-family ipv4 vrf NAME
+      network 1.2.3.0
+      network 1.2.3.0 mask 255.255.255.0
+      neighbor 1.1.1.1 activate
+      neighbor 1.1.1.1 shutdown
+      neighbor 1.1.1.1 next-hop-self
+      neighbor 1.1.1.1 soft-reconfiguration inbound
+      neighbor 1.1.1.1 soft-reconfiguration outbound
+      neighbor 1.1.1.1 password 1 secret
+      neighbor 1.1.1.1 prefix-list prefix_list in
+      neighbor 1.1.1.1 prefix-list prefix_list out
+      neighbor 1.1.1.1 route-map route_map in
+      neighbor 1.1.1.1 route-map route_map out
+      neighbor 1.1.1.1 inherit peer-policy policy
+      neighbor 1.1.1.1 send-community
+      neighbor 1.1.1.1 remote-as 20
+      neighbor 1.2.3.4 timers 1 2
+      neighbor 1.1.1.1 ttl-security hops 1
+      neighbor 1.1.1.1 description description 
+      neighbor 1.1.1.1 version 4
+      neighbor 1.1.1.1 transport path-mtu-discovery
+      exit
+    address-family ipv6 vrf NAME
+      exit
+    address-family ipv6 vrf NAME
+      network ::/0
+      neighbor ::1 activate
+      neighbor ::1 shutdown
+      neighbor ::1 remote-as 1
+      neighbor ::1 ttl-security hops 1
+      neighbor ::1 version 4
+      neighbor ::1 timers 1 2
+      neighbor ::1 route-map NAME in
+      neighbor ::1 route-map NAME out
+      neighbor ::1 inherit peer-policy POLICY
+      neighbor ::1 soft-reconfiguration inbound
+      neighbor ::1 soft-reconfiguration outbound
+      neighbor ::1 transport path-mtu-discovery
+      exit
+    exit
+
 
 interface vlan123
   exit
@@ -200,15 +195,13 @@ interface range GigabitEthernet1/1-2
   no shutdown
   shutdown
   exit
-
+  
 
 snmp-server community TEST RO 1
 snmp-server host 1.2.3.4 version 2c TEST
 snmp-server host 1.2.3.4 version 2c TEST
 
-
 line vty 0 4
-
   access-class 42 in vrf-also
   access-class ssh_access in vrf-also
   transport input ssh telnet

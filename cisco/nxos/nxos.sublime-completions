@@ -1,11 +1,10 @@
 {
-    "scope": "text.network.cisco.base.nxos",
+    "scope": "(text.network.cisco.nxos | (text.network.cisco.nxos text.network.cisco.configure_terminal)) & -(text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco) ",
     "completions": [
         { 
             "trigger": "showrunaccess-list\tshow run access-list", 
             "contents": "show run access-list ${1:NAME}"
         },
-
     ]
 }
 

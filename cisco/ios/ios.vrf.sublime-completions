@@ -1,5 +1,5 @@
 {
-  "scope": "text.network.cisco.ios & text.network.cisco.vrf",
+  "scope": "text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco.vrf & - (text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco.vrf text.network.cisco)",
   "completions": [
         { 
             "trigger": "rd\tid", 

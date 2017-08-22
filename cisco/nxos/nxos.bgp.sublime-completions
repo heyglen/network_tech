@@ -1,10 +1,14 @@
 {
-    "scope": "text.network.cisco.bgp.vrf & text.network.cisco.nxos & -text.network.cisco.partial",
+    "scope": "text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.bgp.vrf & - (text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.bgp.vrf text.network.cisco) & -text.network.cisco.partial",
     "completions": [
         "log-neighbor-changes",
         { 
-            "trigger": "ip\thsrp ip", 
-            "contents": "vrf ${1:NAME}\n\t$0\n\texit"
+            "trigger": "address-family\tipv4", 
+            "contents": "address-family ipv4 unicast\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "address-family\tipv6", 
+            "contents": "address-family ipv6 unicast\n\t$0\n\texit"
         },
     ]
 }

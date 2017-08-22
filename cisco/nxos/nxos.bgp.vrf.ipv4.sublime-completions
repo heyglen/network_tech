@@ -1,5 +1,5 @@
 {
-    "scope": "text.network.cisco.bgp.vrf.ipv4_address_family & text.network.cisco.nxos & -text.network.cisco.partial",
+    "scope": "text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.bgp.vrf text.network.cisco.bgp.vrf.ipv4_address_family & - (text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.bgp.vrf text.network.cisco.bgp.vrf.ipv4_address_family text.network.cisco) & -text.network.cisco.partial",
     "completions": [
         { 
             "trigger": "neighbor\tip", 

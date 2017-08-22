@@ -1,6 +1,22 @@
 {
-    "scope": "text.network.cisco.bgp.vrf.ipv4_address_family.neighbor & text.network.cisco.nxos & -text.network.cisco.partial",
+    "scope": "text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.bgp.vrf text.network.cisco.bgp.vrf.ipv4_address_family text.network.cisco.bgp.vrf.ipv4_address_family.neighbor & - (text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.bgp.vrf text.network.cisco.bgp.vrf.ipv4_address_family text.network.cisco.bgp.vrf.ipv4_address_family.neighbor text.network.cisco) & -text.network.cisco.partial",
     "completions": [
+        { 
+            "trigger": "remote-as\tAS", 
+            "contents": "remote-as ${1:0}"
+        },
+        { 
+            "trigger": "prefix-list\tout", 
+            "contents": "prefix-list ${1:NAME} out"
+        },
+        { 
+            "trigger": "prefix-list\tin", 
+            "contents": "prefix-list ${1:NAME} in"
+        },
+        { 
+            "trigger": "password\tpassword", 
+            "contents": "password ${1:3} ${2:PASSWORD}"
+        },
         { 
             "trigger": "inherit\tpeer", 
             "contents": "inherit peer ${1:NAME}"

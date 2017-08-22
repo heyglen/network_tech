@@ -19,66 +19,64 @@ show standby vlan0 brief ! Inline comment
 configure terminal
   ! Line comment
   hostname example
+  exit
 
-exit
 
+hostname example
+logging server 1.2.3.4 6 use-vrf management facility local5
 
-  hostname example
-  logging server 1.2.3.4 6 use-vrf management facility local5
+ipv6 route vrf NAME ::/64 vlan0 ::1
+ip route vrf NAME 1.2.3.0/24 vlan1 1.1.1.1 name asdf permanent
 
-  ipv6 route vrf NAME ::/64 vlan0 ::1
-  ip route vrf NAME 1.2.3.0/24 vlan1 1.1.1.1 name asdf permanent
+default interface Ethernet0/1
+interface Vlan 20
 
-  default interface Ethernet0/1
-  
-  interface Vlan 20
-    shutdown
-   exit
-  
-  ip access-list ACL
-    10 permit ip 1.2.3.0/24 1.2.3.0/24
-    20 deny ip 1.2.3.0/24 1.2.3.0/24
-    10 permit ip any 1.2.3.0/24
-    10 permit ip any any
-    exit
+  shutdown
+ exit
 
-  
-  interface Ethernet 100/0/1
-    description this is a port
-    vrf member NAME
-    switchport
-    switchport mode trunk
-    switchport trunk encapsulation dot1q
-    switchport trunk allowed vlan add 1,2
-    switchport mode trunk
-    switchport mode access
-    switchport access vlan 1
-    switchport 
-    ip redirects
-    ipv6 address ::/64 eui-64
-    ip pim sparse-mode
-    ip arp timeout 42
-    ip arp gratuitous hsrp duplicate
-    ip proxy-arp
-    service-policy type queuing output POLICY
-    spanning-tree port type edge trunk
-    spanning-tree bpduguard enable
-    spanning-tree bpduguard disable
-    spanning-tree portfast edge
-    channel-group 0 mode active
-    channel-protocol lacp
-    vpc 123
+ip access-list ACL
+  10 permit ip 1.2.3.0/24 1.2.3.0/24
+  20 deny ip 1.2.3.0/24 1.2.3.0/24
+  10 permit ip any 1.2.3.0/24
+  10 permit ip any any
+  exit
+
+interface Ethernet 100/0/1
+  description this is a port
+  vrf member NAME
+  switchport
+  switchport mode trunk
+  switchport trunk encapsulation dot1q
+  switchport trunk allowed vlan add 1,2
+  switchport mode trunk
+  switchport mode access
+  switchport access vlan 1
+  switchport 
+  ip redirects
+  ipv6 address ::/64 eui-64
+  ip pim sparse-mode
+  ip arp timeout 42
+  ip arp gratuitous hsrp duplicate
+  ip proxy-arp
+  service-policy type queuing output POLICY
+  spanning-tree port type edge trunk
+  spanning-tree bpduguard enable
+  spanning-tree bpduguard disable
+  spanning-tree portfast edge
+  channel-group 0 mode active
+  channel-protocol lacp
+  vpc 123
+  no shutdown
+  hsrp version 2
+  hsrp 0
+    ip 1.2.3.4
+    priority 0
+    preempt delay minimum 0
+    authentication md5 key-string STRING
+  exit
+  hsrp 0 ipv6
+    ip 0::0
     no shutdown
-    hsrp version 2
-    hsrp 0
-      ip 1.2.3.4
-      priority 0
-      preempt delay minimum 0
-      authentication md5 key-string STRING
-    exit
-    hsrp 0 ipv6
-      ip 0::0
-     no shutdown
     exit
   exit
 
