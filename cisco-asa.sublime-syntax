@@ -12,7 +12,7 @@ first_line_match: |
     (?:
       (?:asa)
     )
-scope: text.network.cisco.asa
+scope: text.network.cisco.asa text.network.cisco.configure_terminal
 
 
 variables:
@@ -234,10 +234,13 @@ variables:
 contexts:
   main:
     - include: enable
+    - include: configure_terminal_scope
 
   prototype:
     - include: pipe
     - include: show
+    - include: do_show
+    - include: scope
     - include: device_comment
     - include: comment
 
@@ -263,42 +266,45 @@ contexts:
         2: support.constant
       push: 
         - meta_content_scope: text.network.cisco.configure_terminal
-        - include: aaa
-        - include: snmp
-        - include: vlan
-        - include: pager
-        - include: logging
-        - include: timeout
-        - include: objects
-        - include: context
-        - include: username
-        - include: hostname
-        - include: ip_route
-        - include: password
-        - include: interface
-        - include: ssl_cipher
-        - include: policy_map
-        - include: domain_name
-        - include: arp_timeout
-        - include: banner_exec
-        - include: access_list
-        - include: tftp_server
-        - include: reverse_path
-        - include: access_group
-        - include: object_group
-        - include: interface_mtu
-        - include: user_identity
-        - include: service_policy
-        - include: fragment_chain
-        - include: ssl_encryption
-        - include: aaa_server_host
-        - include: enable_password
-        - include: ssh_key_exchange
-        - include: monitor_interface
-        - include: protocol_settings
-        - include: aaa_server_protocol
-        - include: crypto_key_generate
-        - include: crypto_ipsec_security_association
+        - include: configure_terminal_scope
+  
+  configure_terminal_scope:
+    - include: aaa
+    - include: snmp
+    - include: vlan
+    - include: pager
+    - include: logging
+    - include: timeout
+    - include: objects
+    - include: context
+    - include: username
+    - include: hostname
+    - include: ip_route
+    - include: password
+    - include: interface
+    - include: ssl_cipher
+    - include: policy_map
+    - include: domain_name
+    - include: arp_timeout
+    - include: banner_exec
+    - include: access_list
+    - include: tftp_server
+    - include: reverse_path
+    - include: access_group
+    - include: object_group
+    - include: interface_mtu
+    - include: user_identity
+    - include: service_policy
+    - include: fragment_chain
+    - include: ssl_encryption
+    - include: aaa_server_host
+    - include: enable_password
+    - include: ssh_key_exchange
+    - include: monitor_interface
+    - include: protocol_settings
+    - include: aaa_server_protocol
+    - include: crypto_key_generate
+    - include: crypto_ipsec_security_association
 
   scope:
     - include: removal
@@ -335,9 +341,10 @@ contexts:
     - match: '^\s*(end)\s*$'
       captures:
         1: comment.block.documentation
-      push:
-        - clear_scopes: true
-        - meta_content_scope: text.network.cisco.asa
+      pop: true
+      # push:
+      #   - clear_scopes: true
+      #     push: text.network.cisco.asa
 
   device_comment:
     - match: |

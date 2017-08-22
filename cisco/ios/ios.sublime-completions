@@ -30,7 +30,6 @@
         "terminal ",
         "traceroute ",
         "undebug ",
-        "write",
         { 
             "trigger": "showipinterfacebrief \tip interface brief", 
             "contents": "show ip interface brief ${1:vlan} ${2:0}"

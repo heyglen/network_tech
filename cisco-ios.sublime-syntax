@@ -12,7 +12,7 @@ first_line_match: |
     (?:
       (?:ios)
     )
-scope: text.network.cisco.ios
+scope: text.network.cisco.ios text.network.cisco.configure_terminal
 
 
 variables:
@@ -152,12 +152,16 @@ contexts:
   main:
     - include: show
     - include: configure_terminal
+    - include: configure_terminal_scope
     - include: enable
+    - include: do_show
+    - include: scope
 
   prototype:
     - include: device_comment
     - include: comment
     - include: pipe
+    - include: scope
 
   scope:
     - include: removal
@@ -173,16 +177,13 @@ contexts:
 
   pop_ctx_word:
     - match: ({{pop_ctx}})
-      scope: scope.exit
       pop: true
       captures:
         1: comment.line
     - match: '^\s*(end)\s*$'
       captures:
         1: comment.block.documentation
-      push:
-        - clear_scopes: true
-        - meta_content_scope: text.network.cisco.ios
+      pop: true
 
   pop_context_on_unknown:
     - match: '(?=^\s*[^{{comment}}\s].*$)'
@@ -199,21 +200,24 @@ contexts:
         2: support.constant
       push: 
         - meta_content_scope: text.network.cisco.configure_terminal
-        - include: bgp
-        - include: vty
-        - include: vrf
-        - include: snmp
-        - include: vlan
-        - include: logging
-        - include: interface
-        - include: ip_route
-        - include: prefix_list
-        - include: vrf_upgrade
-        - include: ipv6_unicast_routing
-        - include: hostname
-        - include: ipv6_general_prefix
-        - include: extended_acl
-        - include: standard_acl
+        - include: configure_terminal_scope
+
+  configure_terminal_scope:
+    - include: bgp
+    - include: vty
+    - include: vrf
+    - include: snmp
+    - include: vlan
+    - include: logging
+    - include: interface
+    - include: ip_route
+    - include: prefix_list
+    - include: vrf_upgrade
+    - include: ipv6_unicast_routing
+    - include: hostname
+    - include: ipv6_general_prefix
+    - include: extended_acl
+    - include: standard_acl
 
 
   device_comment:
@@ -331,7 +335,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.acl.standard
         - include: standard_ace
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   standard_ace:
     - match: |
@@ -360,7 +364,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.acl.extended
         - include: extended_ace
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
 
   extended_ace:
@@ -411,7 +415,7 @@ contexts:
         - meta_content_scope: text.network.cisco.bgp
         - include: ipv6_address_family
         - include: ipv4_address_family
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   ipv4_address_family:
     - match: ^\s*(address-family)\s+(ipv4)(?:\s+(vrf)\s+(\S+))?
@@ -429,7 +433,7 @@ contexts:
             1: comment.line
         - include: ipv4_network
         - include: ipv4_neighbor
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   ipv6_address_family:
     - match: ^\s*(address-family)\s+(ipv6)\s+(vrf)\s+(\S+)\s*(\s+\S.*)?$
@@ -448,7 +452,7 @@ contexts:
             1: comment.line
         - include: ipv6_network
         - include: ipv6_neighbor
-        - include: pop_context_on_unknown
+        # - include: pop_context_on_unknown
 
   ipv4_neighbor:
     - match: |
@@ -715,7 +719,7 @@ contexts:
         captures:
           1: support.constant
           2: string.unquoted
-      - include: pop_context_on_unknown
+      # - include: pop_context_on_unknown
 
   interface:
     - include: interface_default
@@ -792,7 +796,7 @@ contexts:
           26: constant.numeric            # channel-group id
           27: support.constant            # channel-group mode
           28: support.constant            # channel-group mode active
-      - include: pop_context_on_unknown
+      # - include: pop_context_on_unknown
 
   standby:
     - match: |
@@ -909,7 +913,7 @@ contexts:
         captures:
           1: support.constant
           2: support.constant
-      - include: pop_context_on_unknown
+      # - include: pop_context_on_unknown
 
   vrf:
     - match: '^\s*(vrf)\s+(definition)\s+(\S+)'
@@ -936,7 +940,7 @@ contexts:
           4: support.constant               # route-target
           5: entity.other.attribute-name    # route-target import/export/both
           6: constant.numeric               # route-target id
-      - include: pop_context_on_unknown
+      # - include: pop_context_on_unknown
 
   vrf_address_family:
     - include: vrf_ipv4_address_family
@@ -961,7 +965,7 @@ contexts:
         captures:
           1: support.constant        # export map
           2: string.unquoted         # export map name
-      - include: pop_context_on_unknown
+      # - include: pop_context_on_unknown
 
   vrf_ipv6_address_family:
     - match: '^\s*(address-family)\s+(ipv6)'
@@ -984,7 +988,7 @@ contexts:
         captures:
           1: support.constant        # export map
           2: string.unquoted         # export map name
-      - include: pop_context_on_unknown
+      # - include: pop_context_on_unknown
 
   do_show:
     - match: '^\s*(do)'

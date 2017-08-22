@@ -115,11 +115,13 @@ variables:
 contexts:
 
   main:
+    - include: configure_terminal_scope
     - include: configure_terminal
     - include: enable
 
   prototype:
     - include: show
+    - include: scope
     - include: device_comment
     - include: comment
     - include: pipe
@@ -142,17 +144,20 @@ contexts:
         2: support.constant
       push: 
         - meta_content_scope: text.network.cisco.configure_terminal
-        - include: hostname
-        - include: vrf
-        - include: vty
-        - include: bgp
-        - include: acl
-        - include: vlan
-        - include: logging
-        - include: route_map
-        - include: ip_route
-        - include: interface
-        - include: prefix_list
+        - include: configure_terminal_scope
+
+  configure_terminal_scope:
+    - include: hostname
+    - include: vrf
+    - include: vty
+    - include: bgp
+    - include: acl
+    - include: vlan
+    - include: logging
+    - include: route_map
+    - include: ip_route
+    - include: interface
+    - include: prefix_list
 
   scope:
     - include: removal
