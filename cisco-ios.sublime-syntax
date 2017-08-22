@@ -107,6 +107,7 @@ variables:
     (?xi)
     (?:
       (?:vlan)|
+      (?:tunnel)|
       (?:port-channel)|
       (?:(?:(?:(?:Ten)?Gigabit)|(?:Fast))Ethernet)
     )
@@ -151,22 +152,70 @@ contexts:
 
   main:
     - include: show
+    - include: enable
     - include: configure_terminal
     - include: configure_terminal_scope
-    - include: enable
     - include: do_show
     - include: scope
+    
 
   prototype:
     - include: device_comment
     - include: comment
     - include: pipe
     - include: scope
+    # - include: partials
 
   scope:
     - include: removal
     - include: pop_ctx_word
     - include: comment
+
+  partials:
+    - match: |
+        (?xi)
+        (?:
+          ^\s*
+          (?:
+            (?:access-class)|
+            (?:address-family)|
+            (?:channel-group)|
+            (?:default)|
+            (?:deny)|
+            (?:description)|
+            (?:encapsulation)|
+            (?:end)|
+            (?:exit)|
+            (?:exit-address-family)|
+            (?:export)|
+            (?:hostname)|
+            (?:interface)|
+            (?:ip)|
+            (?:ipv6)|
+            (?:line)|
+            (?:logout)|
+            (?:name)|
+            (?:neighbor)|
+            (?:network)|
+            (?:no)|
+            (?:permit)|
+            (?:port-channel)|
+            (?:rd)|
+            (?:route-target)|
+            (?:router)|
+            (?:shutdown)|
+            (?:snmp-server)|
+            (?:standby)|
+            (?:switchport)|
+            (?:transport)|
+            (?:vlan)|
+            (?:vrf)|
+            (?:write)
+          )
+          \s
+          [^$]*
+        )
+      scope: text.network.cisco.partial
 
   removal:
     - meta_include_prototype: false
@@ -218,6 +267,7 @@ contexts:
     - include: ipv6_general_prefix
     - include: extended_acl
     - include: standard_acl
+    - include: partials
 
 
   device_comment:
