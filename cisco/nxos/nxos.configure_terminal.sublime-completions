@@ -1,5 +1,5 @@
 {
-  "scope": "text.network.cisco.nxos & text.network.cisco.configure_terminal & -(ios.acl.ace.target_ip & text.network.cisco.interface)",
+  "scope": "text.network.cisco.nxos & text.network.cisco.configure_terminal & -(ios.acl.ace.target_ip & text.network.cisco.interface) & -text.network.cisco.partial",
   "completions": [
         { 
             "trigger": "ipprefix-list\tprefix-list", 
@@ -11,15 +11,15 @@
         },
         { 
             "trigger": "vrfcontext\tvrf context", 
-            "contents": "vrf context ${1:NAME}\n\t$0\n exit"
+            "contents": "vrf context ${1:NAME}\n\t$0\n\texit"
         },
         { 
             "trigger": "router\tbgp", 
-            "contents": "router bgp ${1:0}\n\t$0\n exit"
+            "contents": "router bgp ${1:0}\n\t$0\n\texit"
         },
         { 
             "trigger": "line\tvty", 
-            "contents": "line vty ${1:0} ${2:4}\n\t$0\n exit"
+            "contents": "line vty ${1:0} ${2:4}\n\t$0\n\texit"
         },
         { 
             "trigger": "ipv6route\tipv6 route", 

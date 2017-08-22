@@ -1,5 +1,5 @@
 {
-    "scope": "text.network.cisco.bgp.vrf.ipv4_address_family.neighbor & text.network.cisco.nxos",
+    "scope": "text.network.cisco.bgp.vrf.ipv4_address_family.neighbor & text.network.cisco.nxos & -text.network.cisco.partial",
     "completions": [
         { 
             "trigger": "inherit\tpeer", 

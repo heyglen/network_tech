@@ -1,6 +1,6 @@
 <snippet>
 	<description>vlan</description>
-	<scope>text.network.cisco.ace  context</scope>
+	<scope>text.network.cisco.ace  context & -text.network.cisco.partial</scope>
 	<tabTrigger>allocate-interface</tabTrigger>
 	<content><![CDATA[
 allocate-interface vlan ${1:0}

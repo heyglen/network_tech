@@ -1,7 +1,7 @@
 <snippet>
     <description>delete</description>
     <tabTrigger>crypto</tabTrigger>
-    <scope>cisco.ace</scope>
+    <scope>text.network.cisco.ace & -text.network.cisco.partial</scope>
     <content><![CDATA[
 crypto delete ${1:KEY_NAME}
 ]]></content>

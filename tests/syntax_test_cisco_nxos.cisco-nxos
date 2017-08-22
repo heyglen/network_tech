@@ -20,6 +20,10 @@ configure terminal
   ! Line comment
   hostname example
 
+exit
+
+
+  hostname example
   logging server 1.2.3.4 6 use-vrf management facility local5
 
   ipv6 route vrf NAME ::/64 vlan0 ::1
@@ -89,39 +93,39 @@ vrf context management
   ip pim ssm range 224.0.0.0/8
 exit
 
-  router bgp 1  
-    vrf sds
-      log-neighbor-changes
-      address-family ipv4 unicast
-        network 1.2.3.0/24
-        network 1.2.3.0/24
-        neighbor 1.2.3.4
-          inherit peer NAME
-          remote-as 0
-          password 3 secret_password
-          next-hop-self
-          no shutdown
-        exit
-      exit
-      address-family ipv6 unicast
-        neighbor ::
-          inherit peer NAME
-          remote-as 0
-          password 3 secret_password
-          next-hop-self
-          no shutdown
-          exit
+router bgp 1  
+  vrf sds
+    log-neighbor-changes
+    address-family ipv4 unicast
+      network 1.2.3.0/24
+      network 1.2.3.0/24
+      neighbor 1.2.3.4
+        inherit peer NAME
+        remote-as 0
+        password 3 secret_password
+        next-hop-self
+        no shutdown
       exit
     exit
+    address-family ipv6 unicast
+      neighbor ::
+        inherit peer NAME
+        remote-as 0
+        password 3 secret_password
+        next-hop-self
+        no shutdown
+        exit
+    exit
   exit
+exit
 
-  ip prefix-list NAME seq 10 permit 10.225.6.0/24
-  ip prefix-list NAME seq 10 deny 10.225.6.0/24
-  ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1
-  ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1 le 2
-  ipv6 prefix-list NAME seq 10 permit ::/0
-  ipv6 prefix-list NAME seq 200 deny ::/0 ge 1
-  ipv6 prefix-list NAME seq 200 deny ::/0 ge 1 le 2
+ip prefix-list NAME seq 10 permit 10.225.6.0/24
+ip prefix-list NAME seq 10 deny 10.225.6.0/24
+ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1
+ip prefix-list NAME seq 10 permit 10.225.6.0/24 ge 1 le 2
+ipv6 prefix-list NAME seq 10 permit ::/0
+ipv6 prefix-list NAME seq 200 deny ::/0 ge 1
+ipv6 prefix-list NAME seq 200 deny ::/0 ge 1 le 2
 
 line vty 0 4
   access-class 42 in vrf-also

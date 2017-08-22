@@ -5,7 +5,7 @@
         "write",
         { 
             "trigger": "configure\tterminal", 
-            "contents": "configure terminal\n  $0\n  exit"
+            "contents": "configure terminal\n\t$0\n\texit"
         },
 
     ]

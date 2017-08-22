@@ -1,9 +1,0 @@
-<snippet>
-	<description>0x1 (normal boot)</description>
-	<scope>cisco.ace</scope>
-	<tabTrigger>config-register</tabTrigger>
-	<content><![CDATA[
-config-register 0x1
-
-]]></content>
-</snippet>

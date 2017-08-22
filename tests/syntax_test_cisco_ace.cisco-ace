@@ -25,8 +25,10 @@ changeto context-1
 ft switchover all
 
 configure terminal
+  hostname lb01
+  exit
 
-hostname lb-1
+hostname lb01
 
 parameter-map type connection PARAM_MAP
   set tcp buffer-share 123
@@ -367,7 +369,6 @@ snmp-server enable traps syslog
 snmp-server enable traps snmp linkup
 snmp-server enable traps snmp linkdown
 
-exit
 
 show ip route | include "SEARCH_TERM"
 show ip route | begin "SEARCH_TERM"

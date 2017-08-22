@@ -1,8 +1,0 @@
-<snippet>
-    <description>create</description>
-    <tabTrigger>checkpoint</tabTrigger>
-    <scope>cisco.ace</scope>
-    <content><![CDATA[
-checkpoint create ${1:<Change#>}
-]]></content>
-</snippet>

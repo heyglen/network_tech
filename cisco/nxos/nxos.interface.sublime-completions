@@ -1,5 +1,5 @@
 {
-    "scope": "text.network.cisco.interface & text.network.cisco.nxos & -text.network.cisco.interface.hsrp",
+    "scope": "text.network.cisco.interface & text.network.cisco.nxos & -text.network.cisco.interface.hsrp & -text.network.cisco.partial",
     "completions": [
         "description",
         { 

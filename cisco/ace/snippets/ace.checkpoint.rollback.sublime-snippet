@@ -1,8 +1,0 @@
-<snippet>
-    <description>rollback</description>
-    <tabTrigger>checkpoint</tabTrigger>
-    <scope>cisco.ace</scope>
-    <content><![CDATA[
-checkpoint rollback ${1:<Change#>}
-]]></content>
-</snippet>

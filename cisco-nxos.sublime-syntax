@@ -115,9 +115,9 @@ variables:
 contexts:
 
   main:
-    - include: configure_terminal_scope
     - include: configure_terminal
     - include: enable
+    - include: configure_terminal_scope
 
   prototype:
     - include: show
@@ -146,6 +146,56 @@ contexts:
         - meta_content_scope: text.network.cisco.configure_terminal
         - include: configure_terminal_scope
 
+  partials:
+    - match: |
+        (?xi)
+        (?:
+          ^\s*
+          (?:
+            (?:access-class)|
+            (?:address-family)|
+            (?:authentication)|
+            (?:channel-group)|
+            (?:channel-protocol)|
+            (?:configure)|
+            (?:description)|
+            (?:exit)|
+            (?:end)|
+            (?:hostname)|
+            (?:hsrp)|
+            (?:inherit)|
+            (?:interface)|
+            (?:ip)|
+            (?:ipv6)|
+            (?:line)|
+            (?:log-neighbor-changes)|
+            (?:logging)|
+            (?:match)|
+            (?:mode)|
+            (?:name)|
+            (?:network)|
+            (?:next-hop-self)|
+            (?:password)|
+            (?:preempt)|
+            (?:priority)|
+            (?:remote-as)|
+            (?:route-map)|
+            (?:router)|
+            (?:service-policy)|
+            (?:set)|
+            (?:shutdown)|
+            (?:spanning-tree)|
+            (?:switchport)|
+            (?:transport)|
+            (?:vlan)|
+            (?:vpc)|
+            (?:vrf)
+          )
+          \s
+          [^$]*
+        )
+      scope: text.network.cisco.partial
+
   configure_terminal_scope:
     - include: hostname
     - include: vrf
@@ -158,6 +208,7 @@ contexts:
     - include: ip_route
     - include: interface
     - include: prefix_list
+    - include: partials
 
   scope:
     - include: removal
@@ -690,6 +741,7 @@ contexts:
   interface:
     - include: interface_default
     - include: interface_block
+
 
   interface_block:
     - match: |

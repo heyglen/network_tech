@@ -1,7 +1,7 @@
 <snippet>
 	<description>header</description>
 	<tabTrigger>match</tabTrigger>
-	<scope>text.network.cisco.ace text.network.cisco.class_map.http</scope>
+	<scope>text.network.cisco.ace text.network.cisco.class_map.http & -text.network.cisco.partial</scope>
 	<content><![CDATA[
 ${1:2} match http header ${2:Host} header-value ${3:VALUE}
 ]]></content>

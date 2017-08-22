@@ -1,8 +1,0 @@
-<snippet>
-    <description>run tftp</description>
-    <tabTrigger>copy</tabTrigger>
-    <scope>cisco.ios | cisco.nxos | cisco.ace</scope>
-    <content><![CDATA[
-copy running-config tftp://${1:1.2.3.4}/${2:NAME}
-]]></content>
-</snippet>

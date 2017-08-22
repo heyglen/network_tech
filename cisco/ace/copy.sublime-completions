@@ -1,5 +1,5 @@
 {
-    "scope": "text.network.cisco.ace.copy",
+    "scope": "text.network.cisco.ace.copy & -text.network.cisco.partial",
     "completions": [
     	"running-config",
         "startup-config",

@@ -1,7 +1,7 @@
 <snippet>
     <description>action policy class</description>
     <tabTrigger>action</tabTrigger>
-    <scope>cisco.ace.policy.policy-lb-class</scope>
+    <scope>cisco.ace.policy.policy-lb-class & -text.network.cisco.partial</scope>
     <content><![CDATA[
 action ${1:ACTION_LIST_NAME}
 ]]></content>

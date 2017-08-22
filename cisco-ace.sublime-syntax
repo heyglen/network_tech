@@ -12,7 +12,7 @@ first_line_match: |
     (?:
       (?:ace)
     )
-scope: text.network.cisco.ace
+scope: text.network.cisco.ace text.network.cisco.configure_terminal
 
 
 
@@ -123,13 +123,17 @@ contexts:
 
   main:
     - include: show
-    - include: configure_terminal
+    - include: scope
     - include: enable
+    - include: configure_terminal
+    - include: configure_terminal_scope
+    - include: do_show
 
   prototype:
     - include: device_comment
     - include: comment
     - include: pipe
+    - include: scope
 
   scope:
     - include: removal
@@ -160,6 +164,106 @@ contexts:
         2: support.constant
       push: 
         - meta_content_scope: text.network.cisco.configure_terminal
+        - include: configure_terminal_scope
+
+  partials:
+    - match: |
+        (?xi)
+        (?:
+          ^\s*
+          (?:
+            (?:aaa)|
+            (?:access-group)|
+            (?:access-list)|
+            (?:action)|
+            (?:alias)|
+            (?:allocate-interface)|
+            (?:appl-parameter)|
+            (?:associate-context)|
+            (?:backup)|
+            (?:boot)|
+            (?:cert)|
+            (?:changeto)|
+            (?:checkpoint)|
+            (?:class)|
+            (?:class-map)|
+            (?:config-register)|
+            (?:configure)|
+            (?:connection)|
+            (?:content)|
+            (?:context)|
+            (?:cookie)|
+            (?:deny)|
+            (?:description)|
+            (?:dir)|
+            (?:drop)|
+            (?:exit)|
+            (?:end)|
+            (?:expect)|
+            (?:faildetect)|
+            (?:forward)|
+            (?:ft)|
+            (?:group-object)|
+            (?:hash)|
+            (?:header)|
+            (?:hostname)|
+            (?:inservice)|
+            (?:interface)|
+            (?:interval)|
+            (?:ip)|
+            (?:key)|
+            (?:limit-resource)|
+            (?:loadbalance)|
+            (?:logging)|
+            (?:login)|
+            (?:logout)|
+            (?:match)|
+            (?:member)|
+            (?:nat)|
+            (?:nat-pool)|
+            (?:network-object)|
+            (?:no)|
+            (?:object-group)|
+            (?:open)|
+            (?:parameter-map)|
+            (?:passdetect)|
+            (?:peer)|
+            (?:permit)|
+            (?:policy-map)|
+            (?:port)|
+            (?:port-object)|
+            (?:predictor)|
+            (?:priority)|
+            (?:probe)|
+            (?:receive)|
+            (?:reload)|
+            (?:replicate)|
+            (?:request)|
+            (?:resource-class)|
+            (?:rserver)|
+            (?:send-data)|
+            (?:server)|
+            (?:serverfarm)|
+            (?:service-policy)|
+            (?:set)|
+            (?:show)|
+            (?:shutdown)|
+            (?:snmp-server)|
+            (?:ssl)|
+            (?:ssl-proxy)|
+            (?:static)|
+            (?:sticky)|
+            (?:sticky-serverfarm)|
+            (?:tacacs-server)|
+            (?:timeout)|
+            (?:write)
+          )
+          \s
+          [^$]*
+        )
+      scope: text.network.cisco.partial
+
+  configure_terminal_scope:
         - include: acl
         - include: aaa
         - include: snmp
@@ -183,6 +287,7 @@ contexts:
         - include: tacacs_server
         - include: resource_class
         - include: ssl_proxy_service
+        - include: partials
 
   device_comment:
     - match: |
@@ -1686,7 +1791,7 @@ contexts:
         2: string.unquoted
 
   config_register:
-    - match: '^\s*(config-register)\s+(0x\d+)'
+    - match: '^\s*(config-register)\s+((?:0x)?\d+)'
       captures:
         1: support.constant
         2: constant.numeric
