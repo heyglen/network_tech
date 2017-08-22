@@ -1,5 +1,5 @@
 {
-  "scope": "text.network.cisco.ios & text.network.cisco.configure_terminal & -(ios.acl.ace.target_ip & text.network.cisco.interface)",
+  "scope": "text.network.cisco.ios & text.network.cisco.configure_terminal & -ios.acl.ace.target_ip & -text.network.cisco.interface & -text.network.cisco.partial",
   "completions": [
         { 
             "trigger": "ipprefix-list\tprefix-list", 
@@ -11,19 +11,23 @@
         },
         { 
             "trigger": "ipaccess-list\tstandard", 
-            "contents": "ip access-list standard ${1:name}\n\t$0\n exit"
+            "contents": "ip access-list standard ${1:name}\n\t$0\n\texit"
         },
         { 
             "trigger": "ipaccess-list\textended", 
-            "contents": "ip access-list extended ${1:name}\n\t$0\n exit"
+            "contents": "ip access-list extended ${1:name}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "interface\ttunnel", 
+            "contents": "interface Tunnel${1:0}\n\t$0\n\texit"
         },
         { 
             "trigger": "interface\t1G", 
-            "contents": "interface GigabitEthernet${1:0}/${2:1}\n\t$0\n exit"
+            "contents": "interface GigabitEthernet${1:0}/${2:1}\n\t$0\n\texit"
         },
         { 
             "trigger": "interface\t10G", 
-            "contents": "interface TenGigabitEthernet${1:0}/${2:1}\n\t$0\n exit"
+            "contents": "interface TenGigabitEthernet${1:0}/${2:1}\n\t$0\n\texit"
         },
         { 
             "trigger": "ipv6general-prefix\tgeneral-prefix", 
@@ -39,19 +43,19 @@
         },
         { 
             "trigger": "line\tvty", 
-            "contents": "line vty ${1:0} ${2:4}\n\t$0\n exit"
+            "contents": "line vty ${1:0} ${2:4}\n\t$0\n\texit"
         },
         { 
             "trigger": "router\tbgp", 
-            "contents": "router bgp ${1:0}\n\t$0\n exit"
+            "contents": "router bgp ${1:0}\n\t$0\n\texit"
         },
         { 
             "trigger": "vlan\tID", 
-            "contents": "vlan ${1:1}\n\t$0\n exit"
+            "contents": "vlan ${1:1}\n\t$0\n\texit"
         },
         { 
             "trigger": "vrf\tdefintion", 
-            "contents": "vrf definition ${1:name}\n\t$0\n exit"
+            "contents": "vrf definition ${1:name}\n\t$0\n\texit"
         },
         { 
             "trigger": "iproutevrf\tip route vrf", 
