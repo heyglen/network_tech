@@ -1,5 +1,5 @@
 {
-    "scope": "text.network.cisco.asa.object_group.network",
+    "scope": "text.network.cisco.asa.object_group.network & -text.network.cisco.partial",
     "completions": [
         { 
             "trigger": "network-object\tnetwork",

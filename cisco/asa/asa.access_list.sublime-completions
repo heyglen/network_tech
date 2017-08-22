@@ -4,7 +4,7 @@
         "inactive",
         { 
             "trigger": "object-group\tname",
-            "contents": "object-group ${1:USERNAME} "
+            "contents": "object-group ${1:group_name} "
         },
         { 
             "trigger": "host\tip",

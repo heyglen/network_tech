@@ -251,9 +251,9 @@ contexts:
     - include: write
     - include: copy
     - include: logout
-    - include: configure_terminal
     - include: show_drives
     - include: packet_tracer
+    - include: configure_terminal_scope
 
   configure_terminal:
     - match: '{{scope_configure_terminal}}'
@@ -305,6 +305,7 @@ contexts:
     - include: aaa_server_protocol
     - include: crypto_key_generate
     - include: crypto_ipsec_security_association
+    - include: partials
 
   scope:
     - include: removal
@@ -314,7 +315,88 @@ contexts:
   pop_context:
     - match: '(?=.)'
       pop: true
-    
+  
+  partials:
+    - match: |
+        (?xi)
+        (?:
+          ^\s*
+          (?:
+            (?:aaa)|
+            (?:aaa-server)|
+            (?:access-group)|
+            (?:access-list)|
+            (?:alert-interval)|
+            (?:allocate-interface)|
+            (?:arp)|
+            (?:banner)|
+            (?:changeto)|
+            (?:class)|
+            (?:config-url)|
+            (?:configure)|
+            (?:context)|
+            (?:crypto)|
+            (?:description)|
+            (?:domain-name)|
+            (?:enable)|
+            (?:end)|
+            (?:exit)|
+            (?:fqdn)|
+            (?:fragment)|
+            (?:group-object)|
+            (?:host)|
+            (?:hostname)|
+            (?:http)|
+            (?:icmp)|
+            (?:inspect)|
+            (?:interface)|
+            (?:ip)|
+            (?:ipv6)|
+            (?:key)|
+            (?:logging)|
+            (?:logout)|
+            (?:max-failed-attempts)|
+            (?:message-length)|
+            (?:monitor-interface)|
+            (?:mtu)|
+            (?:name)|
+            (?:nameif)|
+            (?:nat)|
+            (?:network-object)|
+            (?:object)|
+            (?:object-group)|
+            (?:parameters)|
+            (?:passwd)|
+            (?:password)|
+            (?:policy-map)|
+            (?:port-object)|
+            (?:protocol-object)|
+            (?:range)|
+            (?:route)|
+            (?:security-level)|
+            (?:service)|
+            (?:service-object)|
+            (?:service-policy)|
+            (?:set)|
+            (?:show)|
+            (?:shutdown)|
+            (?:snmp-server)|
+            (?:ssh)|
+            (?:ssl)|
+            (?:subnet)|
+            (?:telnet)|
+            (?:terminal)|
+            (?:timeout)|
+            (?:user-identity)|
+            (?:user-statistics)|
+            (?:username)|
+            (?:vlan)
+          )
+          \s
+          [^$]*
+        )
+      scope: text.network.cisco.partial
+  
   pop_context_on_unknown:
     # - match: '(?=^\s*[^{{comment}}\s].*$)'
     - match: |

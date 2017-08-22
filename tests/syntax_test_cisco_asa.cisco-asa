@@ -10,7 +10,6 @@ terminal width 511
 terminal pager 0
 show running-config | include something ! Inline comment
 show run interface | exclude something
-
 write
 write net
 
@@ -18,8 +17,7 @@ write net
 
 configure terminal
   hostname firewall
-  exit
-end
+ end
 
 banner exec BANNER TEXT
 domain-name nnithosting.com
