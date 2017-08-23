@@ -156,6 +156,31 @@ interface vlan123
 interface vlan123
   exit
 
+interface Ethernet0
+  exit
+interface FastEthernet0
+  exit
+interface GigabitEthernet0
+  exit
+interface TenGigabitEthernet0
+  exit
+interface FortyGigabitEthernet0
+  exit
+interface loopback0
+  exit
+interface tunnel0
+  exit
+interface port-channel0
+  exit
+interface serial0
+  exit
+interface vlan1
+  exit
+interface Ethernet0
+  exit
+interface range GigabitEthernet0
+  exit
+
 interface range GigabitEthernet1/1-2
   description Hello
   vrf forwarding RED

@@ -73,8 +73,16 @@ variables:
     (?xi)
     (?:
       (?:vlan)|
+      (?:vl)|
+      (?:loopback)|
+      (?:lo)|
       (?:port-channel)|
-      (?:ethernet)
+      (?:po)|
+      (?:mgmt)|
+      (?:tunnel)|
+      (?:tu)|
+      (?:ethernet)|
+      (?:eth)
     )
   interface_numbers: |
     (?xi)

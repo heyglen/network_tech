@@ -104,11 +104,17 @@ variables:
     (?xi)
     (?:
       (?:vlan)|
+      (?:vl)|
+      (?:Ethernet)|
+      (?:Eth)|
       (?:port-channel)|
-      (?:
-        (?:(?:(?:Ten)?Gigabit)|(?:Fast))
-          Ethernet
-        )
+      (?:po)|
+      (?:TenGigabitEthernet)|
+      (?:Te)|
+      (?:FastEthernet)|
+      (?:Fa)|
+      (?:GigabitEthernet)|
+      (?:Gi)|
     )
   interface_numbers: |
     (?xi)

@@ -29,10 +29,34 @@ ipv6 route vrf NAME ::/64 vlan0 ::1
 ip route vrf NAME 1.2.3.0/24 vlan1 1.1.1.1 name asdf permanent
 
 default interface Ethernet0/1
-interface Vlan 20
 
+interface Vlan 20
   shutdown
- exit
+  exit
+interface vlan0
+  exit
+interface vl0
+  exit
+interface loopback0
+  exit
+interface lo0
+  exit
+interface port-channel0
+  exit
+interface po0
+  exit
+interface mgmt0
+  exit
+interface tunnel0
+  exit
+interface tu0
+  exit
+interface ethernet0
+  exit
+interface eth0
+  exit
+interface Vlan 20
+  exit
 
 ip access-list ACL
   10 permit ip 1.2.3.0/24 1.2.3.0/24
@@ -69,6 +93,7 @@ interface Ethernet 100/0/1
   no shutdown
   hsrp version 2
   hsrp 0
+
     ip 1.2.3.4
     priority 0
     preempt delay minimum 0
@@ -81,6 +106,7 @@ interface Ethernet 100/0/1
   exit
 
 vlan 1
+
   name whatever
   mode fabricpath
 exit
@@ -107,6 +133,7 @@ router bgp 1
     exit
     address-family ipv6 unicast
       neighbor ::
+
         inherit peer NAME
         remote-as 0
         password 3 secret_password

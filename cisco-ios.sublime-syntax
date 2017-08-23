@@ -106,10 +106,26 @@ variables:
   interface_names: |
     (?xi)
     (?:
-      (?:vlan)|
-      (?:tunnel)|
+      (?:Ethernet)|
+      (?:Et)|
+      (?:FastEthernet)|
+      (?:Fa)|
+      (?:FortyGigabitEthernet)|
+      (?:Fo)|
+      (?:GigabitEthernet)|
+      (?:Gi)|
+      (?:loopback)|
+      (?:lo)|
       (?:port-channel)|
-      (?:(?:(?:(?:Ten)?Gigabit)|(?:Fast))Ethernet)
+      (?:po)|
+      (?:serial)|
+      (?:se)|
+      (?:TenGigabitEthernet)|
+      (?:Te)|
+      (?:tunnel)|
+      (?:tu)|
+      (?:vlan)|
+      (?:vl)
     )
   interface_numbers: |
     (?x)
