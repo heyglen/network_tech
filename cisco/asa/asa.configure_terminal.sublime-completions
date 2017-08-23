@@ -1,5 +1,5 @@
 {
-    "scope": "text.network.cisco.asa & text.network.cisco.configure_terminal & -asa.acl_entry & -text.network.cisco.asa.access_list.incomplete & -text.nextwork.cisco.asa.object_group.incomplete & -text.network.cisco.partial",
+    "scope": "text.network.cisco.asa text.network.cisco.configure_terminal & -(text.network.cisco.asa text.network.cisco.configure_terminal text.network.cisco) & -asa.acl_entry & -text.network.cisco.asa.access_list.incomplete & -text.nextwork.cisco.asa.object_group.incomplete & -text.network.cisco.partial",
     "completions": [
         { 
             "trigger": "username\tpassword",
@@ -91,7 +91,7 @@
         },
         { 
             "trigger": "access-list\tobject-group",
-            "contents": "access-list ${1:NAME} extended permit ${2:ip} object-group ${3:source} object-group ${4:destination}"
+            "contents": "access-list ${1:NAME} extended permit object-group ${2:service} object-group ${3:source} object-group ${4:destination}"
         },
         { 
             "trigger": "access-list\thost",
