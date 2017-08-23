@@ -1105,9 +1105,9 @@ contexts:
           (?:udp)
         )\s+
         ({{ip}})\s+
-        ({{port_numbers}})\s+
+        ({{port_target}})\s+
         ({{ip}})\s+
-        ({{port_numbers}})\s+
+        ({{port_target}})\s+
       captures:
         1: support.constant                       # packet-tracer input
         2: string.unquoted                        # interface name
@@ -1135,7 +1135,7 @@ contexts:
   access_list_remark:
     - match: >
         (?x)
-        (access-list)\s+
+        \s*(access-list)\s+
         ([^;\s]+)\s+(?:(line)\s+(\d+)\s+)?(remark)(\s+.*)?
       captures:
         1: support.constant                       # access-list
@@ -1148,7 +1148,7 @@ contexts:
   access_list_cached_log_flows:
     - match: >
         (?x)
-        access-list\s+cached\s+(\S+)\s+log\s+flows:\s+
+        \s*access-list\s+cached\s+(\S+)\s+log\s+flows:\s+
         total\s+\d+,\s+denied\s+\d+\s+
         \(deny-flow-max\s+\d+\)
       captures:
@@ -1162,6 +1162,7 @@ contexts:
   access_list_ip:
     - match: |
         (?x)
+        \s*
         (access-list)\s+
         (?:
           (?:
@@ -1296,6 +1297,7 @@ contexts:
   access_list_icmp:
     - match: |
         (?x)
+        \s*
         (access-list)\s+
         (?:
           (?:
