@@ -10,17 +10,19 @@ Quick Start
 ===========
 
 
-1. Install Sublime Text 3's `Package Manager <https://packagecontrol.io/installation>`_
+1. Install Sublime Text 3
 
-2. :menuselection:`Sublime Text 3 --> Tools --> Command Pallet`
+2. Install Sublime Text 3's `Package Manager <https://packagecontrol.io/installation>`_
 
-3. "Package Control: Install Package" :kbd:`enter`
+3. :menuselection:`Sublime Text 3 --> Tools --> Command Pallet`
 
-4. "Network Tech" :kbd:`enter`
+4. "Package Control: Install Package" :kbd:`enter`
 
-5. :menuselection:`Tools --> Command Pallet`
+5. "Network Tech" :kbd:`enter`
 
-6. "Set Syntax: Cisco IOS" :kbd:`enter`
+6. :menuselection:`Tools --> Command Pallet`
+
+7. "Set Syntax: Cisco IOS" :kbd:`enter`
 
 .. image:: /_images/cisco_ios_demo.gif
 
