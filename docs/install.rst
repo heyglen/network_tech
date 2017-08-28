@@ -1,13 +1,15 @@
 Install
 ======
 
-1. Install Sublime Text 3's `Package Manager <https://packagecontrol.io/installation>`_
+1. `Get Sublime Text 3 <https://www.sublimetext.com/3>`_
 
-2. :menuselection:`Sublime Text --> Tools --> Command Pallet`  **OR**  :kbd:`ctrl+shift+p`
+2. `Setup Package Manager <https://packagecontrol.io/installation>`_
 
-3. "Package Control: Install Package" :kbd:`enter`
+3. Open Sublime Text: :menuselection:`Tools --> Command Pallet`
 
-4. "Network Tech" :kbd:`enter`
+4. `Package Control: Install Package` :kbd:`enter`
+
+5. `Network Tech` :kbd:`enter`
 
 .. note::
     
