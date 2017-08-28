@@ -281,6 +281,7 @@ contexts:
     - include: vlan
     - include: logging
     - include: line_con
+    - include: username
     - include: line_aux
     - include: ip_route
     - include: ip_classless
@@ -320,6 +321,26 @@ contexts:
       captures:
         1: comment.line
   
+  username:
+    - match: |
+        (?xi)
+        ^\s*
+        (username)
+        \s+
+        (\S+)
+        \s+
+        (password)
+        \s+
+        (\d+)
+        \s+
+        (\S+)
+      captures:
+        1: support.constant   # username
+        2: string.unquoted    # username string
+        3: support.constant   # password
+        4: constant.numeric   # password type
+        5: string.unquoted    # password string
+
   vrf_upgrade:
     - match: ^\s*(vrf)\s+(upgrade-cli)\s+(multi-af-mode)\s+((?:non-)?common-policies)(?:(?:\s+(vrf)\s+(\S+)(?:\s+(force))?)|(\s+force))?
       captures:

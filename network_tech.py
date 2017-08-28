@@ -19,8 +19,32 @@ class DotDict(dict):
         val = dict.get(*args)
         return DotDict(val) if type(val) is dict else val
 
+SYNTAX = DotDict({
+    'asa': 'Packages/network_tech/cisco-asa.sublime-syntax',
+    'ace': 'Packages/network_tech/cisco-ace.sublime-syntax',
+    'ios': 'Packages/network_tech/cisco-ios.sublime-syntax',
+    'nxos': 'Packages/network_tech/cisco-nxos.sublime-syntax',
+})
+
 detect_syntax = DotDict({
-    'cisco': '^Current configuration : \d+ bytes$'
+    'cisco': [
+        '^Current configuration : \d+ bytes$',
+        '^Building configuration...\s*$',
+        '^! Last configuration change at',
+    ],
+    'asa': [
+        '^ASA Version \d+\.\d+\(\d+\)$',
+    ],
+    'nxos': [
+        '^!Command: show ',
+    ],
+    'ace': [
+        '^Generating configuration....',
+    ],
+    'ios': [
+        '^Current configuration : \d+ bytes$',
+        '^Building configuration...\s*$',
+    ],
 })
 
 ip = DotDict({
@@ -657,11 +681,11 @@ class Network:
                 ))
                 if network is None or current_network.network.prefixlen < network.network.prefixlen:
                     network = current_network
-            else:
-                logger.debug('Network not found in cursor\'s region #{}: {}'.format(
-                        index,
-                        network_region
-                    ))
+            # else:
+            #     logger.debug('Network not found in cursor\'s region #{}: {}'.format(
+            #             index,
+            #             network_region
+            #         ))
         return str(network) if network else ''
 
     @classmethod
@@ -874,8 +898,54 @@ class FindAllSubnetsCommand(sublime_plugin.TextCommand):
 
 
 class AutoSyntaxDetection(sublime_plugin.ViewEventListener):
+    def on_modified_async(self):
+        if self.is_plain_text:
+            if self.is_asa:
+                self.view.set_syntax_file(SYNTAX.asa)
+            if self.is_ios:
+                self.view.set_syntax_file(SYNTAX.ios)
+            if self.is_nxos:
+                self.view.set_syntax_file(SYNTAX.nxos)
+
+    @property
+    def is_plain_text(self):
+        return self.view.scope_name(0).strip() == 'text.plain'
+
     def is_cisco(self):
-        return self.view.find(detect_syntax.is_cisco, 0) is not None
+        return self._syntax_detection(
+            detect_syntax.cisco,
+            'Cisco detected',
+            check_if_cisco=False,
+            status_update=False
+        )
+
+    @property
+    def is_asa(self):
+        return self._syntax_detection(detect_syntax.asa, 'Cisco ASA detected')
+
+    @property
+    def is_nxos(self):
+        return self._syntax_detection(detect_syntax.nxos, 'Cisco NXOS detected')
+
+    @property
+    def is_ios(self):
+        return self._syntax_detection(detect_syntax.ios, 'Cisco IOS detected')
+
+    def _syntax_detection(self, syntax_list, message, check_if_cisco=True, status_update=True):
+        is_cisco = self.is_cisco if check_if_cisco else lambda: True
+        if is_cisco() and syntax_list:
+            for evidence in syntax_list:
+                if self.view.find(evidence, 0) is not None:
+                    if status_update:
+                        self.view.erase_status('Network Tech')
+                        self.view.set_status('Network Tech', message)
+                        sublime.set_timeout(
+                            (lambda: self.view.erase_status('Network Tech')),
+                            3000
+                        )
+                    logger.debug(message)
+                    return True
+        return False
 
 
 class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
