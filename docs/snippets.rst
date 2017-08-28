@@ -1,4 +1,4 @@
-Completions & Snippets 
+Completions 
 ======
 
 Configuration snippets and autocompetions are suggested based off the syntax and configuration mode.

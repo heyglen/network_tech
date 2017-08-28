@@ -20,7 +20,7 @@ configure terminal
  end
 
 banner exec BANNER TEXT
-domain-name nnithosting.com
+domain-name example.com
 enable password secret_password encrypted
 
 arp timeout 14400
@@ -148,7 +148,6 @@ object service tcp_1234
  service tcp destination eq 1234
  service udp source eq 1234
  exit
-
 
 access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
             alert-interval 300

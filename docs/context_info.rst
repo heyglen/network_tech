@@ -1,5 +1,5 @@
-Contextual Information
-======
+Quick Info
+==========
 
 Networks
 --------

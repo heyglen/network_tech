@@ -1,5 +1,5 @@
-Syntax Highlighting
-======
+Highlighting
+============
 
 Supported configurations:
 

@@ -3,11 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Network Tech's documentation!
-========================================
+Network Tech Documentation
+==========================
 
 Quick Start
-===========
+-----------
 
 
 1. Install Sublime Text 3
@@ -29,7 +29,7 @@ Quick Start
 😎
 
 Table of Contents
-=================
+-----------------
 
 .. toctree::
    :maxdepth: 1
@@ -38,5 +38,6 @@ Table of Contents
    syntax
    snippets
    context_info
+   Jumping <jumping>
    Search <network_search>
-   Bugs & Feature Requests <feature_requets_and_bugs>
+   Bugs & Requests <feature_requets_and_bugs>

@@ -69,7 +69,7 @@ configure terminal
   vrf upgrade-cli multi-af-mode common-policies force
   vrf upgrade-cli multi-af-mode common-policies
 
-  ipv6 general-prefix NNIT-MGMT ::/0
+  ipv6 general-prefix WHATEVER ::/0
 
   ! Line comment
   ip access-list extended NAME ! This is a comment
