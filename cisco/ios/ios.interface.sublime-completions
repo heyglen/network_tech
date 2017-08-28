@@ -80,5 +80,17 @@
             "trigger": "ip\tip redirects", 
             "contents": "ip${1:v6} redirects"
         },
+        { 
+            "trigger": "ipnat\tnat outside", 
+            "contents": "ip nat outside"
+        },
+        { 
+            "trigger": "ipnat\tnat inside",
+            "contents": "ip nat inside"
+        },
+        { 
+            "trigger": "duplex\tauto",
+            "contents": "duplex auto"
+        },
     ]
 }

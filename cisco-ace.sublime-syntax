@@ -23,7 +23,7 @@ variables:
   command_end: '(?:\s|{{comment}}|$)'
   ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
   subnet_mask: |
-    (?x)
+    (?xi)
     (?:
         (?:0\.0\.0\.0)|
         (?:128\.0\.0\.0)|
@@ -76,25 +76,25 @@ variables:
       (?:(?:(?:(?:Ten)?Gigabit)|(?:Fast))Ethernet)
     )
   interface_numbers: |
-    (?x)
+    (?xi)
     (?:\d+(?:/\d+)*(?:\.\d+)?)?
   interface_number_ranged: |
-    (?x)
+    (?xi)
     (?:\d+(?:/\d+)*(?:\.\d+)?)(?:-\d+)?
   network_target: |
-    (?x)
+    (?xi)
     (?:{{network_address}})|
     (?:{{ip}})|
     (?:any)
   protocol_target: |
-    (?x)
+    (?xi)
     (?:ip)|
     (?:tcp)|
     (?:udp)|
     (?:icmp)
   port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   management_protocols: |
-    (?x)
+    (?xi)
     icmp|
     xml-https|
     https|
@@ -102,14 +102,14 @@ variables:
     ssh|
     snmp
   port_names: |
-    (?x)
+    (?xi)
     bgp|
     ssh|
     snmp
   operators: '(?:(?:eq)|(?:ge)|(?:le))'
   port_target: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
   drives: |
-    (?x)
+    (?xi)
     (?:
       (?:(?:(?:running)|(?:startup))-config)|
       (?:flash)|
@@ -331,7 +331,7 @@ contexts:
 
   snmp:
     - match: >
-        (?x)
+        (?xi)
         \s*
         (snmp-server)\s+
         (?:
@@ -388,7 +388,7 @@ contexts:
 
   tacacs_server:
     - match: >
-        (?x)
+        (?xi)
         ^\s*(tacacs-server)\s+
         (?:
           (?:(key)\s+(\d+)\s+(\S+))|
@@ -404,7 +404,7 @@ contexts:
 
   aaa:
     - match: >
-        (?x)
+        (?xi)
         ^\s*(aaa)\s+
         (?:
           (?:(authentication)\s+
@@ -446,7 +446,7 @@ contexts:
         - include: description
         - include: object_group_group_object
         - match: |
-            (?x) 
+            (?xi) 
             (?:
               (protocol-object)\s+
               (?:
@@ -469,7 +469,7 @@ contexts:
         - include: description
         - include: object_group_group_object
         - match: |
-            (?x) 
+            (?xi) 
             (?:
               (network-object)\s+
               (?:
@@ -533,7 +533,7 @@ contexts:
 
   acl:
     - match: |
-        (?x)
+        (?xi)
         (access-list)\s+
         (?:
           (?:
@@ -652,7 +652,7 @@ contexts:
 
   parameter_map:
     - match: >
-        (?x)
+        (?xi)
         ^\s*(parameter-map)\s+(type)\s+(connection)\s+(\S+)
       captures:
         0: cisco.scope
@@ -663,7 +663,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.parameter_map
         - match: >
-            (?x)
+            (?xi)
             \s*
             (set)\s+
             (?:
@@ -684,7 +684,7 @@ contexts:
 
   logging:
     - match: >
-        (?x)
+        (?xi)
         ^\s*(logging)\s+
         (?:
           (?:(enable))|
@@ -710,7 +710,7 @@ contexts:
 
   ft_group:
     - match: >
-        (?x)
+        (?xi)
         ^\s*(ft)\s+(group)\s+(\d+)
       captures:
         0: cisco.scope
@@ -720,7 +720,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.ft_group
         - match: >
-            (?x)
+            (?xi)
             \s*
             (?:
               (peer)\s+
@@ -751,7 +751,7 @@ contexts:
 
   context:
     - match: >
-        (?x)
+        (?xi)
         ^\s*(context)\s+(\S+)
       captures:
         0: cisco.scope
@@ -761,7 +761,7 @@ contexts:
         - meta_content_scope: text.network.cisco.ace.context
         - include: description
         - match: >
-            (?x)
+            (?xi)
             \s*
             (?:
               (?:(allocate-interface)\s+({{interface_names}})\s+({{interface_numbers}}))|
@@ -780,7 +780,7 @@ contexts:
 
   ipv4_route:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*(ip)\s+(route)\s+
         (?:(vrf)\s+(\S+)\s+)?
         ({{ip}})\s+
@@ -818,7 +818,7 @@ contexts:
 
   probe_options:
     - match: >
-        (?x)
+        (?xi)
         \s*
         (?:(open|port|receive|interval|faildetect)\s+(\d+))|
         (?:(passdetect\s+(?:interval|count))\s+(\d+))|
@@ -851,7 +851,7 @@ contexts:
 
   http_probe_options:
     - match: >
-        (?x)
+        (?xi)
         ^\s*
         (?:(header)\s+(\S+)\s+(header-value)\s+(\S+))|
         (?:(request\s+method)\s+(\S+)\s+(url)\s+(\S+))|
@@ -890,7 +890,7 @@ contexts:
       - include: probe_options
       - include: http_probe_options
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (ssl\s+version\s+)(?:(all)|(.*))
         captures:
@@ -936,7 +936,7 @@ contexts:
       - include: description
       - include: inservice
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (ip\s+address\s+)({{ip}})
         captures:
@@ -971,7 +971,7 @@ contexts:
       - include: description
       - include: serverfarm_rserver
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (?:
             (predictor)\s+
@@ -1042,7 +1042,7 @@ contexts:
       - meta_content_scope: text.network.cisco.ace.ssl_proxy
       - include: description
       - match: >
-          (?x)
+          (?xi)
           \s*
           (key|cert)\s+(\S+)
         captures:
@@ -1071,7 +1071,7 @@ contexts:
       - meta_content_scope: text.network.cisco.policy_map.multi_match.class
       - include: description
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (?:(appl-parameter\s+http\s+advanced-options)\s+(\S+))|
           (?:(loadbalance)\s+
@@ -1125,7 +1125,7 @@ contexts:
       - meta_content_scope: text.network.cisco.policy_map.loadbalance.class
       - include: description
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (?:
             (
@@ -1169,7 +1169,7 @@ contexts:
       - meta_content_scope: text.network.cisco.policy_map.management.class
       - include: description
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (permit)|
           (deny)
@@ -1194,7 +1194,7 @@ contexts:
       - meta_content_scope: text.network.cisco.class_map.management
       - include: description
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (\d+\s+)?
           (match)\s+
@@ -1228,7 +1228,7 @@ contexts:
       - meta_content_scope: text.network.cisco.class_map.match_any
       - include: description
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (\d+\s+)?
           (match)\s+
@@ -1269,7 +1269,7 @@ contexts:
       - meta_content_scope: text.network.cisco.class_map.http
       - include: description
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (\d+\s+)?
           (match)\s+
@@ -1313,7 +1313,7 @@ contexts:
       - meta_content_scope: text.network.cisco.class_map.http_loadbalance
       - include: description
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (\d+\s+)?
           (match)\s+
@@ -1347,7 +1347,7 @@ contexts:
 
   sticky_options:
     - match: >
-        (?x)
+        (?xi)
         ^\s*
         (replicate\s+sticky)|
         (?:(timeout)\s+(\d+))|
@@ -1363,7 +1363,7 @@ contexts:
 
   sticky_http_content:
     - match: >
-        (?x)
+        (?xi)
         ^\s*
         (sticky)\s+
         (http-content)\s+
@@ -1378,7 +1378,7 @@ contexts:
       - include: description
       - include: sticky_options
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (?:(static\s+content)\s+(\S+)\s+(rserver)\s+(\S+)(?:\s+(\d+)))|
           (?:(content\s+offset)\s+(\d+)\s+(length)\s+(\d+)\s+(begin-pattern)\s+(\S+))
@@ -1397,7 +1397,7 @@ contexts:
 
   sticky_generic:
     - match: >
-        (?x)
+        (?xi)
         ^\s*
         (sticky)\s+
         (?:
@@ -1452,7 +1452,7 @@ contexts:
       - include: description
       - include: sticky_options
       - match: >
-          (?x)
+          (?xi)
           ^\s*
           (cookie\s+insert\s+browser-expire)|
           (?:(cookie)\s+(offset)\s+(\d+)\s+(length)\s+(\d+))|
@@ -1495,7 +1495,7 @@ contexts:
       push:
       - meta_content_scope: text.network.cisco.resource_class
       - match: >
-          (?x)
+          (?xi)
           \s*
           (limit-resource)\s+
           (?:
@@ -1535,7 +1535,7 @@ contexts:
 
   aaa_group:
     - match: >
-        (?x)
+        (?xi)
         ^\s*
         (aaa)\s+
         (group\s+server)\s+
@@ -1550,7 +1550,7 @@ contexts:
       push:
       - meta_content_scope: text.network.cisco.aaa_group
       - match: >
-          (?x)
+          (?xi)
           (server)\s+({{ip}})
         captures:
           1: support.constant
@@ -1562,7 +1562,7 @@ contexts:
 
   interface_block:
     - match: |
-        (?x)
+        (?xi)
         ^\s*(interface)\s+
         (?:
           (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
@@ -1582,7 +1582,7 @@ contexts:
       - include: switchport
       - include: description
       - match: |
-          (?x)
+          (?xi)
           (?:((?:ip\s+)?vrf\s+forwarding)\s+(\S*))|
           (port-channel\s+standalone-disable)|
           (?:(encapsulation\s+dot1q)\s+({{vlan_id}}))|
@@ -1672,7 +1672,7 @@ contexts:
     
   interface_default:
     - match: |
-        (?x)
+        (?xi)
         (default)\s+
         (interface)\s+
         ({{interface_names}})\s*
@@ -1686,7 +1686,7 @@ contexts:
 
         
   do_show:
-    - match: '^\s*(do)'
+    - match: '^\s*(do)(?=\s)'
       captures:
           1: support.constant
       push: 
@@ -1806,7 +1806,7 @@ contexts:
 
   checkpoint:
     - match: >
-        (?x)
+        (?xi)
         ^\s*(checkpoint)\s+
         (?:
           (create)|
@@ -1852,7 +1852,7 @@ contexts:
         - match: '(?=(?:{{comment}})|$)'
           pop: true
         - match: >
-            (?x)
+            (?xi)
             \s+
             (?:
               ((?:count)|(?:more))|

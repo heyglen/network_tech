@@ -19,6 +19,9 @@ class DotDict(dict):
         val = dict.get(*args)
         return DotDict(val) if type(val) is dict else val
 
+detect_syntax = DotDict({
+    'cisco': '^Current configuration : \d+ bytes$'
+})
 
 ip = DotDict({
     'v4': {
@@ -868,6 +871,11 @@ class FindAllSubnetsCommand(sublime_plugin.TextCommand):
         default_search = Network.get_network_on_cursor(self.view.sel()[0], self.view)
         default_search = default_search if ip.v4.network.search(default_search) else ''
         self._find_input_panel(network=default_search)
+
+
+class AutoSyntaxDetection(sublime_plugin.ViewEventListener):
+    def is_cisco(self):
+        return self.view.find(detect_syntax.is_cisco, 0) is not None
 
 
 class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):

@@ -25,7 +25,7 @@ variables:
   line_number: '^\s*\d+'
   ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
   subnet_mask: |
-    (?x)
+    (?xi)
     (?:
         (?:0\.0\.0\.0)|
         (?:128\.0\.0\.0)|
@@ -88,30 +88,30 @@ variables:
     (?xi)
     (?:\d+(?:/\d+)*(?:\.\d+)?)
   interface_number_ranged: |
-    (?x)
+    (?xi)
     (?:\d+(?:/\d+)*(?:\.\d+)?)(?:-\d+)?
   network_target: |
-    (?x)
+    (?xi)
     (?:
       (?:{{ip_prefix}})|
       (?:any)
     )
   protocol_target: |
-    (?x)
+    (?xi)
     (?:ip)|
     (?:tcp)|
     (?:udp)|
     (?:icmp)
   port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   port_names: |
-    (?x)
+    (?xi)
     bgp|
     ssh|
     snmp
   operators: '(?:(?:eq)|(?:ge)|(?:le))'
   port_target: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
   drives: |
-    (?x)
+    (?xi)
     (?:
       (?:(?:(?:running)|(?:startup))-config)|
       (?:flash)|
@@ -294,7 +294,7 @@ contexts:
 
   ace:
     - match: |
-        (?x)
+        (?xi)
         ({{line_number}}\s+)
         (?:(permit)|(deny))\s+
         ({{protocol_target}})\s+
@@ -386,7 +386,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.bgp.vrf.ipv4_address_family.neighbor
         - match: |
-            (?x) 
+            (?xi) 
             (?:
             (activate)|
             (shutdown)|
@@ -450,7 +450,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.bgp.vrf.ipv6_address-family.neighbor
         - match: |
-            (?x) 
+            (?xi) 
             ^\s*
             (?:
             (activate)|
@@ -516,7 +516,7 @@ contexts:
 
   vrf_ipv4_route:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*(ip)\s+(route)\s+
         ({{ip_prefix}})\s+
         (?:({{interface_names}})\s*({{interface_numbers}})\s+)?
@@ -544,7 +544,7 @@ contexts:
 
   vrf_ipv6_route:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*(ipv6)\s+(route)\s+
         ({{ipv6_prefix}})\s+
         (?:({{interface_names}})\s*({{interface_numbers}})\s+)?
@@ -572,7 +572,7 @@ contexts:
 
   ipv4_route:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*(ip)\s+(route)\s+
         (?:(vrf)\s+(\S+)\s+)?
         ({{ip_prefix}})\s+
@@ -603,7 +603,7 @@ contexts:
 
   ipv6_route:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*(ipv6)\s+(route)\s+
         (?:(vrf)\s+(\S+)\s+)?
         ({{ipv6_prefix}})\s+
@@ -638,7 +638,7 @@ contexts:
 
   ipv4_prefix_list:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*(ip)\s+(prefix-list)\s+(\S+)\s+
         (?:(seq)\s+(\d+)\s+)?        
         (?:(permit)|(deny))\s+
@@ -663,7 +663,7 @@ contexts:
 
   ipv6_prefix_list:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*(ipv6)\s+(prefix-list)\s+(\S+)\s+
         (?:(seq)\s+(\d+)\s+)?        
         (?:(permit)|(deny))\s+
@@ -773,7 +773,7 @@ contexts:
       - include: spanning_tree
       - include: description
       - match: |
-          (?x)
+          (?xi)
           (ipv6\s+enable)|
           (?:(vrf\s+member)\s+(\S*))|
           (port-channel\s+standalone-disable)|
@@ -853,7 +853,7 @@ contexts:
   hsrp:
     - include: hsrp_options
     - match: |
-        (?x)
+        (?xi)
         (?:(ip)\s+({{ip}}))|
         (?:(ip)\s+({{ipv6}}))
       captures: 
@@ -864,7 +864,7 @@ contexts:
 
   hsrp_options:
     - match: |
-        (?x)
+        (?xi)
         (?:(priority)\s+(\d+))|
         (?:(preempt\s+delay\s+minimum)\s+(\d+))|
         (?:(authentication)\s+(md5)\s+(key-string)\s+(\S+))
@@ -880,7 +880,7 @@ contexts:
 
   spanning_tree:
     - match: |
-        (?x)
+        (?xi)
         (spanning-tree)\s+
         (?:
           (port\s+type\s+edge)\s+(trunk)|
@@ -932,7 +932,7 @@ contexts:
     
   interface_default:
     - match: |
-        (?x)
+        (?xi)
         (default)\s+
         (interface)\s+
         ({{interface_names}})\s*
@@ -977,7 +977,7 @@ contexts:
 
   show_bgp:
     - match: |
-        (?x)
+        (?xi)
         (show\s+ip\s+bgp)
         (?:
           (?:
@@ -1132,7 +1132,7 @@ contexts:
         - match: '(?=(?:{{comment}})|$)'
           pop: true
         - match: >
-            (?x)
+            (?xi)
             \s+
             (?:
               ((?:include)|(?:grep))|

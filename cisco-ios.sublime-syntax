@@ -23,7 +23,7 @@ variables:
   line_number: '^\s*\d+'
   ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
   wildcard_mask: |
-    (?x)
+    (?xi)
     (?:
       (?:127\.255\.255\.255)|
       (?:63\.255\.255\.255)|
@@ -59,7 +59,7 @@ variables:
       (?:0\.0\.0\.0)
     )
   subnet_mask: |
-    (?x)
+    (?xi)
     (?:
         (?:0\.0\.0\.0)|
         (?:128\.0\.0\.0)|
@@ -106,6 +106,7 @@ variables:
   interface_names: |
     (?xi)
     (?:
+      (?:BVI)|
       (?:Ethernet)|
       (?:Et)|
       (?:FastEthernet)|
@@ -123,39 +124,40 @@ variables:
       (?:TenGigabitEthernet)|
       (?:Te)|
       (?:tunnel)|
+      (?:Dot11Radio)|
       (?:tu)|
       (?:vlan)|
       (?:vl)
     )
   interface_numbers: |
-    (?x)
+    (?xi)
     (?:\d+(?:/\d+)*(?:\.\d+)?)?
   interface_number_ranged: |
-    (?x)
+    (?xi)
     (?:\d+(?:/\d+)*(?:\.\d+)?)(?:-\d+)?
   network_target: |
-    (?x)
+    (?xi)
     (?:
       (?:{{network_address}})|
       (?:{{ip}})|
       (?:any)
     )
   protocol_target: |
-    (?x)
+    (?xi)
     (?:ip)|
     (?:tcp)|
     (?:udp)|
     (?:icmp)
   port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   port_names: |
-    (?x)
+    (?xi)
     bgp|
     ssh|
     snmp
   operators: '(?:(?:eq)|(?:ge)|(?:le))'
   port_target: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
   drives: |
-    (?x)
+    (?xi)
     (?:
       (?:(?:(?:running)|(?:startup))-config)|
       (?:flash)|
@@ -177,6 +179,7 @@ contexts:
 
   prototype:
     - include: device_comment
+    - include: pop_ctx_word
     - include: comment
     - include: pipe
     - include: scope
@@ -240,6 +243,10 @@ contexts:
         1: keyword.other
 
   pop_ctx_word:
+    - match: ^(!)$
+      captures:
+        1: comment.line
+      pop: true
     - match: ({{pop_ctx}})
       pop: true
       captures:
@@ -273,8 +280,11 @@ contexts:
     - include: snmp
     - include: vlan
     - include: logging
-    - include: interface
+    - include: line_con
+    - include: line_aux
     - include: ip_route
+    - include: ip_classless
+    - include: interface
     - include: prefix_list
     - include: vrf_upgrade
     - include: ipv6_unicast_routing
@@ -335,7 +345,7 @@ contexts:
   
   snmp_poll:
     - match: >
-        (?x)
+        (?xi)
         \s*
         (snmp-server)\s+
         (community)\s+
@@ -351,7 +361,7 @@ contexts:
 
   snmp_trap:
     - match: >
-        (?x)
+        (?xi)
         \s*
         (snmp-server)\s+
         (host)\s+
@@ -405,7 +415,7 @@ contexts:
 
   standard_ace:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         ({{line_number}}\s+)?
         (?:(permit)|(deny))\s+
@@ -435,7 +445,7 @@ contexts:
 
   extended_ace:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         ({{line_number}}\s+)?
         (?:(permit)|(deny))\s+
@@ -522,7 +532,7 @@ contexts:
 
   ipv4_neighbor:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*(neighbor)\s+({{ip}})\s+
         (?:
         (activate)|
@@ -584,7 +594,7 @@ contexts:
 
   ipv6_neighbor:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*(neighbor)\s+({{ipv6}})\s+
         (?:
         (activate)|
@@ -647,13 +657,18 @@ contexts:
     captures:
       1: support.constant
 
+  ip_classless:
+  - match: ^\s*(ip\s+classless)
+    captures:
+      1: support.constant
+
   ip_route: 
     - include: ipv4_route
     - include: ipv6_route
 
   ipv4_route:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*
         (?:
           (ip)\s+(route)\s+
@@ -689,7 +704,7 @@ contexts:
 
   ipv6_route:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*
         (ipv6)\s+(route)\s+
         (?:(vrf)\s+(\S+)\s+)?
@@ -725,7 +740,7 @@ contexts:
 
   ipv4_prefix_list:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*(ip)\s+(prefix-list)\s+(\S+)\s+
         (?:(seq)\s+(\d+)\s+)?        
         (?:(permit)|(deny))\s+
@@ -750,7 +765,7 @@ contexts:
 
   ipv6_prefix_list:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*(ipv6)\s+(prefix-list)\s+(\S+)\s+
         (?:(seq)\s+(\d+)\s+)?        
         (?:(permit)|(deny))\s+
@@ -793,7 +808,7 @@ contexts:
 
   interface_block:
     - match: >
-        (?x)
+        (?xi)
         ^\s*
         (?:
           (interface)\s+
@@ -815,7 +830,7 @@ contexts:
       - include: standby
       - include: switchport
       - match: |
-          (?x)
+          (?xi)
           ^\s*
           (?:
             (?:(description.*))|
@@ -831,7 +846,10 @@ contexts:
             (?:(ip\s+address)\s+({{ip}})\s+({{subnet_mask}})(\s+secondary)?)|
             (shutdown)|
             (ipv6\s+enable)|
-            (?:(channel-group)\s+(\d+)\s+(mode)\s+(active))
+            (?:(channel-group)\s+(\d+)\s+(mode)\s+(active))|
+            (?:(speed)\s+(auto)|(\d+))|
+            (?:(ip\s+nat)\s+((?:inside)|(?:outside)))|
+            (?:(duplex)\s+((?:auto)|(?:half)|(?:auto)))
           )
         captures:
           1: comment.line                 # Description
@@ -862,11 +880,18 @@ contexts:
           26: constant.numeric            # channel-group id
           27: support.constant            # channel-group mode
           28: support.constant            # channel-group mode active
+          29: support.constant            # speed
+          30: support.constant            # speed auto
+          31: constant.numeric            # speed #
+          32: support.constant            # ip nat 
+          33: support.constant            # ip nat inside / outside
+          34: support.constant            # duplex 
+          35: support.constant            # duplex auto / full / half
       - include: partials
 
   standby:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (?:
           (standby)\s+(?:(\d+)|(?:(version)\s+([1-2])))\s+
@@ -943,7 +968,7 @@ contexts:
     
   interface_default:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (?:
           (default)\s+
@@ -975,11 +1000,72 @@ contexts:
           3: string.unquoted
           4: support.constant
           5: support.constant
-      - match: ^\s*(transport\s+input)\s+((?:telnet|ssh)(?:\s+(?:telnet|ssh))?)
+      - match: ^\s*(transport\s+(?:(?:input)|(?:output)))\s+((?:telnet|ssh)(?:\s+(?:telnet|ssh))?)
         captures:
           1: support.constant
           2: support.constant
-      # - include: pop_context_on_unknown
+
+  line_con:
+    - match: '^\s*(line)\s+(con)\s+(0)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.numeric
+      push:
+      - meta_content_scope: text.network.cisco.ios.console
+      - match: |
+          (?xi)
+          ^\s*
+          (?:
+            (?:(password)\s+(\S+))|
+            (?:(modem\s+enable))|
+            (?:(transport)\s+
+              (?:
+                (preferred\s+all)|
+                (output\s+all)|
+                (input\s+all)
+              )
+            )
+          )
+        captures:
+          1: support.constant     # password
+          2: string.unquoted      # password string
+          3: support.constant     # modem enable
+          4: support.constant     # transport
+          5: support.constant     # transport preferred all
+          6: support.constant     # transport output all
+          7: support.constant     # transport input all
+
+  line_aux:
+    - match: '^\s*(line)\s+(aux)\s+(\d+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.numeric
+      push:
+      - meta_content_scope: text.network.cisco.ios.console
+      - match: |
+          (?xi)
+          ^\s*
+          (?:
+            (?:(password)\s+(\S+))|
+            (?:(modem\s+enable))|
+            (?:(transport)\s+
+              (?:
+                (preferred\s+all)|
+                (output\s+all)
+              )
+            )
+          )
+        captures:
+          1: support.constant     # password
+          2: string.unquoted      # password string
+          3: support.constant     # modem enable
+          4: support.constant     # transport
+          5: support.constant     # transport preferred all
+          6: support.constant     # transport output all
 
   vrf:
     - match: '^\s*(vrf)\s+(definition)\s+(\S+)'
@@ -1057,7 +1143,7 @@ contexts:
       # - include: pop_context_on_unknown
 
   do_show:
-    - match: '^\s*(do)'
+    - match: '^\s*(do)(?=\s)'
       captures:
           1: support.constant
       push: 
@@ -1101,7 +1187,7 @@ contexts:
 
   show_bgp:
     - match: |
-        (?x)
+        (?xi)
         (show\s+ip\s+bgp)
         (?:
           (?:
@@ -1230,7 +1316,7 @@ contexts:
         - match: '(?=(?:{{comment}})|$)'
           pop: true
         - match: >
-            (?x)
+            (?xi)
             \s+
             (?:
               (include)|

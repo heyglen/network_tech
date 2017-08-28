@@ -23,12 +23,12 @@ variables:
   line_number: '^\s*\d+'
   ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
   aaa_protocols: |
-    (?x)
+    (?xi)
     (?:
       (?:tacacs+)
     )
   inspect_protocol: |
-    (?x)
+    (?xi)
     (?:
       (?:ftp)|
       (?:h323\s+h225)|
@@ -48,7 +48,7 @@ variables:
       (?:icmp)
     )
   log_levels: |
-    (?x)
+    (?xi)
     (?:
       (?:informational)|
       (?:notifications)|
@@ -56,7 +56,7 @@ variables:
     )    
   time: '(?:(?:\d{1,2}:){2}\d{1,2})'
   subnet_mask: |
-    (?x)
+    (?xi)
     (?:
         (?:0\.0\.0\.0)|
         (?:128\.0\.0\.0)|
@@ -120,21 +120,21 @@ variables:
     (?xi)
     (?:\d+(?:/\d+)*(?:\.\d+)?)
   interface_number_ranged: |
-    (?x)
+    (?xi)
     (?:\d+(?:/\d+)*(?:\.\d+)?)(?:-\d+)?
   network_target: |
-    (?x)
+    (?xi)
     (?:{{ip_prefix}})|
     (?:any4)|
     (?:any6)|
     (?:any)
   management_protocols: |
-    (?x)
+    (?xi)
     (?:http)|
     (?:ssh)|
     (?:telnet)
   protocol_target: |
-    (?x)
+    (?xi)
     (?:
      (?:ip)|
      (?:tcp-udp)|
@@ -143,7 +143,7 @@ variables:
     )
   port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   icmp_types: |
-    (?x)
+    (?xi)
     (?:
       (?:echo-reply)|
       (?:unreachable)|
@@ -166,7 +166,7 @@ variables:
       (?:traceroute)
     )
   port_names: |
-    (?x)
+    (?xi)
     (?:bgp)|
     (?:domain)|
     (?:ftp)|
@@ -200,7 +200,7 @@ variables:
   valid_ports: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
   port_target: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
   drives: |
-    (?x)
+    (?xi)
     (?:
       (?:(?:(?:running)|(?:startup))-config)|
       (?:flash)|
@@ -245,7 +245,6 @@ contexts:
   prototype:
     - include: pipe
     - include: show
-    - include: do_show
     - include: scope
     - include: device_comment
     - include: comment
@@ -264,7 +263,6 @@ contexts:
   configure_terminal:
     - match: '{{scope_configure_terminal}}'
       # with_prototype:
-      #   - include: do_show
       #   - include: scope
       captures:
         0: cisco.scope
@@ -474,7 +472,7 @@ contexts:
   
   timeout:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (timeout)\s+
         (?:
@@ -537,7 +535,7 @@ contexts:
 
   ssl_cipher:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (ssl)\s+
         (cipher)\s+
@@ -660,7 +658,7 @@ contexts:
         - meta_content_scope: text.network.cisco.asa.object.network
         - include: description
         - match: |
-            (?x)
+            (?xi)
             ^\s*
             (?:
              (?:(host)\s+({{ip}}))|
@@ -698,7 +696,7 @@ contexts:
         - include: description
         - include: object_group_group_object
         - match: |
-            (?x)
+            (?xi)
             ^\s*
             (?:
               (protocol-object)\s+
@@ -722,7 +720,7 @@ contexts:
         - meta_content_scope: text.network.cisco.asa.object.service
         - include: description
         - match: |
-            (?x)
+            (?xi)
             ^\s*
             (?:
              (?:(service)\s+(tcp|udp)\s+(source|destination))\s+(?:
@@ -757,7 +755,7 @@ contexts:
         - include: description
         - include: object_group_group_object
         - match: |
-            (?x)
+            (?xi)
             ^\s*
             (?:
               (network-object)\s+
@@ -776,7 +774,7 @@ contexts:
 
   aaa_server_protocol:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (aaa-server)\s+(\S+)\s+(protocol)\s+({{aaa_protocols}})
       captures:
@@ -788,7 +786,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.asa.aaa_server.protocol
         - match: |
-            (?x)
+            (?xi)
             ^\s*
             (max-failed-attempts)\s+(\d+)
           captures:
@@ -799,7 +797,7 @@ contexts:
 
   aaa_server_host:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (aaa-server)\s+(\S+)\s+\((\S+)\)\s+(host)\s+({{ip}})
       captures:
@@ -812,7 +810,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.asa.aaa_server.host
         - match: |
-            (?x)
+            (?xi)
             ^\s*
             (key)\s+(\S+)
           captures:
@@ -828,7 +826,7 @@ contexts:
 
   service_policy:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (service-policy)\s+(\S+)\s+(global)
       captures:
@@ -839,7 +837,7 @@ contexts:
 
   policy_map_global:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (policy-map)\s+(\S+)
       captures:
@@ -853,7 +851,7 @@ contexts:
 
   policy_map_inspect_dns:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (policy-map)\s+(type)\s+(inspect)\s+(dns)\s+(\S+)
       captures:
@@ -870,7 +868,7 @@ contexts:
 
   policy_map_inspect_dns_parameters:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (parameters)
       captures:
@@ -882,7 +880,7 @@ contexts:
 
   dns_inspection_message_length:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (message-length)\s+
         (?:
@@ -902,7 +900,7 @@ contexts:
 
   policy_map_class:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (class)\s+(\S+)
       captures:
@@ -918,7 +916,7 @@ contexts:
 
   policy_map_class_inspect:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (inspect)\s+
         (?:
@@ -934,7 +932,7 @@ contexts:
 
   policy_map_class_user_statistics:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (set)\s+
         (?:
@@ -955,7 +953,7 @@ contexts:
 
   policy_map_class_set:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (user-statistics)\s+
         (?:
@@ -968,7 +966,7 @@ contexts:
 
   aaa:
     - match: |
-        (?x) 
+        (?xi) 
         (?:
           (aaa)\s+
           (?:
@@ -1097,13 +1095,13 @@ contexts:
   # Used to avoid object(-group)? (network|service|protocol) completions from triggering
   incomplete_access_list:
     - match: |
-        (?x)
+        (?xi)
         (access-list)\s+.*
       scope: text.network.cisco.asa.access_list.incomplete
 
   packet_tracer:
     - match: |
-        (?x)
+        (?xi)
         (packet-tracer\s+input)\s+
         (\S+)\s+
         (
@@ -1125,7 +1123,7 @@ contexts:
 
   building_access_list:
     - match: |
-        (?x)
+        (?xi)
         (access-list)\s+
         ([^;\s]+)\s+(?:(line)\s+(\d+)\s+)?(extended)\s+(?:(permit)|(deny))\s+.*
       captures:
@@ -1140,7 +1138,7 @@ contexts:
 
   access_list_remark:
     - match: >
-        (?x)
+        (?xi)
         \s*(access-list)\s+
         ([^;\s]+)\s+(?:(line)\s+(\d+)\s+)?(remark)(\s+.*)?
       captures:
@@ -1153,7 +1151,7 @@ contexts:
 
   access_list_cached_log_flows:
     - match: >
-        (?x)
+        (?xi)
         \s*access-list\s+cached\s+(\S+)\s+log\s+flows:\s+
         total\s+\d+,\s+denied\s+\d+\s+
         \(deny-flow-max\s+\d+\)
@@ -1167,7 +1165,7 @@ contexts:
 
   access_list_ip:
     - match: |
-        (?x)
+        (?xi)
         \s*
         (access-list)\s+
         (?:
@@ -1302,7 +1300,7 @@ contexts:
 
   access_list_icmp:
     - match: |
-        (?x)
+        (?xi)
         \s*
         (access-list)\s+
         (?:
@@ -1557,7 +1555,7 @@ contexts:
 
   password:
     - match: >
-        (?x)
+        (?xi)
         ^\s*
         (?:(password\s+encryption)\s+(aes))|
         (?:(passwd)\s+(\S+)(\s+encrypted)?)
@@ -1623,7 +1621,7 @@ contexts:
 
   ipv4_route:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*
         (route)\s+
         (\S+)\s+
@@ -1639,7 +1637,7 @@ contexts:
 
   ipv6_route:
     - match: |
-        (?x) 
+        (?xi) 
         ^\s*
         (ipv6)\s+
         (route)\s+
@@ -1716,7 +1714,7 @@ contexts:
 
   pager:
     - match: |
-        (?x)
+        (?xi)
         ^\s*
         (pager)\s+
         (lines)\s+
@@ -1769,7 +1767,7 @@ contexts:
       - meta_content_scope: text.network.cisco.interface
       - include: description
       - match: |
-          (?x)
+          (?xi)
           ^\s*
           (?:
             (?:
@@ -1929,7 +1927,7 @@ contexts:
         - match: '(?=(?:{{comment}})|$)'
           pop: true
         - match: >
-            (?x)
+            (?xi)
             \s+
             (?:
               (include)|
