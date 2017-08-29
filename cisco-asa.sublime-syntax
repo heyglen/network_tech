@@ -22,10 +22,41 @@ variables:
   command_end: '(?:\s|{{comment}}|$)'
   line_number: '^\s*\d+'
   ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
+  configure_terminal_ctx_words: |
+    (?xi)
+    (?:
+      (?:aaa-server)|
+      (?:aaa)|
+      (?:arp)|
+      (?:banner)|
+      (?:class-map)|
+      (?:crypto)|
+      (?:enable)|
+      (?:hostname)|
+      (?:http)|
+      (?:icmp)|
+      (?:interface)|
+      (?:logging)|
+      (?:mtu)|
+      (?:names)|
+      (?:pager)|
+      (?:passwd)|
+      (?:policy-map)|
+      (?:route)|
+      (?:service-policy)|
+      (?:snmp-server)|
+      (?:ssh)|
+      (?:telnet)|
+      (?:tftp-server)|
+      (?:timeout)|
+      (?:user-identity)|
+      (?:username)
+    )
   aaa_protocols: |
     (?xi)
     (?:
-      (?:tacacs+)
+      (?:tacacs\+)|
+      (?:radius)
     )
   inspect_protocol: |
     (?xi)
@@ -44,6 +75,7 @@ variables:
       (?:tftp)|
       (?:sip)|
       (?:xdmcp)|
+      (?:dns)|
       (?:icmp\s+error)|
       (?:icmp)
     )
@@ -97,7 +129,14 @@ variables:
   ipv6_prefix_length: '(?:1?\d?\d)'
   ipv6_prefix: '(?:(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?/{{ipv6_prefix_length}}|::/0))'
   ipv6: '(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)'
-  vlan_id: '(?:(?:\d{2,3})|(?:[0-3]\d{2,3})|(?:40[0-9][0-5])|[1-9])'
+  vlan_id: |
+    (?xi)
+    (?:
+      (?:[0-3]\d{2,3})|
+      (?:40[0-9][0-5])|
+      (?:\d{2,3})|
+      [1-9]
+    )
   vlan_range: '(?:{{vlan_id}}(?:-|,{{vlan_id}})*)'
   network_address: '(?:{{ip}})\s+(?:{{ip}})'
   interface_names: |
@@ -105,6 +144,8 @@ variables:
     (?:
       (?:vlan)|
       (?:vl)|
+      (?:Management)|
+      (?:mgmt)|
       (?:Ethernet)|
       (?:Eth)|
       (?:port-channel)|
@@ -130,9 +171,11 @@ variables:
     (?:any)
   management_protocols: |
     (?xi)
-    (?:http)|
-    (?:ssh)|
-    (?:telnet)
+    (?:
+      (?:http)|
+      (?:ssh)|
+      (?:telnet)
+    )
   protocol_target: |
     (?xi)
     (?:
@@ -245,6 +288,7 @@ contexts:
   prototype:
     - include: pipe
     - include: show
+    - include: pop_ctx_word
     - include: scope
     - include: device_comment
     - include: comment
@@ -276,7 +320,9 @@ contexts:
     - include: aaa
     - include: snmp
     - include: vlan
+    - include: names
     - include: pager
+    - include: banner
     - include: logging
     - include: timeout
     - include: objects
@@ -286,11 +332,11 @@ contexts:
     - include: ip_route
     - include: password
     - include: interface
+    - include: class_map
     - include: ssl_cipher
     - include: policy_map
     - include: domain_name
     - include: arp_timeout
-    - include: banner_exec
     - include: access_list
     - include: tftp_server
     - include: reverse_path
@@ -302,6 +348,7 @@ contexts:
     - include: fragment_chain
     - include: ssl_encryption
     - include: aaa_server_host
+    - include: treat_detection
     - include: enable_password
     - include: ssh_key_exchange
     - include: monitor_interface
@@ -335,7 +382,7 @@ contexts:
             (?:arp)|
             (?:banner)|
             (?:changeto)|
-            (?:class)|
+            (?:class-map)|
             (?:config-url)|
             (?:configure)|
             (?:context)|
@@ -420,6 +467,10 @@ contexts:
         1: keyword.other
 
   pop_ctx_word:
+    - match: ^(!)$
+      captures:
+        1: comment.line
+      pop: true
     - match: ({{pop_ctx}})
       pop: true
       captures:
@@ -602,8 +653,8 @@ contexts:
         4: support.constant
         5: support.constant
 
-  banner_exec:
-    - match: '^\s*(banner)\s+(exec)\s(.*)'
+  banner:
+    - match: '^\s*(banner)\s+((?:exec)|(?:motd))\s(.*)'
       captures:
         1: support.constant
         2: support.constant
@@ -678,11 +729,10 @@ contexts:
             8: support.constant             # range
             9: constant.numeric             # range ips
             10: support.constant            # nat
-            11: string.unquoted             # nat real
-            12: string.unquoted             # nat mapped
+            11: entity.other.attribute-name # nat real
+            12: entity.other.attribute-name # nat mapped
             13: support.constant            # nat static
             14: constant.numeric            # nat ip
-        # - include: pop_context_on_unknown
 
   object_group_protocol:
     - match: '{{scope_object_group_protocol}}'
@@ -772,6 +822,10 @@ contexts:
             5: constant.numeric             # subnet mask
         # - include: pop_context_on_unknown
 
+  pop_on_configure_terminal_context:
+    - match: '(?={{configure_terminal_ctx_words}})'
+      pop: true
+    
   aaa_server_protocol:
     - match: |
         (?xi)
@@ -791,9 +845,8 @@ contexts:
             (max-failed-attempts)\s+(\d+)
           captures:
             1: support.constant
-            2: constant.numeric             
-
-        # - include: pop_context_on_unknown
+            2: constant.numeric    
+        - include: pop_on_configure_terminal_context         
 
   aaa_server_host:
     - match: |
@@ -812,13 +865,36 @@ contexts:
         - match: |
             (?xi)
             ^\s*
-            (key)\s+(\S+)
+            (?:(key)\s+(\S+))|
+            (?:((?:(?:authentication)|(?:accounting))-port)\s+(\S+))
+          captures:
+            1: support.constant     # key
+            2: string.unquoted      # key string
+            3: support.constant     # authentication / accounting
+            4: constant.numeric     # port number
+        - include: pop_on_configure_terminal_context
+
+
+  class_map:
+    - match: |
+        (?xi)
+        ^\s*
+        (class-map)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: support.constant
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.asa.policy_map.global
+        - match: |
+            (?xi)
+            ^\s*
+            (?:(match)\s+(default-inspection-traffic))
           captures:
             1: support.constant
-            2: string.unquoted             
-
-        # - include: pop_context_on_unknown
-
+            2: support.constant
+        - include: pop_on_configure_terminal_context
+    
 
   policy_map:
     - include: policy_map_inspect_dns
@@ -847,7 +923,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.asa.policy_map.global
         - include: policy_map_class
-        # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
 
   policy_map_inspect_dns:
     - match: |
@@ -865,6 +941,7 @@ contexts:
         - meta_content_scope: text.network.cisco.asa.policy_map.inspect.dns
         - include: policy_map_inspect_dns_parameters
         # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
 
   policy_map_inspect_dns_parameters:
     - match: |
@@ -913,6 +990,7 @@ contexts:
         - include: policy_map_class_user_statistics
         - include: policy_map_class_set
         # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
 
   policy_map_class_inspect:
     - match: |
@@ -973,7 +1051,7 @@ contexts:
             (?:(authentication)\s+
               (?:
                 (?:
-                  ({{management_protocols}}|enable)\s+
+                  ({{management_protocols}}|(?:serial)|enable)\s+
                   (console)
                   ((?:\s+TACACS\+)?(?:\s+LOCAL)?)
                 )
@@ -986,7 +1064,7 @@ contexts:
             )|
             (?:(accounting)\s+
               (?:
-                ((?:(?:(?:{{management_protocols}})|(?:enable))\s+console)|(?:command))
+                ((?:(?:{{management_protocols}}|(?:enable))\s+console)|(?:command))
                 ((?:\s+TACACS\+)?(?:\s+LOCAL)?)
               )
             )
@@ -1439,6 +1517,27 @@ contexts:
   icmp_protocol_settings:
     - include: icmp_ipv4_protocol_settings
     - include: icmp_ipv6_protocol_settings
+    - include: icmp_rate_limit
+
+  icmp_rate_limit:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (icmp)\s+
+          (unreachable)\s+
+          (rate-limit)\s+
+          (\d+)\s+
+          (burst-size)\s+
+          (\d+)
+        )
+      captures:
+        1: support.constant             # icmp unreachable rate-limit number burst-size number
+        2: support.constant             # icmp unreachable rate-limit number burst-size number
+        3: support.constant             # icmp unreachable rate-limit number burst-size number
+        4: constant.numeric             # icmp unreachable rate-limit number burst-size number
+        5: support.constant             # icmp unreachable rate-limit number burst-size number
+        6: constant.numeric             # icmp unreachable rate-limit number burst-size number
 
   icmp_ipv4_protocol_settings:
     - match: |
@@ -1474,6 +1573,19 @@ contexts:
         4: constant.numeric             # management subnet mask
         5: entity.other.attribute-name  # management nameif
 
+  treat_detection:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (threat-detection)\s+
+          (?:(statistics)\s+(tcp-intercept))
+        )
+      captures:
+        1: support.constant             # threat-detection
+        2: support.constant             # statistics
+        3: support.constant             # statistics tcp-intercept
+
   protocol_settings:
     - include: icmp_protocol_settings
     - match: |
@@ -1482,9 +1594,10 @@ contexts:
         (?:
           (http\s+server\s+enable)|
           (?:({{management_protocols}})\s+({{ip}})\s+({{subnet_mask}})\s+(\S+))|
-          (?:((?:{{management_protocols}})\s+timeout)\s+(\d+))|
+          (?:({{management_protocols}}\s+timeout)\s+(\d+))|
           (?:(ssh\s+key-exchange\s+group)\s+(\S+))|
-          (?:(ssh\s+version)\s+(\d+))
+          (?:(ssh\s+version)\s+(\d+))|
+          (?:(ssh\s+stricthostkeycheck))
         )
       captures:
         1: support.constant             # http server enable
@@ -1498,6 +1611,7 @@ contexts:
         9: string.unquoted              # ssh dh group name
         10: support.constant            # ssh version
         11: constant.numeric            # ssh version value
+        12: support.constant            # ssh stricthostkeycheck
 
   logging:
     - match: |
@@ -1582,8 +1696,8 @@ contexts:
         ^\s*
         (snmp-server)\s+
         (?:
-          (?:(location)\s+(\S+))|
-          (?:(contact)\s+(\S+))|
+          (?:(location)\s+(.*))|
+          (?:(contact)\s+(.*))|
           (?:
             (host)\s+(\S+)\s+({{ip}})\s+
             (?:
@@ -1724,6 +1838,14 @@ contexts:
         2: support.constant
         3: constant.numeric
 
+  names:
+    - match: |
+        (?xi)
+        ^\s*
+        (names)
+      captures:
+        1: support.constant
+
   tftp_server:
     - match: '^\s*(tftp-server)\s+(\S+)\s+({{ip}})\s+(\S+)'
       captures:
@@ -1786,7 +1908,8 @@ contexts:
             (?:(ip\s+address)\s+({{ip}}\s+{{subnet_mask}})(?:(\s+standby)\s+({{ip}}))?)|
             (shutdown)|
             (?:(nameif)\s+(\S+))|
-            (?:(security-level)\s+(\S+))
+            (?:(security-level)\s+(\S+))|
+            (?:(management-only))
           )
         captures:
           1: support.constant                           # ipv6
@@ -1806,7 +1929,8 @@ contexts:
           15: entity.other.attribute-name               # nameif name
           16: support.constant                          # security-level
           17: constant.numeric                          # security-level id
-      # - include: pop_context_on_unknown
+          18: support.constant                          # management-only
+      - include: pop_on_configure_terminal_context
 
   show:
     - include: show_vlan

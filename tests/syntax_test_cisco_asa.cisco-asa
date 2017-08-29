@@ -39,6 +39,8 @@ aaa-server AAA_NAME protocol tacacs+
 aaa-server AAA_NAME (inside) host 1.2.3.4
  key *****
  exit
+aaa-server RADIUS protocol radius
+ max-failed-attempts 2
 
 user-identity default-domain LOCAL
 crypto ipsec security-association pmtu-aging infinite
@@ -61,6 +63,10 @@ password encryption aes
 passwd SECRET encrypted
 
 ip verify reverse-path interface outside
+
+interface Management0/0
+ management-only
+ exit
 
 interface vlan 0
  exit
@@ -243,6 +249,7 @@ aaa accounting enable console TACACS+
 aaa accounting telnet console TACACS+
 aaa accounting ssh console TACACS+
 aaa authorization exec authentication-server auto-enable
+aaa authentication serial console TACACS+ LOCAL
 
 policy-map type inspect dns dns_policy_map
  parameters

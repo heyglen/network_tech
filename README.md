@@ -2,7 +2,7 @@
 
 Cisco syntax highlighting and completions for Sublime Text 3.
 
-![Cisco IOS Demo](/docs/_images/cisco_ios_demo.gif)
+![Cisco IOS Demo](http://network-tech.readthedocs.io/en/latest/_images/cisco_ios_demo.gif)
 
 😎
 

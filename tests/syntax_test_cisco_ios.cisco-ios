@@ -50,7 +50,7 @@ configure terminal
   ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 2 le 1
   ip prefix-list NAME seq 10 deny 0.0.0.0/0
   ipv6 prefix-list NAME seq 10 permit ::/64
-  ipv6 route vrf NAME ::/64 vlan0 ::1
+  ipv6 route vrf NAME ::/64 vlan1 ::1
   ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 name asdf permanent
   ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 track 2
   ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 tag 2
@@ -81,7 +81,6 @@ configure terminal
    permit tcp host 1.2.3.4 host 1.2.3.0
    deny ip any any
    permit icmp any any
-  exit
   
   vrf definition NAME
     description management
@@ -90,7 +89,6 @@ configure terminal
     route-target import 1.2.3.4:5
     address-family ipv4
       export map name
-    exit
     ! A comment
     address-family ipv6
     exit
@@ -138,6 +136,9 @@ configure terminal
       neighbor ::1 activate
       neighbor ::1 shutdown
       neighbor ::1 remote-as 1
+      neighbor ::1 send-community
+      neighbor ::1 send-community both
+      neighbor ::1 send-community extended
       neighbor ::1 ttl-security hops 1
       neighbor ::1 version 4
       neighbor ::1 timers 1 2
