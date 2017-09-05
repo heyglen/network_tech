@@ -29,6 +29,7 @@ variables:
       (?:aaa)|
       (?:arp)|
       (?:banner)|
+      (?:changeto)|
       (?:class-map)|
       (?:crypto)|
       (?:enable)|
@@ -38,9 +39,20 @@ variables:
       (?:interface)|
       (?:logging)|
       (?:mtu)|
+      (?:
+        nat\s+
+        \(\S+,\S+\)\s+
+        (?:
+          (?:source)|
+          (?:\d+)|
+          (?:after-auto)
+        )
+      )|
       (?:names)|
       (?:pager)|
       (?:passwd)|
+      (?:object-group)|
+      (?:object)|
       (?:policy-map)|
       (?:route)|
       (?:service-policy)|
@@ -317,6 +329,7 @@ contexts:
       #   - include: configure_terminal_scope
   
   configure_terminal_scope:
+    - include: nat
     - include: aaa
     - include: snmp
     - include: vlan
@@ -676,6 +689,103 @@ contexts:
         2: entity.other.inherited-class
 
 
+  nat:
+    - include: global_static_nat
+
+  global_static_nat:
+    - match: |
+        (?xi)
+        ^\s*
+        (nat)\s+\((\S+),(\S+)\)\s+
+        (?:(after-auto\s+)?(\d+\s+)?)?
+        (source)\s+
+        (
+          (?:static)|
+          (?:dynamic)
+        )
+        \s+
+        (?:
+          (any)|
+          (\S+)
+        )
+        \s+
+        (?:
+          (?:(interface)(?:\s+(ipv6))?)|
+          (any)|
+          (\S+)
+        )
+        (?:
+          \s+
+          (destination)\s+(static)\s+
+          (?:
+            (?:(interface)(?:\s+(ipv6))?)|
+            (\S+)
+          )
+          \s+
+          (?:
+            (any)|
+            (\S+)
+          )
+        )?
+        (?:
+          \s+          
+          (service)\s+
+          (?:
+            (any)|
+            (\S+)
+          )
+          \s+          
+          (\S+)
+          (?:
+            (?:
+              (\s+net-to-net)?
+              (\s+dns)?
+              (?:
+                (\s+unidirectional)|
+                (?:
+                  (\s+no-proxy-arp)
+                  (\s+route-lookup)?
+                )
+              )?
+              (?:\s+(inactive))?
+              (?:\s+(description)\s+(\S+))?
+            )
+          )?
+        )?
+      captures:
+        1: support.constant                   # nat
+        2: entity.other.attribute-name        # nat interface mapped
+        3: entity.other.attribute-name        # nat interface real
+        4: support.constant                   # after-auto
+        5: constant.numeric                   # line
+        6: support.constant                   # nat source
+        7: support.constant                   # static / dynamic
+        8: constant.numeric                   # any
+        9: string.unquoted                    # object
+        10: support.constant                  # interface
+        11: support.constant                  # interface ipv6
+        12: constant.numeric                  # any
+        13: string.unquoted                   # mapped object
+        14: support.constant                  # destination
+        15: support.constant                  # static
+        16: support.constant                  # interface
+        17: support.constant                  # interface ipv6
+        18: string.unquoted                   # object
+        19: constant.numeric                  # any
+        20: string.unquoted                   # mapped object
+        21: support.constant                  # service
+        22: constant.numeric                  # any
+        23: string.unquoted                   # real service object
+        24: string.unquoted                   # mapped service object
+        25: support.constant                  # net-to-net
+        26: support.constant                  # dns
+        27: support.constant                  # unidirectional
+        28: support.constant                  # no-proxy-arp
+        29: support.constant                  # route-lookup
+        30: invalid.deprecated.inactive       # inactive
+        31: support.constant                  # description
+        32: string.unquoted                   # description string
+
   objects:
     - include: object_network
     - include: object_service
@@ -693,10 +803,18 @@ contexts:
     - include: object_group_icmp
 
   object_group_group_object:
-    - match: '^\s*(group-object)\s+(\S+)'
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(group-object)\s+(\S+))|
+          (?:(network-object\s+object)\s+(\S+))
+        )
       captures:
-        1: support.constant
-        2: string.unquoted
+        1: support.constant     # group-object
+        2: string.unquoted      # group-object name
+        3: support.constant     # network-object object
+        4: string.unquoted      # network-object object name
     
   object_network:
     - match: '{{scope_object_network}}'
@@ -733,6 +851,7 @@ contexts:
             12: entity.other.attribute-name # nat mapped
             13: support.constant            # nat static
             14: constant.numeric            # nat ip
+        - include: pop_on_configure_terminal_context
 
   object_group_protocol:
     - match: '{{scope_object_group_protocol}}'
@@ -758,6 +877,7 @@ contexts:
             1: support.constant             # protocol-object
             2: constant.numeric             # protocol
         # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
 
   object_service:
     - match: '{{scope_object_service}}'
@@ -788,6 +908,7 @@ contexts:
             7: constant.numeric             # operator port
             8: constant.numeric             # operator port
         # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
 
   object_group_incomplete:
     - match: '^\s*object-group\s+\S+$'
@@ -821,6 +942,7 @@ contexts:
             4: constant.numeric             # network
             5: constant.numeric             # subnet mask
         # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
 
   pop_on_configure_terminal_context:
     - match: '(?={{configure_terminal_ctx_words}})'
@@ -1118,7 +1240,8 @@ contexts:
                   (icmp)
                 )|
                 (?:
-                  ({{protocol_target}})\s+
+                  ({{protocol_target}})
+                  \s+
                   (source|destination)\s+
                   (?:
                     (?:({{operators}})\s+({{port_target}}))|
@@ -1137,6 +1260,7 @@ contexts:
             7: support.constant             # range
             8: constant.numeric             # target range
         # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
 
   object_group_icmp:
     - match: '\s*(object-group)\s+(icmp-type)\s+(\S+)'
@@ -1161,6 +1285,7 @@ contexts:
             2: support.constant             # operator
             3: constant.numeric             # icmp_type
         # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
 
   access_list:
     - include: access_list_cached_log_flows

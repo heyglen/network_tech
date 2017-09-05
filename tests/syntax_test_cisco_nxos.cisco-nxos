@@ -62,8 +62,43 @@ ip access-list ACL
   10 permit ip 1.2.3.0/24 1.2.3.0/24
   20 deny ip 1.2.3.0/24 1.2.3.0/24
   10 permit ip any 1.2.3.0/24
+  10 permit tcp any range 1 2 1.2.3.0/24 range 1 2
   10 permit ip any any
+  20 deny icmp any any router-advertisement 
+  1 permit icmp any any echo-reply 
+  1 permit icmp any any echo 
+  1 permit icmp any any echo-reply 
+  1 permit icmp any any echo-request 
+  1 permit icmp any any echo-reply 
+  1 permit icmp any any router-advertisement 
+  1 permit icmp any any router-solicitation 
+  1 permit icmp any any nd-na 
+  1 permit icmp any any nd-ns 
+  1 permit icmp any any mld-query 
+  1 permit icmp any any mld-report 
+  1 permit icmp any any mld-reduction 
+  1 permit icmp any any ttl-exceeded 
+  1 permit icmp any any port-unreachable 
+  1 permit icmp any any port-unreachable log 
   exit
+
+ipv6 access-list ACL
+  1 permit tcp any range 1 2 ::/0 range 1 2
+  1 permit icmp any any echo-reply log
+  1 permit icmp any any echo-reply 
+  1 permit icmp any any echo 
+  1 permit icmp any any echo-reply 
+  1 permit icmp any any echo-request 
+  1 permit icmp any any echo-reply 
+  1 permit icmp any any router-advertisement 
+  1 permit icmp any any router-solicitation 
+  1 permit icmp any any nd-na 
+  1 permit icmp any any nd-ns 
+  1 permit icmp any any mld-query 
+  1 permit icmp any any mld-report 
+  1 permit icmp any any mld-reduction 
+  1 permit icmp any any ttl-exceeded 
+  1 permit icmp any any port-unreachable 
 
 interface Ethernet 100/0/1
   description this is a port
@@ -77,6 +112,7 @@ interface Ethernet 100/0/1
   switchport access vlan 1
   switchport 
   ip redirects
+  ip address 1.2.3.4/23
   ipv6 address ::/64 eui-64
   ip pim sparse-mode
   ip arp timeout 42
@@ -93,7 +129,6 @@ interface Ethernet 100/0/1
   no shutdown
   hsrp version 2
   hsrp 0
-
     ip 1.2.3.4
     priority 0
     preempt delay minimum 0
@@ -106,43 +141,113 @@ interface Ethernet 100/0/1
   exit
 
 vlan 1
-
   name whatever
   mode fabricpath
 exit
 
-vrf context management  
+vrf context RED
   ip route 10.229.92.48/28 Vlan0 1.2.3.4
   ipv6 route ::/0 Vlan0 ::1
   ip pim ssm range 224.0.0.0/8
 exit
 
-router bgp 1  
-  vrf sds
+router bgp 1
+  router-id 123
+  template peer-session PEER_SESSION_TEMPLATE
+    remote-as 1
+    password 0 secret_password
+    timers 1 2
+    timers 1 2 3
+  template peer-policy all-peers-policy
+    send-community
+    maximum-prefix 1
+    maximum-prefix 1 2
+    maximum-prefix 1 2 restart 3
+    soft-reconfiguration inbound
+  address-family ipv4 unicast
+    network 1.2.3.0/24
+    network 1.2.3.0/24
+    neighbor 1.2.3.4
+      inherit peer NAME
+      inherit peer-session NAME
+      remote-as 0
+      password 3 secret_password
+      next-hop-self
+      no shutdown
+
+  address-family ipv6 unicast
+    neighbor ::
+      inherit peer NAME
+      inherit peer-session NAME
+      next-hop-self
+      no shutdown
+      password 3 secret_password
+      remote-as 0
+      exit
+  vrf RED
+    router-id 123
     log-neighbor-changes
     address-family ipv4 unicast
       network 1.2.3.0/24
       network 1.2.3.0/24
       neighbor 1.2.3.4
         inherit peer NAME
+        inherit peer-session NAME
         remote-as 0
         password 3 secret_password
         next-hop-self
+        update-source loopback0
         no shutdown
-      exit
-    exit
+
     address-family ipv6 unicast
       neighbor ::
-
         inherit peer NAME
-        remote-as 0
-        password 3 secret_password
+        inherit peer-session NAME
         next-hop-self
         no shutdown
-        exit
+        password 3 secret_password
+        remote-as 0
+        update-source loopback0
+    neighbor 1.2.3.4 remote-as 1
+      inherit peer POLICY
+      description blah blah
+      password 3 secret_password
+      address-family ipv4 unicast
+        next-hop-self
+    neighbor 2.3.4.5 remote-as 2
     exit
   exit
 exit
+
+router ospf 1
+  router-id 1
+  timers throttle spf 200 750 5000
+  timers lsa-arrival 500
+  timers throttle lsa 200 750 5000
+  auto-cost reference-bandwidth 1000000
+  vrf RED
+    router-id 2
+    timers throttle spf 200 750 5000
+    timers lsa-arrival 500
+    timers throttle lsa 200 750 5000
+    auto-cost reference-bandwidth 1000000
+
+router ospfv3 1
+  router-id 1
+  auto-cost reference-bandwidth 1000000
+  address-family ipv6 unicast
+    timers throttle spf 200 750 5000
+  timers lsa-arrival 500
+  timers throttle lsa 200 750 5000
+  vrf RED
+    router-id 2
+    auto-cost reference-bandwidth 1000000
+    address-family ipv4 unicast
+    address-family ipv6 unicast
+      timers throttle spf 200 750 5000
+    timers lsa-arrival 500
+    timers throttle lsa 200 750 5000
+
 
 ip prefix-list NAME seq 10 permit 10.225.6.0/24
 ip prefix-list NAME seq 10 deny 10.225.6.0/24

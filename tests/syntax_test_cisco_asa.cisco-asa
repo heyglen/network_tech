@@ -107,6 +107,7 @@ object-group service whatever
 object-group network NAME
  description blah
  network-object host 1.2.3.4
+ network-object object whatever
  group-object group_name
  exit
 
@@ -194,6 +195,28 @@ access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
  access-list acl-name extended deny ip any6 any6
  
 access-group acl-name in interface outside
+
+nat (real,mapped) 20 source static any any
+nat (real,mapped) after-auto source static any any
+nat (real,mapped) after-auto 20 source static any any
+nat (real,mapped) after-auto 1 source static any any
+nat (real,mapped) source static any any
+nat (real,mapped) source static any interface
+nat (real,mapped) source static any interface ipv6
+nat (real,mapped) source static any mapped
+nat (real,mapped) source static real mapped
+nat (real,mapped) source static any any destination static interface ipv6 any
+nat (real,mapped) source static any any destination static object_name any
+nat (real,mapped) source static any any destination static object_name object_name
+nat (real,mapped) source static any any service real mapped
+nat (real,mapped) source static any any service real mapped description whatever
+nat (real,mapped) source static any any service real mapped inactive
+nat (real,mapped) source static any any service real mapped net-to-net dns unidirectional inactive
+nat (real,mapped) source static any any service real mapped net-to-net dns no-proxy-arp
+nat (real,mapped) source static any any service real mapped net-to-net dns no-proxy-arp route-lookup
+nat (real,mapped) source static any any service real mapped net-to-net dns no-proxy-arp route-lookup inactive
+nat (real,mapped) source static any any service real mapped net-to-net dns unidirectional inactive description whatever
+
 
 mtu outside 1500
 fragment chain 1 outside
