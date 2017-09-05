@@ -73,7 +73,17 @@ variables:
       (?:\d{2,3})|
       [1-9]
     )
-  vlan_range: '(?:{{vlan_id}}(?:[-,]{{vlan_id}})*)'
+  vlan_range: |
+    (?xi)
+    (?:
+      {{vlan_id}}
+      (?:
+        (?:
+          (?:-)|(?:,)
+        )
+        {{vlan_id}}
+      )*
+    )
   network_address: '(?:{{ip}})\s+(?:{{ip}})'
   interface_names: |
     (?xi)

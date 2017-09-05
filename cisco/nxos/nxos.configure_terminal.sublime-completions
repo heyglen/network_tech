@@ -19,7 +19,7 @@
         },
         { 
             "trigger": "line\tvty", 
-            "contents": "line vty ${1:0} ${2:4}\n\t$0\n\texit"
+            "contents": "line vty\n\t$0\n\texit"
         },
         { 
             "trigger": "ipv6route\tipv6 route", 
@@ -36,6 +36,10 @@
         { 
             "trigger": "hostname\thostname",
             "contents": "hostname ${1:HOSTNAME}"
+        },
+        { 
+            "trigger": "interface\tEthernet",
+            "contents": "interface Ethernet${1:0}/${2:0}\n\t$0\n\texit"
         },
 
   ]

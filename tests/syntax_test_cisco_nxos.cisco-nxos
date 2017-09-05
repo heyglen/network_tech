@@ -21,7 +21,6 @@ configure terminal
   hostname example
   exit
 
-
 hostname example
 logging server 1.2.3.4 6 use-vrf management facility local5
 
@@ -100,6 +99,7 @@ ipv6 access-list ACL
   1 permit icmp any any ttl-exceeded 
   1 permit icmp any any port-unreachable 
 
+
 interface Ethernet 100/0/1
   description this is a port
   vrf member NAME
@@ -124,6 +124,11 @@ interface Ethernet 100/0/1
   spanning-tree bpduguard disable
   spanning-tree portfast edge
   channel-group 0 mode active
+  ip policy route-map ROUTE-MAP
+  spanning-tree guard root
+  ip ospf network point-to-point
+  ospfv3 network point-to-point
+  mtu 1500
   channel-protocol lacp
   vpc 123
   no shutdown
@@ -257,8 +262,14 @@ ipv6 prefix-list NAME seq 10 permit ::/0
 ipv6 prefix-list NAME seq 200 deny ::/0 ge 1
 ipv6 prefix-list NAME seq 200 deny ::/0 ge 1 le 2
 
+monitor session 1
+  source vlan 2 both
+  destination interface Ethernet1/2
+
 
 line vty 0 4
+
+line vty
   access-class 42 in vrf-also
   access-class ssh_access in vrf-also
   transport input ssh telnet
