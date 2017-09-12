@@ -148,9 +148,9 @@ configure terminal
       neighbor ::1 soft-reconfiguration inbound
       neighbor ::1 soft-reconfiguration outbound
       neighbor ::1 transport path-mtu-discovery
-      exit
-    exit
 
+router bgp 1
+ip route 1.2.4.0 255.255.255.0 1.2.3.4
 
 interface vlan123
   exit

@@ -45,6 +45,7 @@ variables:
           (?:access-list)|
           (?:arp)|
           (?:vrf)|
+          (?:route)|
           (?:domain)|
           (?:dhcp)
         )
@@ -671,7 +672,7 @@ contexts:
         - include: ipv4_address_family
         - include: vpnv4_address_family
         - include: bgp_settings
-        # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
 
   vpnv4_address_family:
     - match: ^\s*(address-family)\s+(vpnv4)
