@@ -123,6 +123,7 @@ configure terminal
       neighbor 1.1.1.1 inherit peer-policy policy
       neighbor 1.1.1.1 send-community
       neighbor 1.1.1.1 remote-as 20
+      neighbor 1.1.1.1 remote-as 20 shutdown
       neighbor 1.2.3.4 timers 1 2
       neighbor 1.1.1.1 ttl-security hops 1
       neighbor 1.1.1.1 description description 
@@ -136,6 +137,7 @@ configure terminal
       neighbor ::1 activate
       neighbor ::1 shutdown
       neighbor ::1 remote-as 1
+      neighbor ::1 remote-as 1 shutdown
       neighbor ::1 send-community
       neighbor ::1 send-community both
       neighbor ::1 send-community extended

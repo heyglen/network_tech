@@ -743,7 +743,7 @@ contexts:
         (?:(prefix-list|route-map)\s+(\S+)\s+(in|out))|
         (?:(inherit)\s+(peer-policy)\s+(\S+))|
         (send-community(?:\s+(?:(?:both)|(?:extended)))?)|
-        (?:(remote-as)\s+(\d+))|
+        (?:(remote-as)\s+(\d+)(\s+shutdown)?)|
         (?:(timers)\s+(\d+)\s+(\d+)(?:\s+(\d+))?)|
         (?:(ttl-security)\s+(hops)\s+(\d+))|
         (?:(description)\s+(.*))|
@@ -771,25 +771,26 @@ contexts:
         16: string.unquoted               # Inherit peer policy
         17: support.constant              # Send community
         18: support.constant              # Remote AS
-        19: constant.numeric              # Remote AS
-        20: support.constant              # Timers
-        21: constant.numeric              # Timers
+        19: constant.numeric              # Remote AS #
+        20: keyword.other                 # Remote AS shutdown
+        21: support.constant              # Timers
         22: constant.numeric              # Timers
         23: constant.numeric              # Timers
-        24: support.constant              # TTL security hops
+        24: constant.numeric              # Timers
         25: support.constant              # TTL security hops
-        26: constant.numeric              # TTL security hops
-        27: support.constant              # Description
-        28: comment.block.documentation   # Description
-        29: support.constant              # Version
-        30: constant.numeric              # Version
-        31: support.constant              # Path MTU discovery
+        26: support.constant              # TTL security hops
+        27: constant.numeric              # TTL security hops
+        28: support.constant              # Description
+        29: comment.block.documentation   # Description
+        30: support.constant              # Version
+        31: constant.numeric              # Version
         32: support.constant              # Path MTU discovery
-        33: support.constant              # ebgp multihop
-        34: constant.numeric              # ebgp multihop hops
-        35: support.constant              # update-source
-        36: entity.other.attribute-name    # update-source interface_type
-        37: constant.numeric              # update-source interface_number
+        33: support.constant              # Path MTU discovery
+        34: support.constant              # ebgp multihop
+        35: constant.numeric              # ebgp multihop hops
+        36: support.constant              # update-source
+        37: entity.other.attribute-name    # update-source interface_type
+        38: constant.numeric              # update-source interface_number
 
   ipv4_network:
     - match: '^\s+(network)\s+({{ip}})(?:\s+(mask)\s+({{subnet_mask}}))?'
@@ -837,7 +838,7 @@ contexts:
         (?:(prefix-list|route-map)\s+(\S+)\s+(in|out))|
         (?:(inherit)\s+(peer-policy)\s+(\S+))|
         (send-community(?:\s+(?:(?:both)|(?:extended)))?)|
-        (?:(remote-as)\s+(\d+))|
+        (?:(remote-as)\s+(\d+)(\s+shutdown)?)|
         (?:(timers)\s+(\d+)\s+(\d+)(?:\s+(\d+))?)|
         (?:(ttl-security)\s+(hops)\s+(\d+))|
         (?:(description)\s+(.*))|
@@ -864,19 +865,20 @@ contexts:
         17: support.constant              # Send community
         18: support.constant              # Remote AS
         19: constant.numeric              # Remote AS
-        20: support.constant              # Timers
-        21: constant.numeric              # Timers
+        20: keyword.other                 # Remote AS shutdown
+        21: support.constant              # Timers
         22: constant.numeric              # Timers
         23: constant.numeric              # Timers
-        24: support.constant              # TTL security hops
+        24: constant.numeric              # Timers
         25: support.constant              # TTL security hops
-        26: constant.numeric              # TTL security hops
-        27: support.constant              # Description
-        28: comment.block.documentation   # Description
-        29: support.constant              # Version
-        30: constant.numeric              # Version
-        31: support.constant              # Path MTU discovery
+        26: support.constant              # TTL security hops
+        27: constant.numeric              # TTL security hops
+        28: support.constant              # Description
+        29: comment.block.documentation   # Description
+        30: support.constant              # Version
+        31: constant.numeric              # Version
         32: support.constant              # Path MTU discovery
+        33: support.constant              # Path MTU discovery
 
   ipv6_network:
     - match: '^\s*(network)\s+({{ipv6_prefix}})?'
