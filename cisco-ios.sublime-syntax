@@ -1352,6 +1352,23 @@ contexts:
       - include: pop_on_configure_terminal_context
 
   vrf:
+    - include: new_vrf_syntax
+    - include: old_vrf_syntax
+
+  old_vrf_syntax:
+    - match: '^\s*(ip)\s+(vrf)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.vrf
+      - include: vrf_address_family
+      - include: vrf_settings
+      - include: pop_on_configure_terminal_context
+
+  new_vrf_syntax:
     - match: '^\s*(vrf)\s+(definition)\s+(\S+)'
       captures:
         0: cisco.scope
@@ -1361,7 +1378,11 @@ contexts:
       push:
       - meta_content_scope: text.network.cisco.vrf
       - include: vrf_address_family
-      - match: >
+      - include: vrf_settings
+      - include: pop_on_configure_terminal_context
+
+  vrf_settings:
+      - match: |
           (?xi)
           ^\s*
           (?:
@@ -1376,7 +1397,6 @@ contexts:
           4: support.constant               # route-target
           5: entity.other.attribute-name    # route-target import/export/both
           6: constant.numeric               # route-target id
-      - include: pop_on_configure_terminal_context
 
 
   vrf_address_family:

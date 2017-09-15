@@ -82,6 +82,13 @@ configure terminal
    deny ip any any
    permit icmp any any
   
+  ip vrf NAME
+    description management
+    rd 1.2.3.4:5
+    route-target export 1.2.3.4:5
+    route-target import 1.2.3.4:5
+  exit
+
   vrf definition NAME
     description management
     rd 1.2.3.4:5
