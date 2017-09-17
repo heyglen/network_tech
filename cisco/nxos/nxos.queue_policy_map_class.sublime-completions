@@ -1,0 +1,10 @@
+{
+    "scope": "text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.nxos.queuing_policy_map text.network.cisco.nxos.queuing_policy_map_class & - (text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.nxos.queuing_policy_map text.network.cisco.nxos.queuing_policy_map_class text.network.cisco) & -text.network.cisco.partial",
+    "completions": [
+        "priority",
+        { 
+            "trigger": "bandwidth\tpercent", 
+            "contents": "bandwidth percent ${1:50}"
+        },
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "scope": "text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.nxos.system_qos & - (text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.nxos.system_qos text.network.cisco) & -text.network.cisco.partial",
+    "completions": [
+        { 
+            "trigger": "service-policy\tqos", 
+            "contents": "service-policy type qos ${1:input} ${2:NAME}"
+        },
+        { 
+            "trigger": "service-policy\tqueuing", 
+            "contents": "service-policy type queuing ${1:input} ${2:NAME}"
+        },
+        { 
+            "trigger": "service-policy\tnetwork-qos", 
+            "contents": "service-policy type network-qos ${2:NAME}"
+        },
+    ]
+}

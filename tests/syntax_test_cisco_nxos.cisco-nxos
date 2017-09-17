@@ -118,6 +118,7 @@ interface Ethernet 100/0/1
   ip arp timeout 42
   ip arp gratuitous hsrp duplicate
   ip proxy-arp
+  service-policy type qos input pmap-qos-eth1-1
   service-policy type queuing output POLICY
   spanning-tree port type edge trunk
   spanning-tree bpduguard enable
@@ -131,6 +132,10 @@ interface Ethernet 100/0/1
   mtu 1500
   channel-protocol lacp
   vpc 123
+  priority-flow-control mode on
+  priority-flow-control mode auto
+  priority-flow-control mode off
+  untagged cos 3
   no shutdown
   hsrp version 2
   hsrp 0
@@ -282,3 +287,53 @@ route-map route_map_name permit 13990
   match ip address acl_name
   set vrf vrf_name
 exit
+
+class-map type qos cmap-qos-acl
+  match access-group ACL-CoS
+
+policy-map type qos pmap-qos-acl
+  class type qos cmap-qos-acl
+    set qos-group 4
+
+class-map type network-qos cmap-nq-acl
+  match qos-group 4
+exit
+
+policy-map type network-qos pmap-nq-acl
+  class type network-qos cmap-nq-acl
+    set cos 5
+    match cos 1
+    match cos 1, 2
+    match cos 1, 2-3
+    match protocol arp
+    match protocol clns_es
+    match protocol clns_is
+    match protocol dhcp
+    match protocol ldp
+    match protocol netbios
+    mtu 123
+    multicast-optimize
+    pause no-drop
+    pause no-drop pfc-cos 6
+    pause no-drop pfc-cos 0-2, 1
+    queue-limit 123 bytes
+
+class-map type queuing cmap-que-bandwidth
+  match qos-group 2
+
+policy-map type queuing pmap-que-eth1-2
+  class type queuing class-default
+    bandwidth percent 100
+    priority
+  class type queuing class-fcoe
+    bandwidth percent 40
+  class type queuing cmap-que-bandwidth
+    bandwidth percent 50
+ 
+system qos
+  service-policy type qos input pmap-qos-acl
+  service-policy type qos output pmap-qos-acl
+  service-policy type network-qos pmap-qos-acl
+  service-policy type queuing input pmap-qos-acl
+  service-policy type queuing output pmap-qos-acl
+

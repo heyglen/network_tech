@@ -101,6 +101,7 @@ variables:
       (?:version)|
       (?:vlan)|
       (?:vpc)|
+      (?:system)|
       (?:vrf\s+
         (?:
           (?:context)
@@ -123,6 +124,12 @@ variables:
           (?:route)
         )
       )
+    )
+  policy_map_ctx_words: |
+    (?xi)
+    (?:
+      (?:class)|
+      (?:{{configure_terminal_ctx_words}})
     )
   ospf_ctx_words: |
     (?xi)
@@ -389,6 +396,8 @@ variables:
       (?:snmp)
     )
   operators: '(?:(?:eq)|(?:ge)|(?:le))'
+  cos: '[0-7]'
+  cos_range: '{{cos}}(?:-{{cos}})?(?:,\s*{{cos}}(?:-{{cos}})?)*'
   port_target: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
   drives: |
     (?xi)
@@ -491,6 +500,8 @@ contexts:
     - include: vty
     - include: aaa_group
     - include: monitor_session
+    - include: class_map
+    - include: policy_map
     - include: feature
     - include: username
     - include: bgp
@@ -500,6 +511,7 @@ contexts:
     - include: vlan
     - include: logging
     - include: route_map
+    - include: system_qos
     - include: ip_route
     - include: interface
     - include: prefix_list
@@ -574,6 +586,15 @@ contexts:
         (?=
           ^\s*
           {{configure_terminal_ctx_words}}
+        )
+      pop: true
+
+  pop_on_policy_map_context:
+    - match: |
+        (?xi)
+        (?=
+          ^\s*
+          {{policy_map_ctx_words}}
         )
       pop: true
 
@@ -1610,11 +1631,12 @@ contexts:
             (?:(ip\s+address)\s+({{ip_prefix}})(?:\s+(secondary))?)|
             (shutdown)|
             (?:(service-policy\s+type\s+queuing\s+output)\s+(\S+))|
+            (?:(service-policy\s+type\s+qos\s+input)\s+(\S+))|
             (?:(channel-group)\s+(\d+)(?:\s+(?:(force)|(?:(mode)\s+(?:(active)|(on)|(passive)))?))?)|
             (?:(channel-protocol)\s+(lacp)?)|
             (?:(vpc)\s+(\d+))|
             (?:(hsrp\s+version)\s+([1-2]))|
-            (?:(ipv6\s+address)\s+({{ipv6_prefix}})(\s+eui64)?)|
+            (?:(ipv6\s+address)\s+({{ipv6_prefix}})(\s+eui-64)?)|
             (?:(ip\s+pim\s+sparse-mode))|
             (?:(ip\s+arp\s+timeout)\s+(\d+))|
             (?:(ip\s+arp\s+gratuitous\s+hsrp\s+duplicate))|
@@ -1627,7 +1649,9 @@ contexts:
             (ip\s+ospf\s+authentication\s+message-digest)|
             (?:(ip\s+ospf\s+message-digest-key)\s+(\d+)\s+({{hash_types}})\s+(\d+)\s+(\S+))|
             (?:(ip\s+ospf\s+network)\s+({{ospf_network_types}}))|
-            (?:(ospfv3\s+network)\s+({{ospf_network_types}}))
+            (?:(ospfv3\s+network)\s+({{ospf_network_types}}))|
+            (?:(untagged)\s+(cos)\s+({{cos}}))|
+            (?:(priority-flow-control)\s+(mode)\s+(?:(on)|(auto)|(off)))
           )
         captures:
           1: support.constant                           # ipv6 enable
@@ -1652,54 +1676,64 @@ contexts:
           20: constant.numeric                          # ip address ipv4 address
           21: support.constant                          # ip address secondary
           22: keyword.other                             # shutdown
-          23: support.constant                          # Service-policy
-          24: string.unquoted                           # Service-policy
-          25: support.constant                          # channel-group 
-          26: constant.numeric                          # channel-group id
-          27: support.constant                          # channel-group force
-          28: support.constant                          # channel-group mode
-          29: entity.other.inherited-class              # channel-group active
-          30: entity.other.inherited-class              # channel-group on
-          31: entity.other.inherited-class              # channel-group passive
-          32: support.constant                          # channel-protocol
-          33: support.constant                          # channel-protocol lacp
-          34: support.constant                          # vpc
-          35: constant.numeric                          # vpc id
-          36: support.constant                          # hsrp version
-          37: constant.numeric                          # hsrp version number
-          38: support.constant                          # ipv6 address
-          39: constant.numeric                          # ipv6 prefix
-          40: support.constant                          # ipv6 eui-64
-          41: support.constant                          # ip pim sparse-mode
-          42: support.constant                          # ip arp timeout
-          43: constant.numeric                          # ip arp timeout number
-          44: support.constant                          # ip arp gratuitous hsrp duplicate
-          45: support.constant                          # link debounce
-          46: constant.numeric                          # link debounce time
-          47: support.constant                          # ip router ospf
-          48: constant.numeric                          # ip router ospf process id
-          49: support.constant                          # ip router ospf area
-          50: constant.numeric                          # ip router ospf area-id
-          51: support.constant                          # ipv6 router ospfv3
-          52: constant.numeric                          # ipv6 router ospfv3 process id
-          53: support.constant                          # ipv6 router ospfv3 area
-          54: constant.numeric                          # ipv6 router ospfv3 area-id
-          55: support.constant                          # mtu
-          56: constant.numeric                          # mtu value
-          57: support.constant                          # ip policy route-map
-          58: string.unquoted                           # ip policy route-map
-          59: support.constant                          # ip dhcp relay address
-          60: constant.numeric                          # ip dhcp relay address ip
-          61: support.constant                          # ip ospf authentication message-digest
-          62: support.constant                          # ip ospf message-digest-key
-          63: constant.numeric                          # ip ospf message-digest-key value
-          64: entity.other.inherited-class              # ip ospf message-digest-key value hash_type
-          65: constant.numeric                          # ip ospf message-digest-key value hash_type id
-          66: string.unquoted                           # ip ospf message-digest-key value hash_type id value
-          67: support.constant                          # ip ospf network
-          68: entity.other.inherited-class              # ip ospf network type
-          69: support.constant                          # ospfv3 network
-          70: entity.other.inherited-class              # ospfv3 network type
+          23: support.constant                          # Service-policy qos input
+          24: string.unquoted                           # Service-policy qos input name
+          25: support.constant                          # Service-policy qos input
+          26: string.unquoted                           # Service-policy qos input name
+          27: support.constant                          # channel-group 
+          28: constant.numeric                          # channel-group id
+          29: support.constant                          # channel-group force
+          30: support.constant                          # channel-group mode
+          31: entity.other.inherited-class              # channel-group active
+          32: entity.other.inherited-class              # channel-group on
+          33: entity.other.inherited-class              # channel-group passive
+          34: support.constant                          # channel-protocol
+          35: support.constant                          # channel-protocol lacp
+          36: support.constant                          # vpc
+          37: constant.numeric                          # vpc id
+          38: support.constant                          # hsrp version
+          39: constant.numeric                          # hsrp version number
+          40: support.constant                          # ipv6 address
+          41: constant.numeric                          # ipv6 prefix
+          42: support.constant                          # ipv6 eui-64
+          43: support.constant                          # ip pim sparse-mode
+          44: support.constant                          # ip arp timeout
+          45: constant.numeric                          # ip arp timeout number
+          46: support.constant                          # ip arp gratuitous hsrp duplicate
+          47: support.constant                          # link debounce
+          48: constant.numeric                          # link debounce time
+          49: support.constant                          # ip router ospf
+          50: constant.numeric                          # ip router ospf process id
+          51: support.constant                          # ip router ospf area
+          52: constant.numeric                          # ip router ospf area-id
+          53: support.constant                          # ipv6 router ospfv3
+          54: constant.numeric                          # ipv6 router ospfv3 process id
+          55: support.constant                          # ipv6 router ospfv3 area
+          56: constant.numeric                          # ipv6 router ospfv3 area-id
+          57: support.constant                          # mtu
+          58: constant.numeric                          # mtu value
+          59: support.constant                          # ip policy route-map
+          60: string.unquoted                           # ip policy route-map
+          61: support.constant                          # ip dhcp relay address
+          62: constant.numeric                          # ip dhcp relay address ip
+          63: support.constant                          # ip ospf authentication message-digest
+          64: support.constant                          # ip ospf message-digest-key
+          65: constant.numeric                          # ip ospf message-digest-key value
+          66: entity.other.inherited-class              # ip ospf message-digest-key value hash_type
+          67: constant.numeric                          # ip ospf message-digest-key value hash_type id
+          68: string.unquoted                           # ip ospf message-digest-key value hash_type id value
+          69: support.constant                          # ip ospf network
+          70: entity.other.inherited-class              # ip ospf network type
+          71: support.constant                          # ospfv3 network
+          72: entity.other.inherited-class              # ospfv3 network type
+          73: support.constant                          # untagged
+          74: support.constant                          # untagged cos
+          75: constant.numeric                          # untagged cos value
+          76: support.constant                          # priority-flow-control
+          77: support.constant                          # priority-flow-control mode
+          78: entity.other.inherited-class              # priority-flow-control mode on
+          79: entity.other.inherited-class              # priority-flow-control mode auto
+          80: keyword.key                               # priority-flow-control mode off
       - match: '(hsrp)\s+(\d+)(\s+ipv6)?'
         captures:
           1: support.constant
@@ -1853,6 +1887,324 @@ contexts:
           1: support.constant
           2: support.constant
       - include: pop_on_configure_terminal_context
+
+  class_map:
+    - include: qos_class_map
+    - include: network_qos_class_map
+    - include: queuing_class_map
+
+  qos_class_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (class-map)\s+(type)\s+(qos)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.qos_class_map
+      - include: qos_class_map_settings
+      - include: pop_on_configure_terminal_context
+
+  network_qos_class_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (class-map)\s+(type)\s+(network-qos)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.network_qos_class_map
+      - include: network_qos_class_map_settings
+      - include: pop_on_configure_terminal_context
+
+  queuing_class_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (class-map)\s+(type)\s+(queuing)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.queuing_class_map
+      - include: queuing_class_map_settings
+      - include: pop_on_configure_terminal_context
+
+  queuing_class_map_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(match)\s+(qos-group)\s+((?:[2-9])|(?:\d{2,})))
+        )
+      captures:
+        1: support.constant     # match
+        2: support.constant     # match qos-group
+        3: constant.numeric     # match qos-group number
+
+  network_qos_class_map_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(match)\s+(qos-group)\s+((?:[2-9])|(?:\d{2,})))
+        )
+      captures:
+        1: support.constant     # match
+        2: support.constant     # match qos-group
+        3: constant.numeric     # match qos-group number
+
+  qos_class_map_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(match)\s+(access-group)\s+(\S+))
+        )
+      captures:
+        1: support.constant     # match
+        2: support.constant     # match access-group
+        3: string.unquoted      # match access-group name
+
+  policy_map:
+    - include: qos_policy_map
+    - include: network_qos_policy_map
+    - include: queuing_policy_map
+
+  system_qos:
+    - match: |
+          (?xi)
+          ^\s*
+          (system)\s+(qos)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.nxos.system_qos
+      - include: system_qos_settings
+      - include: pop_on_configure_terminal_context
+
+  system_qos_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(service-policy)\s+(type)\s+
+            (?:
+              (?:
+                (qos)\s+((?:input)|(?:output))\s+(\S+)
+              )|
+              (?:
+                (network-qos)\s+(\S+)
+              )|
+              (?:
+                (queuing)\s+((?:input)|(?:output))\s+(\S+)
+              )
+            )
+          )
+        )
+      captures:
+        1: support.constant             # service-policy
+        2: support.constant             # service-policy type
+        3: entity.other.attribute-name  # service-policy qos
+        4: support.constant             # service-policy qos input
+        5: string.unquoted              # service-policy qos input name
+        6: entity.other.attribute-name  # service-policy network-qos
+        7: string.unquoted              # service-policy input name
+        8: entity.other.attribute-name  # service-policy queuing
+        9: support.constant             # service-policy queuing input/output
+        10: string.unquoted              # service-policy queuing input/output name
+
+  qos_policy_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (policy-map)\s+(type)\s+(qos)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.qos_policy_map
+      - include: qos_policy_map_class
+      - include: pop_on_configure_terminal_context
+
+  qos_policy_map_class:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(class)\s+(type)\s+(qos)\s+(\S+))
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.qos_policy_map_class
+      - include: qos_policy_map_class_settings
+      - include: pop_on_policy_map_context
+
+  qos_policy_map_class_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(set)\s+(qos-group)\s+((?:[2-9])|(?:\d{2,})))
+        )
+      captures:
+        1: support.constant     # set
+        2: support.constant     # set qos-group
+        3: constant.numeric     # set qos-group numbber
+
+  queuing_policy_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (policy-map)\s+(type)\s+(queuing)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.queuing_policy_map
+      - include: queuing_policy_map_class
+      - include: pop_on_configure_terminal_context
+
+  queuing_policy_map_class:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(class)\s+(type)\s+(queuing)\s+(\S+))
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.queuing_policy_map_class
+      - include: queuing_policy_map_class_settings
+      - include: pop_on_policy_map_context
+
+  queuing_policy_map_class_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(bandwidth)\s+(percent)\s+
+            (
+              (?:100)|
+              (?:\d{1,2})
+            )
+          )|
+          (priority)
+        )
+      captures:
+        1: support.constant     # bandwidth
+        2: support.constant     # bandwidth percent
+        3: constant.numeric     # bandwidth percent numbber
+        4: support.constant     # priority
+
+  network_qos_policy_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (policy-map)\s+(type)\s+(network-qos)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.network_qos_policy_map
+      - include: network_qos_policy_map_class
+      - include: pop_on_configure_terminal_context
+
+  network_qos_policy_map_class:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(class)\s+(type)\s+(network-qos)\s+(\S+))
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.network_qos_policy_map_class
+      - include: network_qos_policy_map_class_settings
+      - include: pop_on_policy_map_context
+
+  network_qos_policy_map_class_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(set)\s+(cos)\s+({{cos}}))|
+          (?:(match)\s+
+            (?:
+              (?:(cos)\s+({{cos_range}}))|
+              (?:(protocol)\s+
+                (
+                  (?:arp)|
+                  (?:clns_es)|
+                  (?:clns_is)|
+                  (?:dhcp)|
+                  (?:ldp)|
+                  (?:netbios)
+                )
+              )
+            )
+          )|
+          (?:(mtu)\s+(\d+))|
+          (?:(multicast-optimize))|
+          (?:(pause)\s+(no-drop)(?:\s+(pfc-cos)\s+({{cos_range}}))?)|
+          (?:(queue-limit)\s+(\d+)\s+(bytes))
+        )
+      captures:
+        1: support.constant             # set
+        2: support.constant             # set cos
+        3: constant.numeric             # set cos numbber
+        4: support.constant             # match
+        5: support.constant             # match cos
+        6: constant.numeric             # match cos numbber
+        7: support.constant             # match protocol
+        8: constant.numeric             # match protocol name
+        9: support.constant             # mtu
+        10: constant.numeric            # mtu value
+        11: support.constant            # multicast-optimize
+        12: support.constant            # pause
+        13: support.constant            # pause no-drop
+        14: support.constant            # pause no-drop pfc-cos
+        15: constant.numeric            # pause no-drop pfc-cos value
+        16: support.constant            # queue-limit
+        17: constant.numeric            # queue-limit value
+        18: support.constant            # queue-limit value bytes
 
   show:
     - include: show_bgp

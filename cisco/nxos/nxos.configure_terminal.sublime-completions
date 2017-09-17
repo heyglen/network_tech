@@ -18,6 +18,14 @@
             "contents": "router bgp ${1:0}\n\t$0\n\texit"
         },
         { 
+            "trigger": "router\tospf", 
+            "contents": "router ospf ${1:1}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "router\tospfv3", 
+            "contents": "router ospfv3 ${1:1}\n\t$0\n\texit"
+        },
+        { 
             "trigger": "line\tvty", 
             "contents": "line vty\n\t$0\n\texit"
         },
@@ -41,6 +49,37 @@
             "trigger": "interface\tEthernet",
             "contents": "interface Ethernet${1:0}/${2:0}\n\t$0\n\texit"
         },
-
+        { 
+            "trigger": "policy-map\tnetwork-qos",
+            "contents": "policy-map type network-qos ${1:NAME}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "policy-map\tqos",
+            "contents": "policy-map type qos ${1:NAME}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "policy-map\tqueuing",
+            "contents": "policy-map type queuing ${1:NAME}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "system\tqos",
+            "contents": "system qos\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "class-map\tqueuing",
+            "contents": "class-map type queuing ${1:NAME}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "class-map\tnetwork-qos",
+            "contents": "class-map type network-qos ${1:NAME}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "class-map\tqos",
+            "contents": "class-map type qos ${1:NAME}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "monitor\tsession",
+            "contents": "monitor session ${1:1}\n\t$0\n\texit"
+        },
   ]
 }
