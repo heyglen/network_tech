@@ -10,8 +10,20 @@
             "contents": "default interface ${1:Vlan0}"
         },
         { 
-            "trigger": "vrfcontext\tvrf context", 
+            "trigger": "vlan\tvlan", 
+            "contents": "vlan ${1:1}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "vrf\tvrf context", 
             "contents": "vrf context ${1:NAME}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "route-map\tpermit", 
+            "contents": "route-map ${1:NAME} permit ${2:1}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "route-map\tdeny", 
+            "contents": "route-map ${1:NAME} deny ${2:1}\n\t$0\n\texit"
         },
         { 
             "trigger": "router\tbgp", 
@@ -48,6 +60,18 @@
         { 
             "trigger": "interface\tEthernet",
             "contents": "interface Ethernet${1:0}/${2:0}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "interface\tPort-Channel",
+            "contents": "interface Port-Channel${1:0}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "interface\tLoopback",
+            "contents": "interface Loopback${1:0}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "interface\tVlan",
+            "contents": "interface Vlan${1:0}\n\t$0\n\texit"
         },
         { 
             "trigger": "policy-map\tnetwork-qos",

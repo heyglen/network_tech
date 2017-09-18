@@ -402,17 +402,23 @@ contexts:
     - include: vrf
     - include: snmp
     - include: vlan
+    - include: ip_http
     - include: logging
+    - include: hostname
     - include: line_con
     - include: username
     - include: line_aux
     - include: ip_route
-    - include: ip_classless
     - include: interface
+    - include: aaa_group
     - include: prefix_list
     - include: vrf_upgrade
+    - include: ip_dhcp_pool
+    - include: ip_classless
+    - include: aaa_new_model
+    - include: system_version
+    - include: enable_password
     - include: ipv6_unicast_routing
-    - include: hostname
     - include: ipv6_general_prefix
     - include: extended_acl
     - include: standard_acl
@@ -443,6 +449,16 @@ contexts:
       scope: text.network.cisco.comment
       captures:
         1: comment.line
+
+  system_version:
+    - match: |
+        (?xi)
+        ^\s*
+        (version)\s+(\d+\.\d+)
+      scope: text.network.cisco.ios.version
+      captures:
+        1: support.constant
+        2: constant.numeric
   
   username:
     - match: |
@@ -482,6 +498,28 @@ contexts:
     - include: logout
     - include: configure_terminal
     - include: show_drives
+
+  enable_password:
+    - match: |
+        (?xi)
+        \s*
+        (enable)\s+
+        (password)\s+
+        (\S+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+
+  aaa_new_model:
+    - match: |
+        (?xi)
+        \s*
+        (aaa)\s+
+        (new-model)\s+
+      captures:
+        1: support.constant
+        2: support.constant
 
   snmp:
     - include: snmp_trap
@@ -654,6 +692,46 @@ contexts:
         15: constant.numeric            # Destination Port
         16: support.constant            # Destination Established
         17: ios.acl.ace.target_ip       # IP target scope
+
+  aaa_group:
+    - match: |
+        (?xi)
+        ^\s*
+        (aaa)\s+(group)\s+(server)\s+
+        (
+          (?:radius)
+        )
+        \s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: support.constant
+        4: entity.other.attribute-name
+        5: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.ios.aaa_group
+        - include: aaa_group_settings
+        - include: pop_on_configure_terminal_context
+
+  aaa_group_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:
+            (server)\s+({{ip}})
+            (?:\s+(auth-port)\s+(\d+))?
+            (?:\s+(acct-port)\s+(\d+))?
+          )
+        )
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: support.constant
+        4: constant.numeric
+        5: support.constant
+        6: constant.numeric
 
   bgp:
     - match: ^\s*(router)\s+(bgp)\s+(\d+)
@@ -893,6 +971,11 @@ contexts:
 
   ip_classless:
   - match: ^\s*(ip\s+classless)
+    captures:
+      1: support.constant
+
+  ip_http:
+  - match: ^\s*(ip\s+http\s+server)
     captures:
       1: support.constant
 
@@ -1249,13 +1332,6 @@ contexts:
         3: entity.other.attribute-name    # interface name
         4: constant.numeric               # interface number
 
-  line_exec_timeout:
-    - match: '^\s*(exec-timeout)\s+(\d+)\s+(\d+)'
-      captures:
-        1: support.constant
-        2: constant.numeric
-        3: constant.numeric
-
   vty:
     - match: '^\s*(line)\s+(vty)\s+(\d+)\s+(\d+)'
       captures:
@@ -1266,24 +1342,52 @@ contexts:
         4: constant.numeric
       push:
       - meta_content_scope: text.network.cisco.vty
-      - match: ^\s*(access-class)\s+(?:(\d+)|(\S+))\s+(in)(?:\s+(vrf-also))?
-        captures:
-          1: support.constant
-          2: constant.numeric
-          3: string.unquoted
-          4: support.constant
-          5: support.constant
-      - match: ^\s*(password)\s+(\d+)\s+(\S+)
-        captures:
-          1: support.constant
-          2: constant.numeric
-          3: string.unquoted
-      - match: ^\s*(transport\s+(?:(?:input)|(?:output)))\s+((?:telnet|ssh)(?:\s+(?:telnet|ssh))?)
-        captures:
-          1: support.constant
-          2: support.constant
-      - include: line_exec_timeout
+      - include: line_settings
       - include: pop_on_configure_terminal_context
+
+  line_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:
+            (transport)\s+
+            (
+              (?:preferred)|
+              (?:input)|
+              (?:output)
+            )
+            (
+              (?:
+                \s+
+                (?:
+                  (?:ssh)|
+                  (?:telnet)|
+                  (?:all)
+                )
+              )+
+            )
+          )|
+          (?:(password)\s+(\S+))|
+          (?:(access-class)\s+(?:(\d+)|(\S+))\s+(in)(?:\s+(vrf-also))?)|
+          (?:(modem\s+enable))|
+          (?:(exec-timeout)\s+(\d+)\s+(\d+))
+        )
+      captures: 
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+        5: string.unquoted
+        6: support.constant
+        7: constant.numeric
+        8: string.unquoted
+        9: support.constant
+        10: support.constant
+        11: support.constant
+        12: support.constant
+        13: constant.numeric
+        14: constant.numeric
 
   line_con:
     - match: '^\s*(line)\s+(con)\s+(0)'
@@ -1294,29 +1398,7 @@ contexts:
         3: constant.numeric
       push:
       - meta_content_scope: text.network.cisco.ios.console
-      - match: |
-          (?xi)
-          ^\s*
-          (?:
-            (?:(password)\s+(\S+))|
-            (?:(modem\s+enable))|
-            (?:(transport)\s+
-              (?:
-                (preferred\s+all)|
-                (output\s+all)|
-                (input\s+all)
-              )
-            )
-          )
-        captures:
-          1: support.constant     # password
-          2: string.unquoted      # password string
-          3: support.constant     # modem enable
-          4: support.constant     # transport
-          5: support.constant     # transport preferred all
-          6: support.constant     # transport output all
-          7: support.constant     # transport input all
-      - include: line_exec_timeout
+      - include: line_settings
       - include: pop_on_configure_terminal_context
 
   line_aux:
@@ -1327,29 +1409,39 @@ contexts:
         2: support.constant
         3: constant.numeric
       push:
-      - meta_content_scope: text.network.cisco.ios.console
-      - match: |
-          (?xi)
-          ^\s*
-          (?:
-            (?:(password)\s+(\S+))|
-            (?:(modem\s+enable))|
-            (?:(transport)\s+
-              (?:
-                (preferred\s+all)|
-                (output\s+all)
-              )
-            )
-          )
-        captures:
-          1: support.constant     # password
-          2: string.unquoted      # password string
-          3: support.constant     # modem enable
-          4: support.constant     # transport
-          5: support.constant     # transport preferred all
-          6: support.constant     # transport output all
-      - include: line_exec_timeout
+      - meta_content_scope: text.network.cisco.ios.aux
+      - include: line_settings
       - include: pop_on_configure_terminal_context
+
+  ip_dhcp_pool:
+    - match: |
+        (?xi)
+        ^\s*
+        (ip)\s+(dhcp)\s+(pool)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: support.constant
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.ios.ip_dhcp_pool
+      - include: ip_dhcp_pool_settings
+      - include: pop_on_configure_terminal_context
+
+  ip_dhcp_pool_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(network)\s+({{ip}}\s+{{subnet_mask}}))|
+          (?:(default-router)\s+({{ip}}))
+        )
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: support.constant
+        4: constant.numeric
 
   vrf:
     - include: new_vrf_syntax

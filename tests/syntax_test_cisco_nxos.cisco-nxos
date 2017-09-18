@@ -29,12 +29,15 @@ ip route vrf NAME 1.2.3.0/24 vlan1 1.1.1.1 name asdf permanent
 
 default interface Ethernet0/1
 
+
 interface Vlan 20
   shutdown
   exit
 interface vlan0
   exit
 interface vl0
+  exit
+interface Vlan 20
   exit
 interface loopback0
   exit
@@ -53,8 +56,6 @@ interface tu0
 interface ethernet0
   exit
 interface eth0
-  exit
-interface Vlan 20
   exit
 
 ip access-list ACL
