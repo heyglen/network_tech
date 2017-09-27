@@ -220,7 +220,7 @@ variables:
     (?:\d+(?:/\d+)*(?:\.\d+)?)?
   interface_number_ranged: |
     (?xi)
-    (?:\d+(?:/\d+)*(?:\.\d+)?)(?:-\d+)?
+    (?:\d+(?:/\d+)*(?:\.\d+)?)(?:\s*-\s*\d+)?
   network_target: |
     (?xi)
     (?:
@@ -404,6 +404,7 @@ contexts:
     - include: vlan
     - include: ip_http
     - include: logging
+    - include: monitor
     - include: hostname
     - include: line_con
     - include: username
@@ -528,7 +529,7 @@ contexts:
     - include: snmp_contact_location
   
   snmp_contact_location:
-    - match: >
+    - match: |
         (?xi)
         \s*
         (snmp-server)\s+
@@ -538,6 +539,52 @@ contexts:
         1: support.constant       # snmp-server
         2: support.constant       # location
         3: string.unquoted        # location string
+
+  monitor:
+    - match: |
+        (?xi)
+        \s*
+        (monitor)\s+(session)\s+(\d+)\s+
+        (?:
+          (?:
+            (source)\s+
+            (?:
+              (interface)\s+
+              (?:
+                (?:({{interface_names}})\s*(?:({{interface_number_ranged}})|({{interface_numbers}})))
+              )
+            )
+          )|
+          (?:
+            (destination)\s+
+            (?:
+              (?:
+                (interface)\s+
+                (?:
+                  (?:({{interface_names}})\s*({{interface_numbers}}))
+                )
+              )|
+              (?:(analysis-module)\s+(\d+)\s+(data-port)\s+(\d+))
+            )
+          )
+        )
+      captures:
+        1: support.constant             # monitor
+        2: support.constant             # monitor session
+        3: constant.numeric             # monitor session id
+        4: support.constant             # source
+        5: support.constant             # source interface
+        6: entity.other.attribute-name  # source interface interface name
+        7: constant.numeric             # source interface interface name number range
+        8: constant.numeric             # source interface interface name number
+        9: support.constant             # destination
+        10: support.constant            # destination interface
+        11: entity.other.attribute-name # destination interface interface name
+        12: constant.numeric            # destination interface interface name number
+        13: support.constant            # destination analysis-module
+        14: constant.numeric            # destination analysis-module id
+        15: support.constant            # destination analysis-module data-port
+        16: constant.numeric            # destination analysis-module data-port id
 
   snmp_poll:
     - match: >

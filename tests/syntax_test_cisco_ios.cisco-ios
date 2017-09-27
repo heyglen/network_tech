@@ -259,6 +259,11 @@ line vty 0 4
 exit
 end
 
+monitor session 1 source interface Te1/1 - 2
+monitor session 1 destination analysis-module 1 data-port 1
+ntp source GigabitEthernet1/2
+ntp server 1.2.3.4
+
 logout
 
 ! https://www.cisco.com/c/en/us/td/docs/routers/access/1800/1801/software/configuration/guide/scg/sampconf.html
