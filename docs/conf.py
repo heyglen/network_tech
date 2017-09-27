@@ -56,7 +56,7 @@ author = 'Glen Harmon'
 # built documents.
 #
 # The short X.Y version.
-version = '2.6.0'
+version = '2.8.0'
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -171,6 +171,3 @@ texinfo_documents = [
      author, 'NetworkTech', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-
