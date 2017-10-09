@@ -74,6 +74,7 @@ configure terminal
 
   ! Line comment
   ip access-list extended NAME ! This is a comment
+   remark DNS Management
    2 permit tcp any any eq bgp
    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 established
@@ -107,6 +108,14 @@ configure terminal
    20 deny 1.2.3.0 0.0.0.255
    deny any
   exit
+
+  router ospf 1
+    log-adjacency-changes
+    auto-cost reference-bandwidth 40000
+    area 2 authentication message-digest
+    area 2 nssa
+    passive-interface Vlan1
+    network 1.2.3.4 0.0.0.0 area 2
 
   router bgp 123
     address-family ipv4
@@ -200,6 +209,12 @@ interface range GigabitEthernet1/1-2
   port-channel standalone-disable
   switchport trunk encapsulation dot1q
   encapsulation dot1q 123
+  bandwidth 10240
+  ip pim sparse-mode
+  ip ospf message-digest-key 1 md5 7 1234567890ABC
+  ip ospf cost 20000
+  speed 1000
+  full-duplex
   switchport
   switchport trunk encapsulation Dot1q
   switchport trunk allowed vlan 123
@@ -272,8 +287,14 @@ Current configuration : 3781 bytes
 !
 version 12.3
 no service pad
+service password-encryption
+service sequence-numbers
+service tcp-keepalives-in
+service tcp-keepalives-out
 service timestamps debug datetime msec
+service timestamps debug datetime msec localtime show-timezone
 service timestamps log datetime msec
+service timestamps log datetime msec localtime show-timezone
 no service password-encryption
 !
 hostname retail
@@ -293,6 +314,8 @@ aaa authentication login eap_methods group rad_eap
 aaa session-id common
 ip subnet-zero
 ip cef
+ip ssh version 2
+ip scp server enable
 !
 vpdn enable
 vpdn-group 1
@@ -545,3 +568,20 @@ line vty 0 4
 aaa group server radius sg1
   server 172.16.0.1
   server 172.17.0.1
+
+
+policy-map QOS_STUFF
+  class VOICE
+    priority 3600
+  class VOICE-CONTROL
+    bandwidth percent 2
+    police cir 1234567
+    conform-action transmit
+    exceed-action drop
+    violate-action drop
+
+class-map match-all VOICE
+  match ip dscp ef
+
+class-map match-all VIDEO-SERVER
+  match access-group 6

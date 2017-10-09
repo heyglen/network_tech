@@ -1241,7 +1241,11 @@ contexts:
                 (flow\s+ingress)
               )
             )|
-            (?:(mtu)\s+(\d+))
+            (?:(mtu)\s+(\d+))|
+            (?:(bandwidth)\s+(\d+))|
+            (?:(speed)\s+(\d+))|
+            (?:(full-duplex))|
+            (?:(half-duplex))
           )
         captures:
           1: comment.line                 # Description
@@ -1283,6 +1287,12 @@ contexts:
           37: support.constant            # ip flow ingress
           38: support.constant            # mtu
           39: constant.numeric            # mtu value
+          40: support.constant            # bandwidth
+          41: constant.numeric            # bandwidth value
+          42: support.constant            # speed
+          43: constant.numeric            # speed value
+          44: support.constant            # full-duplex
+          45: support.constant            # half-duplex
       - include: pop_on_configure_terminal_context
       - include: partials
 
