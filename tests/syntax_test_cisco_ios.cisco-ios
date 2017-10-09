@@ -211,6 +211,7 @@ interface range GigabitEthernet1/1-2
   encapsulation dot1q 123
   bandwidth 10240
   ip pim sparse-mode
+  ip pim dense-mode
   ip ospf message-digest-key 1 md5 7 1234567890ABC
   ip ospf cost 20000
   speed 1000

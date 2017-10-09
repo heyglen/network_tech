@@ -21,6 +21,35 @@ variables:
   pop_address_family_ctx: '^\s*(?:exit-address-family)\s*$'
   command_end: '(?:\s|{{comment}}|$)'
   line_number: '^\s*\d+'
+  dscp: |
+    (?xi)
+    (?:
+      (?:AF11)|
+      (?:AF12)|
+      (?:AF13)|
+      (?:AF21)|
+      (?:AF22)|
+      (?:AF23)|
+      (?:AF31)|
+      (?:AF32)|
+      (?:AF33)|
+      (?:AF41)|
+      (?:AF42)|
+      (?:AF43)|
+      (?:CS1)|
+      (?:CS2)|
+      (?:CS3)|
+      (?:CS4)|
+      (?:CS5)|
+      (?:CS6)|
+      (?:CS7)|
+      (?:EF)
+    )
+  hashing_algorithms: |
+    (?xi)
+    (?:
+      (?:md5)
+    )
   configure_terminal_ctx_words: |
     (?xi)
     (?:
@@ -69,6 +98,10 @@ variables:
       (?:vlan)|
       (?:vtp)
     )
+  policy_map_ctx_words: |
+    (?xi)
+    (?:class)|
+    (?:{{configure_terminal_ctx_words}})
   vrf_definition_ctx_words: |
     (?xi)
     (?:
@@ -331,6 +364,15 @@ contexts:
         )
       scope: text.network.cisco.partial
 
+  pop_on_policy_map_context:
+    - match: |
+        (?xi)
+        (?=
+          ^\s*
+          {{policy_map_ctx_words}}
+        )
+      pop: true
+
   pop_on_configure_terminal_context:
     - match: |
         (?xi)
@@ -404,6 +446,7 @@ contexts:
     - include: vlan
     - include: ip_http
     - include: logging
+    - include: service
     - include: monitor
     - include: hostname
     - include: line_con
@@ -411,6 +454,8 @@ contexts:
     - include: line_aux
     - include: ip_route
     - include: interface
+    - include: policy_map
+    - include: class_map
     - include: aaa_group
     - include: prefix_list
     - include: vrf_upgrade
@@ -779,6 +824,93 @@ contexts:
         4: constant.numeric
         5: support.constant
         6: constant.numeric
+
+  class_map:
+    - match: ^\s*(class-map)\s+(match-(?:(?:all)|(?:any)))\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: entity.other.attribute-name
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.policy_map
+        - include: class_map_settings
+        - include: pop_on_configure_terminal_context
+
+  class_map_settings:
+    - match: |
+        (?xi)
+        (?:
+          (?:(match\s+ip\s+dscp)\s+({{dscp}}))|
+          (?:(match\s+access-group)\s+(\d+))
+        )
+      captures:
+        1: support.constant              # match ip dscp
+        2: constant.numeric              # match ip dscp value
+        3: support.constant              # bandwidth percent
+        4: constant.numeric              # match access-group
+        5: support.constant              # match access-group id
+
+  policy_map:
+    - match: ^\s*(policy-map)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.policy_map
+        - include: policy_class_map
+        - include: pop_on_configure_terminal_context
+
+  policy_class_map:
+    - match: ^\s*(class)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.policy_map.policy_class_map
+        - include: policy_class_map_settings
+        - include: pop_on_policy_map_context
+
+  policy_class_map_settings:
+    - match: |
+        (?xi)
+        (?:
+          (?:(priority)\s+(\d+))|
+          (?:(bandwidth)\s+(percent)\s+
+            (
+              (?:1\d{2})|
+              (?:\d{2})|
+              (?:\d)
+            )
+          )|
+          (?:(police)\s+(cir)\s+(\d+))|
+          (?:
+            (
+              (?:conform-action)|
+              (?:exceed-action)|
+              (?:violate-action)
+            )
+            \s+
+            (?:
+              (transmit)|
+              (drop)
+            )
+          )
+        )
+      captures:
+        1: support.constant              # priority
+        2: constant.numeric              # priority value
+        3: support.constant              # bandwidth
+        4: support.constant              # bandwidth percent
+        5: constant.numeric              # bandwidth percent value
+        6: support.constant              # police
+        7: support.constant              # police cir
+        8: constant.numeric              # police cir value
+        9: support.constant              # action-type
+        10: entity.other.attribute-name  # action-type transmit
+        11: keyword.other                # action-type drop
 
   bgp:
     - match: ^\s*(router)\s+(bgp)\s+(\d+)
@@ -1173,6 +1305,36 @@ contexts:
         11: support.constant              # operator
         12: constant.numeric              # prefix
 
+  service:
+    - match: |
+        (?xi) 
+        (service)\s+
+        (?:
+          (?:(password-encryption))|
+          (?:(sequence-numbers))|
+          (?:(tcp-keepalives-in))|
+          (?:(tcp-keepalives-out))|
+          (?:(timestamps)\s+
+            (
+              (?:debug)|
+              (?:log)|
+            )
+            \s+
+            (datetime\s+msec)
+            (?:\s+(localtime\s+show-timezone))?
+          )
+        )
+      captures:
+        1: support.constant               # service
+        2: support.constant               # password-encryption
+        3: support.constant               # sequence-numbers
+        4: support.constant               # tcp-keepalives-in
+        5: support.constant               # tcp-keepalives-out
+        6: support.constant               # timestamps
+        7: support.constant               # timestamps debug | log
+        8: support.constant               # timestamps datetime msec
+        9: support.constant               # timestamps localtime show-timezone
+
   vlan:
     - match: '^\s*(vlan)\s+({{vlan_id}})'
       captures:
@@ -1245,7 +1407,14 @@ contexts:
             (?:(bandwidth)\s+(\d+))|
             (?:(speed)\s+(\d+))|
             (?:(full-duplex))|
-            (?:(half-duplex))
+            (?:(half-duplex))|
+            (?:(ip\s+pim)\s+((?:(?:sparse)|(?:dense))-mode))|
+            (?:(ip\s+ospf)\s+
+              (?:
+                (?:(message-digest-key)\s+(\d+)\s+({{hashing_algorithms}})\s+(\d+)\s+(\S+))|
+                (?:(cost)\s+(\d+))
+              )
+            )
           )
         captures:
           1: comment.line                 # Description
@@ -1293,6 +1462,16 @@ contexts:
           43: constant.numeric            # speed value
           44: support.constant            # full-duplex
           45: support.constant            # half-duplex
+          46: support.constant            # ip pim 
+          47: entity.other.attribute-name # ip pim mode
+          48: support.constant            # ip ospf
+          49: support.constant            # ip ospf message-digest-key
+          50: constant.numeric            # ip ospf message-digest-key id
+          51: entity.other.attribute-name # ip ospf message-digest-key hash
+          52: constant.numeric            # ip ospf message-digest-key password type
+          53: string.unquoted             # ip ospf message-digest-key password
+          54: support.constant            # ip ospf cost
+          55: constant.numeric            # ip ospf cost value
       - include: pop_on_configure_terminal_context
       - include: partials
 
