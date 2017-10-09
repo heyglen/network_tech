@@ -7,7 +7,13 @@ import sublime_plugin
 
 logger = logging.getLogger('net_tech')
 logger.handlers = []
-logger.setLevel(logging.DEBUG)
+
+
+settings = sublime.load_settings('network_tech.sublime-settings')
+
+logger.setLevel(
+    getattr(logging, settings.get('log_level', 'warning').upper())
+)
 
 
 class DotDict(dict):
