@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 name: Cisco IOS
-file-extensions: 
+file-extensions:
   - cisco-ios
   - ios
 first_line_match: |
@@ -266,6 +266,7 @@ variables:
     (?:ip)|
     (?:tcp)|
     (?:udp)|
+    (?:esp)|
     (?:icmp)
   port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   port_names: |
@@ -281,6 +282,7 @@ variables:
       (?:syslog)|
       (?:telnet)|
       (?:tacacs)|
+      (?:isakmp)|
       (?:snmp)
     )
   operators: '(?:(?:eq)|(?:ge)|(?:le))'
@@ -304,7 +306,7 @@ contexts:
     - include: configure_terminal_scope
     - include: do_show
     - include: scope
-    
+
 
   prototype:
     - include: device_comment
@@ -434,12 +436,13 @@ contexts:
         0: cisco.scope
         1: variable.parameter
         2: support.constant
-      # push: 
+      # push:
         # - meta_content_scope: text.network.cisco.configure_terminal
         # - include: configure_terminal_scope
 
   configure_terminal_scope:
     - include: bgp
+    - include: ospf
     - include: vty
     - include: vrf
     - include: snmp
@@ -468,6 +471,7 @@ contexts:
     - include: ipv6_general_prefix
     - include: extended_acl
     - include: standard_acl
+    - include: extended_acl_old
     - include: partials
 
 
@@ -505,7 +509,7 @@ contexts:
       captures:
         1: support.constant
         2: constant.numeric
-  
+
   username:
     - match: |
         (?xi)
@@ -572,7 +576,7 @@ contexts:
     - include: snmp_poll
     - include: snmp_contact
     - include: snmp_contact_location
-  
+
   snmp_contact_location:
     - match: |
         (?xi)
@@ -735,6 +739,46 @@ contexts:
         5: support.constant
         6: constant.numeric
 
+  extended_acl_old:
+    - match: |
+        (?xi)
+        ^\s*
+        (access-list)\s+(\d{3})\s+
+        (?:
+          (permit)|
+          (deny)
+        )\s+
+        ({{protocol_target}})
+        (?:
+          (?:
+            (?:\s+(?:({{network_target}})|(?:(host)\s+({{ip}}))))
+            (?:\s+({{operators}})\s+({{port_target}}))?
+            (\s+established)?
+            (?:\s+(?:({{network_target}})|(?:(host)\s+({{ip}}))))
+            (?:\s+({{operators}})\s+({{port_target}}))?
+            (\s+established)?
+          )
+        )
+      captures:
+        1: support.constant             # access-list
+        2: constant.numeric             # access-list number
+        3: entity.other.attribute-name  # permit
+        4: keyword.other                # deny
+        5: constant.numeric             # protocol name
+        6: constant.numeric             # Source Network
+        7: support.constant             # Source Host
+        8: constant.numeric             # Source Host IP
+        9: support.constant             # Source Operator
+        10: constant.numeric             # Source Port
+        11: support.constant            # Source Established
+        12: constant.numeric.target_ip  # Destination Network
+        13: support.constant            # Destination Host
+        14: constant.numeric            # Destination Host IP
+        15: support.constant            # Destination Operator
+        16: constant.numeric            # Destination Port
+        17: support.constant            # Destination Established
+        18: ios.acl.ace.target_ip       # IP target scope
+
   extended_acl:
     - match: ^\s*(ip)\s+(access-list)\s+(extended)\s+(\S+)
       captures:
@@ -745,8 +789,22 @@ contexts:
         4: string.unquoted
       push:
         - meta_content_scope: text.network.cisco.acl.extended
+        - include: remark_ace
         - include: extended_ace
         - include: pop_on_configure_terminal_context
+
+  remark_ace:
+    - match: |
+        (?xi)
+        ^\s*
+        ({{line_number}}\s+)?
+        (remark)\s+
+        (.*)
+      scope: text.network.cisco.acl.extended.ace.remark
+      captures:
+        1: constant.numeric             # Line number
+        2: comment.line                 # remark
+        3: comment.line                 # remark text
 
   extended_ace:
     - match: |
@@ -912,6 +970,54 @@ contexts:
         10: entity.other.attribute-name  # action-type transmit
         11: keyword.other                # action-type drop
 
+  ospf:
+    - match: ^\s*(router)\s+(ospf)\s+(\d+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.language
+      push:
+        - meta_content_scope: text.network.cisco.ospf
+        - include: ospf_settings
+        - include: pop_on_configure_terminal_context
+
+  ospf_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(log-adjacency-changes))|
+          (?:(auto-cost\s+reference-bandwidth)\s+(\d+))|
+          (?:
+            (area)\s+(\d+)\s+
+            (?:
+              (?:(authentication)\s+(message-digest))|
+              (?:(nssa))
+            )
+          )|
+          (?:(passive-interface)\s+({{interface_names}})\s*({{interface_numbers}}))|
+          (?:(network)\s+({{ip}})\s+({{wildcard_mask}})\s+(area)\s+(\d+))
+        )
+      captures:
+        1: support.constant              # log-adjacency-changes
+        2: support.constant              # auto-cost reference-bandwidth
+        3: constant.numeric              # auto-cost reference-bandwidth value
+        4: support.constant              # area
+        5: constant.numeric              # area id
+        6: support.constant              # area authentication
+        7: support.constant              # area authentication message-digest
+        8: support.constant              # area nssa
+        9: support.constant              # passive-interface
+        10: entity.other.attribute-name  # passive-interface type
+        11: constant.numeric             # passive-interface type number
+        12: support.constant              # network
+        13: constant.numeric              # network ip
+        14: constant.numeric              # network ip wildcard
+        15: support.constant              # network ip wildcard area
+        16: constant.numeric              # network ip wildcard area id
+
+
   bgp:
     - match: ^\s*(router)\s+(bgp)\s+(\d+)
       captures:
@@ -989,7 +1095,7 @@ contexts:
 
   ipv4_neighbor:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*(neighbor)\s+({{ip}})\s+
         (?:
         (activate)|
@@ -1081,10 +1187,10 @@ contexts:
         7: constant.numeric              # bgp router-id id
         8: support.constant              # bgp log-neighbor-changes
 
-      
+
   ipv6_neighbor:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*(neighbor)\s+({{ipv6}})\s+
         (?:
         (activate)|
@@ -1158,13 +1264,13 @@ contexts:
     captures:
       1: support.constant
 
-  ip_route: 
+  ip_route:
     - include: ipv4_route
     - include: ipv6_route
 
   ipv4_route:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*
         (?:
           (ip)\s+(route)\s+
@@ -1201,8 +1307,8 @@ contexts:
         9: entity.other.attribute-name  # next hop null
         10: constant.numeric             # next hop null id
         11: constant.numeric             # next hop ip
-        12: support.constant            # name 
-        13: string.unquoted             # name 
+        12: support.constant            # name
+        13: string.unquoted             # name
         14: support.constant            # perminate
         15: support.constant            # track
         16: constant.numeric            # track id
@@ -1211,7 +1317,7 @@ contexts:
 
   ipv6_route:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*
         (ipv6)\s+(route)\s+
         (?:(vrf)\s+(\S+)\s+)?
@@ -1243,23 +1349,23 @@ contexts:
         8: entity.other.attribute-name  # next hop interface
         9: constant.numeric             # next hop interface id
         10: constant.numeric             # next hop ip
-        11: support.constant             # name 
-        12: string.unquoted             # name 
+        11: support.constant             # name
+        12: string.unquoted             # name
         13: support.constant            # perminate
         14: support.constant            # track
         15: constant.numeric            # track id
         16: support.constant            # tag
         17: constant.numeric            # tag id
 
-  prefix_list: 
+  prefix_list:
     - include: ipv4_prefix_list
     - include: ipv6_prefix_list
 
   ipv4_prefix_list:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*(ip)\s+(prefix-list)\s+(\S+)\s+
-        (?:(seq)\s+(\d+)\s+)?        
+        (?:(seq)\s+(\d+)\s+)?
         (?:(permit)|(deny))\s+
         ({{ip_prefix}})
         (?:
@@ -1282,9 +1388,9 @@ contexts:
 
   ipv6_prefix_list:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*(ipv6)\s+(prefix-list)\s+(\S+)\s+
-        (?:(seq)\s+(\d+)\s+)?        
+        (?:(seq)\s+(\d+)\s+)?
         (?:(permit)|(deny))\s+
         ({{ipv6_prefix}})
         (?:
@@ -1307,7 +1413,7 @@ contexts:
 
   service:
     - match: |
-        (?xi) 
+        (?xi)
         (service)\s+
         (?:
           (?:(password-encryption))|
@@ -1448,9 +1554,9 @@ contexts:
           29: support.constant            # speed
           30: support.constant            # speed auto
           31: constant.numeric            # speed #
-          32: support.constant            # ip nat 
+          32: support.constant            # ip nat
           33: support.constant            # ip nat inside / outside
-          34: support.constant            # duplex 
+          34: support.constant            # duplex
           35: support.constant            # duplex auto / full / half
           36: support.constant            # ip
           37: support.constant            # ip flow ingress
@@ -1462,7 +1568,7 @@ contexts:
           43: constant.numeric            # speed value
           44: support.constant            # full-duplex
           45: support.constant            # half-duplex
-          46: support.constant            # ip pim 
+          46: support.constant            # ip pim
           47: entity.other.attribute-name # ip pim mode
           48: support.constant            # ip ospf
           49: support.constant            # ip ospf message-digest-key
@@ -1493,7 +1599,7 @@ contexts:
             )
           )?
         )
-      captures: 
+      captures:
         1: support.constant       # standby
         2: constant.numeric       # standby id
         3: support.constant       # version
@@ -1527,7 +1633,7 @@ contexts:
 
   switchport_access:
     - match: ^\s*(switchport\s+access\s+vlan)\s+({{vlan_id}})
-      captures: 
+      captures:
         1: support.constant
         2: constant.numeric
 
@@ -1543,7 +1649,7 @@ contexts:
             (?:(?:(add)|(remove))\s+)?({{vlan_range}})
           )
         )
-      captures: 
+      captures:
         1: support.constant               # switchport trunk
         2: support.constant               # mode trunk
         3: support.constant               # encapsulation dot1q
@@ -1551,7 +1657,7 @@ contexts:
         5: keyword.other                  # remove
         6: constant.numeric               # vlan
 
-    
+
   interface_default:
     - match: |
         (?xi)
@@ -1609,7 +1715,7 @@ contexts:
           (?:(modem\s+enable))|
           (?:(exec-timeout)\s+(\d+)\s+(\d+))
         )
-      captures: 
+      captures:
         1: support.constant
         2: support.constant
         3: support.constant
@@ -1779,7 +1885,7 @@ contexts:
     - match: '^\s*(do)(?=\s)'
       captures:
           1: support.constant
-      push: 
+      push:
         - match: '$'
           pop: true
         - include: show
@@ -1944,7 +2050,7 @@ contexts:
       scope: text.network.cisco.pipe
       captures:
         1: keyword.other
-      push: 
+      push:
         - meta_content_scope: text.network.cisco.pipe
         - match: '(?=(?:{{comment}})|$)'
           pop: true

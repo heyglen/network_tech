@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 name: Cisco NXOS
-file-extensions: 
+file-extensions:
   - cisco-nxos
   - cisco-nexus
   - nxos
@@ -439,7 +439,7 @@ contexts:
         0: cisco.scope
         1: variable.parameter
         2: support.constant
-      # push: 
+      # push:
       #   - meta_content_scope: text.network.cisco.configure_terminal
       #   - include: configure_terminal_scope
 
@@ -689,7 +689,7 @@ contexts:
             6: entity.other.attribute-name    # interface name
             7: constant.numeric               # interface number
         - include: pop_on_configure_terminal_context
-  
+
   monitor_session:
     - match: ^\s*(monitor)\s+(session)\s+(\d+)
       captures:
@@ -718,7 +718,7 @@ contexts:
         5: support.constant               # destination interface
         6: entity.other.attribute-name    # destination interface type
         7: constant.numeric               # destination interface id
-  
+
   logging:
     - match: >
         (?ix)
@@ -1048,7 +1048,7 @@ contexts:
         11: constant.numeric     # timers throttle lsa #2
         12: constant.numeric     # timers throttle lsa #3
         13: support.constant      # timers
-        14: support.constant      # timers lsa-arrival 
+        14: support.constant      # timers lsa-arrival
         15: constant.numeric      # timers lsa-arrival number
         16: support.constant      # auto-cost reference-bandwidth
         17: constant.numeric      # auto-cost reference-bandwidth number
@@ -1090,7 +1090,7 @@ contexts:
 
   bgp_settings:
     - match: |
-        (?xi) 
+        (?xi)
         (?:
           (?:(router-id)\s+(\S+))|
           (?:(log-neighbor-changes))|
@@ -1193,7 +1193,7 @@ contexts:
 
   bgp_peer_policy_settings:
     - match: |
-        (?xi) 
+        (?xi)
         (?:
           (next-hop-self)|
           (?:(inherit)\s+(peer)\s+(\S+))|
@@ -1217,7 +1217,7 @@ contexts:
 
   bgp_session_settings:
       - match: |
-          (?xi) 
+          (?xi)
           (?:
             (?:(remote-as)\s+(\d+))|
             (?:(timers)\s+(\d+)\s+(\d+)(?:\s+(\d+))?)|
@@ -1278,7 +1278,7 @@ contexts:
 
   bgp_neighbor_settings:
     - match: |
-        (?xi) 
+        (?xi)
         (?:
           (activate)|
           (shutdown)|
@@ -1338,17 +1338,17 @@ contexts:
         1: support.constant
         2: constant.numeric
 
-  ip_route: 
+  ip_route:
     - include: ipv4_route
     - include: ipv6_route
 
-  vrf_ip_route: 
+  vrf_ip_route:
     - include: vrf_ipv4_route
     - include: vrf_ipv6_route
 
   vrf_ipv4_route:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*(ip)\s+(route)\s+
         ({{ip_prefix}})\s+
         (?:((?:{{interface_names}})|(?:null))\s*({{interface_numbers}})\s+)?
@@ -1367,8 +1367,8 @@ contexts:
         4: entity.other.attribute-name  # next hop interface
         5: constant.numeric             # next hop interface id
         6: constant.numeric             # next hop ip
-        7: support.constant             # name 
-        8: string.unquoted             # name 
+        7: support.constant             # name
+        8: string.unquoted             # name
         9: support.constant            # perminate
         10: support.constant            # track
         11: constant.numeric            # track id
@@ -1378,7 +1378,7 @@ contexts:
 
   vrf_ipv6_route:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*(ipv6)\s+(route)\s+
         ({{ipv6_prefix}})\s+
         (?:((?:{{interface_names}})|(?:null))\s*({{interface_numbers}})\s+)?
@@ -1397,8 +1397,8 @@ contexts:
         4: entity.other.attribute-name  # next hop interface
         5: constant.numeric             # next hop interface id
         6: constant.numeric             # next hop ip
-        7: support.constant             # name 
-        8: string.unquoted             # name 
+        7: support.constant             # name
+        8: string.unquoted             # name
         9: support.constant            # perminate
         10: support.constant            # track
         11: constant.numeric            # track id
@@ -1408,7 +1408,7 @@ contexts:
 
   ipv4_route:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*(ip)\s+(route)\s+
         (?:(vrf)\s+(\S+)\s+)?
         ({{ip_prefix}})\s+
@@ -1429,8 +1429,8 @@ contexts:
         6: entity.other.attribute-name  # next hop interface
         7: constant.numeric             # next hop interface id
         8: constant.numeric             # next hop ip
-        9: support.constant             # name 
-        10: string.unquoted             # name 
+        9: support.constant             # name
+        10: string.unquoted             # name
         11: support.constant            # perminate
         12: support.constant            # track
         13: constant.numeric            # track id
@@ -1439,7 +1439,7 @@ contexts:
 
   ipv6_route:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*(ipv6)\s+(route)\s+
         (?:(vrf)\s+(\S+)\s+)?
         ({{ipv6_prefix}})\s+
@@ -1460,23 +1460,23 @@ contexts:
         6: entity.other.attribute-name  # next hop interface
         7: constant.numeric             # next hop interface id
         8: constant.numeric             # next hop ip
-        9: support.constant             # name 
-        10: string.unquoted             # name 
+        9: support.constant             # name
+        10: string.unquoted             # name
         11: support.constant            # perminate
         12: support.constant            # track
         13: constant.numeric            # track id
         14: support.constant            # tag
         15: constant.numeric            # tag id
 
-  prefix_list: 
+  prefix_list:
     - include: ipv4_prefix_list
     - include: ipv6_prefix_list
 
   ipv4_prefix_list:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*(ip)\s+(prefix-list)\s+(\S+)\s+
-        (?:(seq)\s+(\d+)\s+)?        
+        (?:(seq)\s+(\d+)\s+)?
         (?:(permit)|(deny))\s+
         ({{ip_prefix}})
         (?:
@@ -1499,9 +1499,9 @@ contexts:
 
   ipv6_prefix_list:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*(ipv6)\s+(prefix-list)\s+(\S+)\s+
-        (?:(seq)\s+(\d+)\s+)?        
+        (?:(seq)\s+(\d+)\s+)?
         (?:(permit)|(deny))\s+
         ({{ipv6_prefix}})
         (?:
@@ -1559,9 +1559,9 @@ contexts:
           (?:(match\s+ip\s+address)\s+(\S+))|
           (?:(set\s+vrf)\s+(\S+))
         captures:
-          1: support.constant   # match address 
+          1: support.constant   # match address
           2: string.unquoted    # match address name
-          3: support.constant   # set vrf     
+          3: support.constant   # set vrf
           4: string.unquoted    # set vrf name
       - include: pop_on_configure_terminal_context
 
@@ -1680,7 +1680,7 @@ contexts:
           24: string.unquoted                           # Service-policy qos input name
           25: support.constant                          # Service-policy qos input
           26: string.unquoted                           # Service-policy qos input name
-          27: support.constant                          # channel-group 
+          27: support.constant                          # channel-group
           28: constant.numeric                          # channel-group id
           29: support.constant                          # channel-group force
           30: support.constant                          # channel-group mode
@@ -1756,7 +1756,7 @@ contexts:
           (?:(track)\s+(\d+)\s+(decrement)\s+(\d+))|
           (?:(name)\s+(\S+))
         )
-      captures: 
+      captures:
         1: support.constant             # ip
         2: constant.numeric             # ip number
         3: support.constant             # ipv6
@@ -1777,7 +1777,7 @@ contexts:
           (?:(preempt\s+delay\s+minimum)\s+(\d+))|
           (?:(authentication)\s+(md5)\s+(key-string)\s+(\S+))
         )
-      captures: 
+      captures:
         1: support.constant             # priority
         2: constant.numeric             # priority number
         3: support.constant             # preempt
@@ -1798,7 +1798,7 @@ contexts:
           (portfast\s+edge)|
           (guard\s+root)
         )?
-      captures: 
+      captures:
         1: support.constant                   # spanning-tree
         2: support.constant                   # port type edge
         3: entity.other.inherited-class       # port type edge trunk
@@ -1821,7 +1821,7 @@ contexts:
 
   switchport_access:
     - match: ^\s*(switchport\s+access\s+vlan)\s+({{vlan_id}})
-      captures: 
+      captures:
         1: support.constant
         2: constant.numeric
 
@@ -1834,7 +1834,7 @@ contexts:
           (allowed\s+vlan)\s+
           (?:(?:(add)|(remove))\s+)?({{vlan_range}})
         )
-      captures: 
+      captures:
         1: support.constant               # switchport trunk
         2: support.constant               # mode trunk
         3: support.constant               # encapsulation dot1q
@@ -1842,7 +1842,7 @@ contexts:
         5: keyword.other                  # remove
         6: constant.numeric               # vlan
 
-    
+
   interface_default:
     - match: |
         (?xi)
@@ -1879,7 +1879,7 @@ contexts:
           2: constant.numeric     # access-class
           3: string.unquoted      # access-class
           4: support.constant     # access-class
-          5: support.constant     # access-class     
+          5: support.constant     # access-class
           6: support.constant     # exec-timeout
           7: constant.numeric     # exec-timeout number
       - match: ^\s*(transport\s+input)\s+((?:telnet|ssh)(?:\s+(?:telnet|ssh))?)
@@ -2209,9 +2209,9 @@ contexts:
   show:
     - include: show_bgp
     - include: show_vlan
-    - include: show_route 
+    - include: show_route
     - include: show_standby
-    - include: show_interface 
+    - include: show_interface
     - include: show_run_interface
     - include: show_ip_interface_brief
 
@@ -2367,7 +2367,7 @@ contexts:
       scope: text.network.cisco.pipe
       captures:
         1: keyword.other
-      push: 
+      push:
         - meta_content_scope: text.network.cisco.pipe
         - match: '(?=(?:{{comment}})|$)'
           pop: true

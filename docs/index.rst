@@ -41,3 +41,4 @@ Contents
    Jumping <jumping>
    Search <network_search>
    Bugs & Requests <feature_requets_and_bugs>
+   Settings <settings>
