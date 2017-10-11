@@ -475,6 +475,7 @@ contexts:
     - include: vty
     - include: vrf
     - include: snmp
+    - include: ntp
     - include: vlan
     - include: ip_http
     - include: logging
@@ -984,7 +985,14 @@ contexts:
               (transmit)|
               (drop)
             )
-          )
+          )|
+          (?:
+            (shape)\s+
+            (?:
+              (?:(average)\s+(\d+))
+            )
+          )|
+          (?:(service-policy)\s+(\S+))
         )
       captures:
         1: support.constant              # priority
@@ -998,6 +1006,11 @@ contexts:
         9: support.constant              # action-type
         10: entity.other.attribute-name  # action-type transmit
         11: keyword.other                # action-type drop
+        12: support.constant              # shape
+        13: support.constant              # shape average
+        14: constant.numeric              # shape average value
+        15: support.constant              # service-policy
+        16: string.unquoted              # service-policy name
 
   ospf:
     - match: ^\s*(router)\s+(ospf)\s+(\d+)
@@ -1222,20 +1235,20 @@ contexts:
         (?xi)
         ^\s*(neighbor)\s+({{ipv6}})\s+
         (?:
-        (activate)|
-        (shutdown)|
-        (next-hop-self)|
-        (?:(soft-reconfiguration)\s+(inbound|outbound))|
-        (?:(password)\s+(\d+)\s+(\S+))|
-        (?:(prefix-list|route-map)\s+(\S+)\s+(in|out))|
-        (?:(inherit)\s+(peer-policy)\s+(\S+))|
-        (send-community(?:\s+(?:(?:both)|(?:extended)))?)|
-        (?:(remote-as)\s+(\d+)(\s+shutdown)?)|
-        (?:(timers)\s+(\d+)\s+(\d+)(?:\s+(\d+))?)|
-        (?:(ttl-security)\s+(hops)\s+(\d+))|
-        (?:(description)\s+(.*))|
-        (?:(version)\s+(\d+))|
-        (?:(transport)\s+(path-mtu-discovery))
+          (activate)|
+          (shutdown)|
+          (next-hop-self)|
+          (?:(soft-reconfiguration)\s+(inbound|outbound))|
+          (?:(password)\s+(\d+)\s+(\S+))|
+          (?:(prefix-list|route-map)\s+(\S+)\s+(in|out))|
+          (?:(inherit)\s+(peer-policy)\s+(\S+))|
+          (send-community(?:\s+(?:(?:both)|(?:extended)))?)|
+          (?:(remote-as)\s+(\d+)(\s+shutdown)?)|
+          (?:(timers)\s+(\d+)\s+(\d+)(?:\s+(\d+))?)|
+          (?:(ttl-security)\s+(hops)\s+(\d+))|
+          (?:(description)\s+(.*))|
+          (?:(version)\s+(\d+))|
+          (?:(transport)\s+(path-mtu-discovery))
         )
       captures:
         1: support.constant               # Neighbor
@@ -1287,6 +1300,26 @@ contexts:
   - match: ^\s*(ip\s+classless)
     captures:
       1: support.constant
+
+  ntp:
+  - match: |
+      (?xi)
+        ^\s*
+        (ntp)\s+
+        (?:
+          (?:(source)\s+({{interface_names}})\s*({{interface_numbers}}))|
+          (?:(clock-period)\s+(\d+))|
+          (?:(server)\s+({{ip}}))
+        )      
+    captures:
+      1: support.constant               # ntp
+      2: support.constant               # ntp source
+      3: entity.other.attribute-name    # ntp source interface type
+      4: constant.numeric               # ntp source interface number
+      5: support.constant               # ntp clock-period
+      6: constant.numeric               # ntp clock-period value
+      7: support.constant               # ntp server
+      8: constant.numeric               # ntp server ip
 
   ip_http:
   - match: ^\s*(ip\s+http\s+server)
@@ -1535,7 +1568,8 @@ contexts:
             (?:
               (ip)\s+
               (?:
-                (flow\s+ingress)
+                (flow\s+ingress)|
+                (?:(igmp\s+query-interval)\s+(\d+))
               )
             )|
             (?:(mtu)\s+(\d+))|
@@ -1549,6 +1583,20 @@ contexts:
                 (?:(message-digest-key)\s+(\d+)\s+({{hashing_algorithms}})\s+(\d+)\s+(\S+))|
                 (?:(cost)\s+(\d+))
               )
+            )|
+            (?:
+              (spanning-tree)\s+
+              (?:
+                (portfast)
+              )
+            )|
+            (?:
+              (service-policy)\s+
+              (
+                (?:input)|
+                (?:output)
+              )
+              \s+(\S+)
             )
           )
         captures:
@@ -1589,24 +1637,31 @@ contexts:
           35: support.constant            # duplex auto / full / half
           36: support.constant            # ip
           37: support.constant            # ip flow ingress
-          38: support.constant            # mtu
-          39: constant.numeric            # mtu value
-          40: support.constant            # bandwidth
-          41: constant.numeric            # bandwidth value
-          42: support.constant            # speed
-          43: constant.numeric            # speed value
-          44: support.constant            # full-duplex
-          45: support.constant            # half-duplex
-          46: support.constant            # ip pim
-          47: entity.other.attribute-name # ip pim mode
-          48: support.constant            # ip ospf
-          49: support.constant            # ip ospf message-digest-key
-          50: constant.numeric            # ip ospf message-digest-key id
-          51: entity.other.attribute-name # ip ospf message-digest-key hash
-          52: constant.numeric            # ip ospf message-digest-key password type
-          53: string.unquoted             # ip ospf message-digest-key password
-          54: support.constant            # ip ospf cost
-          55: constant.numeric            # ip ospf cost value
+          38: support.constant            # ip igmp query-interval
+          39: constant.numeric            # ip igmp query-interval value
+          40: support.constant            # mtu
+          41: constant.numeric            # mtu value
+          42: support.constant            # bandwidth
+          43: constant.numeric            # bandwidth value
+          44: support.constant            # speed
+          45: constant.numeric            # speed value
+          46: support.constant            # full-duplex
+          47: support.constant            # half-duplex
+          48: support.constant            # ip pim
+          49: entity.other.attribute-name # ip pim mode
+          50: support.constant            # ip ospf
+          51: support.constant            # ip ospf message-digest-key
+          52: constant.numeric            # ip ospf message-digest-key id
+          53: entity.other.attribute-name # ip ospf message-digest-key hash
+          54: constant.numeric            # ip ospf message-digest-key password type
+          55: string.unquoted             # ip ospf message-digest-key password
+          56: support.constant            # ip ospf cost
+          57: constant.numeric            # ip ospf cost value
+          58: support.constant            # spanning-tree
+          59: support.constant            # spanning-tree portfast
+          60: support.constant            # service-policy
+          61: support.constant            # service-policy input/output
+          62: string.unquoted            # service-policy input/output name
       - include: pop_on_configure_terminal_context
       - include: partials
 
@@ -1656,9 +1711,16 @@ contexts:
         1: support.constant
     - include: switchport_trunk
     - include: switchport_access
+    - include: switchport_voice
     - match: '^\s*(switchport)'
       captures:
         1: support.constant
+
+  switchport_voice:
+    - match: ^\s*(switchport\s+voice\s+vlan)\s+({{vlan_id}})
+      captures:
+        1: support.constant
+        2: constant.numeric
 
   switchport_access:
     - match: ^\s*(switchport\s+access\s+vlan)\s+({{vlan_id}})
@@ -1742,12 +1804,14 @@ contexts:
           (?:(password)\s+(\S+))|
           (?:(access-class)\s+(?:(\d+)|(\S+))\s+(in)(?:\s+(vrf-also))?)|
           (?:(modem\s+enable))|
-          (?:(exec-timeout)\s+(\d+)\s+(\d+))
+          (?:(exec-timeout)\s+(\d+)\s+(\d+))|
+          (logging\s+synchronous)|
+          (?:(stopbits)\s+(\d+))
         )
       captures:
-        1: support.constant
-        2: support.constant
-        3: support.constant
+        1: support.constant                 # transport
+        2: support.constant                 # transport preferred|input|output
+        3: constant.numeric                 # transport protocol
         4: support.constant
         5: string.unquoted
         6: support.constant
@@ -1759,6 +1823,9 @@ contexts:
         12: support.constant
         13: constant.numeric
         14: constant.numeric
+        15: support.constant
+        16: support.constant                # stopbits
+        17: constant.numeric                # stopbits value
 
   line_con:
     - match: '^\s*(line)\s+(con)\s+(0)'
