@@ -292,6 +292,8 @@ variables:
     (?xi)
     (?:
       (?:bgp)|
+      (?:bootps)|
+      (?:bootpc)|
       (?:ssh)|
       (?:ftp-data)|
       (?:ftp)|
@@ -304,7 +306,15 @@ variables:
       (?:isakmp)|
       (?:snmp)
     )
-  operators: '(?:(?:eq)|(?:ge)|(?:le))'
+  operators: |
+    (?xi)
+    (?:
+      (?:eq)|
+      (?:ge)|
+      (?:gt)|
+      (?:lt)|
+      (?:le)
+    )
   port_target: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
   drives: |
     (?xi)
