@@ -15,7 +15,7 @@ logger.handlers = []
 
 settings = sublime.load_settings('network_tech.sublime-settings')
 
-log_level = settings.get('log_level', 'warning')
+log_level = settings.get('log_level', 'warning') or 'warning'
 logger.setLevel(
     getattr(logging, log_level.upper())
 )
