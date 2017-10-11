@@ -21,6 +21,25 @@ variables:
   pop_address_family_ctx: '^\s*(?:exit-address-family)\s*$'
   command_end: '(?:\s|{{comment}}|$)'
   line_number: '^\s*\d+'
+  ah_transform: |
+    (?xi)
+    (?:
+      (?:ah-md5-hmac)|
+      (?:ah-sha-hmac)
+    )
+  esp_encryption_transform: |
+    (?xi)
+    (?:
+      (?:esp-des)|
+      (?:esp-null)|
+      (?:esp-3des)
+    )
+  esp_authentication_transform: |
+    (?xi)
+    (?:
+      (?:esp-md5-hmac)|
+      (?:esp-sha-hmac)
+    )
   dscp: |
     (?xi)
     (?:
