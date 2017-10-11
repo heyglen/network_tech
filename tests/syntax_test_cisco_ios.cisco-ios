@@ -44,6 +44,11 @@ configure terminal
   ! Line comment
   do show ipv6 route vrf NAME 1::1
 
+  tacacs-server host 1.2.3.4
+  tacacs-server directed-request
+  tacacs-server key ******* 1234567890ABCDEF
+
+
   ip prefix-list NAME seq 10 permit 1.2.3.0/24
   ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 1
   ip prefix-list NAME seq 10 permit 1.2.3.0/24 le 1
@@ -227,6 +232,8 @@ interface range GigabitEthernet1/1-2
   ip helper-address 1.1.1.1
   ip access-group NAME in
   ip access-group NAME out
+  ip igmp query-interval 123
+  switchport voice vlan 123
   ip redirects
   channel-group 1 mode active
   ipv6 redirects
@@ -243,6 +250,9 @@ interface range GigabitEthernet1/1-2
   standby 2 ipv6 ::1
   standby 1 track 1 decrement 10
   ipv6 enable
+  spanning-tree portfast
+  service-policy output SOMETHING
+  service-policy input SOMETHING
   no switchport
   no shutdown
   shutdown
@@ -254,6 +264,7 @@ snmp-server host 1.2.3.4 version 2c TEST
 snmp-server host 1.2.3.4 version 2c TEST
 
 line con 0
+  stopbits 1
   password cisco123
   modem enable
   transport preferred all
@@ -272,12 +283,15 @@ line vty 0 4
   transport input telnet ssh
   transport input telnet
   transport input ssh
+  logging synchronous
+  transport input ssh
 exit
 end
 
 monitor session 1 source interface Te1/1 - 2
 monitor session 1 destination analysis-module 1 data-port 1
 ntp source GigabitEthernet1/2
+ntp clock-period 123456
 ntp server 1.2.3.4
 
 logout
@@ -540,12 +554,16 @@ ip inspect name firewall netshow
 ip inspect name firewall ftp
 ip inspect name firewall sqlnet
 !
-access-list 103 permit udp host 200.1.1.1 any eq isakmp
-access-list 103 permit udp host 200.1.1.1 eq isakmp any
-access-list 103 permit esp host 200.1.1.1 any
-access-list 103 permit icmp any any
-access-list 103 deny ip any any
-access-list 105 permit ip 10.1.1.0 0.0.0.255 192.168.0.0 0.0.255.255
+access-list 101 permit icmp host 1.2.3.4 any echo
+access-list 101 permit icmp host 1.2.3.4 any echo-reply
+access-list 101 permit icmp host 1.2.3.4 any unreachable
+access-list 101 permit icmp host 1.2.3.4 any time-exceeded
+access-list 101 permit udp host 1.2.3.4 any eq isakmp
+access-list 101 permit udp host 1.2.3.4 eq isakmp any
+access-list 101 permit esp host 1.2.3.4 any
+access-list 101 permit icmp any any
+access-list 101 deny ip any any
+access-list 101 permit ip 10.1.1.0 0.0.0.255 192.168.0.0 0.0.255.255
 no cdp run
 !
 line con 0
@@ -580,6 +598,8 @@ policy-map QOS_STUFF
     conform-action transmit
     exceed-action drop
     violate-action drop
+    shape average 123
+    service-policy SOMETHING
 
 class-map match-all VOICE
   match ip dscp ef
