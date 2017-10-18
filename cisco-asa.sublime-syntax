@@ -24,6 +24,7 @@ variables:
   ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
   configure_terminal_ctx_words: |
     (?xi)
+    \s*
     (?:
       (?:aaa-server)|
       (?:access-list)|
@@ -277,7 +278,6 @@ variables:
   scope_object_network: '^\s*(object)\s+(network)\s+(\S+)'
   scope_object_service: '^\s*(object)\s+(service)\s+(\S+)'
   scope_object_group_protocol: '^\s*(object-group)\s+(protocol)\s+(\S+)'
-  scope_object_group_service: '^\s*(object-group)\s+(service)\s+(\S+)(\s+(?:tcp-udp)|(?:tcp)|(?:udp))?'
   scope_object_group_network: '^\s*(object-group)\s+(network)\s+(\S+)'
   scope_vlan: '^\s*(vlan)\s+({{vlan_id}})'
   scope_context: '^\s*(context)\s+(\S+)'
@@ -289,19 +289,6 @@ variables:
         (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
         ({{interface_names}})\s*({{interface_numbers}})
       )
-  scope_configure_terminal_scopes: |
-    (?xi)
-    (?:
-      (?:{{scope_object_group_protocol}})|
-      (?:{{scope_object_group_service}})|
-      (?:{{scope_object_group_network}})|
-      (?:{{scope_vlan}})|
-      (?:{{scope_context}})|
-      (?:{{scope_interface}})|
-      (?:{{scope_configure_terminal}})|
-      (?:{{scope_object_network}})|
-      (?:{{scope_object_service}})
-    )
 
 contexts:
   main:
@@ -1216,7 +1203,7 @@ contexts:
         10: string.unquoted             # accounting management protocol tacas or local
 
   object_group_service:
-    - match: '{{scope_object_group_service}}'
+    - match: '^\s*(object-group)\s+(service)\s+(\S+)(\s+(?:tcp-udp)|(?:tcp)|(?:udp))?'
       captures:
         0: cisco.scope            
         1: variable.parameter     # object-group

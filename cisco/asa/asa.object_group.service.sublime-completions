@@ -7,15 +7,15 @@
         },
         { 
             "trigger": "service-object\ttcp-udp",
-            "contents": "service-object tcp-udp destination eq ${1:1} $0"
+            "contents": "service-object tcp-udp destination eq ${1:1}$0"
         },
         { 
             "trigger": "service-object\ttcp",
-            "contents": "service-object tcp destination eq ${1:1} $0"
+            "contents": "service-object tcp destination eq ${1:1}$0"
         },
         { 
             "trigger": "service-object\tudp",
-            "contents": "service-object udp destination eq ${1:1} $0"
+            "contents": "service-object udp destination eq ${1:1}$0"
         },
     ]
 }

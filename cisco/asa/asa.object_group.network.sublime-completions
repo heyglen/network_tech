@@ -3,15 +3,15 @@
     "completions": [
         { 
             "trigger": "network-object\tnetwork",
-            "contents": "network-object ${1:1.2.3.0} ${2:255.255.255.0} $0"
+            "contents": "network-object ${1:1.2.3.0} ${2:255.255.255.0}$0"
         },
         { 
             "trigger": "network-object\thost",
-            "contents": "network-object host ${1:1.2.3.0} $0"
+            "contents": "network-object host ${1:1.2.3.0}$0"
         },
         { 
             "trigger": "network-object\tfqdn",
-            "contents": "fqdn ${1:www.example.com} $0"
+            "contents": "fqdn ${1:www.example.com}$0"
         },
     ]
 }

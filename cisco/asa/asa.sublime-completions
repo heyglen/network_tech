@@ -12,7 +12,7 @@
         },
         { 
             "trigger": "changeto\tcontext",
-            "contents": "changeto context ${1:name} $0"
+            "contents": "changeto context ${1:name}$0"
         },
         { 
             "trigger": "show\trun object-group", 
@@ -20,11 +20,11 @@
         },
         { 
             "trigger": "write\tnet", 
-            "contents": "write net $0"
+            "contents": "write net$0"
         },
         { 
             "trigger": "changeto\tsystem", 
-            "contents": "changeto system $0"
+            "contents": "changeto system$0"
         },
         { 
             "trigger": "packet-tracer\ttcp",

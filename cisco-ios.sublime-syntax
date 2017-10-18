@@ -71,6 +71,7 @@ variables:
     )
   configure_terminal_ctx_words: |
     (?xi)
+    \s*
     (?:
       (?:aaa)|
       (?:access-list)|
@@ -119,10 +120,14 @@ variables:
     )
   policy_map_ctx_words: |
     (?xi)
-    (?:class)|
-    (?:{{configure_terminal_ctx_words}})
+    \s*
+    (?:
+      (?:class)|
+      (?:{{configure_terminal_ctx_words}})
+    )
   vrf_definition_ctx_words: |
     (?xi)
+    \s*
     (?:
       {{configure_terminal_ctx_words}}
     )|
@@ -133,6 +138,7 @@ variables:
     )
   bgp_address_family_ctx_words: |
     (?xi)
+    \s*
     (?:
       {{configure_terminal_ctx_words}}
     )|

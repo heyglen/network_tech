@@ -66,6 +66,7 @@ variables:
   ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
   configure_terminal_ctx_words: |
     (?xi)
+    \s*
     (?:
       (?:aaa)|
       (?:banner)|
@@ -127,23 +128,27 @@ variables:
     )
   policy_map_ctx_words: |
     (?xi)
+    \s*
     (?:
       (?:class)|
       (?:{{configure_terminal_ctx_words}})
     )
   ospf_ctx_words: |
     (?xi)
+    \s*
     (?:
       (?:vrf)
     )
   ospfv3_ctx_words: |
     (?xi)
+    \s*
     (?:
       (?:vrf)|
       (?:address-family)
     )
   bgp_ctx_words: |
     (?xi)
+    \s*
     (?:
       (?:vrf)|
       (?:address-family)|
@@ -152,6 +157,7 @@ variables:
     )
   bgp_vrf_ctx_words: |
     (?xi)
+    \s*
     (?:
       (?:neighbor)|
       (?:router-id)|
@@ -162,6 +168,7 @@ variables:
     )
   interface_ctx_words: |
     (?xi)
+    \s*
     (?:
       (?:description)|
       (?:switchport)|
