@@ -108,6 +108,10 @@ interface Ethernet 100/0/1
   switchport mode trunk
   switchport trunk encapsulation dot1q
   switchport trunk allowed vlan add 1,2
+  switchport trunk allowed vlan remove 1,2
+  switchport trunk allowed vlan except 1,2
+  switchport trunk allowed vlan all
+  switchport trunk allowed vlan none
   switchport mode trunk
   switchport mode access
   switchport access vlan 1

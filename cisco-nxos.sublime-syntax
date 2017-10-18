@@ -1839,7 +1839,21 @@ contexts:
         (?:
           (encapsulation\s+dot1q)|
           (allowed\s+vlan)\s+
-          (?:(?:(add)|(remove))\s+)?({{vlan_range}})
+          (?:
+            (?:
+              (?:
+                (?:
+                  (add)|
+                  (remove)|
+                  (except)
+                )
+                \s+
+              )?
+              ({{vlan_range}})
+            )|
+            (all)|
+            (none)
+          )
         )
       captures:
         1: support.constant               # switchport trunk
@@ -1847,7 +1861,10 @@ contexts:
         3: support.constant               # encapsulation dot1q
         4: entity.other.attribute-name    # add
         5: keyword.other                  # remove
-        6: constant.numeric               # vlan
+        6: keyword.other                  # except
+        7: constant.numeric               # vlan
+        8: constant.numeric               # all
+        9: keyword.other                  # none
 
 
   interface_default:

@@ -11,6 +11,22 @@
             "contents": "switchport trunk allowed vlan add ${1:0}"
         },
         { 
+            "trigger": "switchport\ttrunk remove", 
+            "contents": "switchport trunk allowed vlan remove ${1:0}"
+        },
+        { 
+            "trigger": "switchport\ttrunk except", 
+            "contents": "switchport trunk allowed vlan except ${1:0}"
+        },
+        { 
+            "trigger": "switchport\ttrunk all", 
+            "contents": "switchport trunk allowed all"
+        },
+        { 
+            "trigger": "switchport\ttrunk none", 
+            "contents": "switchport trunk allowed none"
+        },
+        { 
             "trigger": "ip\tip redirects", 
             "contents": "ip${1:v6} redirects"
         },
