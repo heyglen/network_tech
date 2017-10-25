@@ -41,17 +41,33 @@ detect_syntax = DotDict({
     'asa': [
         '^ASA Version \d+\.\d+',
         '^: Hardware:\s+ASA\d+',
+        '^\s*security-level \d+$',
+        '^\s*nameif \S+$',
+        '^\s*access-list cached ACL log flows:',
+        '^\s*fragment chain \d+ \S+$',
+        '^\s*asdm image \S+$',
+        '^\s*same-security-traffic permit',
     ],
     'nxos': [
         '^!Command: show ',
+        '^\s*feature \S+',
+        '^\s*vrf context \S+',
     ],
     'ace': [
         '^Generating configuration....',
     ],
     'ios': [
+        '^\s*ip classless$',
+        '^\s*ip subnet-zero$',
+        '^\s*redundancy$',
+        '^\s*mode sso$',
+        '^\s*main-cpu$',
+        '^\s*auto-sync standard$',
+        '^\s*spanning-tree extend system-id$',
+        '^\s*vlan internal allocation policy ascending$',
         '^Current configuration : \d+ bytes$',
         '^Building configuration...$',
-        '^access-list \d{2,3} ((?:permit)|(?:deny))',
+        '^\s*access-list \d{2,3} ((?:permit)|(?:deny))',
     ],
 })
 

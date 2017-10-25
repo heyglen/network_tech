@@ -310,3 +310,7 @@ policy-map global_policy
 service-policy global_policy global
 
 logout
+
+same-security-traffic permit inter-interface
+same-security-traffic permit intra-interface
+
