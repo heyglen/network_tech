@@ -1,0 +1,9 @@
+<snippet>
+	<description>round robin</description>
+	<tabTrigger>predictor</tabTrigger>
+	<scope>text.network.cisco.ace  serverfarm</scope>
+	<content><![CDATA[
+predictor roundrobin ${1:60}
+]]></content>
+</snippet>
+    

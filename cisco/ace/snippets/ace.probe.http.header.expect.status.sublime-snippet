@@ -1,0 +1,8 @@
+<snippet>
+	<description>status</description>
+	<tabTrigger>expect</tabTrigger>
+	<scope>text.network.cisco.ace  (probe.https | probe.http)</scope>
+	<content><![CDATA[
+expect status ${1:200} ${2:200}
+]]></content>
+</snippet>

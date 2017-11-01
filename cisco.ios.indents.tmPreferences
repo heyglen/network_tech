@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>name</key>
+        <string>Cisco IOS Indents</string>
+        
+        <key>scope</key>
+        <string>text.network.cisco.ios</string>
+
+        <key>settings</key>
+        <dict>
+            <key>increaseIndentPattern</key>
+            <string>(?xi)
+                ^\s*
+                (?:
+                    (?:configure\s+terminal)|
+                    (?:vlan\s+\d+)|
+                    (?:
+                        interface\s+
+                        (?:
+                            (?:tengigabitethernet)|
+                            (?:gigabitethernet)|
+                            (?:fastethernet)|
+                            (?:port-channel)|
+                            (?:vlan)
+                        )
+                        \s*
+                        (?:\d+(?:/\d+)*(?:\.\d+)?)?
+                    )|
+                    (?:
+                        interface\s+range\s+
+                        (?:
+                            (?:tengigabitethernet)|
+                            (?:gigabitethernet)|
+                            (?:fastethernet)|
+                            (?:port-channel)
+                            (?:vlan)
+                        )
+                        \s*
+                        (?:\d+(?:/\d+)*(?:\.\d+)?)(?:-\d+)?
+                    )|
+                    (?:
+                        ip\s+access-list\s+
+                        (?:
+                            (?:extended)|
+                            (?:standard)
+                        )
+                        \s+\S+
+                    )|
+                    (?:vrf\s+definition\s+\S+)|
+                    (?:
+                        router\s+
+                        (?:
+                            (?:bgp)|
+                            (?:ospf)|
+                            (?:rip)|
+                            (?:eigrp)
+                        )
+                        \s+\d+
+                    )|
+                    (?:address-family\s+ipv[46](?:\s+vrf\s+\S+)?)|
+                    (?:line\s+vty\s+\d+\s+\d+)
+                )
+                \s*(?:[#!].*)?$
+            </string>
+
+            <key>decreaseIndentPattern</key>
+            <string>(?xi)
+                ^\s*
+                (?:
+                    (?:exit)|
+                    (?:exit-address-family)|
+                    (?:end)
+                )
+                \s*(?:[#!].*)?$
+            </string>
+       </dict>
+    </dict>
+</plist>

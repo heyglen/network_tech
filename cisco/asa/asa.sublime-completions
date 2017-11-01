@@ -1,0 +1,39 @@
+{
+    "scope": "text.network.cisco.asa text.network.cisco.configure_terminal & -(text.network.cisco.asa text.network.cisco.configure_terminal text.network.cisco) & -asa.acl_entry & -text.network.cisco.asa.access_list.incomplete & -text.nextwork.cisco.asa.object_group.incomplete & -text.network.cisco.partial",
+    "completions": [
+        "nameif ",
+        { 
+            "trigger": "terminal\twidth",
+            "contents": "terminal width ${1:511}"
+        },
+        { 
+            "trigger": "terminal\tpager",
+            "contents": "terminal pager ${1:0}"
+        },
+        { 
+            "trigger": "changeto\tcontext",
+            "contents": "changeto context ${1:name}$0"
+        },
+        { 
+            "trigger": "show\trun object-group", 
+            "contents": "show run object-group ${1:name}"
+        },
+        { 
+            "trigger": "write\tnet", 
+            "contents": "write net$0"
+        },
+        { 
+            "trigger": "changeto\tsystem", 
+            "contents": "changeto system$0"
+        },
+        { 
+            "trigger": "packet-tracer\ttcp",
+            "contents": "packet-tracer input ${1:inside} tcp ${2:1.2.3.4} 1024 ${3:1.2.3.4} ${4:443}\n$0"
+        },
+        { 
+            "trigger": "packet-tracer\tudp",
+            "contents": "packet-tracer input ${1:inside} udp ${2:1.2.3.4} 1024 ${3:1.2.3.4} ${4:161}\n$0"
+        },
+    ]
+}
+

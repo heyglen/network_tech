@@ -1,0 +1,316 @@
+# cisco asa
+
+! On firewall01
+
+# Device firewall02
+
+changeto context fw-context-1
+copy running-config startup-config
+terminal width 511
+terminal pager 0
+show running-config | include something ! Inline comment
+show run interface | exclude something
+write
+write net
+
+! Line comment
+
+configure terminal
+  hostname firewall
+ end
+
+banner exec BANNER TEXT
+domain-name example.com
+enable password secret_password encrypted
+
+arp timeout 14400
+timeout xlate 3:00:00
+timeout pat-xlate 0:00:30
+timeout conn 1:00:00 half-closed 0:05:00 udp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
+timeout tcp-proxy-reassembly 0:01:00
+timeout floating-conn 0:00:00
+
+aaa-server AAA_NAME protocol tacacs+
+ max-failed-attempts 2
+ exit
+aaa-server AAA_NAME (inside) host 1.2.3.4
+ key *****
+ exit
+aaa-server RADIUS protocol radius
+ max-failed-attempts 2
+
+user-identity default-domain LOCAL
+crypto ipsec security-association pmtu-aging infinite
+
+vlan 1
+  name asdf
+ exit
+
+hostname firewall
+
+context firewall
+  description context
+  ! A comment
+  allocate-interface Port-channel42.42
+  allocate-interface Port-channel42.42-Port-channel42.42
+  config-url disk0:/firewall.cfg   
+ exit
+
+password encryption aes
+passwd SECRET encrypted
+
+ip verify reverse-path interface outside
+
+interface Management0/0
+ management-only
+ exit
+
+interface vlan 0
+ exit
+
+interface gigabitethernet 0
+ exit
+
+interface tengigabitethernet 0
+ exit
+
+interface fastethernet 0
+ exit
+
+interface port-channel 0
+  description blah 
+  nameif outside
+  security-level 0
+  ipv6 address ::1/64
+  ipv6 address 12ab:34cd:56ef::a/64 standby 12ab:34cd:56ef::b
+  ip address 1.2.3.4 255.255.255.0
+  ip address 1.2.3.4 255.255.255.0 standby 1.2.3.5
+  no shutdown
+  shutdown
+  ipv6 nd suppress-ra
+ exit
+  
+
+object-group service whatever
+  description blah
+  service-object tcp destination eq 1
+  service-object tcp destination gt 2
+  service-object tcp destination lt 3
+  service-object tcp destination range 4 5
+  service-object icmp
+  group-object group_name
+ exit
+
+object-group network NAME
+ description blah
+ network-object host 1.2.3.4
+ network-object object whatever
+ group-object group_name
+ exit
+
+
+
+object-group service NAME tcp-udp
+ description blah
+ port-object eq 42
+ port-object range 4 5
+ group-object group_name
+ port-object eq 2
+ exit
+ 
+object network host-1.2.3.4
+ description blah
+ host 1.2.3.4
+ exit
+
+object network obj-1.2.3.1-255
+ description blah
+ range 1.2.3.1 1.2.3.255
+ nat (inside,outside) static 1.2.3.4
+ exit
+
+object network subnet-1.2.3.0_24
+ description blah
+ subnet 1.2.3.0 255.255.255.0
+exit
+
+object-group protocol TCPUDP
+ description blah
+ protocol-object udp
+ protocol-object tcp
+ exit
+
+object network obj-www.fqdn.com
+ description blah
+ fqdn www.fqdn.com
+ exit
+
+
+object service tcp_1234
+ description blah
+ service tcp destination range 1 2
+ service tcp destination eq 1234
+ service udp source eq 1234
+ exit
+
+access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
+            alert-interval 300
+ access-list acl-name remark this is a remark
+ access-list acl-name line 0 remark this is a remark
+ access-list acl-name; 42 elements; name hash: 0xbe299002
+ access-list acl-name extended permit icmp any4 any4 object-group icmp_group
+ access-list acl-name line 42 extended permit icmp any4 any4 object-group icmp_group
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq www
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq https
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq sunrpc
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 object dst_ports
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 object src_ports host 3.3.3.3
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 object-group src_ports host 3.3.3.3 object-group dst_ports
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 object-group network-dst eq 2059 inactive (inactive)
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 object-group network-dst eq 2059 inactive (inactive)
+ access-list acl-name line 42 extended permit tcp 2.2.2.2 255.255.255.0 object-group network-dst eq 2059 inactive (inactive)
+ access-list acl-name line 42 extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
+ access-list acl-name extended permit tcp object-group group1 host 1.1.1.1 eq sqlnet 0x2e7027d7
+ access-list acl-name line 42 extended deny icmp any host 1.1.1.1 log
+ access-list acl-name line 42 extended deny icmp any host 1.1.1.1 log 1
+ access-list acl-name line 42 extended deny tcp any host 1.1.1.1 log
+ access-list acl-name line 42 extended deny tcp any host 1.1.1.1 log 1
+ access-list acl-name line 42 extended deny icmp any host 1.1.1.1 timestamp-request
+ access-list acl-name line 42 extended deny icmp any host 1.1.1.1 traceroute
+ access-list acl-name line 42 extended permit object services object-group network-src object-group network-dst
+ access-list acl-name line 42 extended permit object services object network-src object network-dst
+ access-list acl-name line 42 extended permit object-group services object-group network-src object-group network-dst
+ access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 disable 0x2e7027d7
+ access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 disable default 0x2e7027d7
+ access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log informational interval 300 default 0x2e7027d7
+ access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log debugging interval 300 0x2e7027d7
+ access-list acl-name line 42 extended permit tcp any host 2.2.2.2 eq domain log notifications interval 300 0x2e7027d7
+ access-list acl-name line 42 extended permit icmp host 2.2.2.2 host 1.1.1.1 echo log informational interval 300
+ access-list acl-name line 42 extended permit tcp host 1.1.1.1 object-group group-3 eq 2059 inactive (hitcnt=0)
+ access-list acl-name line 42 extended permit 41 host 1.1.1.1 host 2.2.2.2
+ access-list acl-name extended deny ip any4 any4
+ access-list acl-name extended deny ip any6 any6
+ 
+access-group acl-name in interface outside
+
+nat (real,mapped) 20 source static any any
+nat (real,mapped) after-auto source static any any
+nat (real,mapped) after-auto 20 source static any any
+nat (real,mapped) after-auto 1 source static any any
+nat (real,mapped) source static any any
+nat (real,mapped) source static any interface
+nat (real,mapped) source static any interface ipv6
+nat (real,mapped) source static any mapped
+nat (real,mapped) source static real mapped
+nat (real,mapped) source static any any destination static interface ipv6 any
+nat (real,mapped) source static any any destination static object_name any
+nat (real,mapped) source static any any destination static object_name object_name
+nat (real,mapped) source static any any service real mapped
+nat (real,mapped) source static any any service real mapped description whatever
+nat (real,mapped) source static any any service real mapped inactive
+nat (real,mapped) source static any any service real mapped net-to-net dns unidirectional inactive
+nat (real,mapped) source static any any service real mapped net-to-net dns no-proxy-arp
+nat (real,mapped) source static any any service real mapped net-to-net dns no-proxy-arp route-lookup
+nat (real,mapped) source static any any service real mapped net-to-net dns no-proxy-arp route-lookup inactive
+nat (real,mapped) source static any any service real mapped net-to-net dns unidirectional inactive description whatever
+
+
+mtu outside 1500
+fragment chain 1 outside
+ipv6 icmp permit fe80::/64 nameif
+
+http server enable
+http 1.2.3.0 255.255.255.0 outside
+telnet 1.2.3.0 255.255.255.0 outside
+ssh 1.2.3.0 255.255.255.0 outside
+ssh version 2
+ssh key-exchange group dh-group14-sha1
+ssh timeout 15
+telnet timeout 15
+icmp permit any noc
+
+logging enable
+logging timestamp
+logging buffer-size 1234
+logging buffered informational
+logging trap informational
+logging asdm informational
+logging device-id string firewall
+logging host outside 1.2.3.4
+logging message 305012 level debugging
+
+username root password secret encrypted privilege 15
+
+ssl encryption 3des-sha1 des-sha1
+ssl cipher default custom "blah_blah"
+ssl cipher sslv3 custom "blah_blah"
+ssl cipher tlsv1 custom "blah_blah"
+ssl cipher dtlsv1 custom "blah_blah"
+
+crypto key generate rsa modulus 2048
+crypto key generate rsa modulus 2048 noconfirm
+
+route outside 1.2.3.0 255.255.255.0 2.3.4.5 1
+snmp-server host outside 1.2.3.4 community public
+snmp-server host outside 1.2.3.4 community 0 private version 2c
+snmp-server host outside 1.2.3.4 poll community 0 private version 2c
+snmp-server host outside 1.2.3.4 trap community 0 private version 2c udp-port 12
+snmp-server location datacenter
+snmp-server contact noc
+
+ssh key-exchange group diffehelman0
+
+monitor-interface inside
+aaa authentication http console TACACS+ LOCAL
+aaa authentication ssh console TACACS+ LOCAL
+aaa authentication enable console TACACS+ LOCAL
+aaa accounting command TACACS+
+aaa accounting enable console TACACS+
+aaa accounting telnet console TACACS+
+aaa accounting ssh console TACACS+
+aaa authorization exec authentication-server auto-enable
+aaa authentication serial console TACACS+ LOCAL
+
+policy-map type inspect dns dns_policy_map
+ parameters
+  message-length maximum client auto
+  message-length maximum 123
+ exit
+ exit
+
+
+policy-map global_policy
+  class inspection_default
+    inspect dns dns_policy_map
+    inspect ftp
+    inspect h323 h225
+    inspect h323 ras
+    inspect ip-options
+    inspect netbios
+    inspect rsh
+    inspect rtsp
+    inspect skinny
+    inspect esmtp
+    inspect sqlnet
+    inspect sunrpc
+    inspect tftp
+    inspect sip
+    inspect xdmcp
+    inspect icmp
+    inspect icmp error
+    exit
+  class class-default
+    user-statistics accounting
+    set connection embryonic-conn-max 1000
+    exit
+  exit
+service-policy global_policy global
+
+logout
+
+same-security-traffic permit inter-interface
+same-security-traffic permit intra-interface
+

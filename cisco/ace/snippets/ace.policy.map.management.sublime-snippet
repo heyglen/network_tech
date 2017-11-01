@@ -1,0 +1,12 @@
+<snippet>
+    <description>management</description>
+    <tabTrigger>policy-map</tabTrigger>
+    <scope>cisco.ace</scope>
+    <content><![CDATA[
+policy-map type management first-match ${1:remote_mgmt_allow_policy}
+  class ${2:MANAGEMENT_CLASS}
+    ${3:permit}
+
+$0
+]]></content>
+</snippet>

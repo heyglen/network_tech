@@ -1,0 +1,11 @@
+<snippet>
+    <description>http cookie</description>
+    <tabTrigger>sticky</tabTrigger>
+    <scope>text.network.cisco.ace - (policy.load-balance)</scope>
+    <content><![CDATA[
+sticky http-cookie ${1:cookie-value} ${2:STICKY_NAME}
+  serverfarm ${3:SERVERFARM_NAME}
+ exit
+
+]]></content>
+</snippet>

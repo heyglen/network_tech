@@ -1,0 +1,8 @@
+<snippet>
+    <description>exclude</description>
+    <tabTrigger>exclude</tabTrigger>
+    <scope>text.network.cisco.ace text.network.cisco.pipe</scope>
+    <content><![CDATA[
+exclude "${1:SEARCH_TERM}"
+]]></content>
+</snippet>

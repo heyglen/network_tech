@@ -1,0 +1,9 @@
+<snippet>
+	<description>memory all</description>
+	<scope>cisco.ace</scope>
+	<tabTrigger>write</tabTrigger>
+	<content><![CDATA[
+write memory all
+
+]]></content>
+</snippet>

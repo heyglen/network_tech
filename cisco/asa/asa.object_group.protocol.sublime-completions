@@ -1,0 +1,17 @@
+{
+    "scope": "text.network.cisco.asa.object_group.protocol",
+    "completions": [
+        { 
+            "trigger": "protocol-object\ttcp",
+            "contents": "protocol-object tcp"
+        },
+        { 
+            "trigger": "protocol-object\tudp",
+            "contents": "protocol-object udp"
+        },
+        { 
+            "trigger": "protocol-object\tip",
+            "contents": "protocol-object ip"
+        },
+    ]
+}

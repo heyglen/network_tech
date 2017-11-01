@@ -1,0 +1,8 @@
+<snippet>
+    <description>route</description>
+    <tabTrigger>iproute</tabTrigger>
+    <scope>text.network.cisco.ace - (rserver | probe. | interface) & -text.network.cisco.partial</scope>
+    <content><![CDATA[
+ip route ${1:1.2.3.0} ${2:255.255.255.0} ${3:1.2.3.4}
+]]></content>
+</snippet>

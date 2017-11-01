@@ -1,0 +1,8 @@
+<snippet>
+    <description>serverfarm</description>
+    <tabTrigger>serverfarm</tabTrigger>
+    <scope>text.network.cisco.ace  policy-lb-class & -text.network.cisco.partial</scope>
+    <content><![CDATA[
+serverfarm ${1:SERVERFARM_NAME}
+]]></content>
+</snippet>

@@ -1,0 +1,74 @@
+{
+  "scope": "text.network.cisco.ios text.network.cisco.configure_terminal & -(text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco)",
+  "completions": [
+        { 
+            "trigger": "ipprefix-list\tprefix-list", 
+            "contents": "ip prefix-list ${1:NAME} seq ${2:10} permit ${3:1.2.3.0}/${4:24}"
+        },
+        { 
+            "trigger": "default\tinterface", 
+            "contents": "default interface ${1:Vlan0}"
+        },
+        { 
+            "trigger": "ipaccess-list\tstandard", 
+            "contents": "ip access-list standard ${1:name}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "ipaccess-list\textended", 
+            "contents": "ip access-list extended ${1:name}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "interface\ttunnel", 
+            "contents": "interface Tunnel${1:0}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "interface\t1G", 
+            "contents": "interface GigabitEthernet${1:0}/${2:1}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "interface\t10G", 
+            "contents": "interface TenGigabitEthernet${1:0}/${2:1}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "ipv6general-prefix\tgeneral-prefix", 
+            "contents": "ipv6 general-prefix ${1:name} ${2:::/0}"
+        },
+        { 
+            "trigger": "ipv6\tunicast-routing", 
+            "contents": "ipv6 unicast-routing"
+        },
+        { 
+            "trigger": "route-map\troute-map", 
+            "contents": "route-map ${1:NAME} permit ${2:0}\n\t$0\nexit"
+        },
+        { 
+            "trigger": "line\tvty", 
+            "contents": "line vty ${1:0} ${2:4}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "router\tbgp", 
+            "contents": "router bgp ${1:0}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "vlan\tID", 
+            "contents": "vlan ${1:1}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "vrf\tdefintion", 
+            "contents": "vrf definition ${1:name}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "iproutevrf\tip route vrf", 
+            "contents": "ip route vrf ${1:vrf-name} ${2:1.2.3.0} ${3:255.255.255.0} ${4:Vlan${5:0}} ${6:1.2.3.4}"
+        },
+        { 
+            "trigger": "iproute\tip route", 
+            "contents": "ip route ${1:1.2.3.0} ${2:255.255.255.0} ${3:Vlan${4:0}} ${5:1.2.3.4}"
+        },
+        { 
+            "trigger": "hostname\thostname",
+            "contents": "hostname ${1:HOSTNAME}"
+        },
+
+  ]
+}

@@ -1,0 +1,12 @@
+<snippet>
+	<description>L4 multi-match</description>
+	<tabTrigger>policy-map</tabTrigger>
+	<scope>cisco.ace</scope>
+	<content><![CDATA[
+policy-map multi-match ${1:POLICY-NAME}_L4POLICY
+  description ${2:DESCRIPTION}
+  $0
+ exit
+
+]]></content>
+</snippet>

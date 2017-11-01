@@ -1,0 +1,40 @@
+Changes:
+   
+    Cisco ASA Syntax:
+    
+        ASA 8.3 object nat:
+
+            object network obj-1.2.3.1-255
+             nat (inside,outside) static 1.2.3.4
+
+        ICMP under object-group service:
+        
+            object-group service whatever
+                service-object icmp
+
+        More tollerance for missing "exit"s under config t mode:
+
+            Before:
+
+                configure terminal
+                  vlan 1
+                    name asdf
+                  exit
+
+                  object-group network WHATEVER
+                   network-object host 1.2.3.4
+                  exit
+                exit
+
+
+            Now:
+
+                configure terminal
+                  vlan 1
+                    name asdf
+
+                  object-group network WHATEVER
+                   network-object host 1.2.3.4
+                exit
+        
+        Other minor bugfixes

@@ -1,0 +1,50 @@
+{
+    "scope": "text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.nxos.network_qos_policy_map text.network.cisco.nxos.network_qos_policy_map_class & - (text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.nxos.network_qos_policy_map text.network.cisco.nxos.network_qos_policy_map_class text.network.cisco) & -text.network.cisco.partial",
+    "completions": [
+        "multicast-optimize",
+        { 
+            "trigger": "set\tcos",
+            "contents": "set cos ${1:2}"
+        },
+        { 
+            "trigger": "match\tarp",
+            "contents": "match protocol ${1:arp}"
+        },
+        { 
+            "trigger": "match\tclns_es",
+            "contents": "match protocol ${1:clns_es}"
+        },
+        { 
+            "trigger": "match\tclns_is",
+            "contents": "match protocol ${1:clns_is}"
+        },
+        { 
+            "trigger": "match\tdhcp",
+            "contents": "match protocol ${1:dhcp}"
+        },
+        { 
+            "trigger": "match\tldp",
+            "contents": "match protocol ${1:ldp}"
+        },
+        { 
+            "trigger": "match\tnetbios",
+            "contents": "match protocol ${1:netbios}"
+        },
+        { 
+            "trigger": "mtu\t1500",
+            "contents": "mtu ${1:1500}"
+        },
+        { 
+            "trigger": "pause\tno-drop",
+            "contents": "pause no-drop"
+        },
+        { 
+            "trigger": "pause\tno-drop pfc-cos",
+            "contents": "pause no-drop pfc-cos ${1:2}"
+        },
+        { 
+            "trigger": "queue-limit\tbytes",
+            "contents": "queue-limit ${1:2} bytes"
+        },
+    ]
+}

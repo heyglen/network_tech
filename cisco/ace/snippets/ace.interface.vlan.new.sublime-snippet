@@ -1,0 +1,16 @@
+<snippet>
+    <description>new vlan</description>
+    <tabTrigger>interface</tabTrigger>
+    <scope>text.network.cisco.ace  -(pipe) & -text.network.cisco.partial</scope>
+    <content><![CDATA[
+interface vlan ${1:0}
+  description ${2:DESCRIPTION}
+  ip address ${3:1.2.3.4} ${4:255.255.255.0}
+  peer ip address ${5:1.2.3.4} ${4:255.255.255.0}
+  access-group input ${6:NAME_ACL}
+  $0
+  no shutdown
+ exit
+
+]]></content>
+</snippet>

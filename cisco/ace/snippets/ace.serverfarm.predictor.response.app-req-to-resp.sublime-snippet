@@ -1,0 +1,8 @@
+<snippet>
+    <description>response app-req-to-resp</description>
+    <tabTrigger>predictor</tabTrigger>
+    <scope>text.network.cisco.ace  serverfarm</scope>
+    <content><![CDATA[
+predictor response app-req-to-resp
+]]></content>
+</snippet>

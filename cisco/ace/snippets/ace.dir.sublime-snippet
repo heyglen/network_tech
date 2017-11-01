@@ -1,0 +1,8 @@
+<snippet>
+    <description>dir</description>
+    <tabTrigger>dir</tabTrigger>
+    <scope>cisco.ace</scope>
+    <content><![CDATA[
+dir ${1:NAME}
+]]></content>
+</snippet>

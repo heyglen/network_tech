@@ -1,0 +1,8 @@
+<snippet>
+    <description>address</description>
+    <tabTrigger>ip</tabTrigger>
+    <scope>cisco.ace.interface & -text.network.cisco.partial</scope>
+    <content><![CDATA[
+ip address ${1:1.2.3.4} ${2:255.255.255.0}
+]]></content>
+</snippet>

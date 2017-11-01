@@ -1,0 +1,186 @@
+{
+    "scope": "text.network.cisco.asa text.network.cisco.configure_terminal & -(text.network.cisco.asa text.network.cisco.configure_terminal text.network.cisco) & -asa.acl_entry & -text.network.cisco.asa.access_list.incomplete & -text.nextwork.cisco.asa.object_group.incomplete & -text.network.cisco.partial",
+    "completions": [
+        { 
+            "trigger": "username\tpassword",
+            "contents": "username ${1:USERNAME} password ${2:PASSWORD} encrypted privilege 15"
+        },
+        { 
+            "trigger": "tftp-server\tserver",
+            "contents": "tftp-server ${1:INTERFACE} ${2:1.2.3.4} ${3:FILE_NAME}"
+        },
+        { 
+            "trigger": "logging\tdevice-id string",
+            "contents": "logging device-id string ${1:HOSTNAME}"
+        },
+        { 
+            "trigger": "logging\tenable",
+            "contents": "logging enable"
+        },
+        { 
+            "trigger": "logging\ttimestamp",
+            "contents": "logging timestamp"
+        },
+        { 
+            "trigger": "interface\tFastEthernet",
+            "contents": "interface ${1:FastEthernet}${2:0}"
+        },
+        { 
+            "trigger": "interface\tPort-Channel",
+            "contents": "interface ${1:Port-Channel}${2:1}"
+        },
+        { 
+            "trigger": "interface\tVlan",
+            "contents": "interface ${1:Vlan}${2:1}"
+        },
+        { 
+            "trigger": "interface\tGigabitEthernet",
+            "contents": "interface ${1:GigabitEthernet}${2:0}"
+        },
+        { 
+            "trigger": "interface\tTenGigabitEthernet",
+            "contents": "interface ${1:TenGigabitEthernet}${2:0}"
+        },
+        { 
+            "trigger": "monitor-interface\tmonitor interface",
+            "contents": "monitor-interface ${1:nameif}"
+        },
+        { 
+            "trigger": "logging\thost",
+            "contents": "logging host ${1:INTERFACE} ${2:1.2.3.4}"
+        },
+        { 
+            "trigger": "ssh\tversion",
+            "contents": "ssh version ${1:2}"
+        },
+        { 
+            "trigger": "domain-name\tdomain",
+            "contents": "domain-name ${1:domain.root}"
+        },
+        { 
+            "trigger": "crypto\tkey generate",
+            "contents": "crypto key generate rsa modulus ${1:2048} noconfirm"
+        },
+        { 
+            "trigger": "context\tcontext",
+            "contents": "context ${1:NAME}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "ssh\ttimeout",
+            "contents": "ssh timeout ${1:15}"
+        },
+        { 
+            "trigger": "telnet\ttimeout",
+            "contents": "telnet timeout ${1:15}"
+        },
+        { 
+            "trigger": "http\tenable",
+            "contents": "http server enable"
+        },
+        { 
+            "trigger": "enable\tpassword",
+            "contents": "enable password ${1:PASSWORD} encrypted"
+        },
+        { 
+            "trigger": "ipverify\treverse-path",
+            "contents": "ip verify reverse-path interface ${1:NAMEIF}"
+        },
+        { 
+            "trigger": "mtu\t1500",
+            "contents": "mtu ${1:NAMEIF} ${2:1500}"
+        },
+        { 
+            "trigger": "access-list\tobject-group",
+            "contents": "access-list ${1:NAME} extended permit object-group ${2:service} object-group ${3:source} object-group ${4:destination}"
+        },
+        { 
+            "trigger": "access-list\thost",
+            "contents": "access-list ${1:NAME} extended permit ${2:ip} host ${3:1.2.3.0} host ${4:4.5.6.0}"
+        },
+        { 
+            "trigger": "access-list\tnetwork",
+            "contents": "access-list ${1:NAME} extended permit ${2:ip} ${3:1.2.3.0 255.255.255.0} ${4:4.5.6.0 255.255.255.0}"
+        },
+        { 
+            "trigger": "snmp-server\thost",
+            "contents": "snmp-server host ${1:INTERFACE} ${2:1.2.3.4} community ${3:COMMUNITY}"
+        },
+        { 
+            "trigger": "snmp-server\tcontact",
+            "contents": "snmp-server contact ${1:CONTACT}"
+        },
+        { 
+            "trigger": "ipv6\ticmp",
+            "contents": "ipv6 icmp ${1:permit} ${2:fe80::/64} ${3:NAMEIF}"
+        },
+        { 
+            "trigger": "icmp\tany",
+            "contents": "icmp ${1:permit} ${2:any} ${3:NAMEIF}"
+        },
+        { 
+            "trigger": "fragment\tchain",
+            "contents": "fragment chain ${1:1} ${2:NAMEIF}"
+        },
+        { 
+            "trigger": "route\tstatic",
+            "contents": "route ${1:interface-name} ${2:network-ip} ${3:subnet-mask} ${4:gateway} 1"
+        },
+        { 
+            "trigger": "object\thost",
+            "contents": "object network obj-${1:ip-address}_32\n\thost ${1:ip-address}\n\texit"
+        },
+        { 
+            "trigger": "password\tencryption aes",
+            "contents": "password encryption aes"
+        },
+        { 
+            "trigger": "passwd\tencrypted",
+            "contents": "passwd ${1:PASSWORD} encrypted"
+        },
+        { 
+            "trigger": "object\tnat",
+            "contents": "object network obj-${1:private-ip}_32\n\thost ${1:private-ip}\n\texit\nobject network obj-${2:public-ip}_32\nhost ${2:public-ip}\n\texit\n\tobject network obj-${1:private-ip}_32\n\tnat static obj-${2:public-ip}_32\n\texit"
+        },
+        { 
+            "trigger": "access-group\tin",
+            "contents": "access-group ${1:ACL_NAME} in interface ${2:NAMEIF}"
+        },
+        { 
+            "trigger": "access-group\tout",
+            "contents": "access-group ${1:ACL_NAME} out interface ${2:NAMEIF}"
+        },
+        { 
+            "trigger": "object\thost",
+            "contents": "object network obj-${1:ip-address}_32\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "object-group\tfqdn", 
+            "contents": "object network fqdn-${1:server.domain.root}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "object-group\tnetwork", 
+            "contents": "object-group network ${1:name}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "object-group\tservice",
+            "contents": "object-group service ${1:name}\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "object-group\ttcp-udp",
+            "contents": "object-group service ${1:name} tcp-udp\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "object-group\ttcp",
+            "contents": "object-group service ${1:name} tcp\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "object-group\tudp",
+            "contents": "object-group service ${1:name} udp\n\t$0\n\texit"
+        },
+        { 
+            "trigger": "hostname\thostname",
+            "contents": "hostname ${1:HOSTNAME}"
+        },
+    ]
+}
+

@@ -1,0 +1,9 @@
+<snippet>
+	<description>resource-class</description>
+	<scope>text.network.cisco.ace  context & -text.network.cisco.partial</scope>
+	<tabTrigger>member</tabTrigger>
+	<content><![CDATA[
+member ${1:RESOURCE-CLASS}
+
+]]></content>
+</snippet>

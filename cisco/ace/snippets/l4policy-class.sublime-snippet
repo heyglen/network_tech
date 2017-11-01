@@ -1,0 +1,14 @@
+<snippet>
+	<description>L4 policy class</description>
+	<tabTrigger>class</tabTrigger>
+	<scope>text.network.cisco.policy_map.multi_match</scope>
+	<content><![CDATA[
+class ${1:CLASS-NAME_L4CLASS}
+  loadbalance vip inservice
+  loadbalance policy ${2:NAME_L7POLICY}
+  loadbalance vip icmp-reply
+  ${3:nat dynamic ${4:NAT-ID} vlan ${5:VLAN-ID}}
+ exit
+$0
+]]></content>
+</snippet>

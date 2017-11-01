@@ -1,0 +1,8 @@
+<snippet>
+    <description>switchover ft-id</description>
+    <tabTrigger>ft</tabTrigger>
+    <scope>text.network.cisco.ace  -probe</scope>
+    <content><![CDATA[
+ft switchover ${1:0}
+]]></content>
+</snippet>

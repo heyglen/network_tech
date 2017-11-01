@@ -1,0 +1,8 @@
+<snippet>
+    <description>dynamic</description>
+    <tabTrigger>nat</tabTrigger>
+    <scope>text.network.cisco.ace  l4policy.policy-class & -text.network.cisco.partial</scope>
+    <content><![CDATA[
+nat dynamic ${1:0} vlan ${2:0}
+]]></content>
+</snippet>

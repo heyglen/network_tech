@@ -1,0 +1,8 @@
+<snippet>
+    <description>backup rserver</description>
+    <tabTrigger>backup-rserver</tabTrigger>
+    <scope>text.network.cisco.sticky.generic</scope>
+    <content><![CDATA[
+backup-rserver ${1:NAME}
+]]></content>
+</snippet>

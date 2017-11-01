@@ -1,0 +1,12 @@
+<snippet>
+	<description>L7 loadbalance</description>
+	<tabTrigger>policy-map</tabTrigger>
+	<scope>cisco.ace & -text.network.cisco.partial</scope>
+	<content><![CDATA[
+policy-map type loadbalance first-match ${1:POLICY-NAME}_L7POLICY
+  description ${2:DESCRIPTION}
+  $0
+ exit
+
+]]></content>
+</snippet>

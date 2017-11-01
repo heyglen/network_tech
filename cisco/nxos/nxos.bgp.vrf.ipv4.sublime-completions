@@ -1,0 +1,14 @@
+{
+    "scope": "text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.bgp.vrf text.network.cisco.bgp.vrf.ipv4_address_family & - (text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.bgp.vrf text.network.cisco.bgp.vrf.ipv4_address_family text.network.cisco) & -text.network.cisco.partial",
+    "completions": [
+        { 
+            "trigger": "neighbor\tip", 
+            "contents": "neighbor ${1:1.2.3.4}"
+        },
+        { 
+            "trigger": "network\tip", 
+            "contents": "network ${1:1.2.3.0/24}"
+        },
+    ]
+}
+

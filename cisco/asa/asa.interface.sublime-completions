@@ -1,0 +1,27 @@
+{
+  "scope": "text.network.cisco.asa & text.network.cisco.interface",
+  "completions": [
+        "shutdown",
+        "description",
+        { 
+            "trigger": "nameif\tname",
+            "contents": "nameif ${1:name}",
+        },
+        { 
+            "trigger": "security-level\tlevel",
+            "contents": "security-level ${1:100}",
+        },
+        { 
+            "trigger": "ipv6\taddress",
+            "contents": "ipv6 address ${1:::1}/64 standby ${2:::1}",
+        },
+        { 
+            "trigger": "ip\taddress",
+            "contents": "ip address ${1:1.2.3.4} ${2:255.255.255.0} standby ${3:1.2.3.5}",
+        },
+        { 
+            "trigger": "ipv6\tnd supress-ra",
+            "contents": "ipv6 nd supress-ra",
+        },
+  ]
+}

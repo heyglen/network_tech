@@ -1,0 +1,2418 @@
+%YAML 1.2
+---
+name: Cisco NXOS
+file-extensions:
+  - cisco-nxos
+  - cisco-nexus
+  - nxos
+first_line_match: |
+  (?xi)
+    \s*
+    [#!]
+    .*
+    (?:
+      (?:nxos)|
+      (?:nexus)
+    )
+scope: text.network.cisco.nxos text.network.cisco.configure_terminal
+
+
+variables:
+  comment: '(?:[!#])'
+  ospf_network_types: |
+    (?xi)
+    (?:
+      (?:point-to-point)|
+      (?:broadcast)
+    )
+  authentication_types: |
+    (?xi)
+    (?:
+      (?:tacacs\+)
+    )
+  hash_types: |
+    (?xi)
+    (?:
+      (?:md5)
+    )
+  dscp: |
+    (?xi)
+    (?:
+      (?:AF11)|
+      (?:AF12)|
+      (?:AF13)|
+      (?:AF21)|
+      (?:AF22)|
+      (?:AF23)|
+      (?:AF31)|
+      (?:AF32)|
+      (?:AF33)|
+      (?:AF41)|
+      (?:AF42)|
+      (?:AF43)|
+      (?:CS1)|
+      (?:CS2)|
+      (?:CS3)|
+      (?:CS4)|
+      (?:CS5)|
+      (?:CS6)|
+      (?:CS7)|
+      (?:EF)
+    )
+  pop_ctx: '^\s*exit\s*$'
+  pop_address_family_ctx: '^\s*(?:exit-address-family)\s*$'
+  command_end: '(?:\s|{{comment}}|$)'
+  line_number: '^\s*\d+'
+  ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
+  configure_terminal_ctx_words: |
+    (?xi)
+    \s*
+    (?:
+      (?:aaa)|
+      (?:banner)|
+      (?:boot)|
+      (?:cfs)|
+      (?:class-map)|
+      (?:cli)|
+      (?:clock)|
+      (?:copp)|
+      (?:errdisable)|
+      (?:feature)|
+      (?:hardware)|
+      (?:hostname)|
+      (?:interface)|
+      (?:line)|
+      (?:logging)|
+      (?:mac)|
+      (?:monitor)|
+      (?:ntp)|
+      (?:policy-map)|
+      (?:port-channel)|
+      (?:rmon)|
+      (?:route-map)|
+      (?:router\s+)|
+      (?:service)|
+      (?:snmp-server)|
+      (?:spanning-tree)|
+      (?:tacacs-server)|
+      (?:track)|
+      (?:udld)|
+      (?:username)|
+      (?:vdc)|
+      (?:version)|
+      (?:vlan)|
+      (?:vpc)|
+      (?:system)|
+      (?:vrf\s+
+        (?:
+          (?:context)
+        )
+      )|
+      (?:ip\s+
+        (?:
+          (?:route)|
+          (?:dhcp)|
+          (?:pim)|
+          (?:access-list)|
+          (?:prefix-list)
+        )
+      )|
+      (?:ipv6\s+
+        (?:
+          (?:access-list)|
+          (?:pim)|
+          (?:prefix-list)|
+          (?:route)
+        )
+      )
+    )
+  policy_map_ctx_words: |
+    (?xi)
+    \s*
+    (?:
+      (?:class)|
+      (?:{{configure_terminal_ctx_words}})
+    )
+  ospf_ctx_words: |
+    (?xi)
+    \s*
+    (?:
+      (?:vrf)
+    )
+  ospfv3_ctx_words: |
+    (?xi)
+    \s*
+    (?:
+      (?:vrf)|
+      (?:address-family)
+    )
+  bgp_ctx_words: |
+    (?xi)
+    \s*
+    (?:
+      (?:vrf)|
+      (?:address-family)|
+      (?:template\s+peer)|
+      (?:{{configure_terminal_ctx_words}})
+    )
+  bgp_vrf_ctx_words: |
+    (?xi)
+    \s*
+    (?:
+      (?:neighbor)|
+      (?:router-id)|
+      (?:address-family)|
+      (?:log-neighbor-changes)|
+      (?:vrf)|
+      (?:template)
+    )
+  interface_ctx_words: |
+    (?xi)
+    \s*
+    (?:
+      (?:description)|
+      (?:switchport)|
+      (?:channel-group)|
+      (?:rate-mode)|
+      (?:shutdown)|
+      (?:mtu)|
+      (?:link)|
+      (?:vrf\s+member)|
+      (?:ip6?\s+
+        (?:
+          (?:address)|
+          (?:arp)|
+          (?:redirects)|
+          (?:policy)|
+          (?:access-group)|
+          (?:ospf)|
+          (?:router)|
+          (?:dhcp)|
+          (?:arp)
+        )
+      )|
+      (?:ipv6\s+
+        (?:
+          (?:nd)
+        )
+      )|
+      (?:ospfv3\s+
+        (?:
+          (?:network)
+        )
+      )|
+      (?:vpc\s+
+        (?:
+          (?:peer-link)|
+          (?:\d+)
+        )
+      )|
+      (?:udld\s+
+        (?:
+          (?:nd)
+        )
+      )|
+      (?:udld\s+
+        (?:
+          (?:aggressive)
+        )
+      )|
+      (?:snmp\s+
+        (?:
+          (?:trap)
+        )
+      )|
+      (?:spanning-tree\s+
+        (?:
+          (?:bpduguard)|
+          (?:guard)|
+          (?:port)
+        )
+      )|
+      (?:hsrp\s+
+        (?:
+          (?:\d+)|
+          (?:version)
+        )
+      )
+    )
+  subnet_mask: |
+    (?xi)
+    (?:
+        (?:0\.0\.0\.0)|
+        (?:128\.0\.0\.0)|
+        (?:192\.0\.0\.0)|
+        (?:224\.0\.0\.0)|
+        (?:240\.0\.0\.0)|
+        (?:248\.0\.0\.0)|
+        (?:252\.0\.0\.0)|
+        (?:254\.0\.0\.0)|
+        (?:255\.0\.0\.0)|
+        (?:255\.128\.0\.0)|
+        (?:255\.192\.0\.0)|
+        (?:255\.224\.0\.0)|
+        (?:255\.240\.0\.0)|
+        (?:255\.248\.0\.0)|
+        (?:255\.252\.0\.0)|
+        (?:255\.254\.0\.0)|
+        (?:255\.255\.0\.0)|
+        (?:255\.255\.128\.0)|
+        (?:255\.255\.192\.0)|
+        (?:255\.255\.224\.0)|
+        (?:255\.255\.240\.0)|
+        (?:255\.255\.248\.0)|
+        (?:255\.255\.252\.0)|
+        (?:255\.255\.254\.0)|
+        (?:255\.255\.255\.0)|
+        (?:255\.255\.255\.128)|
+        (?:255\.255\.255\.192)|
+        (?:255\.255\.255\.224)|
+        (?:255\.255\.255\.240)|
+        (?:255\.255\.255\.248)|
+        (?:255\.255\.255\.252)|
+        (?:255\.255\.255\.254)|
+        (?:255\.255\.255\.255)
+    )
+  ipv4_prefix_length: '(?:(?:\d?\d)|(?:3[0-2]))'
+  ip_prefix: '(?:{{ip}}/{{ipv4_prefix_length}})'
+  ipv6_prefix_length: '(?:1?\d?\d)'
+  ipv6_prefix: '(?:(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?/{{ipv6_prefix_length}}|::/0))'
+  ipv6: '(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)'
+  vlan_id: |
+    (?xi)
+    (?:
+      (?:[0-3]\d{2,3})|
+      (?:40[0-9][0-5])|
+      (?:\d{2,3})|
+      [1-9]
+    )
+  features: |
+    (?xi)
+    (?:
+      (?:tacacs\+)|
+      (?:ospfv3)|
+      (?:ospf)|
+      (?:bgp)|
+      (?:pim6)|
+      (?:pim)|
+      (?:pbr)|
+      (?:udld)|
+      (?:interface-vlan)|
+      (?:hsrp)|
+      (?:lacp)|
+      (?:dhcp)|
+      (?:vpc)|
+      (?:lldp)
+    )
+  vlan_range: |
+    (?xi)
+    (?:
+      {{vlan_id}}
+      (?:
+        (?:
+          (?:-)|(?:,)
+        )
+        {{vlan_id}}
+      )*
+    )
+  network_address: '(?:{{ip}})\s+(?:{{ip}})'
+  interface_names: |
+    (?xi)
+    (?:
+      (?:vlan)|
+      (?:vl)|
+      (?:loopback)|
+      (?:lo)|
+      (?:port-channel)|
+      (?:po)|
+      (?:mgmt)|
+      (?:tunnel)|
+      (?:tu)|
+      (?:ethernet)|
+      (?:eth)
+    )
+  interface_numbers: |
+    (?xi)
+    (?:\d+(?:/\d+)*(?:\.\d+)?)
+  interface_number_ranged: |
+    (?xi)
+    (?:\d+(?:/\d+)*(?:\.\d+)?)(?:-\d+)?
+  network_target: |
+    (?xi)
+    (?:
+      (?:{{ip_prefix}})|
+      (?:any)
+    )
+  network_v6_target: |
+    (?xi)
+    (?:
+      (?:{{ipv6_prefix}})|
+      (?:any)
+    )
+  icmp_type: |
+    (?xi)
+    (?:
+      (?:ttl-exceeded)|
+      (?:port-unreachable)|
+      (?:router-advertisement)|
+      (?:router-solicitation)|
+      (?:nd-na)|
+      (?:nd-ns)|
+      (?:mld-query)|
+      (?:mld-report)|
+      (?:mld-reduction)|
+      (?:echo-reply)|
+      (?:echo-request)|
+      (?:echo)|
+    )
+  protocol_target: |
+    (?xi)
+    (?:
+      (?:tcp)|
+      (?:udp)
+    )
+  protocol_target_v4: |
+    (?xi)
+    (?:
+      (?:ip)|
+      (?:{{protocol_target}})
+    )
+  protocol_target_v6: |
+    (?xi)
+    (?:
+      (?:ipv6)|
+      (?:{{protocol_target}})
+    )
+  port_numbers: '(?:(?:[1-6]?\d{1,4}))'
+  port_names: |
+    (?xi)
+    (?:
+      (?:bgp)|
+      (?:ftp-data)|
+      (?:ftp)|
+      (?:tftp)|
+      (?:domain)|
+      (?:telnet)|
+      (?:snmptrap)|
+      (?:syslog)|
+      (?:ntp)|
+      (?:bootps)|
+      (?:bootpc)|
+      (?:pim-auto-rp)|
+      (?:ssh)|
+      (?:snmp)
+    )
+  operators: '(?:(?:eq)|(?:ge)|(?:le))'
+  cos: '[0-7]'
+  cos_range: '{{cos}}(?:-{{cos}})?(?:,\s*{{cos}}(?:-{{cos}})?)*'
+  port_target: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
+  drives: |
+    (?xi)
+    (?:
+      (?:(?:(?:running)|(?:startup))-config)|
+      (?:flash)|
+      (?:disk(?:[0-3])?)
+    )
+  uri: '(?<protocol>(?:t?ftp)|scp)(?<protocol_seperator>://)(?<hostname>(?:\d+\.){3}\d+)(?<path>\/\S*)'
+  locations: '(?:{{drive}}|{{uri}})'
+
+contexts:
+
+  main:
+    - include: configure_terminal
+    - include: enable
+    - include: configure_terminal_scope
+
+  prototype:
+    - include: show
+    - include: scope
+    - include: device_comment
+    - include: comment
+    - include: pipe
+
+  enable:
+    - include: write
+    - include: copy
+    - include: logout
+    - include: configure_terminal
+    - include: show_drives
+
+
+  configure_terminal:
+    - match: ^\s*(?:(configure)\s*(terminal))
+      # with_prototype:
+      #   - include: scope
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+      # push:
+      #   - meta_content_scope: text.network.cisco.configure_terminal
+      #   - include: configure_terminal_scope
+
+  partials:
+    - match: |
+        (?xi)
+        (?:
+          ^\s*
+          (?:
+            (?:access-class)|
+            (?:address-family)|
+            (?:authentication)|
+            (?:channel-group)|
+            (?:channel-protocol)|
+            (?:configure)|
+            (?:description)|
+            (?:exit)|
+            (?:end)|
+            (?:hostname)|
+            (?:hsrp)|
+            (?:inherit)|
+            (?:interface)|
+            (?:ip)|
+            (?:ipv6)|
+            (?:line)|
+            (?:log-neighbor-changes)|
+            (?:logging)|
+            (?:match)|
+            (?:mode)|
+            (?:name)|
+            (?:network)|
+            (?:next-hop-self)|
+            (?:password)|
+            (?:preempt)|
+            (?:priority)|
+            (?:remote-as)|
+            (?:route-map)|
+            (?:router)|
+            (?:service-policy)|
+            (?:set)|
+            (?:shutdown)|
+            (?:spanning-tree)|
+            (?:switchport)|
+            (?:transport)|
+            (?:vlan)|
+            (?:vpc)|
+            (?:vrf)
+          )
+          \s
+          [^$]*
+        )
+      scope: text.network.cisco.partial
+
+  configure_terminal_scope:
+    - include: aaa
+    - include: hostname
+    - include: vrf
+    - include: vty
+    - include: aaa_group
+    - include: monitor_session
+    - include: class_map
+    - include: policy_map
+    - include: feature
+    - include: username
+    - include: bgp
+    - include: ospf
+    - include: ospfv3
+    - include: acl
+    - include: vlan
+    - include: logging
+    - include: route_map
+    - include: system_qos
+    - include: ip_route
+    - include: interface
+    - include: prefix_list
+    - include: partials
+
+  scope:
+    - include: removal
+    - include: pop_ctx_word
+    - include: comment
+
+  removal:
+    - meta_include_prototype: false
+    - match: ^\s*(no\s[^{{comment}}]*)
+      scope: text.network.cisco.removal
+      captures:
+        1: keyword.other
+
+  pop_ctx_word:
+    - match: ({{pop_ctx}})
+      pop: true
+      captures:
+        1: comment.line
+
+  pop_on_interface_context:
+    - match: |
+        (?xi)
+        (?=
+          ^\s*
+          {{interface_ctx_words}}
+        )
+      pop: true
+
+  pop_on_bgp_context:
+    - match: |
+        (?xi)
+        (?=
+          ^\s*
+          {{bgp_ctx_words}}
+        )
+      pop: true
+
+  pop_on_ospf_context:
+    - match: |
+        (?xi)
+        (?=
+          ^\s*
+          {{ospf_ctx_words}}
+        )
+      pop: true
+
+  pop_on_ospfv3_context:
+    - match: |
+        (?xi)
+        (?=
+          ^\s*
+          {{ospfv3_ctx_words}}
+        )
+      pop: true
+
+  pop_on_bgp_vrf_context:
+    - match: |
+        (?xi)
+        (?=
+          ^\s*
+          {{bgp_vrf_ctx_words}}
+        )
+      pop: true
+
+  pop_on_configure_terminal_context:
+    - match: |
+        (?xi)
+        (?=
+          ^\s*
+          {{configure_terminal_ctx_words}}
+        )
+      pop: true
+
+  pop_on_policy_map_context:
+    - match: |
+        (?xi)
+        (?=
+          ^\s*
+          {{policy_map_ctx_words}}
+        )
+      pop: true
+
+  device_comment:
+    - match: |
+        (?xi)
+        ^(
+          \s*
+          {{comment}}
+          \s+
+          (?:
+            (?:on)|
+            (?:devices?)
+          )
+          \s+
+          \S.*
+        )$
+      scope: text.network.cisco.comment
+      captures:
+        0: cisco.scope
+        1: comment.line
+
+  comment:
+    - match: ({{comment}}.*)$
+      scope: text.network.cisco.comment
+      captures:
+        1: comment.line
+
+  username:
+    - match: |
+        (?xi)
+        ^\s*
+        (username)\s+(\S+)\s+
+        (password)\s+(\d+)\s+(\S+)
+      captures:
+        1: support.constant   # username
+        2: string.unquoted    # username string
+        3: support.constant   # password
+        4: constant.numeric   # password type
+        5: string.unquoted    # password string
+
+  aaa:
+    - include: tacacs
+
+  tacacs:
+    - match: |
+        (?xi)
+        ^\s*
+        (tacacs-server)\s+
+        (?:
+          (?:(key)\s+(\d+)\s+("\S+"))|
+          (?:(host)\s+({{ip}}))
+        )
+      captures:
+        1: support.constant   # tacacs-server
+        2: support.constant    # tacacs-server key
+        3: constant.numeric   # tacacs-server key type
+        4: string.unquoted   # tacacs-server key value
+        5: support.constant    # tacacs-server host
+        6: constant.numeric    # tacacs-server host ip
+
+  hostname:
+    - match: ^\s*(hostname)\s*(\S+)
+      captures:
+        1: support.constant
+        2: string.unquoted
+
+  aaa_group:
+    - match: ^\s*(aaa)\s+(group\s+server)\s+({{authentication_types}})\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.aaa.group
+        - match: |
+            (?xi)
+            ^\s*
+            (?:
+              (?:(server)\s+({{ip}}))|
+              (?:(use-vrf)\s+(management))|
+              (?:(source-interface)\s+({{interface_names}})\s*({{interface_numbers}}))
+            )
+          captures:
+            1: support.constant
+            2: constant.numeric
+            3: support.constant
+            4: string.unquoted
+            5: support.constant
+            6: entity.other.attribute-name    # interface name
+            7: constant.numeric               # interface number
+        - include: pop_on_configure_terminal_context
+
+  monitor_session:
+    - match: ^\s*(monitor)\s+(session)\s+(\d+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.numeric
+      push:
+        - meta_content_scope: text.network.cisco.monitor
+        - include: monitor_settings
+        - include: pop_on_configure_terminal_context
+
+  monitor_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(source)\s+({{interface_names}})\s*({{interface_numbers}})\s+(both))|
+          (?:(destination\s+interface)\s+({{interface_names}})\s*({{interface_numbers}}))
+        )
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name    # source interface type
+        3: constant.numeric               # source interface id
+        4: support.constant               # source interface both
+        5: support.constant               # destination interface
+        6: entity.other.attribute-name    # destination interface type
+        7: constant.numeric               # destination interface id
+
+  logging:
+    - match: >
+        (?ix)
+        ^\s*(logging\s+server)\s+
+        ({{ip}})\s+(\d+)(?:\s+(use-vrf)\s+(\S+))?(?:\s+(facility)\s+(\S+))?
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: constant.numeric
+        4: support.constant
+        5: string.unquoted
+        6: support.constant
+        7: support.constant
+
+  feature:
+    - match: |
+        (?xi)
+        ^\s*
+        (feature)\s+({{features}})
+      captures:
+        1: support.constant
+        2: support.constant
+
+  acl:
+    - include: aclv4
+    - include: aclv6
+
+  aclv6:
+    - match: ^\s*(ipv6)\s+(access-list)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.aclv6.extended
+        - include: ace_v6
+        - include: ace_icmp_v6
+        - include: ace_config
+        - include: pop_on_configure_terminal_context
+
+  aclv4:
+    - match: ^\s*(ip)\s+(access-list)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.acl.extended
+        - include: ace_v4
+        - include: ace_icmp_v4
+        - include: ace_config
+        - include: pop_on_configure_terminal_context
+
+  ace_config:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:
+            (?:({{line_number}})\s+(remark)\s+(.*))|
+            (statistics\s+per-entry)
+          )
+        )
+      scope: text.network.cisco.acl.extended.ace
+      captures:
+        1: constant.numeric         # Line number
+        2: support.constant         # remark
+        3: comment.line             # remark text
+        4: support.constant         # statistics per-entry
+
+  ace_v4:
+    - match: |
+        (?xi)
+        ({{line_number}}\s+)
+        (?:(permit)|(deny))\s+
+        ({{protocol_target_v4}})\s+
+        ({{network_target}})
+        (?:
+          (?:\s+({{operators}})\s+({{port_target}}))|
+          (?:\s+(range)\s+({{port_target}})\s+({{port_target}}))
+        )?
+        (\s+established)?
+        (\s+{{network_target}})
+        (?:
+          (?:\s+({{operators}})\s+({{port_target}}))|
+          (?:\s+(range)\s+({{port_target}})\s+({{port_target}}))
+        )?
+        (\s+established)?
+        (?:\s+(dscp)\s+({{dscp}}))?
+        (\s+log)?
+      scope: text.network.cisco.acl.extended.ace.v4
+      captures:
+        1: constant.numeric             # Line number
+        2: entity.other.attribute-name  # Permit
+        3: keyword.other                # Deny
+        4: support.constant             # Protocol Name
+        5: constant.numeric             # Source Network
+        6: support.constant             # Source Operator
+        7: constant.numeric             # Source Port
+        8: support.constant             # Source range
+        9: constant.numeric             # Source Port start
+        10: constant.numeric            # Source Port end
+        11: support.constant            # Source Established
+        12: constant.numeric            # Destination Network
+        13: support.constant            # Destination Operator
+        14: constant.numeric            # Destination Port
+        15: support.constant            # Destination range
+        16: constant.numeric            # Destination Port start
+        17: constant.numeric            # Destination Port end
+        18: support.constant            # Destination Established
+        19: support.constant            # dscp
+        20: constant.numeric            # dscp value
+        21: support.constant            # log
+
+  ace_icmp_v4:
+    - match: |
+        (?xi)
+        ({{line_number}}\s+)
+        (?:(permit)|(deny))\s+
+        (icmp)\s+
+        ({{network_target}})
+        (\s+{{icmp_type}})?
+        (\s+{{network_target}})
+        (?:\s+(dscp)\s+({{dscp}}))?
+        (\s+{{icmp_type}})?
+        (\s+log)?
+      scope: text.network.cisco.acl.extended.ace.v4.icmp
+      captures:
+        1: constant.numeric             # Line number
+        2: entity.other.attribute-name  # Permit
+        3: keyword.other                # Deny
+        4: support.constant             # Protocol Name
+        5: constant.numeric             # Source Network
+        6: constant.numeric             # ICMP Type
+        7: constant.numeric             # Destination Network
+        8: support.constant             # dscp
+        9: constant.numeric             # dscp value
+        10: constant.numeric.icmp_type   # ICMP Type
+        11: support.constant             # log
+
+  ace_icmp_v6:
+    - match: |
+        (?xi)
+        ({{line_number}}\s+)
+        (?:(permit)|(deny))\s+
+        (icmp)\s+
+        ({{network_v6_target}})
+        (\s+{{icmp_type}})?
+        (\s+{{network_v6_target}})
+        (\s+{{icmp_type}})?
+        (?:\s+(dscp)\s+({{dscp}}))?
+        (\s+log)?
+      scope: text.network.cisco.acl.extended.ace.v6.icmp
+      captures:
+        1: constant.numeric             # Line number
+        2: entity.other.attribute-name  # Permit
+        3: keyword.other                # Deny
+        4: support.constant             # Protocol Name
+        5: constant.numeric             # Source Network
+        6: constant.numeric             # ICMP Type
+        7: constant.numeric             # Destination Network
+        8: constant.numeric             # ICMP Type
+        9: support.constant             # dscp
+        10: constant.numeric             # dscp value
+        11: support.constant             # log
+
+  ace_v6:
+    - match: |
+        (?xi)
+        ({{line_number}}\s+)
+        (?:(permit)|(deny))\s+
+        ({{protocol_target_v6}})\s+
+        ({{network_v6_target}})
+        (?:
+          (?:\s+({{operators}})\s+({{port_target}}))|
+          (?:\s+(range)\s+({{port_target}})\s+({{port_target}}))
+        )?
+        (\s+established)?
+        (\s+{{network_v6_target}})
+        (?:
+          (?:\s+({{operators}})\s+({{port_target}}))|
+          (?:\s+(range)\s+({{port_target}})\s+({{port_target}}))
+        )?
+        (\s+established)?
+        (?:\s+(dscp)\s+({{dscp}}))?
+        (\s+log)?
+      scope: text.network.cisco.acl.extended.ace.v6
+      captures:
+        1: constant.numeric             # Line number
+        2: entity.other.attribute-name  # Permit
+        3: keyword.other                # Deny
+        4: support.constant             # Protocol Name
+        5: constant.numeric             # Source Network
+        6: support.constant             # Source Operator
+        7: constant.numeric             # Source Port
+        8: support.constant             # Source range
+        9: constant.numeric             # Source Port start
+        10: constant.numeric             # Source Port end
+        11: support.constant             # Source Established
+        12: constant.numeric             # Destination Network
+        13: support.constant            # Destination Operator
+        14: constant.numeric            # Destination Port
+        15: support.constant            # Destination range
+        16: constant.numeric            # Destination Port start
+        17: constant.numeric            # Destination Port end
+        18: support.constant            # Destination Established
+        19: support.constant             # dscp
+        20: constant.numeric             # dscp value
+        21: support.constant             # log
+
+  ospfv3:
+    - match: '^\s*(router)\s+(ospfv3)\s+(\d+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.language
+      push:
+        - meta_content_scope: text.network.cisco.ospfv3
+        - include: ospfv3_vrf
+        - include: ospfv3_ipv4_address_family
+        - include: ospfv3_ipv6_address_family
+        - include: ospf_settings
+        - include: pop_on_configure_terminal_context
+
+  ospfv3_vrf:
+    - match: '^\s*(vrf)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: support.constant
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.ospfv3.vrf
+        - include: ospf_settings
+        - include: ospfv3_ipv4_address_family
+        - include: ospfv3_ipv6_address_family
+        - include: pop_on_ospfv3_context
+        - include: pop_on_configure_terminal_context
+
+  ospfv3_ipv4_address_family:
+    - match: ^\s*(address-family)\s+(ipv4)\s+(unicast)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: support.constant
+      push:
+        - meta_content_scope: text.network.cisco.ospfv3.vrf.ospfv3_ipv4_address_family
+        - match: '({{pop_address_family_ctx}})'
+          pop: true
+          captures:
+            1: comment.line
+        - include: ospf_settings
+        - include: pop_on_ospfv3_context
+        - include: pop_on_configure_terminal_context
+
+  ospfv3_ipv6_address_family:
+    - match: ^\s*(address-family)\s+(ipv6)\s+(unicast)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: support.constant
+      push:
+        - meta_content_scope: text.network.cisco.ospfv3.vrf.ospfv3_ipv6_address_family
+        - match: '({{pop_address_family_ctx}})'
+          pop: true
+          captures:
+            1: comment.line
+        - include: ospf_settings
+        - include: pop_on_ospfv3_context
+        - include: pop_on_configure_terminal_context
+
+  ospf:
+    - match: '^\s*(router)\s+(ospf)\s+(\d+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.language
+      push:
+        - meta_content_scope: text.network.cisco.ospf
+        - include: ospf_vrf
+        - include: ospf_settings
+        - include: pop_on_configure_terminal_context
+
+  ospf_vrf:
+    - match: '^\s*(vrf)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: support.constant
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.ospf.vrf
+        - include: ospf_settings
+        - include: pop_on_ospf_context
+        - include: pop_on_configure_terminal_context
+
+  ospf_settings:
+    - match: |
+        (?xi)
+        (?:
+          (?:(router-id)\s+(\S+))|
+          (?:
+            (timers)\s+(throttle)\s+
+            (?:
+              (?:(spf)\s+(\d+)\s+(\d+)\s+(\d+))|
+              (?:(lsa)\s+(\d+)\s+(\d+)\s+(\d+))
+            )|
+            (?:(timers)\s+(lsa-arrival)\s+(\d+))
+          )|
+          (?:(auto-cost\s+reference-bandwidth)\s+(\d+))
+        )
+      captures:
+        1: support.constant     # router-id
+        2: constant.numeric     # router-id id
+        3: support.constant     # timers
+        4: support.constant     # timers throttle
+        5: support.constant     # timers throttle spf
+        6: constant.numeric     # timers throttle spf #1
+        7: constant.numeric     # timers throttle spf #2
+        8: constant.numeric     # timers throttle spf #3
+        9: support.constant     # timers throttle lsa
+        10: constant.numeric     # timers throttle lsa #1
+        11: constant.numeric     # timers throttle lsa #2
+        12: constant.numeric     # timers throttle lsa #3
+        13: support.constant      # timers
+        14: support.constant      # timers lsa-arrival
+        15: constant.numeric      # timers lsa-arrival number
+        16: support.constant      # auto-cost reference-bandwidth
+        17: constant.numeric      # auto-cost reference-bandwidth number
+
+  bgp:
+    - match: '^\s*(router)\s+(bgp)\s+(\d+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.language
+      push:
+        - meta_content_scope: text.network.cisco.bgp
+        - include: bgp_settings
+        - include: bgp_vrf
+        - include: bgp_ipv4_address_family
+        - include: bgp_ipv6_address_family
+        - include: bgp_template_peer_policy
+        - include: bgp_template_peer
+        - include: bgp_template_peer_session
+        - include: bgp_ipv4_neighbor
+        - include: bgp_ipv6_neighbor
+        - include: pop_on_configure_terminal_context
+
+  bgp_vrf:
+    - match: '^\s*(vrf)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: support.constant
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.bgp.vrf
+        - include: bgp_settings
+        - include: bgp_ipv4_neighbor
+        - include: bgp_ipv6_neighbor
+        - include: bgp_ipv6_address_family
+        - include: bgp_ipv4_address_family
+        - include: pop_on_bgp_context
+
+  bgp_settings:
+    - match: |
+        (?xi)
+        (?:
+          (?:(router-id)\s+(\S+))|
+          (?:(log-neighbor-changes))|
+          (?:(timers)\s+(bgp)\s+(\d+)\s+(\d+))
+        )
+      captures:
+        1: support.constant     # router id
+        2: constant.numeric     # router id id
+        3: support.constant     # log-neighbor-changes
+        4: support.constant              # Timers
+        5: support.constant              # Timers bgp
+        6: constant.numeric              # Timers 1
+        7: constant.numeric              # Timers 2
+
+  bgp_template_peer_policy:
+    - match: ^\s*(template)\s+(peer-policy)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.bgp.template_peer_policy
+        - include: bgp_peer_policy_settings
+        - match: |
+            (?xi)
+            (?:
+              (?:(inherit)\s+(peer-policy)\s+(\S+)\s+(\d+))
+            )
+          captures:
+            1: support.constant
+            2: support.constant
+            3: string.unquoted
+            4: constant.numeric
+        - include: pop_on_bgp_context
+
+  bgp_template_peer_session:
+    - match: ^\s*(template)\s+(peer-session)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.bgp.template_peer_policy
+        - include: bgp_session_settings
+        - include: pop_on_bgp_context
+
+  bgp_template_peer:
+    - match: ^\s*(template)\s+(peer)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.bgp.template_peer
+        - include: bgp_neighbor_settings
+        - include: bgp_peer_policy_settings
+        - include: bgp_session_settings
+        - include: bgp_ipv6_address_family
+        - include: bgp_ipv4_address_family
+        - include: pop_on_bgp_context
+
+  bgp_ipv4_address_family:
+    - match: ^\s*(address-family)\s+(ipv4)\s+(unicast)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: support.constant
+      push:
+        - meta_content_scope: text.network.cisco.bgp.vrf.bgp_ipv4_address_family
+        - match: '({{pop_address_family_ctx}})'
+          pop: true
+          captures:
+            1: comment.line
+        - include: ipv4_network
+        - include: bgp_ipv4_neighbor
+        - include: bgp_peer_policy_settings
+        - include: pop_on_bgp_context
+
+  bgp_ipv6_address_family:
+    - match: ^\s*(address-family)\s+(ipv6)\s+(unicast)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: support.constant
+      push:
+        - meta_content_scope: text.network.cisco.bgp.vrf.ipv6_address-family
+        - match: '({{pop_address_family_ctx}})'
+          pop: true
+          captures:
+            1: comment.line
+        - include: ipv6_network
+        - include: bgp_ipv6_neighbor
+        - include: bgp_peer_policy_settings
+        - include: pop_on_bgp_vrf_context
+
+  bgp_peer_policy_settings:
+    - match: |
+        (?xi)
+        (?:
+          (next-hop-self)|
+          (?:(inherit)\s+(peer)\s+(\S+))|
+          (send-community)|
+          (?:(maximum-prefix)\s+(\d+)(?:\s+(\d+))?(?:\s+(restart)\s+(\d+))?(?:\s+(warning-only))?)|
+          (soft-reconfiguration\s+inbound)
+        )
+      captures:
+        1: support.constant              # Next-hop-self
+        2: support.constant              # Inherit peer policy
+        3: support.constant              # Inherit peer policy
+        4: string.unquoted               # Inherit peer policy
+        5: support.constant              # Send community
+        6: support.constant              # maximum-prefix
+        7: constant.numeric              # maximum-prefix number
+        8: constant.numeric              # maximum-prefix number threshold
+        9: support.constant              # maximum-prefix restart
+        10: constant.numeric             # maximum-prefix restart interval
+        11: support.constant             # maximum-prefix warning-only
+        12: support.constant             # soft-reconfiguration inbound
+
+  bgp_session_settings:
+      - match: |
+          (?xi)
+          (?:
+            (?:(remote-as)\s+(\d+))|
+            (?:(timers)\s+(\d+)\s+(\d+)(?:\s+(\d+))?)|
+            (?:(password)\s+(\d+)\s+(\S+))|
+            (?:(inherit)\s+(peer-session)\s+(\S+))
+            # (activate)|
+            # (shutdown)|
+            # (?:(soft-reconfiguration)\s+(inbound|outbound))|
+            # (?:(prefix-list|route-map)\s+(\S+)\s+(in|out))|
+            # (?:(ttl-security)\s+(hops)\s+(\d+))|
+            # (?:(description)\s+(.*))|
+            # (?:(version)\s+(\d+))|
+            # (?:(transport)\s+(path-mtu-discovery))
+          )
+        captures:
+          1: support.constant              # Remote AS
+          2: constant.numeric              # Remote AS
+          3: support.constant              # Timers
+          4: constant.numeric              # Timers
+          5: constant.numeric              # Timers
+          6: constant.numeric              # Timers
+          7: support.constant              # Password
+          8: constant.numeric              # Password
+          9: string.unquoted               # Password
+          10: support.constant             # inherit peer-session
+          11: support.constant             # inherit peer-session
+          12: string.unquoted              # inherit peer-session
+          13: constant.numeric             # inherit peer-session
+          14: entity.other.attribute-name  # Active
+          15: keyword.other                # Shutdown
+          16: support.constant             # Soft reconfiguration inbound
+          17: support.constant             # Soft reconfiguration inbound
+          18: support.constant             # Prefix list
+          19: string.unquoted              # Prefix list
+          20: support.constant              # Prefix list
+          21: support.constant              # TTL security hops
+          22: support.constant              # TTL security hops
+          23: constant.numeric              # TTL security hops
+          24: support.constant              # Description
+          25: comment.block.documentation   # Description
+          26: support.constant              # Version
+          27: constant.numeric              # Version
+          28: support.constant              # Path MTU discovery
+          29: support.constant              # Path MTU discovery
+
+  bgp_ipv4_neighbor:
+    - match: '(neighbor)\s+({{ip}})'
+      captures:
+        0: cicso.scope
+        1: support.constant
+        2: constant.numeric
+      push:
+        - meta_content_scope: text.network.cisco.bgp.vrf.bgp_ipv4_address_family.neighbor
+        - include: bgp_session_settings
+        - include: bgp_neighbor_settings
+        - include: bgp_ipv4_address_family
+        - include: pop_on_bgp_vrf_context
+
+  bgp_neighbor_settings:
+    - match: |
+        (?xi)
+        (?:
+          (activate)|
+          (shutdown)|
+          (?:(soft-reconfiguration)\s+(inbound|outbound))|
+          (?:(prefix-list|route-map)\s+(\S+)\s+(in|out))|
+          (?:(ttl-security)\s+(hops)\s+(\d+))|
+          (?:(description)\s+(.*))|
+          (?:(version)\s+(\d+))|
+          (?:(transport)\s+(path-mtu-discovery))|
+          (?:(update-source)\s+({{interface_names}})\s*({{interface_numbers}}))
+        )
+      captures:
+        1: entity.other.attribute-name    # Active
+        2: keyword.other                  # Shutdown
+        3: support.constant               # Soft reconfiguration inbound
+        4: support.constant               # Soft reconfiguration inbound
+        5: support.constant               # Prefix list
+        6: string.unquoted                # Prefix list
+        7: support.constant              # Prefix list
+        8: support.constant              # TTL security hops
+        9: support.constant              # TTL security hops
+        10: constant.numeric              # TTL security hops
+        11: support.constant              # Description
+        12: comment.block.documentation   # Description
+        13: support.constant              # Version
+        14: constant.numeric              # Version
+        15: support.constant              # Path MTU discovery
+        16: support.constant              # Path MTU discovery
+        17: support.constant              # update-source
+        18: entity.other.attribute-name   # update-source interface type
+        19: constant.numeric              # update-source interface number
+    - include: bgp_peer_policy_settings
+
+  bgp_ipv6_neighbor:
+    - match: '(neighbor)\s+({{ipv6}})'
+      captures:
+        0: cicso.scope
+        1: support.constant
+        2: constant.numeric
+      push:
+        - meta_content_scope: text.network.cisco.bgp.vrf.bgp_ipv6_address_family.neighbor
+        - include: bgp_session_settings
+        - include: bgp_neighbor_settings
+        - include: bgp_peer_policy_settings
+        - include: bgp_ipv6_address_family
+        - include: pop_on_bgp_vrf_context
+
+  ipv4_network:
+    - match: ^\s+(network)\s+({{ip_prefix}})
+      captures:
+        1: support.constant
+        2: constant.numeric
+
+  ipv6_network:
+    - match: ^\s*(network)\s+({{ipv6_prefix}})?
+      captures:
+        1: support.constant
+        2: constant.numeric
+
+  ip_route:
+    - include: ipv4_route
+    - include: ipv6_route
+
+  vrf_ip_route:
+    - include: vrf_ipv4_route
+    - include: vrf_ipv6_route
+
+  vrf_ipv4_route:
+    - match: |
+        (?xi)
+        ^\s*(ip)\s+(route)\s+
+        ({{ip_prefix}})\s+
+        (?:((?:{{interface_names}})|(?:null))\s*({{interface_numbers}})\s+)?
+        ({{ip}})?
+        (?:
+          (?:\s+(name)\s+(\S+))?
+          (?:\s+(permanent))?
+          (?:\s+(track)\s+(\S+))?
+          (?:\s+(tag)\s+(\S+))?
+          (?:\s+(\d+))?
+        )
+      captures:
+        1: support.constant             # ip
+        2: support.constant             # route
+        3: constant.numeric             # ip
+        4: entity.other.attribute-name  # next hop interface
+        5: constant.numeric             # next hop interface id
+        6: constant.numeric             # next hop ip
+        7: support.constant             # name
+        8: string.unquoted             # name
+        9: support.constant            # perminate
+        10: support.constant            # track
+        11: constant.numeric            # track id
+        12: support.constant            # tag
+        13: constant.numeric            # tag id
+        14: constant.numeric            # administrative distance
+
+  vrf_ipv6_route:
+    - match: |
+        (?xi)
+        ^\s*(ipv6)\s+(route)\s+
+        ({{ipv6_prefix}})\s+
+        (?:((?:{{interface_names}})|(?:null))\s*({{interface_numbers}})\s+)?
+        ({{ipv6}})?
+        (?:
+          (?:\s+(name)\s+(\S+))?
+          (?:\s+(permanent))?
+          (?:\s+(track)\s+(\S+))?
+          (?:\s+(tag)\s+(\S+))?
+          (?:\s+(\d+))?
+        )
+      captures:
+        1: support.constant             # ip
+        2: support.constant             # route
+        3: constant.numeric             # ip
+        4: entity.other.attribute-name  # next hop interface
+        5: constant.numeric             # next hop interface id
+        6: constant.numeric             # next hop ip
+        7: support.constant             # name
+        8: string.unquoted             # name
+        9: support.constant            # perminate
+        10: support.constant            # track
+        11: constant.numeric            # track id
+        12: support.constant            # tag
+        13: constant.numeric            # tag id
+        14: constant.numeric            # administrative distance
+
+  ipv4_route:
+    - match: |
+        (?xi)
+        ^\s*(ip)\s+(route)\s+
+        (?:(vrf)\s+(\S+)\s+)?
+        ({{ip_prefix}})\s+
+        (?:({{interface_names}})\s*({{interface_numbers}})\s+)?
+        ({{ip}})
+        (?:
+          (?:\s+(name)\s+(\S+))?
+          (?:\s+(permanent))?
+          (?:\s+(track)\s+(\S+))?
+          (?:\s+(tag)\s+(\S+))?
+        )
+      captures:
+        1: support.constant             # ip
+        2: support.constant             # route
+        3: support.constant             # vrf
+        4: string.unquoted              # vrf name
+        5: constant.numeric             # ip
+        6: entity.other.attribute-name  # next hop interface
+        7: constant.numeric             # next hop interface id
+        8: constant.numeric             # next hop ip
+        9: support.constant             # name
+        10: string.unquoted             # name
+        11: support.constant            # perminate
+        12: support.constant            # track
+        13: constant.numeric            # track id
+        14: support.constant            # tag
+        15: constant.numeric            # tag id
+
+  ipv6_route:
+    - match: |
+        (?xi)
+        ^\s*(ipv6)\s+(route)\s+
+        (?:(vrf)\s+(\S+)\s+)?
+        ({{ipv6_prefix}})\s+
+        (?:({{interface_names}})\s*({{interface_numbers}})\s+)?
+        ({{ipv6}})
+        (?:
+          (?:\s+(name)\s+(\S+))?
+          (?:\s+(permanent))?
+          (?:\s+(track)\s+(\S+))?
+          (?:\s+(tag)\s+(\S+))?
+        )
+      captures:
+        1: support.constant             # ip
+        2: support.constant             # route
+        3: support.constant             # vrf
+        4: string.unquoted              # vrf name
+        5: constant.numeric             # ip
+        6: entity.other.attribute-name  # next hop interface
+        7: constant.numeric             # next hop interface id
+        8: constant.numeric             # next hop ip
+        9: support.constant             # name
+        10: string.unquoted             # name
+        11: support.constant            # perminate
+        12: support.constant            # track
+        13: constant.numeric            # track id
+        14: support.constant            # tag
+        15: constant.numeric            # tag id
+
+  prefix_list:
+    - include: ipv4_prefix_list
+    - include: ipv6_prefix_list
+
+  ipv4_prefix_list:
+    - match: |
+        (?xi)
+        ^\s*(ip)\s+(prefix-list)\s+(\S+)\s+
+        (?:(seq)\s+(\d+)\s+)?
+        (?:(permit)|(deny))\s+
+        ({{ip_prefix}})
+        (?:
+          \s+({{operators}})\s+({{ipv4_prefix_length}})
+          (?:\s+({{operators}})\s+({{ipv4_prefix_length}}))?
+        )?
+      captures:
+        1: support.constant               # IP
+        2: support.constant               # Prefix list
+        3: string.unquoted                # Name
+        4: support.constant               # sequence
+        5: constant.numeric               # sequence number
+        6: entity.other.attribute-name    # permit
+        7: keyword.other                  # deny
+        8: constant.numeric               # prefix
+        9: support.constant               # operator
+        10: constant.numeric              # prefix
+        11: support.constant              # operator
+        12: constant.numeric              # prefix
+
+  ipv6_prefix_list:
+    - match: |
+        (?xi)
+        ^\s*(ipv6)\s+(prefix-list)\s+(\S+)\s+
+        (?:(seq)\s+(\d+)\s+)?
+        (?:(permit)|(deny))\s+
+        ({{ipv6_prefix}})
+        (?:
+          \s+({{operators}})\s+({{ipv6_prefix_length}})
+          (?:\s+({{operators}})\s+({{ipv6_prefix_length}}))?
+        )?
+      captures:
+        1: support.constant               # IP
+        2: support.constant               # Prefix list
+        3: string.unquoted                # Name
+        4: support.constant               # sequence
+        5: constant.numeric               # sequence number
+        6: entity.other.attribute-name    # permit
+        7: keyword.other                  # deny
+        8: constant.numeric               # prefix
+        9: support.constant               # operator
+        10: constant.numeric              # prefix
+        11: support.constant              # operator
+        12: constant.numeric              # prefix
+
+  vrf:
+    - match: '^\s*(vrf)\s+(context)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.vrf
+      - match: |
+          (?xi)
+          ^\s*
+          (?:
+            (?:(ip\s+pim\s+ssm\s+range)\s+({{ip_prefix}}))
+          )
+        captures:
+          1: support.constant
+          2: constant.numeric
+      - include: vrf_ip_route
+      - include: pop_on_configure_terminal_context
+
+  route_map:
+    - match: '^\s*(route-map)\s+(\S+)\s+(?:(permit)|(deny))\s+(\d+)?'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+        3: entity.other.attribute-name
+        4: keyword.other
+        5: constant.numeric
+      push:
+      - meta_content_scope: text.network.cisco.route_map
+      - match: >
+          (?xi)
+          (?:(match\s+ip\s+address)\s+(\S+))|
+          (?:(set\s+vrf)\s+(\S+))
+        captures:
+          1: support.constant   # match address
+          2: string.unquoted    # match address name
+          3: support.constant   # set vrf
+          4: string.unquoted    # set vrf name
+      - include: pop_on_configure_terminal_context
+
+  vlan:
+    - match: '^\s*(vlan)\s+({{vlan_id}})'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.numeric
+      push:
+      - meta_content_scope: text.network.cisco.vlan
+      - match: (name)\s+(\S+)
+        captures:
+          1: support.constant
+          2: string.unquoted
+      - match: (mode)\s+(fabricpath)
+        captures:
+          1: support.constant
+          2: support.constant
+      - include: pop_on_configure_terminal_context
+
+  description:
+    - match: '^\s*(description.*)'
+      captures:
+        1: comment.line
+
+  interface:
+    - include: interface_default
+    - include: interface_block
+
+
+  interface_block:
+    - match: |
+        (?xi)
+        ^\s*(interface)\s+
+        (?:
+          (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
+          ({{interface_names}})\s*({{interface_numbers}})
+        )
+      captures:
+        0: cisco.scope
+        1: support.constant               # interface
+        2: support.constant               # range
+        3: entity.other.attribute-name    # interface name
+        4: constant.numeric               # interface number
+        5: entity.other.attribute-name    # interface name
+        6: constant.numeric               # interface number
+      push:
+      - meta_content_scope: text.network.cisco.interface
+      - include: switchport
+      - include: spanning_tree
+      - include: description
+      - match: |
+          (?xi)
+          ^\s*
+          (?:
+            (ipv6\s+enable)|
+            (?:(vrf\s+member)\s+(\S*))|
+            (port-channel\s+standalone-disable)|
+            (?:(encapsulation\s+dot1q)\s+({{vlan_id}}))|
+            (?:(ip\s+helper-address)\s+({{ip}}))|
+            (?:(ip\s+access-group)\s+(\S+)\s+(in|out))|
+            (?:(ip\s+proxy-arp))|
+            (?:(ip(?:v6)?\s+redirects))|
+            (?:(ipv6\s+address\s+general-prefix)\s+({{ipv6_prefix}}))(\s+eui64)?|
+            (?:(ipv6\s+nd\s+prefix)\s+({{ipv6_prefix}}))|
+            (?:(ip\s+address)\s+({{ip_prefix}})(?:\s+(secondary))?)|
+            (shutdown)|
+            (?:(service-policy\s+type\s+queuing\s+output)\s+(\S+))|
+            (?:(service-policy\s+type\s+qos\s+input)\s+(\S+))|
+            (?:(channel-group)\s+(\d+)(?:\s+(?:(force)|(?:(mode)\s+(?:(active)|(on)|(passive)))?))?)|
+            (?:(channel-protocol)\s+(lacp)?)|
+            (?:(vpc)\s+(\d+))|
+            (?:(hsrp\s+version)\s+([1-2]))|
+            (?:(ipv6\s+address)\s+({{ipv6_prefix}})(\s+eui-64)?)|
+            (?:(ip\s+pim\s+sparse-mode))|
+            (?:(ip\s+arp\s+timeout)\s+(\d+))|
+            (?:(ip\s+arp\s+gratuitous\s+hsrp\s+duplicate))|
+            (?:(link\s+debounce\s+time)\s+(\d+))|
+            (?:(ip\s+router\s+ospf)\s+(\d+)\s+(area)\s+({{ip}}|\d+))|
+            (?:(ipv6\s+router\s+ospfv3)\s+(\d+)\s+(area)\s+({{ip}}|\d+))|
+            (?:(mtu)\s+(\d+))|
+            (?:(ip\s+policy\s+route-map)\s+(\S+))|
+            (?:(ip\s+dhcp\s+relay\s+address)\s+({{ip}}))|
+            (ip\s+ospf\s+authentication\s+message-digest)|
+            (?:(ip\s+ospf\s+message-digest-key)\s+(\d+)\s+({{hash_types}})\s+(\d+)\s+(\S+))|
+            (?:(ip\s+ospf\s+network)\s+({{ospf_network_types}}))|
+            (?:(ospfv3\s+network)\s+({{ospf_network_types}}))|
+            (?:(untagged)\s+(cos)\s+({{cos}}))|
+            (?:(priority-flow-control)\s+(mode)\s+(?:(on)|(auto)|(off)))
+          )
+        captures:
+          1: support.constant                           # ipv6 enable
+          2: support.constant                           # ip vrf forwarding
+          3: string.unquoted                            # vrf name
+          4: support.constant                           # port-channel standalone-disable
+          5: support.constant                           # encapsulation dot1q
+          6: constant.numeric                           # dot1q id
+          7: support.constant                           # ip helper-address
+          8: constant.numeric                           # dhcp-ip
+          9: support.constant                           # ip access-group
+          10: string.unquoted                           # acl name
+          11: support.constant                          # in / out
+          12: support.constant                          # proxy-arp
+          13: support.constant                          # ip redirects
+          14: support.constant                          # ipv6 address general-prefix
+          15: constant.numeric                          # ipv6 prefix
+          16: support.constant                          # eui-64
+          17: support.constant                          # ipv6 nd prefix
+          18: support.constant                          # ipv6 nd prefix
+          19: support.constant                          # ip address
+          20: constant.numeric                          # ip address ipv4 address
+          21: support.constant                          # ip address secondary
+          22: keyword.other                             # shutdown
+          23: support.constant                          # Service-policy qos input
+          24: string.unquoted                           # Service-policy qos input name
+          25: support.constant                          # Service-policy qos input
+          26: string.unquoted                           # Service-policy qos input name
+          27: support.constant                          # channel-group
+          28: constant.numeric                          # channel-group id
+          29: support.constant                          # channel-group force
+          30: support.constant                          # channel-group mode
+          31: entity.other.inherited-class              # channel-group active
+          32: entity.other.inherited-class              # channel-group on
+          33: entity.other.inherited-class              # channel-group passive
+          34: support.constant                          # channel-protocol
+          35: support.constant                          # channel-protocol lacp
+          36: support.constant                          # vpc
+          37: constant.numeric                          # vpc id
+          38: support.constant                          # hsrp version
+          39: constant.numeric                          # hsrp version number
+          40: support.constant                          # ipv6 address
+          41: constant.numeric                          # ipv6 prefix
+          42: support.constant                          # ipv6 eui-64
+          43: support.constant                          # ip pim sparse-mode
+          44: support.constant                          # ip arp timeout
+          45: constant.numeric                          # ip arp timeout number
+          46: support.constant                          # ip arp gratuitous hsrp duplicate
+          47: support.constant                          # link debounce
+          48: constant.numeric                          # link debounce time
+          49: support.constant                          # ip router ospf
+          50: constant.numeric                          # ip router ospf process id
+          51: support.constant                          # ip router ospf area
+          52: constant.numeric                          # ip router ospf area-id
+          53: support.constant                          # ipv6 router ospfv3
+          54: constant.numeric                          # ipv6 router ospfv3 process id
+          55: support.constant                          # ipv6 router ospfv3 area
+          56: constant.numeric                          # ipv6 router ospfv3 area-id
+          57: support.constant                          # mtu
+          58: constant.numeric                          # mtu value
+          59: support.constant                          # ip policy route-map
+          60: string.unquoted                           # ip policy route-map
+          61: support.constant                          # ip dhcp relay address
+          62: constant.numeric                          # ip dhcp relay address ip
+          63: support.constant                          # ip ospf authentication message-digest
+          64: support.constant                          # ip ospf message-digest-key
+          65: constant.numeric                          # ip ospf message-digest-key value
+          66: entity.other.inherited-class              # ip ospf message-digest-key value hash_type
+          67: constant.numeric                          # ip ospf message-digest-key value hash_type id
+          68: string.unquoted                           # ip ospf message-digest-key value hash_type id value
+          69: support.constant                          # ip ospf network
+          70: entity.other.inherited-class              # ip ospf network type
+          71: support.constant                          # ospfv3 network
+          72: entity.other.inherited-class              # ospfv3 network type
+          73: support.constant                          # untagged
+          74: support.constant                          # untagged cos
+          75: constant.numeric                          # untagged cos value
+          76: support.constant                          # priority-flow-control
+          77: support.constant                          # priority-flow-control mode
+          78: entity.other.inherited-class              # priority-flow-control mode on
+          79: entity.other.inherited-class              # priority-flow-control mode auto
+          80: keyword.key                               # priority-flow-control mode off
+      - match: '(hsrp)\s+(\d+)(\s+ipv6)?'
+        captures:
+          1: support.constant
+          2: constant.numeric
+          3: support.constant
+        push:
+        - meta_content_scope: text.network.cisco.interface.hsrp
+        - include: hsrp
+        - include: pop_on_interface_context
+      - include: pop_on_configure_terminal_context
+
+  hsrp:
+    - include: hsrp_options
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(ip)\s+({{ip}}))|
+          (?:(ip)\s+({{ipv6}}))|
+          (?:(track)\s+(\d+)\s+(decrement)\s+(\d+))|
+          (?:(name)\s+(\S+))
+        )
+      captures:
+        1: support.constant             # ip
+        2: constant.numeric             # ip number
+        3: support.constant             # ipv6
+        4: constant.numeric             # ipv6 number
+        5: support.constant             # track
+        6: constant.numeric             # track id
+        7: support.constant             # track id decrement
+        8: constant.numeric             # track id decrement value
+        9: support.constant             # name
+        10: string.unquoted            # name string
+
+  hsrp_options:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(priority)\s+(\d+))|
+          (?:(preempt\s+delay\s+minimum)\s+(\d+))|
+          (?:(authentication)\s+(md5)\s+(key-string)\s+(\S+))
+        )
+      captures:
+        1: support.constant             # priority
+        2: constant.numeric             # priority number
+        3: support.constant             # preempt
+        4: constant.numeric             # preempt time
+        5: support.constant             # authentication
+        6: entity.other.inherited-class # authentication md5
+        7: support.constant             # authentication key-string
+        8: string.unquoted             # authentication key
+
+  spanning_tree:
+    - match: |
+        (?xi)
+        ^\s*
+        (spanning-tree)\s+
+        (?:
+          (port\s+type\s+edge)(?:\s+(trunk))?|
+          (bpduguard)\s+(?:(enable)|(disable))|
+          (portfast\s+edge)|
+          (guard\s+root)
+        )?
+      captures:
+        1: support.constant                   # spanning-tree
+        2: support.constant                   # port type edge
+        3: entity.other.inherited-class       # port type edge trunk
+        4: support.constant                   # bpduguard
+        5: entity.other.inherited-class       # bpduguard enable
+        6: keyword.key                        # bpduguard disable
+        7: support.constant                   # portfast edge
+        8: support.constant                   # guard
+        9: support.constant                   # guard root
+
+  switchport:
+    - match: '(switchport\s+mode\s+(?:trunk|access|capture))'
+      captures:
+        1: support.constant
+    - include: switchport_trunk
+    - include: switchport_access
+    - match: '(switchport)'
+      captures:
+        1: support.constant
+
+  switchport_access:
+    - match: ^\s*(switchport\s+access\s+vlan)\s+({{vlan_id}})
+      captures:
+        1: support.constant
+        2: constant.numeric
+
+  switchport_trunk:
+    - match: |
+        (?xi)
+        ^\s*(switchport\s+trunk)\s+
+        (?:
+          (encapsulation\s+dot1q)|
+          (allowed\s+vlan)\s+
+          (?:
+            (?:
+              (?:
+                (?:
+                  (add)|
+                  (remove)|
+                  (except)
+                )
+                \s+
+              )?
+              ({{vlan_range}})
+            )|
+            (all)|
+            (none)
+          )
+        )
+      captures:
+        1: support.constant               # switchport trunk
+        2: support.constant               # mode trunk
+        3: support.constant               # encapsulation dot1q
+        4: entity.other.attribute-name    # add
+        5: keyword.other                  # remove
+        6: keyword.other                  # except
+        7: constant.numeric               # vlan
+        8: constant.numeric               # all
+        9: keyword.other                  # none
+
+
+  interface_default:
+    - match: |
+        (?xi)
+        (default)\s+
+        (interface)\s+
+        ({{interface_names}})\s*
+        ({{interface_numbers}})
+      captures:
+        1: support.constant               # default
+        2: support.constant               # interface
+        3: entity.other.attribute-name    # interface name
+        4: constant.numeric               # interface number
+
+
+  vty:
+    - match: '^\s*(line)\s+(vty)(?:\s+(\d+)\s+(\d+))?'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.numeric
+        4: constant.numeric
+      push:
+      - meta_content_scope: text.network.cisco.vty
+      - match: |
+          (?xi)
+          ^\s*
+          (?:
+            (?:(access-class)\s+(?:(\d+)|(\S+))\s+(in)(?:\s+(vrf-also))?)|
+            (?:(exec-timeout)\s+(\d+))
+          )
+        captures:
+          1: support.constant     # access-class
+          2: constant.numeric     # access-class
+          3: string.unquoted      # access-class
+          4: support.constant     # access-class
+          5: support.constant     # access-class
+          6: support.constant     # exec-timeout
+          7: constant.numeric     # exec-timeout number
+      - match: ^\s*(transport\s+input)\s+((?:telnet|ssh)(?:\s+(?:telnet|ssh))?)
+        captures:
+          1: support.constant
+          2: support.constant
+      - include: pop_on_configure_terminal_context
+
+  class_map:
+    - include: qos_class_map
+    - include: network_qos_class_map
+    - include: queuing_class_map
+
+  qos_class_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (class-map)\s+(type)\s+(qos)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.qos_class_map
+      - include: qos_class_map_settings
+      - include: pop_on_configure_terminal_context
+
+  network_qos_class_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (class-map)\s+(type)\s+(network-qos)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.network_qos_class_map
+      - include: network_qos_class_map_settings
+      - include: pop_on_configure_terminal_context
+
+  queuing_class_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (class-map)\s+(type)\s+(queuing)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.queuing_class_map
+      - include: queuing_class_map_settings
+      - include: pop_on_configure_terminal_context
+
+  queuing_class_map_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(match)\s+(qos-group)\s+((?:[2-9])|(?:\d{2,})))
+        )
+      captures:
+        1: support.constant     # match
+        2: support.constant     # match qos-group
+        3: constant.numeric     # match qos-group number
+
+  network_qos_class_map_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(match)\s+(qos-group)\s+((?:[2-9])|(?:\d{2,})))
+        )
+      captures:
+        1: support.constant     # match
+        2: support.constant     # match qos-group
+        3: constant.numeric     # match qos-group number
+
+  qos_class_map_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(match)\s+(access-group)\s+(\S+))
+        )
+      captures:
+        1: support.constant     # match
+        2: support.constant     # match access-group
+        3: string.unquoted      # match access-group name
+
+  policy_map:
+    - include: qos_policy_map
+    - include: network_qos_policy_map
+    - include: queuing_policy_map
+
+  system_qos:
+    - match: |
+          (?xi)
+          ^\s*
+          (system)\s+(qos)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.nxos.system_qos
+      - include: system_qos_settings
+      - include: pop_on_configure_terminal_context
+
+  system_qos_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(service-policy)\s+(type)\s+
+            (?:
+              (?:
+                (qos)\s+((?:input)|(?:output))\s+(\S+)
+              )|
+              (?:
+                (network-qos)\s+(\S+)
+              )|
+              (?:
+                (queuing)\s+((?:input)|(?:output))\s+(\S+)
+              )
+            )
+          )
+        )
+      captures:
+        1: support.constant             # service-policy
+        2: support.constant             # service-policy type
+        3: entity.other.attribute-name  # service-policy qos
+        4: support.constant             # service-policy qos input
+        5: string.unquoted              # service-policy qos input name
+        6: entity.other.attribute-name  # service-policy network-qos
+        7: string.unquoted              # service-policy input name
+        8: entity.other.attribute-name  # service-policy queuing
+        9: support.constant             # service-policy queuing input/output
+        10: string.unquoted              # service-policy queuing input/output name
+
+  qos_policy_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (policy-map)\s+(type)\s+(qos)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.qos_policy_map
+      - include: qos_policy_map_class
+      - include: pop_on_configure_terminal_context
+
+  qos_policy_map_class:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(class)\s+(type)\s+(qos)\s+(\S+))
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.qos_policy_map_class
+      - include: qos_policy_map_class_settings
+      - include: pop_on_policy_map_context
+
+  qos_policy_map_class_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(set)\s+(qos-group)\s+((?:[2-9])|(?:\d{2,})))
+        )
+      captures:
+        1: support.constant     # set
+        2: support.constant     # set qos-group
+        3: constant.numeric     # set qos-group numbber
+
+  queuing_policy_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (policy-map)\s+(type)\s+(queuing)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.queuing_policy_map
+      - include: queuing_policy_map_class
+      - include: pop_on_configure_terminal_context
+
+  queuing_policy_map_class:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(class)\s+(type)\s+(queuing)\s+(\S+))
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.queuing_policy_map_class
+      - include: queuing_policy_map_class_settings
+      - include: pop_on_policy_map_context
+
+  queuing_policy_map_class_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(bandwidth)\s+(percent)\s+
+            (
+              (?:100)|
+              (?:\d{1,2})
+            )
+          )|
+          (priority)
+        )
+      captures:
+        1: support.constant     # bandwidth
+        2: support.constant     # bandwidth percent
+        3: constant.numeric     # bandwidth percent numbber
+        4: support.constant     # priority
+
+  network_qos_policy_map:
+    - match: |
+          (?xi)
+          ^\s*
+          (policy-map)\s+(type)\s+(network-qos)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.network_qos_policy_map
+      - include: network_qos_policy_map_class
+      - include: pop_on_configure_terminal_context
+
+  network_qos_policy_map_class:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(class)\s+(type)\s+(network-qos)\s+(\S+))
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: entity.other.attribute-name
+        4: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.nxos.network_qos_policy_map_class
+      - include: network_qos_policy_map_class_settings
+      - include: pop_on_policy_map_context
+
+  network_qos_policy_map_class_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(set)\s+(cos)\s+({{cos}}))|
+          (?:(match)\s+
+            (?:
+              (?:(cos)\s+({{cos_range}}))|
+              (?:(protocol)\s+
+                (
+                  (?:arp)|
+                  (?:clns_es)|
+                  (?:clns_is)|
+                  (?:dhcp)|
+                  (?:ldp)|
+                  (?:netbios)
+                )
+              )
+            )
+          )|
+          (?:(mtu)\s+(\d+))|
+          (?:(multicast-optimize))|
+          (?:(pause)\s+(no-drop)(?:\s+(pfc-cos)\s+({{cos_range}}))?)|
+          (?:(queue-limit)\s+(\d+)\s+(bytes))
+        )
+      captures:
+        1: support.constant             # set
+        2: support.constant             # set cos
+        3: constant.numeric             # set cos numbber
+        4: support.constant             # match
+        5: support.constant             # match cos
+        6: constant.numeric             # match cos numbber
+        7: support.constant             # match protocol
+        8: constant.numeric             # match protocol name
+        9: support.constant             # mtu
+        10: constant.numeric            # mtu value
+        11: support.constant            # multicast-optimize
+        12: support.constant            # pause
+        13: support.constant            # pause no-drop
+        14: support.constant            # pause no-drop pfc-cos
+        15: constant.numeric            # pause no-drop pfc-cos value
+        16: support.constant            # queue-limit
+        17: constant.numeric            # queue-limit value
+        18: support.constant            # queue-limit value bytes
+
+  show:
+    - include: show_bgp
+    - include: show_vlan
+    - include: show_route
+    - include: show_standby
+    - include: show_interface
+    - include: show_run_interface
+    - include: show_ip_interface_brief
+
+  show_bgp:
+    - match: |
+        (?xi)
+        (show\s+ip\s+bgp)
+        (?:
+          (?:
+            (?:\s+(vpnv6)\s+
+              (unicast)(?:
+                (?:\s+(vrf)\s+(\S+)(?:\s+({{ipv6_prefix}}|{{ipv6}}))?)
+              )?
+            )|
+            (?:\s+(vpnv4)\s+
+              (unicast)(?:
+                (?:\s+(vrf)\s+(\S+)(?:\s+({{ip_prefix}}|{{ip}}))?)
+              )?
+            )
+          )
+        )?
+      captures:
+        1: support.constant                 # show ip bgp
+        2: support.constant                 # vpnv6
+        3: support.constant                 # vpnv6 unicast
+        4: support.constant                 # vpnv6 unicast vrf
+        5: string.unquoted                  # vpnv6 unicast vrf name
+        6: constant.numeric                 # vpnv6 unicast vrf name prefix
+        7: support.constant                 # vpnv4
+        8: support.constant                 # vpnv4 unicast
+        9: support.constant                 # vpnv4 unicast vrf
+        10: string.unquoted                 # vpnv4 unicast vrf name
+        11: constant.numeric                # vpnv4 unicast vrf name prefix
+        13: entity.other.attribute-name
+        14: constant.numeric
+        15: support.constant
+
+  show_interface:
+    - match: '\s*(show\s+interface)(?:(\s+{{interface_names}})\s*({{interface_numbers}}))?'
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: constant.numeric
+        4: support.constant
+
+  show_run_interface:
+    - match: '\s*(show\s+run\s+interface)(?:(\s+{{interface_names}})\s*({{interface_numbers}}))?'
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: constant.numeric
+        4: support.constant
+
+  show_standby:
+    - match: '\s*(show\s+standby)(?:\s+({{interface_names}})\s*({{interface_numbers}}))?(\s+brief)?'
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: constant.numeric
+        4: support.constant
+
+  show_vlan:
+    - match: '\s*(show\s+vlan)(\s+(id)\s+({{vlan_id}}))?'
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: support.constant
+        4: constant.numeric
+
+  show_ip_interface_brief:
+    - match: '\s*(show\s+ip\s+interface\s+brief)(?:\s+({{interface_names}})\s*({{interface_numbers}}))?(?:\s+(vrf)\s+(\S+))?'
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: constant.numeric
+        4: support.constant
+        5: string.unquoted
+
+  show_route:
+    - match: |
+        (?xi)
+        \s*(show)\s+
+        (?:
+          (?:
+            (ipv6\s+route)
+            (?:\s+(vrf)\s+(\S+))?
+            (\s+{{ipv6}})?
+          )
+          |
+          (?:
+            (ip\s+route)
+            (?:\s+(vrf)\s+(\S+))?
+            (\s+{{ip}})?
+          )
+
+        )
+      captures:
+        1: support.constant           # show
+        2: support.constant           # ipv6 route
+        3: support.constant           # ipv6 vrf
+        4: string.unquoted            # ipv6 vrf name
+        5: constant.numeric           # ipv6 prefix
+        6: support.constant           # ip route
+        7: support.constant           # ip vrf
+        8: string.unquoted            # ip vrf name
+        9: constant.numeric           # ip prefix
+
+  locations:
+    - include: location_local
+    - include: location_remote
+
+  location_remote:
+    - match: ((?:t?ftp)|scp)(://)((?:\d+\.){3}\d+)(\/\S*)?
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: constant.language
+        4: support.constant
+
+  location_local:
+    - match: ({{drives}}|(?:running|startup)-config)
+      captures:
+        1: support.constant
+
+  write:
+    - match: '^\s*(write)\s*'
+      captures:
+        1: support.constant
+
+  logout:
+    - match: '^\s*(logout)\s*'
+      captures:
+        1: support.constant
+
+  copy:
+    - match: '^\s*(copy)\s*'
+      set: copy_location_source
+      captures:
+        1: support.constant
+
+  copy_location_source:
+    - match: \s
+      set: copy_location_destination
+    - include: locations
+
+  copy_location_destination:
+    - match: (?:\s|{{comment}}|$)
+      pop: true
+    - include: locations
+
+  pipe:
+    - match: (?<=\s)(\|)
+      scope: text.network.cisco.pipe
+      captures:
+        1: keyword.other
+      push:
+        - meta_content_scope: text.network.cisco.pipe
+        - match: '(?=(?:{{comment}})|$)'
+          pop: true
+        - match: >
+            (?xi)
+            \s+
+            (?:
+              ((?:include)|(?:grep))|
+              (exclude)
+            )
+            \s+
+            ((?:"[^{{comment}}]*")|(?:[^\s{{comment}}]*))
+          captures:
+            1: entity.other.attribute-name
+            2: keyword.other
+            3: string.unquoted
+
+
+  show_drives:
+    - match: '\s*(show)\s+({{drives}})'
+      captures:
+        1: support.constant
+        2: support.constant
+

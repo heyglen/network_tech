@@ -1,0 +1,2194 @@
+%YAML 1.2
+---
+name: Cisco ASA
+file-extensions: 
+  - cisco-asa
+  - asa
+first_line_match: |
+  (?xi)
+    \s*
+    [#!]
+    .*
+    (?:
+      (?:asa)
+    )
+scope: text.network.cisco.asa text.network.cisco.configure_terminal
+
+
+variables:
+  comment: '(?:[!#])'
+  pop_ctx: '^\s*exit\s*$'
+  pop_address_family_ctx: '^\s*(?:exit-address-family)\s*$'
+  command_end: '(?:\s|{{comment}}|$)'
+  line_number: '^\s*\d+'
+  ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
+  configure_terminal_ctx_words: |
+    (?xi)
+    \s*
+    (?:
+      (?:aaa-server)|
+      (?:access-list)|
+      (?:aaa)|
+      (?:arp)|
+      (?:banner)|
+      (?:changeto)|
+      (?:class-map)|
+      (?:crypto)|
+      (?:enable)|
+      (?:hostname)|
+      (?:http)|
+      (?:icmp)|
+      (?:interface)|
+      (?:logging)|
+      (?:mtu)|
+      (?:
+        nat\s+
+        \(\S+,\S+\)\s+
+        (?:
+          (?:source)|
+          (?:\d+)|
+          (?:after-auto)
+        )
+      )|
+      (?:names)|
+      (?:pager)|
+      (?:passwd)|
+      (?:object-group)|
+      (?:object)|
+      (?:policy-map)|
+      (?:route)|
+      (?:service-policy)|
+      (?:snmp-server)|
+      (?:ssh)|
+      (?:telnet)|
+      (?:tftp-server)|
+      (?:timeout)|
+      (?:user-identity)|
+      (?:username)
+    )
+  aaa_protocols: |
+    (?xi)
+    (?:
+      (?:tacacs\+)|
+      (?:radius)
+    )
+  inspect_protocol: |
+    (?xi)
+    (?:
+      (?:ftp)|
+      (?:h323\s+h225)|
+      (?:h323\s+ras)|
+      (?:ip-options)|
+      (?:netbios)|
+      (?:rsh)|
+      (?:rtsp)|
+      (?:skinny)|
+      (?:esmtp)|
+      (?:sqlnet)|
+      (?:sunrpc)|
+      (?:tftp)|
+      (?:sip)|
+      (?:xdmcp)|
+      (?:dns)|
+      (?:icmp\s+error)|
+      (?:icmp)
+    )
+  log_levels: |
+    (?xi)
+    (?:
+      (?:informational)|
+      (?:notifications)|
+      (?:debugging)
+    )    
+  time: '(?:(?:\d{1,2}:){2}\d{1,2})'
+  subnet_mask: |
+    (?xi)
+    (?:
+        (?:0\.0\.0\.0)|
+        (?:128\.0\.0\.0)|
+        (?:192\.0\.0\.0)|
+        (?:224\.0\.0\.0)|
+        (?:240\.0\.0\.0)|
+        (?:248\.0\.0\.0)|
+        (?:252\.0\.0\.0)|
+        (?:254\.0\.0\.0)|
+        (?:255\.0\.0\.0)|
+        (?:255\.128\.0\.0)|
+        (?:255\.192\.0\.0)|
+        (?:255\.224\.0\.0)|
+        (?:255\.240\.0\.0)|
+        (?:255\.248\.0\.0)|
+        (?:255\.252\.0\.0)|
+        (?:255\.254\.0\.0)|
+        (?:255\.255\.0\.0)|
+        (?:255\.255\.128\.0)|
+        (?:255\.255\.192\.0)|
+        (?:255\.255\.224\.0)|
+        (?:255\.255\.240\.0)|
+        (?:255\.255\.248\.0)|
+        (?:255\.255\.252\.0)|
+        (?:255\.255\.254\.0)|
+        (?:255\.255\.255\.0)|
+        (?:255\.255\.255\.128)|
+        (?:255\.255\.255\.192)|
+        (?:255\.255\.255\.224)|
+        (?:255\.255\.255\.240)|
+        (?:255\.255\.255\.248)|
+        (?:255\.255\.255\.252)|
+        (?:255\.255\.255\.254)|
+        (?:255\.255\.255\.255)
+    )
+  ipv4_prefix_length: '(?:(?:\d?\d)|(?:3[0-2]))'
+  ip_prefix: '(?:{{ip}}\s+{{subnet_mask}})'
+  ipv6_prefix_length: '(?:1?\d?\d)'
+  ipv6_prefix: '(?:(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?/{{ipv6_prefix_length}}|::/0))'
+  ipv6: '(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)'
+  vlan_id: |
+    (?xi)
+    (?:
+      (?:[0-3]\d{2,3})|
+      (?:40[0-9][0-5])|
+      (?:\d{2,3})|
+      [1-9]
+    )
+  vlan_range: |
+    (?xi)
+    (?:
+      {{vlan_id}}
+      (?:
+        (?:
+          (?:-)|(?:,)
+        )
+        {{vlan_id}}
+      )*
+    )
+  network_address: '(?:{{ip}})\s+(?:{{ip}})'
+  interface_names: |
+    (?xi)
+    (?:
+      (?:vlan)|
+      (?:vl)|
+      (?:Management)|
+      (?:mgmt)|
+      (?:Ethernet)|
+      (?:Eth)|
+      (?:port-channel)|
+      (?:po)|
+      (?:TenGigabitEthernet)|
+      (?:Te)|
+      (?:FastEthernet)|
+      (?:Fa)|
+      (?:GigabitEthernet)|
+      (?:Gi)|
+    )
+  interface_numbers: |
+    (?xi)
+    (?:\d+(?:/\d+)*(?:\.\d+)?)
+  interface_number_ranged: |
+    (?xi)
+    (?:\d+(?:/\d+)*(?:\.\d+)?)(?:-\d+)?
+  network_target: |
+    (?xi)
+    (?:{{ip_prefix}})|
+    (?:any4)|
+    (?:any6)|
+    (?:any)
+  management_protocols: |
+    (?xi)
+    (?:
+      (?:http)|
+      (?:ssh)|
+      (?:telnet)
+    )
+  protocol_target: |
+    (?xi)
+    (?:
+     (?:ip)|
+     (?:tcp-udp)|
+     (?:tcp)|
+     (?:udp)
+    )
+  port_numbers: '(?:(?:[1-6]?\d{1,4}))'
+  icmp_types: |
+    (?xi)
+    (?:
+      (?:echo-reply)|
+      (?:unreachable)|
+      (?:source-quench)|
+      (?:redirect)|
+      (?:alternate-address)|
+      (?:echo)|
+      (?:router-advertisement)|
+      (?:router-solicitation)|
+      (?:time-exceeded)|
+      (?:parameter-problem)|
+      (?:timestamp-request)|
+      (?:timestamp-reply)|
+      (?:information-request)|
+      (?:information-reply)|
+      (?:address-mask-request)|
+      (?:address-mask-reply)|
+      (?:conversion-error)|
+      (?:mobile-redirect)|
+      (?:traceroute)
+    )
+  port_names: |
+    (?xi)
+    (?:bgp)|
+    (?:domain)|
+    (?:ftp)|
+    (?:https)|
+    (?:kerberos)|
+    (?:ldaps)|
+    (?:ldap)|
+    (?:lpd)|
+    (?:nfs)|
+    (?:ntp)|
+    (?:rsh)|
+    (?:smtp)|
+    (?:telnet)|
+    (?:talk)|
+    (?:snmptrap)|
+    (?:snmp)|
+    (?:sqlnet)|
+    (?:ssh)|
+    (?:sunrpc)|
+    (?:syslog)|
+    (?:www)
+  operators: >
+    (?:
+      (?:eq)|
+      (?:neq)|
+      (?:ge)|
+      (?:gt)|
+      (?:lt)|
+      (?:le)
+    )
+  valid_ports: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
+  port_target: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
+  drives: |
+    (?xi)
+    (?:
+      (?:(?:(?:running)|(?:startup))-config)|
+      (?:flash)|
+      (?:disk(?:[0-3])?)
+    )
+  uri: '(?:(?:t?ftp)|scp)(?://)(?<hostname>(?:\d+\.){3}\d+)(?:\/\S*)'
+  locations: '(?:{{drive}}|{{uri}})'
+  scope_object_network: '^\s*(object)\s+(network)\s+(\S+)'
+  scope_object_service: '^\s*(object)\s+(service)\s+(\S+)'
+  scope_object_group_protocol: '^\s*(object-group)\s+(protocol)\s+(\S+)'
+  scope_object_group_network: '^\s*(object-group)\s+(network)\s+(\S+)'
+  scope_vlan: '^\s*(vlan)\s+({{vlan_id}})'
+  scope_context: '^\s*(context)\s+(\S+)'
+  scope_configure_terminal: '^\s*(?:(configure)\s*(terminal))'
+  scope_interface: |
+      (?xi)
+      ^\s*(interface)\s+
+      (?:
+        (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
+        ({{interface_names}})\s*({{interface_numbers}})
+      )
+
+contexts:
+  main:
+    - include: enable
+    - include: configure_terminal_scope
+
+  prototype:
+    - include: pipe
+    - include: show
+    - include: pop_ctx_word
+    - include: scope
+    - include: device_comment
+    - include: comment
+
+  enable:
+    - include: configure_terminal
+    - include: changeto
+    - include: terminal
+    - include: write
+    - include: copy
+    - include: logout
+    - include: show_drives
+    - include: packet_tracer
+    - include: configure_terminal_scope
+
+  configure_terminal:
+    - match: '{{scope_configure_terminal}}'
+      # with_prototype:
+      #   - include: scope
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+      # push: 
+      #   - meta_content_scope: text.network.cisco.configure_terminal
+      #   - include: configure_terminal_scope
+  
+  configure_terminal_scope:
+    - include: nat
+    - include: aaa
+    - include: snmp
+    - include: vlan
+    - include: names
+    - include: pager
+    - include: banner
+    - include: logging
+    - include: timeout
+    - include: objects
+    - include: context
+    - include: username
+    - include: hostname
+    - include: ip_route
+    - include: password
+    - include: interface
+    - include: class_map
+    - include: ssl_cipher
+    - include: policy_map
+    - include: domain_name
+    - include: arp_timeout
+    - include: access_list
+    - include: tftp_server
+    - include: reverse_path
+    - include: access_group
+    - include: object_group
+    - include: interface_mtu
+    - include: user_identity
+    - include: service_policy
+    - include: fragment_chain
+    - include: ssl_encryption
+    - include: aaa_server_host
+    - include: treat_detection
+    - include: enable_password
+    - include: ssh_key_exchange
+    - include: monitor_interface
+    - include: protocol_settings
+    - include: aaa_server_protocol
+    - include: crypto_key_generate
+    - include: crypto_ipsec_security_association
+    - include: partials
+
+  scope:
+    - include: removal
+    - include: comment
+    - include: pop_ctx_word
+
+  pop_context:
+    - match: '(?=.)'
+      pop: true
+  
+  partials:
+    - match: |
+        (?xi)
+        (?:
+          ^\s*
+          (?:
+            (?:aaa)|
+            (?:aaa-server)|
+            (?:access-group)|
+            (?:access-list)|
+            (?:alert-interval)|
+            (?:allocate-interface)|
+            (?:arp)|
+            (?:banner)|
+            (?:changeto)|
+            (?:class-map)|
+            (?:config-url)|
+            (?:configure)|
+            (?:context)|
+            (?:crypto)|
+            (?:description)|
+            (?:domain-name)|
+            (?:enable)|
+            (?:end)|
+            (?:exit)|
+            (?:fqdn)|
+            (?:fragment)|
+            (?:group-object)|
+            (?:host)|
+            (?:hostname)|
+            (?:http)|
+            (?:icmp)|
+            (?:inspect)|
+            (?:interface)|
+            (?:ip)|
+            (?:ipv6)|
+            (?:key)|
+            (?:logging)|
+            (?:logout)|
+            (?:max-failed-attempts)|
+            (?:message-length)|
+            (?:monitor-interface)|
+            (?:mtu)|
+            (?:name)|
+            (?:nameif)|
+            (?:nat)|
+            (?:network-object)|
+            (?:object)|
+            (?:object-group)|
+            (?:parameters)|
+            (?:passwd)|
+            (?:password)|
+            (?:policy-map)|
+            (?:port-object)|
+            (?:protocol-object)|
+            (?:range)|
+            (?:route)|
+            (?:security-level)|
+            (?:service)|
+            (?:service-object)|
+            (?:service-policy)|
+            (?:set)|
+            (?:show)|
+            (?:shutdown)|
+            (?:snmp-server)|
+            (?:ssh)|
+            (?:ssl)|
+            (?:subnet)|
+            (?:telnet)|
+            (?:terminal)|
+            (?:timeout)|
+            (?:user-identity)|
+            (?:user-statistics)|
+            (?:username)|
+            (?:vlan)
+          )
+          \s
+          [^$]*
+        )
+      scope: text.network.cisco.partial
+  
+  pop_context_on_unknown:
+    # - match: '(?=^\s*[^{{comment}}\s].*$)'
+    - match: |
+        (?xm)
+        (?:
+          (?:(^(?:(?:\s)|(!))*$)+)
+        )
+      pop: true
+      captures:
+        1: comment.line
+
+  removal:
+    - meta_include_prototype: false
+    - match: ^\s*(no\s[^[!#]]*)
+      scope: text.network.cisco.removal
+      captures:
+        1: keyword.other
+
+  pop_ctx_word:
+    - match: ^(!)$
+      captures:
+        1: comment.line
+      pop: true
+    - match: ({{pop_ctx}})
+      pop: true
+      captures:
+        1: comment.line
+    - match: '^\s*(end)\s*$'
+      captures:
+        1: comment.block.documentation
+      pop: true
+      # push:
+      #   - clear_scopes: true
+      #     push: text.network.cisco.asa
+
+  device_comment:
+    - match: |
+        (?xi)
+        ^(
+          \s*
+          {{comment}}
+          \s+
+          (?:
+            (?:on)|
+            (?:devices?)
+          )
+          \s+
+          \S.*
+        )$
+      scope: text.network.cisco.comment
+      captures:
+        0: cisco.scope
+        1: comment.line
+
+  comment:
+    - match: ({{comment}}.*)$
+      scope: text.network.cisco.comment
+      captures:
+        1: comment.line
+
+  hostname:
+    - match: ^\s*(hostname)\s*(\S+)
+      captures:
+        1: support.constant
+        2: string.unquoted
+
+  arp_timeout:
+    - match: ^\s*(arp)\s+(timeout)\s+(\d+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+  
+  timeout:
+    - match: |
+        (?xi)
+        ^\s*
+        (timeout)\s+
+        (?:
+          (?:((?:pat-)?xlate)\s+({{time}}))|
+          (?:(conn)\s+({{time}})\s+(half-closed)\s+({{time}})\s+(udp)\s+({{time}})\s+(icmp)\s+({{time}}))|
+          (?:(sunrpc)\s+({{time}})\s+(h323)\s+({{time}})\s+(h225)\s+({{time}})\s+(mgcp)\s+({{time}})\s+(mgcp-pat)\s+({{time}}))|
+          (?:(sip)\s+({{time}})\s+(sip_media)\s+({{time}})\s+(sip-invite)\s+({{time}})\s+(sip-disconnect)\s+({{time}}))|
+          (?:(sip-provisional-media)\s+({{time}})\s+(uauth)\s+({{time}})\s+(absolute))|
+          (?:(tcp-proxy-reassembly)\s+({{time}}))|
+          (?:(floating-conn)\s+({{time}}))
+        )
+      captures:
+        1: support.constant           # timeout
+        2: support.constant           # xlate
+        3: constant.numeric           # xlate time
+        4: support.constant           # conn
+        5: constant.numeric           # conn time
+        6: support.constant           # conn half-closed
+        7: constant.numeric           # conn half-closed time
+        8: support.constant           # conn udp
+        9: constant.numeric           # conn udp time
+        10: support.constant           # conn icmp
+        11: constant.numeric           # conn icmp time
+        12: support.constant           # sunrpc 
+        13: constant.numeric           # sunrpc time
+        14: support.constant           # sunrpc h323 
+        15: constant.numeric           # sunrpc h323 time
+        16: support.constant           # sunrpc h225 
+        17: constant.numeric           # sunrpc h225 time
+        18: support.constant           # sunrpc mgcp 
+        19: constant.numeric           # sunrpc mgcp time
+        20: support.constant           # sunrpc mgcp-pat 
+        21: constant.numeric           # sunrpc mgcp-pat time
+        22: support.constant           # sip 
+        23: constant.numeric           # sip time
+        24: support.constant           # sip sip_media 
+        25: constant.numeric           # sip sip_media time
+        26: support.constant           # sip sip-invite 
+        27: constant.numeric           # sip sip-invite time
+        28: support.constant           # sip sip-disconnect 
+        29: constant.numeric           # sip sip-disconnect time
+        30: support.constant           # sip-provisional-media 
+        31: constant.numeric           # sip-provisional-media time
+        32: support.constant           # sip-provisional-media uauth 
+        33: constant.numeric           # sip-provisional-media uauth time
+        34: support.constant           # sip-provisional-media uauth absolute 
+        35: support.constant           # sip tcp-proxy-reassembly 
+        36: constant.numeric           # sip tcp-proxy-reassembly time
+        37: support.constant           # sip floating-conn 
+        38: constant.numeric           # sip floating-conn time
+  
+  ssl_encryption:
+    - match: '^\s*(ssl)\s+(encryption)\s+(\S+)\s+(\S+)'
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+        4: string.unquoted
+        5: string.unquoted
+
+  ssl_cipher:
+    - match: |
+        (?xi)
+        ^\s*
+        (ssl)\s+
+        (cipher)\s+
+        (
+          (?:default)|
+          (?:dtlsv1)|
+          (?:sslv3)|
+          (?:tlsv1)|
+          (?:tlsv1\.1)|
+          (?:tlsv1\.2)
+        )\s+
+        (?:
+          (
+            (?:all)|
+            (?:low)|
+            (?:medium)|
+            (?:fips)|
+            (?:high)
+          )|
+          (?:
+            (custom)\s+
+            (\S+)
+          )
+        )
+      captures:
+        1: support.constant     # ssl
+        2: support.constant     # ssl cipher
+        3: constant.numeric     # ssl cipher version
+        4: constant.numeric     # ssl cipher version level
+        5: support.constant     # ssl cipher version custom
+        6: string.unquoted      # ssl cipher version custom string
+
+  crypto_key_generate:
+    - match: ^\s*(crypto)\s+(key)\s+(generate)\s+(rsa)\s+(modulus)\s+([0-9]+)\s+(noconfirm)?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+        5: support.constant
+        6: constant.numeric
+        7: support.constant
+
+  terminal:
+    - match: '^\s*(terminal)\s+(width|pager)\s(\d+)'
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+
+  user_identity:
+    - match: '^\s*(user-identity)\s+(default-domain)\s(\S+)'
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+
+  crypto_ipsec_security_association:
+    - match: '^\s*(crypto)\s+(ipsec)\s+(security-association)\s+(pmtu-aging)\s+(infinite)'
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+        5: support.constant
+
+  banner:
+    - match: '^\s*(banner)\s+((?:exec)|(?:motd))\s(.*)'
+      captures:
+        1: support.constant
+        2: support.constant
+        3: comment.line
+
+  changeto:
+    - match: ^\s*(changeto)\s+(?:(system)|(context))\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: support.constant
+        2: string.unquoted
+        3: support.constant
+        4: string.unquoted
+
+  monitor_interface:
+    - match: ^\s*(monitor-interface)\s+(\S+)
+      captures:
+        1: support.constant
+        2: entity.other.inherited-class
+
+
+  nat:
+    - include: global_static_nat
+
+  global_static_nat:
+    - match: |
+        (?xi)
+        ^\s*
+        (nat)\s+\((\S+),(\S+)\)\s+
+        (?:(after-auto\s+)?(\d+\s+)?)?
+        (source)\s+
+        (
+          (?:static)|
+          (?:dynamic)
+        )
+        \s+
+        (?:
+          (any)|
+          (\S+)
+        )
+        \s+
+        (?:
+          (?:(interface)(?:\s+(ipv6))?)|
+          (any)|
+          (\S+)
+        )
+        (?:
+          \s+
+          (destination)\s+(static)\s+
+          (?:
+            (?:(interface)(?:\s+(ipv6))?)|
+            (\S+)
+          )
+          \s+
+          (?:
+            (any)|
+            (\S+)
+          )
+        )?
+        (?:
+          \s+          
+          (service)\s+
+          (?:
+            (any)|
+            (\S+)
+          )
+          \s+          
+          (\S+)
+          (?:
+            (?:
+              (\s+net-to-net)?
+              (\s+dns)?
+              (?:
+                (\s+unidirectional)|
+                (?:
+                  (\s+no-proxy-arp)
+                  (\s+route-lookup)?
+                )
+              )?
+              (?:\s+(inactive))?
+              (?:\s+(description)\s+(\S+))?
+            )
+          )?
+        )?
+      captures:
+        1: support.constant                   # nat
+        2: entity.other.attribute-name        # nat interface mapped
+        3: entity.other.attribute-name        # nat interface real
+        4: support.constant                   # after-auto
+        5: constant.numeric                   # line
+        6: support.constant                   # nat source
+        7: support.constant                   # static / dynamic
+        8: constant.numeric                   # any
+        9: string.unquoted                    # object
+        10: support.constant                  # interface
+        11: support.constant                  # interface ipv6
+        12: constant.numeric                  # any
+        13: string.unquoted                   # mapped object
+        14: support.constant                  # destination
+        15: support.constant                  # static
+        16: support.constant                  # interface
+        17: support.constant                  # interface ipv6
+        18: string.unquoted                   # object
+        19: constant.numeric                  # any
+        20: string.unquoted                   # mapped object
+        21: support.constant                  # service
+        22: constant.numeric                  # any
+        23: string.unquoted                   # real service object
+        24: string.unquoted                   # mapped service object
+        25: support.constant                  # net-to-net
+        26: support.constant                  # dns
+        27: support.constant                  # unidirectional
+        28: support.constant                  # no-proxy-arp
+        29: support.constant                  # route-lookup
+        30: invalid.deprecated.inactive       # inactive
+        31: support.constant                  # description
+        32: string.unquoted                   # description string
+
+  objects:
+    - include: object_network
+    - include: object_service
+  
+  description:
+    - match: '^\s*(description.*)'
+      captures:
+        1: comment.line
+
+  object_group:
+    - include: object_group_incomplete
+    - include: object_group_network
+    - include: object_group_service
+    - include: object_group_protocol
+    - include: object_group_icmp
+
+  object_group_group_object:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(group-object)\s+(\S+))|
+          (?:(network-object\s+object)\s+(\S+))
+        )
+      captures:
+        1: support.constant     # group-object
+        2: string.unquoted      # group-object name
+        3: support.constant     # network-object object
+        4: string.unquoted      # network-object object name
+    
+  object_network:
+    - match: '{{scope_object_network}}'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.asa.object.network
+        - include: description
+        - match: |
+            (?xi)
+            ^\s*
+            (?:
+             (?:(host)\s+({{ip}}))|
+             (?:(fqdn)\s+(\S+))|
+             (?:(subnet)\s+({{ip}})\s+({{subnet_mask}}))|
+             (?:(range)\s+({{ip}}\s+{{ip}}))|
+             (?:(nat)\s+\((\S+),(\S+)\)\s+(static)\s+({{ip}}))
+            )
+          captures:
+            1: support.constant             # host
+            2: constant.numeric             # ip
+            3: support.constant             # fqdn
+            4: string.unquoted              # fqdn name
+            5: support.constant             # subnet
+            6: constant.numeric             # subnet network
+            7: constant.numeric             # subnet subnet mask  
+            8: support.constant             # range
+            9: constant.numeric             # range ips
+            10: support.constant            # nat
+            11: entity.other.attribute-name # nat real
+            12: entity.other.attribute-name # nat mapped
+            13: support.constant            # nat static
+            14: constant.numeric            # nat ip
+        - include: pop_on_configure_terminal_context
+
+  object_group_protocol:
+    - match: '{{scope_object_group_protocol}}'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.asa.object_group.protocol
+        - include: description
+        - include: object_group_group_object
+        - match: |
+            (?xi)
+            ^\s*
+            (?:
+              (protocol-object)\s+
+              (?:
+                ({{protocol_target}})
+              )
+            )
+          captures:
+            1: support.constant             # protocol-object
+            2: constant.numeric             # protocol
+        # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
+
+  object_service:
+    - match: '{{scope_object_service}}'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.asa.object.service
+        - include: description
+        - match: |
+            (?xi)
+            ^\s*
+            (?:
+             (?:(service)\s+(tcp|udp)\s+(source|destination))\s+(?:
+                (?:({{operators}})\s+({{port_target}}))|
+                (?:(range)\s+({{port_target}}\s+{{port_target}}))
+              )
+            )
+          captures:
+            1: support.constant             # service
+            2: constant.numeric             # service protocol
+            3: support.constant             # service source / destination
+            4: support.constant             # operator
+            5: constant.numeric             # operator port
+            6: support.constant             # operator
+            7: constant.numeric             # operator port
+            8: constant.numeric             # operator port
+        # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
+
+  object_group_incomplete:
+    - match: '^\s*object-group\s+\S+$'
+      scope: text.network.cisco.asa.object_group.incomplete
+
+  object_group_network:
+    - match: '{{scope_object_group_network}}'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.asa.object_group.network
+        - include: description
+        - include: object_group_group_object
+        - match: |
+            (?xi)
+            ^\s*
+            (?:
+              (network-object)\s+
+              (?:
+                (?:(host)\s+({{ip}}))|
+                (?:({{ip}})\s+({{subnet_mask}}))|
+              )
+            )
+          captures:
+            1: support.constant             # network-object
+            2: support.constant             # host
+            3: constant.numeric             # ip
+            4: constant.numeric             # network
+            5: constant.numeric             # subnet mask
+        # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
+
+  pop_on_configure_terminal_context:
+    - match: '(?={{configure_terminal_ctx_words}})'
+      pop: true
+    
+  aaa_server_protocol:
+    - match: |
+        (?xi)
+        ^\s*
+        (aaa-server)\s+(\S+)\s+(protocol)\s+({{aaa_protocols}})
+      captures:
+        0: cisco.scope
+        1: support.constant
+        2: string.unquoted
+        3: support.constant
+        4: constant.numeric             
+      push:
+        - meta_content_scope: text.network.cisco.asa.aaa_server.protocol
+        - match: |
+            (?xi)
+            ^\s*
+            (max-failed-attempts)\s+(\d+)
+          captures:
+            1: support.constant
+            2: constant.numeric    
+        - include: pop_on_configure_terminal_context         
+
+  aaa_server_host:
+    - match: |
+        (?xi)
+        ^\s*
+        (aaa-server)\s+(\S+)\s+\((\S+)\)\s+(host)\s+({{ip}})
+      captures:
+        0: cisco.scope
+        1: support.constant
+        2: string.unquoted
+        3: entity.other.attribute-name
+        4: support.constant
+        5: constant.numeric             
+      push:
+        - meta_content_scope: text.network.cisco.asa.aaa_server.host
+        - match: |
+            (?xi)
+            ^\s*
+            (?:(key)\s+(\S+))|
+            (?:((?:(?:authentication)|(?:accounting))-port)\s+(\S+))
+          captures:
+            1: support.constant     # key
+            2: string.unquoted      # key string
+            3: support.constant     # authentication / accounting
+            4: constant.numeric     # port number
+        - include: pop_on_configure_terminal_context
+
+
+  class_map:
+    - match: |
+        (?xi)
+        ^\s*
+        (class-map)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: support.constant
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.asa.policy_map.global
+        - match: |
+            (?xi)
+            ^\s*
+            (?:(match)\s+(default-inspection-traffic))
+          captures:
+            1: support.constant
+            2: support.constant
+        - include: pop_on_configure_terminal_context
+    
+
+  policy_map:
+    - include: policy_map_inspect_dns
+    - include: policy_map_global
+
+  service_policy:
+    - match: |
+        (?xi)
+        ^\s*
+        (service-policy)\s+(\S+)\s+(global)
+      captures:
+        0: cisco.scope
+        1: support.constant
+        2: string.unquoted
+        3: support.constant
+
+  policy_map_global:
+    - match: |
+        (?xi)
+        ^\s*
+        (policy-map)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: support.constant
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.asa.policy_map.global
+        - include: policy_map_class
+        - include: pop_on_configure_terminal_context
+
+  policy_map_inspect_dns:
+    - match: |
+        (?xi)
+        ^\s*
+        (policy-map)\s+(type)\s+(inspect)\s+(dns)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: support.constant      # policy-map
+        2: support.constant      # policy-map type
+        3: support.constant      # policy-map type inspect
+        4: support.constant      # policy-map type inspect dns
+        5: string.unquoted       # name
+      push:
+        - meta_content_scope: text.network.cisco.asa.policy_map.inspect.dns
+        - include: policy_map_inspect_dns_parameters
+        # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
+
+  policy_map_inspect_dns_parameters:
+    - match: |
+        (?xi)
+        ^\s*
+        (parameters)
+      captures:
+        1: support.constant     # parameters
+      push:
+        - meta_content_scope: text.network.cisco.asa.policy_map.inspect.dns.parameters
+        - include: dns_inspection_message_length
+        # - include: pop_context_on_unknown
+
+  dns_inspection_message_length:
+    - match: |
+        (?xi)
+        ^\s*
+        (message-length)\s+
+        (?:
+          (maximum)\s+
+          (?:
+            (?:(client)\s+(auto))|
+            (\d+)
+          )
+        )
+      captures:
+        1: support.constant     # message-length
+        2: support.constant     # maximum
+        3: support.constant     # maximum client
+        4: support.constant     # maximum client auto
+        5: constant.numeric     # maximum number
+
+
+  policy_map_class:
+    - match: |
+        (?xi)
+        ^\s*
+        (class)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: support.constant
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.asa.policy_map.global.class
+        - include: policy_map_class_inspect
+        - include: policy_map_class_user_statistics
+        - include: policy_map_class_set
+        # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
+
+  policy_map_class_inspect:
+    - match: |
+        (?xi)
+        ^\s*
+        (inspect)\s+
+        (?:
+          (?:(dns)\s+(\S+))|
+          ({{inspect_protocol}})
+        )
+      captures:
+        1: support.constant     # inspect
+        2: constant.numeric     # dns map
+        3: string.unquoted      # dns map name
+        4: constant.numeric     # inspect protocol
+    # - include: pop_context_on_unknown
+
+  policy_map_class_user_statistics:
+    - match: |
+        (?xi)
+        ^\s*
+        (set)\s+
+        (?:
+          (?:
+            (connection)\s+
+            (?:
+              (?:(embryonic-conn-max)\s+(\d+))
+            )
+          )
+        )
+      captures:
+        0: cisco.scope
+        1: support.constant     # set
+        2: support.constant     # connection
+        3: support.constant     # embryonic-conn-max
+        4: constant.numeric     # embryonic-conn-max number
+    # - include: pop_context_on_unknown
+
+  policy_map_class_set:
+    - match: |
+        (?xi)
+        ^\s*
+        (user-statistics)\s+
+        (?:
+          (?:(accounting))
+        )
+      captures:
+        1: support.constant     # user-statistics
+        2: constant.numeric     # accounting
+    # - include: pop_context_on_unknown
+
+  aaa:
+    - match: |
+        (?xi) 
+        (?:
+          (aaa)\s+
+          (?:
+            (?:(authentication)\s+
+              (?:
+                (?:
+                  ({{management_protocols}}|(?:serial)|enable)\s+
+                  (console)
+                  ((?:\s+TACACS\+)?(?:\s+LOCAL)?)
+                )
+              )
+            )|
+            (?:(authorization)\s+
+              (?:
+                (exec\s+authentication-server\s+auto-enable)
+              )
+            )|
+            (?:(accounting)\s+
+              (?:
+                ((?:(?:{{management_protocols}}|(?:enable))\s+console)|(?:command))
+                ((?:\s+TACACS\+)?(?:\s+LOCAL)?)
+              )
+            )
+          )
+        )
+      captures:
+        1: support.constant             # aaa
+        2: support.constant             # authentication
+        3: support.constant             # management protocol
+        4: support.constant             # console
+        5: string.unquoted              # tacacs or local
+        6: support.constant             # authorization
+        7: support.constant             # exec authentication-server auto-enable
+        8: support.constant             # accounting
+        9: support.constant             # accounting management protocol tacas or local
+        10: string.unquoted             # accounting management protocol tacas or local
+
+  object_group_service:
+    - match: '^\s*(object-group)\s+(service)\s+(\S+)(\s+(?:tcp-udp)|(?:tcp)|(?:udp))?'
+      captures:
+        0: cisco.scope            
+        1: variable.parameter     # object-group
+        2: support.constant       # service
+        3: string.unquoted        # name
+        4: constant.numeric       # protocol
+      push:
+        - meta_content_scope: text.network.cisco.asa.object_group.service
+        - include: description  
+        - include: object_group_group_object
+        - match: >
+            (?xi)
+            ^\s*
+            (port-object)\s+
+            (?:
+              (?:({{operators}})\s+({{port_target}}))|
+              (?:(range)\s+({{port_target}}\s+{{port_target}}))
+            )
+          captures:
+            1: support.constant             # port-object
+            2: support.constant             # operator
+            3: constant.numeric             # target
+            4: support.constant             # range
+            5: constant.numeric             # target range
+        - match: |
+            (?xi) 
+            (?:
+              ^\s*
+              (service-object)\s+
+              (?:
+                (?:
+                  (icmp)
+                )|
+                (?:
+                  ({{protocol_target}})
+                  \s+
+                  (source|destination)\s+
+                  (?:
+                    (?:({{operators}})\s+({{port_target}}))|
+                    (?:(range)\s+({{port_target}}\s+{{port_target}}))
+                  )
+                )
+              )
+            )
+          captures:
+            1: support.constant             # service-object
+            2: constant.numeric             # icmp
+            3: constant.numeric             # protocol
+            4: support.constant             # target
+            5: support.constant             # operator
+            6: constant.numeric             # target
+            7: support.constant             # range
+            8: constant.numeric             # target range
+        # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
+
+  object_group_icmp:
+    - match: '\s*(object-group)\s+(icmp-type)\s+(\S+)'
+      captures:
+        0: cisco.scope            
+        1: variable.parameter     # object-group
+        2: support.constant       # icmp-type
+        3: string.unquoted        # name
+      push:
+        - meta_content_scope: text.network.cisco.asa.object_group.icmp_type
+        - include: description  
+        - include: object_group_group_object
+        - match: >
+            (?xi)
+            ^\s*
+            (icmp-object)\s+
+            (
+              {{icmp_types}}
+            )
+          captures:
+            1: support.constant             # port-object
+            2: support.constant             # operator
+            3: constant.numeric             # icmp_type
+        # - include: pop_context_on_unknown
+        - include: pop_on_configure_terminal_context
+
+  access_list:
+    - include: access_list_cached_log_flows
+    - include: access_list_remark
+    - include: access_list_ip
+    - include: access_list_icmp
+    - include: incomplete_access_list
+    - include: building_access_list
+
+  # Used to avoid object(-group)? (network|service|protocol) completions from triggering
+  incomplete_access_list:
+    - match: |
+        (?xi)
+        (access-list)\s+.*
+      scope: text.network.cisco.asa.access_list.incomplete
+
+  packet_tracer:
+    - match: |
+        (?xi)
+        (packet-tracer\s+input)\s+
+        (\S+)\s+
+        (
+          (?:tcp)|
+          (?:udp)
+        )\s+
+        ({{ip}})\s+
+        ({{port_target}})\s+
+        ({{ip}})\s+
+        ({{port_target}})\s+
+      captures:
+        1: support.constant                       # packet-tracer input
+        2: string.unquoted                        # interface name
+        3: support.constant                       # protocol
+        4: constant.numeric                       # source ip
+        5: constant.numeric                       # source port
+        6: constant.numeric                       # destination ip
+        7: constant.numeric                       # destination port
+
+  building_access_list:
+    - match: |
+        (?xi)
+        (access-list)\s+
+        ([^;\s]+)\s+(?:(line)\s+(\d+)\s+)?(extended)\s+(?:(permit)|(deny))\s+.*
+      captures:
+        0: asa.acl_entry
+        1: support.constant                       # access-list
+        2: string.unquoted                        # access-list name
+        3: support.constant                       # line
+        4: constant.numeric                       # line number
+        5: support.constant                       # extended
+        6: entity.other.attribute-name            # permit
+        7: keyword.other                          # deny
+
+  access_list_remark:
+    - match: >
+        (?xi)
+        \s*(access-list)\s+
+        ([^;\s]+)\s+(?:(line)\s+(\d+)\s+)?(remark)(\s+.*)?
+      captures:
+        1: support.constant                       # access-list
+        2: string.unquoted                        # access-list name
+        3: support.constant                       # line
+        4: constant.numeric                       # line number
+        5: support.constant                       # remark
+        6: comment.unquoted                       # remark string
+
+  access_list_cached_log_flows:
+    - match: >
+        (?xi)
+        \s*access-list\s+cached\s+(\S+)\s+log\s+flows:\s+
+        total\s+\d+,\s+denied\s+\d+\s+
+        \(deny-flow-max\s+\d+\)
+      captures:
+        0: comment.unquoted
+      push:
+        - match: '\s+alert-interval\s+\d+'
+          captures:
+            0: comment.unquoted
+          pop: true
+
+  access_list_ip:
+    - match: |
+        (?xi)
+        \s*
+        (access-list)\s+
+        (?:
+          (?:
+            ([^;\s]+)(?:  # acl name
+              (?:(;)\s+(\d+)\s+(elements;\s+name\s+hash:)\s+(0x\h{8}))|
+              (?:\s+(line)\s+(\d+))?\s+
+              (?:     # start ace: ip, tcp, udp
+                (?:(extended)\s+(?:(permit)|(deny)))\s+
+                (?:     # start ip, tcp, udp
+                  (?:   # start protocol
+                    (?:(object-group)\s+(\S+))|
+                    (?:(object)\s+(\S+))|
+                    ((?:{{protocol_target}})|\d+)
+                  )     # end protocol
+                  (?:   # l3 network source
+                    (?:\s+(host)\s+({{ip}}))|
+                    (?:\s+({{ip}})\s+({{subnet_mask}}))|
+                    (?:\s+(object-group)\s+(\S+))|
+                    (?:\s+(object)\s+(\S+))|
+                    (?:\s+(any(?:4|6)?))
+                  )     # end l3 network source
+                  (?:   # start l4 port source
+                    (?:\s+({{operators}})\s+({{port_target}}))|
+                    (?:\s+(range)\s+({{port_target}})\s+({{port_target}}))|
+                    (?:\s+(object-group)\s+(\S+))|
+                    (?:\s+(object)\s+(\S+))
+                  )?    # end l4 port source
+                  (?:   # start l3 network destination
+                    (?:\s+(host)\s+({{ip}}))|
+                    (?:\s+({{ip}})\s+({{subnet_mask}}))|
+                    (?:\s+(object-group)\s+(\S+))|
+                    (?:\s+(object)\s+(\S+))|
+                    (?:\s+(any(?:4|6)?))
+                  )     # end l3 network destination
+                  (?:   # start l4 port destination
+                    (?:\s+({{operators}})\s+({{port_target}}))|
+                    (?:\s+(range)\s+({{port_target}})\s+({{port_target}}))|
+                    (?:\s+(object-group)\s+(\S+))|
+                    (?:\s+(object)\s+(\S+))
+                  )?    # end l4 port destination 
+                )       # end ip, tcp, udp
+                (?:
+                  (?:
+                    \s+(log)
+                    (?:
+                      \s+
+                      (?:
+                        (
+                          {{log_levels}}
+                        )|
+                        ([0-7])
+                      )
+                    )?
+                  )?
+                  (?:\s+(interval)\s+(\d+))?
+                  (?:\s+(disable))?
+                  (?:\s+(default))?
+                  (?:\s+(inactive)(?:\s+(\(inactive\)))?)?
+                  (?:\s+(0x\h{8}))?
+                  (\s+\(hitcnt=\d+\))?
+                )?
+              ) # end ace: ip, tcp, udp
+            )
+          )
+        )
+      scope: text.network.cisco.acl.extended.ace
+      captures:
+        1: support.constant                       # access-list
+        2: string.unquoted                        # access-list name
+        3: support.constant                       # ;
+        4: constant.numeric                       # element number
+        5: support.constant                       # element
+        6: comment.unquoted                       # name hash
+        7: support.constant                       # line
+        8: constant.numeric                       # line number
+        9: support.constant                       # line
+        10: entity.other.attribute-name           # permit
+        11: keyword.other                         # deny
+        12: support.constant.protocol.object      # protocol object-group
+        13: string.unquoted.protocol.object.name  # protocol object-group name
+        14: support.constant.protocol.object      # protocol object
+        15: string.unquoted.protocol.object.name  # protocol object name
+        16: constant.numeric.protocol             # protocol        
+        17: support.constant.net.src.host         # network host
+        18: constant.numeric.net.src.host.ip      # network host ip
+        19: constant.numeric.net.src              # network ip
+        20: constant.numeric.net.src              # network subnet
+        21: support.constant.net.src              # object-group
+        22: string.unquoted.net.src               # object-group name
+        23: support.constant.net.src              # object
+        24: string.unquoted.net.src               # object name
+        25: constant.numeric.net.src              # network any
+        26: support.constant.port.src             # operator
+        27: constant.numeric.port.src             # port target
+        28: support.constant.port.src             # port range
+        29: constant.numeric.port.src             # port range low
+        30: constant.numeric.port.src             # port range high
+        31: support.constant.port.src             # object-group
+        32: string.unquoted.port.src              # object-group name
+        33: support.constant.port.src             # object
+        34: string.unquoted.port.src              # object name
+        35: support.constant.host                 # network host
+        36: constant.numeric.host.ip              # network host ip
+        37: constant.numeric.net.dst              # network ip
+        38: constant.numeric.net.dst              # network subnet
+        39: support.constant.net.dst              # object-group
+        40: string.unquoted.net.dst               # object-group name
+        41: support.constant.net.dst              # object
+        42: string.unquoted.net.dst               # object name
+        43: constant.numeric.net.dst              # network any
+        44: support.constant.port.dst             # operator
+        45: constant.numeric.port.dst             # port target
+        46: support.constant.port.dst             # port range
+        47: constant.numeric.port.dst             # port range low
+        48: constant.numeric.port.dst             # port range high
+        49: support.constant.port.dst             # object-group
+        50: string.unquoted.port.dst              # object-group name
+        51: support.constant.port.dst             # object
+        52: string.unquoted.port.dst              # object name
+        53: support.constant                      # log
+        54: string.unquoted                       # log level
+        55: constant.numeric                      # log level numeric
+        56: support.constant                      # log interval
+        57: constant.numeric                      # log interval value
+        58: support.constant                      # disable
+        59: support.constant                      # default
+        60: invalid.deprecated                    # inactive
+        61: comment.unquoted                      # inactive
+        62: comment.unquoted                      # ace hash
+        63: comment.unquoted                      # hitcount
+
+  access_list_icmp:
+    - match: |
+        (?xi)
+        \s*
+        (access-list)\s+
+        (?:
+          (?:
+            ([^;\s]+)
+            \s+
+            (?:
+              (?:     # start ace: icmp
+                (?:(line)\s+(\d+)\s+)?
+                (?:(extended)\s+(?:(permit)|(deny)))
+                \s+
+                (?:     # start ip, tcp, udp
+                  (?:   # start protocol
+                    (?:(object-group)\s+(\S+))|
+                    (?:(object)\s+(\S+))|
+                    (icmp)
+                  )     # end protocol
+                  \s+
+                  (?:   # l3 network source
+                    (?:(host)\s+({{ip}}))|
+                    (?:({{ip}})\s+({{subnet_mask}}))|
+                    (?:(object-group)\s+(\S+))|
+                    (?:(object)\s+(\S+))|
+                    (?:(any(?:4|6)?))
+                  )     # end l3 network source
+                  (?:   # start icmp types source
+                    \s+
+                    (?:
+                      (?:({{icmp_types}}))|
+                      (?:(object-group)\s+(\S+))|
+                      (?:(object)\s+(\S+))
+                    )
+                  )?    # end icmp types source
+                  \s+
+                  (?:   # start l3 network destination
+                    (?:(host)\s+({{ip}}))|
+                    (?:({{ip}})\s+({{subnet_mask}}))|
+                    (?:(object-group)\s+(\S+))|
+                    (?:(object)\s+(\S+))|
+                    (?:(any(?:4|6)?))
+                  )     # end l3 network destination
+                  (?:   # start icmp types destination
+                    \s+
+                    (?:
+                      (?:({{icmp_types}}))|
+                      (?:(object-group)\s+(\S+))|
+                      (?:(object)\s+(\S+))
+                    )
+                  )?    # end icmp types destination
+                )       # end ip
+                (?:
+                  (?:
+                    \s+(log)
+                    (?:
+                      \s+
+                      (?:
+                        (
+                          (?:informational)|
+                          (?:debugging)|
+                          (?:notifications)
+                        )|
+                        ([0-7])
+                      )
+                    )?
+                  )?
+                  (?:\s+(interval)\s+(\d+))?
+                  (?:\s+(disable))?
+                  (?:\s+(default))?
+                  (?:
+                    \s+(inactive)
+                    (?:
+                      \s+(\(inactive\))
+                    )?
+                  )?
+                  (?:\s+(0x\h{8}))?
+                  (\s+\(hitcnt=\d+\))?
+                )?
+              ) # end ace: ip, tcp, udp
+            )
+          )
+        )
+      scope: text.network.cisco.acl.extended.ace
+      captures:
+        1: support.constant                       # access-list
+        2: string.unquoted                        # access-list name
+        3: support.constant                       # line
+        4: constant.numeric                       # line number
+        5: support.constant                       # line
+        6: entity.other.attribute-name            # permit
+        7: keyword.other                          # deny
+        8: support.constant.protocol.object       # protocol object-group
+        9: string.unquoted.protocol.object.name   # protocol object-group name
+        10: support.constant.protocol             # protocol object
+        11: string.unquoted.protocol              # protocol object name
+        12: constant.numeric.protocol             # protocol icmp
+        13: support.constant.host                 # network host
+        14: constant.numeric.host.ip              # network host ip
+        15: constant.numeric                      # network ip
+        16: constant.numeric                      # network subnet
+        17: support.constant                      # object-group
+        18: string.unquoted                       # object-group name
+        19: support.constant                      # object
+        20: string.unquoted                       # object name
+        21: constant.numeric                      # network any
+        22: support.constant                      # icmp type source
+        23: support.constant                      # object-group
+        24: string.unquoted                       # object-group name
+        25: support.constant                      # object
+        26: string.unquoted                       # object name
+        27: support.constant.host                 # network host
+        28: constant.numeric.host.ip              # network host ip
+        29: constant.numeric                      # network ip
+        30: constant.numeric                      # network subnet
+        31: support.constant                      # object-group
+        32: string.unquoted                       # object-group name
+        33: support.constant                      # object
+        34: string.unquoted                       # object name
+        35: constant.numeric                      # network any
+        36: support.constant                      # icmp type destination
+        37: support.constant                      # object-group
+        38: string.unquoted                       # object-group name
+        39: support.constant                      # object-group
+        40: string.unquoted                       # object-group name
+        41: support.constant                      # log
+        42: string.unquoted                       # log level
+        43: constant.numeric                      # log level numeric
+        44: support.constant                      # log interval
+        45: constant.numeric                      # log interval value
+        46: support.constant                      # disable
+        47: support.constant                      # default
+        48: invalid.deprecated.inactive           # inactive
+        49: comment.unquoted.inactive             # inactive
+        50: comment.unquoted                      # ace hash
+        51: comment.unquoted                      # hitcount
+
+  icmp_protocol_settings:
+    - include: icmp_ipv4_protocol_settings
+    - include: icmp_ipv6_protocol_settings
+    - include: icmp_rate_limit
+
+  icmp_rate_limit:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (icmp)\s+
+          (unreachable)\s+
+          (rate-limit)\s+
+          (\d+)\s+
+          (burst-size)\s+
+          (\d+)
+        )
+      captures:
+        1: support.constant             # icmp unreachable rate-limit number burst-size number
+        2: support.constant             # icmp unreachable rate-limit number burst-size number
+        3: support.constant             # icmp unreachable rate-limit number burst-size number
+        4: constant.numeric             # icmp unreachable rate-limit number burst-size number
+        5: support.constant             # icmp unreachable rate-limit number burst-size number
+        6: constant.numeric             # icmp unreachable rate-limit number burst-size number
+
+  icmp_ipv4_protocol_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (icmp)\s+
+          (?:(permit)|(deny))\s+
+          ({{network_target}})\s+
+          (\S+)
+        )
+      captures:
+        1: support.constant             # http server enable
+        2: entity.other.attribute-name  # management protocol
+        3: keyword.other                # management network
+        4: constant.numeric             # management subnet mask
+        5: entity.other.attribute-name  # management nameif
+
+  icmp_ipv6_protocol_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (ipv6\s+icmp)\s+
+          (?:(permit)|(deny))\s+
+          ({{ipv6_prefix}})\s+
+          (\S+)
+        )
+      captures:
+        1: support.constant             # http server enable
+        2: entity.other.attribute-name  # management protocol
+        3: keyword.other                # management network
+        4: constant.numeric             # management subnet mask
+        5: entity.other.attribute-name  # management nameif
+
+  treat_detection:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (threat-detection)\s+
+          (?:(statistics)\s+(tcp-intercept))
+        )
+      captures:
+        1: support.constant             # threat-detection
+        2: support.constant             # statistics
+        3: support.constant             # statistics tcp-intercept
+
+  protocol_settings:
+    - include: icmp_protocol_settings
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (http\s+server\s+enable)|
+          (?:({{management_protocols}})\s+({{ip}})\s+({{subnet_mask}})\s+(\S+))|
+          (?:({{management_protocols}}\s+timeout)\s+(\d+))|
+          (?:(ssh\s+key-exchange\s+group)\s+(\S+))|
+          (?:(ssh\s+version)\s+(\d+))|
+          (?:(ssh\s+stricthostkeycheck))
+        )
+      captures:
+        1: support.constant             # http server enable
+        2: support.constant             # management protocol
+        3: constant.numeric             # management network
+        4: constant.numeric             # management subnet mask
+        5: entity.other.attribute-name  # management nameif
+        6: support.constant             # management protocol timeout
+        7: constant.numeric             # management protocol timeout value
+        8: support.constant             # ssh dh group
+        9: string.unquoted              # ssh dh group name
+        10: support.constant            # ssh version
+        11: constant.numeric            # ssh version value
+        12: support.constant            # ssh stricthostkeycheck
+
+  logging:
+    - match: |
+        (?xi)
+        ^\s*
+        (logging)\s+
+        (?:
+          (enable)|
+          (timestamp)|
+          (?:(buffer-size)\s+(\d+))|
+          (?:(buffered|trap|asdm)\s+(\S+))|
+          (?:(device-id\s+string)\s+(\S+))|
+          (?:(host)\s+(\S+)\s+({{ip}}))|
+          (?:(message)\s+(\d+)\s+(level)\s+({{log_levels}}))
+        )
+      captures:
+        1: support.constant             # logging
+        2: support.constant             # enable
+        3: support.constant             # timestamp
+        4: support.constant             # buffer-size
+        5: constant.numeric             # buffer-size value
+        6: support.constant             # log protocol
+        7: string.unquoted              # buffered value
+        8: support.constant             # logging device-id string
+        9: string.unquoted              # logging device-id string value
+        10: support.constant            # host 
+        11: entity.other.attribute-name # host nameif
+        12: constant.numeric            # host nameif target ip
+        13: support.constant            # message
+        14: constant.numeric            # message id
+        15: support.constant            # message level
+        16: string.unquoted             # message level name
+
+  ssh_key_exchange:
+      - match: '^\s*(ssh)\s+(key-exchange)\s+(group)\s+(\S+)'
+        captures:
+          1: support.constant
+          2: support.constant
+          3: support.constant
+          4: string.unquoted
+
+  domain_name:
+      - match: '^\s*(domain-name)\s+(\S+)'
+        captures:
+          1: support.constant
+          2: constant.numeric
+
+  enable_password:
+      - match: '^\s*(enable)\s+(password)\s+(\S+)\s+(encrypted)'
+        captures:
+          1: support.constant
+          2: support.constant
+          3: string.unquoted
+          4: support.constant
+
+  password:
+    - match: >
+        (?xi)
+        ^\s*
+        (?:(password\s+encryption)\s+(aes))|
+        (?:(passwd)\s+(\S+)(\s+encrypted)?)
+      captures:
+        1: support.constant                 # password encryption
+        2: entity.other.attribute-name      # password encryption type
+        3: support.constant                 # passwd
+        4: string.unquoted                 # passwd value
+        5: support.constant                 # passwd encrypted
+
+  username:
+    - match: '^\s*(username)\s+(\S+)\s+(password)\s+(\S+)\s+(encrypted\s+privilege)\s+(\d+)'
+      captures:
+        1: support.constant
+        2: string.unquoted
+        3: support.constant
+        4: string.unquoted
+        5: support.constant
+        6: constant.numeric
+
+  snmp:
+    - match: |
+        (?xi)
+        ^\s*
+        (snmp-server)\s+
+        (?:
+          (?:(location)\s+(.*))|
+          (?:(contact)\s+(.*))|
+          (?:
+            (host)\s+(\S+)\s+({{ip}})\s+
+            (?:
+              (?:(?:((?:poll)|(?:trap))\s+)?(community)\s+
+                (?:
+                  (?:(\d+)\s+(\S+)(?:\s+(version)\s+(1|2c))?(?:\s+(udp-port)\s+(\d+))?)|
+                  (\S+)
+                )
+              )
+            )
+          )
+        )
+      captures:
+        1: support.constant             # snmp-server
+        2: support.constant             # location
+        3: string.unquoted              # location value
+        4: support.constant             # contact
+        5: string.unquoted              # contact value
+        6: support.constant             # host 
+        7: entity.other.attribute-name              # host nameif
+        8: constant.numeric             # host nameif target ip
+        9: support.constant             # community
+        10: support.constant             # poll or trap
+        11: constant.numeric            # community number
+        12: string.unquoted             # community value
+        13: support.constant             # community version
+        14: constant.numeric             # community version value
+        15: support.constant             # community udp-port
+        16: constant.numeric             # community udp-port value
+        17: string.unquoted             # community value
+
+  ip_route: 
+    - include: ipv4_route
+    - include: ipv6_route
+
+  ipv4_route:
+    - match: |
+        (?xi) 
+        ^\s*
+        (route)\s+
+        (\S+)\s+
+        ({{ip_prefix}})\s+
+        ({{ip}})
+        (\s+\d+)?
+      captures:
+        1: support.constant              # route
+        2: entity.other.attribute-name   # nameif
+        3: constant.numeric              # network + subnet
+        4: constant.numeric              # next hop ip
+        5: constant.numeric              # metric
+
+  ipv6_route:
+    - match: |
+        (?xi) 
+        ^\s*
+        (ipv6)\s+
+        (route)\s+
+        (\S+)\s+
+        ({{ipv6_prefix}})\s+
+        ({{ipv6}})
+        (\s+\d+)?
+      captures:
+        1: support.constant              # ipv6
+        2: support.constant              # route
+        3: entity.other.attribute-name   # nameif
+        4: constant.numeric              # network + subnet
+        5: constant.numeric              # next hop ip
+        6: constant.numeric              # metric
+
+  vlan:
+    - match: '{{scope_vlan}}'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.numeric
+      push:
+      - meta_content_scope: text.network.cisco.vlan
+      - match: ^\s*(name)\s+(\S+)
+        captures:
+          1: support.constant
+          2: string.unquoted
+      # - include: pop_context_on_unknown
+
+  context:
+    - match: '{{scope_context}}'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.asa.context
+      - include: description
+      - match: ^\s*(config-url)\s+(disk)(\d+)(:/)(\S+)
+        captures:
+          1: support.constant
+          2: support.constant
+          3: constant.numeric
+          4: support.constant
+          5: string.unquoted
+      - match: >
+          (?xi)
+          ^\s*
+          (allocate-interface)\s+
+          (?:
+            ({{interface_names}})\s*
+            ({{interface_numbers}})
+            (?:
+              (-)
+              ({{interface_names}})\s*
+              ({{interface_numbers}})
+            )?
+          )
+        captures:
+          1: support.constant
+          2: entity.other.attribute-name
+          3: constant.numeric
+          4: support.constant
+          5: entity.other.attribute-name
+          6: constant.numeric
+      # - include: pop_context_on_unknown
+
+  fragment_chain:
+    - match: '^\s*(fragment\s+chain)\s+(\d+)\s+(\S+)'
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: string.unquoted
+
+  pager:
+    - match: |
+        (?xi)
+        ^\s*
+        (pager)\s+
+        (lines)\s+
+        (\d+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+
+  names:
+    - match: |
+        (?xi)
+        ^\s*
+        (names)
+      captures:
+        1: support.constant
+
+  tftp_server:
+    - match: '^\s*(tftp-server)\s+(\S+)\s+({{ip}})\s+(\S+)'
+      captures:
+        1: support.constant
+        2: string.unquoted
+        3: constant.numeric
+        4: string.unquoted
+
+  access_group:
+    - match: '^\s*(access-group)\s+(\S+)\s+((?:in|out)\s+interface)\s+(\S+)'
+      captures:
+        1: support.constant
+        2: string.unquoted
+        3: support.constant
+        4: string.unquoted
+
+  interface_mtu:
+    - match: '^\s*(mtu)\s+(\S+)\s+(\d+)'
+      captures:
+        1: support.constant
+        2: string.unquoted
+        3: constant.numeric
+
+  reverse_path:
+    - match: '^\s*(ip\s+verify\s+reverse-path\s+interface)\s+(\S+)'
+      captures:
+        1: support.constant
+        2: string.unquoted
+
+  interface:
+    - match: '{{scope_interface}}'
+      captures:
+        0: cisco.scope
+        1: variable.parameter             # interface
+        2: support.constant               # range
+        3: entity.other.attribute-name    # interface name
+        4: constant.numeric               # interface number
+        5: entity.other.attribute-name    # interface name
+        6: constant.numeric               # interface number
+      push:
+      - meta_content_scope: text.network.cisco.interface
+      - include: description
+      - match: |
+          (?xi)
+          ^\s*
+          (?:
+            (?:
+              (ipv6)\s+
+              (?:
+                (address)\s+
+                ({{ipv6_prefix}})
+                (?:
+                  \s+
+                  (standby)\s+
+                  ({{ipv6}})
+                )?
+              )
+            )|
+            (?:(ipv6)\s+(nd)\s+(suppress-ra))|
+            (?:(ip\s+address)\s+({{ip}}\s+{{subnet_mask}})(?:(\s+standby)\s+({{ip}}))?)|
+            (shutdown)|
+            (?:(nameif)\s+(\S+))|
+            (?:(security-level)\s+(\S+))|
+            (?:(management-only))
+          )
+        captures:
+          1: support.constant                           # ipv6
+          2: support.constant                           # ipv6 address
+          3: constant.numeric                           # ipv6
+          4: support.constant                           # ipv6
+          5: constant.numeric                           # ipv6
+          6: support.constant                           # ipv6 (for nd)
+          7: support.constant                           # ipv6 nd
+          8: support.constant                           # ipv6 nd supress-ra
+          9: support.constant                           # ip address
+          10: constant.numeric                           # ip address ipv4 address
+          11: support.constant                          # ip address standby
+          12: constant.numeric                          # ip address ip
+          13: support.constant                          # ip address standby
+          14: support.constant                          # nameif
+          15: entity.other.attribute-name               # nameif name
+          16: support.constant                          # security-level
+          17: constant.numeric                          # security-level id
+          18: support.constant                          # management-only
+      - include: pop_on_configure_terminal_context
+
+  show:
+    - include: show_vlan
+    - include: show_route 
+    - include: show_interface 
+    - include: show_run_interface
+
+  show_interface:
+    - match: '\s*(show\s+interface)(?:(\s+{{interface_names}})\s*({{interface_numbers}}))?'
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: constant.numeric
+        4: support.constant
+
+  show_run_interface:
+    - match: '\s*(show\s+run\s+interface)(?:(\s+{{interface_names}})\s*({{interface_numbers}}))?'
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: constant.numeric
+        4: support.constant
+
+  show_vlan:
+    - match: '\s*(show\s+vlan)(\s+(id)\s+({{vlan_id}}))?'
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: support.constant
+        4: constant.numeric
+
+  show_route:
+    - match: |
+        (?xi)
+        \s*(show)\s+
+        (?:
+          (?:
+            (ipv6\s+route)
+            (?:\s+(vrf)\s+(\S+))?
+            (\s+{{ipv6}})?
+          )
+          |
+          (?:
+            (ip\s+route)
+            (?:\s+(vrf)\s+(\S+))?
+            (\s+{{ip}})?
+          )
+
+        )
+      captures:
+        1: support.constant           # show
+        2: support.constant           # ipv6 route
+        3: support.constant           # ipv6 vrf
+        4: string.unquoted            # ipv6 vrf name
+        5: constant.numeric           # ipv6 prefix
+        6: support.constant           # ip route
+        7: support.constant           # ip vrf
+        8: string.unquoted            # ip vrf name
+        9: constant.numeric           # ip prefix
+
+  locations:
+    - include: location_local
+    - include: location_remote
+
+  location_remote:
+    - match: ((?:t?ftp)|scp)(://)((?:\d+\.){3}\d+)(\/\S*)?
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: constant.language
+        4: support.constant
+
+  location_local:
+    - match: ({{drives}}|(?:running|startup)-config)
+      captures:
+        1: support.constant
+
+  write:
+    - include: write_network
+    - match: '^\s*(write)\s*'
+      captures:
+        1: support.constant
+
+  write_network:
+    - match: '^\s*(write)\s+(net)'
+      captures:
+        1: support.constant
+        2: support.constant
+
+  logout:
+    - match: '^\s*(logout)\s*'
+      captures:
+        1: support.constant
+
+  copy:
+    - match: '^\s*(copy)\s*'
+      set: copy_location_source
+      captures:
+        1: support.constant
+
+  copy_location_source:
+    - match: \s
+      set: copy_location_destination
+    - include: locations
+
+  copy_location_destination:
+    - match: (?:\s|{{comment}}|$)
+      pop: true
+    - include: locations
+
+  pipe:
+    - match: (?<=\s)(\|)
+      scope: text.network.cisco.pipe
+      captures:
+        1: keyword.other
+      push: 
+        - meta_content_scope: text.network.cisco.pipe
+        - match: '(?=(?:{{comment}})|$)'
+          pop: true
+        - match: >
+            (?xi)
+            \s+
+            (?:
+              (include)|
+              (exclude)
+            )
+            \s+
+            ([^{{comment}}]*)
+          captures:
+            1: entity.other.attribute-name
+            2: keyword.other
+            3: string.unquoted
+
+  show_drives:
+    - match: '\s*(show)\s+({{drives}})'
+      captures:
+        1: support.constant
+        2: support.constant

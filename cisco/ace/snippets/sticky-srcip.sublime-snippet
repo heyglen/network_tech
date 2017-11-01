@@ -1,0 +1,11 @@
+<snippet>
+	<description>ip source</description>
+	<tabTrigger>sticky</tabTrigger>
+	<scope>text.network.cisco.ace - text.network.cisco.policy_map.loadbalance</scope>
+	<content><![CDATA[
+sticky ip-netmask 255.255.255.255 address source ${1:STICKY_NAME}
+  serverfarm ${2:SERVERFARM_NAME}
+ exit
+
+]]></content>
+</snippet>

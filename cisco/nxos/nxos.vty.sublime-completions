@@ -1,0 +1,17 @@
+{
+  "scope": "text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.vty & -text.network.cisco.partial",
+  "completions": [
+        { 
+            "trigger": "access-class\tin", 
+            "contents": "access-class ${1:acl_name} in${2: vrf-also}\n$0"
+        },
+        { 
+            "trigger": "transport\tssh", 
+            "contents": "transport input ssh$0"
+        },
+        { 
+            "trigger": "transport\ttelnet", 
+            "contents": "transport input telnet$0"
+        },
+  ]
+}

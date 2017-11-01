@@ -1,0 +1,608 @@
+# cisco ios
+
+write
+show running-config | include something ! Inline comment
+
+show running-config | include something ! Inline comment
+show run interface | exclude something
+
+! On router01
+# device router02
+
+ip classless
+copy tftp://1.2.3.4/path startup-config ! Inline comment
+
+show vlan
+show vlan id 42
+show interface
+show interface gigabitethernet 0
+show run interface
+show run interface tengigabitethernet 0
+
+show ip route vrf NAME 1.1.1.1
+show ip route 1.1.1.1
+show ip route
+
+show ipv6 route vrf NAME 1::1
+show ipv6 route 1::1
+show ipv6 route
+show ip bgp
+show ip bgp vpnv4 unicast
+show ip bgp vpnv6 unicast
+show ip bgp vpnv4 unicast vrf NAME 127.0.0.1
+show ip bgp vpnv4 unicast vrf NAME 127.0.0.1/32
+show ip bgp vpnv6 unicast vrf NAME ::
+show ip bgp vpnv6 unicast vrf NAME ::/64
+show ip interface brief vlan 0
+show standby vlan1 brief
+show running-config
+show startup-config
+
+
+configure terminal
+
+  ! Line comment
+  do show ipv6 route vrf NAME 1::1
+
+  tacacs-server host 1.2.3.4
+  tacacs-server directed-request
+  tacacs-server key ******* 1234567890ABCDEF
+
+
+  ip prefix-list NAME seq 10 permit 1.2.3.0/24
+  ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 1
+  ip prefix-list NAME seq 10 permit 1.2.3.0/24 le 1
+  ip prefix-list NAME seq 10 permit 1.2.3.0/24 ge 2 le 1
+  ip prefix-list NAME seq 10 deny 0.0.0.0/0
+  ipv6 prefix-list NAME seq 10 permit ::/64
+  ipv6 route vrf NAME ::/64 vlan1 ::1
+  ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 name asdf permanent
+  ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 track 2
+  ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 tag 2
+  ip route 1.2.3.0 255.255.255.0 1.1.1.1 name NAME
+  ipv6 unicast-routing
+
+
+  default interface Vlan0
+
+  vlan 1
+    name VLAN-1
+  exit
+
+  hostname example
+  vrf upgrade-cli multi-af-mode common-policies vrf NAME
+  vrf upgrade-cli multi-af-mode non-common-policies force
+  vrf upgrade-cli multi-af-mode common-policies force
+  vrf upgrade-cli multi-af-mode common-policies
+
+  ipv6 general-prefix WHATEVER ::/0
+
+  ! Line comment
+  ip access-list extended NAME ! This is a comment
+   remark blah blah
+   2 permit tcp any any eq bgp
+   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
+   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 established
+   permit tcp host 1.2.3.4 1.2.3.0 0.0.0.255 established
+   permit tcp host 1.2.3.4 host 1.2.3.0
+   deny ip any any
+   permit icmp any any
+
+  ip vrf NAME
+    description management
+    rd 1.2.3.4:5
+    route-target export 1.2.3.4:5
+    route-target import 1.2.3.4:5
+  exit
+
+  vrf definition NAME
+    description management
+    rd 1.2.3.4:5
+    route-target export 1.2.3.4:5
+    route-target import 1.2.3.4:5
+    address-family ipv4
+      export map name
+    ! A comment
+    address-family ipv6
+    exit
+  exit
+
+  ip access-list standard NAME
+   10 permit 1.2.3.0 0.0.0.255
+   permit 1.2.3.0 0.0.0.255
+   20 deny 1.2.3.0 0.0.0.255
+   deny any
+  exit
+
+  router ospf 1
+    log-adjacency-changes
+    auto-cost reference-bandwidth 40000
+    area 2 authentication message-digest
+    area 2 nssa
+    passive-interface Vlan1
+    network 1.2.3.4 0.0.0.0 area 2
+
+  router bgp 123
+    address-family ipv4
+      network 1.2.3.0
+      exit
+    address-family ipv4 vrf NAME
+      exit-address-family
+    address-family ipv4 vrf NAME
+      network 1.2.3.0
+      network 1.2.3.0 mask 255.255.255.0
+      neighbor 1.1.1.1 activate
+      neighbor 1.1.1.1 shutdown
+      neighbor 1.1.1.1 next-hop-self
+      neighbor 1.1.1.1 soft-reconfiguration inbound
+      neighbor 1.1.1.1 soft-reconfiguration outbound
+      neighbor 1.1.1.1 password 1 secret
+      neighbor 1.1.1.1 prefix-list prefix_list in
+      neighbor 1.1.1.1 prefix-list prefix_list out
+      neighbor 1.1.1.1 route-map route_map in
+      neighbor 1.1.1.1 route-map route_map out
+      neighbor 1.1.1.1 inherit peer-policy policy
+      neighbor 1.1.1.1 send-community
+      neighbor 1.1.1.1 remote-as 20
+      neighbor 1.1.1.1 remote-as 20 shutdown
+      neighbor 1.2.3.4 timers 1 2
+      neighbor 1.1.1.1 ttl-security hops 1
+      neighbor 1.1.1.1 description description
+      neighbor 1.1.1.1 version 4
+      neighbor 1.1.1.1 transport path-mtu-discovery
+      exit
+    address-family ipv6 vrf NAME
+      exit
+    address-family ipv6 vrf NAME
+      network ::/0
+      neighbor ::1 activate
+      neighbor ::1 shutdown
+      neighbor ::1 remote-as 1
+      neighbor ::1 remote-as 1 shutdown
+      neighbor ::1 send-community
+      neighbor ::1 send-community both
+      neighbor ::1 send-community extended
+      neighbor ::1 ttl-security hops 1
+      neighbor ::1 version 4
+      neighbor ::1 timers 1 2
+      neighbor ::1 route-map NAME in
+      neighbor ::1 route-map NAME out
+      neighbor ::1 inherit peer-policy POLICY
+      neighbor ::1 soft-reconfiguration inbound
+      neighbor ::1 soft-reconfiguration outbound
+      neighbor ::1 transport path-mtu-discovery
+
+router bgp 1
+ip route 1.2.4.0 255.255.255.0 1.2.3.4
+
+interface vlan123
+  exit
+
+interface vlan123
+  exit
+
+interface Ethernet0
+  exit
+interface FastEthernet0
+  exit
+interface GigabitEthernet0
+  exit
+interface TenGigabitEthernet0
+  exit
+interface FortyGigabitEthernet0
+  exit
+interface loopback0
+  exit
+interface tunnel0
+  exit
+interface port-channel0
+  exit
+interface serial0
+  exit
+interface vlan1
+  exit
+interface Ethernet0
+  exit
+interface range GigabitEthernet0
+  exit
+
+interface range GigabitEthernet1/1-2
+  description Hello
+  vrf forwarding RED
+  switchport mode access
+  switchport mode trunk
+  port-channel standalone-disable
+  switchport trunk encapsulation dot1q
+  encapsulation dot1q 123
+  bandwidth 10240
+  ip pim sparse-mode
+  ip pim dense-mode
+  ip ospf message-digest-key 1 md5 7 1234567890ABC
+  ip ospf cost 20000
+  speed 1000
+  full-duplex
+  switchport
+  switchport trunk encapsulation Dot1q
+  switchport trunk allowed vlan 123
+  switchport trunk allowed vlan add 123,456
+  switchport trunk allowed vlan remove 123-124,125
+  switchport mode access
+  switchport access vlan 123
+  ip address 1.2.3.0 255.255.255.0
+  ip helper-address 1.1.1.1
+  ip access-group NAME in
+  ip access-group NAME out
+  ip igmp query-interval 123
+  switchport voice vlan 123
+  ip redirects
+  channel-group 1 mode active
+  ipv6 redirects
+  ip proxy-arp
+  ip vrf forwarding NAME
+  ipv6 address general-prefix 0:0:0:1::/64 eui-64
+  ipv6 nd prefix ff02::/64
+  standby version 2
+  standby 1 ip 1.1.1.1
+  standby 1 priority 200
+  standby 1 preempt
+  standby 1 preempt delay minimum 300 reload 300
+  standby 2 ipv6 autoconfig
+  standby 2 ipv6 ::1
+  standby 1 track 1 decrement 10
+  ipv6 enable
+  spanning-tree portfast
+  service-policy output SOMETHING
+  service-policy input SOMETHING
+  no switchport
+  no shutdown
+  shutdown
+  exit
+
+
+snmp-server community TEST RO 1
+snmp-server host 1.2.3.4 version 2c TEST
+snmp-server host 1.2.3.4 version 2c TEST
+
+line con 0
+  stopbits 1
+  password cisco123
+  modem enable
+  transport preferred all
+  transport output all
+  exit
+
+line aux 0
+  transport preferred all
+  transport output all
+  exit
+
+line vty 0 4
+  access-class 42 in vrf-also
+  access-class ssh_access in vrf-also
+  transport input ssh telnet
+  transport input telnet ssh
+  transport input telnet
+  transport input ssh
+  logging synchronous
+  transport input ssh
+exit
+end
+
+monitor session 1 source interface Te1/1 - 2
+monitor session 1 destination analysis-module 1 data-port 1
+ntp source GigabitEthernet1/2
+ntp clock-period 123456
+ntp server 1.2.3.4
+
+logout
+
+! https://www.cisco.com/c/en/us/td/docs/routers/access/1800/1801/software/configuration/guide/scg/sampconf.html
+
+Current configuration : 3781 bytes
+!
+version 12.3
+no service pad
+service password-encryption
+service sequence-numbers
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec
+service timestamps log datetime msec localtime show-timezone
+no service password-encryption
+!
+hostname retail
+!
+boot-start-marker
+boot-end-marker
+!
+enable password cisco123
+!
+username jsomeone password 0 cg6#107X
+aaa new-model
+!
+aaa group server radius rad_eap
+  server 10.0.1.1 auth-port 1812 acct-port 1813
+!
+aaa authentication login eap_methods group rad_eap
+aaa session-id common
+ip subnet-zero
+ip cef
+ip ssh version 2
+ip scp server enable
+!
+vpdn enable
+vpdn-group 1
+request-dialin
+protocol pppoe
+!
+interface dialer 1
+ip address negotiated
+ppp authentication chap
+dialer pool 1
+dialer-group 1
+!
+dialer-list 1 protocol ip permit
+ip nat inside source list 1 interface dialer 0 overload
+ip classless (default)
+ip route 10.10.25.2 0.255.255.255 dialer 0
+!
+ip dhcp excluded-address 10.0.1.1 10.0.1.10
+ip dhcp excluded-address 10.0.2.1 10.0.2.10
+ip dhcp excluded-address 10.0.3.1 10.0.3.10
+!
+ip dhcp pool vlan1
+network 10.0.1.0 255.255.255.0
+default-router 10.0.1.1
+!
+ip dhcp pool vlan2
+  network 10.0.2.0 255.255.255.0
+  default-router 10.0.2.1
+!
+ip dhcp pool vlan3
+network 10.0.3.0 255.255.255.0
+default-router 10.0.3.1
+!
+ip ips po max-events 100
+no ftp-server write-enable
+!
+bridge irb
+!
+interface FastEthernet2
+no ip address
+!
+interface FastEthernet3
+no ip address
+!
+interface FastEthernet4
+no ip address
+!
+interface FastEthernet5
+no ip address
+!
+interface FastEthernet6
+no ip address
+!
+interface FastEthernet7
+no ip address
+!
+interface FastEthernet8
+no ip address
+!
+interface FastEthernet9
+switchport mode trunk
+no ip address
+!
+interface FastEthernet0
+  ip address 192.1.12.2 255.255.255.0
+  no ip directed-broadcast (default)
+  ip nat outside
+  ip access-group 103 in
+  no cdp enable
+  crypto ipsec client ezvpn ezvpnclient outside
+  crypto map static-map
+  duplex auto
+  speed auto
+!
+interface FastEthernet1
+no ip address
+duplex auto
+speed auto
+!
+crypto isakmp policy 1
+encryption 3des
+authentication pre-share
+group 2
+lifetime 480
+!
+crypto isakmp client configuration group rtr-remote
+key secret-password
+dns 10.50.10.1 10.60.10.1
+domain company.com
+pool dynpool
+!
+crypto ipsec transform-set vpn1 esp-3des esp-sha-hmac
+!
+crypto ipsec security-association lifetime seconds 86400
+!
+crypto dynamic-map dynmap 1
+set transform-set vpn1
+reverse-route
+!
+crypto map static-map 1 ipsec-isakmp dynamic dynmap
+crypto map dynmap isakmp authorization list rtr-remote
+crypto map dynmap client configuration address respond
+
+crypto ipsec client ezvpn ezvpnclient
+connect auto
+group 2 key secret-password
+mode client
+peer 192.168.100.1
+!
+interface Dot11Radio0
+no ip address
+!
+broadcast-key vlan 1 change 45
+!
+encryption vlan 1 mode ciphers tkip
+!
+ssid cisco
+vlan 1
+authentication open
+authentication network-eap eap_methods
+authentication key-management wpa optional
+!
+ssid ciscowep
+vlan 2
+authentication open
+!
+ssid ciscowpa
+vlan 3
+  authentication open
+!
+speed basic-1.0 basic-2.0 basic-5.5 6.0 9.0 basic-11.0 12.0 18.0 24.0 36.0 48.0 54.0
+rts threshold 2312
+power local cck 50
+power local ofdm 30
+channel 2462
+station-role root
+!
+interface Dot11Radio0.1
+description Cisco Open
+encapsulation dot1Q 1 native
+no cdp enable
+bridge-group 1
+bridge-group 1 subscriber-loop-control
+bridge-group 1 spanning-disabled
+bridge-group 1 block-unknown-source
+no bridge-group 1 source-learning
+no bridge-group 1 unicast-flooding
+!
+interface Dot11Radio0.2
+encapsulation dot1Q 2
+bridge-group 2
+bridge-group 2 subscriber-loop-control
+bridge-group 2 spanning-disabled
+bridge-group 2 block-unknown-source
+no bridge-group 2 source-learning
+no bridge-group 2 unicast-flooding
+!
+interface Dot11Radio0.3
+encapsulation dot1Q 3
+bridge-group 3
+bridge-group 3 subscriber-loop-control
+bridge-group 3 spanning-disabled
+bridge-group 3 block-unknown-source
+no bridge-group 3 source-learning
+no bridge-group 3 unicast-flooding
+!
+interface Vlan1
+  ip address 192.168.1.1 255.255.255.0
+  no ip directed-broadcast (default)
+  crypto ipsec client ezvpn ezvpnclient inside
+  ip inspect firewall in
+  no cdp enable
+  bridge-group 1
+  bridge-group 1 spanning-disabled
+!
+interface Vlan2
+no ip address
+bridge-group 2
+bridge-group 2 spanning-disabled
+!
+interface Vlan3
+no ip address
+bridge-group 3
+bridge-group 3 spanning-disabled
+!
+interface BVI1
+ip address 10.0.1.1 255.255.255.0
+ip nat inside
+!
+interface BVI2
+ip address 10.0.2.1 255.255.255.0
+!
+interface BVI3
+ip address 10.0.3.1 255.255.255.0
+!
+ip classless
+!
+ip http server
+no ip http secure-server
+!
+radius-server local
+  nas 10.0.1.1 key 0 cisco123
+  group rad_eap
+!
+user jsomeone nthash 7 0529575803696F2C492143375828267C7A760E1113734624452725707C010B065B
+user AMER\jsomeone nthash 7 0224550C29232E041C6A5D3C5633305D5D560C09027966167137233026580E0B0D
+!
+radius-server host 10.0.1.1 auth-port 1812 acct-port 1813 key cisco123
+!
+control-plane
+!
+bridge 1 route ip
+bridge 2 route ip
+bridge 3 route ip
+!
+ip inspect name firewall tcp
+ip inspect name firewall udp
+ip inspect name firewall rtsp
+ip inspect name firewall h323
+ip inspect name firewall netshow
+ip inspect name firewall ftp
+ip inspect name firewall sqlnet
+!
+access-list 101 permit icmp host 1.2.3.4 any echo
+access-list 101 permit icmp host 1.2.3.4 any echo-reply
+access-list 101 permit icmp host 1.2.3.4 any unreachable
+access-list 101 permit icmp host 1.2.3.4 any time-exceeded
+access-list 101 permit udp host 1.2.3.4 any eq isakmp
+access-list 101 permit udp host 1.2.3.4 eq isakmp any
+access-list 101 permit esp host 1.2.3.4 any
+access-list 101 permit icmp any any
+access-list 101 deny ip any any
+access-list 101 permit ip 10.1.1.0 0.0.0.255 192.168.0.0 0.0.255.255
+no cdp run
+!
+line con 0
+  password cisco123
+  no modem enable
+  modem enable
+  transport preferred all
+  transport output all
+!
+line aux 0
+  transport preferred all
+  transport output all
+!
+line vty 0 4
+  password cisco123
+  transport preferred all
+  transport input all
+  transport output all
+!
+
+aaa group server radius sg1
+  server 172.16.0.1
+  server 172.17.0.1
+
+
+policy-map QOS_STUFF
+  class VOICE
+    priority 3600
+  class VOICE-CONTROL
+    bandwidth percent 2
+    police cir 1234567
+    conform-action transmit
+    exceed-action drop
+    violate-action drop
+    shape average 123
+    service-policy SOMETHING
+
+class-map match-all VOICE
+  match ip dscp ef
+
+class-map match-all VIDEO-SERVER
+  match access-group 6

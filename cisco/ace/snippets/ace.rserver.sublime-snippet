@@ -1,0 +1,13 @@
+<snippet>
+	<description>host</description>
+	<scope>text.network.cisco.ace  -(serverfarm)</scope>
+	<tabTrigger>rserver</tabTrigger>
+	<content><![CDATA[
+rserver host ${1:fully.qualified.domain.name}
+  ip address ${2:1.2.3.4}
+  inservice
+ exit
+
+$0
+]]></content>
+</snippet>

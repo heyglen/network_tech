@@ -1,0 +1,11 @@
+<snippet>
+    <description>connection</description>
+    <tabTrigger>parameter-map</tabTrigger>
+    <scope>text.network.cisco.ace - (interface) & -text.network.cisco.partial</scope>
+    <content><![CDATA[
+parameter-map type connection ${1:PARAM_NAME}
+  $0
+ exit
+
+]]></content>
+</snippet>

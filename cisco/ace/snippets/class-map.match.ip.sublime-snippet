@@ -1,0 +1,8 @@
+<snippet>
+    <description>ip</description>
+    <tabTrigger>match</tabTrigger>
+    <scope>text.network.cisco.class_map.match_any</scope>
+    <content><![CDATA[
+  ${1:2} match virtual-address ${2:1.2.3.4} any
+]]></content>
+</snippet>

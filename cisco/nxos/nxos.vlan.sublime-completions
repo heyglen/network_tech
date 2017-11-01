@@ -1,0 +1,10 @@
+{
+  "scope": "text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.vlan & - (text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.vlan text.network.cisco) & - text.network.cisco.partial",
+  "completions": [
+        "mode fabricpath",
+        { 
+            "trigger": "vlane\tname", 
+            "contents": "name ${1:NAME}"
+        },
+  ]
+}

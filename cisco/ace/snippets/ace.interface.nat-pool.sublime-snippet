@@ -1,0 +1,8 @@
+<snippet>
+    <description>pat</description>
+    <tabTrigger>nat-pool</tabTrigger>
+    <scope>text.network.cisco.ace  interface & -text.network.cisco.partial</scope>
+    <content><![CDATA[
+nat-pool ${1:NAT-ID} ${2:1.2.3.4} ${3:${2:1.2.3.4}} netmask ${4:255.255.255.255} pat
+]]></content>
+</snippet>

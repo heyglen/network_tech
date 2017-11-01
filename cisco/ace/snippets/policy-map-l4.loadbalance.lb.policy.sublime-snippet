@@ -1,0 +1,8 @@
+<snippet>
+    <description>policy</description>
+    <tabTrigger>loadbalance</tabTrigger>
+    <scope>cisco.ace.policy.policy-class</scope>
+    <content><![CDATA[
+loadbalance policy ${1:NAME_L7POLICY}
+]]></content>
+</snippet>

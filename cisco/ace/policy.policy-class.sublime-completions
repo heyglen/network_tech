@@ -1,0 +1,9 @@
+{
+    "scope": "text.network.cisco.ace.policy.policy-class & -text.network.cisco.partial",
+    "completions": [
+        "icmp-reply",
+        "vlan",
+        "dynamic"
+    ]
+}
+

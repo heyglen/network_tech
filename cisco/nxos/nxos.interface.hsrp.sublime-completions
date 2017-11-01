@@ -1,0 +1,21 @@
+{
+    "scope": "text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.interface text.network.cisco.interface.hsrp & - (text.network.cisco.nxos text.network.cisco.configure_terminal text.network.cisco.interface text.network.cisco.interface.hsrp text.network.cisco) & -text.network.cisco.partial",
+    "completions": [
+        { 
+            "trigger": "priority\tvalue", 
+            "contents": "priority ${1:0}"
+        },
+        { 
+            "trigger": "preempt\tdelay minimum", 
+            "contents": "preempt delay minimum ${1:0}"
+        },
+        { 
+            "trigger": "ip\thsrp ip", 
+            "contents": "ip ${1:1.2.3.4}"
+        },
+        { 
+            "trigger": "authentication\tmd5", 
+            "contents": "authentication md5 key-string ${1:STRING}"
+        },
+    ]
+}

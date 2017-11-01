@@ -1,0 +1,8 @@
+<snippet>
+	<description>request HTTP GET</description>
+	<tabTrigger>request</tabTrigger>
+	<scope>text.network.cisco.ace  (probe.https | probe.http)</scope>
+	<content><![CDATA[
+request method get url /$0
+]]></content>
+</snippet>

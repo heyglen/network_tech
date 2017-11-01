@@ -1,0 +1,8 @@
+<snippet>
+	<description>service-policy summary</description>
+	<scope>cisco.ace</scope>
+	<tabTrigger>show</tabTrigger>
+	<content><![CDATA[
+show service-policy summary
+]]></content>
+</snippet>

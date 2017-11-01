@@ -1,0 +1,15 @@
+{
+    "scope": "text.network.cisco.asa.access_list.incomplete",
+    "completions": [
+        "inactive",
+        { 
+            "trigger": "object-group\tname",
+            "contents": "object-group ${1:group_name} "
+        },
+        { 
+            "trigger": "host\tip",
+            "contents": "host ${1:127.0.0.1} "
+        },
+    ]
+}
+

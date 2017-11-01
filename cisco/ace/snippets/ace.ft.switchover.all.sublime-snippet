@@ -1,0 +1,8 @@
+<snippet>
+    <description>switchover all</description>
+    <tabTrigger>ft</tabTrigger>
+    <scope>text.network.cisco.ace  -probe</scope>
+    <content><![CDATA[
+ft switchover all
+]]></content>
+</snippet>

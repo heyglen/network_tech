@@ -1,0 +1,8 @@
+<snippet>
+    <description>timeout</description>
+    <tabTrigger>timeout</tabTrigger>
+    <scope>text.network.cisco.sticky.generic</scope>
+    <content><![CDATA[
+timeout ${1:minutes}
+]]></content>
+</snippet>

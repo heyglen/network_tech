@@ -1,0 +1,8 @@
+<snippet>
+	<description>faildetect</description>
+	<tabTrigger>faildetect</tabTrigger>
+	<scope>text.network.cisco.ace  probe.</scope>
+	<content><![CDATA[
+faildetect ${1:3}
+]]></content>
+</snippet>

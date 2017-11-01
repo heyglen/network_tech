@@ -1,0 +1,8 @@
+<snippet>
+    <description>sticky</description>
+    <tabTrigger>replicate</tabTrigger>
+    <scope>text.network.cisco.sticky.generic</scope>
+    <content><![CDATA[
+replicate sticky
+]]></content>
+</snippet>

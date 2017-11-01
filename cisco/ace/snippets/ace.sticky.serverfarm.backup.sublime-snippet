@@ -1,0 +1,8 @@
+<snippet>
+    <description>sticky serverfarm backup</description>
+    <tabTrigger>serverfarm</tabTrigger>
+    <scope>text.network.cisco.sticky.generic</scope>
+    <content><![CDATA[
+serverfarm ${1:ACTIVE_FARM} backup ${2:PASSIVE_FARM}
+]]></content>
+</snippet>

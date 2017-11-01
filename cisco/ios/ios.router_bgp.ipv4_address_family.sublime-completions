@@ -1,0 +1,45 @@
+{
+  "scope": "text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco.bgp text.network.cisco.bgp.ipv4.address_family & -text.network.cisco.partial & - (text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco.bgp text.network.cisco.bgp.ipv4.address_family text.network.cisco)",
+  "completions": [
+        { 
+            "trigger": "neighbor\tversion", 
+            "contents": "neighbor ${1:127.0.0.1} version ${2:4}"
+        },
+        { 
+            "trigger": "neighbor\tttl-security", 
+            "contents": "neighbor ${1:<ip>} ttl-security hops ${2:hop-count}"
+        },
+        { 
+            "trigger": "neighbor\ttimers", 
+            "contents": "neighbor ${1:<ip>} timers ${2:<keepalive>} ${3:<holdtime>} ${4:[min-holdtime]}"
+        },
+        { 
+            "trigger": "neighbor\tsoft-reconfiguration", 
+            "contents": "neighbor ${1:<ip>} soft-reconfiguration ${2:inbound}"
+        },
+        { 
+            "trigger": "neighbor\tshutdown", 
+            "contents": "neighbor ${1:<ip>} shutdown"
+        },
+        { 
+            "trigger": "neighbor\troute-map", 
+            "contents": "neighbor ${1:<ip>} route-map ${2:NAME} ${3:in|out}"
+        },
+        { 
+            "trigger": "neighbor\tremote-as", 
+            "contents": "neighbor ${1:<ip>} remote-as ${2:1234}"
+        },
+        { 
+            "trigger": "neighbor\tpeer-policy", 
+            "contents": "neighbor ${1:<ip>} inherit peer-policy ${2:NAME}"
+        },
+        { 
+            "trigger": "neighbor\tactivate", 
+            "contents": "neighbor ${1:<ip>} activate"
+        },
+        { 
+            "trigger": "network\tbgp network", 
+            "contents": "network ${1:127.0.0.1} mask ${2:255.255.255.0} $0"
+        },
+  ]
+}

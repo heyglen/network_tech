@@ -1,0 +1,8 @@
+<snippet>
+    <description>sticky-serverfarm</description>
+    <tabTrigger>sticky-serverfarm</tabTrigger>
+    <scope>text.network.cisco.ace  policy-lb-class</scope>
+    <content><![CDATA[
+sticky-serverfarm ${1:NAME_STICKY}
+]]></content>
+</snippet>

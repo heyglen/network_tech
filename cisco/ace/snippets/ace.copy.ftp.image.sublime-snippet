@@ -1,0 +1,8 @@
+<snippet>
+    <description>Download Software</description>
+    <tabTrigger>copy</tabTrigger>
+    <scope>text.network.cisco.ace  & -text.network.cisco.partial</scope>
+    <content><![CDATA[
+copy ftp://${1:1.2.3.4}/${2:NAME}.bin image: 
+]]></content>
+</snippet>

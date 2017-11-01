@@ -1,0 +1,9 @@
+{
+    "scope": "text.network.cisco.ace.copy & -text.network.cisco.partial",
+    "completions": [
+    	"running-config",
+        "startup-config",
+        { "trigger": "sf", "contents": "sftp://$1/$2" },
+        { "trigger": "tf", "contents": "tftp://$1/$2" }
+    ]
+}

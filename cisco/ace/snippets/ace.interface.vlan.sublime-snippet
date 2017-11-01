@@ -1,0 +1,11 @@
+<snippet>
+    <description>edit vlan</description>
+    <tabTrigger>interface</tabTrigger>
+    <scope>text.network.cisco.ace  -(pipe) & -text.network.cisco.partial</scope>
+    <content><![CDATA[
+interface vlan ${1:0}
+  $0
+ exit
+
+]]></content>
+</snippet>

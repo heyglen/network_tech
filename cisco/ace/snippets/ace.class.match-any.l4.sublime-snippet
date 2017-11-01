@@ -1,0 +1,12 @@
+<snippet>
+	<description>L4 match-any</description>
+	<tabTrigger>class-map</tabTrigger>
+	<scope>text.network.cisco.ace - (policy.load-balance | policy.map.l4) & -text.network.cisco.partial</scope>
+	<content><![CDATA[
+class-map match-any ${1:CLASS-NAME}_L4CLASS
+  description ${2:DESCRIPTION}
+  $0
+  exit
+
+]]></content>
+</snippet>

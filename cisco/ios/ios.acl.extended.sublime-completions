@@ -1,0 +1,14 @@
+{
+    "scope": "text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco.acl.extended & -text.network.cisco.partial & -(text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco.acl.extended text.network.cisco)",
+    "completions": [
+        { 
+            "trigger": "permit\tip", 
+            "contents": "${1:00} permit ip ${2:127.0.0.0} ${3:0.0.0.255} ${4:127.0.0.0} ${5:0.0.0.255}$0"
+        },
+        { 
+            "trigger": "deny\tip", 
+            "contents": "${1:00} deny ip ${2:127.0.0.0} ${3:0.0.0.255} ${4:127.0.0.0} ${5:0.0.0.255}$0"
+        },
+    ]
+}
+
