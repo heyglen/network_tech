@@ -1,5 +1,8 @@
 %YAML 1.2
 ---
+
+# Copyright 2017 Glen Harmon
+
 name: Cisco ACE
 file-extensions: 
   - cisco-ace

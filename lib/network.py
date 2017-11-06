@@ -1,3 +1,6 @@
+# Copyright 2017 Glen Harmon
+
+import sublime
 import ipaddress
 import logging
 

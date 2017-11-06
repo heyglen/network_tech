@@ -1,3 +1,4 @@
+# Copyright 2017 Glen Harmon
 
 import logging
 

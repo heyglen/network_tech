@@ -1,3 +1,6 @@
+# Copyright 2017 Glen Harmon
+
+
 import re
 
 from .dot_dict import DotDict

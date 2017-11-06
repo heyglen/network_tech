@@ -1,3 +1,6 @@
+# Copyright 2017 Glen Harmon
+
+
 class DotDict(dict):
     """dot.notation access to dictionary attributes"""
     __setattr__ = dict.__setitem__
