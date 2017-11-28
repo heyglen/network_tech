@@ -405,7 +405,16 @@ variables:
       (?:ssh)|
       (?:snmp)
     )
-  operators: '(?:(?:eq)|(?:ge)|(?:le))'
+  operators: |
+    (?xi)
+    (?:
+      (?:eq)|
+      (?:neq)|
+      (?:ge)|
+      (?:gt)|
+      (?:lt)|
+      (?:le)
+    )
   cos: '[0-7]'
   cos_range: '{{cos}}(?:-{{cos}})?(?:,\s*{{cos}}(?:-{{cos}})?)*'
   port_target: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'

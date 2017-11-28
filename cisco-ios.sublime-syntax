@@ -319,6 +319,7 @@ variables:
     (?xi)
     (?:
       (?:eq)|
+      (?:neq)|
       (?:ge)|
       (?:gt)|
       (?:lt)|

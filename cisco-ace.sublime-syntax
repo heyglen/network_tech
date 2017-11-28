@@ -126,7 +126,16 @@ variables:
     bgp|
     ssh|
     snmp
-  operators: '(?:(?:eq)|(?:ge)|(?:le))'
+  operators: |
+    (?xi)
+    (?:
+      (?:eq)|
+      (?:neq)|
+      (?:ge)|
+      (?:gt)|
+      (?:lt)|
+      (?:le)
+    )
   port_target: '(?:(?:{{port_numbers}})|(?:{{port_names}}))'
   drives: |
     (?xi)
