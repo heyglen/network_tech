@@ -109,6 +109,12 @@ object-group service NAME
 
 
 access-list ALLOW_STUFF line 1 extended permit ip any any
+access-list ALLOW_STUFF line 1 extended permit tcp any any eq 1
+access-list ALLOW_STUFF line 1 extended permit tcp any any neq 1
+access-list ALLOW_STUFF line 1 extended permit tcp any any ge 1
+access-list ALLOW_STUFF line 1 extended permit tcp any any gt 1
+access-list ALLOW_STUFF line 1 extended permit tcp any any lt 1
+access-list ALLOW_STUFF line 1 extended permit tcp any any le 1
 access-list ALLOW_STUFF line 1 extended deny ip any any
 access-list ALLOW_STUFF extended permit ip 1.2.3.4 255.255.255.0 any
 access-list ALLOW_STUFF extended permit ip host 1.2.3.4 host 1.2.3.4

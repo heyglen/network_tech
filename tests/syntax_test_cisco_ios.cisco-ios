@@ -82,6 +82,11 @@ configure terminal
    remark blah blah
    2 permit tcp any any eq bgp
    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
+   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 neq 1234
+   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 ge 1234
+   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 gt 1234
+   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 lt 1234
+   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 le 1234
    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 established
    permit tcp host 1.2.3.4 1.2.3.0 0.0.0.255 established
    permit tcp host 1.2.3.4 host 1.2.3.0

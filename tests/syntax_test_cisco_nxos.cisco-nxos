@@ -63,6 +63,12 @@ ip access-list ACL
   20 deny ip 1.2.3.0/24 1.2.3.0/24
   10 permit ip any 1.2.3.0/24
   10 permit tcp any range 1 2 1.2.3.0/24 range 1 2
+  10 permit tcp any any eq 1
+  10 permit tcp any any neq 1
+  10 permit tcp any any lt 2
+  10 permit tcp any any gt 1
+  10 permit tcp any any ge 1
+  10 permit tcp any any le 1
   10 permit ip any any
   20 deny icmp any any router-advertisement 
   1 permit icmp any any echo-reply 

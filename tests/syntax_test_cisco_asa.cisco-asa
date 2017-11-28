@@ -164,6 +164,11 @@ access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
  access-list acl-name extended permit icmp any4 any4 object-group icmp_group
  access-list acl-name line 42 extended permit icmp any4 any4 object-group icmp_group
  access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq www
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 neq www
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 ge www
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 gt www
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 le www
+ access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 lt www
  access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq https
  access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 eq sunrpc
  access-list acl-name line 42 extended permit tcp host 2.2.2.2 host 3.3.3.3 object dst_ports
