@@ -316,6 +316,7 @@ service-policy global_policy global
 
 logout
 
+! TODO
 same-security-traffic permit inter-interface
 same-security-traffic permit intra-interface
 

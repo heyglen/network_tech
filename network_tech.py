@@ -45,9 +45,10 @@ detect_syntax = DotDict({
         '^\s*security-level \d+$',
         '^\s*nameif \S+$',
         '^\s*access-list cached ACL log flows:',
+        '^\s*route\s+\S+\d+',
         '^\s*fragment chain \d+ \S+$',
         '^\s*asdm image \S+$',
-        '^\s*same-security-traffic permit',
+        '^\s*same-security-traffic',
     ],
     'nxos': [
         '^!Command: show ',
@@ -252,6 +253,8 @@ class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
                             flags=sublime.COOPERATE_WITH_AUTO_COMPLETE,
                             location=location,
                         )
+            # Match only the first
+            break
 
 
 class AutoSyntaxDetection(sublime_plugin.ViewEventListener):
