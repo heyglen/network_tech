@@ -330,7 +330,26 @@ aaa new-model
 aaa group server radius rad_eap
   server 10.0.1.1 auth-port 1812 acct-port 1813
 !
-aaa authentication login eap_methods group rad_eap
+aaa authentication login default local
+aaa authentication login default auth-guest
+aaa authentication login default enable
+aaa authentication login default guest
+aaa authentication login default if-authenticated
+aaa authentication login default if-needed
+aaa authentication login default krb5
+aaa authentication login default krb-instance
+aaa authentication login default krb-telnet
+aaa authentication login default line
+aaa authentication login default local
+aaa authentication login default none
+aaa authentication login default radius
+aaa authentication login default rcmd
+aaa authentication login default tacacs
+aaa authentication login default tacacsplus
+
+aaa authentication login LIST_NAME group GROUP_NAME enable none
+aaa authentication login default group GROUP_NAME enable none
+
 aaa session-id common
 ip subnet-zero
 ip cef

@@ -13,6 +13,7 @@ from .lib.network import Network
 logger = logging.getLogger('net_tech')
 logger.handlers = []
 
+SCOPE_PREFIX = 'text.network'
 
 settings = sublime.load_settings('network_tech.sublime-settings')
 
@@ -221,8 +222,9 @@ class FindAllSubnetsCommand(sublime_plugin.TextCommand):
 
 
 class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
-    # def on_query_completions(self, prefix, locations):
     def on_hover(self, point, hover_zone):
+        if not self.view.scope_name(point).startswith(SCOPE_PREFIX):
+            return
         if hover_zone == sublime.HOVER_TEXT:
             if self.view.is_popup_visible():
                 self.view.hide_popup()
@@ -234,6 +236,8 @@ class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
         self.network_info()
 
     def network_info(self, point=None, location=None):
+        if not self.view.scope_name(point).startswith(SCOPE_PREFIX):
+            return
         regions = self.view.sel() if point is None else [sublime.Region(point, point)]
         location = regions[0].end() if location is None else location
 

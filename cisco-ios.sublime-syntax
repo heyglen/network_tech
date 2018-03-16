@@ -30,6 +30,25 @@ variables:
       (?:ah-md5-hmac)|
       (?:ah-sha-hmac)
     )
+  authentication_methods: |
+    (?xi)
+    (?:
+      (?:auth-guest)|
+      (?:enable)|
+      (?:guest)|
+      (?:if-authenticated)|
+      (?:if-needed)|
+      (?:krb5)|
+      (?:krb-instance)|
+      (?:krb-telnet)|
+      (?:line)|
+      (?:local)|
+      (?:none)|
+      (?:radius)|
+      (?:rcmd)|
+      (?:tacacsplus)|
+      (?:tacacs)
+    )
   esp_encryption_transform: |
     (?xi)
     (?:
@@ -507,6 +526,7 @@ contexts:
     - include: aaa_new_model
     - include: system_version
     - include: enable_password
+    - include: aaa_authentication
     - include: ipv6_unicast_routing
     - include: ipv6_general_prefix
     - include: extended_acl
@@ -882,6 +902,63 @@ contexts:
         15: constant.numeric            # Destination Port
         16: support.constant            # Destination Established
         17: ios.acl.ace.target_ip       # IP target scope
+
+  aaa_authentication:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:(aaa\s+authentication)\s+)
+        (?:
+          (?:
+            (login)\s+
+            (?:
+              (?:(default)|(\S+))
+            )
+          )
+        )
+      scope: text.network.cisco.aaa.authentication
+      captures:
+        1: support.constant             # aaa authentication
+        2: support.constant             # login
+        3: support.constant             # default
+        4: string.unquoted              # group name
+      push:
+        - match: |
+            (?xi)
+            (?:
+              (?:
+                \s+
+                (
+                  (?:cache)|
+                  (?:group)
+                )
+                \s+(\S+)
+              )?
+              (
+                (
+                  \s+
+                  (?:
+                    (?:{{authentication_methods}})|
+                    (?:enable)|
+                    (?:group\s+ldap)|
+                    (?:group\s+radius)|
+                    (?:group\s+tacacs\+)|
+                    (?:krb5-telnet)|
+                    (?:krb5)|
+                    (?:line)|
+                    (?:local-case)|
+                    (?:local)|
+                    (?:none)|
+                    (?:passwd-expiry)
+                  )
+                )+
+              )
+            )
+          pop: true
+          captures:
+            1: support.constant             # method group type
+            2: string.unquoted              # method group name
+            3: entity.other.attribute-name  # method
 
   aaa_group:
     - match: |
