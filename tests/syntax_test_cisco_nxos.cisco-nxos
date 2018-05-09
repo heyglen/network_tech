@@ -185,6 +185,8 @@ router bgp 1
     maximum-prefix 1 2
     maximum-prefix 1 2 restart 3
     soft-reconfiguration inbound
+  neighbor 1.2.3.4
+    no shutdown
   address-family ipv4 unicast
     network 1.2.3.0/24
     network 1.2.3.0/24
@@ -195,7 +197,7 @@ router bgp 1
       password 3 secret_password
       next-hop-self
       no shutdown
-
+      route-map NAME out
   address-family ipv6 unicast
     neighbor ::
       inherit peer NAME
@@ -209,6 +211,8 @@ router bgp 1
     router-id 123
     log-neighbor-changes
     address-family ipv4 unicast
+      inherit peer-policy eBGP-policy 10
+      route-map Core-Metric-out out
       network 1.2.3.0/24
       network 1.2.3.0/24
       neighbor 1.2.3.4

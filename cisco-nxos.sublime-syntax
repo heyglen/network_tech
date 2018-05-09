@@ -92,7 +92,7 @@ variables:
       (?:policy-map)|
       (?:port-channel)|
       (?:rmon)|
-      (?:route-map)|
+      (?:route-map\s+\S+\s+(permit|deny))|
       (?:router\s+)|
       (?:service)|
       (?:snmp-server)|
@@ -156,6 +156,7 @@ variables:
       (?:vrf)|
       (?:address-family)|
       (?:template\s+peer)|
+      (?:neighbor\s+\S+)|
       (?:{{configure_terminal_ctx_words}})
     )
   bgp_vrf_ctx_words: |
@@ -1215,24 +1216,35 @@ contexts:
         (?xi)
         (?:
           (next-hop-self)|
+          (?:(inherit)\s+(peer-policy)\s+(\S+)\s+(\d+))|
           (?:(inherit)\s+(peer)\s+(\S+))|
           (send-community)|
           (?:(maximum-prefix)\s+(\d+)(?:\s+(\d+))?(?:\s+(restart)\s+(\d+))?(?:\s+(warning-only))?)|
-          (soft-reconfiguration\s+inbound)
+          (soft-reconfiguration\s+inbound)|
+          (?:((?:prefix-list)|(?:route-map))\s+(\S+)\s+(in|out))|
+          (?:(bfd))
         )
       captures:
         1: support.constant              # Next-hop-self
-        2: support.constant              # Inherit peer policy
-        3: support.constant              # Inherit peer policy
-        4: string.unquoted               # Inherit peer policy
-        5: support.constant              # Send community
-        6: support.constant              # maximum-prefix
-        7: constant.numeric              # maximum-prefix number
-        8: constant.numeric              # maximum-prefix number threshold
-        9: support.constant              # maximum-prefix restart
-        10: constant.numeric             # maximum-prefix restart interval
-        11: support.constant             # maximum-prefix warning-only
-        12: support.constant             # soft-reconfiguration inbound
+        2: support.constant             # inherit
+        3: support.constant             # inherit peer-policy
+        4: string.unquoted              # inherit peer-policy name
+        5: constant.numeric              # inherit peer-policy name number
+        6: support.constant              # Inherit peer policy
+        7: support.constant              # Inherit peer policy
+        8: string.unquoted               # Inherit peer policy
+        9: support.constant              # Send community
+        10: support.constant              # maximum-prefix
+        11: constant.numeric              # maximum-prefix number
+        12: constant.numeric              # maximum-prefix number threshold
+        13: support.constant              # maximum-prefix restart
+        14: constant.numeric             # maximum-prefix restart interval
+        15: support.constant             # maximum-prefix warning-only
+        16: support.constant             # soft-reconfiguration inbound
+        17: support.constant             # prefix-list|route-map
+        18: string.unquoted              # prefix-list|route-map name
+        19: support.constant             # prefix-list|route-map name direction
+        20: support.constant             # bfd
 
   bgp_session_settings:
       - match: |
@@ -1286,7 +1298,7 @@ contexts:
     - match: '(neighbor)\s+({{ip}})'
       captures:
         0: cicso.scope
-        1: support.constant
+        1: variable.parameter
         2: constant.numeric
       push:
         - meta_content_scope: text.network.cisco.bgp.vrf.bgp_ipv4_address_family.neighbor
