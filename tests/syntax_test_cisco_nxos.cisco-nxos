@@ -188,6 +188,7 @@ router bgp 1
   neighbor 1.2.3.4
     no shutdown
   address-family ipv4 unicast
+    allowas-in
     network 1.2.3.0/24
     network 1.2.3.0/24
     neighbor 1.2.3.4
@@ -199,6 +200,7 @@ router bgp 1
       no shutdown
       route-map NAME out
   address-family ipv6 unicast
+    allowas-in
     neighbor ::
       inherit peer NAME
       inherit peer-session NAME

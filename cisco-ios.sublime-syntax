@@ -1566,6 +1566,7 @@ contexts:
         (service)\s+
         (?:
           (?:(password-encryption))|
+          (?:(nagle))|
           (?:(sequence-numbers))|
           (?:(tcp-keepalives-in))|
           (?:(tcp-keepalives-out))|
@@ -1582,13 +1583,14 @@ contexts:
       captures:
         1: support.constant               # service
         2: support.constant               # password-encryption
-        3: support.constant               # sequence-numbers
-        4: support.constant               # tcp-keepalives-in
-        5: support.constant               # tcp-keepalives-out
-        6: support.constant               # timestamps
-        7: support.constant               # timestamps debug | log
-        8: support.constant               # timestamps datetime msec
-        9: support.constant               # timestamps localtime show-timezone
+        3: support.constant               # nagle
+        4: support.constant               # sequence-numbers
+        5: support.constant               # tcp-keepalives-in
+        6: support.constant               # tcp-keepalives-out
+        7: support.constant               # timestamps
+        8: support.constant               # timestamps debug | log
+        9: support.constant               # timestamps datetime msec
+        10: support.constant               # timestamps localtime show-timezone
 
   vlan:
     - match: '^\s*(vlan)\s+({{vlan_id}})'

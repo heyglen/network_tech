@@ -80,6 +80,7 @@ variables:
       (?:clock)|
       (?:copp)|
       (?:errdisable)|
+      (?:fabricpath)|
       (?:feature)|
       (?:hardware)|
       (?:hostname)|
@@ -140,14 +141,16 @@ variables:
     (?xi)
     \s*
     (?:
-      (?:vrf)
+      (?:vrf)|
+      (?:{{configure_terminal_ctx_words}})
     )
   ospfv3_ctx_words: |
     (?xi)
     \s*
     (?:
       (?:vrf)|
-      (?:address-family)
+      (?:address-family)|
+      (?:{{configure_terminal_ctx_words}})
     )
   bgp_ctx_words: |
     (?xi)
@@ -168,7 +171,8 @@ variables:
       (?:address-family)|
       (?:log-neighbor-changes)|
       (?:vrf)|
-      (?:template)
+      (?:template)|
+      (?:{{configure_terminal_ctx_words}})
     )
   interface_ctx_words: |
     (?xi)
@@ -238,7 +242,8 @@ variables:
           (?:\d+)|
           (?:version)
         )
-      )
+      )|
+      (?:{{configure_terminal_ctx_words}})
     )
   subnet_mask: |
     (?xi)
@@ -740,11 +745,12 @@ contexts:
         7: constant.numeric               # destination interface id
 
   logging:
-    - match: >
+    - match: |
         (?ix)
-        ^\s*(logging\s+server)\s+
-        ({{ip}})\s+(\d+)(?:\s+(use-vrf)\s+(\S+))?(?:\s+(facility)\s+(\S+))?
-      captures:
+        ^\s*
+          (logging\s+server)\s+
+            ({{ip}})\s+(\d+)(?:\s+(use-vrf)\s+(\S+))?(?:\s+(facility)\s+(\S+))?
+      capturees:
         1: support.constant
         2: constant.numeric
         3: constant.numeric
@@ -1175,6 +1181,15 @@ contexts:
         - include: bgp_ipv4_address_family
         - include: pop_on_bgp_context
 
+  bgp_address_family_settings:
+    - match: |
+        (?xi)
+        (?:
+          (?:(allowas-in))
+        )
+      captures:
+        1: support.constant     # allowas-in
+
   bgp_ipv4_address_family:
     - match: ^\s*(address-family)\s+(ipv4)\s+(unicast)
       captures:
@@ -1188,6 +1203,7 @@ contexts:
           pop: true
           captures:
             1: comment.line
+        - include: bgp_address_family_settings
         - include: ipv4_network
         - include: bgp_ipv4_neighbor
         - include: bgp_peer_policy_settings
@@ -1206,6 +1222,7 @@ contexts:
           pop: true
           captures:
             1: comment.line
+        - include: bgp_address_family_settings
         - include: ipv6_network
         - include: bgp_ipv6_neighbor
         - include: bgp_peer_policy_settings
