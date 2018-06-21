@@ -28,6 +28,18 @@ variables:
       (?:point-to-point)|
       (?:broadcast)
     )
+  facility: |
+    (?xi)
+    (?:
+      (?:local0)|
+      (?:local1)|
+      (?:local2)|
+      (?:local3)|
+      (?:local4)|
+      (?:local5)|
+      (?:local6)|
+      (?:local7)
+    )
   authentication_types: |
     (?xi)
     (?:
@@ -67,6 +79,7 @@ variables:
   command_end: '(?:\s|{{comment}}|$)'
   line_number: '^\s*\d+'
   ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
+  router_id: '(?:(?:{{ip}})|(?:\d+))'
   configure_terminal_ctx_words: |
     (?xi)
     \s*
@@ -95,6 +108,7 @@ variables:
       (?:rmon)|
       (?:route-map\s+\S+\s+(permit|deny))|
       (?:router\s+)|
+      (?:resequence)|
       (?:service)|
       (?:snmp-server)|
       (?:spanning-tree)|
@@ -408,6 +422,7 @@ variables:
       (?:bootps)|
       (?:bootpc)|
       (?:pim-auto-rp)|
+      (?:sunrpc)|
       (?:ssh)|
       (?:snmp)
     )
@@ -491,7 +506,6 @@ contexts:
             (?:ipv6)|
             (?:line)|
             (?:log-neighbor-changes)|
-            (?:logging)|
             (?:match)|
             (?:mode)|
             (?:name)|
@@ -746,18 +760,17 @@ contexts:
 
   logging:
     - match: |
-        (?ix)
-        ^\s*
-          (logging\s+server)\s+
-            ({{ip}})\s+(\d+)(?:\s+(use-vrf)\s+(\S+))?(?:\s+(facility)\s+(\S+))?
-      capturees:
-        1: support.constant
-        2: constant.numeric
-        3: constant.numeric
-        4: support.constant
-        5: string.unquoted
-        6: support.constant
-        7: support.constant
+        (?xi)
+        ^\s*(logging)\s+(server)\s+({{ip}})\s+([0-7])(?:\s+(use-vrf)\s+(\S+))?(?:\s+(facility)\s+({{facility}}))?
+      captures:
+        1: support.constant    # logging
+        2: support.constant    # logging server
+        3: constant.numeric    # logging server ip 
+        4: constant.numeric    # logging server ip log_level
+        5: support.constant    # logging server ip log_level use-vrf
+        6: string.unquoted     # logging server ip log_level use-vrf name 
+        7: support.constant    # logging server ip log_level use-vrf name facility
+        8: support.constant    # logging server ip log_level use-vrf name facility level
 
   feature:
     - match: |
@@ -771,6 +784,17 @@ contexts:
   acl:
     - include: aclv4
     - include: aclv6
+    - include: acl_resequence
+
+  acl_resequence:
+    - match: ^\s*(resequence)\s+(ip(?:v6)?)\s+(access-list)\s+(\S+)\s+(\d+)\s+(\d+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: string.unquoted
+        5: constant.numeric
+        6: constant.numeric
 
   aclv6:
     - match: ^\s*(ipv6)\s+(access-list)\s+(\S+)
@@ -806,7 +830,7 @@ contexts:
         ^\s*
         (?:
           (?:
-            (?:({{line_number}})\s+(remark)\s+(.*))|
+            (?:({{line_number}}\s+)?(remark)\s+(.*))|
             (statistics\s+per-entry)
           )
         )
@@ -820,7 +844,7 @@ contexts:
   ace_v4:
     - match: |
         (?xi)
-        ({{line_number}}\s+)
+        ({{line_number}}\s+)?
         (?:(permit)|(deny))\s+
         ({{protocol_target_v4}})\s+
         ({{network_target}})
@@ -864,7 +888,7 @@ contexts:
   ace_icmp_v4:
     - match: |
         (?xi)
-        ({{line_number}}\s+)
+        ({{line_number}}\s+)?
         (?:(permit)|(deny))\s+
         (icmp)\s+
         ({{network_target}})
@@ -890,7 +914,7 @@ contexts:
   ace_icmp_v6:
     - match: |
         (?xi)
-        ({{line_number}}\s+)
+        ({{line_number}}\s+)?
         (?:(permit)|(deny))\s+
         (icmp)\s+
         ({{network_v6_target}})
@@ -916,7 +940,7 @@ contexts:
   ace_v6:
     - match: |
         (?xi)
-        ({{line_number}}\s+)
+        ({{line_number}}\s+)?
         (?:(permit)|(deny))\s+
         ({{protocol_target_v6}})\s+
         ({{network_v6_target}})
@@ -1049,7 +1073,7 @@ contexts:
     - match: |
         (?xi)
         (?:
-          (?:(router-id)\s+(\S+))|
+          (?:(router-id)\s+({{router_id}}))|
           (?:
             (timers)\s+(throttle)\s+
             (?:
@@ -1118,7 +1142,7 @@ contexts:
     - match: |
         (?xi)
         (?:
-          (?:(router-id)\s+(\S+))|
+          (?:(router-id)\s+({{router_id}}))|
           (?:(log-neighbor-changes))|
           (?:(timers)\s+(bgp)\s+(\d+)\s+(\d+))
         )
@@ -1604,13 +1628,22 @@ contexts:
       - meta_content_scope: text.network.cisco.route_map
       - match: >
           (?xi)
+          (?:(match\s+ip\s+address\s+prefix-list)\s+(\S+))|
           (?:(match\s+ip\s+address)\s+(\S+))|
-          (?:(set\s+vrf)\s+(\S+))
+          (?:(set\s+vrf)\s+(\S+))|
+          (?:(set\s+metric)\s+(\d+))|
+          (?:(set\s+local-preference)\s+(\d+))
         captures:
-          1: support.constant   # match address
-          2: string.unquoted    # match address name
-          3: support.constant   # set vrf
-          4: string.unquoted    # set vrf name
+          1: support.constant   # match address prefix-list
+          2: string.unquoted    # match address prefix-list name
+          3: support.constant   # match address
+          4: string.unquoted    # match address name
+          5: support.constant   # set vrf
+          6: string.unquoted    # set vrf name
+          7: support.constant   # set metric
+          8: constant.numeric    # set metric number
+          9: support.constant   # set local-preference
+          10: constant.numeric    # set local-preference number
       - include: pop_on_configure_terminal_context
 
   vlan:
@@ -2277,6 +2310,7 @@ contexts:
     - include: show_route
     - include: show_standby
     - include: show_interface
+    - include: show_access_list
     - include: show_run_interface
     - include: show_ip_interface_brief
 
@@ -2321,6 +2355,13 @@ contexts:
         2: entity.other.attribute-name
         3: constant.numeric
         4: support.constant
+
+  show_access_list:
+    - match: '\s*(show(?:\s+ip(?:v6)?)?\s+access-lists?)(\s+\S+)?(\s+(?:(?:dynamic)|(?:expanded)|(?:summary)))?'
+      captures:
+        1: support.constant             # show access-list
+        2: string.unquoted              # show access-list name
+        3: support.constant             # show access-list dynamic | expanded | summary
 
   show_run_interface:
     - match: '\s*(show\s+run\s+interface)(?:(\s+{{interface_names}})\s*({{interface_numbers}}))?'
