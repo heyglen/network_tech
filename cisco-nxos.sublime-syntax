@@ -22,6 +22,7 @@ scope: text.network.cisco.nxos text.network.cisco.configure_terminal
 
 variables:
   comment: '(?:[!#])'
+  route_target: '\d+:\d+'
   ospf_network_types: |
     (?xi)
     (?:
@@ -175,6 +176,14 @@ variables:
       (?:template\s+peer)|
       (?:neighbor\s+\S+)|
       (?:{{configure_terminal_ctx_words}})
+    )
+  vrf_address_family_unicast_ctx_words: |
+    (?xi)
+    \s*
+    (?:
+      (?:route-target)|
+      (?:import)|
+      (?:{{bgp_vrf_ctx_words}})
     )
   bgp_vrf_ctx_words: |
     (?xi)
@@ -616,6 +625,15 @@ contexts:
         (?=
           ^\s*
           {{bgp_vrf_ctx_words}}
+        )
+      pop: true
+
+  pop_on_vrf_address_family_unicast:
+    - match: |
+        (?xi)
+        (?=
+          ^\s*
+          {{vrf_address_family_unicast_ctx_words}}
         )
       pop: true
 
@@ -1418,6 +1436,37 @@ contexts:
     - include: vrf_ipv4_route
     - include: vrf_ipv6_route
 
+  vrf_address_family:
+    - include: vrf_address_family_unicast_ipv4
+
+  vrf_address_family_unicast_ipv4:
+    - match: ^\s*(address-family)\s+(ipv4)\s+(unicast)
+      captures:
+        0: cicso.scope
+        1: variable.parameter
+        2: support.constant
+        3: support.constant
+      push:
+        - meta_content_scope: text.network.cisco.vrf.vrf_address_family_unicast_ipv4
+        - include: vrf_address_family_unicast_ipv4_settings
+        - include: pop_on_vrf_address_family_unicast
+
+  vrf_address_family_unicast_ipv4_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(route-target)\s+(import|export)\s+({{route_target}}))|
+          (?:(import)\s+(map)\s+(\S+))
+        )
+      captures:
+        1: support.constant     # route-target
+        2: support.constant     # route-target import
+        3: constant.numeric     # route-target import
+        4: support.constant     # import
+        5: support.constant     # import map
+        6: string.unquoted      # import map NAME
+
   vrf_ipv4_route:
     - match: |
         (?xi)
@@ -1613,6 +1662,7 @@ contexts:
           1: support.constant
           2: constant.numeric
       - include: vrf_ip_route
+      - include: vrf_address_family
       - include: pop_on_configure_terminal_context
 
   route_map:

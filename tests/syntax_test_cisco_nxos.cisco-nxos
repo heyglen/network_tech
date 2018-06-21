@@ -1,6 +1,24 @@
 # cisco nxos
 
 show vlan
+show access-list
+show access-lists
+show access-lists NAME
+show access-lists NAME dynamic
+show access-lists NAME expanded
+show access-lists NAME summary
+show ip access-list
+show ip access-lists
+show ip access-lists NAME
+show ip access-lists NAME dynamic
+show ip access-lists NAME expanded
+show ip access-lists NAME summary
+show ipv6 access-list
+show ipv6 access-lists
+show ipv6 access-lists NAME
+show ipv6 access-lists NAME dynamic
+show ipv6 access-lists NAME expanded
+show ipv6 access-lists NAME summary
 show vlan id 42
 show interface
 show interface ethernet 0
@@ -22,6 +40,8 @@ configure terminal
   exit
 
 hostname example
+logging server 1.2.3.4 0
+logging server 1.2.3.4 6 use-vrf management 
 logging server 1.2.3.4 6 use-vrf management facility local5
 
 ipv6 route vrf NAME ::/64 vlan0 ::1
@@ -58,7 +78,12 @@ interface ethernet0
 interface eth0
   exit
 
+resequence ip access-list NAME 10 10
+resequence ipv6 access-list NAME 10 10
+
 ip access-list ACL
+  permit ip 1.2.3.0/24 1.2.3.0/24
+  deny icmp any any router-advertisement 
   10 permit ip 1.2.3.0/24 1.2.3.0/24
   20 deny ip 1.2.3.0/24 1.2.3.0/24
   10 permit ip any 1.2.3.0/24
@@ -69,6 +94,21 @@ ip access-list ACL
   10 permit tcp any any gt 1
   10 permit tcp any any ge 1
   10 permit tcp any any le 1
+  10 permit tcp any any eq sunrpc
+  10 permit tcp any any eq bgp
+  10 permit tcp any any eq ftp-data
+  10 permit tcp any any eq ftp
+  10 permit tcp any any eq tftp
+  10 permit tcp any any eq domain
+  10 permit tcp any any eq telnet
+  10 permit tcp any any eq snmptrap
+  10 permit tcp any any eq syslog
+  10 permit tcp any any eq ntp
+  10 permit tcp any any eq bootpc
+  10 permit tcp any any eq bootps
+  10 permit tcp any any eq pim-auto-rp
+  10 permit tcp any any eq ssh
+  10 permit tcp any any eq snmp
   10 permit ip any any
   20 deny icmp any any router-advertisement 
   1 permit icmp any any echo-reply 
@@ -89,6 +129,7 @@ ip access-list ACL
   exit
 
 ipv6 access-list ACL
+  permit tcp any range 1 2 ::/0 range 1 2
   1 permit tcp any range 1 2 ::/0 range 1 2
   1 permit icmp any any echo-reply log
   1 permit icmp any any echo-reply 
@@ -170,6 +211,9 @@ vrf context RED
   ip route 10.229.92.48/28 Vlan0 1.2.3.4
   ipv6 route ::/0 Vlan0 ::1
   ip pim ssm range 224.0.0.0/8
+  address-family ipv4 unicast
+    route-target import 1111:1111
+    import map NAME
 exit
 
 router bgp 1
@@ -301,8 +345,12 @@ line vty
  exit
 
 route-map route_map_name permit 13990
-  match ip address acl_name
+  match ip address prefix-list PREFIX_LIST
+  match ip address ACL_NAME
   set vrf vrf_name
+  set metric 200
+  set local-preference 100
+
 exit
 
 class-map type qos cmap-qos-acl
