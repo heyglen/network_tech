@@ -24,6 +24,7 @@ variables:
   pop_address_family_ctx: '^\s*(?:exit-address-family)\s*$'
   command_end: '(?:\s|{{comment}}|$)'
   line_number: '^\s*\d+'
+  route_target: '\d+:\d+'
   ah_transform: |
     (?xi)
     (?:
@@ -130,6 +131,7 @@ variables:
       (?:policy-map)|
       (?:redundancy)|
       (?:router)|
+      (?:route-map)|
       (?:service)|
       (?:snmp-server)|
       (?:spanning-tree)|
@@ -397,7 +399,6 @@ contexts:
             (?:export)|
             (?:hostname)|
             (?:interface)|
-            (?:ip)|
             (?:ipv6)|
             (?:line)|
             (?:logout)|
@@ -532,6 +533,7 @@ contexts:
     - include: extended_acl
     - include: standard_acl
     - include: extended_acl_old
+    - include: route_map
     - include: partials
 
 
@@ -634,7 +636,6 @@ contexts:
   snmp:
     - include: snmp_trap
     - include: snmp_poll
-    - include: snmp_contact
     - include: snmp_contact_location
 
   snmp_contact_location:
@@ -902,6 +903,35 @@ contexts:
         15: constant.numeric            # Destination Port
         16: support.constant            # Destination Established
         17: ios.acl.ace.target_ip       # IP target scope
+
+  route_map:
+    - match: '^\s*(route-map)\s+(\S+)\s+(?:(permit)|(deny))\s+(\d+)?'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+        3: entity.other.attribute-name
+        4: keyword.other
+        5: constant.numeric
+      push:
+      - meta_content_scope: text.network.cisco.route_map
+      - match: >
+          (?xi)
+          (?:(match\s+ip\s+address\s+prefix-list)\s+(\S+))|
+          (?:(match\s+ip\s+address)\s+(\S+))|
+          (?:(set\s+extcommunity\s+rt)\s+({{route_target}})(\s+additive)?)|
+          (?:(set\s+local-preference)\s+(\d+)?)
+        captures:
+          1: support.constant   # match address prefix-list 
+          2: string.unquoted    # match address prefix-list name 
+          3: support.constant   # match address 
+          4: string.unquoted    # match address name 
+          5: support.constant   # set extcommunity rt
+          6: constant.numeric   # set extcommunity rt route_target
+          7: support.constant    # set extcommunity rt route_target additive
+          8: support.constant   # set local-preference
+          9: constant.numeric   # set local-preference number
+      - include: pop_on_configure_terminal_context
 
   aaa_authentication:
     - match: |
@@ -1221,6 +1251,7 @@ contexts:
         - include: ipv6_neighbor
         - include: pop_on_bgp_address_family_context
         # - include: pop_context_on_unknown
+
 
   ipv4_neighbor:
     - match: |
@@ -1650,7 +1681,7 @@ contexts:
             (?:(ip\s+address)\s+({{ip}})\s+({{subnet_mask}})(\s+secondary)?)|
             (shutdown)|
             (ipv6\s+enable)|
-            (?:(channel-group)\s+(\d+)\s+(mode)\s+(active))|
+            (?:(channel-group)\s+(\d+)\s+(mode)\s+(active|on))|
             (?:(speed)\s+(auto)|(\d+))|
             (?:(ip\s+nat)\s+((?:inside)|(?:outside)))|
             (?:(duplex)\s+((?:auto)|(?:half)|(?:auto)))|
@@ -1676,7 +1707,9 @@ contexts:
             (?:
               (spanning-tree)\s+
               (?:
-                (portfast)
+                (portfast)(\s+edge)?
+              )|(?:
+                (bpduguard)\s+(?:(enable)|(disable))
               )
             )|
             (?:
@@ -1748,9 +1781,13 @@ contexts:
           57: constant.numeric            # ip ospf cost value
           58: support.constant            # spanning-tree
           59: support.constant            # spanning-tree portfast
-          60: support.constant            # service-policy
-          61: support.constant            # service-policy input/output
-          62: string.unquoted            # service-policy input/output name
+          60: support.constant            # spanning-tree portfast edge
+          61: support.constant            # spanning-tree bpduguard
+          62: entity.other.attribute-name # spanning-tree bpduguard enable
+          63: keyword.other               # spanning-tree bpduguard disable
+          64: support.constant            # service-policy
+          65: support.constant            # service-policy input/output
+          66: string.unquoted             # service-policy input/output name
       - include: pop_on_configure_terminal_context
       - include: partials
 

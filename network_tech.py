@@ -18,9 +18,8 @@ SCOPE_PREFIX = 'text.network'
 settings = sublime.load_settings('network_tech.sublime-settings')
 
 log_level = settings.get('log_level', 'warning') or 'warning'
-logger.setLevel(
-    getattr(logging, log_level.upper())
-)
+logger.setLevel(getattr(logging, log_level.upper()))
+# logger.setLevel(logging.DEBUG)
 
 
 SYNTAX = DotDict({
@@ -50,9 +49,9 @@ detect_syntax = DotDict({
         '^\s*fragment chain \d+ \S+$',
         '^\s*asdm image \S+$',
         '^\s*same-security-traffic',
-    ],
+    ],  
     'nxos': [
-        '^!Command: show ',
+        '^!Command: show .*',
         '^\s*feature \S+',
         '^\s*vrf context \S+',
     ],
@@ -236,7 +235,7 @@ class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
         self.network_info()
 
     def network_info(self, point=None, location=None):
-        if not self.view.scope_name(point).startswith(SCOPE_PREFIX):
+        if point is None or not self.view.scope_name(point).startswith(SCOPE_PREFIX):
             return
         regions = self.view.sel() if point is None else [sublime.Region(point, point)]
         location = regions[0].end() if location is None else location
@@ -264,12 +263,12 @@ class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
 class AutoSyntaxDetection(sublime_plugin.ViewEventListener):
     def on_modified_async(self):
         if self.is_plain_text and self.is_cisco:
-            if self.is_asa:
+            if self.is_nxos:
+                self.view.set_syntax_file(SYNTAX.nxos)
+            elif self.is_asa:
                 self.view.set_syntax_file(SYNTAX.asa)
             elif self.is_ios:
                 self.view.set_syntax_file(SYNTAX.ios)
-            elif self.is_nxos:
-                self.view.set_syntax_file(SYNTAX.nxos)
             elif self.is_ace:
                 self.view.set_syntax_file(SYNTAX.ace)
 
@@ -312,3 +311,24 @@ class AutoSyntaxDetection(sublime_plugin.ViewEventListener):
                 logger.debug(message)
                 return True
         return False
+
+
+# calls = 0
+# class StickySection(sublime_plugin.ViewEventListener):
+
+#     def on_modified(self):
+#         global calls
+#         calls += 1
+#         # print('on_modified ' + str(calls))
+
+#     # def on_selection_modified_async(self, view):
+#     def on_text_command(self, command_name, args):
+#         view = self.view
+#         if view is not None and view.scope_name(0).startswith(SCOPE_PREFIX):
+#             self.stick(view)
+
+#     def stick(self, view):
+#         visible = view.visible_region()
+#         top_line = view.full_line(visible.begin())
+#         top_scope = view.extract_scope(top_line.begin())
+#         logging.debug(view.substr(top_line))

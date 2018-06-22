@@ -78,6 +78,8 @@ configure terminal
   ipv6 general-prefix WHATEVER ::/0
 
   ! Line comment
+
+  
   ip access-list extended NAME ! This is a comment
    remark blah blah
    2 permit tcp any any eq bgp
@@ -112,6 +114,7 @@ configure terminal
     exit
   exit
 
+  ip access-list standard NAME
   ip access-list standard NAME
    10 permit 1.2.3.0 0.0.0.255
    permit 1.2.3.0 0.0.0.255
@@ -177,7 +180,7 @@ configure terminal
       neighbor ::1 soft-reconfiguration outbound
       neighbor ::1 transport path-mtu-discovery
 
-router bgp 1
+router bgp 12
 ip route 1.2.4.0 255.255.255.0 1.2.3.4
 
 interface vlan123
@@ -241,6 +244,7 @@ interface range GigabitEthernet1/1-2
   switchport voice vlan 123
   ip redirects
   channel-group 1 mode active
+  channel-group 1 mode on
   ipv6 redirects
   ip proxy-arp
   ip vrf forwarding NAME
@@ -256,12 +260,30 @@ interface range GigabitEthernet1/1-2
   standby 1 track 1 decrement 10
   ipv6 enable
   spanning-tree portfast
+  spanning-tree portfast edge
+  spanning-tree bpduguard enable
+  spanning-tree bpduguard disable
   service-policy output SOMETHING
   service-policy input SOMETHING
   no switchport
   no shutdown
   shutdown
   exit
+
+
+route-map ROUTE_MAP_NAME permit 10
+ match ip address prefix-list PREFIX-LIST
+ set extcommunity rt  12345:123
+ set extcommunity rt  12345:123 additive
+
+route-map ROUTE_MAP_NAME permit 20
+ match ip address prefix-list PREFIX-LIST
+ set extcommunity rt  12345:123
+ set extcommunity rt  12345:123 additive
+!
+route-map ROUTE_MAP_NAME permit 30
+ match ip address ACL_NAME
+ set local-preference 123
 
 
 snmp-server community TEST RO 1

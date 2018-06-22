@@ -58,3 +58,6 @@ docs/build/
 
 # virtualenv
 network_tech/*
+
+# Presentation
+presentation/node_modules/*
