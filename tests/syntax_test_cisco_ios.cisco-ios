@@ -67,6 +67,8 @@ configure terminal
 
   vlan 1
     name VLAN-1
+  vlan 2
+    name VLAN-1
   exit
 
   hostname example
@@ -100,7 +102,6 @@ configure terminal
     rd 1.2.3.4:5
     route-target export 1.2.3.4:5
     route-target import 1.2.3.4:5
-  exit
 
   vrf definition NAME
     description management
@@ -248,6 +249,8 @@ interface range GigabitEthernet1/1-2
   ipv6 redirects
   ip proxy-arp
   ip vrf forwarding NAME
+  ipv6 address PREFIX_NAME 0:0:0:1::/64 eui-64
+  ipv6 address PREFIX_NAME 0:0:0:1::/64
   ipv6 address general-prefix 0:0:0:1::/64 eui-64
   ipv6 nd prefix ff02::/64
   standby version 2
@@ -261,13 +264,14 @@ interface range GigabitEthernet1/1-2
   ipv6 enable
   spanning-tree portfast
   spanning-tree portfast edge
+  shut
+  no switchport
+  no shutdown
+  shutdown
   spanning-tree bpduguard enable
   spanning-tree bpduguard disable
   service-policy output SOMETHING
   service-policy input SOMETHING
-  no switchport
-  no shutdown
-  shutdown
   exit
 
 
@@ -292,7 +296,7 @@ snmp-server host 1.2.3.4 version 2c TEST
 
 line con 0
   stopbits 1
-  password cisco123
+  password secret_password
   modem enable
   transport preferred all
   transport output all
@@ -339,18 +343,18 @@ service timestamps log datetime msec
 service timestamps log datetime msec localtime show-timezone
 no service password-encryption
 !
-hostname retail
+hostname router
 !
 boot-start-marker
 boot-end-marker
 !
-enable password cisco123
+enable password secret_password
 !
-username jsomeone password 0 cg6#107X
+username user password 0 secret_password
 aaa new-model
 !
 aaa group server radius rad_eap
-  server 10.0.1.1 auth-port 1812 acct-port 1813
+  server 1.2.3.4 auth-port 1812 acct-port 1813
 !
 aaa authentication login default local
 aaa authentication login default auth-guest
@@ -392,15 +396,15 @@ dialer-group 1
 dialer-list 1 protocol ip permit
 ip nat inside source list 1 interface dialer 0 overload
 ip classless (default)
-ip route 10.10.25.2 0.255.255.255 dialer 0
+ip route 1.0.0.0 0.255.255.255 dialer 0
 !
-ip dhcp excluded-address 10.0.1.1 10.0.1.10
+ip dhcp excluded-address 1.2.3.4 1.2.3.40
 ip dhcp excluded-address 10.0.2.1 10.0.2.10
 ip dhcp excluded-address 10.0.3.1 10.0.3.10
 !
 ip dhcp pool vlan1
 network 10.0.1.0 255.255.255.0
-default-router 10.0.1.1
+default-router 1.2.3.4
 !
 ip dhcp pool vlan2
   network 10.0.2.0 255.255.255.0
@@ -563,7 +567,7 @@ bridge-group 3
 bridge-group 3 spanning-disabled
 !
 interface BVI1
-ip address 10.0.1.1 255.255.255.0
+ip address 1.2.3.4 255.255.255.0
 ip nat inside
 !
 interface BVI2
@@ -578,13 +582,14 @@ ip http server
 no ip http secure-server
 !
 radius-server local
-  nas 10.0.1.1 key 0 cisco123
+  nas 1.2.3.4 key 0 secret_password
   group rad_eap
 !
-user jsomeone nthash 7 0529575803696F2C492143375828267C7A760E1113734624452725707C010B065B
-user AMER\jsomeone nthash 7 0224550C29232E041C6A5D3C5633305D5D560C09027966167137233026580E0B0D
+user jsomeone nthash 7 0123456789ABCDEF492143375828267C7A760E1113734624452725707C010B065B
+user DOMAIN\someone nthash 7 0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF01
+
 !
-radius-server host 10.0.1.1 auth-port 1812 acct-port 1813 key cisco123
+radius-server host 1.2.3.4 auth-port 1812 acct-port 1813 key secret_password
 !
 control-plane
 !
@@ -613,7 +618,7 @@ access-list 101 permit ip 10.1.1.0 0.0.0.255 192.168.0.0 0.0.255.255
 no cdp run
 !
 line con 0
-  password cisco123
+  password secret_password
   no modem enable
   modem enable
   transport preferred all
@@ -624,15 +629,15 @@ line aux 0
   transport output all
 !
 line vty 0 4
-  password cisco123
+  password secret_password
   transport preferred all
   transport input all
   transport output all
 !
 
 aaa group server radius sg1
-  server 172.16.0.1
-  server 172.17.0.1
+  server 1.2.3.4
+  server 1.2.3.4
 
 
 policy-map QOS_STUFF

@@ -487,7 +487,7 @@ contexts:
       pop: true
 
   configure_terminal:
-    - match: ^\s*(?:(configure)\s*(terminal))
+    - match: ^\s*(?:(conf(?:igure)?)\s*(t(?:erminal)?))
       # with_prototype:
       #   - include: do_show
       #   - include: scope
@@ -534,7 +534,7 @@ contexts:
     - include: standard_acl
     - include: extended_acl_old
     - include: route_map
-    - include: partials
+    # - include: partials
 
 
   device_comment:
@@ -781,7 +781,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.acl.standard
         - include: standard_ace
-        - include: partials
+        # - include: partials
         - include: pop_on_configure_terminal_context
 
   standard_ace:
@@ -1259,7 +1259,7 @@ contexts:
         ^\s*(neighbor)\s+({{ip}})\s+
         (?:
         (activate)|
-        (shutdown)|
+        (shut(?:down)?)|
         (next-hop-self)|
         (?:(soft-reconfiguration)\s+(inbound|outbound))|
         (?:(password)\s+(\d+)\s+(\S+))|
@@ -1354,7 +1354,7 @@ contexts:
         ^\s*(neighbor)\s+({{ipv6}})\s+
         (?:
           (activate)|
-          (shutdown)|
+          (shut(?:down)?)|
           (next-hop-self)|
           (?:(soft-reconfiguration)\s+(inbound|outbound))|
           (?:(password)\s+(\d+)\s+(\S+))|
@@ -1635,7 +1635,7 @@ contexts:
         captures:
           1: support.constant
           2: string.unquoted
-      # - include: pop_context_on_unknown
+      - include: pop_on_configure_terminal_context
 
   interface:
     - include: interface_default
@@ -1678,8 +1678,9 @@ contexts:
             (?:(ip(?:v6)?\s+redirects))|
             (?:(ipv6\s+address\s+general-prefix)\s+({{ipv6_prefix}}))(\s+eui-64)?|
             (?:(ipv6\s+nd\s+prefix)\s+({{ipv6_prefix}}))|
+            (?:(ipv6\s+address)\s+(\S+)\s+({{ipv6_prefix}}))(\s+eui-64)?|
             (?:(ip\s+address)\s+({{ip}})\s+({{subnet_mask}})(\s+secondary)?)|
-            (shutdown)|
+            (shut(?:down)?)|
             (ipv6\s+enable)|
             (?:(channel-group)\s+(\d+)\s+(mode)\s+(active|on))|
             (?:(speed)\s+(auto)|(\d+))|
@@ -1739,57 +1740,61 @@ contexts:
           15: constant.numeric            # ipv6 prefix
           16: support.constant            # eui-64
           17: support.constant            # ipv6 nd prefix
-          18: support.constant            # ipv6 nd prefix
-          19: support.constant            # ip address
-          20: constant.numeric            # ip address ipv4 address
-          21: constant.numeric            # ip address ipv4 subnet mask
-          22: support.constant.secondary  # ip address secondary
-          23: keyword.other               # shutdown
-          24: support.constant            # ipv6 enable
-          25: support.constant            # channel-group
-          26: constant.numeric            # channel-group id
-          27: support.constant            # channel-group mode
-          28: support.constant            # channel-group mode active
-          29: support.constant            # speed
-          30: support.constant            # speed auto
-          31: constant.numeric            # speed #
-          32: support.constant            # ip nat
-          33: support.constant            # ip nat inside / outside
-          34: support.constant            # duplex
-          35: support.constant            # duplex auto / full / half
-          36: support.constant            # ip
-          37: support.constant            # ip flow ingress
-          38: support.constant            # ip igmp query-interval
-          39: constant.numeric            # ip igmp query-interval value
-          40: support.constant            # mtu
-          41: constant.numeric            # mtu value
-          42: support.constant            # bandwidth
-          43: constant.numeric            # bandwidth value
-          44: support.constant            # speed
-          45: constant.numeric            # speed value
-          46: support.constant            # full-duplex
-          47: support.constant            # half-duplex
-          48: support.constant            # ip pim
-          49: entity.other.attribute-name # ip pim mode
-          50: support.constant            # ip ospf
-          51: support.constant            # ip ospf message-digest-key
-          52: constant.numeric            # ip ospf message-digest-key id
-          53: entity.other.attribute-name # ip ospf message-digest-key hash
-          54: constant.numeric            # ip ospf message-digest-key password type
-          55: string.unquoted             # ip ospf message-digest-key password
-          56: support.constant            # ip ospf cost
-          57: constant.numeric            # ip ospf cost value
-          58: support.constant            # spanning-tree
-          59: support.constant            # spanning-tree portfast
-          60: support.constant            # spanning-tree portfast edge
-          61: support.constant            # spanning-tree bpduguard
-          62: entity.other.attribute-name # spanning-tree bpduguard enable
-          63: keyword.other               # spanning-tree bpduguard disable
-          64: support.constant            # service-policy
-          65: support.constant            # service-policy input/output
-          66: string.unquoted             # service-policy input/output name
+          18: constant.numeric            # ipv6 nd prefix IP
+          19: support.constant            # ipv6 address
+          20: string.unquoted             # ipv6 address PREFIX_NAME
+          21: constant.numeric            # ipv6 address PREFIX_NAME address
+          22: support.constant            # ipv6 address PREFIX_NAME address eui64
+          23: support.constant            # ip address
+          24: constant.numeric            # ip address ipv4 address
+          25: constant.numeric            # ip address ipv4 subnet mask
+          26: support.constant.secondary  # ip address secondary
+          27: keyword.other               # shutdown
+          28: support.constant            # ipv6 enable
+          29: support.constant            # channel-group
+          30: constant.numeric            # channel-group id
+          31: support.constant            # channel-group mode
+          32: support.constant            # channel-group mode active
+          33: support.constant            # speed
+          34: support.constant            # speed auto
+          35: constant.numeric            # speed #
+          36: support.constant            # ip nat
+          37: support.constant            # ip nat inside / outside
+          38: support.constant            # duplex
+          39: support.constant            # duplex auto / full / half
+          40: support.constant            # ip
+          41: support.constant            # ip flow ingress
+          42: support.constant            # ip igmp query-interval
+          43: constant.numeric            # ip igmp query-interval value
+          44: support.constant            # mtu
+          45: constant.numeric            # mtu value
+          46: support.constant            # bandwidth
+          47: constant.numeric            # bandwidth value
+          48: support.constant            # speed
+          49: constant.numeric            # speed value
+          50: support.constant            # full-duplex
+          51: support.constant            # half-duplex
+          52: support.constant            # ip pim
+          53: entity.other.attribute-name # ip pim mode
+          54: support.constant            # ip ospf
+          55: support.constant            # ip ospf message-digest-key
+          56: constant.numeric            # ip ospf message-digest-key id
+          57: entity.other.attribute-name # ip ospf message-digest-key hash
+          58: constant.numeric            # ip ospf message-digest-key password type
+          59: string.unquoted             # ip ospf message-digest-key password
+          60: support.constant            # ip ospf cost
+          61: constant.numeric            # ip ospf cost value
+          62: support.constant            # spanning-tree
+          63: support.constant            # spanning-tree portfast
+          64: support.constant            # spanning-tree portfast edge
+          65: support.constant            # spanning-tree bpduguard
+          66: entity.other.attribute-name # spanning-tree bpduguard enable
+          67: keyword.other               # spanning-tree bpduguard disable
+          68: support.constant            # service-policy
+          69: support.constant            # service-policy input/output
+          70: string.unquoted             # service-policy input/output name
       - include: pop_on_configure_terminal_context
-      - include: partials
+      # - include: partials
 
   standby:
     - match: |
@@ -1804,7 +1809,7 @@ contexts:
             (?:(priority)\s+(\d+))|
             (?:(ipv6)\s+(?:
                (?:(autoconfig))|
-               (?:({{ipv6}}))
+               (?:({{ipv6_prefix}}))
               )
             )
           )?
