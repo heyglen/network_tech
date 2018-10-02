@@ -107,6 +107,7 @@ variables:
       (?:class-map)|
       (?:clock)|
       (?:control-plane)|
+      (?:conf(?:igure)?\s+t(?:erminal)?)|
       (?:diagnostic)|
       (?:enable)|
       (?:exception)|
@@ -1682,7 +1683,12 @@ contexts:
             (?:(ip\s+address)\s+({{ip}})\s+({{subnet_mask}})(\s+secondary)?)|
             (shut(?:down)?)|
             (ipv6\s+enable)|
-            (?:(channel-group)\s+(\d+)\s+(mode)\s+(active|on))|
+            (?:(channel-group)\s+(\d+)\s+(mode)\s+
+              (
+                (?:active)|
+                (?:on)
+              )
+            )|
             (?:(speed)\s+(auto)|(\d+))|
             (?:(ip\s+nat)\s+((?:inside)|(?:outside)))|
             (?:(duplex)\s+((?:auto)|(?:half)|(?:auto)))|
@@ -1708,7 +1714,14 @@ contexts:
             (?:
               (spanning-tree)\s+
               (?:
-                (portfast)(\s+edge)?
+                (portfast)
+                (?:
+                  \s+
+                  (
+                    (?:edge)|
+                    (?:trunk)
+                  )
+                )?
               )|(?:
                 (bpduguard)\s+(?:(enable)|(disable))
               )
@@ -1720,7 +1733,15 @@ contexts:
                 (?:output)
               )
               \s+(\S+)
-            )
+            )|
+            (?:
+              (logging\s+event)\s+
+              (?:
+                (link-status)|
+                (trunk-status)
+              )
+            )|
+            (?:(vpc)\s+(\d+))
           )
         captures:
           1: comment.line                 # Description
@@ -1793,6 +1814,11 @@ contexts:
           68: support.constant            # service-policy
           69: support.constant            # service-policy input/output
           70: string.unquoted             # service-policy input/output name
+          71: support.constant            # logging event
+          72: support.constant            # logging event link-status
+          73: support.constant            # logging event trunk-status
+          74: support.constant            # vpc
+          75: constant.numeric            # vpc id
       - include: pop_on_configure_terminal_context
       # - include: partials
 
