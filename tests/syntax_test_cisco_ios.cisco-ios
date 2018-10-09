@@ -355,6 +355,7 @@ boot-end-marker
 enable password secret_password
 !
 username user password 0 secret_password
+username [ACCOUNT] privilege 15 secret [ACCOUNT_PASSWORD]
 aaa new-model
 !
 aaa group server radius rad_eap
@@ -661,3 +662,90 @@ class-map match-all VOICE
 
 class-map match-all VIDEO-SERVER
   match access-group 6
+
+
+login block-for 30 attempts 7 within 20
+!security password min-length 9
+!no service password-recovery
+service password-encryption
+service tcp-keepalives-in
+service tcp-keepalives-out
+service sequence-numbers
+service timestamps log datetime localtime msec year show-timezone
+service timestamps debug datetime localtime msec year show-timezone
+clock timezone EST -5
+clock summer-time EST recurring 2 Sun Mar 02:00 1 Sun Nov 02:00
+ntp server [NTP_SVR-1] prefer
+ntp server [NTP_SVR-1]
+no ip domain-lookup
+ip domain-name [DOMAIN]
+ip name-server [DNS1]
+ip name-server [DNS2]
+ip subnet-zero
+ip classless
+ip igmp snooping querier
+no ip http server
+no ip http secure-server
+no ip finger
+no service finger
+no logging console
+no logging monitor
+no ip source-route
+no service pad
+spanning-tree mode rapid-pvst
+! VTP Disable
+vtp mode off
+no vtp mode
+vtp mode off
+vtp mode transparent
+vtp mode server
+vtp mode client
+vtp domain locIDF##
+vtp password locIDF##
+vtp version 2
+vtp mode off
+no vtp mode
+!
+
+
+
+!***************************************************
+!SSH CONFIGURE
+!***************************************************
+!
+crypto key zeroize rsa
+crypto key zeroize rsa noconfirm
+crypto key generate rsa modulus 2048 noconfirm
+
+
+crypto key zeroize rsa
+!
+!
+crypto key generate rsa general-keys modulus 2048
+ip ssh authentication-retries 2
+ip ssh source-interface vlan 400
+ip ssh version 2
+ip scp server enable
+!
+line vty 0 15
+! exec-timeout 10 30
+logging synchronous
+! login local
+exec prompt timestamp
+history size 100
+transport input ssh
+transport output ssh
+exit
+!
+line console 0
+exec-timeout 30 30
+logging synchronous
+!login local
+exec prompt timestamp
+history size 100
+exit
+!
+!line aux 0
+!no exec
+!exit
+!

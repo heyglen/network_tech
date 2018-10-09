@@ -57,6 +57,11 @@ variables:
       (?:esp-null)|
       (?:esp-3des)
     )
+  pkey_types: |
+    (?xi)
+    (?:
+      (?:rsa)
+    )
   esp_authentication_transform: |
     (?xi)
     (?:
@@ -509,6 +514,10 @@ contexts:
     - include: ntp
     - include: vlan
     - include: ip_http
+    - include: ip_scp
+    - include: ip_subnet_zero
+    - include: vtp
+    - include: spanning_tree
     - include: logging
     - include: service
     - include: monitor
@@ -517,12 +526,18 @@ contexts:
     - include: username
     - include: line_aux
     - include: ip_route
+    - include: crypto
+    - include: ip_ssh
     - include: interface
     - include: policy_map
     - include: class_map
     - include: aaa_group
     - include: prefix_list
     - include: vrf_upgrade
+    - include: ntp_server
+    - include: igmp_snooping_querier
+    - include: ip_name_server
+    - include: ip_domain_name
     - include: ip_dhcp_pool
     - include: ip_classless
     - include: aaa_new_model
@@ -573,6 +588,48 @@ contexts:
         1: support.constant
         2: constant.numeric
 
+  ip_name_server:
+    - match: |
+        (?xi)
+        ^\s*
+        (ip)\s+(name-server)\s+(\S+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+
+  ntp_server:
+    - match: |
+        (?xi)
+        ^\s*
+        (ntp)\s+(server)\s+(\S+)\s+(prefer)?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+        4: support.constant
+
+  igmp_snooping_querier:
+    - match: |
+        (?xi)
+        ^\s*
+        (ip)\s+(igmp)\s+(snooping)\s+(querier)?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+
+  ip_domain_name:
+    - match: |
+        (?xi)
+        ^\s*
+        (ip)\s+(domain-name)\s+(\S+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted.
+
   username:
     - match: |
         (?xi)
@@ -581,17 +638,21 @@ contexts:
         \s+
         (\S+)
         \s+
-        (password)
-        \s+
-        (\d+)
-        \s+
-        (\S+)
+        (?:(privilege)\s+(\d+)\s+)?
+        (?:
+          (?:(secret)\s+(\S+))|
+          (?:(password)\s+(\d+)\s+(\S+))
+        )?
       captures:
         1: support.constant   # username
         2: string.unquoted    # username string
-        3: support.constant   # password
-        4: constant.numeric   # password type
-        5: string.unquoted    # password string
+        3: support.constant   # privilege
+        4: constant.numeric   # privilege id
+        5: support.constant   # secret
+        6: string.unquoted    # secret password string
+        7: support.constant   # password
+        8: constant.numeric   # password type
+        9: string.unquoted    # password string
 
   vrf_upgrade:
     - match: ^\s*(vrf)\s+(upgrade-cli)\s+(multi-af-mode)\s+((?:non-)?common-policies)(?:(?:\s+(vrf)\s+(\S+)(?:\s+(force))?)|(\s+force))?
@@ -1445,6 +1506,111 @@ contexts:
     captures:
       1: support.constant
 
+  ip_scp:
+  - match: ^\s*(ip\s+scp\s+server)\s+(enable)
+    captures:
+      1: support.constant
+      2: entity.other.attribute-name.
+
+  ip_ssh:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (ip)\s+(ssh)\s+(?:
+            (?:(source-interface)\s+({{interface_names}})\s+({{interface_numbers}}))|
+            (?:(version)\s+([12]))|
+            (?:(authentication-retries)\s+(\d+))|
+          )
+        )
+      captures:
+        1: support.constant             # ip
+        2: support.constant             # ssh
+        3: support.constant             # source-interface
+        4: entity.other.attribute-name  # source-interface name
+        5: constant.numeric             # source-interface name number
+        6: support.constant             # version
+        7: constant.numeric             # version number
+        8: support.constant             # authentication-retries
+        9: constant.numeric             # authentication-retries number
+
+  vtp:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (vtp)\s+(?:
+            (?:(mode)\s+(?:(off)|(server)|(client)|(transparent)))|
+            (?:(domain)\s+(\S+))|
+            (?:(password)\s+(\S+))|
+            (?:(version)\s+(\d+))
+          )
+        )
+      captures:
+        1: support.constant             # vtp
+        2: support.constant             # vtp mode
+        3: keyword.other                # vtp mode off
+        4: entity.other.attribute-name  # vtp mode server
+        5: entity.other.attribute-name  # vtp mode client
+        6: entity.other.attribute-name  # vtp mode transparent
+        7: support.constant             # domain
+        8: string.unquoted              # domain name
+        9: support.constant             # password
+        10: string.unquoted             # password string
+        11: support.constant            # version
+        12: constant.numeric            # version number
+
+  spanning_tree:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (spanning-tree)\s+(?:
+            (?:(mode)\s+
+              (?:
+                (rapid-pvst)|
+                (pvst)|
+                (mst)
+              )
+            )
+          )
+        )
+      captures:
+        1: support.constant             # spanning-tree
+        2: support.constant             # mode
+        3: entity.other.attribute-name  # mode rapid-pvst
+        4: entity.other.attribute-name  # mode pvst
+        5: entity.other.attribute-name  # mode mst
+
+  crypto:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (crypto)\s+(key)\s+(?:
+            (?:(zeroize)\s+({{pkey_types}})\s+(noconfirm)?)|
+            (?:(generate)\s+({{pkey_types}})(?:\s+(general-keys))?\s+(modulus)\s+(\d+)\s+(noconfirm)?)
+          )
+        )
+      captures:
+        1: support.constant             # crypto
+        2: support.constant             # crypto key
+        3: support.constant             # zeroize
+        4: entity.other.attribute-name  # zeroize pkey_type
+        5: support.constant             # zeroize pkey_type noconfirm
+        6: support.constant             # generate
+        7: entity.other.attribute-name  # generate pkey_type
+        8: support.constant             # generate pkey_type general-keys
+        9: support.constant             # generate pkey_type general-keys modulus
+        10: constant.numeric            # generate pkey_type general-keys modulus bits
+        11: support.constant            # generate pkey_type general-keys modulus bits noconfirm
+
+  ip_subnet_zero:
+  - match: ^\s*(ip\s+subnet-zero)
+    captures:
+      1: support.constant
+
+
   ip_route:
     - include: ipv4_route
     - include: ipv6_route
@@ -1723,6 +1889,11 @@ contexts:
                   )
                 )?
               )|(?:
+                (port\s+type)\s+
+                (?:
+                  (edge)\s+
+                )
+              )|(?:
                 (bpduguard)\s+(?:(enable)|(disable))
               )
             )|
@@ -1963,7 +2134,9 @@ contexts:
           (?:(modem\s+enable))|
           (?:(exec-timeout)\s+(\d+)\s+(\d+))|
           (logging\s+synchronous)|
-          (?:(stopbits)\s+(\d+))
+          (?:(stopbits)\s+(\d+))|
+          (?:(history)\s+(size)\s+(\d+))|
+          (?:(exec)\s+(prompt)\s+(timestamp))
         )
       captures:
         1: support.constant                 # transport
@@ -1983,9 +2156,15 @@ contexts:
         15: support.constant
         16: support.constant                # stopbits
         17: constant.numeric                # stopbits value
+        18: support.constant                # history
+        19: support.constant                # history size
+        20: constant.numeric                # history size value
+        21: support.constant                # exec
+        22: support.constant                # exec prompt
+        23: support.constant                # exec prompt timestamp
 
   line_con:
-    - match: '^\s*(line)\s+(con)\s+(0)'
+    - match: '^\s*(line)\s+(con(?:sole)?)\s+(0)'
       captures:
         0: cisco.scope
         1: variable.parameter
