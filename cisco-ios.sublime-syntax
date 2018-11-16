@@ -542,6 +542,7 @@ contexts:
     - include: ip_classless
     - include: aaa_new_model
     - include: system_version
+    - include: enable_secret
     - include: enable_password
     - include: aaa_authentication
     - include: ipv6_unicast_routing
@@ -640,7 +641,9 @@ contexts:
         \s+
         (?:(privilege)\s+(\d+)\s+)?
         (?:
+          (?:(secret)\s+(5)\s+(\S+))|
           (?:(secret)\s+(\S+))|
+          (?:(password)\s+(secret\s+)?(5)\s+(\S+))|
           (?:(password)\s+(\d+)\s+(\S+))
         )?
       captures:
@@ -649,10 +652,17 @@ contexts:
         3: support.constant   # privilege
         4: constant.numeric   # privilege id
         5: support.constant   # secret
-        6: string.unquoted    # secret password string
-        7: support.constant   # password
-        8: constant.numeric   # password type
-        9: string.unquoted    # password string
+        6: constant.numeric   # secret type 5
+        7: string.unquoted.cisco.password.type.5    # secret type 5 password string
+        8: support.constant   # secret
+        9: string.unquoted    # secret password string
+        10: support.constant   # password
+        11: support.constant   # password secret
+        12: constant.numeric   # password type
+        13: string.unquoted.cisco.password.type.5    # password string
+        14: support.constant   # password
+        15: constant.numeric   # password type
+        16: string.unquoted    # password string
 
   vrf_upgrade:
     - match: ^\s*(vrf)\s+(upgrade-cli)\s+(multi-af-mode)\s+((?:non-)?common-policies)(?:(?:\s+(vrf)\s+(\S+)(?:\s+(force))?)|(\s+force))?
@@ -679,11 +689,45 @@ contexts:
         \s*
         (enable)\s+
         (password)\s+
-        (\S+)
+        (?:
+          (?:(5)\s+(\S+))|
+          (?:(7)\s+(\S+))|
+          (?:(\d+)\s+(\S+))|
+          (\S+)
+        )
       captures:
         1: support.constant
         2: support.constant
-        3: string.unquoted
+        3: constant.numeric
+        4: string.unquoted.cisco.password.type.5
+        5: constant.numeric
+        6: string.unquoted.cisco.password.type.7
+        7: constant.numeric
+        8: string.unquoted
+        9: string.unquoted
+
+  enable_secret:
+    - match: |
+        (?xi)
+        \s*
+        (enable)\s+
+        (secret)\s+
+        (?:
+          (?:(5)\s+(\S+))|
+          (?:(7)\s+(\S+))|
+          (?:(\d+)\s+(\S+))|
+          (\S+)
+        )
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+        4: string.unquoted.cisco.password.type.5
+        5: constant.numeric
+        6: string.unquoted.cisco.password.type.7
+        7: constant.numeric
+        8: string.unquoted
+        9: string.unquoted
 
   aaa_new_model:
     - match: |
@@ -1873,7 +1917,12 @@ contexts:
             (?:(ip\s+pim)\s+((?:(?:sparse)|(?:dense))-mode))|
             (?:(ip\s+ospf)\s+
               (?:
-                (?:(message-digest-key)\s+(\d+)\s+({{hashing_algorithms}})\s+(\d+)\s+(\S+))|
+                (?:(message-digest-key)\s+(\d+)\s+({{hashing_algorithms}})\s+
+                  (?:
+                    (?:(7)\s+(\S+))|
+                    (?:(\d+)\s+(\S+))
+                  )
+                )|
                 (?:(cost)\s+(\d+))
               )
             )|
@@ -1971,25 +2020,27 @@ contexts:
           54: support.constant            # ip ospf
           55: support.constant            # ip ospf message-digest-key
           56: constant.numeric            # ip ospf message-digest-key id
-          57: entity.other.attribute-name # ip ospf message-digest-key hash
-          58: constant.numeric            # ip ospf message-digest-key password type
-          59: string.unquoted             # ip ospf message-digest-key password
-          60: support.constant            # ip ospf cost
-          61: constant.numeric            # ip ospf cost value
-          62: support.constant            # spanning-tree
-          63: support.constant            # spanning-tree portfast
-          64: support.constant            # spanning-tree portfast edge
-          65: support.constant            # spanning-tree bpduguard
-          66: entity.other.attribute-name # spanning-tree bpduguard enable
-          67: keyword.other               # spanning-tree bpduguard disable
-          68: support.constant            # service-policy
-          69: support.constant            # service-policy input/output
-          70: string.unquoted             # service-policy input/output name
-          71: support.constant            # logging event
-          72: support.constant            # logging event link-status
-          73: support.constant            # logging event trunk-status
-          74: support.constant            # vpc
-          75: constant.numeric            # vpc id
+          57: entity.other.attribute-name  # ip ospf message-digest-key hash
+          58: constant.numeric            # ip ospf message-digest-key password type 7
+          59: string.unquoted.cisco.password.type.7             # ip ospf message-digest-key 7 password
+          60: constant.numeric            # ip ospf message-digest-key password type
+          61: string.unquoted             # ip ospf message-digest-key password
+          62: support.constant            # ip ospf cost
+          63: constant.numeric            # ip ospf cost value
+          64: support.constant            # spanning-tree
+          65: support.constant            # spanning-tree portfast
+          66: support.constant            # spanning-tree portfast edge
+          67: support.constant            # spanning-tree bpduguard
+          68: entity.other.attribute-name # spanning-tree bpduguard enable
+          69: keyword.other               # spanning-tree bpduguard disable
+          70: support.constant            # service-policy
+          71: support.constant            # service-policy input/output
+          72: string.unquoted             # service-policy input/output name
+          73: support.constant            # logging event
+          74: support.constant            # logging event link-status
+          75: support.constant            # logging event trunk-status
+          76: support.constant            # vpc
+          77: constant.numeric            # vpc id
       - include: pop_on_configure_terminal_context
       # - include: partials
 

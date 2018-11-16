@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
     <dict>
         <key>name</key>
@@ -14,7 +13,7 @@
             <string>(?xi)
                 ^\s*
                 (?:
-                    (?:configure\s+terminal)|
+                    (?:conf(?:igure)?\s+t(?:erminal)?)|
                     (?:vlan\s+\d+)|
                     (?:
                         interface\s+
@@ -62,18 +61,23 @@
                     (?:address-family\s+ipv[46](?:\s+vrf\s+\S+)?)|
                     (?:line\s+vty\s+\d+\s+\d+)
                 )
-                \s*(?:[#!].*)?$
+                \s*
+                (?:[#!].*)?
+                $
             </string>
-
             <key>decreaseIndentPattern</key>
             <string>(?xi)
                 ^\s*
+                \b
                 (?:
                     (?:exit)|
                     (?:exit-address-family)|
                     (?:end)
                 )
-                \s*(?:[#!].*)?$
+                \b
+                \s*
+                (?:[#!].*)?
+                $
             </string>
        </dict>
     </dict>

@@ -39,6 +39,7 @@ show running-config
 show startup-config
 
 
+conf t
 configure terminal
 
   ! Line comment
@@ -226,7 +227,8 @@ interface range GigabitEthernet1/1-2
   bandwidth 10240
   ip pim sparse-mode
   ip pim dense-mode
-  ip ospf message-digest-key 1 md5 7 1234567890ABC
+  ip ospf message-digest-key 1 md5 5 secret_password
+  ip ospf message-digest-key 1 md5 7 0822455D0A16
   ip ospf cost 20000
   speed 1000
   full-duplex
@@ -353,8 +355,11 @@ boot-start-marker
 boot-end-marker
 !
 enable password secret_password
+enable secret 5 $1$SpMm$eALjeyED.WSZs0naLNv22/
+enable password 7 0822455D0A16
 !
 username user password 0 secret_password
+username user password secret 5 $1$SpMm$eALjeyED.WSZs0naLNv22/
 username [ACCOUNT] privilege 15 secret [ACCOUNT_PASSWORD]
 aaa new-model
 !
@@ -657,8 +662,11 @@ policy-map QOS_STUFF
     shape average 123
     service-policy SOMETHING
 
+
 class-map match-all VOICE
   match ip dscp ef
+  exit
+
 
 class-map match-all VIDEO-SERVER
   match access-group 6

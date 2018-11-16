@@ -8,12 +8,15 @@ import sublime_plugin
 from .lib.dot_dict import DotDict
 from .lib.ip_regex import sublime_ip, ip
 from .lib.network import Network
+from .lib import pw_type7
+from .lib import pw_type5
 
 
 logger = logging.getLogger('net_tech')
 logger.handlers = []
 
 SCOPE_PREFIX = 'text.network'
+
 
 settings = sublime.load_settings('network_tech.sublime-settings')
 
@@ -219,6 +222,43 @@ class FindAllSubnetsCommand(sublime_plugin.TextCommand):
         default_search = default_search if ip.v4.network.search(default_search) else ''
         self._find_input_panel(network=default_search)
 
+
+class PasswordDecryptListener(sublime_plugin.ViewEventListener):
+    def on_hover(self, point, hover_zone):
+        scope_name = self.view.scope_name(point).strip()
+        if 'cisco.password.type' in scope_name:
+            if hover_zone != sublime.HOVER_TEXT:
+                self.view.hide_popup()
+                return
+            region = self.view.extract_scope(point)
+            password = self.view.substr(region)
+            if scope_name.endswith('7'):
+                print('ding')
+                decrypted_password = pw_type7.decode(password)
+            elif scope_name.endswith('5'):
+                decrypted_password = pw_type5.decode(password)
+            else:
+                decrypted_password = 'Unhandled password type'
+            decrypted_password = '<h3>{}</h3>'.format(decrypted_password)
+            if self.view.is_popup_visible():
+                self.view.update_popup(decrypted_password)
+            else:
+                self.view.show_popup(
+                    decrypted_password,
+                    flags=sublime.COOPERATE_WITH_AUTO_COMPLETE,
+                    location=region.begin(),
+                )
+
+    def _cache_type_5_passwords(self):
+        for region in self.view.find_by_selector('string.unquoted.cisco.password.type.5'):
+            password_hash = self.view.substr(region)
+            pw_type5.decode(password_hash)
+
+    def on_modified_async(self):
+        self._cache_type_5_passwords()
+
+    def on_load_async(self):
+        self._cache_type_5_passwords()
 
 class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
     def on_hover(self, point, hover_zone):

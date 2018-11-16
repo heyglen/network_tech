@@ -48,6 +48,7 @@ Contents
    syntax
    snippets
    context_info
+   password_decode
    Jumping <jumping>
    Search <network_search>
    Bugs & Requests <feature_requets_and_bugs>
