@@ -6,10 +6,10 @@ import logging
 
 from .html_helper import Html
 from .selection_utility import SelectionUtility
-from .ip_regex import ip
+from .variables import ip
 
 
-logger = logging.getLogger('net_tech')
+logger = logging.getLogger('network_tech.search.network.network')
 
 
 class Network:

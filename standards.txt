@@ -1,0 +1,15 @@
+IOS Syntax
+
+    Variable to Scope
+        network_target  constant.numeric.target_ip
+        ip constant.numeric.ip.ipv4.address
+        network_address
+        wildcard_mask constant.numeric.network.ipv4.wildcard
+        subnet_mask   constant.numeric.network.ipv4.subnet_mask
+        ipv4_prefix_length
+        ipv6   constant.numeric.ip.ipv6.address
+        ip_prefix   constant.numeric.ip.ipv6.prefix
+        ipv6_prefix_length
+        ipv6_prefix
+        type_5_password string.unquoted.cisco.password.type.5
+        type_7_password string.unquoted.cisco.password.type.7

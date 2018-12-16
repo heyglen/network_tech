@@ -2,16 +2,16 @@
 
 
 import re
-
-from .dot_dict import DotDict
+from collections import namedtuple
 
 
 def _clean_regexp(item):
     result = None
-    if isinstance(item, dict):
-        result = DotDict()
-        for key, value in item.items():
-            result[key] = _clean_regexp(value)
+    if isinstance(item, tuple):
+        init = dict()
+        for name, value in item._asdict().items():
+            init[name] = _clean_regexp(value)
+        result = type(item)(**init)
     elif isinstance(item, CompiledReType):
         pattern = item.pattern
         pattern = pattern.replace(' ', '').replace('\r', '').replace('\n', '')
@@ -21,9 +21,9 @@ def _clean_regexp(item):
     return result
 
 
-ip = DotDict({
-    'v4': {
-        'host': re.compile(r"""
+ip = namedtuple('IP', 'v4')(
+    v4=namedtuple('IPv4', 'host network any')(
+        host=re.compile(r"""
                     (?xi)
                     (?:
                         (?!
@@ -95,7 +95,7 @@ ip = DotDict({
                         (?:(?:[1-2]?\d{1,2}\.){3}[1-2]?\d{1,2})
                     )
         """),
-        'any': re.compile(
+        any=re.compile(
             r"""
             (?xi)
             (?:
@@ -272,7 +272,7 @@ ip = DotDict({
             )
             """
         ),
-        'network': re.compile(
+        network=re.compile(
             r"""
             (?xi)
             (?:
@@ -440,10 +440,9 @@ ip = DotDict({
             )
             """
         ),
-    }
-})
+    )
+)
 
-sublime_ip = DotDict()
 
 sublime_re_pattern_sub = re.compile(r'P<[^>]+>')
 CompiledReType = type(sublime_re_pattern_sub)

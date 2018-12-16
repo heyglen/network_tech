@@ -6,8 +6,21 @@ show running-config | include something ! Inline comment
 show running-config | include something ! Inline comment
 show run interface | exclude something
 
+enable password secret_password
+enable secret 5 $1$SpMm$eALjeyED.WSZs0naLNv22/
+enable password 7 0822455D0A16
+!
+username user password 0 secret_password
+username user password secret 5 $1$SpMm$eALjeyED.WSZs0naLNv22/
+username user password secret 5 $1$hetw$SaZIk0NtOZFJzduXR1IwX1
+username user password secret 5 $1$feb0$a104Qd9UZ./Ak00KTggPD0
+username [ACCOUNT] privilege 15 secret [ACCOUNT_PASSWORD]
+
+
 ! On router01
 # device router02
+
+
 
 ip classless
 copy tftp://1.2.3.4/path startup-config ! Inline comment
@@ -147,6 +160,8 @@ configure terminal
       neighbor 1.1.1.1 soft-reconfiguration inbound
       neighbor 1.1.1.1 soft-reconfiguration outbound
       neighbor 1.1.1.1 password 1 secret
+      neighbor 1.1.1.1 password 5 $1$kPhVPvwe$1yLHh4Pa9WWv4Ys7omKV80
+      neighbor 1.1.1.1 password 7 1511021F0725
       neighbor 1.1.1.1 prefix-list prefix_list in
       neighbor 1.1.1.1 prefix-list prefix_list out
       neighbor 1.1.1.1 route-map route_map in
@@ -354,13 +369,6 @@ hostname router
 boot-start-marker
 boot-end-marker
 !
-enable password secret_password
-enable secret 5 $1$SpMm$eALjeyED.WSZs0naLNv22/
-enable password 7 0822455D0A16
-!
-username user password 0 secret_password
-username user password secret 5 $1$SpMm$eALjeyED.WSZs0naLNv22/
-username [ACCOUNT] privilege 15 secret [ACCOUNT_PASSWORD]
 aaa new-model
 !
 aaa group server radius rad_eap

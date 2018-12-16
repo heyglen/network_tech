@@ -25,6 +25,8 @@ variables:
   command_end: '(?:\s|{{comment}}|$)'
   line_number: '^\s*\d+'
   route_target: '\d+:\d+'
+  type_5_password: \S+
+  type_7_password: \S+
   ah_transform: |
     (?xi)
     (?:
@@ -830,7 +832,7 @@ contexts:
       captures:
         1: support.constant       # snmp-server
         2: support.constant       # host
-        3: constant.numeric       # ip
+        3: constant.numeric.ip.ipv4.address       # ip
         4: support.constant       # version
         5: constant.numeric       # version number
         6: string.unquoted        # trap community
@@ -867,13 +869,13 @@ contexts:
           (?:(source-interface)\s+({{interface_names}})\s*({{interface_numbers}}))
         )
       captures:
-        1: support.constant                # logging
-        2: constant.numeric                # logging ip
-        3: support.constant                # logging facility
-        4: support.constant                # logging facility string
-        5: support.constant                # logging facility string
-        6: entity.other.attribute-name     # logging source-interface
-        7: constant.numeric                # logging source-interface interface_type
+        1: support.constant                    # logging
+        2: constant.numeric.ip.ipv4.address    # logging ip
+        3: support.constant                    # logging facility
+        4: support.constant                    # logging facility string
+        5: support.constant                    # logging facility string
+        6: entity.other.attribute-name         # logging source-interface
+        7: constant.numeric                    # logging source-interface interface_type
 
   standard_acl:
     - match: ^\s*(ip)\s+(access-list)\s+(standard)\s+(?:(\d+)|(\S+))
@@ -904,7 +906,7 @@ contexts:
         3: keyword.other
         4: constant.numeric
         5: support.constant
-        6: constant.numeric
+        6: constant.numeric.ip.ipv4.address
 
   extended_acl_old:
     - match: |
@@ -927,24 +929,24 @@ contexts:
           )
         )
       captures:
-        1: support.constant             # access-list
-        2: constant.numeric             # access-list number
-        3: entity.other.attribute-name  # permit
-        4: keyword.other                # deny
-        5: constant.numeric             # protocol name
-        6: constant.numeric             # Source Network
-        7: support.constant             # Source Host
-        8: constant.numeric             # Source Host IP
-        9: support.constant             # Source Operator
-        10: constant.numeric             # Source Port
-        11: support.constant            # Source Established
-        12: constant.numeric.target_ip  # Destination Network
-        13: support.constant            # Destination Host
-        14: constant.numeric            # Destination Host IP
-        15: support.constant            # Destination Operator
-        16: constant.numeric            # Destination Port
-        17: support.constant            # Destination Established
-        18: ios.acl.ace.target_ip       # IP target scope
+        1: support.constant                     # access-list
+        2: constant.numeric                     # access-list number
+        3: entity.other.attribute-name          # permit
+        4: keyword.other                        # deny
+        5: constant.numeric                     # protocol name
+        6: constant.numeric.target_ip           # Source Network
+        7: support.constant                     # Source Host
+        8: constant.numeric.ip.ipv4.address     # Source Host IP
+        9: support.constant                     # Source Operator
+        10: constant.numeric                    # Source Port
+        11: support.constant                    # Source Established
+        12: constant.numeric.target_ip          # Destination Network
+        13: support.constant                    # Destination Host
+        14: constant.numeric.ip.ipv4.address    # Destination Host IP
+        15: support.constant                    # Destination Operator
+        16: constant.numeric                    # Destination Port
+        17: support.constant                    # Destination Established
+        18: ios.acl.ace.target_ip               # IP target scope
 
   extended_acl:
     - match: ^\s*(ip)\s+(access-list)\s+(extended)\s+(\S+)
@@ -992,23 +994,23 @@ contexts:
         )
       scope: text.network.cisco.acl.extended.ace
       captures:
-        1: constant.numeric             # Line number
-        2: entity.other.attribute-name  # Permit
-        3: keyword.other                # Deny
-        4: support.constant             # Protocol Name
-        5: constant.numeric             # Source Network
-        6: support.constant             # Source Host
-        7: constant.numeric             # Source Host IP
-        8: support.constant             # Source Operator
-        9: constant.numeric             # Source Port
-        10: support.constant            # Source Established
-        11: constant.numeric.target_ip  # Destination Network
-        12: support.constant            # Destination Host
-        13: constant.numeric            # Destination Host IP
-        14: support.constant            # Destination Operator
-        15: constant.numeric            # Destination Port
-        16: support.constant            # Destination Established
-        17: ios.acl.ace.target_ip       # IP target scope
+        1: constant.numeric                       # Line number
+        2: entity.other.attribute-name            # Permit
+        3: keyword.other                          # Deny
+        4: support.constant                       # Protocol Name
+        5: constant.numeric.target_ip             # Source Network
+        6: support.constant                       # Source Host
+        7: constant.numeric.ip.ipv4.address       # Source Host IP
+        8: support.constant                       # Source Operator
+        9: constant.numeric                       # Source Port
+        10: support.constant                      # Source Established
+        11: constant.numeric.target_ip            # Destination Network
+        12: support.constant                      # Destination Host
+        13: constant.numeric.ip.ipv4.address      # Destination Host IP
+        14: support.constant                      # Destination Operator
+        15: constant.numeric                      # Destination Port
+        16: support.constant                      # Destination Established
+        17: ios.acl.ace.target_ip                 # IP target scope
 
   route_map:
     - match: '^\s*(route-map)\s+(\S+)\s+(?:(permit)|(deny))\s+(\d+)?'
@@ -1130,7 +1132,7 @@ contexts:
         )
       captures:
         1: support.constant
-        2: constant.numeric
+        2: constant.numeric.ip.ipv4.address
         3: support.constant
         4: constant.numeric
         5: support.constant
@@ -1265,22 +1267,22 @@ contexts:
           (?:(network)\s+({{ip}})\s+({{wildcard_mask}})\s+(area)\s+(\d+))
         )
       captures:
-        1: support.constant              # log-adjacency-changes
-        2: support.constant              # auto-cost reference-bandwidth
-        3: constant.numeric              # auto-cost reference-bandwidth value
-        4: support.constant              # area
-        5: constant.numeric              # area id
-        6: support.constant              # area authentication
-        7: support.constant              # area authentication message-digest
-        8: support.constant              # area nssa
-        9: support.constant              # passive-interface
-        10: entity.other.attribute-name  # passive-interface type
-        11: constant.numeric             # passive-interface type number
-        12: support.constant              # network
-        13: constant.numeric              # network ip
-        14: constant.numeric              # network ip wildcard
-        15: support.constant              # network ip wildcard area
-        16: constant.numeric              # network ip wildcard area id
+        1: support.constant                          # log-adjacency-changes
+        2: support.constant                          # auto-cost reference-bandwidth
+        3: constant.numeric                          # auto-cost reference-bandwidth value
+        4: support.constant                          # area
+        5: constant.numeric                          # area id
+        6: support.constant                          # area authentication
+        7: support.constant                          # area authentication message-digest
+        8: support.constant                          # area nssa
+        9: support.constant                          # passive-interface
+        10: entity.other.attribute-name              # passive-interface type
+        11: constant.numeric                         # passive-interface type number
+        12: support.constant                         # network
+        13: constant.numeric.ip.ipv4.address         # network ip
+        14: constant.numeric.network.ipv4.wildcard   # network ip wildcard
+        15: support.constant                         # network ip wildcard area
+        16: constant.numeric                         # network ip wildcard area id
 
 
   bgp:
@@ -1368,7 +1370,9 @@ contexts:
         (shut(?:down)?)|
         (next-hop-self)|
         (?:(soft-reconfiguration)\s+(inbound|outbound))|
-        (?:(password)\s+(\d+)\s+(\S+))|
+        (?:(password)\s+(5)\s+({{type_5_password}}))|
+        (?:(password)\s+(7)\s+({{type_7_password}}))|
+        (?:(password)\s+(\d+)\s+(\S{1,25}))|
         (?:(prefix-list|route-map)\s+(\S+)\s+(in|out))|
         (?:(inherit)\s+(peer-policy)\s+(\S+))|
         (send-community(?:\s+(?:(?:both)|(?:extended)))?)|
@@ -1382,52 +1386,58 @@ contexts:
         (?:(update-source)\s+(?:({{interface_names}})\s*({{interface_numbers}})))
         )
       captures:
-        1: support.constant               # Neighbor
-        2: constant.numeric               # IP
-        3: entity.other.attribute-name    # Active
-        4: keyword.other                  # Shutdown
-        5: support.constant               # Next-hop-self
-        6: support.constant               # Soft reconfiguration inbound
-        7: support.constant               # Soft reconfiguration inbound
-        8: support.constant               # Password
-        9: constant.numeric               # Password
-        10: string.unquoted               # Password
-        11: support.constant              # Prefix list
-        12: string.unquoted               # Prefix list
-        13: support.constant              # Prefix list
-        14: support.constant              # Inherit peer policy
-        15: support.constant              # Inherit peer policy
-        16: string.unquoted               # Inherit peer policy
-        17: support.constant              # Send community
-        18: support.constant              # Remote AS
-        19: constant.numeric              # Remote AS #
-        20: keyword.other                 # Remote AS shutdown
-        21: support.constant              # Timers
-        22: constant.numeric              # Timers
-        23: constant.numeric              # Timers
-        24: constant.numeric              # Timers
-        25: support.constant              # TTL security hops
-        26: support.constant              # TTL security hops
-        27: constant.numeric              # TTL security hops
-        28: support.constant              # Description
-        29: comment.block.documentation   # Description
-        30: support.constant              # Version
-        31: constant.numeric              # Version
-        32: support.constant              # Path MTU discovery
-        33: support.constant              # Path MTU discovery
-        34: support.constant              # ebgp multihop
-        35: constant.numeric              # ebgp multihop hops
-        36: support.constant              # update-source
-        37: entity.other.attribute-name    # update-source interface_type
-        38: constant.numeric              # update-source interface_number
+        1: support.constant                        # Neighbor
+        2: constant.numeric.ip.ipv4.address        # IP
+        3: entity.other.attribute-name             # Active
+        4: keyword.other                           # Shutdown
+        5: support.constant                        # Next-hop-self
+        6: support.constant                        # Soft reconfiguration inbound
+        7: support.constant                        # Soft reconfiguration inbound
+        8: support.constant                        # Password
+        9: constant.numeric                        # Password Type 5
+        10: string.unquoted.cisco.password.type.5  # Password Type 5 Text
+        11: support.constant                       # Password
+        12: constant.numeric                       # Password Type 7
+        13: string.unquoted.cisco.password.type.7  # Password Type 7 Text
+        14: support.constant                       # Password
+        15: constant.numeric                       # Password
+        16: string.unquoted                        # Password
+        17: support.constant                       # Prefix list
+        18: string.unquoted                        # Prefix list
+        19: support.constant                       # Prefix list
+        20: support.constant                       # Inherit peer policy
+        21: support.constant                       # Inherit peer policy
+        22: string.unquoted                        # Inherit peer policy
+        23: support.constant                       # Send community
+        24: support.constant                       # Remote AS
+        25: constant.numeric                       # Remote AS #
+        26: keyword.other                          # Remote AS shutdown
+        27: support.constant                       # Timers
+        28: constant.numeric                       # Timers
+        29: constant.numeric                       # Timers
+        30: constant.numeric                       # Timers
+        31: support.constant                       # TTL security hops
+        32: support.constant                       # TTL security hops
+        33: constant.numeric                       # TTL security hops
+        34: support.constant                       # Description
+        35: comment.block.documentation            # Description
+        36: support.constant                       # Version
+        37: constant.numeric                       # Version
+        38: support.constant                       # Path MTU discovery
+        39: support.constant                       # Path MTU discovery
+        40: support.constant                       # ebgp multihop
+        41: constant.numeric                       # ebgp multihop hops
+        42: support.constant                       # update-source
+        43: entity.other.attribute-name            # update-source interface_type
+        44: constant.numeric                       # update-source interface_number
 
   ipv4_network:
     - match: '^\s+(network)\s+({{ip}})(?:\s+(mask)\s+({{subnet_mask}}))?'
       captures:
         1: support.constant
-        2: constant.numeric
+        2: constant.numeric.ip.ipv4.address
         3: support.constant
-        4: constant.numeric
+        4: constant.numeric.network.ipv4.subnet_mask
 
   bgp_settings:
     - match: |
@@ -1463,6 +1473,8 @@ contexts:
           (shut(?:down)?)|
           (next-hop-self)|
           (?:(soft-reconfiguration)\s+(inbound|outbound))|
+          (?:(password)\s+(5)\s+({{type_5_password}}))|
+          (?:(password)\s+(7)\s+({{type_7_password}}))|
           (?:(password)\s+(\d+)\s+(\S+))|
           (?:(prefix-list|route-map)\s+(\S+)\s+(in|out))|
           (?:(inherit)\s+(peer-policy)\s+(\S+))|
@@ -1475,45 +1487,51 @@ contexts:
           (?:(transport)\s+(path-mtu-discovery))
         )
       captures:
-        1: support.constant               # Neighbor
-        2: constant.numeric               # IP
-        3: entity.other.attribute-name    # Active
-        4: keyword.other                  # Shutdown
-        5: support.constant               # Next-hop-self
-        6: support.constant               # Soft reconfiguration inbound
-        7: support.constant               # Soft reconfiguration inbound
-        8: support.constant               # Password
-        9: constant.numeric               # Password
-        10: string.unquoted               # Password
-        11: support.constant              # Prefix list
-        12: string.unquoted               # Prefix list
-        13: support.constant              # Prefix list
-        14: support.constant              # Inherit peer policy
-        15: support.constant              # Inherit peer policy
-        16: string.unquoted               # Inherit peer policy
-        17: support.constant              # Send community
-        18: support.constant              # Remote AS
-        19: constant.numeric              # Remote AS
-        20: keyword.other                 # Remote AS shutdown
-        21: support.constant              # Timers
-        22: constant.numeric              # Timers
-        23: constant.numeric              # Timers
-        24: constant.numeric              # Timers
-        25: support.constant              # TTL security hops
-        26: support.constant              # TTL security hops
-        27: constant.numeric              # TTL security hops
-        28: support.constant              # Description
-        29: comment.block.documentation   # Description
-        30: support.constant              # Version
-        31: constant.numeric              # Version
-        32: support.constant              # Path MTU discovery
-        33: support.constant              # Path MTU discovery
+        1: support.constant                       # Neighbor
+        2: constant.numeric.ip.ipv6.address       # IP
+        3: entity.other.attribute-name            # Active
+        4: keyword.other                          # Shutdown
+        5: support.constant                       # Next-hop-self
+        6: support.constant                       # Soft reconfiguration inbound
+        7: support.constant                       # Soft reconfiguration inbound
+        8: support.constant                       # Password
+        9: constant.numeric                       # Password
+        10: string.unquoted.cisco.password.type.5 # Password
+        11: support.constant                      # Password
+        12: constant.numeric                      # Password
+        13: string.unquoted.cisco.password.type.7 # Password
+        14: support.constant                      # Password
+        15: constant.numeric                      # Password
+        16: string.unquoted                       # Password
+        17: support.constant                      # Prefix list
+        18: string.unquoted                       # Prefix list
+        19: support.constant                      # Prefix list
+        20: support.constant                      # Inherit peer policy
+        21: support.constant                      # Inherit peer policy
+        22: string.unquoted                       # Inherit peer policy
+        23: support.constant                      # Send community
+        24: support.constant                      # Remote AS
+        25: constant.numeric                      # Remote AS
+        26: keyword.other                         # Remote AS shutdown
+        27: support.constant                      # Timers
+        28: constant.numeric                      # Timers
+        29: constant.numeric                      # Timers
+        30: constant.numeric                      # Timers
+        31: support.constant                      # TTL security hops
+        32: support.constant                      # TTL security hops
+        33: constant.numeric                      # TTL security hops
+        34: support.constant                      # Description
+        35: comment.block.documentation           # Description
+        36: support.constant                      # Version
+        37: constant.numeric                      # Version
+        38: support.constant                      # Path MTU discovery
+        39: support.constant                      # Path MTU discovery
 
   ipv6_network:
     - match: '^\s*(network)\s+({{ipv6_prefix}})?'
       captures:
         1: support.constant
-        2: constant.numeric
+        2: constant.numeric.ip.ipv6.prefix
 
   ipv6_unicast_routing:
   - match: ^\s*(ipv6\s+unicast-routing)
@@ -1536,14 +1554,14 @@ contexts:
           (?:(server)\s+({{ip}}))
         )      
     captures:
-      1: support.constant               # ntp
-      2: support.constant               # ntp source
-      3: entity.other.attribute-name    # ntp source interface type
-      4: constant.numeric               # ntp source interface number
-      5: support.constant               # ntp clock-period
-      6: constant.numeric               # ntp clock-period value
-      7: support.constant               # ntp server
-      8: constant.numeric               # ntp server ip
+      1: support.constant                  # ntp
+      2: support.constant                  # ntp source
+      3: entity.other.attribute-name       # ntp source interface type
+      4: constant.numeric                  # ntp source interface number
+      5: support.constant                  # ntp clock-period
+      6: constant.numeric                  # ntp clock-period value
+      7: support.constant                  # ntp server
+      8: constant.numeric.ip.ipv4.address  # ntp server ip
 
   ip_http:
   - match: ^\s*(ip\s+http\s+server)
@@ -1687,25 +1705,25 @@ contexts:
           )?
         )
       captures:
-        1: support.constant             # ip
-        2: support.constant             # route
-        3: support.constant             # vrf
-        4: string.unquoted              # vrf name
-        5: constant.numeric             # ip
-        6: constant.numeric             # subnet mask
-        7: entity.other.attribute-name  # next hop interface
-        8: constant.numeric             # next hop interface id
-        9: entity.other.attribute-name  # next hop null
-        10: constant.numeric             # next hop null id
-        11: constant.numeric             # next hop ip
-        12: support.constant            # name
-        13: string.unquoted             # name
-        14: support.constant            # perminate
-        15: support.constant            # track
-        16: constant.numeric            # track id
-        17: support.constant            # tag
-        18: constant.numeric            # tag id
-
+        1: support.constant                           # ip
+        2: support.constant                           # route
+        3: support.constant                           # vrf
+        4: string.unquoted                            # vrf name
+        5: constant.numeric.ip.ipv4.address           # ip
+        6: constant.numeric.network.ipv4.subnet_mask  # subnet mask
+        7: entity.other.attribute-name                # next hop interface
+        8: constant.numeric                           # next hop interface id
+        9: entity.other.attribute-name                # next hop null
+        10: constant.numeric                          # next hop null id
+        11: constant.numeric.ip.ipv4.address          # next hop ip
+        12: support.constant                          # name
+        13: string.unquoted                           # name
+        14: support.constant                          # perminate
+        15: support.constant                          # track
+        16: constant.numeric                          # track id
+        17: support.constant                          # tag
+        18: constant.numeric                          # tag id
+          
   ipv6_route:
     - match: |
         (?xi)
@@ -1730,23 +1748,23 @@ contexts:
           (?:\s+(tag)\s+(\S+))?
         )?
       captures:
-        1: support.constant             # ip
-        2: support.constant             # route
-        3: support.constant             # vrf
-        4: string.unquoted              # vrf name
-        5: constant.numeric             # ip
-        6: entity.other.attribute-name  # next hop null
-        7: constant.numeric             # next hop null id
-        8: entity.other.attribute-name  # next hop interface
-        9: constant.numeric             # next hop interface id
-        10: constant.numeric             # next hop ip
-        11: support.constant             # name
-        12: string.unquoted             # name
-        13: support.constant            # perminate
-        14: support.constant            # track
-        15: constant.numeric            # track id
-        16: support.constant            # tag
-        17: constant.numeric            # tag id
+        1: support.constant                                  # ip
+        2: support.constant                                  # route
+        3: support.constant                                  # vrf
+        4: string.unquoted                                   # vrf name
+        5: constant.numeric.ip.ipv6.prefix                   # ip
+        6: entity.other.attribute-name                       # next hop null
+        7: constant.numeric                                  # next hop null id
+        8: entity.other.attribute-name                       # next hop interface
+        9: constant.numeric                                  # next hop interface id
+        10: constant.numeric.ip.ipv6.address                 # next hop ip
+        11: support.constant                                 # name
+        12: string.unquoted                                  # name
+        13: support.constant                                 # perminate
+        14: support.constant                                 # track
+        15: constant.numeric                                 # track id
+        16: support.constant                                 # tag
+        17: constant.numeric                                 # tag id
 
   prefix_list:
     - include: ipv4_prefix_list
@@ -1764,18 +1782,18 @@ contexts:
           (?:\s+({{operators}})\s+({{ipv4_prefix_length}}))?
         )?
       captures:
-        1: support.constant               # IP
-        2: support.constant               # Prefix list
-        3: string.unquoted                # Name
-        4: support.constant               # sequence
-        5: constant.numeric               # sequence number
-        6: entity.other.attribute-name    # permit
-        7: keyword.other                  # deny
-        8: constant.numeric               # prefix
-        9: support.constant               # operator
-        10: constant.numeric              # prefix
-        11: support.constant              # operator
-        12: constant.numeric              # prefix
+        1: support.constant                             # IP
+        2: support.constant                             # Prefix list
+        3: string.unquoted                              # Name
+        4: support.constant                             # sequence
+        5: constant.numeric                             # sequence number
+        6: entity.other.attribute-name                  # permit
+        7: keyword.other                                # deny
+        8: constant.numeric.ip.ipv4.prefix              # prefix
+        9: support.constant                             # operator
+        10: constant.numeric.network.ipv4.prefix_length # prefix
+        11: support.constant                            # operator
+        12: constant.numeric.network.ipv4.prefix_length # prefix
 
   ipv6_prefix_list:
     - match: |
@@ -1789,18 +1807,18 @@ contexts:
           (?:\s+({{operators}})\s+({{ipv6_prefix_length}}))?
         )?
       captures:
-        1: support.constant               # IP
-        2: support.constant               # Prefix list
-        3: string.unquoted                # Name
-        4: support.constant               # sequence
-        5: constant.numeric               # sequence number
-        6: entity.other.attribute-name    # permit
-        7: keyword.other                  # deny
-        8: constant.numeric               # prefix
-        9: support.constant               # operator
-        10: constant.numeric              # prefix
-        11: support.constant              # operator
-        12: constant.numeric              # prefix
+        1: support.constant                              # IP
+        2: support.constant                              # Prefix list
+        3: string.unquoted                               # Name
+        4: support.constant                              # sequence
+        5: constant.numeric                              # sequence number
+        6: entity.other.attribute-name                   # permit
+        7: keyword.other                                 # deny
+        8: constant.numeric.ip.ipv6.prefix               # prefix
+        9: support.constant                              # operator
+        10: constant.numeric.network.ipv6.prefix_length  # prefix
+        11: support.constant                             # operator
+        12: constant.numeric.network.ipv6.prefix_length  # prefix
 
   service:
     - match: |
@@ -1832,14 +1850,14 @@ contexts:
         7: support.constant               # timestamps
         8: support.constant               # timestamps debug | log
         9: support.constant               # timestamps datetime msec
-        10: support.constant               # timestamps localtime show-timezone
+        10: support.constant              # timestamps localtime show-timezone
 
   vlan:
     - match: '^\s*(vlan)\s+({{vlan_id}})'
       captures:
         0: cisco.scope
         1: variable.parameter
-        2: constant.numeric
+        2: constant.numeric.vlan.id
       push:
       - meta_content_scope: text.network.cisco.vlan
       - match: ^\s*(name)\s+(\S+)
@@ -1964,83 +1982,83 @@ contexts:
             (?:(vpc)\s+(\d+))
           )
         captures:
-          1: comment.line                 # Description
-          2: support.constant             # ip vrf forwarding
-          3: string.unquoted              # vrf name
-          4: support.constant             # port-channel standalone-disable
-          5: support.constant             # encapsulation dot1q
-          6: constant.numeric             # dot1q id
-          7: support.constant             # ip helper-address
-          8: constant.numeric             # dhcp-ip
-          9: support.constant             # ip access-group
-          10: string.unquoted             # acl name
-          11: support.constant            # in / out
-          12: support.constant            # proxy-arp
-          13: support.constant            # ip redirects
-          14: support.constant            # ipv6 address general-prefix
-          15: constant.numeric            # ipv6 prefix
-          16: support.constant            # eui-64
-          17: support.constant            # ipv6 nd prefix
-          18: constant.numeric            # ipv6 nd prefix IP
-          19: support.constant            # ipv6 address
-          20: string.unquoted             # ipv6 address PREFIX_NAME
-          21: constant.numeric            # ipv6 address PREFIX_NAME address
-          22: support.constant            # ipv6 address PREFIX_NAME address eui64
-          23: support.constant            # ip address
-          24: constant.numeric            # ip address ipv4 address
-          25: constant.numeric            # ip address ipv4 subnet mask
-          26: support.constant.secondary  # ip address secondary
-          27: keyword.other               # shutdown
-          28: support.constant            # ipv6 enable
-          29: support.constant            # channel-group
-          30: constant.numeric            # channel-group id
-          31: support.constant            # channel-group mode
-          32: support.constant            # channel-group mode active
-          33: support.constant            # speed
-          34: support.constant            # speed auto
-          35: constant.numeric            # speed #
-          36: support.constant            # ip nat
-          37: support.constant            # ip nat inside / outside
-          38: support.constant            # duplex
-          39: support.constant            # duplex auto / full / half
-          40: support.constant            # ip
-          41: support.constant            # ip flow ingress
-          42: support.constant            # ip igmp query-interval
-          43: constant.numeric            # ip igmp query-interval value
-          44: support.constant            # mtu
-          45: constant.numeric            # mtu value
-          46: support.constant            # bandwidth
-          47: constant.numeric            # bandwidth value
-          48: support.constant            # speed
-          49: constant.numeric            # speed value
-          50: support.constant            # full-duplex
-          51: support.constant            # half-duplex
-          52: support.constant            # ip pim
-          53: entity.other.attribute-name # ip pim mode
-          54: support.constant            # ip ospf
-          55: support.constant            # ip ospf message-digest-key
-          56: constant.numeric            # ip ospf message-digest-key id
-          57: entity.other.attribute-name  # ip ospf message-digest-key hash
-          58: constant.numeric            # ip ospf message-digest-key password type 7
-          59: string.unquoted.cisco.password.type.7             # ip ospf message-digest-key 7 password
-          60: constant.numeric            # ip ospf message-digest-key password type
-          61: string.unquoted             # ip ospf message-digest-key password
-          62: support.constant            # ip ospf cost
-          63: constant.numeric            # ip ospf cost value
-          64: support.constant            # spanning-tree
-          65: support.constant            # spanning-tree portfast
-          66: support.constant            # spanning-tree portfast edge
-          67: support.constant            # spanning-tree bpduguard
-          68: entity.other.attribute-name # spanning-tree bpduguard enable
-          69: keyword.other               # spanning-tree bpduguard disable
-          70: support.constant            # service-policy
-          71: support.constant            # service-policy input/output
-          72: string.unquoted             # service-policy input/output name
-          73: support.constant            # logging event
-          74: support.constant            # logging event link-status
-          75: support.constant            # logging event trunk-status
-          76: support.constant            # vpc
-          77: constant.numeric            # vpc id
+          1: comment.line                                  # Description
+          2: support.constant                              # ip vrf forwarding
+          3: string.unquoted                               # vrf name
+          4: support.constant                              # port-channel standalone-disable
+          5: support.constant                              # encapsulation dot1q
+          6: constant.numeric.vlan.id                      # dot1q id
+          7: support.constant                              # ip helper-address
+          8: constant.numeric.ip.ipv4.address              # dhcp-ip
+          9: support.constant                              # ip access-group
+          10: string.unquoted                              # acl name
+          11: support.constant                             # in / out
+          12: support.constant                             # proxy-arp
+          13: support.constant                             # ip redirects
+          14: support.constant                             # ipv6 address general-prefix
+          15: constant.numeric.ip.ipv6.prefix              # ipv6 prefix
+          16: support.constant                             # eui-64
+          17: support.constant                             # ipv6 nd prefix
+          18: constant.numeric.ip.ipv6.prefix              # ipv6 nd prefix IP
+          19: support.constant                             # ipv6 address
+          20: string.unquoted                              # ipv6 address PREFIX_NAME
+          21: constant.numeric.ip.ipv6.prefix              # ipv6 address PREFIX_NAME address
+          22: support.constant                             # ipv6 address PREFIX_NAME address eui64
+          23: support.constant                             # ip address
+          24: constant.numeric.ip.ipv4.address             # ip address ipv4 address
+          25: constant.numeric.network.ipv4.subnet_mask    # ip address ipv4 subnet mask
+          26: support.constant.secondary                   # ip address secondary
+          27: keyword.other                                # shutdown
+          28: support.constant                             # ipv6 enable
+          29: support.constant                             # channel-group
+          30: constant.numeric                             # channel-group id
+          31: support.constant                             # channel-group mode
+          32: support.constant                             # channel-group mode active
+          33: support.constant                             # speed
+          34: support.constant                             # speed auto
+          35: constant.numeric                             # speed #
+          36: support.constant                             # ip nat
+          37: support.constant                             # ip nat inside / outside
+          38: support.constant                             # duplex
+          39: support.constant                             # duplex auto / full / half
+          40: support.constant                             # ip
+          41: support.constant                             # ip flow ingress
+          42: support.constant                             # ip igmp query-interval
+          43: constant.numeric                             # ip igmp query-interval value
+          44: support.constant                             # mtu
+          45: constant.numeric                             # mtu value
+          46: support.constant                             # bandwidth
+          47: constant.numeric                             # bandwidth value
+          48: support.constant                             # speed
+          49: constant.numeric                             # speed value
+          50: support.constant                             # full-duplex
+          51: support.constant                             # half-duplex
+          52: support.constant                             # ip pim
+          53: entity.other.attribute-name                  # ip pim mode
+          54: support.constant                             # ip ospf
+          55: support.constant                             # ip ospf message-digest-key
+          56: constant.numeric                             # ip ospf message-digest-key id
+          57: entity.other.attribute-name                  # ip ospf message-digest-key hash
+          58: constant.numeric                             # ip ospf message-digest-key password type 7
+          59: string.unquoted.cisco.password.type.7        # ip ospf message-digest-key 7 password
+          60: constant.numeric                             # ip ospf message-digest-key password type
+          61: string.unquoted                              # ip ospf message-digest-key password
+          62: support.constant                             # ip ospf cost
+          63: constant.numeric                             # ip ospf cost value
+          64: support.constant                             # spanning-tree
+          65: support.constant                             # spanning-tree portfast
+          66: support.constant                             # spanning-tree portfast edge
+          67: support.constant                             # spanning-tree bpduguard
+          68: entity.other.attribute-name                  # spanning-tree bpduguard enable
+          69: keyword.other                                # spanning-tree bpduguard disable
+          70: support.constant                             # service-policy
+          71: support.constant                             # service-policy input/output
+          72: string.unquoted                              # service-policy input/output name
+          73: support.constant                             # logging event
+          74: support.constant                             # logging event link-status
+          75: support.constant                             # logging event trunk-status
+          76: support.constant                             # vpc
+          77: constant.numeric                             # vpc id
       - include: pop_on_configure_terminal_context
       # - include: partials
 
@@ -2063,26 +2081,26 @@ contexts:
           )?
         )
       captures:
-        1: support.constant       # standby
-        2: constant.numeric       # standby id
-        3: support.constant       # version
-        4: constant.numeric       # version number
-        5: support.constant       # ip
-        6: constant.numeric       # ip address
-        7: support.constant       # preempt
-        8: support.constant       # delay minimum
-        9: constant.numeric       # delay time
-        10: support.constant       # reload
-        11: constant.numeric       # reload time
-        12: support.constant       # track
-        13: constant.numeric       # track number
-        14: support.constant       # track decrement
-        15: constant.numeric       # track decrement number
-        16: support.constant       # priority
-        17: constant.numeric       # priority number
-        18: support.constant       # ipv6
-        19: support.constant       # ipv6 autoconfig
-        20: constant.numeric       # ipv6 ip
+        1: support.constant                       # standby
+        2: constant.numeric                       # standby id
+        3: support.constant                       # version
+        4: constant.numeric                       # version number
+        5: support.constant                       # ip
+        6: constant.numeric                       # ip address
+        7: support.constant                       # preempt
+        8: support.constant                       # delay minimum
+        9: constant.numeric                       # delay time
+        10: support.constant                      # reload
+        11: constant.numeric                      # reload time
+        12: support.constant                      # track
+        13: constant.numeric                      # track number
+        14: support.constant                      # track decrement
+        15: constant.numeric                      # track decrement number
+        16: support.constant                      # priority
+        17: constant.numeric                      # priority number
+        18: support.constant                      # ipv6
+        19: support.constant                      # ipv6 autoconfig
+        20: constant.numeric.ip.ipv6.prefix       # ipv6 ip
 
   switchport:
     - match: '^\s*(switchport\s+mode\s+(?:trunk|access|capture))'
@@ -2099,7 +2117,7 @@ contexts:
     - match: ^\s*(switchport\s+voice\s+vlan)\s+({{vlan_id}})
       captures:
         1: support.constant
-        2: constant.numeric
+        2: constant.numeric.vlan.id
 
   switchport_access:
     - match: ^\s*(switchport\s+access\s+vlan)\s+({{vlan_id}})

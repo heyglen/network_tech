@@ -1,12 +1,17 @@
 [
     {
-        "caption": "Network: Find",
+        "caption": "Network Tech: Find Network",
         "command": "find_subnet",
         "args": {}
     },
     {
-        "caption": "Network: Find All",
+        "caption": "Network Tech: Find All Networks",
         "command": "find_all_subnets",
+        "args": {}
+    },
+    {
+        "caption": "Network Tech: Decode Password",
+        "command": "decode_password",
         "args": {}
     }
 ]
