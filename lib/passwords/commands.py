@@ -46,11 +46,13 @@ def result_handler(view, encoded_password, decoded_password, index):
             10000
         )
 
-def async_decode_single_password(view, passwords, index):
+def async_decode_single_password(pre_command_selection, pre_command_visible_region, view, passwords, index):
     """ Calls decode_single_password asyncronously so the UI does not block"""
     sublime.set_timeout_async(
         functools.partial(
             decode_single_password,
+            pre_command_selection,
+            pre_command_visible_region,
             view,
             passwords,
             index
@@ -58,14 +60,22 @@ def async_decode_single_password(view, passwords, index):
         0
     )
 
-def decode_single_password(view, passwords, index):
+def decode_single_password(pre_command_selection, pre_command_visible_region, view, passwords, index):
     if index is -1:
+        # Excape pressed
+        # Return selections to previous state
+        selection = view.sel()
+        selection.clear()
+        selection.add_all(pre_command_selection)
+        view.show_at_center(pre_command_visible_region)
         return
 
     password = passwords[index]
     encoded_password = password.encoded
     try:
+        view.window().status_message('Network Tech: Decoding password...')
         decoded_password = password.decoder(password.encoded)
+        view.window().status_message('')
     except InvalidPassword as e:
         sublime.message_dialog(str(e))
         return 
@@ -77,7 +87,7 @@ def decode_single_password(view, passwords, index):
     if decoded_password is not None:
         options = [
             'Display password',
-            'Copy password to clipboard for 10 seconds.',
+            'Copy password to clipboard (Clears in 10 seconds)',
         ]
 
         view.window().show_quick_panel(
@@ -85,11 +95,17 @@ def decode_single_password(view, passwords, index):
             functools.partial(result_handler, view, encoded_password, decoded_password),
         )
     else:
-        sublime.message_dialog('Unable to brute force decode the password "{}"'.format(encoded_password))
+        sublime.message_dialog('Unable to brute force the password "{}"'.format(encoded_password))
 
 
-def jump_to_region(view, passwords, index):
+def jump_to_region(pre_command_selection, pre_command_visible_region, view, passwords, index):
     if index is -1:
+        # Excape pressed
+        # Return selections to previous state
+        selection = view.sel()
+        selection.clear()
+        selection.add_all(pre_command_selection)
+        view.show_at_center(pre_command_visible_region)
         return
     region = passwords[index].region
     selection = view.sel()
@@ -101,16 +117,16 @@ def jump_to_region(view, passwords, index):
 class DecodePasswordCommand(sublime_plugin.TextCommand):
 
     def decode(self):
-
             
         PasswordType = namedtuple('PasswordType', 'region decoder encoded line')
-        passwords = list()
 
+        # Collect all passwords
         scopes_to_decoder = [
             (scopes.type_5, pw_type5.decode),
             (scopes.type_7, pw_type7.decode),
         ]
 
+        passwords = list()
         for type_scopes, decoder in scopes_to_decoder:
             for scope in type_scopes:
                 for region in self.view.find_by_selector(scope):
@@ -123,24 +139,43 @@ class DecodePasswordCommand(sublime_plugin.TextCommand):
                     )
                     passwords.append(password)
 
-
         passwords = sorted(passwords, key=lambda password: password.region.begin())
 
+        # Get the closest region as the default selected password
         selection = self.view.sel()
         selected_index = 0
         if len(selection) is 1:
-            region = selection[0]
+            selected_region = selection[0]
+            best_distance = 10000
+            closest_region = None
             for index, password in enumerate(passwords):
-                if region.intersects(password.region):
+                if selected_region.intersects(password.region):
                     selected_index = index
                     break
+                else:
+
+                    if (password.region.begin() - selected_region.begin()) < best_distance:
+                        best_distance = abs(password.region.begin() - selected_region.begin())
+                        closest_region = password.region
+                        selected_index = index
+                    elif (password.region.end() - selected_region.end()) < best_distance:
+                        best_distance = abs(password.region.end() - selected_region.end())
+                        closest_region = password.region
+                        selected_index = index
+
+                if closest_region is None:
+                    closest_region = password.region
+
+        # Save the current selections in case password selection is cancelled
+        pre_command_selection = [sublime.Region(r.a, r.b) for r in self.view.sel()]
+        pre_command_visible_region = self.view.visible_region()
 
         self.view.window().show_quick_panel(
             [password.line for password in passwords],
-            functools.partial(async_decode_single_password, self.view, passwords),
+            functools.partial(async_decode_single_password, pre_command_selection, pre_command_visible_region, self.view, passwords),
             0,
             selected_index,
-            functools.partial(jump_to_region, self.view, passwords)
+            functools.partial(jump_to_region, pre_command_selection, pre_command_visible_region, self.view, passwords)
         )
 
     def run(self, edit):

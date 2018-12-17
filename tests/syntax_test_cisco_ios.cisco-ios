@@ -10,7 +10,9 @@ enable password secret_password
 enable secret 5 $1$SpMm$eALjeyED.WSZs0naLNv22/
 enable password 7 0822455D0A16
 !
+
 username user password 0 secret_password
+username user password secret 5 invalid
 username user password secret 5 $1$SpMm$eALjeyED.WSZs0naLNv22/
 username user password secret 5 $1$hetw$SaZIk0NtOZFJzduXR1IwX1
 username user password secret 5 $1$feb0$a104Qd9UZ./Ak00KTggPD0
