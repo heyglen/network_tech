@@ -689,10 +689,28 @@ service password-encryption
 service tcp-keepalives-in
 service tcp-keepalives-out
 service sequence-numbers
+service timestamps log
+service timestamps log uptime
+service timestamps debug uptime
+service timestamps log datetime show-timezone year
+service timestamps log datetime localtime show-timezone
+! Invalid, example given in issue https://github.com/heyglen/network_tech/issues/10
+! Waiting for response...
 service timestamps log datetime localtime msec year show-timezone
 service timestamps debug datetime localtime msec year show-timezone
+
 clock timezone EST -5
-clock summer-time EST recurring 2 Sun Mar 02:00 1 Sun Nov 02:00
+clock timezone AT -3 30
+clock timezone PST -8
+
+clock summer-time EST recurring 2 Sun Mar 20:00 1 Sun Nov 02:00
+clock summer-time EST recurring 2 Sun Mar 20:00 1 Sun Nov 02:00 60
+clock summer-time PDT recurring 1 Sunday April 2:00 last Sunday October 2:00 
+clock summer-time EST date 12 October 1997 2:00 26 April 1998 2:00
+clock summer-time EST date 12 October 1997 2:00 26 April 1998 2:00 01
+clock summer-time EST date October 12 1997 2:00 April 26 1998 2:00
+clock summer-time EST date October 12 1997 2:00 April 26 1998 2:00 01
+
 ntp server [NTP_SVR-1] prefer
 ntp server [NTP_SVR-1]
 no ip domain-lookup
@@ -758,7 +776,9 @@ exit
 line console 0
 exec-timeout 30 30
 logging synchronous
-!login local
+login local
+login tacacs
+login
 exec prompt timestamp
 history size 100
 exit

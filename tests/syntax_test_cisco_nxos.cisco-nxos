@@ -40,6 +40,11 @@ configure terminal
   exit
 
 hostname example
+
+
+username user password 5 $1$SpMm$eALjeyED.WSZs0naLNv22/
+username user password 5 $1$SpMm$eALjeyED.WSZs0naLNv22/ role network-admin
+
 logging server 1.2.3.4 0
 logging server 1.2.3.4 6 use-vrf management 
 logging server 1.2.3.4 6 use-vrf management facility local5
@@ -164,7 +169,11 @@ interface Ethernet 100/0/1
   switchport access vlan 1
   switchport 
   ip redirects
+  ip address 1.2
+  ip address 1.2.3.4
+  ip address 1.2.3.4/
   ip address 1.2.3.4/23
+  ip address 1.2.3.4/232
   ipv6 address ::/64 eui-64
   ip pim sparse-mode
   ip arp timeout 42
@@ -191,7 +200,11 @@ interface Ethernet 100/0/1
   no shutdown
   hsrp version 2
   hsrp 0
+    ip 1.
+    ip 1.
+    ip 1.2.3.
     ip 1.2.3.4
+    ip 1.2.3.4/23
     priority 0
     preempt delay minimum 0
     authentication md5 key-string STRING

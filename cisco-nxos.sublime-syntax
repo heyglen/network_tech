@@ -79,7 +79,30 @@ variables:
   pop_address_family_ctx: '^\s*(?:exit-address-family)\s*$'
   command_end: '(?:\s|{{comment}}|$)'
   line_number: '^\s*\d+'
-  ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
+  ip_octet: '[0-2]?\d?\d'
+  ip: '(?:(?:{{ip_octet}}\.){3}{{ip_octet}})'
+  ipv4_prefix_length: '(?:(?:\d?\d)|(?:3[0-2]))'
+  ip_prefix: '(?:{{ip}}/{{ipv4_prefix_length}})'
+  ipv6_prefix_length: '(?:1?\d?\d)'
+  ipv6_prefix: '(?:(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?/{{ipv6_prefix_length}}|::/0))'
+  ipv6: '(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)'
+  ip_incomplete: |
+    (?xi)
+    (?!{{ip}})
+    (?:
+      (?:(?:{{ip_octet}}\.){0,3}(?:{{ip_octet}}))|
+      (?:(?:{{ip_octet}}\.){0,3})
+    )
+    $
+  ip_prefix_incomplete: |
+    (?xi)
+    (?!{{ip_prefix}})
+    (?:
+      (?:{{ip}}/{{ipv4_prefix_length}})|
+      (?:{{ip}}/?)|
+      (?:{{ip_incomplete}})
+    )?
+    $
   router_id: '(?:(?:{{ip}})|(?:\d+))'
   configure_terminal_ctx_words: |
     (?xi)
@@ -305,11 +328,6 @@ variables:
         (?:255\.255\.255\.254)|
         (?:255\.255\.255\.255)
     )
-  ipv4_prefix_length: '(?:(?:\d?\d)|(?:3[0-2]))'
-  ip_prefix: '(?:{{ip}}/{{ipv4_prefix_length}})'
-  ipv6_prefix_length: '(?:1?\d?\d)'
-  ipv6_prefix: '(?:(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?/{{ipv6_prefix_length}}|::/0))'
-  ipv6: '(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)'
   vlan_id: |
     (?xi)
     (?:
@@ -685,13 +703,24 @@ contexts:
         (?xi)
         ^\s*
         (username)\s+(\S+)\s+
-        (password)\s+(\d+)\s+(\S+)
+        (password)\s+
+        (?:
+         (?:(5)\s+(\S+))|
+         (?:(\d+)\s+(\S+))
+        )
+        (?:
+          \s+(role)\s+(\S+)
+        )?
       captures:
-        1: support.constant   # username
-        2: string.unquoted    # username string
-        3: support.constant   # password
-        4: constant.numeric   # password type
-        5: string.unquoted    # password string
+        1: support.constant                         # username
+        2: string.unquoted                          # username string
+        3: support.constant                         # password
+        4: constant.numeric                         # password type
+        5: string.unquoted.cisco.password.type.5    # password string
+        6: constant.numeric                         # password type
+        7: string.unquoted                          # password string
+        8: support.constant                         # role
+        9: string.unquoted                          # role name
 
   aaa:
     - include: tacacs
@@ -1723,7 +1752,6 @@ contexts:
     - include: interface_default
     - include: interface_block
 
-
   interface_block:
     - match: |
         (?xi)
@@ -1785,86 +1813,87 @@ contexts:
             (?:(priority-flow-control)\s+(mode)\s+(?:(on)|(auto)|(off)))
           )
         captures:
-          1: support.constant                           # ipv6 enable
-          2: support.constant                           # ip vrf forwarding
-          3: string.unquoted                            # vrf name
-          4: support.constant                           # port-channel standalone-disable
-          5: support.constant                           # encapsulation dot1q
-          6: constant.numeric                           # dot1q id
-          7: support.constant                           # ip helper-address
-          8: constant.numeric                           # dhcp-ip
-          9: support.constant                           # ip access-group
-          10: string.unquoted                           # acl name
-          11: support.constant                          # in / out
-          12: support.constant                          # proxy-arp
-          13: support.constant                          # ip redirects
-          14: support.constant                          # ipv6 address general-prefix
-          15: constant.numeric                          # ipv6 prefix
-          16: support.constant                          # eui-64
-          17: support.constant                          # ipv6 nd prefix
-          18: support.constant                          # ipv6 nd prefix
-          19: support.constant                          # ip address
-          20: constant.numeric                          # ip address ipv4 address
-          21: support.constant                          # ip address secondary
-          22: keyword.other                             # shutdown
-          23: support.constant                          # Service-policy qos input
-          24: string.unquoted                           # Service-policy qos input name
-          25: support.constant                          # Service-policy qos input
-          26: string.unquoted                           # Service-policy qos input name
-          27: support.constant                          # channel-group
-          28: constant.numeric                          # channel-group id
-          29: support.constant                          # channel-group force
-          30: support.constant                          # channel-group mode
-          31: entity.other.inherited-class              # channel-group active
-          32: entity.other.inherited-class              # channel-group on
-          33: entity.other.inherited-class              # channel-group passive
-          34: support.constant                          # channel-protocol
-          35: support.constant                          # channel-protocol lacp
-          36: support.constant                          # vpc
-          37: constant.numeric                          # vpc id
-          38: support.constant                          # hsrp version
-          39: constant.numeric                          # hsrp version number
-          40: support.constant                          # ipv6 address
-          41: constant.numeric                          # ipv6 prefix
-          42: support.constant                          # ipv6 eui-64
-          43: support.constant                          # ip pim sparse-mode
-          44: support.constant                          # ip arp timeout
-          45: constant.numeric                          # ip arp timeout number
-          46: support.constant                          # ip arp gratuitous hsrp duplicate
-          47: support.constant                          # link debounce
-          48: constant.numeric                          # link debounce time
-          49: support.constant                          # ip router ospf
-          50: constant.numeric                          # ip router ospf process id
-          51: support.constant                          # ip router ospf area
-          52: constant.numeric                          # ip router ospf area-id
-          53: support.constant                          # ipv6 router ospfv3
-          54: constant.numeric                          # ipv6 router ospfv3 process id
-          55: support.constant                          # ipv6 router ospfv3 area
-          56: constant.numeric                          # ipv6 router ospfv3 area-id
-          57: support.constant                          # mtu
-          58: constant.numeric                          # mtu value
-          59: support.constant                          # ip policy route-map
-          60: string.unquoted                           # ip policy route-map
-          61: support.constant                          # ip dhcp relay address
-          62: constant.numeric                          # ip dhcp relay address ip
-          63: support.constant                          # ip ospf authentication message-digest
-          64: support.constant                          # ip ospf message-digest-key
-          65: constant.numeric                          # ip ospf message-digest-key value
-          66: entity.other.inherited-class              # ip ospf message-digest-key value hash_type
-          67: constant.numeric                          # ip ospf message-digest-key value hash_type id
-          68: string.unquoted                           # ip ospf message-digest-key value hash_type id value
-          69: support.constant                          # ip ospf network
-          70: entity.other.inherited-class              # ip ospf network type
-          71: support.constant                          # ospfv3 network
-          72: entity.other.inherited-class              # ospfv3 network type
-          73: support.constant                          # untagged
-          74: support.constant                          # untagged cos
-          75: constant.numeric                          # untagged cos value
-          76: support.constant                          # priority-flow-control
-          77: support.constant                          # priority-flow-control mode
-          78: entity.other.inherited-class              # priority-flow-control mode on
-          79: entity.other.inherited-class              # priority-flow-control mode auto
-          80: keyword.key                               # priority-flow-control mode off
+          1: support.constant                               # ipv6 enable
+          2: support.constant                               # ip vrf forwarding
+          3: string.unquoted                                # vrf name
+          4: support.constant                               # port-channel standalone-disable
+          5: support.constant                               # encapsulation dot1q
+          6: constant.numeric                               # dot1q id
+          7: support.constant                               # ip helper-address
+          8: constant.numeric                               # dhcp-ip
+          9: support.constant                               # ip access-group
+          10: string.unquoted                               # acl name
+          11: support.constant                              # in / out
+          12: support.constant                              # proxy-arp
+          13: support.constant                              # ip redirects
+          14: support.constant                              # ipv6 address general-prefix
+          15: constant.numeric                              # ipv6 prefix
+          16: support.constant                              # eui-64
+          17: support.constant                              # ipv6 nd prefix
+          18: support.constant                              # ipv6 nd prefix
+          19: support.constant                              # ip address
+          20: constant.numeric.ip.ipv4.prefix               # ip address ipv4 address
+          21: support.constant                              # ip address secondary
+          22: keyword.other                                 # shutdown
+          23: support.constant                              # Service-policy qos input
+          24: string.unquoted                               # Service-policy qos input name
+          25: support.constant                              # Service-policy qos input
+          26: string.unquoted                               # Service-policy qos input name
+          27: support.constant                              # channel-group
+          28: constant.numeric                              # channel-group id
+          29: support.constant                              # channel-group force
+          30: support.constant                              # channel-group mode
+          31: entity.other.inherited-class                  # channel-group active
+          32: entity.other.inherited-class                  # channel-group on
+          33: entity.other.inherited-class                  # channel-group passive
+          34: support.constant                              # channel-protocol
+          35: support.constant                              # channel-protocol lacp
+          36: support.constant                              # vpc
+          37: constant.numeric                              # vpc id
+          38: support.constant                              # hsrp version
+          39: constant.numeric                              # hsrp version number
+          40: support.constant                              # ipv6 address
+          41: constant.numeric                              # ipv6 prefix
+          42: support.constant                              # ipv6 eui-64
+          43: support.constant                              # ip pim sparse-mode
+          44: support.constant                              # ip arp timeout
+          45: constant.numeric                              # ip arp timeout number
+          46: support.constant                              # ip arp gratuitous hsrp duplicate
+          47: support.constant                              # link debounce
+          48: constant.numeric                              # link debounce time
+          49: support.constant                              # ip router ospf
+          50: constant.numeric                              # ip router ospf process id
+          51: support.constant                              # ip router ospf area
+          52: constant.numeric                              # ip router ospf area-id
+          53: support.constant                              # ipv6 router ospfv3
+          54: constant.numeric                              # ipv6 router ospfv3 process id
+          55: support.constant                              # ipv6 router ospfv3 area
+          56: constant.numeric                              # ipv6 router ospfv3 area-id
+          57: support.constant                              # mtu
+          58: constant.numeric                              # mtu value
+          59: support.constant                              # ip policy route-map
+          60: string.unquoted                               # ip policy route-map
+          61: support.constant                              # ip dhcp relay address
+          62: constant.numeric                              # ip dhcp relay address ip
+          63: support.constant                              # ip ospf authentication message-digest
+          64: support.constant                              # ip ospf message-digest-key
+          65: constant.numeric                              # ip ospf message-digest-key value
+          66: entity.other.inherited-class                  # ip ospf message-digest-key value hash_type
+          67: constant.numeric                              # ip ospf message-digest-key value hash_type id
+          68: string.unquoted                               # ip ospf message-digest-key value hash_type id value
+          69: support.constant                              # ip ospf network
+          70: entity.other.inherited-class                  # ip ospf network type
+          71: support.constant                              # ospfv3 network
+          72: entity.other.inherited-class                  # ospfv3 network type
+          73: support.constant                              # untagged
+          74: support.constant                              # untagged cos
+          75: constant.numeric                              # untagged cos value
+          76: support.constant                              # priority-flow-control
+          77: support.constant                              # priority-flow-control mode
+          78: entity.other.inherited-class                  # priority-flow-control mode on
+          79: entity.other.inherited-class                  # priority-flow-control mode auto
+          80: keyword.key                                   # priority-flow-control mode off
+      - include: interface_ip_address_incomplete
       - match: '(hsrp)\s+(\d+)(\s+ipv6)?'
         captures:
           1: support.constant
@@ -1876,13 +1905,34 @@ contexts:
         - include: pop_on_interface_context
       - include: pop_on_configure_terminal_context
 
+  interface_ip_address_incomplete:
+    - match: |
+        (?xi)
+        ^\s+
+        (ip)\s+
+        (address)\s+
+      push: 
+      - meta_scope: ip.ipv4.incomplete.prefix
+      - match: |
+          (?xi)
+          (?:
+            ({{ip_prefix_incomplete}})|
+            (\S+\s.*)|
+            (\S+)
+          )
+        captures:
+          1: entity.other.inherited-class
+          2: nothing
+          3: keyword.key
+        pop: true
+
   hsrp:
     - include: hsrp_options
     - match: |
         (?xi)
         ^\s*
         (?:
-          (?:(ip)\s+({{ip}}))|
+          (?:(ip)\s+({{ip}})\b)|
           (?:(ip)\s+({{ipv6}}))|
           (?:(track)\s+(\d+)\s+(decrement)\s+(\d+))|
           (?:(name)\s+(\S+))
@@ -1897,7 +1947,28 @@ contexts:
         7: support.constant             # track id decrement
         8: constant.numeric             # track id decrement value
         9: support.constant             # name
-        10: string.unquoted            # name string
+        10: string.unquoted             # name string
+    - include: hsrp_ip_incomplete
+
+  hsrp_ip_incomplete:
+    - match: |
+        (?xi)
+        ^\s+
+        (ip)\s+
+      push: 
+      - meta_scope: ip.ipv4.incomplete.ip
+      - match: |
+          (?xi)
+          (?:
+            ({{ip_incomplete}})|
+            (\S+\s.*)|
+            (\S+)
+          )
+        captures:
+          1: entity.other.inherited-class
+          2: nothing
+          3: keyword.key
+        pop: true
 
   hsrp_options:
     - match: |

@@ -33,6 +33,18 @@ variables:
       (?:ah-md5-hmac)|
       (?:ah-sha-hmac)
     )
+  # 1 - 65535
+  number_32_bit: |
+    (?xi)
+    (?:
+      (?:6553[0-5])|
+      (?:655[0-2]\d)|
+      (?:65[0-4]\d{2})|
+      (?:6[0-4]\d{3})|
+      (?:[0-5]\d{4})|
+      (?:\d{2,4})|
+      (?:[1-9])
+    )
   authentication_methods: |
     (?xi)
     (?:
@@ -94,6 +106,286 @@ variables:
       (?:CS7)|
       (?:EF)
     )
+  month_names: |
+    (?xi)
+    (?:
+      (?:jan(?:uary)?)|
+      (?:feb(?:uary)?)|
+      (?:mar(?:ch)?)|
+      (?:apr(?:il)?)|
+      (?:may)|
+      (?:jun(?:e)?)|
+      (?:july)|
+      (?:aug(?:ust)?)|
+      (?:sept(?:ember)?)|
+      (?:oct(?:ober)?)|
+      (?:nov(?:ember)?)|
+      (?:dec(?:ember)?)
+    )
+  military_clock_hour_minute: |
+    (?xi)
+    (?:
+      (?:
+        (?:
+          2[0-3]
+        )|
+        (?:
+          [0-1]?\d+
+        )
+      )?
+    )
+    :
+    [0-5]\d+
+  day_of_week_names: |
+    (?xi)
+    (?:
+      (?:mon(?:day)?)|
+      (?:tues(?:day)?)|
+      (?:wed(?:nesday)?)|
+      (?:thurs(?:day)?)|
+      (?:fri(?:day)?)|
+      (?:sat(?:urday)?)|
+      (?:sun(?:day)?)
+    )
+  utc_offset_hour: |
+    (?xi)
+    [-+]?
+    (?:
+      (?:1[0-4])|
+      (?:[0-9])
+    )
+  utc_offset_minute: '[1-6]?[0-9]'
+  # Source: https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
+  # Single Letter Timezones: https://www.cisco.com/c/en/us/td/docs/ios/12_2/configfun/command/reference/ffun_r/frf012.html#wpxref70983
+  timezones: |
+    (?xi)
+    (?:
+      (?:ACDT)|
+      (?:ACST)|
+      (?:ACT)|
+      (?:ACT)|
+      (?:ACWST)|
+      (?:ADT)|
+      (?:AEDT)|
+      (?:AEST)|
+      (?:AFT)|
+      (?:AKDT)|
+      (?:AKST)|
+      (?:AMST)|
+      (?:AMT)|
+      (?:AMT)|
+      (?:ART)|
+      (?:AST)|
+      (?:AST)|
+      (?:AWST)|
+      (?:AZOST)|
+      (?:AZOT)|
+      (?:AZT)|
+      (?:BDT)|
+      (?:BIOT)|
+      (?:BIT)|
+      (?:BOT)|
+      (?:BRST)|
+      (?:BRT)|
+      (?:BST)|
+      (?:BST)|
+      (?:BST)|
+      (?:BTT)|
+      (?:CAT)|
+      (?:CCT)|
+      (?:CDT)|
+      (?:CDT)|
+      (?:CEST)|
+      (?:CET)|
+      (?:CHADT)|
+      (?:CHAST)|
+      (?:CHOT)|
+      (?:CHOST)|
+      (?:CHST)|
+      (?:CHUT)|
+      (?:CIST)|
+      (?:CIT)|
+      (?:CKT)|
+      (?:CLST)|
+      (?:CLT)|
+      (?:COST)|
+      (?:COT)|
+      (?:CST)|
+      (?:CST)|
+      (?:CST)|
+      (?:CT)|
+      (?:CVT)|
+      (?:CWST)|
+      (?:CXT)|
+      (?:DAVT)|
+      (?:DDUT)|
+      (?:DFT)|
+      (?:EASST)|
+      (?:EAST)|
+      (?:EAT)|
+      (?:ECT)|
+      (?:ECT)|
+      (?:EDT)|
+      (?:EEST)|
+      (?:EET)|
+      (?:EGST)|
+      (?:EGT)|
+      (?:EIT)|
+      (?:EST)|
+      (?:FET)|
+      (?:FJT)|
+      (?:FKST)|
+      (?:FKT)|
+      (?:FNT)|
+      (?:GALT)|
+      (?:GAMT)|
+      (?:GET)|
+      (?:GFT)|
+      (?:GILT)|
+      (?:GIT)|
+      (?:GMT)|
+      (?:GST)|
+      (?:GST)|
+      (?:GYT)|
+      (?:HDT)|
+      (?:HAEC)|
+      (?:HST)|
+      (?:HKT)|
+      (?:HMT)|
+      (?:HOVST)|
+      (?:HOVT)|
+      (?:ICT)|
+      (?:IDLW)|
+      (?:IDT)|
+      (?:IOT)|
+      (?:IRDT)|
+      (?:IRKT)|
+      (?:IRST)|
+      (?:IST)|
+      (?:IST)|
+      (?:IST)|
+      (?:JST)|
+      (?:KALT)|
+      (?:KGT)|
+      (?:KOST)|
+      (?:KRAT)|
+      (?:KST)|
+      (?:LHST)|
+      (?:LHST)|
+      (?:LINT)|
+      (?:MAGT)|
+      (?:MART)|
+      (?:MAWT)|
+      (?:MDT)|
+      (?:MET)|
+      (?:MEST)|
+      (?:MHT)|
+      (?:MIST)|
+      (?:MIT)|
+      (?:MMT)|
+      (?:MSK)|
+      (?:MST)|
+      (?:MST)|
+      (?:MUT)|
+      (?:MVT)|
+      (?:MYT)|
+      (?:NCT)|
+      (?:NDT)|
+      (?:NFT)|
+      (?:NPT)|
+      (?:NST)|
+      (?:NT)|
+      (?:NUT)|
+      (?:NZDT)|
+      (?:NZST)|
+      (?:OMST)|
+      (?:ORAT)|
+      (?:PDT)|
+      (?:PET)|
+      (?:PETT)|
+      (?:PGT)|
+      (?:PHOT)|
+      (?:PHT)|
+      (?:PKT)|
+      (?:PMDT)|
+      (?:PMST)|
+      (?:PONT)|
+      (?:PST)|
+      (?:PST)|
+      (?:PYST)|
+      (?:PYT)|
+      (?:RET)|
+      (?:ROTT)|
+      (?:SAKT)|
+      (?:SAMT)|
+      (?:SAST)|
+      (?:SBT)|
+      (?:SCT)|
+      (?:SDT)|
+      (?:SGT)|
+      (?:SLST)|
+      (?:SRET)|
+      (?:SRT)|
+      (?:SST)|
+      (?:SST)|
+      (?:SYOT)|
+      (?:TAHT)|
+      (?:THA)|
+      (?:TFT)|
+      (?:TJT)|
+      (?:TKT)|
+      (?:TLT)|
+      (?:TMT)|
+      (?:TRT)|
+      (?:TOT)|
+      (?:TVT)|
+      (?:ULAST)|
+      (?:ULAT)|
+      (?:UTC)|
+      (?:UYST)|
+      (?:UYT)|
+      (?:UZT)|
+      (?:VET)|
+      (?:VLAT)|
+      (?:VOLT)|
+      (?:VOST)|
+      (?:VUT)|
+      (?:WAKT)|
+      (?:WAST)|
+      (?:WAT)|
+      (?:WEST)|
+      (?:WET)|
+      (?:WIT)|
+      (?:WST)|
+      (?:YAKT)|
+      (?:YEKT)|
+      (?:Y)|
+      (?:X)|
+      (?:W)|
+      (?:V)|
+      (?:U)|
+      (?:T)|
+      (?:S)|
+      (?:R)|
+      (?:Q)|
+      (?:P)|
+      (?:O)|
+      (?:N)|
+      (?:Z)|
+      (?:A)|
+      (?:B)|
+      (?:C)|
+      (?:D)|
+      (?:E)|
+      (?:F)|
+      (?:G)|
+      (?:H)|
+      (?:I)|
+      (?:K)|
+      (?:L)|
+      (?:M)|
+      (?:\S+)
+    )
   hashing_algorithms: |
     (?xi)
     (?:
@@ -110,7 +402,7 @@ variables:
       (?:boot)|
       (?:boot-end-marker)|
       (?:boot-start-marker)|
-      (?:Building)|
+      (?:building)|
       (?:class-map)|
       (?:clock)|
       (?:control-plane)|
@@ -132,6 +424,7 @@ variables:
       )|
       (?:line)|
       (?:logging)|
+      (?:login)|
       (?:mls)|
       (?:mpls)|
       (?:multilink)|
@@ -512,6 +805,7 @@ contexts:
     - include: ospf
     - include: vty
     - include: vrf
+    - include: login
     - include: snmp
     - include: ntp
     - include: vlan
@@ -522,6 +816,7 @@ contexts:
     - include: spanning_tree
     - include: logging
     - include: service
+    - include: clock
     - include: monitor
     - include: hostname
     - include: line_con
@@ -1040,6 +1335,28 @@ contexts:
           8: support.constant   # set local-preference
           9: constant.numeric   # set local-preference number
       - include: pop_on_configure_terminal_context
+
+  login:
+    - match: |
+        (?xi)
+        ^\s*
+        (login)\s+
+        (?:
+          (block-for)\s+
+          ({{number_32_bit}})\s+
+          (attempts)\s+
+          ({{number_32_bit}})\s+
+          (within)\s+
+          ({{number_32_bit}})
+        )
+      captures:
+        1: support.constant             # login
+        2: support.constant             # block-for
+        3: constant.numeric             # block-for seconds
+        4: support.constant             # block-for attempts
+        5: constant.numeric             # block-for attempts seconds
+        6: support.constant             # block-for within
+        7: constant.numeric             # block-for within seconds
 
   aaa_authentication:
     - match: |
@@ -1830,14 +2147,26 @@ contexts:
           (?:(sequence-numbers))|
           (?:(tcp-keepalives-in))|
           (?:(tcp-keepalives-out))|
-          (?:(timestamps)\s+
+          (?:(timestamps)
             (
-              (?:debug)|
-              (?:log)|
-            )
-            \s+
-            (datetime\s+msec)
-            (?:\s+(localtime\s+show-timezone))?
+              \s+
+              (?:
+                (?:debug)|
+                (?:log)
+              )
+            )?
+            (?:
+              \s+
+              (?:
+                (uptime)|
+                (?:
+                  (datetime)(\s+msec)?
+                )
+              )
+            )?
+            (\s+localtime)?
+            (\s+show-timezone)?
+            (\s+year)?
           )
         )
       captures:
@@ -1849,8 +2178,181 @@ contexts:
         6: support.constant               # tcp-keepalives-out
         7: support.constant               # timestamps
         8: support.constant               # timestamps debug | log
-        9: support.constant               # timestamps datetime msec
-        10: support.constant              # timestamps localtime show-timezone
+        9: support.constant               # timestamps uptime
+        10: support.constant              # timestamps datetime
+        11: support.constant              # timestamps datetime msec
+        12: support.constant              # timestamps localtime show-timezone
+        13: support.constant              # timestamps show-timezone
+        14: support.constant              # timestamps year
+
+  clock:
+    - match: |
+        (?xi)
+        (clock)\s+
+        (?:
+          (?:
+            (timezone)\s+
+            ({{timezones}})\s+
+            ({{utc_offset_hour}})
+            (?:\s+({{utc_offset_minute}}))?
+          )|
+          (?:
+            (summer-time)\s+
+            ({{timezones}})\s+
+            (?:
+              (?:
+                (date\s+)
+                (
+                  (?:
+                    (?:3[01])|
+                    (?:[0-2]?\d)
+                  )
+                  \s+
+                )
+                ({{month_names}}\s+)
+                (
+                  (?:
+                    (?:199[3-9])|
+                    (?:20[0-2]\d)|
+                    (?:203[0-5])
+                  )
+                  \s+
+                )
+                ({{military_clock_hour_minute}}\s+)
+                (
+                  (?:
+                    (?:3[01])|
+                    (?:[0-2]?\d)
+                  )
+                  \s+
+                )
+                ({{month_names}}\s+)
+                (
+                  (?:
+                    (?:199[3-9])|
+                    (?:20[0-2]\d)|
+                    (?:203[0-5])
+                  )
+                  \s+
+                )
+                ({{military_clock_hour_minute}})
+                (\s+[0-6]?\d)?
+              )|
+              (?:
+                (date\s+)
+                ({{month_names}}\s+)
+                (
+                  (?:
+                    (?:3[01])|
+                    (?:[0-2]?\d)
+                  )
+                  \s+
+                )
+                (
+                  (?:
+                    (?:199[3-9])|
+                    (?:20[0-2]\d)|
+                    (?:203[0-5])
+                  )
+                  \s+
+                )
+                ({{military_clock_hour_minute}}\s+)
+                ({{month_names}}\s+)
+                (
+                  (?:
+                    (?:3[01])|
+                    (?:[0-2]?\d)
+                  )
+                  \s+
+                )
+                (
+                  (?:
+                    (?:199[3-9])|
+                    (?:20[0-2]\d)|
+                    (?:203[0-5])
+                  )
+                  \s+
+                )
+                ({{military_clock_hour_minute}})
+                (\s+[0-6]?\d)?
+              )|
+              (?:
+                (recurring)
+                (?:
+                  \s+
+                  (?:
+                    (?:
+                      (?:
+                        ([1-5])|
+                        (last)
+                      )
+                      \s+
+                    )
+                    ({{day_of_week_names}}\s+)
+                    ({{month_names}}\s+)
+                    ({{military_clock_hour_minute}}\s+)
+                    (?:
+                      (?:
+                        ([1-5])|
+                        (last)
+                      )
+                      \s+
+                    )
+                    ({{day_of_week_names}}\s+)
+                    ({{month_names}}\s+)
+                    ({{military_clock_hour_minute}})
+                    (\s+[0-6]?\d)?
+                  )
+                )?
+              )
+            )
+          )
+        )
+      captures:
+        1: support.constant               # clock
+        2: support.constant               # clock timezone
+        3: entity.other.attribute-name    # clock timezone name
+        4: constant.numeric               # clock timezone hour offset
+        5: constant.numeric               # clock timezone minute offset
+        6: support.constant               # clock summer-time
+        7: entity.other.attribute-name    # clock summer-time timezone-name
+
+        # date month year hh:mm date month year hh:mm [offset]
+        8: support.constant               # clock date
+        9: constant.numeric               # clock date day
+        10: entity.other.attribute-name    # clock date month
+        11: constant.numeric               # clock date year
+        12: constant.numeric               # clock date time
+        13: constant.numeric               # clock date day
+        14: entity.other.attribute-name    # clock date month
+        15: constant.numeric               # clock date year
+        16: constant.numeric               # clock date time
+        17: constant.numeric               # clock date minute offset
+       
+        # month date year hh:mm month date year hh:mm [offset]
+        18: support.constant               # clock date
+        19: entity.other.attribute-name    # clock date month
+        20: constant.numeric               # clock date day
+        21: constant.numeric               # clock date year
+        22: constant.numeric               # clock date time
+        23: entity.other.attribute-name    # clock date month
+        24: constant.numeric               # clock date day
+        25: constant.numeric               # clock date year
+        26: constant.numeric               # clock date time
+        27: constant.numeric               # clock date minute offset
+       
+        28: support.constant               # clock summer-time recurring
+        29: constant.numeric               # clock summer-time recurring week
+        30: support.constant               # clock summer-time recurring last week
+        31: entity.other.attribute-name   # clock summer-time recurring day
+        32: entity.other.attribute-name   # clock summer-time recurring month
+        33: constant.numeric              # clock summer-time recurring time
+        34: constant.numeric               # clock summer-time recurring week
+        35: support.constant               # clock summer-time recurring last week
+        36: entity.other.attribute-name   # clock summer-time recurring day
+        37: entity.other.attribute-name   # clock summer-time recurring month
+        38: constant.numeric              # clock summer-time recurring time
+        39: constant.numeric              # clock summer-time recurring minute offset
 
   vlan:
     - match: '^\s*(vlan)\s+({{vlan_id}})'
@@ -2205,7 +2707,8 @@ contexts:
           (logging\s+synchronous)|
           (?:(stopbits)\s+(\d+))|
           (?:(history)\s+(size)\s+(\d+))|
-          (?:(exec)\s+(prompt)\s+(timestamp))
+          (?:(exec)\s+(prompt)\s+(timestamp))|
+          (?:(login)\s+((?:tacacs)|(?:local))?)
         )
       captures:
         1: support.constant                 # transport
@@ -2231,6 +2734,8 @@ contexts:
         21: support.constant                # exec
         22: support.constant                # exec prompt
         23: support.constant                # exec prompt timestamp
+        24: support.constant                # login
+        25: support.constant                # login local | tacacs
 
   line_con:
     - match: '^\s*(line)\s+(con(?:sole)?)\s+(0)'
@@ -2508,11 +3013,11 @@ contexts:
     - include: location_remote
 
   location_remote:
-    - match: ((?:t?ftp)|scp)(://)((?:\d+\.){3}\d+)(\/\S*)?
+    - match: ((?:t?ftp)|scp)(://)({{ip}})(\/\S*)?
       captures:
         1: entity.other.attribute-name
         2: support.constant
-        3: constant.language
+        3: constant.numeric.ip.ipv4.address
         4: support.constant
 
   location_local:

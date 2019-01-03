@@ -5,6 +5,7 @@ import logging
 import sublime
 import sublime_plugin
 
+from .scopes import scopes
 from .network import Network
 from .variables import sublime_ip, ip
 
@@ -188,3 +189,13 @@ class FindAllSubnetsCommand(sublime_plugin.TextCommand):
         default_search = Network.get_network_on_cursor(self.view.sel()[0], self.view)
         default_search = default_search if ip.v4.network.search(default_search) else ''
         self._find_input_panel(network=default_search)
+
+
+# class NetworkCompletionListener(sublime_plugin.ViewEventListener):
+
+#     def on_query_completions(self, prefix, locations):
+#         for point in locations:
+#             if self.view.match_selector(point, scopes.ipv4.incomplete.ip):
+#                 print('ding')
+#                 print(prefix)
+#         return
