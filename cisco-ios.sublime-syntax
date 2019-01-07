@@ -24,6 +24,7 @@ variables:
   pop_address_family_ctx: '^\s*(?:exit-address-family)\s*$'
   command_end: '(?:\s|{{comment}}|$)'
   line_number: '^\s*\d+'
+  security_tag_id: '\d+'
   route_target: '\d+:\d+'
   type_5_password: \S+
   type_7_password: \S+
@@ -32,6 +33,14 @@ variables:
     (?:
       (?:ah-md5-hmac)|
       (?:ah-sha-hmac)
+    )
+  # 1 - 255
+  number_8_bit: |
+    (?xi)
+    (?:
+      (?:25[0-5])|
+      (?:2[0-4]\d)|
+      (?:[0-1]?\d{1,2})
     )
   # 1 - 65535
   number_32_bit: |
@@ -82,6 +91,81 @@ variables:
       (?:esp-md5-hmac)|
       (?:esp-sha-hmac)
     )
+  tos: |
+    (?xi)
+    (?:
+      (?:[0-1]?\d)|
+      (?:max-reliability)|
+      (?:max-throughput)|
+      (?:min-delay)|
+      (?:min-monetary-cost)|
+      (?:normal)
+    )  
+  tos_precedence: |
+    (?xi)
+    (?:
+      (?:[0-7])|
+      (?:flash-override)|
+      (?:flash)|
+      (?:immediate)|
+      (?:internet)|
+      (?:network)|
+      (?:priority)|
+      (?:routine)
+    )  
+  ip_options: |
+    (?xi)
+    (?:
+      (?:{{number_8_bit}})|
+      (?:add-ext)|
+      (?:any-options)|
+      (?:com-security)|
+      (?:dps)|
+      (?:encode)|
+      (?:eool)|
+      (?:ext-ip)|
+      (?:ext-security)|
+      (?:finn)|
+      (?:imitd)|
+      (?:lsr)|
+      (?:match-all)|
+      (?:match-any)|
+      (?:mtup)|
+      (?:mtur)|
+      (?:no-op)|
+      (?:psh)|
+      (?:nsapa)|
+      (?:reflect)|
+      (?:record-route)|
+      (?:rst)|
+      (?:router-alert)|
+      (?:sdb)|
+      (?:security)|
+      (?:ssr)|
+      (?:stream-id)|
+      (?:syn)|
+      (?:timestamp)|
+      (?:traceroute)|
+      (?:ump)|
+      (?:visa)|
+      (?:zsu)
+    )  
+  ttl_match_values: |
+    (?xi)
+    (?:
+      (?:eq)|
+      (?:gt)|
+      (?:lt)|
+      (?:neq)|
+      (?:range)
+    )  
+  dscp_w_value: |
+    (?xi)
+    (?:
+      (?:{{dscp}})|
+      (?:6[0-3])|
+      (?:[0-5]?\d)
+    )  
   dscp: |
     (?xi)
     (?:
@@ -429,6 +513,7 @@ variables:
       (?:mpls)|
       (?:multilink)|
       (?:ntp)|
+      (?:object-group)|
       (?:policy-map)|
       (?:redundancy)|
       (?:router)|
@@ -613,11 +698,13 @@ variables:
     )
   protocol_target: |
     (?xi)
-    (?:ip)|
-    (?:tcp)|
-    (?:udp)|
-    (?:esp)|
-    (?:icmp)
+    (?:
+      (?:ip)|
+      (?:tcp)|
+      (?:udp)|
+      (?:esp)|
+      (?:icmp)
+    )
   port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   port_names: |
     (?xi)
@@ -812,6 +899,8 @@ contexts:
     - include: ip_http
     - include: ip_scp
     - include: ip_subnet_zero
+    - include: ip_cef
+    - include: aaa_session_id
     - include: vtp
     - include: spanning_tree
     - include: logging
@@ -832,6 +921,7 @@ contexts:
     - include: prefix_list
     - include: vrf_upgrade
     - include: ntp_server
+    - include: object_group    
     - include: igmp_snooping_querier
     - include: ip_name_server
     - include: ip_domain_name
@@ -844,6 +934,7 @@ contexts:
     - include: aaa_authentication
     - include: ipv6_unicast_routing
     - include: ipv6_general_prefix
+    - include: access_list_compiled
     - include: extended_acl
     - include: standard_acl
     - include: extended_acl_old
@@ -906,6 +997,15 @@ contexts:
         2: support.constant
         3: string.unquoted
         4: support.constant
+
+  access_list_compiled:
+    - match: |
+        (?xi)
+        ^\s*
+        (access-list)\s+(compiled)
+      captures:
+        1: support.constant
+        2: support.constant
 
   igmp_snooping_querier:
     - match: |
@@ -979,6 +1079,9 @@ contexts:
     - include: logout
     - include: configure_terminal
     - include: show_drives
+    - include: terminal_info_current_configuration
+    - include: terminal_info_boot_marker
+
 
   enable_password:
     - match: |
@@ -1254,6 +1357,7 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.acl.extended
         - include: remark_ace
+        - include: ogacl
         - include: extended_ace
         - include: pop_on_configure_terminal_context
 
@@ -1270,21 +1374,179 @@ contexts:
         2: comment.line                 # remark
         3: comment.line                 # remark text
 
+  ogacl:
+    - include: ogacl_permit
+    
+  ogacl_permit:
+    - include: ogacl_permit_l3_protocol
+    - include: ogacl_permit_tcp_udp
+
+  # https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-p1.html#wp1459792010
+  ogacl_permit_l3_protocol:
+    - match: |
+        (?xi)
+        ^\s*
+        (permit)\s+
+        (?!
+          (?:tcp)|
+          (?:udp)
+        )
+        ({{protocol_target}})
+        \s+
+        (?:
+          (?:({{ip}})\s+({{wildcard_mask}}))|
+          (any)|
+          (?:
+            (host)\s+
+            (?:
+              ({{ip}})|
+              (\S+)
+            )
+          )|
+          (?:(object-group)\s+(\S+))
+        )
+        \s+
+        (?:
+          (?:({{ip}})\s+({{wildcard_mask}}))|
+          (any)|
+          (?:
+            (host)\s+
+            (?:
+              ({{ip}})|
+              (\S+)
+            )
+          )|
+          (?:(object-group)\s+(\S+))
+        )
+        (?:
+          \s+
+          (?:
+            (?:(dscp)\s+({{dscp_w_value}}|(?:default)))|
+            (?:(precedence)\s+({{tos_precedence}}))|
+            (?:(fragments))|
+            (?:(option)\s+({{ip_options}}))|
+            (?:(reflect)\s+(\S+))|
+            (?:(time-range)\s+(\S+))|
+            (?:(ttl)\s+({{ttl_match_values}})\s+(\d+)(?:\s+(\d+))?)|
+            (?:(tos)\s+({{tos}}))|
+            (?:(log)(?:\s+(\S+))?)|
+            (?:(log-input)(?:\s+(\S+))?)
+          )
+        )?
+      scope: text.network.cisco.acl.extended.ace.ogacl.permit.l3
+      captures:
+        1: entity.other.attribute-name                                  # Permit
+        2: constant.numeric                                             # Protocol Name
+        3: constant.numeric.network.ipv4.network_address                # Source Network
+        4: constant.numeric.network.ipv4.wildcard                       # Source Wildcard
+        5: support.constant                                             # Source Any
+        6: support.constant                                             # Source Host
+        7: constant.numeric.ip.ipv4.address                             # Source Host IP
+        8: string.unquoted                                              # Source Host Name
+        9: support.constant                                             # Source Object-Group
+        10: string.unquoted                                             # Source Object-Group Name
+        11: constant.numeric.network.ipv4.network_address               # Destination Network
+        12: constant.numeric.network.ipv4.wildcard                      # Destination Wildcard
+        13: support.constant                                            # Destination Any
+        14: support.constant                                            # Destination Host
+        15: constant.numeric.ip.ipv4.address                            # Destination Host IP
+        16: string.unquoted                                             # Destination Host Name
+        17: support.constant                                            # Destination Object-Group
+        18: string.unquoted                                             # Destination Object-Group Name
+        19: support.constant                                            # dscp
+        20: constant.numeric                                            # dscp value
+        21: support.constant                                            # precedence
+        22: constant.numeric                                            # precedence value
+        23: support.constant                                            # fragments
+        24: support.constant                                            # option
+        25: constant.numeric                                            # option value
+        26: support.constant                                            # reflect
+        27: string.unquoted                                             # reflect acl_name
+        28: support.constant                                            # time-range
+        29: string.unquoted                                             # time-range acl_name
+        30: support.constant                                            # ttl
+        31: support.constant                                            # ttl operator
+        32: constant.numeric                                            # ttl ttl-value
+        33: constant.numeric                                            # ttl ttl-value ttl-value
+        34: support.constant                                            # tos
+        35: constant.numeric                                            # tos value
+        36: support.constant                                            # log
+        37: string.unquoted                                             # log name
+        38: support.constant                                            # log-input
+        39: string.unquoted                                             # log-input name
+    
   extended_ace:
     - match: |
         (?xi)
         ^\s*
         ({{line_number}}\s+)?
-        (?:(permit)|(deny))\s+
-        ({{protocol_target}})
+        (?:
+          (permit)|
+          (deny)
+        )
+        \s+
         (?:
           (?:
-            (?:\s+(?:({{network_target}})|(?:(host)\s+({{ip}}))))
-            (?:\s+({{operators}})\s+({{port_target}}))?
-            (\s+established)?
-            (?:\s+(?:({{network_target}})|(?:(host)\s+({{ip}}))))
-            (?:\s+({{operators}})\s+({{port_target}}))?
-            (\s+established)?
+            (?:(object-group)\s+(\S+))
+            (?:
+              (?:
+                (?:
+                  \s+
+                  (?:
+                    ({{network_target}})|
+                    (?:(host)\s+({{ip}}))|
+                    (?:(object-group)\s+(\S+))
+                  )
+                )
+                (?:
+                  \s+
+                  (?:
+                    ({{network_target}})|
+                    (?:(host)\s+({{ip}}))|
+                    (?:(object-group)\s+(\S+))
+                  )
+                )
+              )
+            )
+          )|
+          (?:
+            ({{protocol_target}})
+            (?:
+              (?:
+                (?:
+                  \s+
+                  (?:
+                    ({{network_target}})|
+                    (?:(host)\s+({{ip}}))|
+                    (?:(object-group)\s+(\S+))
+                  )
+                )
+                (?:
+                  \s+
+                  (?:
+                    (?:({{operators}})\s+({{port_target}}))|
+                    (?:(object-group)\s+(\S+))
+                  )
+                )?
+                (\s+established)?
+                (?:
+                  \s+
+                  (?:
+                    ({{network_target}})|
+                    (?:(host)\s+({{ip}}))|
+                    (?:(object-group)\s+(\S+))
+                  )
+                )
+                (?:
+                  \s+
+                  (?:
+                    (?:({{operators}})\s+({{port_target}}))|
+                    (?:(object-group)\s+(\S+))
+                  )
+                )?
+                (\s+established)?
+              )
+            )
           )
         )
       scope: text.network.cisco.acl.extended.ace
@@ -1292,20 +1554,41 @@ contexts:
         1: constant.numeric                       # Line number
         2: entity.other.attribute-name            # Permit
         3: keyword.other                          # Deny
-        4: support.constant                       # Protocol Name
-        5: constant.numeric.target_ip             # Source Network
-        6: support.constant                       # Source Host
-        7: constant.numeric.ip.ipv4.address       # Source Host IP
-        8: support.constant                       # Source Operator
-        9: constant.numeric                       # Source Port
-        10: support.constant                      # Source Established
+
+        4: support.constant                      # Service network object-group
+        5: string.unquoted.service               # Service network object-group name
+        6: constant.numeric.target_ip            # Source Network
+        7: support.constant                      # Source Host
+        8: constant.numeric.ip.ipv4.address      # Source Host IP
+        9: support.constant                      # Source network object-group
+        10: string.unquoted                       # Source network object-group name
         11: constant.numeric.target_ip            # Destination Network
         12: support.constant                      # Destination Host
         13: constant.numeric.ip.ipv4.address      # Destination Host IP
-        14: support.constant                      # Destination Operator
-        15: constant.numeric                      # Destination Port
-        16: support.constant                      # Destination Established
-        17: ios.acl.ace.target_ip                 # IP target scope
+        14: support.constant                      # Destination network object-group
+        15: string.unquoted                       # Destination network object-group name
+        
+        16: constant.numeric                       # Protocol Name
+        17: constant.numeric.target_ip             # Source Network
+        18: support.constant                       # Source Host
+        19: constant.numeric.ip.ipv4.address       # Source Host IP
+        20: support.constant                       # Source network object-group
+        21: string.unquoted                        # Source network object-group name
+        22: support.constant                      # Source Operator
+        23: constant.numeric                      # Source Port
+        24: support.constant                      # Source service object-group
+        25: string.unquoted                       # Source service object-group name
+        26: support.constant                      # Source Established
+        27: constant.numeric.target_ip            # Destination Network
+        28: support.constant                      # Destination Host
+        29: constant.numeric.ip.ipv4.address      # Destination Host IP
+        30: support.constant                      # Destination network object-group
+        31: string.unquoted                       # Destination network object-group name
+        32: support.constant                      # Destination Operator
+        33: constant.numeric                      # Destination Port
+        34: support.constant                      # Destination service object-group
+        35: string.unquoted                       # Destination service object-group name
+        36: support.constant                      # Destination Established
 
   route_map:
     - match: '^\s*(route-map)\s+(\S+)\s+(?:(permit)|(deny))\s+(\d+)?'
@@ -1989,6 +2272,34 @@ contexts:
     captures:
       1: support.constant
 
+  ip_cef:
+  - match: ^\s*(ip\s+cef)
+    captures:
+      1: support.constant
+
+  aaa_session_id:
+    - match: |
+        (?xi)
+        ^\s*
+        (aaa\s+session-id)\s+
+        (
+          (?:common)|
+          (?:unique)
+        )
+      captures:
+        1: support.constant
+        2: support.constant
+
+  terminal_info_current_configuration:
+    - match: '(Current configuration : \d+ bytes)'
+      captures:
+        1: comment.line
+
+  terminal_info_boot_marker:
+    - match: '(boot-(?:(?:start)|(?:end))-marker)'
+      captures:
+        1: comment.line
+
 
   ip_route:
     - include: ipv4_route
@@ -2663,6 +2974,126 @@ contexts:
         2: support.constant               # interface
         3: entity.other.attribute-name    # interface name
         4: constant.numeric               # interface number
+
+  description:
+    - match: '^\s*(description.*)'
+      captures:
+        1: comment.line
+
+  object_group:
+    - include: object_group_network
+    - include: object_group_security
+    - include: object_group_service
+
+  object_group_group_object:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(group-object)\s+(\S+))
+        )
+      captures:
+        1: support.constant     # group-object
+        2: string.unquoted      # group-object name
+
+  object_group_any:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (any)
+        )
+      captures:
+        1: support.constant     # group-object
+
+  object_group_network:
+    - match: '^\s*(object-group)\s+(network)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.ios.object_group.network
+        - include: description
+        - include: object_group_any
+        - include: object_group_group_object
+        - match: |
+            (?xi)
+            ^\s*
+            (?:
+                (?:(host)\s+({{ip}}))|
+                (?:(host)\s+(\S+))|
+                (?:({{ip}})\s+({{subnet_mask}}))|
+                (?:(range)\s+({{ip}})\s+({{subnet_mask}}))
+            )
+          captures:
+            1: support.constant                               # host
+            2: constant.numeric.ip.ipv4.address               # ip
+            3: support.constant                               # host
+            4: string.unquoted                                # hostname
+            5: constant.numeric                               # network
+            6: constant.numeric.network.ipv4.subnet_mask      # subnet mask
+            7: constant.numeric.network.ipv4.network_address  # range
+            8: constant.numeric.network.ipv4.network_address  # network
+            9: constant.numeric.network.ipv4.subnet_mask      # subnet mask
+        - include: pop_on_configure_terminal_context
+
+  object_group_service:
+    - match: '^\s*(object-group)\s+(service)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.ios.object_group.service
+        - include: description
+        - include: object_group_any
+        - include: object_group_group_object
+        - match: |
+            (?xi)
+            ^\s*
+            (?: 
+               (?:(tcp)\s+({{number_32_bit}}))|
+               (?:(udp)\s+({{number_32_bit}}))|
+               (?:(tcp-udp)\s+({{number_32_bit}}))|
+               (?:(ip)\s*$)
+            )
+          captures:
+            1: support.constant                               # tcp
+            2: constant.numeric                               # tcp number
+            3: support.constant                               # udp
+            4: constant.numeric                               # udp number
+            5: support.constant                               # tcp-udp
+            6: constant.numeric                               # tcp-udp number
+            7: support.constant                               # ip
+        - include: pop_on_configure_terminal_context
+
+  object_group_security:
+    - match: '^\s*(object-group)\s+(security)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.ios.object_group.security
+        - include: description
+        - include: object_group_any
+        - include: object_group_group_object
+        - match: |
+            (?xi)
+            ^\s*
+            (?:
+                (?:(security-group)\s+(tag-id)\s+({{security_tag_id}}))
+            )
+          captures:
+            1: support.constant   # security-group
+            2: support.constant   # security-group tag-id
+            3: constant.numeric   # security-group tag-id id
+        - include: pop_on_configure_terminal_context
+
 
   vty:
     - match: '^\s*(line)\s+(vty)\s+(\d+)\s+(\d+)'

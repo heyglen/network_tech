@@ -97,21 +97,153 @@ configure terminal
 
   ! Line comment
 
-  
+  ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-m2.html#wp4104485390
+  object-group network my-network-object-group
+    description test
+    host sjc.eng.ftp
+    host 10.20.20.1 
+    host 10.20.20.5
+    10.30.0.0 255.255.0.0
+    group-object sjc-eng-ftp-servers
+    any
+
+
+  ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-cr-book/sec-cr-a2.html#wp1330542825
+  access-list compiled
+
+  ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-m2.html#wp3228486646
+  object-group security name 
+    description test
+    security-group tag-id 1
+
+
+  ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-m2.html#wp2628981827
+  object-group service name 
+    description test
+    group-object serv-object1
+    tcp 200
+    ip
+
+  ! OGACL
+  ip access-list extended OGACL ! This is a comment
+    ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-p1.html#wp1459792010
+    permit tcp 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 
+    permit udp 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 
+    permit ip 1.1.1.0 0.0.0.255 any
+    permit ip any 1.1.1.0 0.0.0.255 
+    permit ip host 1.1.1.0 host 1.1.1.0 
+    permit ip host abc host a.b.c 
+    permit ip object-group abc object-group a.b.c 
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp 0
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp default
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp 63
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af11
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af12
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af13
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af21
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af22
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af23
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af31
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af32
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af33
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af41
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af42
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af43
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs1
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs2
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs3
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs4
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs5
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs6
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs7
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp ef
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence 0
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence 7
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence flash
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence flash-override
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence immediate
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence internet
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence network
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence priority
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence routine
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 fragments
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option 0
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option 255
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option 255
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option add-ext
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option any-options
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option com-security
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option dps
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option encode
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option eool
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option ext-ip
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option ext-security
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option finn
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option imitd
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option lsr
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option match-all
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option match-any
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option mtup
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option mtur
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option no-op
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option psh
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option nsapa
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option reflect
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option record-route
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option rst
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option router-alert
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option sdb
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option security
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option ssr
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option stream-id
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option syn
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option timestamp
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option traceroute
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option ump
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option visa
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option zsu
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 reflect ANOTHER_ACL_NAME
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 time-range TIME_RANGE_NAME
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 ttl eq 1
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 ttl gt 1
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 ttl lt 1
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 ttl neq 1
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 ttl range 10 20
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos 0
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos max-reliability
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos max-throughput
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos min-delay
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos min-monetary-cost
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos normal
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 log
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 log name
+
+
   ip access-list extended NAME ! This is a comment
-   remark blah blah
-   2 permit tcp any any eq bgp
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 neq 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 ge 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 gt 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 lt 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 le 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 established
-   permit tcp host 1.2.3.4 1.2.3.0 0.0.0.255 established
-   permit tcp host 1.2.3.4 host 1.2.3.0
-   deny ip any any
-   permit icmp any any
+    remark blah blah
+    2 permit tcp any any eq bgp
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 neq 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 ge 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 gt 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 lt 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 le 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 established
+    permit tcp host 1.2.3.4 1.2.3.0 0.0.0.255 established
+    permit tcp object-group source_network object-group destination_network eq 1234
+    permit tcp object-group source_network object-group source_service object-group destination_network object-group destination_service
+    ! Official Cisco Command Reference:
+    ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-p1.html#wp1459792010
+    ! 
+    ! This references a "port-match-criteria" which is never explained, so will go off of a bloggers post and hope for the best:
+    ! https://routing-bits.com/2008/10/29/acl-object-groups-now-on-cisco-ios/
+    permit object-group service_group object-group source_network object-group destination_network
+    permit object-group service_group object-group source_network object-group destination_network
+
+    permit tcp host 1.2.3.4 host 1.2.3.0
+    deny ip any any
+    permit icmp any any
 
   ip vrf NAME
     description management
@@ -396,7 +528,10 @@ aaa authentication login default tacacsplus
 aaa authentication login LIST_NAME group GROUP_NAME enable none
 aaa authentication login default group GROUP_NAME enable none
 
+! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-cr-book/sec-cr-a2.html#wp2385098032
+aaa session-id unique
 aaa session-id common
+
 ip subnet-zero
 ip cef
 ip ssh version 2
@@ -466,7 +601,7 @@ no ip address
 !
 interface FastEthernet0
   ip address 192.1.12.2 255.255.255.0
-  no ip directed-broadcast (default)
+  no ip directed-broadcast
   ip nat outside
   ip access-group 103 in
   no cdp enable
