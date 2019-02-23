@@ -1,0 +1,2684 @@
+%YAML 1.2
+---
+
+# Copyright 2018 Glen Harmon
+
+name: Cisco IOS XR
+file-extensions:
+  - cisco-ios-xr
+  - ios-xr
+first_line_match: |
+  (?xi)
+    \s*
+    [#!]
+    .*
+    (?:
+      (?:ios)
+    )
+scope: text.network.cisco.ios_xr text.network.cisco.configure_terminal
+
+
+variables:
+  comment: '(?:[!#])'
+  pop_ctx: '^\s*exit\s*$'
+  command_end: '(?:\s|{{comment}}|$)'
+  line_number: '^\s*\d+'
+  security_tag_id: '\d+'
+  bgp_community: |
+    (?xi)
+    (?:
+      (?:{{number_16_bit}}:{{number_16_bit}})
+    )
+  bgp_community_glob: |
+    (?xi)
+    (?:
+      (?:accept-own)|
+      (?:internet)|
+      (?:no-export)|
+      (?:no-advertise)|
+      (?:local-as)|
+      (?:
+        (?:
+          (?:{{number_16_bit}})|
+          (?:\*)
+        )
+        :
+        (?:
+          (?:{{number_16_bit}})|
+          (?:\*)
+        )
+      )
+    )
+  # bgp_extended_community: |
+  #   (?xi)
+  #   (?:
+  #     (?# Type)
+  #     (?:{{number_16_bit}})
+  #   )
+  route_target: |
+    (?xi)
+    (?:
+      (?:{{number_32_bit}}:{{number_16_bit}})|
+      (?:{{number_16_bit}}:{{number_32_bit}})|
+      (?:{{ip_prefix}}:{{number_16_bit}})|
+      (?:{{ip}}:{{number_16_bit}})|
+      (?:{{number_16_bit}}\.{{number_16_bit}}:{{number_16_bit}})
+    )
+  ios_regex_special_characters: |
+    (?xi)
+    (?:
+      (?:\.)|
+      (?:_)|
+      (?:\^)|
+      (?:\$)|
+      (?:\?)|
+      (?:\*)|
+      (?:\+)|
+      (?:\()|
+      (?:\))|
+      (?:\|)|
+      (?:\\)
+    )
+  route_target_glob: |
+    (?xi)
+    (?:
+      (?:{{number_32_bit}}:{{number_16_bit}})|
+      (?:{{number_32_bit}}:\*)|
+      (?:{{number_16_bit}}:{{number_32_bit}})|
+      (?:{{number_16_bit}}:\*)|
+      (?:{{ip_prefix}}:{{number_16_bit}})|
+      (?:{{ip_prefix}}:\*)|
+      (?:{{ip}}:{{number_16_bit}})|
+      (?:{{ip}}:\*)|
+      (?:{{number_16_bit}}\.{{number_16_bit}}:{{number_16_bit}})|
+      (?:{{number_16_bit}}\.{{number_16_bit}}:\*)
+    )
+  route_distinguisher: '{{route_target}}'
+  route_distinguisher_glob: '{{route_target_glob}}'
+  administrative_distance: '{{number_8_bit}}'
+  bgp_local_preference: '{{number_32_bit}}'
+  bgp_med: '{{number_32_bit}}'
+  aigp_metric: '{{number_32_bit}}'
+  rpl_parameter_name: |
+    (?xi)
+    (?:
+      [0-9a-z]{1,63}
+    )
+  rpl_set_name: '[0-9a-z]{1,63}'
+  rpl_keywords: |
+    (?xi)
+    (?:
+      (?:pass)|
+      (?:drop)
+    )
+  rpl_set_operators: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:in)|
+        (?:eq)|
+        (?:matches-any)
+      )
+      \b
+    )
+  rpl_globals: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:destination)|
+        (?:as-path)|
+        (?:community)|
+        (?:med)
+      )
+      \b
+    )
+  type_5_password: \S+
+  type_7_password: \S+
+  ah_transform: |
+    (?xi)
+    (?:
+      (?:ah-md5-hmac)|
+      (?:ah-sha-hmac)
+    )
+  # 1 - 255
+  number_8_bit: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:25[0-5])|
+        (?:2[0-4]\d)|
+        (?:[0-1]?\d{1,2})
+      )
+      \b
+    )
+  # 1 - 65535
+  number_16_bit: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:6553[0-5])|
+        (?:655[0-2]\d)|
+        (?:65[0-4]\d{2})|
+        (?:6[0-4]\d{3})|
+        (?:[0-5]\d{4})|
+        (?:\d{2,4})|
+        (?:[1-9])
+      )
+      \b
+    )
+  # 0 - 16777215
+  number_24_bit: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:1677721[0-5])|
+        (?:1677720\d)|
+        (?:16777[0-1]\d{2})|
+        (?:1677[0-6]\d{3})|
+        (?:167[0-6]\d{4})|
+        (?:16[0-6]\d{5})|
+        (?:1[0-5]\d{6})|
+        (?:\d{0,6}[1-9])
+      )
+      \b
+    )
+  # 0 - 4,294,967,295
+  number_32_bit: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:4294967295)|
+        (?:[0-3]\d{9})|
+        (?:4[0-1]\d{8})|
+        (?:42[0-8]\d{7})|
+        (?:429[0-3]\d{6})|
+        (?:4294[0-8]\d{5})|
+        (?:42949[0-5]\d{4})|
+        (?:429496[0-6]\d{3})|
+        (?:4294967[0-1]\d{2})|
+        (?:42949672[0-8]\d{1})|
+        (?:429496729[0-5])|
+        (?:\d{1,9})
+      )
+      \b
+    )
+  # 0 - 18,446,744,073,709,551,615
+  number_64_bit: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:18446744073709551615)|
+        (?:[0-1]\d{19})|
+        (?:1[0-7]\d{18})|
+        (?:18[0-3]\d{17})|
+        (?:184[0-3]\d{16})|
+        (?:1844[0-5]\d{15})|
+        (?:18446[0-6]\d{14})|
+        (?:184467[0-3]\d{13})|
+        (?:1844674[0-3]\d{12})|
+        (?:184467440\d{11})|
+        (?:184467440[0-6]\d{10})|
+        (?:1844674407[0-2]\d{9})|
+        (?:18446744073[0-6]\d{8})|
+        (?:1844674407370\d{7})|
+        (?:1844674407370[0-8]\d{6})|
+        (?:18446744073709[0-4]\d{5})|
+        (?:184467440737095[0-4]\d{4})|
+        (?:18446744073709550\d{3})|
+        (?:18446744073709551[0-5]\d{2})|
+        (?:1844674407370955160[0-5])|
+        (?:\d{1,19})
+      )
+      \b
+    )
+  autonomous_system: |
+    (?xi)
+    (?:
+      (?:{{number_32_bit}})
+    )
+  mpls_te_path_priority: |
+    (?xi)
+    (?:
+      (?:1000)|
+      (?:\d{2,3})|
+      (?:[1-9])
+    )
+  mpls_te_path_id: |
+    (?xi)
+    (?:
+      (?:1000)|
+      (?:\d{2,3})|
+      (?:[1-9])
+    )
+  tos: |
+    (?xi)
+    (?:
+      (?:[0-1]?\d)|
+      (?:max-reliability)|
+      (?:max-throughput)|
+      (?:min-delay)|
+      (?:min-monetary-cost)|
+      (?:normal)
+    )
+  tos_precedence: |
+    (?xi)
+    (?:
+      (?:[0-7])|
+      (?:flash-override)|
+      (?:flash)|
+      (?:immediate)|
+      (?:internet)|
+      (?:network)|
+      (?:priority)|
+      (?:routine)
+    )
+  dscp_w_value: |
+    (?xi)
+    (?:
+      (?:{{dscp}})|
+      (?:6[0-3])|
+      (?:[0-5]?\d)
+    )
+  dscp: |
+    (?xi)
+    (?:
+      (?:AF11)|
+      (?:AF12)|
+      (?:AF13)|
+      (?:AF21)|
+      (?:AF22)|
+      (?:AF23)|
+      (?:AF31)|
+      (?:AF32)|
+      (?:AF33)|
+      (?:AF41)|
+      (?:AF42)|
+      (?:AF43)|
+      (?:CS1)|
+      (?:CS2)|
+      (?:CS3)|
+      (?:CS4)|
+      (?:CS5)|
+      (?:CS6)|
+      (?:CS7)|
+      (?:EF)
+    )
+  month_names: |
+    (?xi)
+    (?:
+      (?:jan(?:uary)?)|
+      (?:feb(?:uary)?)|
+      (?:mar(?:ch)?)|
+      (?:apr(?:il)?)|
+      (?:may)|
+      (?:jun(?:e)?)|
+      (?:july)|
+      (?:aug(?:ust)?)|
+      (?:sept(?:ember)?)|
+      (?:oct(?:ober)?)|
+      (?:nov(?:ember)?)|
+      (?:dec(?:ember)?)
+    )
+  military_clock_hour_minute: |
+    (?xi)
+    (?:
+      (?:
+        (?:
+          2[0-3]
+        )|
+        (?:
+          [0-1]?\d+
+        )
+      )?
+    )
+    :
+    [0-5]\d+
+  day_of_week_names: |
+    (?xi)
+    (?:
+      (?:mon(?:day)?)|
+      (?:tues(?:day)?)|
+      (?:wed(?:nesday)?)|
+      (?:thurs(?:day)?)|
+      (?:fri(?:day)?)|
+      (?:sat(?:urday)?)|
+      (?:sun(?:day)?)
+    )
+  utc_offset_hour: |
+    (?xi)
+    [-+]?
+    (?:
+      (?:1[0-4])|
+      (?:[0-9])
+    )
+  utc_offset_minute: '[1-6]?[0-9]'
+  # Source: https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
+  # Single Letter Timezones: https://www.cisco.com/c/en/us/td/docs/ios/12_2/configfun/command/reference/ffun_r/frf012.html#wpxref70983
+  timezones: |
+    (?xi)
+    (?:
+      (?:ACDT)|
+      (?:ACST)|
+      (?:ACT)|
+      (?:ACT)|
+      (?:ACWST)|
+      (?:ADT)|
+      (?:AEDT)|
+      (?:AEST)|
+      (?:AFT)|
+      (?:AKDT)|
+      (?:AKST)|
+      (?:AMST)|
+      (?:AMT)|
+      (?:AMT)|
+      (?:ART)|
+      (?:AST)|
+      (?:AST)|
+      (?:AWST)|
+      (?:AZOST)|
+      (?:AZOT)|
+      (?:AZT)|
+      (?:BDT)|
+      (?:BIOT)|
+      (?:BIT)|
+      (?:BOT)|
+      (?:BRST)|
+      (?:BRT)|
+      (?:BST)|
+      (?:BST)|
+      (?:BST)|
+      (?:BTT)|
+      (?:CAT)|
+      (?:CCT)|
+      (?:CDT)|
+      (?:CDT)|
+      (?:CEST)|
+      (?:CET)|
+      (?:CHADT)|
+      (?:CHAST)|
+      (?:CHOT)|
+      (?:CHOST)|
+      (?:CHST)|
+      (?:CHUT)|
+      (?:CIST)|
+      (?:CIT)|
+      (?:CKT)|
+      (?:CLST)|
+      (?:CLT)|
+      (?:COST)|
+      (?:COT)|
+      (?:CST)|
+      (?:CST)|
+      (?:CST)|
+      (?:CT)|
+      (?:CVT)|
+      (?:CWST)|
+      (?:CXT)|
+      (?:DAVT)|
+      (?:DDUT)|
+      (?:DFT)|
+      (?:EASST)|
+      (?:EAST)|
+      (?:EAT)|
+      (?:ECT)|
+      (?:ECT)|
+      (?:EDT)|
+      (?:EEST)|
+      (?:EET)|
+      (?:EGST)|
+      (?:EGT)|
+      (?:EIT)|
+      (?:EST)|
+      (?:FET)|
+      (?:FJT)|
+      (?:FKST)|
+      (?:FKT)|
+      (?:FNT)|
+      (?:GALT)|
+      (?:GAMT)|
+      (?:GET)|
+      (?:GFT)|
+      (?:GILT)|
+      (?:GIT)|
+      (?:GMT)|
+      (?:GST)|
+      (?:GST)|
+      (?:GYT)|
+      (?:HDT)|
+      (?:HAEC)|
+      (?:HST)|
+      (?:HKT)|
+      (?:HMT)|
+      (?:HOVST)|
+      (?:HOVT)|
+      (?:ICT)|
+      (?:IDLW)|
+      (?:IDT)|
+      (?:IOT)|
+      (?:IRDT)|
+      (?:IRKT)|
+      (?:IRST)|
+      (?:IST)|
+      (?:IST)|
+      (?:IST)|
+      (?:JST)|
+      (?:KALT)|
+      (?:KGT)|
+      (?:KOST)|
+      (?:KRAT)|
+      (?:KST)|
+      (?:LHST)|
+      (?:LHST)|
+      (?:LINT)|
+      (?:MAGT)|
+      (?:MART)|
+      (?:MAWT)|
+      (?:MDT)|
+      (?:MET)|
+      (?:MEST)|
+      (?:MHT)|
+      (?:MIST)|
+      (?:MIT)|
+      (?:MMT)|
+      (?:MSK)|
+      (?:MST)|
+      (?:MST)|
+      (?:MUT)|
+      (?:MVT)|
+      (?:MYT)|
+      (?:NCT)|
+      (?:NDT)|
+      (?:NFT)|
+      (?:NPT)|
+      (?:NST)|
+      (?:NT)|
+      (?:NUT)|
+      (?:NZDT)|
+      (?:NZST)|
+      (?:OMST)|
+      (?:ORAT)|
+      (?:PDT)|
+      (?:PET)|
+      (?:PETT)|
+      (?:PGT)|
+      (?:PHOT)|
+      (?:PHT)|
+      (?:PKT)|
+      (?:PMDT)|
+      (?:PMST)|
+      (?:PONT)|
+      (?:PST)|
+      (?:PST)|
+      (?:PYST)|
+      (?:PYT)|
+      (?:RET)|
+      (?:ROTT)|
+      (?:SAKT)|
+      (?:SAMT)|
+      (?:SAST)|
+      (?:SBT)|
+      (?:SCT)|
+      (?:SDT)|
+      (?:SGT)|
+      (?:SLST)|
+      (?:SRET)|
+      (?:SRT)|
+      (?:SST)|
+      (?:SST)|
+      (?:SYOT)|
+      (?:TAHT)|
+      (?:THA)|
+      (?:TFT)|
+      (?:TJT)|
+      (?:TKT)|
+      (?:TLT)|
+      (?:TMT)|
+      (?:TRT)|
+      (?:TOT)|
+      (?:TVT)|
+      (?:ULAST)|
+      (?:ULAT)|
+      (?:UTC)|
+      (?:UYST)|
+      (?:UYT)|
+      (?:UZT)|
+      (?:VET)|
+      (?:VLAT)|
+      (?:VOLT)|
+      (?:VOST)|
+      (?:VUT)|
+      (?:WAKT)|
+      (?:WAST)|
+      (?:WAT)|
+      (?:WEST)|
+      (?:WET)|
+      (?:WIT)|
+      (?:WST)|
+      (?:YAKT)|
+      (?:YEKT)|
+      (?:Y)|
+      (?:X)|
+      (?:W)|
+      (?:V)|
+      (?:U)|
+      (?:T)|
+      (?:S)|
+      (?:R)|
+      (?:Q)|
+      (?:P)|
+      (?:O)|
+      (?:N)|
+      (?:Z)|
+      (?:A)|
+      (?:B)|
+      (?:C)|
+      (?:D)|
+      (?:E)|
+      (?:F)|
+      (?:G)|
+      (?:H)|
+      (?:I)|
+      (?:K)|
+      (?:L)|
+      (?:M)|
+      (?:\S+)
+    )
+  hashing_algorithms: |
+    (?xi)
+    (?:
+      (?:md5)
+    )
+  ctx_pop_configure_terminal: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:cdp)|
+        (?:interface)|
+        (?:extcommunity-set)|
+        (?:prefix-set)|
+        (?:route-policy)|
+        (?:router)|
+        (?:rsvp)|
+        (?:mpls)|
+        (?:ssh)|
+        (?:end-set)|
+        (?:end-policy)|
+        (?:vrf)
+      )
+    )
+  ctx_pop_vrf: |
+    (?xi)
+    \s*
+    (?=
+      ^\s*
+      (?:
+        (?:address-family)|
+        (?:vrf)|
+        (?:{{ctx_pop_configure_terminal}})
+      )
+    )
+  ctx_pop_vrf_address_family: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:import)|
+        (?:export)|
+        (?:{{ctx_pop_vrf}})
+      )
+    )
+  ip: '(?:(?:(?:{{number_8_bit}})\.){3}(?:{{number_8_bit}}))'
+  wildcard_mask: |
+    (?xi)
+    (?:
+      (?:127\.255\.255\.255)|
+      (?:63\.255\.255\.255)|
+      (?:31\.255\.255\.255)|
+      (?:15\.255\.255\.255)|
+      (?:7\.255\.255\.255)|
+      (?:3\.255\.255\.255)|
+      (?:1\.255\.255\.255)|
+      (?:0\.255\.255\.255)|
+      (?:0\.127\.255\.255)|
+      (?:0\.63\.255\.255)|
+      (?:0\.31\.255\.255)|
+      (?:0\.15\.255\.255)|
+      (?:0\.7\.255\.255)|
+      (?:0\.3\.255\.255)|
+      (?:0\.1\.255\.255)|
+      (?:0\.0\.255\.255)|
+      (?:0\.0\.127\.255)|
+      (?:0\.0\.63\.255)|
+      (?:0\.0\.31\.255)|
+      (?:0\.0\.15\.255)|
+      (?:0\.0\.7\.255)|
+      (?:0\.0\.3\.255)|
+      (?:0\.0\.1\.255)|
+      (?:0\.0\.0\.255)|
+      (?:0\.0\.0\.127)|
+      (?:0\.0\.0\.63)|
+      (?:0\.0\.0\.31)|
+      (?:0\.0\.0\.15)|
+      (?:0\.0\.0\.7)|
+      (?:0\.0\.0\.3)|
+      (?:0\.0\.0\.1)|
+      (?:0\.0\.0\.0)
+    )
+  subnet_mask: |
+    (?xi)
+    (?:
+        (?:0\.0\.0\.0)|
+        (?:128\.0\.0\.0)|
+        (?:192\.0\.0\.0)|
+        (?:224\.0\.0\.0)|
+        (?:240\.0\.0\.0)|
+        (?:248\.0\.0\.0)|
+        (?:252\.0\.0\.0)|
+        (?:254\.0\.0\.0)|
+        (?:255\.0\.0\.0)|
+        (?:255\.128\.0\.0)|
+        (?:255\.192\.0\.0)|
+        (?:255\.224\.0\.0)|
+        (?:255\.240\.0\.0)|
+        (?:255\.248\.0\.0)|
+        (?:255\.252\.0\.0)|
+        (?:255\.254\.0\.0)|
+        (?:255\.255\.0\.0)|
+        (?:255\.255\.128\.0)|
+        (?:255\.255\.192\.0)|
+        (?:255\.255\.224\.0)|
+        (?:255\.255\.240\.0)|
+        (?:255\.255\.248\.0)|
+        (?:255\.255\.252\.0)|
+        (?:255\.255\.254\.0)|
+        (?:255\.255\.255\.0)|
+        (?:255\.255\.255\.128)|
+        (?:255\.255\.255\.192)|
+        (?:255\.255\.255\.224)|
+        (?:255\.255\.255\.240)|
+        (?:255\.255\.255\.248)|
+        (?:255\.255\.255\.252)|
+        (?:255\.255\.255\.254)|
+        (?:255\.255\.255\.255)
+    )
+  ipv4_prefix_length: '(?:\b(?:\d?\d)|(?:3[0-2])\b)'
+  ip_prefix: '(?:{{ip}}/{{ipv4_prefix_length}})'
+  ipv6_prefix_length: '(?:/1?\d?\d)'
+  ipv6_prefix: '(?:(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?{{ipv6_prefix_length}}|::/0))'
+  ipv6: '(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?)'
+  vlan_id: |
+    (?xi)
+    (?:
+      (?:[0-3]\d{2,3})|
+      (?:40[0-9][0-5])|
+      (?:\d{2,3})|
+      [1-9]
+    )
+  vlan_range: |
+    (?xi)
+    (?:
+      {{vlan_id}}
+      (?:
+        (?:
+          (?:-)|(?:,)
+        )
+        {{vlan_id}}
+      )*
+    )
+  network_address: '(?:{{ip}})\s+(?:{{wildcard_mask}})'
+  interface_names: |
+    (?xi)
+    (?:
+      (?:BVI)|
+      (?:Ethernet)|
+      (?:Et)|
+      (?:FastEthernet)|
+      (?:Fa)|
+      (?:FortyGigabitEthernet)|
+      (?:Fo)|
+      (?:GigabitEthernet)|
+      (?:Gi)|
+      (?:loopback)|
+      (?:lo)|
+      (?:port-channel)|
+      (?:po)|
+      (?:serial)|
+      (?:se)|
+      (?:TenGigabitEthernet)|
+      (?:Te)|
+      (?:tunnel)|
+      (?:Dot11Radio)|
+      (?:tu)|
+      (?:vlan)|
+      (?:vl)
+    )
+  interface_numbers: |
+    (?xi)
+    (?:\d+(?:/\d+)*(?:\.\d+)?)?
+  interface_number_ranged: |
+    (?xi)
+    (?:\d+(?:/\d+)*(?:\.\d+)?)(?:\s*-\s*\d+)?
+  port_numbers: '(?:(?:[1-6]?\d{1,4}))'
+  operators: |
+    (?xi)
+    (?:
+      (?:eq)|
+      (?:neq)|
+      (?:ge)|
+      (?:gt)|
+      (?:lt)|
+      (?:le)
+    )
+  ospf_area_id: |
+    (?xi)
+    (?:
+      (?:{{ip}})|
+      (?:{{number_32_bit}})
+    )
+  drives: |
+    (?xi)
+    (?:
+      (?:(?:(?:running)|(?:startup))-config)|
+      (?:flash)|
+      (?:disk(?:[0-3])?)
+    )
+  uri: '(?<protocol>(?:t?ftp)|scp)(?<protocol_seperator>://)(?<hostname>(?:\d+\.){3}\d+)(?<path>\/\S*)'
+
+
+contexts:
+
+  main:
+    - include: enable
+    - include: configure_terminal
+    - include: configure_terminal_scope
+    - include: do_show
+    - include: scope
+
+
+  prototype:
+    - include: device_comment
+    - include: pop_ctx_word
+    - include: comment
+    - include: pipe
+    - include: scope
+
+  scope:
+    - include: removal
+    - include: pop_ctx_word
+    - include: comment
+
+
+  pop_on_configure_terminal_context:
+    - match: |
+        (?xi)
+        (?=
+          ^\s*
+          {{ctx_pop_configure_terminal}}
+        )
+      pop: true
+
+  removal:
+    - meta_include_prototype: false
+    - match: ^\s*(no\s[^{{comment}}]*)
+      scope: text.network.cisco.removal
+      captures:
+        1: keyword.other
+
+  pop_ctx_word:
+    - match: ^(!)$
+      captures:
+        1: comment.line
+      pop: true
+    - match: ({{pop_ctx}})
+      pop: true
+      captures:
+        1: comment.line
+    - match: '^\s*(end)\s*$'
+      captures:
+        1: comment.block.documentation
+      pop: true
+
+  pop_context_on_unknown:
+    - match: '(?=^\s*[^{{comment}}\s].*$)'
+      pop: true
+
+  configure_terminal:
+    - match: ^\s*(?:(conf(?:igure)?))
+      # with_prototype:
+      #   - include: do_show
+      #   - include: scope
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+      # push:
+        # - meta_content_scope: text.network.cisco.configure_terminal
+        # - include: configure_terminal_scope
+
+  configure_terminal_scope:
+    - include: commit
+    - include: alias
+    - include: bgp
+    - include: ospf
+    - include: vrf
+    - include: snmp
+    - include: ntp
+    - include: hostname
+    - include: domain
+    - include: ssh
+    - include: cdp
+    - include: interface
+    - include: interface_management
+    - include: rpl_set_definition
+    - include: route_policy
+
+  device_comment:
+    - match: |
+        (?xi)
+        ^(
+          \s*
+          {{comment}}
+          \s+
+          (?:
+            (?:on)|
+            (?:devices?)
+          )
+          \s+
+          \S.*
+        )$
+      scope: text.network.cisco.comment
+      captures:
+        0: cisco.scope
+        1: comment.line
+
+  comment:
+    - match: ({{comment}}.*)$
+      scope: text.network.cisco.comment
+      captures:
+        1: comment.line
+
+  domain:
+    - match: |
+        (?xi)
+        ^\s*
+        (domain)\s+(name)\s+(\S+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+
+  username:
+    - match: |
+        (?xi)
+        ^\s*
+        (username)
+        \s+
+        (\S+)
+        \s+
+        (?:(privilege)\s+(\d+)\s+)?
+        (?:
+          (?:(secret)\s+(5)\s+(\S+))|
+          (?:(secret)\s+(\S+))|
+          (?:(password)\s+(secret\s+)?(5)\s+(\S+))|
+          (?:(password)\s+(\d+)\s+(\S+))
+        )?
+      captures:
+        1: support.constant   # username
+        2: string.unquoted    # username string
+        3: support.constant   # privilege
+        4: constant.numeric   # privilege id
+        5: support.constant   # secret
+        6: constant.numeric   # secret type 5
+        7: string.unquoted.cisco.password.type.5    # secret type 5 password string
+        8: support.constant   # secret
+        9: string.unquoted    # secret password string
+        10: support.constant   # password
+        11: support.constant   # password secret
+        12: constant.numeric   # password type
+        13: string.unquoted.cisco.password.type.5    # password string
+        14: support.constant   # password
+        15: constant.numeric   # password type
+        16: string.unquoted    # password string
+
+  cdp:
+    - match: ^\s*(cdp)
+      captures:
+        1: support.constant
+
+
+  hostname:
+    - match: ^\s*(hostname)\s*(\S+)
+      captures:
+        1: support.constant
+        2: string.unquoted
+
+  commit:
+    - match: ^\s*(commit)
+      captures:
+        1: support.constant
+
+  alias:
+    - match: ^\s*(alias)\s+(\S+)\s+
+      captures:
+        1: support.constant
+        2: string.unquoted
+
+  ospf:
+    - match: ^\s*(router)\s+(ospf)\s+(\d+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.language
+      push:
+        - meta_content_scope: text.network.cisco.ospf
+        - include: ospf_settings
+        - include: pop_on_configure_terminal_context
+
+  ospf_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(log-adjacency-changes))|
+          (?:(auto-cost\s+reference-bandwidth)\s+(\d+))|
+          (?:
+            (area)\s+(\d+)\s+
+            (?:
+              (?:(authentication)\s+(message-digest))|
+              (?:(nssa))
+            )
+          )|
+          (?:(passive-interface)\s+({{interface_names}})\s*({{interface_numbers}}))|
+          (?:(network)\s+({{ip}})\s+({{wildcard_mask}})\s+(area)\s+(\d+))
+        )
+      captures:
+        1: support.constant                          # log-adjacency-changes
+        2: support.constant                          # auto-cost reference-bandwidth
+        3: constant.numeric                          # auto-cost reference-bandwidth value
+        4: support.constant                          # area
+        5: constant.numeric                          # area id
+        6: support.constant                          # area authentication
+        7: support.constant                          # area authentication message-digest
+        8: support.constant                          # area nssa
+        9: support.constant                          # passive-interface
+        10: entity.other.attribute-name              # passive-interface type
+        11: constant.numeric                         # passive-interface type number
+        12: support.constant                         # network
+        13: constant.numeric.ip.ipv4.address         # network ip
+        14: constant.numeric.network.ipv4.wildcard   # network ip wildcard
+        15: support.constant                         # network ip wildcard area
+        16: constant.numeric                         # network ip wildcard area id
+
+
+  bgp:
+    - match: ^\s*(router)\s+(bgp)\s+(\d+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.language
+      push:
+        - meta_content_scope: text.network.cisco.bgp
+        - include: ipv4_network
+        - include: ipv6_network
+        - include: ipv4_neighbor
+        - include: ipv6_neighbor
+        - include: ipv6_address_family
+        - include: ipv4_address_family
+        - include: vpnv4_address_family
+        - include: bgp_settings
+        - include: pop_on_configure_terminal_context
+
+  ipv4_neighbor:
+    - match: |
+        (?xi)
+        ^\s*(neighbor)\s+({{ip}})\s+
+        (?:
+        (activate)|
+        (shut(?:down)?)|
+        (next-hop-self)|
+        (?:(soft-reconfiguration)\s+(inbound|outbound))|
+        (?:(password)\s+(5)\s+({{type_5_password}}))|
+        (?:(password)\s+(7)\s+({{type_7_password}}))|
+        (?:(password)\s+(\d+)\s+(\S{1,25}))|
+        (?:(prefix-list|route-map)\s+(\S+)\s+(in|out))|
+        (?:(inherit)\s+(peer-policy)\s+(\S+))|
+        (send-community(?:\s+(?:(?:both)|(?:extended)))?)|
+        (?:(remote-as)\s+(\d+)(\s+shutdown)?)|
+        (?:(timers)\s+(\d+)\s+(\d+)(?:\s+(\d+))?)|
+        (?:(ttl-security)\s+(hops)\s+(\d+))|
+        (?:(description)\s+(.*))|
+        (?:(version)\s+(\d+))|
+        (?:(transport)\s+(path-mtu-discovery))|
+        (?:(ebgp-multihop)\s+(\d+))|
+        (?:(update-source)\s+(?:({{interface_names}})\s*({{interface_numbers}})))
+        )
+      captures:
+        1: support.constant                        # Neighbor
+        2: constant.numeric.ip.ipv4.address        # IP
+        3: entity.other.attribute-name             # Active
+        4: keyword.other                           # Shutdown
+        5: support.constant                        # Next-hop-self
+        6: support.constant                        # Soft reconfiguration inbound
+        7: support.constant                        # Soft reconfiguration inbound
+        8: support.constant                        # Password
+        9: constant.numeric                        # Password Type 5
+        10: string.unquoted.cisco.password.type.5  # Password Type 5 Text
+        11: support.constant                       # Password
+        12: constant.numeric                       # Password Type 7
+        13: string.unquoted.cisco.password.type.7  # Password Type 7 Text
+        14: support.constant                       # Password
+        15: constant.numeric                       # Password
+        16: string.unquoted                        # Password
+        17: support.constant                       # Prefix list
+        18: string.unquoted                        # Prefix list
+        19: support.constant                       # Prefix list
+        20: support.constant                       # Inherit peer policy
+        21: support.constant                       # Inherit peer policy
+        22: string.unquoted                        # Inherit peer policy
+        23: support.constant                       # Send community
+        24: support.constant                       # Remote AS
+        25: constant.numeric                       # Remote AS #
+        26: keyword.other                          # Remote AS shutdown
+        27: support.constant                       # Timers
+        28: constant.numeric                       # Timers
+        29: constant.numeric                       # Timers
+        30: constant.numeric                       # Timers
+        31: support.constant                       # TTL security hops
+        32: support.constant                       # TTL security hops
+        33: constant.numeric                       # TTL security hops
+        34: support.constant                       # Description
+        35: comment.block.documentation            # Description
+        36: support.constant                       # Version
+        37: constant.numeric                       # Version
+        38: support.constant                       # Path MTU discovery
+        39: support.constant                       # Path MTU discovery
+        40: support.constant                       # ebgp multihop
+        41: constant.numeric                       # ebgp multihop hops
+        42: support.constant                       # update-source
+        43: entity.other.attribute-name            # update-source interface_type
+        44: constant.numeric                       # update-source interface_number
+
+  ipv4_network:
+    - match: '^\s+(network)\s+({{ip}})(?:\s+(mask)\s+({{subnet_mask}}))?'
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv4.address
+        3: support.constant
+        4: constant.numeric.network.ipv4.subnet_mask
+
+  bgp_settings:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(timers\s+bgp)\s+(\d+)\s+(\d+)(?:\s+(\d+))?)|
+          (?:
+            (bgp)\s+
+            (?:
+              (?:(router-id)\s+(\S+))|
+              (?:(log-neighbor-changes))
+            )
+          )
+        )
+      captures:
+        1: support.constant              # Timers
+        2: constant.numeric              # Timers
+        3: constant.numeric              # Timers
+        4: constant.numeric              # Timers
+        5: support.constant              # bgp
+        6: support.constant              # bgp router-id
+        7: constant.numeric              # bgp router-id id
+        8: support.constant              # bgp log-neighbor-changes
+
+
+  ipv6_neighbor:
+    - match: |
+        (?xi)
+        ^\s*(neighbor)\s+({{ipv6}})\s+
+        (?:
+          (activate)|
+          (shut(?:down)?)|
+          (next-hop-self)|
+          (?:(soft-reconfiguration)\s+(inbound|outbound))|
+          (?:(password)\s+(5)\s+({{type_5_password}}))|
+          (?:(password)\s+(7)\s+({{type_7_password}}))|
+          (?:(password)\s+(\d+)\s+(\S+))|
+          (?:(prefix-list|route-map)\s+(\S+)\s+(in|out))|
+          (?:(inherit)\s+(peer-policy)\s+(\S+))|
+          (send-community(?:\s+(?:(?:both)|(?:extended)))?)|
+          (?:(remote-as)\s+(\d+)(\s+shutdown)?)|
+          (?:(timers)\s+(\d+)\s+(\d+)(?:\s+(\d+))?)|
+          (?:(ttl-security)\s+(hops)\s+(\d+))|
+          (?:(description)\s+(.*))|
+          (?:(version)\s+(\d+))|
+          (?:(transport)\s+(path-mtu-discovery))
+        )
+      captures:
+        1: support.constant                       # Neighbor
+        2: constant.numeric.ip.ipv6.address       # IP
+        3: entity.other.attribute-name            # Active
+        4: keyword.other                          # Shutdown
+        5: support.constant                       # Next-hop-self
+        6: support.constant                       # Soft reconfiguration inbound
+        7: support.constant                       # Soft reconfiguration inbound
+        8: support.constant                       # Password
+        9: constant.numeric                       # Password
+        10: string.unquoted.cisco.password.type.5 # Password
+        11: support.constant                      # Password
+        12: constant.numeric                      # Password
+        13: string.unquoted.cisco.password.type.7 # Password
+        14: support.constant                      # Password
+        15: constant.numeric                      # Password
+        16: string.unquoted                       # Password
+        17: support.constant                      # Prefix list
+        18: string.unquoted                       # Prefix list
+        19: support.constant                      # Prefix list
+        20: support.constant                      # Inherit peer policy
+        21: support.constant                      # Inherit peer policy
+        22: string.unquoted                       # Inherit peer policy
+        23: support.constant                      # Send community
+        24: support.constant                      # Remote AS
+        25: constant.numeric                      # Remote AS
+        26: keyword.other                         # Remote AS shutdown
+        27: support.constant                      # Timers
+        28: constant.numeric                      # Timers
+        29: constant.numeric                      # Timers
+        30: constant.numeric                      # Timers
+        31: support.constant                      # TTL security hops
+        32: support.constant                      # TTL security hops
+        33: constant.numeric                      # TTL security hops
+        34: support.constant                      # Description
+        35: comment.block.documentation           # Description
+        36: support.constant                      # Version
+        37: constant.numeric                      # Version
+        38: support.constant                      # Path MTU discovery
+        39: support.constant                      # Path MTU discovery
+
+  ipv6_network:
+    - match: '^\s*(network)\s+({{ipv6_prefix}})?'
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv6.prefix
+
+  ipv6_unicast_routing:
+  - match: ^\s*(ipv6\s+unicast-routing)
+    captures:
+      1: support.constant
+
+  ip_classless:
+  - match: ^\s*(ip\s+classless)
+    captures:
+      1: support.constant
+
+  ntp:
+  - match: |
+      (?xi)
+        ^\s*
+        (ntp)\s+
+        (?:
+          (?:(source)\s+({{interface_names}})\s*({{interface_numbers}}))|
+          (?:(clock-period)\s+(\d+))|
+          (?:(server)\s+({{ip}}))
+        )
+    captures:
+      1: support.constant                  # ntp
+      2: support.constant                  # ntp source
+      3: entity.other.attribute-name       # ntp source interface type
+      4: constant.numeric                  # ntp source interface number
+      5: support.constant                  # ntp clock-period
+      6: constant.numeric                  # ntp clock-period value
+      7: support.constant                  # ntp server
+      8: constant.numeric.ip.ipv4.address  # ntp server ip
+
+  ip_http:
+  - match: ^\s*(ip\s+http\s+server)
+    captures:
+      1: support.constant
+
+  ssh:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (ip)\s+(ssh)\s+(?:
+            (?:(source-interface)\s+({{interface_names}})\s+({{interface_numbers}}))|
+            (?:(version)\s+([12]))|
+            (?:(authentication-retries)\s+(\d+))|
+          )
+        )
+      captures:
+        1: support.constant             # ip
+        2: support.constant             # ssh
+        3: support.constant             # source-interface
+        4: entity.other.attribute-name  # source-interface name
+        5: constant.numeric             # source-interface name number
+        6: support.constant             # version
+        7: constant.numeric             # version number
+        8: support.constant             # authentication-retries
+        9: constant.numeric             # authentication-retries number
+
+  ipv6_prefix_list:
+    - match: |
+        (?xi)
+        ^\s*(ipv6)\s+(prefix-list)\s+(\S+)\s+
+        (?:(seq)\s+(\d+)\s+)?
+        (?:(permit)|(deny))\s+
+        ({{ipv6_prefix}})
+        (?:
+          \s+({{operators}})\s+({{ipv6_prefix_length}})
+          (?:\s+({{operators}})\s+({{ipv6_prefix_length}}))?
+        )?
+      captures:
+        1: support.constant                              # IP
+        2: support.constant                              # Prefix list
+        3: string.unquoted                               # Name
+        4: support.constant                              # sequence
+        5: constant.numeric                              # sequence number
+        6: entity.other.attribute-name                   # permit
+        7: keyword.other                                 # deny
+        8: constant.numeric.ip.ipv6.prefix               # prefix
+        9: support.constant                              # operator
+        10: constant.numeric.network.ipv6.prefix_length  # prefix
+        11: support.constant                             # operator
+        12: constant.numeric.network.ipv6.prefix_length  # prefix
+
+
+  interface_management:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (interface)\s+
+          (?:
+            (?:(mgmteth)\s*(\d+/\d+/CPU\d+/\d+))
+          )
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter              # interface
+        2: entity.other.attribute-name     # interface MgmtEth
+        3: constant.numeric                # interface MgmtEth 0/0/CPU0/0
+      push:
+      - meta_content_scope: text.network.cisco.interface.management
+      - include: interface_settings
+      - include: pop_on_configure_terminal_context
+
+  rpl_set_definition:
+    - include: community_set
+    - include: extcommunity_rt_set
+    - include: extcommunity_soo_set
+    - include: extcommunity_cost_set
+    - include: prefix_set
+    - include: rd_set
+    - include: as_path_set
+
+  extcommunity_rt_set:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (extcommunity-set)\s+(rt)\s+({{rpl_set_name}})
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter             # extcommunity-set
+        2: support.constant               # extcommunity-set rt
+        3: string.unquoted                # extcommunity-set rt NAME
+      push:
+      - meta_content_scope: text.network.cisco.extcommunity_rt_set
+      - match: |
+          (?xi)
+          ^\s*
+          (
+            (?:{{route_target}})|
+            (?:{{number_32_bit}})
+          )
+          (,)?
+        captures:
+          1: constant.numeric
+          2: support.constant
+      - include: pop_rpl_set
+      - match: '{{ctx_pop_configure_terminal}}'
+        pop: true
+
+  extcommunity_cost_set:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (extcommunity-set)\s+(cost)\s+({{rpl_set_name}})
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter             # extcommunity-set
+        2: support.constant               # extcommunity-set cost
+        3: string.unquoted                # extcommunity-set cost NAME
+      push:
+      - meta_content_scope: text.network.cisco.extcommunity_cost_set
+      - match: |
+          (?xi)
+          ^\s*
+          (?:
+            (?:
+              (?:(\d+)\s+)?
+              (
+                (?:igp)|
+                (?:pre-bestpath)
+              )
+              (:)(\d+)(:)(\d+)
+            )
+            (,)?
+          )
+        captures:
+          1: constant.numeric
+          2: support.constant
+          3: constant.numeric
+          4: constant.numeric
+          5: constant.numeric
+          6: constant.numeric
+          7: support.constant
+      - include: pop_rpl_set
+      - match: '{{ctx_pop_configure_terminal}}'
+        pop: true
+
+  extcommunity_soo_set:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (extcommunity-set)\s+(soo)\s+({{rpl_set_name}})
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter             # extcommunity-set
+        2: support.constant               # extcommunity-set soo
+        3: string.unquoted                # extcommunity-set soo NAME
+      push:
+      - meta_content_scope: text.network.cisco.extcommunity_soo_set
+      - match: |
+          (?xi)
+          ^\s*
+          (
+            (?:{{route_target}})|
+            (?:{{number_32_bit}})
+          )
+          (,)?
+        captures:
+          1: constant.numeric
+          2: support.constant
+      - include: pop_rpl_set
+      - match: '{{ctx_pop_configure_terminal}}'
+        pop: true
+
+  prefix_set:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (prefix-set)\s+({{rpl_set_name}})
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter             # prefix-set
+        2: string.unquoted                # prefix-set NAME
+      push:
+      - meta_content_scope: text.network.cisco.prefix_set
+      - match: |
+          (?xi)
+          ^\s*
+          (?:
+            (?:({{ip_prefix}})\s+({{operators}})\s+({{ipv4_prefix_length}}))
+          )
+          (,)?
+        captures:
+          1: constant.numeric
+          2: support.constant
+          3: constant.numeric
+          4: support.constant
+      - include: pop_rpl_set
+      - match: '{{ctx_pop_configure_terminal}}'
+        pop: true
+
+  as_path_set:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (as-path-set)\s+({{rpl_set_name}})
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter             # as-path-set
+        2: string.unquoted                # as-path-set NAME
+      push:
+      - meta_content_scope: text.network.cisco.as_path_set
+      - match: |
+          (?xi)
+          ^\s*
+          (?:
+            (?:({{ip_prefix}})\s+({{operators}})\s+({{ipv4_prefix_length}}))
+          )
+          (,)?
+        captures:
+          1: constant.numeric
+          2: support.constant
+          3: constant.numeric
+          4: support.constant
+      - include: ios_regex
+      - include: dfa_regex
+      - include: pop_rpl_set
+      - match: '{{ctx_pop_configure_terminal}}'
+        pop: true
+
+  ios_regex:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(ios-regex)\s+('))
+        )
+      captures:
+        1: support.constant
+        2: string.quoted.single
+      push:
+      - meta_scope: text.network.cisco.regular_expression
+      - match: |
+          (?xi)
+          (?:
+            (\\{{ios_regex_special_characters}})|
+            (\\\')|
+            ({{ios_regex_special_characters}})|
+            (
+              \[[^\]]*\]
+            )|
+            ([^'])
+          )
+        captures:
+          1: constant.character.escape
+          2: constant.character.escape
+          3: keyword.operator.quantifier.regexp.cisco.ios
+          4: constant.other.character-class.set.regexp.cisco.ios
+          5: meta
+      - match: |
+          (?xi)
+          (')
+        captures:
+          1: string.quoted.single
+        pop: true
+
+  dfa_regex:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(dfa-regex)\s+('))
+        )
+      captures:
+        1: support.constant
+        2: string.quoted.single
+      push:
+      - meta_scope: text.network.dfa.regular_expression
+      - match: |
+          (?xi)
+          (?:
+            (\\{{ios_regex_special_characters}})|
+            ({{ios_regex_special_characters}})|
+            (
+              \[[^\]]*\]
+            )|
+            ([^'])
+          )
+        captures:
+          1: constant.character.escape
+          2: keyword.operator.quantifier.regexp.cisco.ios
+          3: constant.other.character-class.set.regexp.cisco.ios
+          4: meta
+      - match: |
+          (?xi)
+          (')
+        captures:
+          1: string.quoted.single
+        pop: true
+
+  rd_set:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (rd-set)\s+({{rpl_set_name}})
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter             # prefix-set
+        2: string.unquoted                # prefix-set NAME
+      push:
+      - meta_content_scope: text.network.cisco.rd_set
+      - match: |
+          (?xi)
+          ^\s*
+          (?:
+            (?:({{route_distinguisher_glob}}))
+          )
+          (,)?
+        captures:
+          1: constant.numeric
+          2: support.constant
+      - include: pop_rpl_set
+      - match: '{{ctx_pop_configure_terminal}}'
+        pop: true
+
+  community_set:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (community-set)\s+({{rpl_set_name}})
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter             # set
+        2: string.unquoted                # set NAME
+      push:
+      - meta_content_scope: text.network.cisco.community_set
+      - match: |
+          (?xi)
+          ^\s*
+          (?:
+            (?:({{route_distinguisher_glob}}))
+          )
+          (,)?
+        captures:
+          1: constant.numeric
+          2: support.constant
+      - include: pop_rpl_set
+      - match: '{{ctx_pop_configure_terminal}}'
+        pop: true
+
+  pop_rpl_set:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (end-set)|
+          (abort)|
+          (exit)
+        )
+      captures:
+        0: comment.line
+      pop: true
+
+  pop_rpl_policy:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (end-policy)|
+          (abort)|
+          (exit)
+        )
+      captures:
+        0: comment.line
+      pop: true
+
+  route_policy:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (route-policy)\s+(\S+)
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter             # prefix-set
+        2: string.unquoted                # prefix-set NAME
+      push:
+      - meta_content_scope: text.network.cisco.route_policy
+      - include: routing_policy_language
+
+  routing_policy_language:
+    - include: rpl_statement
+    - include: rpl_condition
+    - include: pop_rpl_policy
+
+  rpl_statement:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(pass))|
+          (?:(drop))
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: keyword.control
+    - include: rpl_add
+    - include: rpl_set
+    - include: rpl_delete
+    - include: rpl_apply
+
+  rpl_condition:
+    - include: rpl_condition_aspath_in
+
+  rpl_set:
+    - include: rpl_set_bgp_community
+    - include: rpl_set_route_target
+    - include: rpl_set_eigrp_metric
+    - include: rpl_set_local_preference
+    - include: rpl_set_bgp_med
+    - include: rpl_set_ip_precedence
+    - include: rpl_set_isis_metric
+    - include: rpl_set_label
+    - include: rpl_set_level
+    - include: rpl_set_administrative_distance
+    - include: rpl_set_aigp_metric
+    - include: rpl_set_multicast_core_tree
+    - include: rpl_set_bgp_dampening
+    - include: rpl_set_bgp_extcommunity_cost
+
+  rpl_delete:
+    - include: rpl_delete_bgp_community
+
+
+  rpl_condition_aspath_in:
+    - match: |
+        (?xi)
+        ^\s*(as-path)\s+(in)
+        (?:
+          \s+
+          (\()
+          (?:
+          )?
+          (\))
+        )?
+      captures:
+        1: constant.numeric
+        2: support.constant
+        3: constant.numeric
+        4: support.constant
+
+  # https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp2566062071
+  rpl_apply:
+    - match: |
+        (?xi)
+        ^\s*(apply)\s+(\S+)
+        (?:
+          \s+
+          (\()
+          (?:
+            (?:
+              (?:
+                (?:(\$)({{rpl_parameter_name}}))|
+                (\d+)
+              )
+              (,\s*)
+            )*
+            (?:
+              (?:
+                (?:(\$)({{rpl_parameter_name}}))|
+                (\d+)
+              )
+            )
+          )?
+          (\))
+        )?
+      captures:
+        1: entity.other.attribute-name
+        2: string.unquoted
+        3: comment
+        4: keyword.declaration.rpl
+        5: entity.other.attribute-name.rpl
+        6: constant.numeric
+        7: support.constant
+        8: keyword.declaration.rpl
+        9: entity.other.attribute-name.rpl
+        10: constant.numeric
+        11: comment
+
+  # https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp2566062071
+  rpl_set_eigrp_metric:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(eigrp-metric)\s+
+        ({{number_32_bit}})\s+
+        ({{number_32_bit}})\s+
+        ({{number_8_bit}})\s+
+        ({{number_8_bit}})\s+
+        ({{number_16_bit}})
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: constant.numeric
+        4: constant.numeric
+        5: constant.numeric
+        6: constant.numeric
+        7: constant.numeric
+
+  rpl_add:
+    - include: rpl_add_eigrp_metric
+    - include: rpl_add_rip_metric
+
+  rpl_add_eigrp_metric:
+    - match: |
+        (?xi)
+        ^\s*(add)\s+(eigrp-metric)\s+
+        ({{number_32_bit}})\s+
+        ({{number_32_bit}})\s+
+        ({{number_8_bit}})\s+
+        ({{number_8_bit}})\s+
+        ({{number_16_bit}})
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: constant.numeric
+        4: constant.numeric
+        5: constant.numeric
+        6: constant.numeric
+        7: constant.numeric
+
+  rpl_add_rip_metric:
+    - match: |
+        (?xi)
+        ^\s*(add)\s+(rip-metric)\s+
+        (?:
+          ((?:1[0-6])|\d)|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: constant.numeric
+        4: keyword.declaration.rpl
+        5: entity.other.attribute-name.rpl
+
+  rpl_set_bgp_community:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(community)\s+
+        (?:
+          (?:
+            (\()
+            (?:
+              (?:
+                (
+                  (?:accept-own)|
+                  (?:internet)|
+                  (?:no-export)|
+                  (?:no-advertise)|
+                  (?:local-as)
+                )|
+                (?:
+                  (?:
+                    ({{number_16_bit}})|
+                    (?:(\$)({{rpl_parameter_name}}))
+                  )
+                  (:)
+                  (?:
+                    ({{number_16_bit}})|
+                    (?:(\$)({{rpl_parameter_name}}))
+                  )
+                )
+              )
+              (,\s*)
+            )*
+            (?:
+              (?:
+                (
+                  (?:accept-own)|
+                  (?:internet)|
+                  (?:no-export)|
+                  (?:no-advertise)|
+                  (?:local-as)
+                )|
+                (?:
+                  (?:
+                    ({{number_16_bit}})|
+                    (?:(\$)({{rpl_parameter_name}}))
+                  )
+                  (:)
+                  (?:
+                    ({{number_16_bit}})|
+                    (?:(\$)(\S+))
+                  )
+                )
+              )
+            )
+            (\))
+          )|
+          ({{rpl_set_name}})|
+          (?:(\$)(\S+))
+        )
+        (\s+(additive))?
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: comment
+        4: constant.numeric
+        5: constant.numeric
+        6: keyword.declaration.rpl
+        7: entity.other.attribute-name.rpl
+        8: constant.numeric
+        9: constant.numeric
+        10: keyword.declaration.rpl
+        11: entity.other.attribute-name.rpl
+        12: support.constant
+        13: constant.numeric
+        14: constant.numeric
+        15: keyword.declaration.rpl
+        16: entity.other.attribute-name.rpl
+        17: constant.numeric
+        18: constant.numeric
+        19: keyword.declaration.rpl
+        20: entity.other.attribute-name.rpl
+        21: comment
+        22: string.unquoted
+        23: keyword.declaration.rpl
+        24: entity.other.attribute-name.rpl
+        25: support.constant
+
+  rpl_set_bgp_extcommunity_cost:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(extcommunity\s+cost)\s+
+        (?:
+          (?:
+            (\()
+              (?:
+                (
+                  (?:igp)|
+                  (?:pre-bestpath)
+                )
+                (:)
+                (?:
+                  (?:
+                    ({{number_8_bit}})|
+                    (?:(\$)({{rpl_parameter_name}}))
+                  )
+                )
+                (:)
+                (?:
+                  (?:
+                    ({{number_32_bit}})|
+                    (?:(\$)({{rpl_parameter_name}}))
+                  )
+                )
+                (,\s*)
+              )*
+              (?:
+                (
+                  (?:igp)|
+                  (?:pre-bestpath)
+                )
+                (:)
+                (?:
+                  (?:
+                    ({{number_8_bit}})|
+                    (?:(\$)({{rpl_parameter_name}}))
+                  )
+                )
+                (:)
+                (?:
+                  (?:
+                    ({{number_32_bit}})|
+                    (?:(\$)(\S+))
+                  )
+                )
+              )
+            (\))
+          )|
+          (?:(\$)({{rpl_parameter_name}}))|
+          ({{rpl_set_name}})
+        )
+        (\s+(additive))?
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: comment
+        4: support.constant
+        5: constant.numeric
+        6: constant.numeric
+        7: keyword.declaration.rpl
+        8: entity.other.attribute-name.rpl
+        9: constant.numeric
+        10: constant.numeric
+        11: keyword.declaration.rpl
+        12: entity.other.attribute-name.rpl
+        13: support.constant
+        14: support.constant
+        15: constant.numeric
+        16: constant.numeric
+        17: keyword.declaration.rpl
+        18: entity.other.attribute-name.rpl
+        19: constant.numeric
+        20: constant.numeric
+        21: keyword.declaration.rpl
+        22: entity.other.attribute-name.rpl
+        23: comment
+        24: keyword.declaration.rpl
+        25: entity.other.attribute-name.rpl
+        26: string.unquoted
+        27: support.constant
+
+  rpl_set_multicast_core_tree:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(core-tree)\s+
+        (?:
+          (
+           (?:gre-rosen)|
+           (?:mldp-inband)|
+           (?:mldp-partitioned-mp2mp)|
+           (?:mldp-partitioned-p2mp)|
+           (?:mldp-rosen)|
+           (?:rsvp-te-partitioned-p2mp)
+          )|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+        (\s+(additive))?
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: support.constant
+        4: keyword.declaration.rpl
+        5: entity.other.attribute-name.rpl
+
+  rpl_set_bgp_dampening:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(dampening)
+        (?:
+          (?:
+            (?:
+              (\s+halflife)\s+
+              (?:
+                (
+                  (?:4[0-5])|
+                  (?:[0-3]?\d)
+                )|
+                (?:(\$)(\S+))
+              )
+            )?
+            (?:
+              (\s+max-suppress)\s+
+              (?:
+                ((?:20000)|(?:[0-1]?\d{1,3}))|
+                (?:(\$)({{rpl_parameter_name}}))
+              )
+            )?
+            (?:
+              (\s+reuse)\s+
+              (?:
+                ((?:20000)|(?:[0-1]?\d{1,3}))|
+                (?:(\$)({{rpl_parameter_name}}))
+              )
+            )?
+            (?:
+              (\s+suppress)\s+
+              (?:
+                ((?:20000)|(?:[0-1]?\d{1,3}))|
+                (?:(\$)({{rpl_parameter_name}}))
+              )
+            )?
+            (\s+others\s+default)?
+          )
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+        5: keyword.declaration.rpl
+        6: entity.other.attribute-name.rpl
+        7: support.constant
+        8: constant.numeric
+        9: keyword.declaration.rpl
+        10: entity.other.attribute-name.rpl
+        11: support.constant
+        12: constant.numeric
+        13: keyword.declaration.rpl
+        14: entity.other.attribute-name.rpl
+        15: support.constant
+        16: constant.numeric
+        17: keyword.declaration.rpl
+        18: entity.other.attribute-name.rpl
+        19: support.constant
+
+  rpl_set_administrative_distance:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(administrative-distance)\s+
+        (?:
+          ({{administrative_distance}})|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: constant.numeric
+        4: keyword.declaration.rpl
+        5: entity.other.attribute-name.rpl
+
+  rpl_set_aigp_metric:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(aigp-metric)\s+
+        (?:
+          (igp-cost)|
+          ({{aigp_metric}})
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+
+  rpl_set_ip_precedence:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(ip-precedence)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          ([0-7])
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+
+  rpl_set_isis_metric:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(isis-metric)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          ({{number_24_bit}})
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+
+  rpl_set_label:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(label)\s+
+        (?:
+          (explicit-null)|
+          (implicit-null)|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: constant.numeric
+        4: constant.numeric
+        5: keyword.declaration.rpl
+        6: entity.other.attribute-name.rpl
+
+  rpl_set_level:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(level)\s+
+        (?:
+          (level-1-2)|
+          (level-[12])|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: constant.numeric
+        4: constant.numeric
+        5: keyword.declaration.rpl
+        6: entity.other.attribute-name.rpl
+
+  rpl_set_local_preference:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(local-preference)\s+
+        (?:
+          ({{bgp_local_preference}})|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: constant.numeric
+        4: keyword.declaration.rpl
+        5: entity.other.attribute-name.rpl
+
+  rpl_set_bgp_med:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(med)\s+
+        (?:
+          ((?:[+-]\s*)?(?:{{bgp_med}}))|
+          (?:(\$)({{rpl_parameter_name}}))|
+          (igp-cost)|
+          (max-reachable)
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: constant.numeric
+        4: keyword.declaration.rpl
+        5: entity.other.attribute-name.rpl
+        6: constant.numeric
+        7: constant.numeric
+
+  rpl_set_route_target:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(extcommunity\s+rt)\s+
+        (?:
+          (?:
+            (\()
+            (?:
+              (?:
+                (?:
+                  (
+                    (?:{{number_32_bit}}:{{number_16_bit}})|
+                    (?:{{number_16_bit}}:{{number_32_bit}})|
+                    (?:{{ip_prefix}}:{{number_16_bit}})|
+                    (?:{{ip}}:{{number_16_bit}})|
+                    (?:{{number_16_bit}}.{{number_16_bit}}:{{number_16_bit}})
+                  )|
+                  (?:
+                    (\$)({{rpl_parameter_name}})
+                    (:)
+                    (
+                      (?:{{number_16_bit}})|
+                      (?:{{number_32_bit}})
+                    )
+                  )|
+                  (?:
+                    (
+                      (?:{{number_16_bit}})|
+                      (?:{{number_32_bit}})
+                    )
+                    (:)(\$)({{rpl_parameter_name}})
+                  )|
+                  (?:
+                    (
+                      (?:{{ip_prefix}})|
+                      (?:{{ip}})
+                    )
+                    (:)(\$)({{rpl_parameter_name}})
+                  )|
+                  (?:
+                    (?:
+                      ({{number_16_bit}})|
+                      (?:(\$)({{rpl_parameter_name}}))
+                    )
+                    (\.)
+                    (?:
+                      ({{number_16_bit}})|
+                      (?:(\$)({{rpl_parameter_name}}))
+                    )
+                    (:)
+                    (?:
+                      ({{number_16_bit}})|
+                      (?:(\$)(\S+))
+                    )
+                  )
+                )
+                (,\s*)
+              )*
+              (?:
+                (?:
+                  (
+                    (?:{{number_32_bit}}:{{number_16_bit}})|
+                    (?:{{number_16_bit}}:{{number_32_bit}})|
+                    (?:{{ip_prefix}}:{{number_16_bit}})|
+                    (?:{{ip}}:{{number_16_bit}})|
+                    (?:{{number_16_bit}}.{{number_16_bit}}:{{number_16_bit}})
+                  )|
+                  (?:
+                    (\$)({{rpl_parameter_name}})
+                    (:)
+                    (
+                      (?:{{number_16_bit}})|
+                      (?:{{number_32_bit}})
+                    )
+                  )|
+                  (?:
+                    (
+                      (?:{{number_16_bit}})|
+                      (?:{{number_32_bit}})
+                    )
+                    (:)(\$)({{rpl_parameter_name}})
+                  )|
+                  (?:
+                    (
+                      (?:{{ip_prefix}})|
+                      (?:{{ip}})
+                    )
+                    (:)(\$)({{rpl_parameter_name}})
+                  )|
+                  (?:
+                    (?:
+                      ({{number_16_bit}})|
+                      (?:(\$)({{rpl_parameter_name}}))
+                    )
+                    (\.)
+                    (?:
+                      ({{number_16_bit}})|
+                      (?:(\$)({{rpl_parameter_name}}))
+                    )
+                    (:)
+                    (?:
+                      ({{number_16_bit}})|
+                      (?:(\$)(\S+))
+                    )
+                  )
+                )
+              )
+            )
+            (\))
+          )|
+          (?:(\$)({{rpl_parameter_name}}))|
+          ({{rpl_set_name}})
+        )
+        (\s+(additive))?
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: comment
+        4: constant.numeric
+        5: keyword.declaration.rpl
+        6: entity.other.attribute-name.rpl
+        7: constant.numeric
+        8: constant.numeric
+        9: constant.numeric
+        10: constant.numeric
+        11: keyword.declaration.rpl
+        12: entity.other.attribute-name.rpl
+        13: constant.numeric
+        14: constant.numeric
+        15: keyword.declaration.rpl
+        16: entity.other.attribute-name.rpl
+        17: constant.numeric
+        18: keyword.declaration.rpl
+        19: entity.other.attribute-name.rpl
+        20: constant.numeric
+        21: constant.numeric
+        22: keyword.declaration.rpl
+        23: entity.other.attribute-name.rpl
+        24: constant.numeric
+        25: constant.numeric
+        26: keyword.declaration.rpl
+        27: entity.other.attribute-name.rpl
+        28: support.constant
+        29: constant.numeric
+        30: keyword.declaration.rpl
+        31: entity.other.attribute-name.rpl
+        32: constant.numeric
+        33: constant.numeric
+        34: constant.numeric
+        35: constant.numeric
+        36: keyword.declaration.rpl
+        37: entity.other.attribute-name.rpl
+        38: constant.numeric
+        39: constant.numeric
+        40: keyword.declaration.rpl
+        41: entity.other.attribute-name.rpl
+        42: constant.numeric
+        43: keyword.declaration.rpl
+        44: entity.other.attribute-name.rpl
+        45: constant.numeric
+        46: constant.numeric
+        47: keyword.declaration.rpl
+        48: entity.other.attribute-name.rpl
+        49: constant.numeric
+        50: constant.numeric
+        51: keyword.declaration.rpl
+        52: entity.other.attribute-name.rpl
+        53: comment
+        54: keyword.declaration.parameter.rpl
+        55: entity.other.attribute-name.rpl
+        56: string.unquoted
+        57: support.constant
+
+  rpl_delete_bgp_community:
+    - match: |
+        (?xi)
+        ^\s*(delete)\s+(community)\s+
+        ({{rpl_set_operators}})\s+
+        (?:
+          (?:
+            (\()
+              (?:({{bgp_community}})(,\s*))*
+              ({{bgp_community}})
+            (\))
+          )|
+          (\S+)
+        )
+        (\s+(additive))?
+      captures:
+        1: keyword.control
+        2: support.constant
+        3: keyword.operator.logical.rpl
+        4: comment
+        5: constant.numeric
+        6: support.constant
+        7: constant.numeric
+        8: comment
+        9: string.unquoted
+        10: support.constant
+
+  rpl_if:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(if)\s+({{rpl_globals}})\s+({{rpl_set_operators}})\s+
+          (?:
+            (\d+)|
+            (\S+)
+          )
+          \s+(then))
+        )
+      captures:
+        1: keyword.control.flow.conditional.rpl
+        2: constant.language.rpl
+        3: keyword.operator.logical.rpl
+        4: constant.numeric.rpl
+        5: string.other.rpl
+        6: keyword.control.flow.conditional.rpl
+      push:
+        - include: routing_policy_language
+        - match: |
+            (?xi)
+            ^\s*
+            (?:
+              (?:(elseif)\s+({{rpl_globals}})\s+({{rpl_set_operators}})\s+
+              (?:
+                (\d+)|
+                (\S+)
+              )
+              \s+(then))
+            )
+          captures:
+            1: keyword.control.flow.conditional.rpl
+            2: constant.language.rpl
+            3: keyword.operator.logical.rpl
+            4: constant.numeric.rpl
+            5: string.other.rpl
+            6: keyword.control.flow.conditional.rpl
+
+        - match: '^\s*(else)'
+          captures:
+            1: keyword.control.conditional
+        - match: '^\s*(endif)'
+          captures:
+            1: keyword.control.conditional
+          pop: true
+
+
+  interface:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (interface)\s+
+          (?:
+            (?:(tunnel)-(te)(\d+))|
+            (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
+            (?:({{interface_names}})\s*({{interface_numbers}}))
+          )
+        )
+      captures:
+        0: cisco.scope.interface
+        1: variable.parameter              # interface
+        2: entity.other.attribute-name     # tunnel
+        3: constant.numeric                # tunnel te
+        4: constant.numeric                # tunnel te123
+        5: support.constant                # interface range
+        6: entity.other.attribute-name     # interface range Loopback
+        7: constant.numeric                # interface range Loopback 1-2
+        8: entity.other.attribute-name     # interface Loopback
+        9: constant.numeric                # interface Loopback 1
+      push:
+      - meta_content_scope: text.network.cisco.interface
+      - include: interface_setting_base
+      - include: interface_setting_ip
+      - include: interface_setting_te
+      - include: interface_setting_l2
+      - match: '{{ctx_pop_configure_terminal}}'
+        pop: true
+
+  interface_setting_base:
+    - match: >
+        (?xi)
+        ^\s*
+        (?:
+          (?:(no\s+shutdown))|
+          (?:(shutdown))|
+          (?:(cdp))
+        )
+      captures:
+        1: support.constant                           # no shutdown
+        2: keyword.other                              # shutdown
+        3: support.constant                          # cdp
+
+  interface_setting_ip:
+    - match: >
+        (?xi)
+        ^\s*
+        (?:
+          (?:(vrf)\s+(\S+))|
+          (?:(ipv4)\s+(address)\s+({{ip}})\s+({{subnet_mask}}))|
+          (?:(ipv4)\s+(unnumbered)\s+({{interface_names}})\s*({{interface_numbers}}))
+        )
+      captures:
+        1: support.constant                           # vrf
+        2: string.unquoted                            # vrf name
+        3: support.constant                           # ipv4
+        4: support.constant                           # ipv4 address
+        5: constant.numeric.ip.ipv4.address           # ipv4 address ip
+        6: constant.numeric.network.ipv4.subnet_mask  # ipv4 address ip subnet mask
+        7: support.constant                           # ipv4
+        8: support.constant                           # ipv4 unumbered
+        9: entity.other.attribute-name                # ipv4 unumbered Loopback
+        10: constant.numeric                          # ipv4 unumbered Loopback 123
+
+  interface_setting_l2:
+    - match: >
+        (?xi)
+        ^\s*
+        (?:
+          (?:(encapsulation)\s+(dot1q)\s+({{vlan_id}}))
+        )
+      captures:
+        1: support.constant                           # encapsulation
+        2: support.constant                           # encapsulation dot1q
+        3: constant.numeric                           # encapsulation dot1q 123
+
+  interface_setting_te:
+    - match: >
+        (?xi)
+        ^\s*
+        (?:
+          (?:(signalled-bandwidth)\s+(\d+))|
+          (?:(destination)\s+({{ip}}))|
+          (?:
+            (path-option)
+            (\s+{{mpls_te_path_priority}})?
+            (?:\s+(protecting)\s+({{mpls_te_path_id}}))?
+            (?:
+              \s+
+              (?:
+                (?:(dynamic))|
+                (?:
+                  (explicit)\s+
+                  (?:
+                    (?:(name)\s+(\S+))|
+                    (?:(identifier)\s+(\d+))
+                  )
+                  (?:\s+(protected-by)\s+({{mpls_te_path_id}}))?
+                )
+              )
+            )
+            (?:\s+(attribute-set)\s+(\S+))?
+            (?:\s+(isis)\s+(\S+)\s+(level)\s+([12]))?
+            (?:\s+(lockdown))?
+            (?:\s+(ospf)\s+(\S+)\s+(area)\s+({{ospf_area_id}}))?
+            (?:\s+(verbatim))?
+          )
+        )
+      captures:
+        1: support.constant                          # signalled-bandwidth
+        2: constant.numeric                          # signalled-bandwidth 123
+        3: support.constant                          # destination
+        4: constant.numeric.ip.ipv4.address          # destination 1.2.3.4
+        5: support.constant                          # path-option
+        6: constant.numeric                          # path-option 1000
+        7: support.constant                          # path-option 1 protecting
+        8: constant.numeric                          # path-option 1 protecting 1000
+        9: support.constant                          # path-option 1 dynamic
+        10: support.constant                          # path-option 1 explicit
+        11: support.constant                          # path-option 1 explicit name
+        12: string.unquoted                           # path-option 1 explicit name XYZ
+        13: support.constant                          # path-option 1 explicit identifier
+        14: constant.numeric                          # path-option 1 explicit identifier 123
+        15: support.constant                          # path-option 1 explicit identifier 1 protected-by
+        16: constant.numeric                          # path-option 1 explicit identifier 1 protected-by 123
+        17: support.constant                          # path-option dynamic attribute-set
+        18: string.unquoted                           # path-option dynamic attribute-set NAME
+        19: support.constant                          # path-option dynamic isis
+        20: string.unquoted                           # path-option dynamic isis NAME
+        21: support.constant                          # path-option dynamic isis NAME level
+        22: constant.numeric                          # path-option dynamic isis NAME level 1
+        23: support.constant                          # path-option dynamic lockdown
+        24: support.constant                          # path-option dynamic ospf
+        25: string.unquoted                           # path-option dynamic ospf NAME
+        26: support.constant                          # path-option dynamic ospf NAME area
+        27: constant.numeric                          # path-option dynamic ospf NAME area 1
+        28: support.constant                          # path-option dynamic lockdown
+
+  description:
+    - match: '^\s*(description.*)'
+      captures:
+        1: comment.line
+
+
+  vrf:
+    - match: '^\s*(vrf)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.vrf
+      - include: vrf_address_family
+      - include: pop_on_configure_terminal_context
+
+  vrf_address_family:
+    - include: vrf_ipv4_address_family
+
+  vrf_ipv4_address_family:
+    - match: '^\s*(address-family)\s+(ipv4)\s+(unicast)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.vrf.address_family.ipv4
+      - match: '{{ctx_pop_vrf}}'
+        pop: true
+      - include: vrf_import_route_target
+      - include: vrf_export_route_target
+      - include: vrf_export_route_policy
+
+  vrf_import_route_target:
+    - match: '^\s*(import)\s+(route-target)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.vrf.import.route_target
+      - match: '{{ctx_pop_vrf_address_family}}'
+        pop: true
+      - match: >
+          (?xi)
+          \s*
+          (?:({{route_target}}))
+        captures:
+          1: constant.numeric        # route target
+
+  vrf_export_route_target:
+    - match: '^\s*(export)\s+(route-target)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.vrf.export.route_target
+      - match: '{{ctx_pop_vrf_address_family}}'
+        pop: true
+      - match: >
+          (?xi)
+          \s*
+          (?:({{route_target}}))
+        captures:
+          1: constant.numeric        # route target
+
+  vrf_export_route_policy:
+    - match: '^\s*(export)\s+(route-policy)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.vrf.export.route_policy
+      - match: '{{ctx_pop_vrf_address_family}}'
+        pop: true
+      # - match: >
+      #     (?xi)
+      #     \s*
+      #     (?:({{route_target}}))
+      #   captures:
+      #     1: constant.numeric        # route target
+
+  logout:
+    - match: '^\s*(logout)\s*'
+      captures:
+        1: support.constant
+
+  pipe:
+    - match: (?<=\s)(\|)
+      scope: text.network.cisco.pipe
+      captures:
+        1: keyword.other
+      push:
+        - meta_content_scope: text.network.cisco.pipe
+        - match: '(?=(?:{{comment}})|$)'
+          pop: true
+        - match: >
+            (?xi)
+            \s+
+            (?:
+              (include)|
+              (exclude)
+            )
+            \s+
+            ([^{{comment}}]*)
+          captures:
+            1: entity.other.attribute-name
+            2: keyword.other
+            3: string.unquoted

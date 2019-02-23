@@ -1,0 +1,547 @@
+
+configure
+hostname Pod2PE01
+commit
+
+alias si show ipv4 int brief
+
+domain name lab.brunello.homenet
+cdp
+vrf vrfCUST1
+ address-family ipv4 unicast
+  import route-target
+   65000:1
+   65000:98
+  !
+  export route-policy rpRTfilter-Cust1
+  export route-target
+   65000:1
+  !
+ !
+!
+vrf vrfCUST2
+ address-family ipv4 unicast
+  import route-target
+   65000:2
+   65000:98
+  !
+  export route-policy rpRTfilter-Cust2
+  export route-target
+   65000:2
+  !
+ !
+!
+vrf vrfCUST-BGP
+ address-family ipv4 unicast
+  import route-target
+   65000:97
+   65000:98
+   65000:99
+  !
+  export route-target
+   65000:97
+   65000:98
+   65000:99
+  !
+ !
+!
+interface Loopback0
+ ipv4 address 100.64.0.121 255.255.255.255
+!
+interface Loopback1
+ vrf vrfCUST1
+ ipv4 address 10.64.1.121 255.255.255.255
+!
+interface Loopback2
+ vrf vrfCUST2
+ ipv4 address 10.64.2.121 255.255.255.255
+!
+interface Loopback99
+ vrf vrfCUST-BGP
+ ipv4 address 10.64.99.121 255.255.255.255
+!
+interface Loopback100
+ ipv4 address 100.64.1.121 255.255.255.255
+!
+interface tunnel-te11211
+ ipv4 unnumbered Loopback100
+ signalled-bandwidth 10000
+ destination 100.64.1.111
+ ! https://www.cisco.com/c/en/us/td/docs/iosxr/ncs5500/mpls/b-mpls-cr-ncs5500/b-ncs5500-mpls-cli-reference_chapter_0100.html#wp8840483240
+ path-option dynamic
+ path-option 1 dynamic
+ path-option 1 protecting 1000 dynamic
+ path-option 1 protecting 1000 dynamic attribute-set NAME
+ path-option 1 protecting 1000 explicit name PATH_NAME
+ path-option 1 protecting 1000 explicit name PATH_NAME attribute-set NAME
+ path-option 1 protecting 1000 explicit identifier 123
+ path-option 1 protecting 1000 explicit identifier 123 attribute-set NAME
+ path-option 1 protecting 1000 explicit name PATH_NAME protected-by 123
+ path-option 1 protecting 1000 explicit name PATH_NAME protected-by 123 attribute-set NAME
+ path-option 1 protecting 1000 explicit identifier 123 protected-by 123
+ path-option 1 protecting 1000 explicit identifier 123 protected-by 123 attribute-set NAME
+ path-option 1 dynamic attribute-set NAME
+ path-option 1 dynamic isis NAME level 1
+ path-option 1 dynamic lockdown
+ path-option 1 dynamic ospf NAME area 1.2.3.4
+ path-option 1 dynamic ospf NAME area 1
+ path-option 1 dynamic verbatim
+!
+interface tunnel-te12211
+ ipv4 unnumbered Loopback100
+ signalled-bandwidth 10000
+ destination 100.64.1.112
+ path-option 1 dynamic
+!
+interface tunnel-te21221
+ ipv4 unnumbered Loopback100
+ signalled-bandwidth 10000
+ destination 100.64.1.122
+ path-option 1 dynamic
+!
+interface MgmtEth0/0/CPU0/0
+ no shutdown
+!
+interface GigabitEthernet0/0/0/0
+ cdp
+ ipv4 address 100.65.212.121 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ cdp
+ ipv4 address 100.66.211.121 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ cdp
+ ipv4 address 100.66.221.121 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ cdp
+ vrf vrfCUST1
+ ipv4 address 192.168.21.121 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3.100
+ ipv4 address 100.67.221.122 255.255.255.0
+ encapsulation dot1q 100
+!
+interface GigabitEthernet0/0/0/4
+ cdp
+ vrf vrfCUST2
+ ipv4 address 192.168.222.121 255.255.255.0
+!
+interface GigabitEthernet0/0/0/4.100
+ ipv4 address 10.67.222.122 255.255.255.0
+ encapsulation dot1q 100
+!
+interface GigabitEthernet0/0/0/5
+ cdp
+ vrf vrfCUST-BGP
+ ipv4 address 192.168.227.121 255.255.255.0
+!
+interface GigabitEthernet0/0/0/5.100
+ ipv4 address 100.65.127.121 255.255.255.0
+ encapsulation dot1q 100
+!
+extcommunity-set rt rtBGP
+  4294967295:65535,
+  65535:4294967295,
+  1.2.3.0/24:65535,
+  65535.65535:65535
+end-set
+
+extcommunity-set cost costBGP
+  IGP:1:10,
+  10 IGP:1:10
+end-set
+
+extcommunity-set soo costBGP
+  1.1.1.1:100,
+  100:200
+end-set
+!
+prefix-set pfMGMT
+  #Loopback
+  100.64.0.0/24 eq 32
+end-set
+!
+prefix-set prefixCust1-Exp
+  10.64.1.0/24 ge 32
+end-set
+!
+prefix-set prefixCust2-Exp
+  10.64.2.0/24 ge 32
+end-set
+!
+prefix-set prefixCust3-Exp
+  10.64.3.0/24 ge 32
+end-set
+!
+as-path-set ignore_path
+  ! https://www.cisco.com/c/en/us/td/docs/ios/12_2/termserv/configuration/guide/ftersv_c/tcfaapre.html
+  ios-regex '\^\.\(\)\_\?\*\+\|\$',
+  ios-regex '^.()_?*+|$',
+  ios-regex '[]',
+  ios-regex '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+  ios-regex '_11a_()',
+  ios-regex '_22_\|\'',
+  ios-regex '_33_'
+ 
+  dfa-regex '\^\.\(\)\_\?\*\+\|\$',
+  dfa-regex '^.()_?*+|$',
+  dfa-regex '[]',
+  dfa-regex '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+  dfa-regex '_11a_()',
+  dfa-regex '_22_\|\'',
+  dfa-regex '_33_'
+  end-set
+!
+route-policy rpMGMT
+  if destination in pfMGMT then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+route-policy quickstart-pass
+  pass
+  end-policy
+!
+route-policy quickstart-drop
+  drop
+  end-policy
+!
+route-policy quickstart-med
+  if med eq 127 then
+    pass
+  elseif med eq 63 then
+    pass
+  else
+    delete community in (123:123)
+  endif
+  pass
+  end-policy
+
+route-policy rpBGP2EIGRP
+end-policy
+!
+route-policy rpRTfilter-Cust3
+  if destination in prefixCust3-Exp then
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp9113502600
+    set aigp-metric igp-cost
+    set aigp-metric 4294967295
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp3515516088
+    set community (123:789)
+    set community (accept-own)
+    set community (internet)
+    set community (no-export)
+    set community (no-advertise)
+    set community (local-as)
+    set community (accept-own, accept-own)
+    set community (internet, internet)
+    set community (no-export, no-export)
+    set community (no-advertise, no-advertise)
+    set community (local-as, local-as)
+    set community (123:789) additive
+    set community ($PARAMETER:789) additive
+    set community (123:$PARAMETER) additive
+    set community (123:456,123:456)
+    set community ($PARAMETER:456,123:456)
+    set community (123:$PARAMETER,123:456)
+    set community (internet, $PARAMETER:$PARAMETER)
+    set community ($PARAMETER:$PARAMETER,internet)
+    set community ($PARAMETER:$PARAMETER,$PARAMETER:$PARAMETER)
+    set community (123:456,$PARAMETER:456)
+    set community (123:456,123:$PARAMETER)
+    set community (123:456, 123:456) additive
+    set community SetName
+    set community SetName additive
+    set community $ParameterName
+    set community $ParameterName additive
+    
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp5430261000
+    set core-tree gre-rosen
+    set core-tree mldp-inband
+    set core-tree mldp-partitioned-mp2mp
+    set core-tree mldp-partitioned-p2mp
+    set core-tree mldp-rosen
+    set core-tree rsvp-te-partitioned-p2mp
+    set core-tree $PARAMETER
+ 
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp3418687560
+    set dampening halflife 45
+    set dampening halflife 45 others default
+    set dampening halflife $PARAMETER
+    set dampening halflife $PARAMETER others default
+    set dampening max-suppress 20000
+    set dampening max-suppress 20000 others default
+    set dampening max-suppress $PARAMETER
+    set dampening max-suppress $PARAMETER others default
+    set dampening reuse 20000
+    set dampening reuse 20000 others default
+    set dampening reuse $PARAMETER
+    set dampening reuse $PARAMETER others default
+    set dampening suppress 20000
+    set dampening suppress 20000 others default
+    set dampening suppress $PARAMETER
+    set dampening suppress $PARAMETER others default
+    set dampening halflife 45 max-suppress 20000 reuse 20000 suppress 20000
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp2566062071
+    set eigrp-metric 10000000 1000 255 1 1500
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp3193927332
+    set extcommunity cost $PARAMETER
+    set extcommunity cost SetName
+    set extcommunity cost (IGP:255:4294967295)
+    set extcommunity cost (IGP:255:4294967295, IGP:255:4294967295)
+    set extcommunity cost (IGP:$PARAMETER:4294967295, IGP:255:4294967295)
+    set extcommunity cost (IGP:255:$PARAMETER, IGP:255:4294967295)
+    set extcommunity cost (IGP:255:4294967295, IGP:$PARAMETER:4294967295)
+    set extcommunity cost (IGP:255:4294967295, IGP:255:$PARAMETER)
+    set extcommunity cost (IGP:$PARAMETER:$PARAMETER, IGP:$PARAMETER:$PARAMETER)
+    set extcommunity cost (IGP:255:4294967295,IGP:255:4294967295)
+    set extcommunity cost (Pre-Bestpath:255:4294967295)
+
+
+    set extcommunity rt (4294967295:65535, 65535:4294967295)  
+    set extcommunity rt (1.2.3.0/24:65535, 1.2.3.0:65535)
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:65535)
+    set extcommunity rt (1.2.3.0/24:$PARAMETER, 1.2.3.0:$PARAMETER)
+    set extcommunity rt (65535.65535:65535, 65535.65535:65535)
+
+    set extcommunity rt ($PARAMETER:65535, 65535:4294967295)    
+    set extcommunity rt (4294967295:$PARAMETER, 65535:4294967295)    
+    set extcommunity rt (4294967295:65535, $PARAMETER:4294967295)    
+    set extcommunity rt (4294967295:65535, 65535:$PARAMETER)
+
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:4294967295)    
+    set extcommunity rt (4294967295:$PARAMETER, 65535:$PARAMETER)    
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:65535)
+    set extcommunity rt (1.2.3.0/24:$PARAMETER, 1.2.3.0:$PARAMETER)
+    set extcommunity rt ($PARAMETER.65535:65535, $PARAMETER.65535:65535)
+    set extcommunity rt (65535.$PARAMETER:65535, 65535.$PARAMETER:65535)
+    set extcommunity rt (65535.65535:$PARAMETER, 65535.65535:$PARAMETER)
+    set extcommunity rt ($PARAMETER.$PARAMETER:65535, $PARAMETER.$PARAMETER:65535)
+    set extcommunity rt (65535.$PARAMETER:$PARAMETER, 65535.$PARAMETER:$PARAMETER)
+    set extcommunity rt ($PARAMETER.$PARAMETER:$PARAMETER, $PARAMETER.$PARAMETER:$PARAMETER)
+
+    set extcommunity rt SetName
+    set extcommunity rt SetName additive
+    set extcommunity rt $PARAMETER
+    set extcommunity rt $PARAMETER additive
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2215331420
+    set ip-precedence 0
+    set ip-precedence 7
+    set ip-precedence $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp4090344556
+    set isis-metric 16777215
+    set isis-metric $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2829378958
+    set label explicit-null
+    set label implicit-null
+    set label $PARAMETER
+
+    set level level-1
+    set level level-2
+    set level level-1-2
+    set level $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp6022513500
+    set local-preference 4294967295
+    set local-preference $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2976030876
+    set med 4294967295
+    set med +4294967295
+    set med -4294967295
+    set med igp-cost
+    set med max-reachable
+    set med $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp3818831588
+    set administrative-distance 255
+    set administrative-distance $PARAMETER
+
+
+    apply ROUTE_POLICY_NAME
+    apply ROUTE_POLICY_NAME ()
+    apply ROUTE_POLICY_NAME ($PARAMETER, 1)
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp1132673167
+    add eigrp-metric 10000000 1000 255 1 1500
+    add rip-metric 16
+    add rip-metric $PARAMETER
+
+  endif
+end-policy
+!
+community-set quickstart-communities
+  987:654,
+  987:543,
+  987:321,
+  987:210
+end-set
+  
+route-policy quickstart-localpref
+  if community matches-any quickstart-communities then
+      pass
+  endif
+end-policy
+
+rd-set rdset1
+ 10.0.0.0/8:*,
+ 10.0.0.0/8:777,
+ 10.0.0.0:*,
+ 10.0.0.0:777,
+ 65000:*,
+ 65000:777
+end-set
+
+router static
+ address-family ipv4 unicast
+  100.64.0.221/32 100.67.221.221
+  100.64.0.222/32 100.67.222.222
+ !
+!
+router isis bb
+ net 49.0000.0000.0002.0121.00
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-1-2
+  mpls traffic-eng router-id Loopback0
+  mpls ldp auto-config
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface Loopback100
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/3.100
+  address-family ipv4 unicast
+  !
+ !
+!
+router ospf 99
+ vrf vrfCUST-BGP
+  router-id 10.64.99.121
+  redistribute bgp 65000 metric-type 1
+  area 0
+   interface Loopback99
+   !
+   interface GigabitEthernet0/0/0/5
+   !
+  !
+ !
+!
+router ospf ospfCUST1
+ vrf vrfCUST1
+  router-id 10.64.1.121
+  domain-id type 0005 value 010000010201
+  redistribute bgp 65000 metric-type 1
+  area 0
+   interface Loopback1
+   !
+   interface GigabitEthernet0/0/0/3
+   !
+   interface GigabitEthernet0/0/0/4
+   !
+  !
+ !
+!
+router bgp 65000
+ bgp router-id 100.64.0.121
+ address-family vpnv4 unicast
+ !
+ neighbor-group RR
+  remote-as 65000
+  update-source Loopback0
+  address-family vpnv4 unicast
+  !
+ !
+ neighbor 100.64.0.9
+  use neighbor-group RR
+ !
+ vrf vrfCUST1
+  rd 1:121
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute ospf ospfCUST1
+  !
+ !
+ vrf vrfCUST2
+  rd 2:121
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute eigrp 100
+  !
+ !
+ vrf vrfCUST-BGP
+  rd 99:121
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute ospf 99
+  !
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/1
+  bandwidth 500000
+ !
+ interface GigabitEthernet0/0/0/2
+  bandwidth 500000
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/1
+  auto-tunnel backup
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  auto-tunnel backup
+  !
+ !
+ auto-tunnel backup
+  tunnel-id min 2100 max 2199
+ !
+ router-id secondary 100.64.1.121
+!
+mpls ldp
+ router-id 100.64.0.121
+!
+router eigrp 2
+ vrf vrfCUST2
+  address-family ipv4
+   router-id 10.64.2.121
+   autonomous-system 100
+   redistribute bgp 65000 route-policy rpBGP2EIGRP
+   interface Loopback2
+   !
+   interface GigabitEthernet0/0/0/4
+   !
+  !
+ !
+!
+ssh server v2
+ssh server vrf default

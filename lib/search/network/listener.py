@@ -1,18 +1,21 @@
 # Copyright 2017 Glen Harmon
 
 import logging
+import functools
 
 import sublime
 import sublime_plugin
 
-from .scopes import scopes
+# from .scopes import scopes
 from .network import Network
 from .variables import sublime_ip, ip
+from .html_helper import Html
 
 logger = logging.getLogger('network_tech.search.network')
 
 
 SCOPE_PREFIX = 'text.network'
+
 
 class NetworkInfoListener(sublime_plugin.ViewEventListener):
     def on_hover(self, point, hover_zone):
@@ -37,22 +40,48 @@ class NetworkInfoListener(sublime_plugin.ViewEventListener):
         for region in regions:
             if not self.view.match_selector(region.end(), 'text.network'):
                 continue
+            
             match_text = Network.get_network_on_cursor(region, self.view)
             network = Network.get(match_text)
             if network:
                 content = Network.info(network)
+                
                 if content:
-                    if self.view.is_popup_visible():
-                        self.view.update_popup(content)
-                    else:
-                        self.view.show_popup(
-                            content,
-                            flags=sublime.COOPERATE_WITH_AUTO_COMPLETE,
-                            location=location,
-                        )
+                    self._update_popup(content, location)
+
+                self._loading_popup(
+                    location,
+                    content,
+                    functools.partial(Network.rir, network),
+                    'Getting RIR...'
+                )
             # Match only the first
             break
 
+    def _loading_popup(self, location, content, callback, loading_message='loading...'):
+
+        def _update(self, location, content, callback, loading_message):
+            loading_content = content + Html.div(loading_message)
+            self._update_popup(loading_content, location)
+
+            output = callback()
+            self._update_popup(content + output, location)
+
+        sublime.set_timeout_async(
+            functools.partial(_update, self, location, content, callback, loading_message),
+            0,
+        )
+
+    def _update_popup(self, content, location):
+        if content:
+            if self.view.is_popup_visible():
+                self.view.update_popup(content)
+            else:
+                self.view.show_popup(
+                    content,
+                    flags=sublime.COOPERATE_WITH_AUTO_COMPLETE,
+                    location=location,
+                )
 
 class FindSubnetCommand(sublime_plugin.TextCommand):
 

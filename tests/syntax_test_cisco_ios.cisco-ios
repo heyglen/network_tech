@@ -1,5 +1,13 @@
 # cisco ios
 
+! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/mcl/allreleasemcl/all-book/all-01.html
+
+! Testing for RIR Resolving
+! google.com 216.58.212.142
+! google.com 2a00:1450:400e:800::200e
+! europa.eu 147.67.210.45
+! europa.eu 2a01:7080:24:100::666:45
+
 write
 show running-config | include something ! Inline comment
 
@@ -135,7 +143,7 @@ configure terminal
     permit ip host 1.1.1.0 host 1.1.1.0 
     permit ip host abc host a.b.c 
     permit ip object-group abc object-group a.b.c 
-    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp 0
+    permit ip 1.1.1.0 0.0.0.255 2.2.2.0 0.0.0.255 dscp 0
     permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp default
     permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp 63
     permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af11

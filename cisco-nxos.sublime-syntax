@@ -51,6 +51,55 @@ variables:
     (?:
       (?:md5)
     )
+  # 1 - 255
+  number_8_bit: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:25[0-5])|
+        (?:2[0-4]\d)|
+        (?:[0-1]?\d{1,2})
+      )
+      \b
+    )
+  # 1 - 65535
+  number_16_bit: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:6553[0-5])|
+        (?:655[0-2]\d)|
+        (?:65[0-4]\d{2})|
+        (?:6[0-4]\d{3})|
+        (?:[0-5]\d{4})|
+        (?:\d{2,4})|
+        (?:[1-9])
+      )
+      \b
+    )
+  # 1 - 4,294,967,295
+  number_32_bit: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:4294967295)|
+        (?:[0-3]\d{9})|
+        (?:4[0-1]\d{8})|
+        (?:42[0-8]\d{7})|
+        (?:429[0-3]\d{6})|
+        (?:4294[0-8]\d{5})|
+        (?:42949[0-5]\d{4})|
+        (?:429496[0-6]\d{3})|
+        (?:4294967[0-1]\d{2})|
+        (?:42949672[0-8]\d{1})|
+        (?:429496729[0-5])|
+        (?:\d{1,9})
+      )
+      \b
+    )
   dscp: |
     (?xi)
     (?:
@@ -812,10 +861,10 @@ contexts:
       captures:
         1: support.constant    # logging
         2: support.constant    # logging server
-        3: constant.numeric    # logging server ip 
+        3: constant.numeric    # logging server ip
         4: constant.numeric    # logging server ip log_level
         5: support.constant    # logging server ip log_level use-vrf
-        6: string.unquoted     # logging server ip log_level use-vrf name 
+        6: string.unquoted     # logging server ip log_level use-vrf name
         7: support.constant    # logging server ip log_level use-vrf name facility
         8: support.constant    # logging server ip log_level use-vrf name facility level
 
@@ -1911,7 +1960,7 @@ contexts:
         ^\s+
         (ip)\s+
         (address)\s+
-      push: 
+      push:
       - meta_scope: ip.ipv4.incomplete.prefix
       - match: |
           (?xi)
@@ -1955,7 +2004,7 @@ contexts:
         (?xi)
         ^\s+
         (ip)\s+
-      push: 
+      push:
       - meta_scope: ip.ipv4.incomplete.ip
       - match: |
           (?xi)

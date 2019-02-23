@@ -274,5 +274,4 @@ def decode(type_5_password):
     start = time.time()
     password = _brute_force_password(salt, password_hash, _ASCII_COMMON_PASSWORDS)
     elapsed = time.time() - start
-    print('Network Tech: Type 5 Decode {} took {} seconds'.format(type_5_password, elapsed))
     return password

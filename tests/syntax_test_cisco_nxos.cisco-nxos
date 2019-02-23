@@ -172,7 +172,7 @@ interface Ethernet 100/0/1
   ip address 1.2
   ip address 1.2.3.4
   ip address 1.2.3.4/
-  ip address 1.2.3.4/23
+  ip address 1.2.3.4/23  # a comment
   ip address 1.2.3.4/232
   ipv6 address ::/64 eui-64
   ip pim sparse-mode

@@ -38,21 +38,50 @@ variables:
   number_8_bit: |
     (?xi)
     (?:
-      (?:25[0-5])|
-      (?:2[0-4]\d)|
-      (?:[0-1]?\d{1,2})
+      \b
+      (?:
+        (?:25[0-5])|
+        (?:2[0-4]\d)|
+        (?:[0-1]?\d{1,2})
+      )
+      \b
     )
   # 1 - 65535
+  number_16_bit: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:6553[0-5])|
+        (?:655[0-2]\d)|
+        (?:65[0-4]\d{2})|
+        (?:6[0-4]\d{3})|
+        (?:[0-5]\d{4})|
+        (?:\d{2,4})|
+        (?:[1-9])
+      )
+      \b
+    )
+  # 1 - 4,294,967,295
   number_32_bit: |
     (?xi)
     (?:
-      (?:6553[0-5])|
-      (?:655[0-2]\d)|
-      (?:65[0-4]\d{2})|
-      (?:6[0-4]\d{3})|
-      (?:[0-5]\d{4})|
-      (?:\d{2,4})|
-      (?:[1-9])
+      \b
+      (?:
+        (?:4294967295)|
+        (?:[0-3]\d{9})|
+        (?:4[0-1]\d{8})|
+        (?:42[0-8]\d{7})|
+        (?:429[0-3]\d{6})|
+        (?:4294[0-8]\d{5})|
+        (?:42949[0-5]\d{4})|
+        (?:429496[0-6]\d{3})|
+        (?:4294967[0-1]\d{2})|
+        (?:42949672[0-8]\d{1})|
+        (?:429496729[0-5])|
+        (?:\d{1,9})
+      )
+      \b
     )
   authentication_methods: |
     (?xi)
@@ -100,7 +129,7 @@ variables:
       (?:min-delay)|
       (?:min-monetary-cost)|
       (?:normal)
-    )  
+    )
   tos_precedence: |
     (?xi)
     (?:
@@ -112,7 +141,7 @@ variables:
       (?:network)|
       (?:priority)|
       (?:routine)
-    )  
+    )
   ip_options: |
     (?xi)
     (?:
@@ -149,7 +178,7 @@ variables:
       (?:ump)|
       (?:visa)|
       (?:zsu)
-    )  
+    )
   ttl_match_values: |
     (?xi)
     (?:
@@ -158,14 +187,14 @@ variables:
       (?:lt)|
       (?:neq)|
       (?:range)
-    )  
+    )
   dscp_w_value: |
     (?xi)
     (?:
       (?:{{dscp}})|
       (?:6[0-3])|
       (?:[0-5]?\d)
-    )  
+    )
   dscp: |
     (?xi)
     (?:
@@ -921,7 +950,7 @@ contexts:
     - include: prefix_list
     - include: vrf_upgrade
     - include: ntp_server
-    - include: object_group    
+    - include: object_group
     - include: igmp_snooping_querier
     - include: ip_name_server
     - include: ip_domain_name
@@ -1376,7 +1405,7 @@ contexts:
 
   ogacl:
     - include: ogacl_permit
-    
+
   ogacl_permit:
     - include: ogacl_permit_l3_protocol
     - include: ogacl_permit_tcp_udp
@@ -1474,7 +1503,7 @@ contexts:
         37: string.unquoted                                             # log name
         38: support.constant                                            # log-input
         39: string.unquoted                                             # log-input name
-    
+
   extended_ace:
     - match: |
         (?xi)
@@ -1567,7 +1596,7 @@ contexts:
         13: constant.numeric.ip.ipv4.address      # Destination Host IP
         14: support.constant                      # Destination network object-group
         15: string.unquoted                       # Destination network object-group name
-        
+
         16: constant.numeric                       # Protocol Name
         17: constant.numeric.target_ip             # Source Network
         18: support.constant                       # Source Host
@@ -1608,10 +1637,10 @@ contexts:
           (?:(set\s+extcommunity\s+rt)\s+({{route_target}})(\s+additive)?)|
           (?:(set\s+local-preference)\s+(\d+)?)
         captures:
-          1: support.constant   # match address prefix-list 
-          2: string.unquoted    # match address prefix-list name 
-          3: support.constant   # match address 
-          4: string.unquoted    # match address name 
+          1: support.constant   # match address prefix-list
+          2: string.unquoted    # match address prefix-list name
+          3: support.constant   # match address
+          4: string.unquoted    # match address name
           5: support.constant   # set extcommunity rt
           6: constant.numeric   # set extcommunity rt route_target
           7: support.constant    # set extcommunity rt route_target additive
@@ -2152,7 +2181,7 @@ contexts:
           (?:(source)\s+({{interface_names}})\s*({{interface_numbers}}))|
           (?:(clock-period)\s+(\d+))|
           (?:(server)\s+({{ip}}))
-        )      
+        )
     captures:
       1: support.constant                  # ntp
       2: support.constant                  # ntp source
@@ -2351,7 +2380,7 @@ contexts:
         16: constant.numeric                          # track id
         17: support.constant                          # tag
         18: constant.numeric                          # tag id
-          
+
   ipv6_route:
     - match: |
         (?xi)
@@ -2639,7 +2668,7 @@ contexts:
         15: constant.numeric               # clock date year
         16: constant.numeric               # clock date time
         17: constant.numeric               # clock date minute offset
-       
+
         # month date year hh:mm month date year hh:mm [offset]
         18: support.constant               # clock date
         19: entity.other.attribute-name    # clock date month
@@ -2651,7 +2680,7 @@ contexts:
         25: constant.numeric               # clock date year
         26: constant.numeric               # clock date time
         27: constant.numeric               # clock date minute offset
-       
+
         28: support.constant               # clock summer-time recurring
         29: constant.numeric               # clock summer-time recurring week
         30: support.constant               # clock summer-time recurring last week
@@ -3054,7 +3083,7 @@ contexts:
         - match: |
             (?xi)
             ^\s*
-            (?: 
+            (?:
                (?:(tcp)\s+({{number_32_bit}}))|
                (?:(udp)\s+({{number_32_bit}}))|
                (?:(tcp-udp)\s+({{number_32_bit}}))|
