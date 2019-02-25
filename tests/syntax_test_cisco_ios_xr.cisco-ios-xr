@@ -225,6 +225,31 @@ route-policy rpBGP2EIGRP
 end-policy
 !
 route-policy rpRTfilter-Cust3
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2276178122
+  if as-path in (4294967295, ios-regex '_12$',4294967295, ios-regex '_13$') then
+  elseif as-path in $PARAMETER then
+  elseif as-path in SetName then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1625057992
+  if as-path is-local then
+    pass
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2299069167
+  if as-path length is 2047 then
+  elseif as-path length eq 2047 then
+  elseif as-path length ge 2047 then
+  elseif as-path length le 2047 then
+  elseif as-path length is $PARAMETER then
+  elseif as-path length eq $PARAMETER then
+  elseif as-path length ge $PARAMETER then
+  elseif as-path length le $PARAMETER then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp8093486770
+  if as-path neighbor-is 
+
   if destination in prefixCust3-Exp then
 
     ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp9113502600
@@ -362,6 +387,98 @@ route-policy rpRTfilter-Cust3
     set med igp-cost
     set med max-reachable
     set med $PARAMETER
+    
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1703937562
+    set metric-type internal
+    set metric-type external
+    set metric-type rib-metric-as-internal
+    set metric-type rib-metric-as-external
+    set metric-type $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1384425217
+    set metric-type type-1
+    set metric-type type-2
+    set metric-type $PARAMETER
+    
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1927088465
+    set next-hop 1.2.3.4
+    set next-hop ::1
+    set next-hop peer-address
+    set next-hop self
+    set next-hop 1.2.3.4  destination-vrf
+    set next-hop ::1  destination-vrf
+    set next-hop peer-address destination-vrf
+    set next-hop self destination-vrf
+
+    !  https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1822084459
+    set origin igp
+    set origin egp
+    set origin incomplete
+    set origin $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp3896835080
+    set ospf-metric 16777215
+    set ospf-metric $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp3896835080
+    set path-selection backup 7
+    set path-selection group-best
+    set path-selection all
+    set path-selection best-path
+    set path-selection best-path install
+    set path-selection best-path install multipath-protect
+    set path-selection best-path install multipath-protect advertise
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2799121650
+    set qos-group $PARAMETER
+    set qos-group 31
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp17579491227
+    set rib-metric 4294967295
+    set rib-metric $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp3384629244
+    set rip-tag 65535
+    set rip-tag $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2572618381
+    set rpf-topology ipv4 $PARAMETER topology TopologyName
+    set rpf-topology ipv4 unicast topology TopologyName
+    set rpf-topology ipv4 multicast topology TopologyName
+    set rpf-topology ipv6 $PARAMETER topology TopologyName
+    set rpf-topology ipv6 unicast topology TopologyName
+    set rpf-topology ipv6 multicast topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv4 $PARAMETER topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv4 unicast topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv4 multicast topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv6 $PARAMETER topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv6 unicast topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv6 multicast topology TopologyName
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1548184856
+    set spf-priority critical
+    set spf-priority high
+    set spf-priority medium
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp3423297788
+    set tag 4294967295
+    set tag $PARAMETER
+
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp6462515340
+    set traffic-index ignore
+    set traffic-index 63
+    set traffic-index $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1307570480
+    set vpn-distinguisher 4294967295
+    set vpn-distinguisher $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2583552780
+    set weight 65535
+    set weight $PARAMETER
+
 
     ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp3818831588
     set administrative-distance 255

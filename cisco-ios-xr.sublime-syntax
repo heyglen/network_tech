@@ -55,6 +55,7 @@ variables:
   #     (?# Type)
   #     (?:{{number_16_bit}})
   #   )
+  vrf_name: '\w+'
   route_target: |
     (?xi)
     (?:
@@ -98,13 +99,14 @@ variables:
   administrative_distance: '{{number_8_bit}}'
   bgp_local_preference: '{{number_32_bit}}'
   bgp_med: '{{number_32_bit}}'
+  ospf_metric: '{{number_24_bit}}'
   aigp_metric: '{{number_32_bit}}'
   rpl_parameter_name: |
     (?xi)
     (?:
-      [0-9a-z]{1,63}
+      \w{1,63}
     )
-  rpl_set_name: '[0-9a-z]{1,63}'
+  rpl_set_name: '[0-9a-z\-]{1,63}'
   rpl_keywords: |
     (?xi)
     (?:
@@ -151,6 +153,18 @@ variables:
         (?:25[0-5])|
         (?:2[0-4]\d)|
         (?:[0-1]?\d{1,2})
+      )
+      \b
+    )
+  # 0 - 2047
+  number_11_bit: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:204[0-7])|
+        (?:20[0-3]\d)|
+        (?:[0-1]?\d{1,3})
       )
       \b
     )
@@ -1482,7 +1496,7 @@ contexts:
   ios_regex:
     - match: |
         (?xi)
-        ^\s*
+        \s*
         (?:
           (?:(ios-regex)\s+('))
         )
@@ -1665,8 +1679,88 @@ contexts:
     - include: rpl_delete
     - include: rpl_apply
 
+  rpl_else:
+    - match: |
+        (?xi)
+        \s*(else)
+      captures:
+        1: keyword.control
+      push:
+        - include: rpl_statement
+        - match: |
+            (?xi)
+            \s*(?=endif)
+          pop: true
+
+  rpl_elseif:
+    - match: |
+        (?xi)
+        \s*(elseif)\s+
+      captures:
+        1: keyword.control
+      push:
+        - meta_content_scope: text.network.cisco.route_policy.condition.statement.elseif
+        - include: rpl_conditions
+        - match: |
+            (?xi)
+            \s*(then)\s*$
+          captures:
+            1: support.constant
+          push:
+            - include: rpl_statement
+            - match: |
+                (?xi)
+                \s*(?=endif)
+              pop: true
+            - match: |
+                (?xi)
+                \s*(?=elseif)
+              pop: true
+            - match: |
+                (?xi)
+                \s*(?=else)
+              pop: true
+        - match: |
+            (?xi)
+            \s*(?=endif)
+          pop: true
+        - match: |
+            (?xi)
+            \s*(?=elseif)
+          pop: true
+        - match: |
+            (?xi)
+            \s*(?=else)
+          pop: true
+
   rpl_condition:
-    - include: rpl_condition_aspath_in
+    - match: |
+        (?xi)
+        \s*(if)\s+
+      captures:
+        1: keyword.control
+      push:
+        - meta_content_scope: text.network.cisco.route_policy.condition.statement.if
+        - include: rpl_conditions
+        - match: |
+            (?xi)
+            \s*(then)\s*$
+          captures:
+            1: support.constant
+          push:
+            - include: rpl_statement
+            - include: rpl_elseif
+            - include: rpl_else
+            - match: |
+                (?xi)
+                \s*(?=endif)
+              pop: true
+        - match: |
+            (?xi)
+            \s*(endif)
+          captures:
+            1: comment
+          pop: true
 
   rpl_set:
     - include: rpl_set_bgp_community
@@ -1674,6 +1768,21 @@ contexts:
     - include: rpl_set_eigrp_metric
     - include: rpl_set_local_preference
     - include: rpl_set_bgp_med
+    - include: rpl_set_ospf_metric_type
+    - include: rpl_set_isis_metric_type
+    - include: rpl_set_next_hop
+    - include: rpl_set_bgp_origin
+    - include: rpl_set_ospf_metric
+    - include: rpl_set_qos_group
+    - include: rpl_set_rib_metric
+    - include: rpl_set_rip_tag
+    - include: rpl_set_rpf_topology
+    - include: rpl_set_spf_priority
+    - include: rpl_set_tag
+    - include: rpl_set_traffic_index
+    - include: rpl_set_vpn_distinguisher
+    - include: rpl_set_bgp_weight
+    - include: rpl_set_path_selection
     - include: rpl_set_ip_precedence
     - include: rpl_set_isis_metric
     - include: rpl_set_label
@@ -1688,22 +1797,91 @@ contexts:
     - include: rpl_delete_bgp_community
 
 
-  rpl_condition_aspath_in:
+  rpl_conditions:
+    - include: rpl_condition_aspath_in
+    - include: rpl_condition_aspath_is_local
+    - include: rpl_condition_aspath_length
+
+  rpl_condition_aspath_is_local:
     - match: |
         (?xi)
-        ^\s*(as-path)\s+(in)
+        \s*(as-path)\s+(is-local)\s+
+      captures:
+        1: constant.numeric
+        2: constant.numeric
+
+  rpl_condition_aspath_length:
+    - match: |
+        (?xi)
+        \s*(as-path)\s+(length)\s+
+        (
+          (?:eq)|
+          (?:is)|
+          (?:ge)|
+          (?:le)
+        )\s+
         (?:
-          \s+
-          (\()
-          (?:
-          )?
-          (\))
-        )?
+          ({{number_11_bit}})|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
       captures:
         1: constant.numeric
         2: support.constant
-        3: constant.numeric
-        4: support.constant
+        3: keyword.operator.logical
+        4: constant.numeric
+        5: keyword.declaration.rpl
+        6: entity.other.attribute-name.rpl
+
+
+  rpl_condition_aspath_in:
+    - match: |
+        (?xi)
+        \s*(as-path)\s+(in)\s+
+      captures:
+        1: constant.numeric
+        2: support.constant
+      push:
+        - match: |
+            (?xi)
+            \s*(\$)({{rpl_parameter_name}})
+          captures:
+            1: keyword.declaration.rpl
+            2: entity.other.attribute-name.rpl
+          pop: true
+        - match: |
+            (?xi)
+            (\()
+          captures:
+            1: comment
+          push:
+            - include: ios_regex
+            - match: |
+                (?xi)
+                ({{autonomous_system}})
+              captures:
+                1: constant.numeric
+            - match: |
+                (?xi)
+                \s*,\s*
+              captures:
+                0: support.other
+            - match: |
+                (?xi)
+                \s*(?=\))
+              pop: true
+        - match: |
+            (?xi)
+            \s*(\))
+          captures:
+            1: comment
+          pop: true
+        - match: |
+            (?xi)
+            \s*({{rpl_set_name}})
+          captures:
+            1: string.unquoted
+          pop: true
+
 
   # https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp2566062071
   rpl_apply:
@@ -2178,6 +2356,274 @@ contexts:
         6: constant.numeric
         7: constant.numeric
 
+  rpl_set_ospf_metric_type:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(metric-type)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          (type-[12])
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+
+  rpl_set_isis_metric_type:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(metric-type)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          ((?:rib-metric-as-)?internal)|
+          ((?:rib-metric-as-)?external)
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+        6: constant.numeric
+
+  rpl_set_next_hop:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(next-hop)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          ({{ip}})|
+          ({{ipv6}})|
+          (peer-address)|
+          (self)
+        )
+        (\s+destination-vrf)?
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+        6: constant.numeric
+        7: constant.numeric
+        8: constant.numeric
+        9: support.constant
+
+  rpl_set_bgp_origin:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(origin)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          ([ei]gp)|
+          (incomplete)
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+        6: constant.numeric
+
+  rpl_set_ospf_metric:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(ospf-metric)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          ({{ospf_metric}})
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+
+  rpl_set_qos_group:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(qos-group)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          (
+            (?:3[0-1])|
+            (?:[1-2]?\d)
+          )
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+
+  rpl_set_rib_metric:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(rib-metric)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          ({{number_32_bit}})
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+
+  rpl_set_rip_tag:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(rip-tag)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          ({{number_16_bit}})
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+
+  rpl_set_rpf_topology:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(rpf-topology)\s+
+        (?:(vrf)\s+({{vrf_name}})\s+)?
+        (ipv[46]\s+)
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          (unicast)|
+          (multicast)
+        )
+        \s+
+        (topology)\s+
+        ([a-z0-9]+)
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: support.constant
+        4: string.unquoted
+        5: constant.character
+        6: keyword.declaration.rpl
+        7: entity.other.attribute-name.rpl
+        8: constant.numeric
+        9: constant.numeric
+        10: support.constant
+        11: string.unquoted
+
+  rpl_set_spf_priority:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(spf-priority)\s+
+        (
+          (?:critical)|
+          (?:high)|
+          (?:medium)
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: constant.character
+
+  rpl_set_tag:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(tag)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          ({{number_32_bit}})
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+
+  rpl_set_traffic_index:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(traffic-index)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          (
+            (?:6[0-3])|
+            (?:[0-5]\d)|
+            (?:[1-9])
+          )|
+          (ignore)
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+        6: constant.numeric
+
+  rpl_set_vpn_distinguisher:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(vpn-distinguisher)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          ({{number_32_bit}})
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+
+  rpl_set_bgp_weight:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(weight)\s+
+        (?:
+          (?:(\$)({{rpl_parameter_name}}))|
+          ({{number_16_bit}})
+        )
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: keyword.declaration.rpl
+        4: entity.other.attribute-name.rpl
+        5: constant.numeric
+
+  rpl_set_path_selection:
+    - match: |
+        (?xi)
+        ^\s*(set)\s+(path-selection)\s+
+        (?:
+          (?:(backup)\s+([0-7]))|
+          (group-best)|
+          (all)|
+          (best-path)
+        )
+        (\s+install)?
+        (\s+multipath-protect)?
+        (\s+advertise)?
+      captures:
+        1: entity.other.attribute-name
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+        5: constant.numeric
+        6: constant.numeric
+        7: constant.numeric
+        8: support.constant
+        9: support.constant
+        10: support.constant
+
+
   rpl_set_route_target:
     - match: |
         (?xi)
@@ -2378,53 +2824,53 @@ contexts:
         9: string.unquoted
         10: support.constant
 
-  rpl_if:
-    - match: |
-        (?xi)
-        ^\s*
-        (?:
-          (?:(if)\s+({{rpl_globals}})\s+({{rpl_set_operators}})\s+
-          (?:
-            (\d+)|
-            (\S+)
-          )
-          \s+(then))
-        )
-      captures:
-        1: keyword.control.flow.conditional.rpl
-        2: constant.language.rpl
-        3: keyword.operator.logical.rpl
-        4: constant.numeric.rpl
-        5: string.other.rpl
-        6: keyword.control.flow.conditional.rpl
-      push:
-        - include: routing_policy_language
-        - match: |
-            (?xi)
-            ^\s*
-            (?:
-              (?:(elseif)\s+({{rpl_globals}})\s+({{rpl_set_operators}})\s+
-              (?:
-                (\d+)|
-                (\S+)
-              )
-              \s+(then))
-            )
-          captures:
-            1: keyword.control.flow.conditional.rpl
-            2: constant.language.rpl
-            3: keyword.operator.logical.rpl
-            4: constant.numeric.rpl
-            5: string.other.rpl
-            6: keyword.control.flow.conditional.rpl
+  # rpl_if:
+  #   - match: |
+  #       (?xi)
+  #       ^\s*
+  #       (?:
+  #         (?:(if)\s+({{rpl_globals}})\s+({{rpl_set_operators}})\s+
+  #         (?:
+  #           (\d+)|
+  #           (\S+)
+  #         )
+  #         \s+(then))
+  #       )
+  #     captures:
+  #       1: keyword.control.flow.conditional.rpl
+  #       2: constant.language.rpl
+  #       3: keyword.operator.logical.rpl
+  #       4: constant.numeric.rpl
+  #       5: string.other.rpl
+  #       6: keyword.control.flow.conditional.rpl
+  #     push:
+  #       - include: routing_policy_language
+  #       - match: |
+  #           (?xi)
+  #           ^\s*
+  #           (?:
+  #             (?:(elseif)\s+({{rpl_globals}})\s+({{rpl_set_operators}})\s+
+  #             (?:
+  #               (\d+)|
+  #               (\S+)
+  #             )
+  #             \s+(then))
+  #           )
+  #         captures:
+  #           1: keyword.control.flow.conditional.rpl
+  #           2: constant.language.rpl
+  #           3: keyword.operator.logical.rpl
+  #           4: constant.numeric.rpl
+  #           5: string.other.rpl
+  #           6: keyword.control.flow.conditional.rpl
 
-        - match: '^\s*(else)'
-          captures:
-            1: keyword.control.conditional
-        - match: '^\s*(endif)'
-          captures:
-            1: keyword.control.conditional
-          pop: true
+  #       - match: '^\s*(else)'
+  #         captures:
+  #           1: keyword.control.conditional
+  #       - match: '^\s*(endif)'
+  #         captures:
+  #           1: keyword.control.conditional
+  #         pop: true
 
 
   interface:
@@ -2478,7 +2924,7 @@ contexts:
         (?xi)
         ^\s*
         (?:
-          (?:(vrf)\s+(\S+))|
+          (?:(vrf)\s+({{vrf_name}}))|
           (?:(ipv4)\s+(address)\s+({{ip}})\s+({{subnet_mask}}))|
           (?:(ipv4)\s+(unnumbered)\s+({{interface_names}})\s*({{interface_numbers}}))
         )
@@ -2575,7 +3021,7 @@ contexts:
 
 
   vrf:
-    - match: '^\s*(vrf)\s+(\S+)'
+    - match: '^\s*(vrf)\s+({{vrf_name}})'
       captures:
         0: cisco.scope
         1: variable.parameter
