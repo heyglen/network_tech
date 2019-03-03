@@ -216,7 +216,7 @@ route-policy quickstart-med
   elseif med eq 63 then
     pass
   else
-    delete community in (123:123)
+    pass
   endif
   pass
   end-policy
@@ -226,7 +226,7 @@ end-policy
 !
 route-policy rpRTfilter-Cust3
   ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2276178122
-  if as-path in (4294967295, ios-regex '_12$',4294967295, ios-regex '_13$') then
+  if as-path in (4294967295, ios-regex '_12$',4294967295, ios-regex '_13$', dfa-regex '_13$') then
   elseif as-path in $PARAMETER then
   elseif as-path in SetName then
   endif
@@ -248,7 +248,61 @@ route-policy rpRTfilter-Cust3
   endif
 
   ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp8093486770
-  if as-path neighbor-is 
+  if as-path neighbor-is '$PARAMETER' then
+  elseif as-path neighbor-is '65535 4294967295 65535.65535 $PARAMETER' then
+  elseif as-path neighbor-is '65535 4294967295 65535.65535 $PARAMETER' exact then
+  endif 
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1346673425
+  if as-path originiates-from '65535 4294967295 65535.65535 $PARAMETER' then
+  elseif as-path originiates-from '65535 4294967295 65535.65535 $PARAMETER' exact then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp3850885229
+  if as-path passes-through '65535 4294967295 65535.65535 $PARAMETER' then
+  elseif as-path passes-through '65535 4294967295 65535.65535 $PARAMETER' exact then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1593893715
+  if as-path unique-length is 2047 then
+  elseif as-path unique-length eq 2047 then
+  elseif as-path unique-length ge 2047 then
+  elseif as-path unique-length le 2047 then
+  elseif as-path unique-length is $PARAMETER then
+  elseif as-path unique-length eq $PARAMETER then
+  elseif as-path unique-length ge $PARAMETER then
+  elseif as-path unique-length le $PARAMETER then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1449498811
+  if community is-empty then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1159396
+  if community matches-any (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535) then
+  elseif community matches-any private-as then
+  elseif community matches-any (65535:65535, $PARAMETER:$PARAMETER, 65535:$PARAMETER, $PARAMETER:65535) then
+  elseif community matches-any (65535:65535, *:65535, 65535:*) then
+  elseif community matches-any (private-as, 65535:65535) then
+  elseif community matches-any (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1166837
+  if community matches-every (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535) then
+  elseif community matches-every private-as then
+  elseif community matches-every (65535:65535, $PARAMETER:$PARAMETER, 65535:$PARAMETER, $PARAMETER:65535) then
+  elseif community matches-every (65535:65535, *:65535, 65535:*) then
+  elseif community matches-every (private-as, 65535:65535) then
+  elseif community matches-every (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER) then
+  elseif community matches-every (dfa-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1075980
+  if destination in $PARAMETER then
+  elseif destination in SetName then
+  elseif destination in (1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64) then
+  elseif destination in private-as then
+  endif
 
   if destination in prefixCust3-Exp then
 
@@ -494,14 +548,406 @@ route-policy rpRTfilter-Cust3
     add rip-metric 16
     add rip-metric $PARAMETER
 
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1164601
+    delete community all
+    delete community in SetName
+    delete community in (123:123)
+    delete community in (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535)
+    delete community in private-as
+    delete community in (65535:65535, $PARAMETER:$PARAMETER, 65535:$PARAMETER, $PARAMETER:65535)
+    delete community in (65535:65535, *:65535, 65535:*)
+    delete community in (private-as, 65535:65535)
+    delete community in (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER)
+    delete community not in SetName
+    delete community not in (123:123)
+    delete community not in (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535)
+    delete community not in private-as
+    delete community not in (65535:65535, $PARAMETER:$PARAMETER, 65535:$PARAMETER, $PARAMETER:65535)
+    delete community not in (65535:65535, *:65535, 65535:*)
+    delete community not in (private-as, 65535:65535)
+    delete community not in (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER)
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1076813
+    delete extcommunity rt all
+    delete extcommunity rt in SetName
+    delete extcommunity rt in $PARAMETER
+    delete extcommunity rt in (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER)
+    delete extcommunity rt in (4294967295:65535, 65535:4294967295, 1.2.3.4/24:65535)
+    delete extcommunity rt in (1.2.3.4:65535, 65535.35535:65535)
+    delete extcommunity rt in (*:*, 4294967295:*, *:65535)
+    delete extcommunity rt in (65535:*, *:4294967295)
+    delete extcommunity rt in (1.2.3.4/24:*, *:65535)
+    delete extcommunity rt in (*:65535, 1.2.3.4:*)
+    delete extcommunity rt in (*.35535:65535, *.35535:65535)
+    delete extcommunity rt in (65535.*:65535, 65535.*:65535)
+    delete extcommunity rt in (65535.35535:*, 65535.35535:*)
+    delete extcommunity rt in (*.*:65535, *.*:65535)
+    delete extcommunity rt in (*.65535:*, *.65535:*)
+    delete extcommunity rt in (*.*:*, *.*:*)
+
+    delete extcommunity rt in ($PARAMETER:$PARAMETER, 4294967295:$PARAMETER, $PARAMETER:65535)
+    delete extcommunity rt in (65535:$PARAMETER, $PARAMETER:4294967295)
+    delete extcommunity rt in (1.2.3.4/24:$PARAMETER, $PARAMETER:65535)
+    delete extcommunity rt in ($PARAMETER:65535, 1.2.3.4:$PARAMETER)
+    delete extcommunity rt in ($PARAMETER.35535:65535, $PARAMETER.35535:65535)
+    delete extcommunity rt in (65535.$PARAMETER:65535, 65535.$PARAMETER:65535)
+    delete extcommunity rt in (65535.35535:$PARAMETER, 65535.35535:$PARAMETER)
+    delete extcommunity rt in ($PARAMETER.$PARAMETER:65535, $PARAMETER.$PARAMETER:65535)
+    delete extcommunity rt in ($PARAMETER.65535:$PARAMETER, $PARAMETER.65535:$PARAMETER)
+    delete extcommunity rt in ($PARAMETER.$PARAMETER:$PARAMETER, $PARAMETER.$PARAMETER:$PARAMETER)
+    delete extcommunity rt in (*.$PARAMETER:$PARAMETER, *.$PARAMETER:$PARAMETER)
+    delete extcommunity rt in ($PARAMETER.*:$PARAMETER, $PARAMETER.*:$PARAMETER)
+    delete extcommunity rt in ($PARAMETER.$PARAMETER:*, $PARAMETER.$PARAMETER:*)
+    delete extcommunity rt in (*.$PARAMETER:*, *.$PARAMETER:*)
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2414344
+    done
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1067942
+    edit route-policy
+    edit prefix-set SetName
+    edit prefix-set SetName nano
+    edit prefix-set SetName emacs
+    edit prefix-set SetName vim
+    edit prefix-set SetName inline add 1.2.3.4/24 le 32
+    edit prefix-set SetName inline add 2001::1
+    edit prefix-set SetName inline add 2002:1:2:3::/64
+    edit prefix-set SetName inline add ""
+    edit prefix-set SetName inline add "1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64"
+    edit prefix-set SetName inline prepend 1.2.3.4/24 le 32
+    edit prefix-set SetName inline prepend 2001::1
+    edit prefix-set SetName inline prepend 2002:1:2:3::/64
+    edit prefix-set SetName inline prepend ""
+    edit prefix-set SetName inline prepend "1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64"
+    edit prefix-set SetName inline remove 1.2.3.4/24 le 32
+    edit prefix-set SetName inline remove 2001::1
+    edit prefix-set SetName inline remove 2002:1:2:3::/64
+    edit prefix-set SetName inline remove "1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64"
+
+    edit as-path-set SetName
+    edit as-path-set SetName nano
+    edit as-path-set SetName emacs
+    edit as-path-set SetName vim
+    edit as-path-set SetName inline add ios-regex ''
+    edit as-path-set SetName inline add dfa-regex ''
+    edit as-path-set SetName inline add ""
+    edit as-path-set SetName inline add "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+    edit as-path-set SetName inline prepend ios-regex ''
+    edit as-path-set SetName inline prepend dfa-regex ''
+    edit as-path-set SetName inline prepend ""
+    edit as-path-set SetName inline prepend "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+    edit as-path-set SetName inline remove ios-regex ''
+    edit as-path-set SetName inline remove dfa-regex ''
+    edit as-path-set SetName inline remove ""
+    edit as-path-set SetName inline remove "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+
+    edit community-set SetName
+    edit community-set SetName nano
+    edit community-set SetName emacs
+    edit community-set SetName vim
+    edit community-set SetName inline add ios-regex ''
+    edit community-set SetName inline add dfa-regex ''
+    edit community-set SetName inline add ""
+    edit community-set SetName inline add "65535:65535, 65535:*, *:65535, *:*"
+    edit community-set SetName inline add "65535:$PARAMETER, $PARAMETER:65535"
+    edit community-set SetName inline add "$PARAMETER:$PARAMETER,"
+    edit community-set SetName inline add "65535:65535, accept-own, internet, no-export"
+    edit community-set SetName inline add "no-export, no-advertise, private-as"
+    edit community-set SetName inline add "local-as, ios-regex '^1$'"
+    edit community-set SetName inline add "dfa-regex '^1$', accept-own"
+    edit community-set SetName inline prepend ios-regex ''
+    edit community-set SetName inline prepend dfa-regex ''
+    edit community-set SetName inline prepend ""
+    edit community-set SetName inline prepend "65535:65535, 65535:*, *:65535, *:*"
+    edit community-set SetName inline prepend "65535:$PARAMETER, $PARAMETER:65535"
+    edit community-set SetName inline prepend "$PARAMETER:$PARAMETER,"
+    edit community-set SetName inline prepend "65535:65535, accept-own, internet, no-export"
+    edit community-set SetName inline prepend "no-export, no-advertise, private-as"
+    edit community-set SetName inline prepend "local-as, ios-regex '^1$'"
+    edit community-set SetName inline prepend "dfa-regex '^1$', accept-own"
+    edit community-set SetName inline prepend "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+    edit community-set SetName inline remove ios-regex ''
+    edit community-set SetName inline remove dfa-regex ''
+    edit community-set SetName inline remove ""
+    edit community-set SetName inline remove "65535:65535, 65535:*, *:65535, *:*"
+    edit community-set SetName inline remove "65535:$PARAMETER, $PARAMETER:65535"
+    edit community-set SetName inline remove "$PARAMETER:$PARAMETER,"
+    edit community-set SetName inline remove "65535:65535, accept-own, internet, no-export"
+    edit community-set SetName inline remove "no-export, no-advertise, private-as"
+    edit community-set SetName inline remove "local-as, ios-regex '^1$'"
+    edit community-set SetName inline remove "dfa-regex '^1$', accept-own"
+    edit community-set SetName inline remove "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+    edit community-set SetName inline remove "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+
+    edit extcommunity-set rt SetName
+    edit extcommunity-set rt SetName nano
+    edit extcommunity-set rt SetName emacs
+    edit extcommunity-set rt SetName vim
+    edit extcommunity-set rt SetName inline add ios-regex '.*'
+    edit extcommunity-set rt SetName inline add dfa-regex '.*'
+    edit extcommunity-set rt SetName inline add 4294967295:65535
+    edit extcommunity-set rt SetName inline add *:65535
+    edit extcommunity-set rt SetName inline add 4294967295:*
+    edit extcommunity-set rt SetName inline add 65535:4294967295
+    edit extcommunity-set rt SetName inline add *:4294967295
+    edit extcommunity-set rt SetName inline add 65535:*
+    edit extcommunity-set rt SetName inline add 1.2.3.0/24:65535
+    edit extcommunity-set rt SetName inline add 1.2.3.0/24:*
+    edit extcommunity-set rt SetName inline add 1.2.3.0:65535
+    edit extcommunity-set rt SetName inline add 1.2.3.0:*
+    edit extcommunity-set rt SetName inline add 65535.65535:65535
+    edit extcommunity-set rt SetName inline add *.65535:65535
+    edit extcommunity-set rt SetName inline add 65535.*:65535
+    edit extcommunity-set rt SetName inline add 65535.*:*
+    edit extcommunity-set rt SetName inline add *.*:*
+    edit extcommunity-set rt SetName inline add 4294967295
+    edit extcommunity-set rt SetName inline add *
+    edit extcommunity-set rt SetName inline add ""
+    edit extcommunity-set rt SetName inline add "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set rt SetName inline add "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set rt SetName inline add "4294967295:*, 65535:*"
+    edit extcommunity-set rt SetName inline add "*:65535, *:4294967295"
+    edit extcommunity-set rt SetName inline add "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set rt SetName inline add "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set rt SetName inline add "65535.65535:65535, 4294967295"
+    edit extcommunity-set rt SetName inline add "*.*:*, *"
+    edit extcommunity-set rt SetName inline prepend ios-regex '.*'
+    edit extcommunity-set rt SetName inline prepend dfa-regex '.*'
+    edit extcommunity-set rt SetName inline prepend 4294967295:65535
+    edit extcommunity-set rt SetName inline prepend *:65535
+    edit extcommunity-set rt SetName inline prepend 4294967295:*
+    edit extcommunity-set rt SetName inline prepend 65535:4294967295
+    edit extcommunity-set rt SetName inline prepend *:4294967295
+    edit extcommunity-set rt SetName inline prepend 65535:*
+    edit extcommunity-set rt SetName inline prepend 1.2.3.0/24:65535
+    edit extcommunity-set rt SetName inline prepend 1.2.3.0/24:*
+    edit extcommunity-set rt SetName inline prepend 1.2.3.0:65535
+    edit extcommunity-set rt SetName inline prepend 1.2.3.0:*
+    edit extcommunity-set rt SetName inline prepend 65535.65535:65535
+    edit extcommunity-set rt SetName inline prepend *.65535:65535
+    edit extcommunity-set rt SetName inline prepend 65535.*:65535
+    edit extcommunity-set rt SetName inline prepend 65535.*:*
+    edit extcommunity-set rt SetName inline prepend *.*:*
+    edit extcommunity-set rt SetName inline prepend 4294967295
+    edit extcommunity-set rt SetName inline prepend *
+    edit extcommunity-set rt SetName inline prepend ""
+    edit extcommunity-set rt SetName inline prepend "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set rt SetName inline prepend "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set rt SetName inline prepend "4294967295:*, 65535:*"
+    edit extcommunity-set rt SetName inline prepend "*:65535, *:4294967295"
+    edit extcommunity-set rt SetName inline prepend "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set rt SetName inline prepend "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set rt SetName inline prepend "65535.65535:65535, 4294967295"
+    edit extcommunity-set rt SetName inline prepend "*.*:*, *"
+    edit extcommunity-set rt SetName inline remove ios-regex '.*'
+    edit extcommunity-set rt SetName inline remove dfa-regex '.*'
+    edit extcommunity-set rt SetName inline remove 4294967295:65535
+    edit extcommunity-set rt SetName inline remove *:65535
+    edit extcommunity-set rt SetName inline remove 4294967295:*
+    edit extcommunity-set rt SetName inline remove 65535:4294967295
+    edit extcommunity-set rt SetName inline remove *:4294967295
+    edit extcommunity-set rt SetName inline remove 65535:*
+    edit extcommunity-set rt SetName inline remove 1.2.3.0/24:65535
+    edit extcommunity-set rt SetName inline remove 1.2.3.0/24:*
+    edit extcommunity-set rt SetName inline remove 1.2.3.0:65535
+    edit extcommunity-set rt SetName inline remove 1.2.3.0:*
+    edit extcommunity-set rt SetName inline remove 65535.65535:65535
+    edit extcommunity-set rt SetName inline remove *.65535:65535
+    edit extcommunity-set rt SetName inline remove 65535.*:65535
+    edit extcommunity-set rt SetName inline remove 65535.*:*
+    edit extcommunity-set rt SetName inline remove *.*:*
+    edit extcommunity-set rt SetName inline remove 4294967295
+    edit extcommunity-set rt SetName inline remove *
+    edit extcommunity-set rt SetName inline remove ""
+    edit extcommunity-set rt SetName inline remove "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set rt SetName inline remove "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set rt SetName inline remove "4294967295:*, 65535:*"
+    edit extcommunity-set rt SetName inline remove "*:65535, *:4294967295"
+    edit extcommunity-set rt SetName inline remove "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set rt SetName inline remove "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set rt SetName inline remove "65535.65535:65535, 4294967295"
+    edit extcommunity-set rt SetName inline remove "*.*:*, *"
+
+    edit extcommunity-set soo SetName
+    edit extcommunity-set soo SetName nano
+    edit extcommunity-set soo SetName emacs
+    edit extcommunity-set soo SetName vim
+    edit extcommunity-set soo SetName inline add ios-regex '.*'
+    edit extcommunity-set soo SetName inline add dfa-regex '.*'
+    edit extcommunity-set soo SetName inline add 4294967295:65535
+    edit extcommunity-set soo SetName inline add *:65535
+    edit extcommunity-set soo SetName inline add 4294967295:*
+    edit extcommunity-set soo SetName inline add 65535:4294967295
+    edit extcommunity-set soo SetName inline add *:4294967295
+    edit extcommunity-set soo SetName inline add 65535:*
+    edit extcommunity-set soo SetName inline add 1.2.3.0/24:65535
+    edit extcommunity-set soo SetName inline add 1.2.3.0/24:*
+    edit extcommunity-set soo SetName inline add 1.2.3.0:65535
+    edit extcommunity-set soo SetName inline add 1.2.3.0:*
+    edit extcommunity-set soo SetName inline add 65535.65535:65535
+    edit extcommunity-set soo SetName inline add *.65535:65535
+    edit extcommunity-set soo SetName inline add 65535.*:65535
+    edit extcommunity-set soo SetName inline add 65535.*:*
+    edit extcommunity-set soo SetName inline add *.*:*
+    edit extcommunity-set soo SetName inline add 4294967295
+    edit extcommunity-set soo SetName inline add *
+    edit extcommunity-set soo SetName inline add ""
+    edit extcommunity-set soo SetName inline add "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set soo SetName inline add "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set soo SetName inline add "4294967295:*, 65535:*"
+    edit extcommunity-set soo SetName inline add "*:65535, *:4294967295"
+    edit extcommunity-set soo SetName inline add "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set soo SetName inline add "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set soo SetName inline add "65535.65535:65535, 4294967295"
+    edit extcommunity-set soo SetName inline add "*.*:*, *"
+    edit extcommunity-set soo SetName inline prepend ios-regex '.*'
+    edit extcommunity-set soo SetName inline prepend dfa-regex '.*'
+    edit extcommunity-set soo SetName inline prepend 4294967295:65535
+    edit extcommunity-set soo SetName inline prepend *:65535
+    edit extcommunity-set soo SetName inline prepend 4294967295:*
+    edit extcommunity-set soo SetName inline prepend 65535:4294967295
+    edit extcommunity-set soo SetName inline prepend *:4294967295
+    edit extcommunity-set soo SetName inline prepend 65535:*
+    edit extcommunity-set soo SetName inline prepend 1.2.3.0/24:65535
+    edit extcommunity-set soo SetName inline prepend 1.2.3.0/24:*
+    edit extcommunity-set soo SetName inline prepend 1.2.3.0:65535
+    edit extcommunity-set soo SetName inline prepend 1.2.3.0:*
+    edit extcommunity-set soo SetName inline prepend 65535.65535:65535
+    edit extcommunity-set soo SetName inline prepend *.65535:65535
+    edit extcommunity-set soo SetName inline prepend 65535.*:65535
+    edit extcommunity-set soo SetName inline prepend 65535.*:*
+    edit extcommunity-set soo SetName inline prepend *.*:*
+    edit extcommunity-set soo SetName inline prepend 4294967295
+    edit extcommunity-set soo SetName inline prepend *
+    edit extcommunity-set soo SetName inline prepend ""
+    edit extcommunity-set soo SetName inline prepend "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set soo SetName inline prepend "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set soo SetName inline prepend "4294967295:*, 65535:*"
+    edit extcommunity-set soo SetName inline prepend "*:65535, *:4294967295"
+    edit extcommunity-set soo SetName inline prepend "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set soo SetName inline prepend "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set soo SetName inline prepend "65535.65535:65535, 4294967295"
+    edit extcommunity-set soo SetName inline prepend "*.*:*, *"
+    edit extcommunity-set soo SetName inline remove ios-regex '.*'
+    edit extcommunity-set soo SetName inline remove dfa-regex '.*'
+    edit extcommunity-set soo SetName inline remove 4294967295:65535
+    edit extcommunity-set soo SetName inline remove *:65535
+    edit extcommunity-set soo SetName inline remove 4294967295:*
+    edit extcommunity-set soo SetName inline remove 65535:4294967295
+    edit extcommunity-set soo SetName inline remove *:4294967295
+    edit extcommunity-set soo SetName inline remove 65535:*
+    edit extcommunity-set soo SetName inline remove 1.2.3.0/24:65535
+    edit extcommunity-set soo SetName inline remove 1.2.3.0/24:*
+    edit extcommunity-set soo SetName inline remove 1.2.3.0:65535
+    edit extcommunity-set soo SetName inline remove 1.2.3.0:*
+    edit extcommunity-set soo SetName inline remove 65535.65535:65535
+    edit extcommunity-set soo SetName inline remove *.65535:65535
+    edit extcommunity-set soo SetName inline remove 65535.*:65535
+    edit extcommunity-set soo SetName inline remove 65535.*:*
+    edit extcommunity-set soo SetName inline remove *.*:*
+    edit extcommunity-set soo SetName inline remove 4294967295
+    edit extcommunity-set soo SetName inline remove *
+    edit extcommunity-set soo SetName inline remove ""
+    edit extcommunity-set soo SetName inline remove "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set soo SetName inline remove "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set soo SetName inline remove "4294967295:*, 65535:*"
+    edit extcommunity-set soo SetName inline remove "*:65535, *:4294967295"
+    edit extcommunity-set soo SetName inline remove "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set soo SetName inline remove "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set soo SetName inline remove "65535.65535:65535, 4294967295"
+    edit extcommunity-set soo SetName inline remove "*.*:*, *"
+
+    edit rd-set SetName nano
+    edit rd-set SetName emacs
+    edit rd-set SetName vim
+    edit rd-set SetName inline add 1.2.3.4/24:*
+    edit rd-set SetName inline add 1.2.3.4/24:4294967295
+    edit rd-set SetName inline add 1.2.3.4:*
+    edit rd-set SetName inline add 1.2.3.4:65535
+    edit rd-set SetName inline add 65535:*
+    edit rd-set SetName inline add 65535:4294967295
+    edit rd-set SetName inline add 65535.65535:*
+    edit rd-set SetName inline add 65535.65535:65535
+    edit rd-set SetName inline add ""
+    edit rd-set SetName inline add "1.2.3.4/24:*, 1.2.3.4/24:4294967295"
+    edit rd-set SetName inline add "1.2.3.4:*, 1.2.3.4:65535"
+    edit rd-set SetName inline add "65535:*, 65535:4294967295"
+    edit rd-set SetName inline add "65535.65535:*, 65535.65535:65535"
+    edit rd-set SetName inline prepend 1.2.3.4/24:*
+    edit rd-set SetName inline prepend 1.2.3.4/24:4294967295
+    edit rd-set SetName inline prepend 1.2.3.4:*
+    edit rd-set SetName inline prepend 1.2.3.4:65535
+    edit rd-set SetName inline prepend 65535:*
+    edit rd-set SetName inline prepend 65535:4294967295
+    edit rd-set SetName inline prepend 65535.65535:*
+    edit rd-set SetName inline prepend 65535.65535:65535
+    edit rd-set SetName inline prepend ""
+    edit rd-set SetName inline prepend "1.2.3.4/24:*, 1.2.3.4/24:4294967295"
+    edit rd-set SetName inline prepend "1.2.3.4:*, 1.2.3.4:65535"
+    edit rd-set SetName inline prepend "65535:*, 65535:4294967295"
+    edit rd-set SetName inline prepend "65535.65535:*, 65535.65535:65535"
+    edit rd-set SetName inline remove 1.2.3.4/24:*
+    edit rd-set SetName inline remove 1.2.3.4/24:4294967295
+    edit rd-set SetName inline remove 1.2.3.4:*
+    edit rd-set SetName inline remove 1.2.3.4:65535
+    edit rd-set SetName inline remove 65535:*
+    edit rd-set SetName inline remove 65535:4294967295
+    edit rd-set SetName inline remove 65535.65535:*
+    edit rd-set SetName inline remove 65535.65535:65535
+    edit rd-set SetName inline remove ""
+    edit rd-set SetName inline remove "1.2.3.4/24:*, 1.2.3.4/24:4294967295"
+    edit rd-set SetName inline remove "1.2.3.4:*, 1.2.3.4:65535"
+    edit rd-set SetName inline remove "65535:*, 65535:4294967295"
+    edit rd-set SetName inline remove "65535.65535:*, 65535.65535:65535"
+
+    edit policy-global SetName
+    edit policy-global SetName nano
+    edit policy-global SetName emacs
+    edit policy-global SetName vim
+    edit policy-global SetName inline add name 'value'
+    edit policy-global SetName inline add name '1234'
+    edit policy-global SetName inline add ""
+    edit policy-global SetName inline add "name 'value', name '1234'"
+    edit policy-global SetName inline prepend name 'value'
+    edit policy-global SetName inline prepend name '1234'
+    edit policy-global SetName inline prepend ""
+    edit policy-global SetName inline prepend "name 'value', name '1234'"
+    edit policy-global SetName inline remove name 'value'
+    edit policy-global SetName inline remove name '1234'
+    edit policy-global SetName inline remove ""
+    edit policy-global SetName inline remove "name 'value', name '1234'"
+
   endif
 end-policy
+
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2330579
+policy-global
+  name_1 'value_1'
+  name_2 'value_2'
+  name_2 '1234'
+end-global
+
 !
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1142562
 community-set quickstart-communities
-  987:654,
-  987:543,
-  987:321,
-  987:210
+  65535:65535,
+  65535:*,
+  *:65535,
+  *:*,
+  65535:$PARAMETER,
+  $PARAMETER:65535,
+  $PARAMETER:$PARAMETER,
+  65535:65535,
+  65535:65535,
+  accept-own,
+  internet,
+  no-export,
+  no-advertise,
+  private-as,
+  local-as,
+  ios-regex '^1$',
+  dfa-regex '^1$',
+  accept-own
 end-set
   
 route-policy quickstart-localpref
@@ -514,7 +960,7 @@ rd-set rdset1
  10.0.0.0/8:*,
  10.0.0.0/8:777,
  10.0.0.0:*,
- 10.0.0.0:777,
+ 10.0.0.0:,
  65000:*,
  65000:777
 end-set
