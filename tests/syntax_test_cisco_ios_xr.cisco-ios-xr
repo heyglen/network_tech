@@ -198,7 +198,21 @@ prefix-set prefixCust3-Exp
   10.64.3.0/24 ge 32
 end-set
 !
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_313D767B16F842A2AA3C2E2D9EA411D6
+ospf-area-set NAME
+  4294967295
+  1.2.3.4
+  show
+ end-set
+ 
+ospf-area-set NAME
+  abort
+
+ospf-area-set NAME
+  exit
+
 as-path-set ignore_path
+  show
   ! https://www.cisco.com/c/en/us/td/docs/ios/12_2/termserv/configuration/guide/ftersv_c/tcfaapre.html
   ios-regex '\^\.\(\)\_\?\*\+\|\$',
   ios-regex '^.()_?*+|$',
@@ -219,7 +233,9 @@ as-path-set ignore_path
 !
 route-policy rpMGMT
   if destination in pfMGMT then
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1077785
     pass
+
   else
     drop
   endif
@@ -433,8 +449,26 @@ route-policy rpRTfilter-Cust3
 
   ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_D596616936AD45AD95F06FB39CDCDFB0
   if ospf-area is 4294967295 then
+  elseif ospf-area is 1.2.3.4 then
   elseif ospf-area in (4294967295, 4294967295, 1.2.3.4)  then
   elseif ospf-area in SetName then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2294410
+  if path-type is ibgp then
+  elseif path-type is ebgp then
+  elseif path-type is $PARAMETER then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1673493
+  if protocol in (bgp, connected, eigrp, isis, ospfv3, ospf, rip, static) then
+  elseif protocol is bgp then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1875078
+  if rd in $PARAMETER then
+  elseif rd in SetName then
+  elseif rd in (10.0.0.0/32:*, 10.0.0.0/8:65535, 10.0.0.0:*, 65000:*, 65000:65535) then
   endif
 
 
@@ -1049,7 +1083,20 @@ route-policy rpRTfilter-Cust3
     var globalVar3 $PARAMETER
     var globalVar4 $PARAMETER
     var globalVar5 $PARAMETER
+    
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1077971
+    prepend as-path $PARAMETER
+    prepend as-path most-recent
+    prepend as-path 4294967295
+    prepend as-path 65535.65535
+    prepend as-path 65535
+    prepend as-path 65535 $PARAMETER
+    prepend as-path 65535 63
+
   endif
+
+
+
 end-policy
 
 ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2330579
@@ -1058,6 +1105,9 @@ policy-global
   name_2 'value_2'
   name_2 '1234'
 end-global
+
+policy-global
+  end-global
 
 !
 ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1142562
@@ -1080,6 +1130,7 @@ community-set quickstart-communities
   ios-regex '^1$',
   dfa-regex '^1$',
   accept-own
+  show
 end-set
   
 route-policy quickstart-localpref
@@ -1089,12 +1140,11 @@ route-policy quickstart-localpref
 end-policy
 
 rd-set rdset1
- 10.0.0.0/8:*,
- 10.0.0.0/8:777,
+ 10.0.0.0/32:*,
+ 10.0.0.0/8:65535,
  10.0.0.0:*,
- 10.0.0.0:,
  65000:*,
- 65000:777
+ 65000:65535
 end-set
 
 router static
