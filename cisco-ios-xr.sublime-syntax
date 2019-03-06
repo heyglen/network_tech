@@ -803,8 +803,23 @@ variables:
   ospf_area_id: |
     (?xi)
     (?:
-      (?:{{ip}})|
-      (?:{{number_32_bit}})
+      \b
+      (?:
+        (?:{{ip}})|
+        (?:{{number_32_bit}})
+      )
+      \b
+    )
+  rpl_end_of_condition_statement: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:then)|
+        (?:and)|
+        (?:or)
+      )
+      \b
     )
   drives: |
     (?xi)
@@ -1345,62 +1360,6 @@ contexts:
     - include: rd_set
     - include: as_path_set
 
-  rpl_extcommunity_rt:
-      - match: |
-          (?xi)
-          \s*
-          (?:
-            (
-              (?:{{number_32_bit}}:{{number_16_bit}})|
-              (?:{{number_16_bit}}:{{number_32_bit}})|
-              (?:{{ip_prefix}}:{{number_16_bit}})|
-              (?:{{ip}}:{{number_16_bit}})|
-              (?:{{number_16_bit}}\.{{number_16_bit}}:{{number_16_bit}})
-            )|
-            (?:(\*)(:{{number_32_bit}}))|
-            (?:({{number_32_bit}}:)(\*))|
-            (?:({{ip_prefix}}:)(\*))|
-            (?:({{ip}}:)(\*))|
-            (?:
-              (?:
-                ({{number_16_bit}})|
-                (\*)
-              )
-              (\.)
-              (?:
-                ({{number_16_bit}})|
-                (\*)
-              )
-              (:)
-              (?:
-                ({{number_16_bit}})|
-                (\*)
-              )
-            )|
-            (\*)|
-            ({{number_32_bit}})
-          )
-        captures:
-          1: constant.numeric
-          2: keyword.control
-          3: constant.numeric
-          4: constant.numeric
-          5: keyword.control
-          6: constant.numeric
-          7: keyword.control
-          8: constant.numeric
-          9: keyword.control
-          10: constant.numeric
-          11: keyword.control
-          12: constant.character
-          13: constant.numeric
-          14: keyword.control
-          15: constant.character
-          16: constant.numeric
-          17: keyword.control
-          18: keyword.control
-          19: constant.numeric
-
   extcommunity_rt_set:
     - match: |
         (?xi)
@@ -1411,21 +1370,25 @@ contexts:
       captures:
         0: cisco.scope
         1: variable.parameter             # extcommunity-set
-        2: support.constant               # extcommunity-set rt
+        2: constant.character               # extcommunity-set rt
         3: string.unquoted                # extcommunity-set rt NAME
       push:
       - meta_content_scope: text.network.cisco.set.extcommunity.rt
-      - match: |
-          (?xi)
-          ^\s*
-          (
-            (?:{{route_target}})|
-            (?:{{number_32_bit}})
-          )
-          (,)?
+      - include: rpl_route_target
+      - match: (?<=\S)\s*,\s*$
         captures:
-          1: constant.numeric
-          2: support.constant
+          0: comment
+      # - match: |
+      #     (?xi)
+      #     ^\s*
+      #     (
+      #       (?:{{route_target}})|
+      #       (?:{{number_32_bit}})
+      #     )
+      #     (,)?
+      #   captures:
+      #     1: constant.numeric
+      #     2: support.constant
       - include: pop_rpl_set
       - match: '{{ctx_pop_configure_terminal}}'
         pop: true
@@ -1440,7 +1403,7 @@ contexts:
       captures:
         0: cisco.scope
         1: variable.parameter             # extcommunity-set
-        2: support.constant               # extcommunity-set cost
+        2: constant.character               # extcommunity-set cost
         3: string.unquoted                # extcommunity-set cost NAME
       push:
       - meta_content_scope: text.network.cisco.extcommunity_cost_set
@@ -1480,7 +1443,7 @@ contexts:
       captures:
         0: cisco.scope
         1: variable.parameter             # extcommunity-set
-        2: support.constant               # extcommunity-set soo
+        2: constant.character               # extcommunity-set soo
         3: string.unquoted                # extcommunity-set soo NAME
       push:
       - meta_content_scope: text.network.cisco.extcommunity_soo_set
@@ -1510,6 +1473,7 @@ contexts:
             (?:
               \s+
               (
+                (?:eq)|
                 (?:ge)|
                 (?:gt)|
                 (?:lt)|
@@ -1530,6 +1494,23 @@ contexts:
         3: constant.numeric.network.ipv4.prefix_length
         4: constant.numeric.ip.ipv6.prefix
         5: constant.numeric.ip.ipv6.address
+
+  rpl_ospf_area_id:
+    - meta_content_scope: text.network.cisco.rpl.ospf.area
+    - match: |
+        (?xi)
+        \s*
+        (?:
+          \b
+          (?:
+            ({{ip}})|
+            ({{number_32_bit}})
+          )
+          \b
+        )
+      captures:
+        1: constant.numeric.ip.ipv4.address
+        2: constant.numeric
 
   prefix_set:
     - match: |
@@ -1996,6 +1977,7 @@ contexts:
     - include: rpl_set
     - include: rpl_delete
     - include: rpl_apply
+    - include: rpl_var_global
 
   rpl_else:
     - match: |
@@ -2126,7 +2108,20 @@ contexts:
     - include: rpl_condition_aspath_unique_length
     - include: rpl_condition_community_is_empty
     - include: rpl_condition_destination_in
+    - include: rpl_condition_extcommunity_rt_constants
+    - include: rpl_condition_extcommunity_rt_matches_any_every
     - include: rpl_condition_community_matches_any_every
+    - include: rpl_condition_global_var_is
+    - include: rpl_condition_route_aggregated
+    - include: rpl_condition_is_best_path
+    - include: rpl_condition_is_backup_path
+    - include: rpl_condition_is_multi_path
+    - include: rpl_condition_local_preference
+    - include: rpl_condition_med
+    - include: rpl_condition_next_hop_in
+    - include: rpl_condition_orf_prefix_in
+    - include: rpl_condition_origin_is
+    - include: rpl_condition_ospf_area
 
   rpl_condition_aspath_is_local:
     - match: |
@@ -2245,6 +2240,77 @@ contexts:
         1: constant.numeric
         2: support.constant
 
+  rpl_condition_extcommunity_rt_constants:
+    - match: |
+        (?xi)
+        \s*(extcommunity)\s+(rt)\s+
+        (
+          (?:is-empty)
+        )
+      captures:
+        1: constant.character
+        2: constant.character
+        3: keyword.operator
+
+  rpl_condition_extcommunity_rt_matches_any_every:
+    - match: |
+        (?xi)
+        \s*(extcommunity\s+rt)\s+
+        (matches-
+          (?:
+            (?:any)|
+            (?:every)
+          )
+        )\s+
+      captures:
+        1: constant.numeric
+        2: keyword.operator
+      push:
+        - match: |
+            (?xi)
+            (?=\s*{{rpl_end_of_condition_statement}})
+          pop: true
+        - match: '(\()(?=[^\)]*(\)))'
+          comment: Inline
+          captures:
+            1: comment
+            2: comment
+          push:
+            - meta_content_scope: text.network.cisco.rpl.condition.extcommunity.rt.statement.list
+            - match: |
+                (?xi)
+                (?=\s*[^,\)]*\s*[,\)])
+              comment: Statement ending in a comma or a close parenthesis
+              set:
+                - include: rpl_route_target
+                - match: '\s*,\s*'
+                  captures:
+                    0: comment
+                - match: '\s*\)\s*'
+                  captures:
+                    0: comment
+                  pop: true
+                - match: ''
+                  comment: End inline statement list
+                  pop: true
+        - match: |
+            (?xi)
+            (\$)({{rpl_parameter_name}})
+          comment: Single parameter
+          scope: text.network.cisco.rpl.condition.extcommunity.rt.set.name
+          captures:
+            1: keyword.declaration.rpl
+            2: entity.other.attribute-name.rpl
+          pop: true
+        - match: |
+            (?xi)
+            {{rpl_set_name}}
+          comment: Single statement
+          scope: text.network.cisco.rpl.condition.extcommunity.rt.set.name
+          captures:
+            0: string
+          pop: true
+
   rpl_condition_destination_in:
     - match: |
         (?xi)
@@ -2358,7 +2424,7 @@ contexts:
         )\s+
       captures:
         1: constant.numeric
-        2: support.constant
+        2: keyword.operator
       push:
         - include: rpl_condition_inline_community_matches_entries
 
@@ -2806,7 +2872,7 @@ contexts:
             (?=\s*[^,"]*\s*[,"])
           comment: Statement ending in a comma or double quote
           set:
-            - include: rpl_extcommunity_rt
+            - include: rpl_route_target
             - include: ios_regex
             - include: dfa_regex
             - match: '\s*,\s*'
@@ -2825,7 +2891,7 @@ contexts:
       comment: Single statement
       set:
         - meta_content_scope: text.network.cisco.rpl.edit.set.extcommunity.rt.statement.single
-        - include: rpl_extcommunity_rt
+        - include: rpl_route_target
         - include: ios_regex
         - include: dfa_regex
         - match: '\s*$'
@@ -2865,7 +2931,7 @@ contexts:
             (?=\s*[^,"]*\s*[,"])
           comment: Statement ending in a comma or double quote
           set:
-            - include: rpl_extcommunity_rt
+            - include: rpl_route_target
             - include: ios_regex
             - include: dfa_regex
             - match: '\s*,\s*'
@@ -2884,7 +2950,7 @@ contexts:
       comment: Single statement
       set:
         - meta_content_scope: text.network.cisco.rpl.edit.set.extcommunity.soo.statement.single
-        - include: rpl_extcommunity_rt
+        - include: rpl_route_target
         - include: ios_regex
         - include: dfa_regex
         - match: '\s*$'
@@ -3042,6 +3108,22 @@ contexts:
       captures:
         1: string.unquoted
       pop: true
+
+  rpl_var_global:
+    - match: |
+        (?x)
+        ^\s*(var)\s+(globalVar)([1-5])\s+
+        (?:
+          ({{number_32_bit}})|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+      captures:
+        1: keyword
+        2: entity.other.attribute-name.rpl
+        3: constant.numeric
+        4: constant.numeric
+        5: keyword.declaration.rpl
+        6: entity.other.attribute-name.rpl
 
   rpl_add:
     - include: rpl_add_eigrp_metric
@@ -3726,6 +3808,96 @@ contexts:
         9: support.constant
         10: support.constant
 
+  rpl_route_target:
+    - include: ios_regex
+    - include: dfa_regex
+    - match: |
+        (?xi)
+        \s*
+        (?:
+          (?:
+            (?:
+              ({{ip_prefix}})|
+              ({{ip}})|
+              ({{number_32_bit}})|
+              (\*)|
+              (?:(\$)({{rpl_parameter_name}}))
+            )
+            (:)
+            (?:
+              ({{number_16_bit}})|
+              (\*)|
+              (?:(\$)({{rpl_parameter_name}}))
+            )
+          )|
+          (?:
+            (?:
+              ({{number_16_bit}})|
+              (\*)|
+              (?:(\$)({{rpl_parameter_name}}))
+            )
+            (:)
+            (?:
+              ({{number_32_bit}})|
+              (\*)|
+              (?:(\$)({{rpl_parameter_name}}))
+            )
+          )|
+          (?:
+            (?:
+              ({{number_16_bit}})|
+              (\*)|
+              (?:(\$)({{rpl_parameter_name}}))
+            )
+            (\.)
+            (?:
+              ({{number_16_bit}})|
+              (\*)|
+              (?:(\$)({{rpl_parameter_name}}))
+            )
+            (:)
+            (?:
+              ({{number_16_bit}})|
+              (\*)|
+              (?:(\$)({{rpl_parameter_name}}))
+            )
+          )
+        )
+      captures:
+        1: constant.numeric
+        2: constant.numeric
+        3: constant.numeric
+        4: keyword
+        5: keyword.declaration.rpl
+        6: entity.other.attribute-name.rpl
+        7: constant.character
+        8: constant.numeric
+        9: keyword
+        10: keyword.declaration.rpl
+        11: entity.other.attribute-name.rpl
+        12: constant.numeric
+        13: keyword
+        14: keyword.declaration.rpl
+        15: entity.other.attribute-name.rpl
+        16: constant.character
+        17: constant.numeric
+        18: keyword
+        19: keyword.declaration.rpl
+        20: entity.other.attribute-name.rpl
+        21: constant.numeric
+        22: keyword
+        23: keyword.declaration.rpl
+        24: entity.other.attribute-name.rpl
+        25: constant.character
+        26: constant.numeric
+        27: keyword
+        28: keyword.declaration.rpl
+        29: entity.other.attribute-name.rpl
+        30: constant.character
+        31: constant.numeric
+        32: keyword
+        33: keyword.declaration.rpl
+        34: entity.other.attribute-name.rpl
 
   rpl_set_route_target:
     - match: |
@@ -3973,6 +4145,300 @@ contexts:
           pop: true
           captures:
             1: string.unquoted
+
+  rpl_condition_global_var_is:
+    - match: |
+        (?x)
+        (globalVar)([1-5])
+        \s+
+        (is)
+        \s+
+        (?:
+          ({{number_32_bit}})|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+      captures:
+        1: entity.other.attribute-name.rpl
+        2: constant.numeric
+        3: keyword
+        4: constant.numeric
+        5: keyword.declaration.rpl
+        6: entity.other.attribute-name.rpl
+
+  rpl_condition_route_aggregated:
+    - match: |
+        (?x)
+        (route-aggregated)
+      captures:
+        1: constant.numeric
+
+  rpl_condition_is_best_path:
+    - match: |
+        (?x)
+        (is-best-path)
+      captures:
+        1: constant.numeric
+
+  rpl_condition_is_backup_path:
+    - match: |
+        (?x)
+        (is-backup-path)
+      captures:
+        1: constant.numeric
+
+  rpl_condition_is_multi_path:
+    - match: |
+        (?x)
+        (is-multi-path)
+      captures:
+        1: constant.numeric
+
+  rpl_condition_local_preference:
+    - match: |
+        (?x)
+        (local-preference)\s+
+        (
+          (?:eq)|
+          (?:is)|
+          (?:ge)|
+          (?:le)
+        )
+        \s+
+        (?:
+          ({{number_32_bit}})|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+      captures:
+        1: constant.numeric
+        2: keyword.operator.logical
+        3: constant.numeric
+        4: keyword.declaration.rpl
+        5: entity.other.attribute-name.rpl
+
+  rpl_condition_med:
+    - match: |
+        (?x)
+        (med)\s+
+        (
+          (?:eq)|
+          (?:is)|
+          (?:ge)|
+          (?:le)
+        )
+        \s+
+        (?:
+          ({{number_32_bit}})|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+      captures:
+        1: constant.numeric
+        2: keyword.operator.logical
+        3: constant.numeric
+        4: keyword.declaration.rpl
+        5: entity.other.attribute-name.rpl
+
+  rpl_condition_origin_is:
+    - match: |
+        (?x)
+        (origin)\s+(is)\s+
+        (?:
+          (igp)|
+          (egp)|
+          (incomplete)|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+      captures:
+        1: constant.numeric
+        2: keyword.operator.logical
+        3: constant.numeric
+        4: constant.numeric
+        5: constant.numeric
+        6: keyword.declaration.rpl
+        7: entity.other.attribute-name.rpl
+
+  rpl_condition_ospf_area:
+    - match: |
+        (?xi)
+        \s*(ospf-area)\s+(is)\s+
+        (?=
+          \S+
+          \s+
+          {{rpl_end_of_condition_statement}}
+        )
+      captures:
+        1: constant.numeric
+        2: keyword.operator
+      push:
+        - include: rpl_ospf_area_id
+        - match: |
+            (?xi)
+            (?=\s*
+              (?:
+                (?:$)|
+                (?:{{rpl_end_of_condition_statement}})
+              )
+            )
+          comment: End inline statement list
+          pop: true
+    - match: |
+        (?xi)
+        \s*(ospf-area)\s+(in)\s+(?=\(.*\))
+      captures:
+        1: constant.numeric
+        2: keyword.operator
+      push:
+        - match: |
+            (?xi)
+            (?=\s*{{rpl_end_of_condition_statement}})
+          pop: true
+        - match: '(\()(?=[^\)]*(\)))'
+          comment: Inline
+          captures:
+            1: comment
+            2: comment
+          push:
+            - meta_content_scope: text.network.cisco.rpl.condition.ospf_area.in.statement.list
+            - match: |
+                (?xi)
+                (?=\s*[^,\)]*\s*[,\)])
+              comment: Statement ending in a comma or a close parenthesis
+              set:
+                - include: rpl_ospf_area_id
+                - match: '\s*,\s*'
+                  captures:
+                    0: comment
+                - match: '\s*\)\s*'
+                  captures:
+                    0: comment
+                  pop: true
+                - match: ''
+                  comment: End inline statement list
+                  pop: true
+    - match: |
+        (?xi)
+        \s*(ospf-area)\s+(in)\s+({{rpl_set_name}})
+      captures:
+        1: constant.numeric
+        2: keyword.operator
+        3: string.unquoted.
+
+  rpl_condition_next_hop_in:
+    - match: |
+        (?xi)
+        \s*(next-hop)\s+(in)\s+
+        (?=
+          (?:
+            (?:\(.*\))|
+            (?:\S+\s+{{rpl_end_of_condition_statement}})
+          )
+        )
+      captures:
+        1: constant.numeric
+        2: keyword.operator
+      push:
+        - match: |
+            (?xi)
+            (?=\s*{{rpl_end_of_condition_statement}})
+          pop: true
+        - match: '(\()(?=[^\)]*(\)))'
+          comment: Inline
+          captures:
+            1: comment
+            2: comment
+          push:
+            - meta_content_scope: text.network.cisco.rpl.condition.next_hop.in.statement.list
+            - match: |
+                (?xi)
+                (?=\s*[^,\)]*\s*[,\)])
+              comment: Statement ending in a comma or a close parenthesis
+              set:
+                - include: rpl_prefix
+                - match: '\s*,\s*'
+                  captures:
+                    0: comment
+                - match: '\s*\)\s*'
+                  captures:
+                    0: comment
+                  pop: true
+                - match: ''
+                  comment: End inline statement list
+                  pop: true
+        - match: |
+            (?xi)
+            (\$)({{rpl_parameter_name}})
+          comment: Single parameter
+          scope: text.network.cisco.rpl.condition.next_hop.in.set.name
+          captures:
+            1: keyword.declaration.rpl
+            2: entity.other.attribute-name.rpl
+          pop: true
+        - match: |
+            (?xi)
+            {{rpl_set_name}}
+          comment: Set Name
+          scope: text.network.cisco.rpl.condition.extcommunity.rt.set.name
+          captures:
+            0: string
+          pop: true
+
+  rpl_condition_orf_prefix_in:
+    - match: |
+        (?xi)
+        \s*(orf\s+prefix)\s+(in)\s+
+        (?=
+          (?:
+            (?:\(.*\))|
+            (?:\S+\s+{{rpl_end_of_condition_statement}})
+          )
+        )
+      captures:
+        1: constant.numeric
+        2: keyword.operator
+      push:
+        - match: |
+            (?xi)
+            (?=\s*{{rpl_end_of_condition_statement}})
+          pop: true
+        - match: '(\()(?=[^\)]*(\)))'
+          comment: Inline
+          captures:
+            1: comment
+            2: comment
+          push:
+            - meta_content_scope: text.network.cisco.rpl.condition.orf_prefix.in.statement.list
+            - match: |
+                (?xi)
+                (?=\s*[^,\)]*\s*[,\)])
+              comment: Statement ending in a comma or a close parenthesis
+              set:
+                - include: rpl_prefix
+                - match: '\s*,\s*'
+                  captures:
+                    0: comment
+                - match: '\s*\)\s*'
+                  captures:
+                    0: comment
+                  pop: true
+                - match: ''
+                  comment: End inline statement list
+                  pop: true
+        - match: |
+            (?xi)
+            (\$)({{rpl_parameter_name}})
+          comment: Single parameter
+          scope: text.network.cisco.rpl.condition.orf_prefix.in.set.name
+          captures:
+            1: keyword.declaration.rpl
+            2: entity.other.attribute-name.rpl
+          pop: true
+        - match: |
+            (?xi)
+            {{rpl_set_name}}
+          comment: Set Name
+          scope: text.network.cisco.rpl.condition.extcommunity.rt.set.name
+          captures:
+            0: string
+          pop: true
 
   rpl_inside_inline_extcommunity_rt_seperator:
     - match: |
