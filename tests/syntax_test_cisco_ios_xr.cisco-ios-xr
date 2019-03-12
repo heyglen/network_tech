@@ -141,6 +141,8 @@ interface GigabitEthernet0/0/0/5.100
  ipv4 address 100.65.127.121 255.255.255.0
  encapsulation dot1q 100
 !
+rpl editor nano
+
 extcommunity-set rt rtBGP
   ios-regex '.*',
   dfa-regex '.*',
@@ -231,6 +233,16 @@ as-path-set ignore_path
   dfa-regex '_33_'
   end-set
 !
+
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1066700
+route-policy rpMGMT ()
+end-policy
+route-policy rpMGMT ($PARAMETER)
+end-policy
+
+route-policy rpMGMT ($PARAMETER, $PARAMETER)
+end-policy
+
 route-policy rpMGMT
   if destination in pfMGMT then
     ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1077785
@@ -350,7 +362,7 @@ route-policy rpRTfilter-Cust3
 
   ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1098780
   if extcommunity rt matches-any () then
-  elseif extcommunity rt matches-any (4294967295:65535, 65535:4294967295) then
+  elseif extcommunity rt matches-any (4294967295:65535, ios-regex '', 65535:4294967295) then
   elseif extcommunity rt matches-any (1.2.3.4/24:65535, 1.2.3.4:65535) then
   elseif extcommunity rt matches-any (65535.65535:65535) then
   elseif extcommunity rt matches-any ($PARAMETER:4294967295, 4294967295:$PARAMETER) then
@@ -412,6 +424,17 @@ route-policy rpRTfilter-Cust3
   if is-multi-path then
   endif
 
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1058981
+  if route-type is $PARAMETER then
+  elseif route-type is local then
+  elseif route-type is interarea then
+  elseif route-type is internal then
+  elseif route-type is type-1 then
+  elseif route-type is type-2 then
+  elseif route-type is level-1 then
+  elseif route-type is level-2 then
+  endif
+
   ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2597907
   if local-preference eq 4294967295 then
   elseif local-preference eq $PARAMETER then
@@ -469,6 +492,18 @@ route-policy rpRTfilter-Cust3
   if rd in $PARAMETER then
   elseif rd in SetName then
   elseif rd in (10.0.0.0/32:*, 10.0.0.0/8:65535, 10.0.0.0:*, 65000:*, 65000:65535) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1655085
+  if rib-has-route in $PARAMETER then
+  elseif rib-has-route in SetName then
+  elseif rib-has-route in (1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1655082
+  if route-has-label then
+  elseif route-has-label then
+  elseif route-has-label then
   endif
 
 
@@ -551,19 +586,27 @@ route-policy rpRTfilter-Cust3
     set extcommunity cost (IGP:$PARAMETER:$PARAMETER, IGP:$PARAMETER:$PARAMETER)
     set extcommunity cost (IGP:255:4294967295,IGP:255:4294967295)
     set extcommunity cost (Pre-Bestpath:255:4294967295)
-
+    set extcommunity cost $PARAMETER additive
+    set extcommunity cost SetName additive
+    set extcommunity cost (IGP:255:4294967295) additive
+    set extcommunity cost (IGP:255:4294967295, IGP:255:4294967295) additive
+    set extcommunity cost (IGP:$PARAMETER:4294967295, IGP:255:4294967295) additive
+    set extcommunity cost (IGP:255:$PARAMETER, IGP:255:4294967295) additive
+    set extcommunity cost (IGP:255:4294967295, IGP:$PARAMETER:4294967295) additive
+    set extcommunity cost (IGP:255:4294967295, IGP:255:$PARAMETER) additive
+    set extcommunity cost (IGP:$PARAMETER:$PARAMETER, IGP:$PARAMETER:$PARAMETER) additive
+    set extcommunity cost (IGP:255:4294967295,IGP:255:4294967295) additive
+    set extcommunity cost (Pre-Bestpath:255:4294967295) additive
 
     set extcommunity rt (4294967295:65535, 65535:4294967295)  
     set extcommunity rt (1.2.3.0/24:65535, 1.2.3.0:65535)
     set extcommunity rt ($PARAMETER:65535, $PARAMETER:65535)
     set extcommunity rt (1.2.3.0/24:$PARAMETER, 1.2.3.0:$PARAMETER)
     set extcommunity rt (65535.65535:65535, 65535.65535:65535)
-
     set extcommunity rt ($PARAMETER:65535, 65535:4294967295)    
     set extcommunity rt (4294967295:$PARAMETER, 65535:4294967295)    
     set extcommunity rt (4294967295:65535, $PARAMETER:4294967295)    
     set extcommunity rt (4294967295:65535, 65535:$PARAMETER)
-
     set extcommunity rt ($PARAMETER:65535, $PARAMETER:4294967295)    
     set extcommunity rt (4294967295:$PARAMETER, 65535:$PARAMETER)    
     set extcommunity rt ($PARAMETER:65535, $PARAMETER:65535)
@@ -574,6 +617,25 @@ route-policy rpRTfilter-Cust3
     set extcommunity rt ($PARAMETER.$PARAMETER:65535, $PARAMETER.$PARAMETER:65535)
     set extcommunity rt (65535.$PARAMETER:$PARAMETER, 65535.$PARAMETER:$PARAMETER)
     set extcommunity rt ($PARAMETER.$PARAMETER:$PARAMETER, $PARAMETER.$PARAMETER:$PARAMETER)
+    set extcommunity rt (4294967295:65535, 65535:4294967295) additive
+    set extcommunity rt (1.2.3.0/24:65535, 1.2.3.0:65535) additive
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:65535) additive
+    set extcommunity rt (1.2.3.0/24:$PARAMETER, 1.2.3.0:$PARAMETER) additive
+    set extcommunity rt (65535.65535:65535, 65535.65535:65535) additive
+    set extcommunity rt ($PARAMETER:65535, 65535:4294967295) additive
+    set extcommunity rt (4294967295:$PARAMETER, 65535:4294967295) additive
+    set extcommunity rt (4294967295:65535, $PARAMETER:4294967295) additive
+    set extcommunity rt (4294967295:65535, 65535:$PARAMETER) additive
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:4294967295) additive
+    set extcommunity rt (4294967295:$PARAMETER, 65535:$PARAMETER) additive
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:65535) additive
+    set extcommunity rt (1.2.3.0/24:$PARAMETER, 1.2.3.0:$PARAMETER) additive
+    set extcommunity rt ($PARAMETER.65535:65535, $PARAMETER.65535:65535) additive
+    set extcommunity rt (65535.$PARAMETER:65535, 65535.$PARAMETER:65535) additive
+    set extcommunity rt (65535.65535:$PARAMETER, 65535.65535:$PARAMETER) additive
+    set extcommunity rt ($PARAMETER.$PARAMETER:65535, $PARAMETER.$PARAMETER:65535) additive
+    set extcommunity rt (65535.$PARAMETER:$PARAMETER, 65535.$PARAMETER:$PARAMETER) additive
+    set extcommunity rt ($PARAMETER.$PARAMETER:$PARAMETER, $PARAMETER.$PARAMETER:$PARAMETER) additive
 
     set extcommunity rt SetName
     set extcommunity rt SetName additive
@@ -652,6 +714,9 @@ route-policy rpRTfilter-Cust3
     set path-selection best-path install
     set path-selection best-path install multipath-protect
     set path-selection best-path install multipath-protect advertise
+    set path-selection best-path multipath-protect
+    set path-selection best-path multipath-protect advertise
+    set path-selection best-path advertise
 
     ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2799121650
     set qos-group $PARAMETER
@@ -1093,10 +1158,15 @@ route-policy rpRTfilter-Cust3
     prepend as-path 65535 $PARAMETER
     prepend as-path 65535 63
 
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2292625
+    replace as-path $PARAMETER
+    replace as-path private-as
+    replace as-path '65535, 4294967295, 65535.65535'
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_DE0F59F9C98C40EF88DB58705346FC25
+    remove as-path private-as
+    remove as-path private-as entire-aspath
   endif
-
-
-
 end-policy
 
 ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2330579
