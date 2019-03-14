@@ -259,6 +259,28 @@ variables:
       )
       \b
     )
+  # 1 - 4294967295
+  number_32_bit_wo_zero: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:4294967295)|
+        (?:[0-3]\d{9})|
+        (?:4[0-1]\d{8})|
+        (?:42[0-8]\d{7})|
+        (?:429[0-3]\d{6})|
+        (?:4294[0-8]\d{5})|
+        (?:42949[0-5]\d{4})|
+        (?:429496[0-6]\d{3})|
+        (?:4294967[0-1]\d{2})|
+        (?:42949672[0-8]\d{1})|
+        (?:429496729[0-5])|
+        (?:\d{2,9})|
+        (?:[1-9])
+      )
+      \b
+    )
   # 0 - 18,446,744,073,709,551,615
   number_64_bit: |
     (?xi)
@@ -841,13 +863,10 @@ variables:
   rpl_end_of_condition_statement: |
     (?xi)
     (?:
-      \b
-      (?:
-        (?:then)|
-        (?:and)|
-        (?:or)
-      )
-      \b
+      (?:\s+then)|
+      (?:\s+and)|
+      (?:\s+or)|
+      (?:\s*\))
     )
   drives: |
     (?xi)
@@ -872,7 +891,6 @@ variables:
         (?:{{rpl_parameter}})|
         (?:{{rpl_set_name}})
       )
-      \s+
       {{rpl_end_of_condition_statement}}
     )
 
@@ -932,7 +950,6 @@ variables:
         (?:{{rpl_parameter}})|
         (?:{{rpl_set_name}})
       )
-      \s+
       {{rpl_end_of_condition_statement}}
     )
 
@@ -1023,6 +1040,7 @@ contexts:
     - include: rpl_set_definition
     - include: route_policy
     - include: rpl_editor
+    - include: rpl_maximum
     - include: rpl_maximum
 
   device_comment:
@@ -1464,6 +1482,7 @@ contexts:
     - include: extcommunity_soo_set
     - include: extcommunity_cost_set
     - include: prefix_set
+    - include: tag_set
     - include: ospf_area_set
     - include: rd_set
     - include: as_path_set
@@ -1674,6 +1693,24 @@ contexts:
       push:
       - meta_content_scope: text.network.cisco.prefix_set
       - include: rpl_prefix
+      - include: set_prototype
+      - match: '{{ctx_pop_configure_terminal}}'
+        pop: true
+
+  tag_set:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (tag-set)\s+({{rpl_set_name}})
+        )
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.set.tag
+      - include: rpl_tag
       - include: set_prototype
       - match: '{{ctx_pop_configure_terminal}}'
         pop: true
@@ -2166,7 +2203,14 @@ contexts:
         2: support.constant
         3: constant.language
 
-  # TODO: Finish!
+  rpl_set_exit_as_abort:
+    - match: |
+        (?xi)
+        ^\s*
+        (rpl)\s+(set-exit-as-abort)
+      captures:
+        0: support.constant
+
   rpl_maximum:
     - match: |
         (?xi)
@@ -2175,17 +2219,33 @@ contexts:
         (?:
           (?:
             (lines)\s+
-            (?:
+            \b
+            (
               (?:13107[0-2])|
-              (?:1310[0-6]\d)
+              (?:1310[0-6]\d)|
+              (?:130\d{3})|
+              (?:1[1-2]\d{4})|
+              (?:\d{1,5})
             )
+            \b
           )|
-          (?:(policies)\s+())|
+          (?:(policies)\s+
+            \b
+            (
+              (?:5000)|
+              (?:[0-4]\d{3})|
+              (?:\d{1,3})
+            )
+            \b
+          )
         )
       captures:
         1: support.constant
         2: support.constant
-        3: constant.language
+        3: support.constant
+        4: constant.numeric
+        5: support.constant
+        6: constant.numeric
 
   route_policy:
     - match: |
@@ -2214,26 +2274,29 @@ contexts:
         7: keyword.declaration.rpl
         8: entity.other.attribute-name.rpl
         9: comment
-      push:
-      - meta_content_scope: text.network.cisco.route_policy
-      - include: routing_policy_language
+      push: routing_policy_language
 
   routing_policy_language:
+    - meta_content_scope: text.network.cisco.route_policy
     - include: rpl_statement
-    - include: rpl_condition
+    - include: rpl_if
     - match: |
         (?xi)
         ^\s*
-        (?:
-          (end-policy)|
-          (abort)|
-          (exit)
-        )|
+        (
+          (?:end-policy)|
+          (?:abort)|
+          (?:exit)
+        )
+      captures:
+        1: comment.line
+      pop: true
+    - match: |
+        (?xi)
+        ^\s*
         (?=
           {{ctx_pop_configure_terminal}}
         )
-      captures:
-        0: comment.line
       pop: true
 
 
@@ -2260,88 +2323,191 @@ contexts:
     - include: rpl_prepend_as_path
     - include: rpl_replace_as_path
     - include: rpl_remove_as_path_private_as
+    - include: rpl_suppress_route
 
-  rpl_else:
+  rpl_if:
     - match: |
         (?xi)
-        \s*(else)
+        ^\s*\b(if)\s+
+        (?=
+          .*
+          \s+
+          then
+          \s*
+          $
+        )
       captures:
-        1: keyword.control
+        1: keyword.control.if
       push:
-        - include: rpl_statement
-        - match: |
-            (?xi)
-            \s*(?=endif)
-          pop: true
+        - meta_content_scope: text.network.cisco.route_policy.block.if
+        - include: rpl_condition_grouping
+        - include: rpl_condition_statement_list
 
   rpl_elseif:
     - match: |
         (?xi)
-        \s*(elseif)\s+
+        ^\s*\b(elseif)\s+
+        (?=
+          .*
+          \s+
+          then
+          \s*
+          $
+        )
       captures:
-        1: keyword.control
-      push:
-        - meta_content_scope: text.network.cisco.route_policy.condition.statement.elseif
-        - include: rpl_conditions
-        - match: |
-            (?xi)
-            (?<=\s)(then)\s*$
-          captures:
-            1: support.constant
-          push:
-            - include: rpl_statement
-            - match: |
-                (?xi)
-                \s*(?=endif)
-              pop: true
-            - match: |
-                (?xi)
-                \s*(?=elseif)
-              pop: true
-            - match: |
-                (?xi)
-                \s*(?=else)
-              pop: true
-        - match: |
-            (?xi)
-            \s*(?=endif)
-          pop: true
-        - match: |
-            (?xi)
-            \s*(?=elseif)
-          pop: true
-        - match: |
-            (?xi)
-            \s*(?=else)
-          pop: true
+        1: keyword.control.elseif
+      set:
+        - meta_content_scope: text.network.cisco.route_policy.block.elseif
+        - include: rpl_condition_grouping
+        - include: rpl_condition_statement_list
 
-  rpl_condition:
+  rpl_else:
     - match: |
         (?xi)
-        \s*(if)\s+
+        ^\s*(else)\b\s*$
+      captures:
+        1: keyword.control.else
+      set:
+        - meta_content_scope: text.network.cisco.route_policy.block.else
+        - include: rpl_statement
+        - match: |
+            (?xi)
+            ^\s*(endif)\s*$
+          captures:
+            1: keyword.operator.endif
+          pop: true
+
+  rpl_condition_grouping:
+    - match: \(
+      scope: punctuation.section.group.begin.rpl
+      captures:
+        0: comment
+      push:
+        - meta_scope: meta.group.rpl
+        - match: \)
+          captures:
+            0: comment
+          pop: true
+        - include: rpl_condition_statement_list
+
+  rpl_condition_statement_list:
+    - meta_content_scope: text.network.cisco.route_policy.condition.list
+    - match: |
+        (?xi)
+        \s*\b(not)\b\s+
       captures:
         1: keyword.control
-      push:
-        - meta_content_scope: text.network.cisco.route_policy.condition.statement.if
-        - include: rpl_conditions
+    - match: ''
+      set: rpl_condition_statement
+
+  rpl_condition_statement:
+    - meta_content_scope: text.network.cisco.route_policy.condition.statement
+    - include: rpl_condition_aspath_in
+    - include: rpl_condition_protocol
+    - include: rpl_condition_rd_in
+    - include: rpl_condition_aspath_is_local
+    - include: rpl_condition_aspath_length
+    - include: rpl_condition_aspath_neighbor_is
+    - include: rpl_condition_aspath_originates_from
+    - include: rpl_condition_aspath_passes_through
+    - include: rpl_condition_aspath_unique_length
+    - include: rpl_condition_community_is_empty
+    - include: rpl_condition_destination_in
+    - include: rpl_condition_extcommunity_rt_constants
+    - include: rpl_condition_route_type_is
+    - include: rpl_condition_extcommunity_rt_matches_any_every
+    - include: rpl_condition_community_matches_any_every
+    - include: rpl_condition_global_var_is
+    - include: rpl_condition_route_aggregated
+    - include: rpl_condition_is_best_path
+    - include: rpl_condition_is_backup_path
+    - include: rpl_condition_is_multi_path
+    - include: rpl_condition_local_preference
+    - include: rpl_condition_med
+    - include: rpl_condition_next_hop_in
+    - include: rpl_condition_rib_has_route
+    - include: rpl_condition_source_in
+    - include: rpl_condition_route_has_label
+    - include: rpl_condition_orf_prefix_in
+    - include: rpl_condition_origin_is
+    - include: rpl_condition_ospf_area
+    - include: rpl_condition_path_type_is
+    - include: rpl_condition_tag
+    - include: rpl_condition_tag_in
+    - include: rpl_condition_vpn_distinguisher_is
+    - match: ''
+      set: rpl_condition_statement_list_and_or
+
+  invalid:
+    - match: ''
+
+  # TODO: Not Working!
+  # Idea is that each condition sets to this context
+  rpl_condition_statement_list_and_or:
+    - match: |
+        (?xi)
+        (?:
+          \s*
+          (?:
+            (?:and)|
+            (?:or)|
+            (?:then)
+          )
+          \s*
+          (\))
+        )
+      comment: Junk case - logical operator before close parentesis
+      captures:
+      set: invalid
+    - match: |
+        (?xi)
+        (?:
+          \s*
+          (\))
+          (?=
+            \s+
+            (?:
+              (?:and)|
+              (?:or)|
+              (?:then)
+            )
+          )
+        )
+      captures:
+        1: comment
+      pop: true
+    - match: |
+        (?xi)
+        (?:
+          (?<=\s)
+          \b
+          (
+            (?:and)|
+            (?:or)
+          )
+          \b
+          \s+
+          (?!\bthen\b)
+        )
+      scope: route.policy.operator.logical
+      captures:
+        1: keyword.control
+      set: rpl_condition_statement_list
+    - match: |
+        (?xi)
+        (?<=\s)(then)\s*$
+      captures:
+        1: keyword.control
+      set:
+        - meta_content_scope: text.network.cisco.rpl.block.if
+        - include: rpl_statement
+        - include: rpl_elseif
+        - include: rpl_else
         - match: |
             (?xi)
-            (?<=\s)(then)\s*$
+            ^\s*(endif)\s*$
           captures:
-            1: support.constant
-          push:
-            - include: rpl_statement
-            - include: rpl_elseif
-            - include: rpl_else
-            - match: |
-                (?xi)
-                \s*(?=endif)
-              pop: true
-        - match: |
-            (?xi)
-            \s*(endif)
-          captures:
-            1: comment
+            1: keyword.control
           pop: true
 
   rpl_set:
@@ -2380,41 +2546,10 @@ contexts:
     - include: rpl_delete_bgp_extended_community
 
 
-  rpl_conditions:
-    - include: rpl_condition_aspath_in
-    - include: rpl_condition_protocol
-    - include: rpl_condition_rd_in
-    - include: rpl_condition_aspath_is_local
-    - include: rpl_condition_aspath_length
-    - include: rpl_condition_aspath_neighbor_is
-    - include: rpl_condition_aspath_originates_from
-    - include: rpl_condition_aspath_passes_through
-    - include: rpl_condition_aspath_unique_length
-    - include: rpl_condition_community_is_empty
-    - include: rpl_condition_destination_in
-    - include: rpl_condition_extcommunity_rt_constants
-    - include: rpl_condition_route_type_is
-    - include: rpl_condition_extcommunity_rt_matches_any_every
-    - include: rpl_condition_community_matches_any_every
-    - include: rpl_condition_global_var_is
-    - include: rpl_condition_route_aggregated
-    - include: rpl_condition_is_best_path
-    - include: rpl_condition_is_backup_path
-    - include: rpl_condition_is_multi_path
-    - include: rpl_condition_local_preference
-    - include: rpl_condition_med
-    - include: rpl_condition_next_hop_in
-    - include: rpl_condition_rib_has_route
-    - include: rpl_condition_route_has_label
-    - include: rpl_condition_orf_prefix_in
-    - include: rpl_condition_origin_is
-    - include: rpl_condition_ospf_area
-    - include: rpl_condition_path_type_is
-
   rpl_condition_aspath_is_local:
     - match: |
         (?xi)
-        \s*(as-path)\s+(is-local)\s+
+        \s*(as-path)\s+(is-local)(?={{rpl_end_of_condition_statement}})
       captures:
         1: constant.numeric
         2: constant.numeric
@@ -2552,9 +2687,10 @@ contexts:
           (?:is)|
           (?:ge)|
           (?:le)
-        )\s+
+        )
+        \s+
         (?=
-          \S+\s+{{rpl_end_of_condition_statement}}
+          \S+{{rpl_end_of_condition_statement}}
         )
       captures:
         1: constant.numeric
@@ -2572,6 +2708,9 @@ contexts:
     - match: |
         (?xi)
         \s*(community)\s+(is-empty)
+        (?=
+          {{rpl_end_of_condition_statement}}
+        )
       captures:
         1: constant.numeric
         2: support.constant
@@ -2588,10 +2727,53 @@ contexts:
         2: constant.character
         3: keyword.operator
 
+  rpl_condition_tag:
+    - match: |
+        (?xi)
+        \s*(tag)\s+
+        (
+          (?:eq)|
+          (?:ge)|
+          (?:le)|
+          (?:is)
+        )
+        \s+
+        (?:
+          ({{number_32_bit}})|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+        (?=
+          {{rpl_end_of_condition_statement}}
+        )
+      captures:
+        1: constant.language
+        2: keyword.operator.logical
+        3: constant.numeric
+        4: keyword.declaration.rpl
+        5: entity.other.attribute-name.rpl
+
+  rpl_condition_vpn_distinguisher_is:
+    - match: |
+        (?xi)
+        \s*(vpn-distinguisher)\s+(is)\s+
+        (?:
+          ({{number_32_bit_wo_zero}})|
+          (?:(\$)({{rpl_parameter_name}}))
+        )
+        (?=
+          {{rpl_end_of_condition_statement}}
+        )
+      captures:
+        1: constant.language
+        2: keyword.operator.logical
+        3: constant.numeric
+        4: keyword.declaration.rpl
+        5: entity.other.attribute-name.rpl
+
   rpl_condition_route_type_is:
     - match: |
         (?xi)
-        \s*(route-type)\s+(is)\s+(?=\S+\s+{{rpl_end_of_condition_statement}})
+        \s*(route-type)\s+(is)\s+(?=\S+{{rpl_end_of_condition_statement}})
       captures:
         1: constant.character
         2: keyword.operator.logical
@@ -2624,17 +2806,18 @@ contexts:
         )\s+
         (?=
           (?:
-            \(
             (?:
-              (?:\s*{{rpl_inline_statement}}\s*,)*
-              (?:\s*{{rpl_inline_statement}}\s*)
-            )?
-            \s*
-            \)
-          )|
-          (?:{{rpl_parameter}})|
-          (?:{{rpl_set_name}})
-          \s+
+              \(
+              (?:
+                (?:\s*{{rpl_inline_statement}}\s*,)*
+                (?:\s*{{rpl_inline_statement}}\s*)
+              )?
+              \s*
+              \)
+            )|
+            (?:{{rpl_parameter}})|
+            (?:{{rpl_set_name}})
+          )
           {{rpl_end_of_condition_statement}}
         )
       captures:
@@ -2643,7 +2826,7 @@ contexts:
       push:
         - match: |
             (?xi)
-            (?=\s*{{rpl_end_of_condition_statement}})
+            (?={{rpl_end_of_condition_statement}})
           pop: true
         - match: '(\()(?=[^\)]*(\)))'
           comment: Inline
@@ -2668,6 +2851,7 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_parameter
         - include: rpl_set_name
         - match: ''
@@ -2679,17 +2863,18 @@ contexts:
         \s*(destination)\s+(in)\s+
         (?=
           (?:
-            \(
             (?:
-              (?:\s*{{rpl_inline_statement}}\s*,)*
-              (?:\s*{{rpl_inline_statement}}\s*)
-            )?
-            \s*
-            \)
-          )|
-          (?:{{rpl_parameter}})|
-          (?:{{rpl_set_name}})
-          \s+
+              \(
+              (?:
+                (?:\s*{{rpl_inline_statement}}\s*,)*
+                (?:\s*{{rpl_inline_statement}}\s*)
+              )?
+              \s*
+              \)
+            )|
+            (?:{{rpl_parameter}})|
+            (?:{{rpl_set_name}})
+          )
           {{rpl_end_of_condition_statement}}
         )
       captures:
@@ -2698,7 +2883,7 @@ contexts:
       push:
         - match: |
             (?xi)
-            (?=\s*{{rpl_end_of_condition_statement}})
+            (?={{rpl_end_of_condition_statement}})
           pop: true
         - match: '(\()(?=[^\)]*(\)))'
           comment: Inline
@@ -2721,6 +2906,7 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_parameter
         - include: rpl_set_name
         - match: ''
@@ -2742,7 +2928,7 @@ contexts:
       push:
         - match: |
             (?xi)
-            (?=\s*{{rpl_end_of_condition_statement}})
+            (?={{rpl_end_of_condition_statement}})
           pop: true
         - match: '(\()(?=[^\)]*(\)))'
           comment: Inline
@@ -2767,6 +2953,45 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
+        - include: rpl_parameter
+        - include: rpl_set_name
+        - match: ''
+          pop: true
+
+  rpl_condition_tag_in:
+    - match: |
+        (?xi)
+        \s*(tag)\s+(in)\s+{{rpl_inline_condition_parentheses_comma_separated_lookahead}}
+      captures:
+        1: constant.numeric
+        2: keyword.operator
+      push:
+        - match: |
+            (?xi)
+            (?={{rpl_end_of_condition_statement}})
+          pop: true
+        - match: '(\()(?=[^\)]*(\)))'
+          comment: Inline
+          captures:
+            1: comment
+            2: comment
+          push:
+            - match: |
+                (?xi)
+                (?=\s*[^,\)]*\s*[,\)])
+              comment: Statement ending in a comma or a close parenthesis
+              set:
+                - include: rpl_tag
+                - include: rpl_comma_seperator
+                - match: '\s*\)\s*'
+                  captures:
+                    0: comment
+                  pop: true
+                - match: ''
+                  comment: End inline statement list
+                  pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_parameter
         - include: rpl_set_name
         - match: ''
@@ -2778,11 +3003,11 @@ contexts:
         \s*(as-path)\s+(in)\s+{{rpl_inline_condition_parentheses_comma_separated_lookahead}}
       captures:
         1: constant.numeric
-        2: support.constant
+        2: keyword.operator.logical
       push:
         - match: |
             (?xi)
-            (?=\s*{{rpl_end_of_condition_statement}})
+            (?={{rpl_end_of_condition_statement}})
           pop: true
         - match: '(\()(?=[^\)]*(\)))'
           comment: Inline
@@ -2807,10 +3032,17 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_parameter
         - include: rpl_set_name
         - match: ''
           pop: true
+
+  rpl_then_lookahead_pop:
+    - match: |
+        (?xi)
+        (?=\s*then)
+      pop: true
 
   rpl_condition_protocol:
     - match: |
@@ -2832,7 +3064,7 @@ contexts:
       push:
         - match: |
             (?xi)
-            (?=\s*{{rpl_end_of_condition_statement}})
+            (?={{rpl_end_of_condition_statement}})
           pop: true
         - match: '(\()(?=[^\)]*(\)))'
           comment: Inline
@@ -2868,7 +3100,7 @@ contexts:
       push:
         - match: |
             (?xi)
-            (?=\s*{{rpl_end_of_condition_statement}})
+            (?={{rpl_end_of_condition_statement}})
           pop: true
         - match: '(\()(?=[^\)]*(\)))'
           comment: Inline
@@ -2891,6 +3123,7 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_parameter
         - include: rpl_set_name
         - match: ''
@@ -3598,6 +3831,7 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_community_wo_wildcard_or_range
         - include: rpl_parameter
         - include: rpl_set_name
@@ -3644,6 +3878,7 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_bgp_extended_community_cost
         - include: rpl_parameter
         - include: rpl_set_name
@@ -4142,6 +4377,13 @@ contexts:
         3: support.constant
         4: support.constant
 
+  rpl_suppress_route:
+    - match: |
+        (?xi)
+        ^\s*((?:un)?suppress-route)
+      captures:
+        1: keyword.operator.word
+
   rpl_bgp_extended_community_cost:
     - match: |
         (?xi)
@@ -4265,6 +4507,13 @@ contexts:
         33: keyword.declaration.rpl
         34: entity.other.attribute-name.rpl
 
+  rpl_tag:
+    - match: |
+        (?xi)
+        ({{number_32_bit}})
+      captures:
+        1: constant.numeric
+
   rpl_set_route_target:
     - match: |
         (?xi)
@@ -4301,6 +4550,7 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_route_target
         - include: rpl_parameter
         - include: rpl_set_name
@@ -4358,6 +4608,7 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_set_name
         - match: ''
           pop: true
@@ -4403,6 +4654,7 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_parameter
         - include: rpl_set_name
         - match: ''
@@ -4538,7 +4790,7 @@ contexts:
   rpl_condition_ospf_area:
     - match: |
         (?xi)
-        \s*(ospf-area)\s+(is)\s+(?=\S+\s+{{rpl_end_of_condition_statement}})
+        \s*(ospf-area)\s+(is)\s+(?=\S+{{rpl_end_of_condition_statement}})
       captures:
         1: constant.character
         2: keyword.operator
@@ -4555,7 +4807,7 @@ contexts:
       push:
         - match: |
             (?xi)
-            (?=\s*{{rpl_end_of_condition_statement}})
+            (?={{rpl_end_of_condition_statement}})
           pop: true
         - match: '(\()(?=[^\)]*(\)))'
           comment: Inline
@@ -4577,6 +4829,7 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_ospf_area_id
         - include: rpl_set_name
         - match: ''
@@ -4592,7 +4845,7 @@ contexts:
       push:
         - match: |
             (?xi)
-            (?=\s*{{rpl_end_of_condition_statement}})
+            (?={{rpl_end_of_condition_statement}})
           pop: true
         - match: '(\()(?=[^\)]*(\)))'
           comment: Inline
@@ -4614,6 +4867,7 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_parameter
         - include: rpl_set_name
         - match: ''
@@ -4629,7 +4883,7 @@ contexts:
       push:
         - match: |
             (?xi)
-            (?=\s*{{rpl_end_of_condition_statement}})
+            (?={{rpl_end_of_condition_statement}})
           pop: true
         - match: '(\()(?=[^\)]*(\)))'
           comment: Inline
@@ -4651,6 +4905,45 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
+        - include: rpl_parameter
+        - include: rpl_set_name
+        - match: ''
+          pop: true
+
+  rpl_condition_source_in:
+    - match: |
+        (?xi)
+        \s*(source)\s+(in)\s+{{rpl_inline_condition_parentheses_comma_separated_lookahead}}
+      captures:
+        1: constant.character
+        2: keyword.operator
+      push:
+        - match: |
+            (?xi)
+            (?={{rpl_end_of_condition_statement}})
+          pop: true
+        - match: '(\()(?=[^\)]*(\)))'
+          comment: Inline
+          captures:
+            1: comment
+            2: comment
+          push:
+            - match: |
+                (?xi)
+                (?=\s*[^,\)]*\s*[,\)])
+              comment: Statement ending in a comma or a close parenthesis
+              set:
+                - include: rpl_prefix
+                - include: rpl_comma_seperator
+                - match: '\s*\)\s*'
+                  captures:
+                    0: comment
+                  pop: true
+                - match: ''
+                  comment: End inline statement list
+                  pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_parameter
         - include: rpl_set_name
         - match: ''
@@ -4673,7 +4966,7 @@ contexts:
       push:
         - match: |
             (?xi)
-            (?=\s*{{rpl_end_of_condition_statement}})
+            (?={{rpl_end_of_condition_statement}})
           pop: true
         - match: '(\()(?=[^\)]*(\)))'
           comment: Inline
@@ -4695,6 +4988,7 @@ contexts:
                 - match: ''
                   comment: End inline statement list
                   pop: true
+        - include: rpl_then_lookahead_pop
         - include: rpl_parameter
         - include: rpl_set_name
         - match: ''

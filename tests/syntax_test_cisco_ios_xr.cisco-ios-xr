@@ -141,7 +141,12 @@ interface GigabitEthernet0/0/0/5.100
  ipv4 address 100.65.127.121 255.255.255.0
  encapsulation dot1q 100
 !
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2072001
 rpl editor nano
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2082825
+rpl maximum lines 131072
+rpl maximum policies 5000
+
 
 extcommunity-set rt rtBGP
   ios-regex '.*',
@@ -181,6 +186,11 @@ end-set
 extcommunity-set soo costBGP
   1.1.1.1:100,
   100:200
+end-set
+!
+tag-set SetName
+  0,
+  4294967295
 end-set
 !
 prefix-set pfMGMT
@@ -247,7 +257,6 @@ route-policy rpMGMT
   if destination in pfMGMT then
     ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1077785
     pass
-
   else
     drop
   endif
@@ -270,16 +279,24 @@ route-policy quickstart-med
     pass
   endif
   pass
-  end-policy
+end-policy
 
 route-policy rpBGP2EIGRP
 end-policy
 !
 route-policy rpRTfilter-Cust3
+
+  if (not as-path in Setname ) and as-path in Setname or as-path in Setname then
+  endif
+
   ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2276178122
   if as-path in (4294967295, ios-regex '_12$',4294967295, ios-regex '_13$', dfa-regex '_13$') then
   elseif as-path in $PARAMETER then
-  elseif as-path in SetName then
+  elseif as-path in SetName or as-path in SetName and as-path in SetName then
+  endif
+
+ if not as-path is-local and as-path is-local then
+    pass
   endif
 
   ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1625057992
@@ -501,12 +518,34 @@ route-policy rpRTfilter-Cust3
   endif
 
   ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1655082
-  if route-has-label then
-  elseif route-has-label then
-  elseif route-has-label then
+  if source in $PARAMETER then
+  elseif source in SetName then
+  elseif source in (1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64) then
   endif
 
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1099580
+  if tag eq 4294967295 then
+  elseif tag ge 4294967295 then
+  elseif tag le 4294967295 then
+  elseif tag is 4294967295 then
+  elseif tag eq $PARAMETER then
+  elseif tag ge $PARAMETER then
+  elseif tag le $PARAMETER then
+  elseif tag is $PARAMETER then
+  endif
 
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_112526F0AC10453DB8773CF3269E895F
+  if tag in SetName then
+  elseif tag in $PARAMETER then
+  elseif tag in () then
+  elseif tag in (0, 4294967295) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2306089
+  if vpn-distinguisher is $PARAMETER then
+  elseif vpn-distinguisher is 1 then
+  elseif vpn-distinguisher is 4294967295 then
+  endif
 
   if destination in prefixCust3-Exp then
 
@@ -1166,6 +1205,13 @@ route-policy rpRTfilter-Cust3
     ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_DE0F59F9C98C40EF88DB58705346FC25
     remove as-path private-as
     remove as-path private-as entire-aspath
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1078119
+    suppress-route
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1879787
+    unsuppress-route
+
   endif
 end-policy
 
