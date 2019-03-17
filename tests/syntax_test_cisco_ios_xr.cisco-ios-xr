@@ -45,6 +45,33 @@ vrf vrfCUST-BGP
   !
  !
 !
+interface GigabitEthernet0/0/0/0
+  circuit-type level-1
+  circuit-type level-1-2
+  circuit-type level-2-only
+  csnp-interval 65535
+  csnp-interval 65535 level 1
+  csnp-interval 65535 level 2
+  address-family ipv4 unicast
+    disable
+    fast-reroute per-link
+    fast-reroute per-link level 1
+    fast-reroute per-link level 2
+    fast-reroute per-link exclude interface GigabitEthernet0/3/2/1
+    fast-reroute per-link lfa-candidate interface GigabitEthernet0/3/2/1
+
+    fast-reroute per-prefix
+    fast-reroute per-prefix level 1
+    fast-reroute per-prefix level 2
+    fast-reroute per-prefix exclude interface GigabitEthernet0/3/2/1
+    fast-reroute per-prefix lfa-candidate interface GigabitEthernet0/3/2/1
+    fast-reroute per-prefix remote-lfa maximum-metric 16777215
+    fast-reroute per-prefix remote-lfa tunnel mpls-ldp
+    mpls ldp sync
+    mpls ldp sync level 1
+    mpls ldp sync level 2
+  !
+
 interface Loopback0
  ipv4 address 100.64.0.121 255.255.255.255
 !
@@ -286,16 +313,20 @@ end-policy
 !
 route-policy rpRTfilter-Cust3
 
-  if (not as-path in Setname ) and as-path in Setname or as-path in Setname then
+  if (((not as-path in Setname) and as-path in Setname) or as-path in Setname) then
   endif
 
   ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2276178122
   if as-path in (4294967295, ios-regex '_12$',4294967295, ios-regex '_13$', dfa-regex '_13$') then
   elseif as-path in $PARAMETER then
   elseif as-path in SetName or as-path in SetName and as-path in SetName then
+  
   endif
 
- if not as-path is-local and as-path is-local then
+  if as-path is-local then
+  endif
+ 
+  if not as-path is-local and as-path is-local then
     pass
   endif
 
@@ -1265,18 +1296,133 @@ end-set
 
 router static
  address-family ipv4 unicast
-  100.64.0.221/32 100.67.221.221
-  100.64.0.222/32 100.67.222.222
+  1.2.3.4/32 1.2.3.4
+  1.2.3.4/32 Null0
+ !
+ address-family ipv6 unicast
+  0:0:0:1::/64 1::1
+  0:0:0:1::/64 Null0
  !
 !
-router isis bb
- net 49.0000.0000.0002.0121.00
- address-family ipv4 unicast
-  metric-style wide
-  mpls traffic-eng level-1-2
-  mpls traffic-eng router-id Loopback0
-  mpls ldp auto-config
+
+clear isis process
+
+clear isis afi-all unicast route
+clear isis afi-all multicast route
+clear isis afi-all safi-all route
+clear isis afi-all unicast route
+clear isis afi-all unicast topology TOPOLOGY_NAME route
+clear isis afi-all multicast topology TOPOLOGY_NAME route
+clear isis afi-all safi-all topology TOPOLOGY_NAME route
+clear isis afi-all unicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME process
+clear isis instance ISIS_INSTANCE_NAME afi-all unicast route
+clear isis instance ISIS_INSTANCE_NAME afi-all multicast route
+clear isis instance ISIS_INSTANCE_NAME afi-all safi-all route
+clear isis instance ISIS_INSTANCE_NAME afi-all multicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME afi-all safi-all topology TOPOLOGY_NAME route
+
+clear isis ipv4 unicast route
+clear isis ipv4 multicast route
+clear isis ipv4 safi-all route
+clear isis ipv4 unicast route
+clear isis ipv4 unicast topology TOPOLOGY_NAME route
+clear isis ipv4 multicast topology TOPOLOGY_NAME route
+clear isis ipv4 safi-all topology TOPOLOGY_NAME route
+clear isis ipv4 unicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME process
+clear isis instance ISIS_INSTANCE_NAME ipv4 unicast route
+clear isis instance ISIS_INSTANCE_NAME ipv4 multicast route
+clear isis instance ISIS_INSTANCE_NAME ipv4 safi-all route
+clear isis instance ISIS_INSTANCE_NAME ipv4 multicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME ipv4 safi-all topology TOPOLOGY_NAME route
+
+clear isis ipv6 unicast route
+clear isis ipv6 multicast route
+clear isis ipv6 safi-all route
+clear isis ipv6 unicast route
+clear isis ipv6 unicast topology TOPOLOGY_NAME route
+clear isis ipv6 multicast topology TOPOLOGY_NAME route
+clear isis ipv6 safi-all topology TOPOLOGY_NAME route
+clear isis ipv6 unicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME process
+clear isis instance ISIS_INSTANCE_NAME ipv6 unicast route
+clear isis instance ISIS_INSTANCE_NAME ipv6 multicast route
+clear isis instance ISIS_INSTANCE_NAME ipv6 safi-all route
+clear isis instance ISIS_INSTANCE_NAME ipv6 multicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME ipv6 safi-all topology TOPOLOGY_NAME route
+
+clear isis instance ISIS_INSTANCE_NAME statistics
+
+router isis ISIS_INSTANCE_NAME
+  net 49.0000.0002.0121.00
+  net 49.0000.0000.0000.0000.0000.0000.0000.0002.0121.00
+  adjacency stagger disable
+  adjacency stagger 65535 65535
+  nsf cisco
+  nsf ietf
+  nsf interface-expires 1
+  nsf interface-expires 2
+  nsf interface-expires 3
+  nsf interface-timer 3
+  nsf interface-timer 20
  !
+ address-family ipv4 multicast topology TOPOLOGY_NAME
+ address-family ipv4 multicast topology TOPOLOGY_NAME maximum prefix 2000000
+ !
+ address-family ipv4 multicast
+
+ address-family ipv4 unicast
+  adjacency-check disable
+  attached-bit receive ignore
+  attached-bit send always-set
+  attached-bit send never-set
+  default-information originate
+  default-information originate route-policy ROUTE_POLICY_NAME
+  distance 255
+  distance 255 1.2.3.4/24
+  distance 255 1.2.3.4/24 PREFIX_LIST_NAME
+  distance 255 1.2.3.4 255.255.255.0
+  distance 255 1.2.3.4 255.255.255.0 PREFIX_LIST_NAME
+  metric-style narrow
+  metric-style narrow
+  metric-style narrow transition
+  metric-style narrow transition
+  metric-style narrow level 1
+  metric-style narrow level 2
+  metric-style narrow transition level 1
+  metric-style narrow transition level 2
+  metric-style wide
+  metric-style wide
+  metric-style wide transition
+  metric-style wide transition
+  metric-style wide level 1
+  metric-style wide level 2
+  metric-style wide transition level 1
+  metric-style wide transition level 2
+  metric-style transition
+  metric-style transition
+  metric-style transition level 1
+  metric-style transition level 2
+  metric-style wide
+  mpls ldp auto-config
+  mpls traffic-eng level-1-2
+  mpls traffic-eng multicast-intact
+  mpls traffic-eng router-id 1.2.3.4
+  mpls traffic-eng router-id Loopback0
+ !
+ address-family ipv6 unicast
+  adjacency-check disable
+  attached-bit receive ignore
+  attached-bit send always-set
+  attached-bit send never-set
+  default-information originate
+  default-information originate route-policy ROUTE_POLICY_NAME
+  distance 255
+  distance 255 ::/64
+  distance 255 ::/64 PREFIX_LIST_NAME
+ !
+
  interface Loopback0
   address-family ipv4 unicast
   !
@@ -1284,10 +1430,6 @@ router isis bb
   !
  !
  interface Loopback100
-  address-family ipv4 unicast
-  !
- !
- interface GigabitEthernet0/0/0/0
   address-family ipv4 unicast
   !
  !
@@ -1304,48 +1446,105 @@ router isis bb
   !
  !
 !
-router ospf 99
- vrf vrfCUST-BGP
-  router-id 10.64.99.121
-  redistribute bgp 65000 metric-type 1
-  area 0
-   interface Loopback99
-   !
-   interface GigabitEthernet0/0/0/5
-   !
-  !
- !
-!
 router ospf ospfCUST1
- vrf vrfCUST1
-  router-id 10.64.1.121
-  domain-id type 0005 value 010000010201
-  redistribute bgp 65000 metric-type 1
+  log-adjacency-changes disable
+  log-adjacency-changes detail
+
+  loopback stub-network enable
+  loopback stub-network disable
+
+  vrf vrfCUST1
+    router-id 10.64.1.121
+    domain-id type 0005 value 0123456789AB
+    domain-id type 0105 value 0123456789AB
+    domain-id type 0205 value 0123456789AB
+    domain-id type 8005 value 0123456789AB
+    redistribute bgp 65000
+    redistribute bgp 1.0
+    redistribute bgp 65000.65000
+    redistribute bgp 4294967295
+    redistribute bgp 65000 preserve-med
+    redistribute bgp 65000 metric 16777214
+    redistribute bgp 65000 metric-type 1
+    redistribute bgp 65000 metric-type 2
+    redistribute bgp 65000 route-policy ROUTE_POLICY_NAME
+    redistribute bgp 65000 tag 4294967295
+
   area 0
-   interface Loopback1
+      loopback stub-network enable
+      loopback stub-network disable
+     interface Loopback1
+        loopback stub-network enable
+        loopback stub-network disable
+     interface GigabitEthernet0/0/0/3
+     interface GigabitEthernet0/0/0/4
+  
+  area 1.2.3.4
+     interface Loopback1
    !
-   interface GigabitEthernet0/0/0/3
-   !
-   interface GigabitEthernet0/0/0/4
-   !
-  !
- !
 !
 router bgp 65000
+router bgp 65000 instance INSTANCE_NAME
  bgp router-id 100.64.0.121
+
+ af-group AF_GROUP_NAME address-family ipv4 unicast
+  use af-group AF_GROUP_NAME
+ af-group AF_GROUP_NAME address-family vpnv4 unicast
+  use af-group AF_GROUP_NAME
+ af-group AF_GROUP_NAME address-family ipv4 multicast
+  use af-group AF_GROUP_NAME
+ af-group AF_GROUP_NAME address-family ipv4 labeled-unicast
+  use af-group AF_GROUP_NAME
+ af-group AF_GROUP_NAME address-family ipv4 tunnel
+  use af-group AF_GROUP_NAME
+ af-group AF_GROUP_NAME address-family ipv6 unicast
+  use af-group AF_GROUP_NAME
+
+
+ address-family ipv4 unicast
+ address-family ipv4 multicast
+ address-family ipv4 labeled-unicast
+ address-family ipv4 flowspec
+ address-family ipv4 mvpn
+
+ address-family vpnv4 unicast
+ address-family vpnv4 multicast
+ address-family vpnv4 flowspec
+
+ address-family ipv6 unicast
+ address-family ipv6 flowspec
+ address-family ipv6 mvpn
+
+ address-family vpnv4 unicast
+ address-family vpnv4 flowspec
+
+ address-family l2vpn vpls-vpws
+ address-family l2vpn vpls-vpws
+ address-family link-state link-state
+
  address-family vpnv4 unicast
  !
+ neighbor 1.2.3.4
+  use af-group AF_GROUP_NAME
+  use neighbor-group RR
+ !
+
+ neighbor 1::1
+  use af-group AF_GROUP_NAME
+  use neighbor-group RR
+ !
+
  neighbor-group RR
+  use af-group AF_GROUP_NAME
   remote-as 65000
   update-source Loopback0
   address-family vpnv4 unicast
   !
  !
- neighbor 100.64.0.9
-  use neighbor-group RR
- !
  vrf vrfCUST1
+  neighbor 1.2.3.4
   rd 1:121
+
   address-family ipv4 unicast
    redistribute connected
    redistribute ospf ospfCUST1
