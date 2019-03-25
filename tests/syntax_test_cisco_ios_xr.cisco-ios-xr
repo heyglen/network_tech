@@ -1487,6 +1487,10 @@ router bgp 65000
 router bgp 65000 instance INSTANCE_NAME
  bgp router-id 100.64.0.121
 
+ session-group SESSION_GROUP_NAME
+  remote-as 65535
+  update-source Loopback0
+
  af-group AF_GROUP_NAME address-family ipv4 unicast
   use af-group AF_GROUP_NAME
  af-group AF_GROUP_NAME address-family vpnv4 unicast
@@ -1527,6 +1531,8 @@ router bgp 65000 instance INSTANCE_NAME
  neighbor 1.2.3.4
   use af-group AF_GROUP_NAME
   use neighbor-group RR
+  remote-as 65535
+  update-source Loopback0
  !
 
  neighbor 1::1
@@ -1536,14 +1542,22 @@ router bgp 65000 instance INSTANCE_NAME
 
  neighbor-group RR
   use af-group AF_GROUP_NAME
-  remote-as 65000
+  remote-as 65535
   update-source Loopback0
   address-family vpnv4 unicast
   !
  !
  vrf vrfCUST1
-  neighbor 1.2.3.4
   rd 1:121
+  neighbor 1.2.3.4
+    use neighbor-group RR
+    remote-as 65535
+    update-source Loopback0
+  neighbor 1::1
+    use neighbor-group RR
+    remote-as 65535
+    update-source Loopback0
+
 
   address-family ipv4 unicast
    redistribute connected
@@ -1554,18 +1568,46 @@ router bgp 65000 instance INSTANCE_NAME
   rd 2:121
   address-family ipv4 unicast
    redistribute connected
-   redistribute eigrp 100
+   redistribute connected metric 4294967295
+   redistribute connected metric 4294967295 route-policy ROUTE_POLICY_NAME
+   redistribute eigrp 65535
+   redistribute eigrp EIGRP_VIRTUAL_INSTANCE_NAME_@.:-
+   redistribute eigrp 65535 match internal
+   redistribute eigrp 65535 match external
+   redistribute eigrp 65535 match external metric 4294967295
+   redistribute eigrp 65535 match external metric 4294967295 route-policy ROUTE_POLICY_NAME
+   redistribute ospf OSPF_IDENTIFIER
+
+  address-family ipv4 multicast
+   redistribute connected
+   redistribute eigrp 65535
+   redistribute ospf OSPF_IDENTIFIER
+
+  address-family ipv6 unicast
+   redistribute connected
+   redistribute eigrp 65535
+
+  address-family ipv6 multicast
+   redistribute connected
+   redistribute eigrp 65535
   !
  !
  vrf vrfCUST-BGP
   rd 99:121
   address-family ipv4 unicast
    redistribute connected
-   redistribute ospf 99
+   redistribute eigrp 65535
+   redistribute ospf OSPF_IDENTIFIER
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute eigrp 65535
+   redistribute ospf OSPF_IDENTIFIER
   !
  !
 !
 rsvp
+
+  ! Unable to find command reference
  interface GigabitEthernet0/0/0/1
   bandwidth 500000
  !
@@ -1575,6 +1617,7 @@ rsvp
 !
 mpls traffic-eng
  interface GigabitEthernet0/0/0/1
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-3/mpls/command/reference/b-mpls-cr-asr9000-63x/b-mpls-cr-asr9000-63x_chapter_0100.html#wp1061540266
   auto-tunnel backup
   !
  !
