@@ -28,11 +28,55 @@ variables:
   route_target: '\d+:\d+'
   type_5_password: \S+
   type_7_password: \S+
+  mac_address: |
+    (?xi)
+    (?:
+      (?:[a-f0-9]{1,4}\.){2}[a-f0-9]{1,4}
+    )
+
   ah_transform: |
     (?xi)
     (?:
       (?:ah-md5-hmac)|
       (?:ah-sha-hmac)
+    )
+  number_range_1_1440: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:1440)|
+        (?:14[0-3]\d)|
+        (?:1[0-3]\d{2})|
+        (?:\d{2,3})|
+        (?:[1-9])
+      )
+      \b
+    )
+  number_range_1_4097: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:409[0-7])|
+        (?:40[0-8]\d)|
+        (?:[1-3]\d{3})|
+        (?:\d{2,3})|
+        (?:[1-9])
+      )
+      \b
+    )
+  number_range_1_1024: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:102[0-4])|
+        (?:10[0-1]\d)|
+        (?:\d{2,3})|
+        (?:[1-9])
+      )
+      \b
     )
   # 1 - 255
   number_8_bit: |
@@ -2947,12 +2991,145 @@ contexts:
     - match: '^\s*(switchport\s+mode\s+(?:trunk|access|capture))'
       captures:
         1: support.constant
+    - include: interface_switchport_port_security
     - include: switchport_trunk
     - include: switchport_access
     - include: switchport_voice
     - match: '^\s*(switchport)'
       captures:
         1: support.constant
+
+  interface_switchport_port_security:
+    - include: interface_switchport_port_security_aging
+    - include: interface_switchport_port_security_maximum
+    - include: interface_switchport_port_security_mac_address
+    - include: interface_switchport_port_security_violation
+    - match: |
+        (?xi)
+        ^\s*
+        (switchport)\s+(port-security)
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+
+  interface_switchport_port_security_aging:
+    - match: |
+        (?xi)
+        ^\s*
+        (switchport)\s+(port-security)\s+(aging)\s+
+        (?:
+          (?:(static))|
+          (?:(time)\s+({{number_range_1_1440}}))|
+          (?:(type)\s+
+            (
+              (?:absolute)|
+              (?:inactivity)
+            )
+          )
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+        5: support.constant
+        6: constant.numeric
+        7: support.constant
+        8: constant.language
+
+  interface_switchport_port_security_mac_address:
+    - match: |
+        (?xi)
+        ^\s*
+        (switchport)\s+(port-security)\s+(mac-address)\s+
+        (?:
+          ({{number_range_1_1024}})|
+          (?:(sticky)(\s+{{mac_address}})?)|
+          (?:(vlan)\s+
+            (?:
+              (?:({{vlan_id}})(?:\s+(voice))?)|
+              (?:
+                (?:
+                  (?:({{vlan_id}}))(?:(-)({{vlan_id}}))?
+                  (,)
+                )*
+                ({{vlan_id}})(?:(-)({{vlan_id}}))?
+              )
+            )
+
+          )|
+          (?:({{mac_address}})\s+(vlan)\s+(voice))
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+        5: support.constant
+        6: constant.numeric.mac
+        7: support.constant
+        8: constant.numeric.vlan
+        9: support.constant
+        10: constant.numeric.vlan
+        11: comment
+        12: constant.numeric.vlan
+        13: comment
+        14: constant.numeric.vlan
+        15: comment
+        16: constant.numeric.vlan
+        17: constant.numeric.mac
+        18: support.constant
+        19: support.constant
+
+  interface_switchport_port_security_maximum:
+    - match: |
+        (?xi)
+        ^\s*
+        (switchport)\s+(port-security)\s+(maximum)\s+({{number_range_1_4097}})
+        (?:
+          \s+(vlan)\s+
+          (?:
+            (?:
+              (?:({{vlan_id}}))(?:(-)({{vlan_id}}))?
+              (,)
+            )*
+            ({{vlan_id}})(?:(-)({{vlan_id}}))?
+          )
+        )?
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+        5: support.constant
+        6: constant.numeric.vlan
+        7: comment
+        8: constant.numeric.vlan
+        9: comment
+        10: constant.numeric.vlan
+        11: comment
+        12: constant.numeric.vlan
+
+  interface_switchport_port_security_violation:
+    - match: |
+        (?xi)
+        ^\s*
+        (switchport)\s+(port-security)\s+(violation)\s+
+        (
+          (?:shutdown)|
+          (?:restrict)|
+          (?:protect)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.language
 
   switchport_voice:
     - match: ^\s*(switchport\s+voice\s+vlan)\s+({{vlan_id}})

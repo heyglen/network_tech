@@ -430,6 +430,25 @@ interface range GigabitEthernet1/1-2
   no switchport
   no shutdown
   shutdown
+  switchport port-security
+  switchport port-security aging static
+  switchport port-security aging time 1440
+  switchport port-security aging type absolute
+  switchport port-security aging type inactivity
+  switchport port-security mac-address 1024
+  switchport port-security mac-address sticky
+  switchport port-security mac-address sticky 0.0.1
+  switchport port-security mac-address vlan 4095
+  switchport port-security mac-address vlan 1,2-3
+  switchport port-security mac-address vlan 4095 voice
+  switchport port-security mac-address 0.0.1 vlan voice
+  switchport port-security maximum 4097
+  switchport port-security maximum 4097 vlan 4095
+  switchport port-security maximum 4097 vlan 1-4095  
+  switchport port-security maximum 4097 vlan 1-2,4-4095  
+  switchport port-security violation shutdown
+  switchport port-security violation restrict
+  switchport port-security violation protect
   spanning-tree bpduguard enable
   spanning-tree bpduguard disable
   service-policy output SOMETHING
