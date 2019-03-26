@@ -14,12 +14,21 @@ Cisco syntax highlighting and completions for Sublime Text 3.
 
  * Cisco ACE
  * Cisco IOS
+ * Cisco IOS XR
  * Cisco NXOS
  * Cisco ASA
 
 ### Subnetting
 
-* Mouse over a subnet and get the network, broadcast, prefix, mask and wildcard information.
+* Mouse over a subnet to get more information:
+
+  * network
+  * broadcast
+  * prefix
+  * mask
+  * wildcard
+  * neighboring networks
+  * IANA RIR
 
 * Subnet aware search
 

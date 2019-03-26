@@ -6,6 +6,7 @@ Supported configurations:
     - Cisco ASA
     - Cisco ACE
     - Cisco IOS
+    - Cisco IOS XR
     - Cisco NXOS
 
 Set the syntax from the command pallet
