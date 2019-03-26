@@ -11,7 +11,7 @@ lacp system 0123.4567.89af
 interface bvi 65535
 
 alias si show ipv4 int brief
-domain name lab.brunello.homenet
+domain name example.com
 
 cdp
 vrf VRF_NAME
@@ -20,7 +20,7 @@ vrf VRF_NAME
    65000:1
    65000:98
   !
-  export route-policy rpRTfilter-Cust1
+  export route-policy ROUTE_POLICY_NAME
   export route-target
    65000:1
   !

@@ -9,6 +9,7 @@ SYNTAX = namedtuple('Syntax', _SYNTAX_ATTRIBUTES)(
     ace='Packages/network_tech/cisco-ace.sublime-syntax',
     ios='Packages/network_tech/cisco-ios.sublime-syntax',
     nxos='Packages/network_tech/cisco-nxos.sublime-syntax',
+    ios_xr='Packages/network_tech/cisco-ios-xr.sublime-syntax',
 )
 
 
@@ -53,5 +54,17 @@ DETECT_SYNTAX = namedtuple('DetectSyntax', _DETECT_SYNTAX_ATTRIBUTES)(
         r'^Current configuration : \d+ bytes$',
         r'^Building configuration...$',
         r'^\s*access-list \d{2,3} ((?:permit)|(?:deny))',
+    ],
+    ios_xr=[
+        r'^\s*route-policy\s+\S+',
+        r'^\s*tag-set\s+\S+\s*$',
+        r'^\s*extcommunity-set\s+rt\s+\S+\s*$',
+        r'^\s*extcommunity-set\s+cost\s+\S+\s*$',
+        r'^\s*extcommunity-set\s+soo\s+\S+\s*$',
+        r'^\s*prefix-set\s+\S+\s*$',
+        r'^\s*ospf-area-set\s+\S+\s*$',
+        r'^\s*as-path-set\s+\S+\s*$',
+        r'^\s*rpl\s+editor\s+(?:(?:nano)|(?:emacs)|(?:vim))\s*$',
+        r'^\s*rpl\s+maximum\s+(?:(?:lines)|(?:policies))\s+\d+\s*$',
     ],
 )

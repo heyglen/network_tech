@@ -19,6 +19,8 @@ class AutoSyntaxDetection(sublime_plugin.ViewEventListener):
                 self.view.set_syntax_file(SYNTAX.ios)
             elif self.is_ace:
                 self.view.set_syntax_file(SYNTAX.ace)
+            elif self.is_ios_xr:
+                self.view.set_syntax_file(SYNTAX.ios_xr)
 
     @property
     def is_plain_text(self):
@@ -45,6 +47,10 @@ class AutoSyntaxDetection(sublime_plugin.ViewEventListener):
     @property
     def is_ios(self):
         return self._syntax_detection(DETECT_SYNTAX.ios, 'Cisco IOS detected')
+
+    @property
+    def is_ios_xr(self):
+        return self._syntax_detection(DETECT_SYNTAX.ios_xr, 'Cisco IOS XR detected')
 
     def _syntax_detection(self, syntax_list, message, status_update=True):
         for evidence in syntax_list:
