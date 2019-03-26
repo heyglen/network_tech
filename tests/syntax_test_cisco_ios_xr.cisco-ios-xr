@@ -1,7 +1,7 @@
 
 configure
 commit
-hostname Pod2PE01
+hostname hostname
 
 lacp system 65535
 
