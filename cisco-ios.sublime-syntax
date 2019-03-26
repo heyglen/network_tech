@@ -1408,7 +1408,6 @@ contexts:
 
   ogacl_permit:
     - include: ogacl_permit_l3_protocol
-    - include: ogacl_permit_tcp_udp
 
   # https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-p1.html#wp1459792010
   ogacl_permit_l3_protocol:

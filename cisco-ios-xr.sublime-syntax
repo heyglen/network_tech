@@ -74,7 +74,9 @@ variables:
   #     (?# Type)
   #     (?:{{number_16_bit_wo_zero}})
   #   )
-  vrf_name: '[\w-]+'
+  vrf_name: |
+    (?xi)
+    [\w-]+
   route_target: |
     (?xi)
     (?:
@@ -387,7 +389,7 @@ variables:
     (?xi)
     (?:
       (?:{{number_16_bit_wo_zero}}\.{{number_16_bit}})|
-      (?:{{number_32_bit}})
+      (?:{{number_32_bit_wo_zero}})
     )
   mpls_te_path_priority: |
     (?xi)
@@ -413,6 +415,28 @@ variables:
       (?:min-monetary-cost)|
       (?:normal)
     )
+  mac_address: |
+    (?xi)
+    (?:
+      (?:[a-f0-9]{4}\.){2}[a-f0-9]{4}
+    )
+  mtu: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:6553[0-5])|
+        (?:655[0-2]\d)|
+        (?:65[0-4]\d{2})|
+        (?:6[0-4]\d{3})|
+        (?:[0-5]\d{4})|
+        (?:\d{3,4})|
+        (?:[7-9]\d)|
+        (?:6[0-4])
+      )
+      \b
+    )
+
   tos_precedence: |
     (?xi)
     (?:
@@ -746,18 +770,22 @@ variables:
     (?=
       ^\s*
       (?:
+        (?:alias)|
         (?:cdp)|
         (?:clear)|
-        (?:interface)|
+        (?:domain)|
+        (?:end-policy)|
+        (?:end-set)|
         (?:extcommunity-set)|
+        (?:hostname)|
+        (?:interface)|
+        (?:lacp)|
+        (?:mpls)|
         (?:prefix-set)|
         (?:route-policy)|
         (?:router)|
         (?:rsvp)|
-        (?:mpls)|
         (?:ssh)|
-        (?:end-set)|
-        (?:end-policy)|
         (?:vrf)
       )
     )
@@ -1029,6 +1057,7 @@ variables:
       (?:lo)|
       (?:port-channel)|
       (?:po)|
+      (?:pos)|
       (?:serial)|
       (?:se)|
       (?:TenGigabitEthernet)|
@@ -1241,12 +1270,13 @@ contexts:
     - include: mpls_ldp
     - include: ospf
     - include: vrf
+    - include: lacp
     - include: snmp
     - include: policy_global
     - include: ntp
     - include: hostname
     - include: domain
-    - include: ssh
+    - include: ssh_server
     - include: cdp
     - include: interface
     - include: interface_management
@@ -1349,6 +1379,24 @@ contexts:
       captures:
         1: support.constant
         2: string.unquoted
+
+  lacp:
+    - include: lacp_system
+
+  lacp_system:
+    - match: |
+        (?xi)
+        ^\s*(lacp)\s+(system)\s+
+        (?:
+          ({{mac_address}})|
+          ({{number_16_bit_wo_zero}})
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric.mac
+        4: constant.numeric
 
   mpls_ldp:
     - match: |
@@ -1472,7 +1520,7 @@ contexts:
         (?xi)
         ^\s*(router)\s+(eigrp)\s+
         (?:
-          ({{number_16_bit}})|
+          ({{number_16_bit_wo_zero}})|
           ({{eigrp_virtual_instance_name}})
         )
         \s*$
@@ -1486,7 +1534,42 @@ contexts:
         - meta_content_scope: text.network.cisco.eigrp
         # - include: router_eigrp_setting
         - include: router_eigrp_vrf
+        - include: router_eigrp_address_family
         - include: pop_on_configure_terminal_context
+
+  router_eigrp_address_family:
+    - include: router_eigrp_address_family_ipv4
+    - include: router_eigrp_address_family_ipv6
+
+  router_eigrp_address_family_ipv4:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv4)\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+      push:
+      - meta_content_scope: text.network.cisco.eigrp.address_family.ipv4
+      - include: router_id
+      - include: eigrp_autonomous_system
+      - include: router_eigrp_redistribute
+      - match: '{{ctx_pop_router_eigrp}}'
+        pop: true
+
+  router_eigrp_address_family_ipv6:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv6)\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.eigrp.address_family.ipv4
+      - match: '{{ctx_pop_router_eigrp}}'
+        pop: true
 
   router_eigrp_vrf:
     - match: '^\s*(vrf)\s+({{vrf_name}})'
@@ -1496,11 +1579,101 @@ contexts:
         2: string.unquoted
       push:
       - meta_content_scope: text.network.cisco.eigrp.vrf
-      - include: router_eigrp_address_family
+      - include: router_eigrp_vrf_address_family
       - match: '{{ctx_pop_router_eigrp}}'
         pop: true
 
-  router_eigrp_address_family:
+  eigrp_autonomous_system:
+    - match: |
+        (?xi)
+        ^\s*(autonomous-system)\s+({{number_16_bit_wo_zero}})\s*$
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv4.address
+
+
+  router_eigrp_redistribute:
+    - include: router_eigrp_redistribute_bgp
+    - include: router_eigrp_redistribute_ospf
+    - include: router_eigrp_redistribute_eigrp
+    - include: router_eigrp_redistribute_static
+    - include: router_eigrp_redistribute_connected
+
+  router_eigrp_redistribute_static:
+    - match: |
+        (?xi)
+        ^\s*
+        (redistribute)\s+(static)
+        (?:\s+(route-policy)\s+(\S+))?
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.character
+        3: support.constant
+        4: string.unquoted
+
+  router_eigrp_redistribute_connected:
+    - match: |
+        (?xi)
+        ^\s*
+        (redistribute)\s+(connected)
+        (?:\s+(route-policy)\s+(\S+))?
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.language
+        3: support.constant
+        4: string.unquoted
+
+  router_eigrp_redistribute_bgp:
+    - match: |
+        (?xi)
+        ^\s*
+        (redistribute)\s+(bgp)
+        \s+
+        ({{autonomous_system}})
+        (?:\s+(route-policy)\s+(\S+))?
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.language
+        3: constant.numeric.as
+        4: support.constant
+        5: string.unquoted
+
+  router_eigrp_redistribute_eigrp:
+    - match: |
+        (?xi)
+        ^\s*
+        (redistribute)\s+(eigrp)
+        \s+
+        ({{number_16_bit_wo_zero}})
+        (?:\s+(route-policy)\s+(\S+))?
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.language
+        3: constant.numeric.as
+        4: support.constant
+        5: string.unquoted
+
+  router_eigrp_redistribute_ospf:
+    - match: |
+        (?xi)
+        ^\s*
+        (redistribute)\s+(ospf)
+        \s+
+        ({{ospf_identifier}})
+        (?:\s+(route-policy)\s+(\S+))?
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.language
+        3: string.unquoted
+        4: support.constant
+        5: string.unquoted
+
+  router_eigrp_vrf_address_family:
     - include: router_eigrp_vrf_address_family_ipv4
     - include: router_eigrp_vrf_address_family_ipv6
 
@@ -1514,6 +1687,24 @@ contexts:
         2: constant.character
       push:
       - meta_content_scope: text.network.cisco.eigrp.vrf.address_family.ipv4
+      - include: router_id
+      - include: eigrp_autonomous_system
+      - include: router_eigrp_redistribute
+      - match: '{{ctx_pop_router_eigrp_vrf}}'
+        pop: true
+
+  router_eigrp_vrf_address_family_ipv6:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv6)\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.eigrp.vrf.address_family.ipv4
+      - include: eigrp_autonomous_system
       - match: '{{ctx_pop_router_eigrp_vrf}}'
         pop: true
 
@@ -1530,22 +1721,6 @@ contexts:
         - meta_content_scope: text.network.cisco.eigrp.vrf.address_family.ipv4.interface
         - match: '{{ctx_pop_router_eigrp_vrf}}'
           pop: true
-
-
-  router_eigrp_vrf_address_family_ipv6:
-    - match: |
-        (?xi)
-        ^\s*(address-family)\s+(ipv6)\s*$
-      captures:
-        0: cisco.scope
-        1: variable.parameter
-        2: constant.character
-        3: support.constant
-      push:
-      - meta_content_scope: text.network.cisco.eigrp.vrf.address_family.ipv4
-      - match: '{{ctx_pop_router_eigrp_vrf}}'
-        pop: true
-
 
   router_bgp:
     - match: |
@@ -2261,32 +2436,51 @@ contexts:
       7: support.constant                  # ntp server
       8: constant.numeric.ip.ipv4.address  # ntp server ip
 
-  ip_http:
-  - match: ^\s*(ip\s+http\s+server)
-    captures:
-      1: support.constant
-
-  ssh:
+  interface_bvi:
     - match: |
         (?xi)
         ^\s*
-        (?:
-          (ip)\s+(ssh)\s+(?:
-            (?:(source-interface)\s+({{interface_names}})\s+({{interface_numbers}}))|
-            (?:(version)\s+([12]))|
-            (?:(authentication-retries)\s+(\d+))|
-          )
-        )
+        (interface)\s+(bvi)\s+({{number_16_bit_wo_zero}})\s*$
       captures:
-        1: support.constant             # ip
-        2: support.constant             # ssh
-        3: support.constant             # source-interface
-        4: entity.other.attribute-name  # source-interface name
-        5: constant.numeric             # source-interface name number
-        6: support.constant             # version
-        7: constant.numeric             # version number
-        8: support.constant             # authentication-retries
-        9: constant.numeric             # authentication-retries number
+        1: support.constant
+        2: support.constant
+        3: constant.language
+
+  ssh_server:
+    - include: ssh_server_v2
+    - include: ssh_server_vrf
+    - include: ssh_server_logging
+
+  ssh_server_v2:
+    - match: |
+        (?xi)
+        ^\s*
+        (ssh)\s+(server)\s+(v2)\s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.language
+
+  ssh_server_vrf:
+    - match: |
+        (?xi)
+        ^\s*
+        (ssh)\s+(server)\s+(vrf)\s+({{vrf_name}})\s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: string.unquoted
+
+  ssh_server_logging:
+    - match: |
+        (?xi)
+        ^\s*
+        (ssh)\s+(server)\s+(logging)\s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
 
   ipv6_prefix_list:
     - match: |
@@ -5869,6 +6063,7 @@ contexts:
           (interface)\s+
           (?:
             (?:(tunnel)-(te)(\d+))|
+            (?:(bvi)\s*({{number_16_bit_wo_zero}}))|
             (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
             (?:({{interface_names}})\s*({{interface_numbers}}))
           )
@@ -5879,11 +6074,13 @@ contexts:
         2: entity.other.attribute-name     # tunnel
         3: constant.numeric                # tunnel te
         4: constant.numeric                # tunnel te123
-        5: support.constant                # interface range
-        6: entity.other.attribute-name     # interface range Loopback
-        7: constant.numeric                # interface range Loopback 1-2
-        8: entity.other.attribute-name     # interface Loopback
-        9: constant.numeric                # interface Loopback 1
+        5: entity.other.attribute-name     # bvi
+        6: constant.numeric                # bvi 65535
+        7: support.constant                # interface range
+        8: entity.other.attribute-name     # interface range Loopback
+        9: constant.numeric                # interface range Loopback 1-2
+        10: entity.other.attribute-name     # interface Loopback
+        11: constant.numeric                # interface Loopback 1
       push:
         - meta_content_scope: text.network.cisco.interface
         - include: interface_setting_base
@@ -5896,6 +6093,8 @@ contexts:
           pop: true
 
   interface_setting_base:
+    - include: interface_bandwidth
+    - include: interface_mtu
     - match: >
         (?xi)
         ^\s*
@@ -5966,25 +6165,66 @@ contexts:
 
 
   interface_setting_ip:
-    - match: >
+    - include: interface_ipv4_address
+    - include: interface_enable_ipv6
+    - include: interface_ipv6_address
+    - match: |
         (?xi)
         ^\s*
         (?:
           (?:(vrf)\s+({{vrf_name}}))|
-          (?:(ipv4)\s+(address)\s+({{ip}})\s+({{subnet_mask}}))|
           (?:(ipv4)\s+(unnumbered)\s+({{interface_names}})\s*({{interface_numbers}}))
         )
       captures:
         1: support.constant                           # vrf
         2: string.unquoted                            # vrf name
         3: support.constant                           # ipv4
-        4: support.constant                           # ipv4 address
-        5: constant.numeric.ip.ipv4.address           # ipv4 address ip
-        6: constant.numeric.network.ipv4.subnet_mask  # ipv4 address ip subnet mask
-        7: support.constant                           # ipv4
-        8: support.constant                           # ipv4 unumbered
-        9: entity.other.attribute-name                # ipv4 unumbered Loopback
-        10: constant.numeric                          # ipv4 unumbered Loopback 123
+        4: support.constant                           # ipv4 unumbered
+        5: entity.other.attribute-name                # ipv4 unumbered Loopback
+        6: constant.numeric                          # ipv4 unumbered Loopback 123
+
+  interface_ipv4_address:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:(ipv4)\s+(address)\s+({{ip}})\s+({{subnet_mask}}))
+        (?:\s+(secondary))?
+        (?:\s+(route-tag)\s+({{number_32_bit_wo_zero}}))?
+        \s*$
+      captures:
+        1: support.constant                           # ipv4
+        2: support.constant                           # ipv4 address
+        3: constant.numeric.ip.ipv4.address           # ipv4 address ip
+        4: constant.numeric.network.ipv4.subnet_mask  # ipv4 address ip subnet mask
+        5: support.constant
+        6: support.constant
+        7: constant.numeric
+
+  interface_enable_ipv6:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:(enable)\s+(ipv6))
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+
+  interface_ipv6_address:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:(ipv6)\s+(address)\s+({{ipv6_prefix}}))
+        (?:\s+(eui-64))?
+        (?:\s+(route-tag)\s+({{number_32_bit_wo_zero}}))?
+        \s*$
+      captures:
+        1: support.constant                           # ipv6
+        2: support.constant                           # ipv6 address
+        3: constant.numeric.ip.ipv6.prefix           # ipv6 address ip
+        4: support.constant
+        5: support.constant
+        6: constant.numeric
 
   interface_setting_l2:
     - match: >
@@ -6138,8 +6378,28 @@ contexts:
         - match: '\s*$'
           pop: true
 
+  interface_bandwidth:
+    - match: |
+        (?xi)
+        ^\s*
+        (bandwidth)\s+({{number_32_bit}})
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric
+
+  interface_mtu:
+    - match: |
+        (?xi)
+        ^\s*
+        (mtu)\s+({{mtu}})
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric.mtu
+
   interface_setting_te:
-    - match: >
+    - match: |
         (?xi)
         ^\s*
         (?:

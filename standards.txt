@@ -9,11 +9,15 @@ IOS Syntax
         subnet_mask   constant.numeric.network.ipv4.subnet_mask
         ipv4_prefix_length   constant.numeric.network.ipv4.prefix_length
         ipv6   constant.numeric.ip.ipv6.address
-        ipv6_prefix_length   constant.numeric.network.ipv6.prefix_length
         ipv6_prefix   constant.numeric.ip.ipv6.prefix
+        ipv6_prefix_length   constant.numeric.network.ipv6.prefix_length
         type_5_password string.unquoted.cisco.password.type.5
         type_7_password string.unquoted.cisco.password.type.7
+        
+        mac   constant.numeric.mac
 
         vlan_id constant.numeric.vlan.id
         vlan_range constant.numeric.vlan.range
-    
+        autonomous_system  constant.numeric.as
+        route-target constant.numeric.route.target
+        route-distinguisher constant.numeric.route.distinguisher
