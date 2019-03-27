@@ -1,0 +1,10 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.bgp.address_family.group",
+  "completions": [
+        { 
+            "trigger": "use\taf-group",
+            "contents": "use af-group ${1:AF_GROUP_NAME}"
+        },
+
+  ]
+}

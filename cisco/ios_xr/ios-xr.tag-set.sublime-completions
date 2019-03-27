@@ -1,0 +1,9 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.set.tag",
+    "completions": [
+        "show",
+        "abort",
+        "exit",
+        "end-set",
+    ]
+}

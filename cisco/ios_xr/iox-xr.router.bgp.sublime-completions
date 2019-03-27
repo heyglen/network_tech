@@ -1,0 +1,101 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.router.bgp & -(text.network.cisco.bgp.vrf)",
+  "completions": [
+        { 
+            "trigger": "bgp\trouter-id",
+            "contents": "bgp router-id ${1:192.168.1.1}"
+        },
+        { 
+            "trigger": "session-group\t",
+            "contents": "session-group ${1:NAME}\n\t$0\n"
+        },
+        { 
+            "trigger": "af-group\tipv4 unicast",
+            "contents": "af-group ${1:NAME} address-family ipv4 unicast\n\t$0\n"
+        },
+        { 
+            "trigger": "af-group\tvpnv4 unicast",
+            "contents": "af-group ${1:NAME} address-family vpnv4 unicast\n\t$0\n"
+        },
+        { 
+            "trigger": "af-group\tipv4 multicast",
+            "contents": "af-group ${1:NAME} address-family ipv4 multicast\n\t$0\n"
+        },
+        { 
+            "trigger": "af-group\tipv4 labeled-unicast",
+            "contents": "af-group ${1:NAME} address-family ipv4 labeled-unicast\n\t$0\n"
+        },
+        { 
+            "trigger": "af-group\tipv6 unicast",
+            "contents": "af-group ${1:NAME} address-family ipv6 unicast\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tipv4 unicast",
+            "contents": "address-family ipv4 unicast\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tipv4 multicast",
+            "contents": "address-family ipv4 multicast\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tipv4 labeled-unicast",
+            "contents": "address-family ipv4 labeled-unicast\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tipv4 flowspec",
+            "contents": "address-family ipv4 flowspec\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tipv4 mvpn",
+            "contents": "address-family ipv4 mvpn\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tvpnv4 unicast",
+            "contents": "address-family vpnv4 unicast\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tvpnv4 multicast",
+            "contents": "address-family vpnv4 multicast\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tvpnv4 flowspec",
+            "contents": "address-family vpnv4 flowspec\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tipv6 unicast",
+            "contents": "address-family ipv6 unicast\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tipv6 flowspec",
+            "contents": "address-family ipv6 flowspec\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tipv6 mvpn",
+            "contents": "address-family ipv6 mvpn\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tvpnv4 unicast",
+            "contents": "address-family vpnv4 unicast\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tvpnv4 flowspec",
+            "contents": "address-family vpnv4 flowspec\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tl2vpn vpls-vpws",
+            "contents": "address-family l2vpn vpls-vpws\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tl2vpn vpls-vpws",
+            "contents": "address-family l2vpn vpls-vpws\n\t$0\n"
+        },
+        {
+            "trigger": "address-family\tlink-state link-state",
+            "contents": "address-family link-state link-state\n\t$0\n"
+        },
+        {
+            "trigger": "neighbor\t",
+            "contents": "neighbor ${1:192.168.1.1}\n\t$0\n"
+        },
+  ]
+}

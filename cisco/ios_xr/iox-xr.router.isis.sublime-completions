@@ -1,0 +1,57 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.router.isis & -(text.network.cisco.isis.address_family)",
+  "completions": [
+        { 
+            "trigger": "net\t",
+            "contents": "net ${1:49.0000.0002.0121.00}"
+        },
+        { 
+            "trigger": "adjacency\tstagger disable",
+            "contents": "adjacency stagger disable"
+        },
+        { 
+            "trigger": "adjacency\tstagger",
+            "contents": "adjacency stagger ${1:65535} ${2:65535}"
+        },
+        { 
+            "trigger": "nsf\tcisco",
+            "contents": "nsf cisco"
+        },
+        { 
+            "trigger": "nsf\tietf",
+            "contents": "nsf ietf"
+        },
+        { 
+            "trigger": "nsf\tinterface-expires 1",
+            "contents": "nsf interface-expires 1"
+        },
+        { 
+            "trigger": "nsf\tinterface-expires 2",
+            "contents": "nsf interface-expires 2"
+        },
+        { 
+            "trigger": "nsf\tinterface-expires 3",
+            "contents": "nsf interface-expires 3"
+        },
+        { 
+            "trigger": "nsf\tinterface-timer",
+            "contents": "nsf interface-timer ${1:3}"
+        },
+        { 
+            "trigger": "address-family\tipv4 unicast",
+            "contents": "address-family ipv4 unicast\n\t$0\n"
+        },
+        { 
+            "trigger": "address-family\tipv4 multicast",
+            "contents": "address-family ipv4 multicast\n\t$0\n"
+        },
+        { 
+            "trigger": "address-family\tipv4 multicast topology",
+            "contents": "address-family ipv4 multicast topology ${1:TOPOLOGY_NAME}\n\t$0\n"
+        },
+        { 
+            "trigger": "address-family\tipv4 multicast topology + max prefix",
+            "contents": "address-family ipv4 multicast topology ${1:TOPOLOGY_NAME} maximum prefix ${2:2000000}\n\t$0\n"
+        },
+  ]
+}

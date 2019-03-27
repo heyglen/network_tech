@@ -1,0 +1,9 @@
+{
+  "scope": "text.network.cisco.ios_xr & (text.network.cisco.mpls.traffic_eng.auto_tunnel_backup | text.network.cisco.mpls.traffic_eng.interface.auto_tunnel_backup)",
+  "completions": [
+        { 
+            "trigger": "tunnel-id\tmin/max",
+            "contents": "tunnel-id min ${1:2100} max ${2:2199}"
+        },
+  ]
+}

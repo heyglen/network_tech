@@ -1,0 +1,21 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.mpls.traffic_eng & -(text.network.cisco.mpls.traffic_eng.interface | text.network.cisco.mpls.traffic_eng.auto_tunnel_backup)",
+  "completions": [
+        { 
+            "trigger": "auto-tunnel\tbackup",
+            "contents": "auto-tunnel backup\n\t$0\n"
+        },
+        { 
+            "trigger": "interface\tGi",
+            "contents": "interface GigabitEthernet${1:0/0/0/0}\n\t$0\n"
+        },
+        { 
+            "trigger": "interface\tLo",
+            "contents": "interface Loopback${1:0}\n\t$0\n"
+        },
+        { 
+            "trigger": "router-id\tsecondary",
+            "contents": "router-id secondary ${1:192.168.1.1}"
+        },
+  ]
+}

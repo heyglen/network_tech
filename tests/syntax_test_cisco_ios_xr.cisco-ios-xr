@@ -14,6 +14,15 @@ alias si show ipv4 int brief
 domain name example.com
 
 cdp
+
+vrf VRF_NAME
+  address-family ipv4 unicast
+    import route-target
+      
+    
+  
+
+
 vrf VRF_NAME
  address-family ipv4 unicast
   import route-target
@@ -52,7 +61,9 @@ vrf VRF_NAME
   !
  !
 !
+
 interface GigabitEthernet0/0/0/0
+  shutdown
   bandwidth 4294967295
   mtu 64
   mtu 65535
@@ -109,7 +120,7 @@ interface Loopback100
 interface tunnel-te11211
  ipv4 unnumbered Loopback100
  signalled-bandwidth 10000
- destination 100.64.1.111
+ destination 1.2.3.4
  ! https://www.cisco.com/c/en/us/td/docs/iosxr/ncs5500/mpls/b-mpls-cr-ncs5500/b-ncs5500-mpls-cli-reference_chapter_0100.html#wp8840483240
  path-option dynamic
  path-option 1 dynamic
@@ -186,10 +197,11 @@ interface GigabitEthernet0/0/0/5.100
 !
 ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2072001
 rpl editor nano
+rpl editor vim
+rpl editor emacs
 ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2082825
 rpl maximum lines 131072
 rpl maximum policies 5000
-
 
 extcommunity-set rt SET_NAME
   ios-regex '.*',
@@ -259,7 +271,7 @@ ospf-area-set SET_NAME
   1.2.3.4
   show
  end-set
- 
+
 ospf-area-set SET_NAME
   abort
 
@@ -295,6 +307,7 @@ end-policy
 
 route-policy SET_NAME ($PARAMETER, $PARAMETER)
 end-policy
+
 
 route-policy SET_NAME
   if destination in SET_NAME then
@@ -1369,6 +1382,7 @@ clear isis instance ISIS_INSTANCE_NAME ipv6 multicast topology TOPOLOGY_NAME rou
 clear isis instance ISIS_INSTANCE_NAME ipv6 safi-all topology TOPOLOGY_NAME route
 
 clear isis instance ISIS_INSTANCE_NAME statistics
+  
 
 router isis ISIS_INSTANCE_NAME
   net 49.0000.0002.0121.00
@@ -1382,8 +1396,10 @@ router isis ISIS_INSTANCE_NAME
   nsf interface-expires 3
   nsf interface-timer 3
   nsf interface-timer 20
+
  !
  address-family ipv4 multicast topology TOPOLOGY_NAME
+
  address-family ipv4 multicast topology TOPOLOGY_NAME maximum prefix 2000000
  !
  address-family ipv4 multicast
@@ -1475,7 +1491,7 @@ router ospf OSPF_INSTANCE_NAME
     domain-id type 0105 value 0123456789AB
     domain-id type 0205 value 0123456789AB
     domain-id type 8005 value 0123456789AB
-    redistribute bgp 65000
+    redistribute bgp 65535
     redistribute bgp 1.0
     redistribute bgp 65000.65000
     redistribute bgp 4294967295
@@ -1564,7 +1580,7 @@ router bgp 65000 instance INSTANCE_NAME
   !
  !
  vrf VRF_NAME
-  rd 1:121
+  rd 1:1
   neighbor 1.2.3.4
     use neighbor-group RR
     remote-as 65535
@@ -1573,8 +1589,6 @@ router bgp 65000 instance INSTANCE_NAME
     use neighbor-group RR
     remote-as 65535
     update-source Loopback0
-
-
   address-family ipv4 unicast
    redistribute connected
    redistribute ospf ospfCUST1
@@ -1632,8 +1646,10 @@ rsvp
  !
 !
 mpls traffic-eng
+
  interface GigabitEthernet0/0/0/1
   ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-3/mpls/command/reference/b-mpls-cr-asr9000-63x/b-mpls-cr-asr9000-63x_chapter_0100.html#wp1061540266
+  
   auto-tunnel backup
   !
  !
@@ -1646,6 +1662,7 @@ mpls traffic-eng
  !
  router-id secondary 1.2.3.4
 !
+
 mpls ldp
  router-id 1.2.3.4
 !

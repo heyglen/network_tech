@@ -1,0 +1,9 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.bgp.vrf.address_family.ipv4",
+  "completions": [
+        { 
+            "trigger": "redistribute\tospf",
+            "contents": "redistribute ospf ${1:INSTANCE_NAME}"
+        },
+  ]
+}

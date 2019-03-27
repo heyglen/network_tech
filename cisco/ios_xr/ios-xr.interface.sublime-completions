@@ -1,0 +1,123 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.interface",
+    "completions": [
+        { 
+            "trigger": "bandwidth\t", 
+            "contents": "bandwidth ${1:4294967295}"
+        },
+        { 
+            "trigger": "mtu\t1514 default ethernet",
+            "contents": "mtu ${1:1514}"
+        },
+        { 
+            "trigger": "mtu\t4474 default POS",
+            "contents": "mtu ${1:4474}"
+        },
+        { 
+            "trigger": "mtu\t1500 default Tunnel",
+            "contents": "mtu ${1:1500}"
+        },
+        { 
+            "trigger": "mtu\t1514 default Loopback",
+            "contents": "mtu ${1:1514}"
+        },
+        { 
+            "trigger": "mtu\t4470 ATM default",
+            "contents": "mtu ${1:4470}"
+        },
+        { 
+            "trigger": "circuit-type\tlevel-1", 
+            "contents": "circuit-type level-1"
+        },
+        { 
+            "trigger": "circuit-type\tlevel-1-2", 
+            "contents": "circuit-type level-1-2"
+        },
+        { 
+            "trigger": "circuit-type\tlevel-2-only", 
+            "contents": "circuit-type level-2-only"
+        },
+        { 
+            "trigger": "csnp-interval\tseconds", 
+            "contents": "csnp-interval ${1:10}"
+        },
+        { 
+            "trigger": "csnp-interval\tlevel 1", 
+            "contents": "csnp-interval ${1:10} level 1"
+        },
+        { 
+            "trigger": "csnp-interval\tlevel 2", 
+            "contents": "csnp-interval ${1:10} level 2"
+        },
+        { 
+            "trigger": "address-family\tipv4",
+            "contents": "address-family ipv4 unicast\n\t$0\n"
+        },
+        { 
+            "trigger": "ipv4\taddress",
+            "contents": "ipv4 address ${1:192.168.1.1} ${2:255.255.255.0}"
+        },
+        { 
+            "trigger": "ipv4\tsecondary address",
+            "contents": "ipv4 address ${1:192.168.1.1} ${2:255.255.255.0} secondary"
+        },
+        { 
+            "trigger": "ipv4\tunnumbered",
+            "contents": "ipv4 unnumbered ${1:Loopback}${2:0}"
+        },
+        { 
+            "trigger": "enable\tipv6",
+            "contents": "enable ipv6"
+        },
+        { 
+            "trigger": "ipv6\taddress",
+            "contents": "ipv6 address ${1:1::1/64}"
+        },
+        { 
+            "trigger": "ipv6\taddress eui-64",
+            "contents": "ipv6 address ${1:1::1/64} eui-64"
+        },
+        { 
+            "trigger": "vrf\tinterface VRF",
+            "contents": "vrf ${1:VRF_NAME}"
+        },
+        { 
+            "trigger": "signalled-bandwidth\t",
+            "contents": "signalled-bandwidth ${1:10000}"
+        },
+        { 
+            "trigger": "destination\t",
+            "contents": "destination ${1:192.168.1.1}"
+        },
+        { 
+            "trigger": "path-option\tdynamic",
+            "contents": "path-option ${1:1} dynamic"
+        },
+        { 
+            "trigger": "path-option\tdynamic + protecting",
+            "contents": "path-option ${1:1} protecting ${2:1000} dynamic"
+        },
+        { 
+            "trigger": "path-option\tdynamic + protecting + attribute-set",
+            "contents": "path-option ${1:1} protecting ${2:1000} dynamic attribute-set ${3:NAME}"
+        },
+        { 
+            "trigger": "path-option\texplicit(FULL)",
+            "contents": "path-option ${1:1} protecting ${2:1000} explicit identifier ${3:123} protected-by ${4:123} attribute-set ${5:NAME}dynamic"
+        },
+        { 
+            "trigger": "encapsulation\tdot1q",
+            "contents": "encapsulation dot1q ${1:123}"
+        },
+        { 
+            "trigger": "address-family\tipv4 unicast",
+            "contents": "address-family ipv4 unicast\n\t$0\n"
+        },
+        { 
+            "trigger": "address-family\tipv6 unicast",
+            "contents": "address-family ipv6 unicast\n\t$0\n"
+        },
+        "cdp",
+        "shutdown",
+    ]
+}

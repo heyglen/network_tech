@@ -1,0 +1,17 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.vrf.address_family.ipv4",
+  "completions": [
+        { 
+            "trigger": "import\troute-target",
+            "contents": "import route-target\n\t$0\n"
+        },
+        { 
+            "trigger": "export\troute-target",
+            "contents": "export route-target\n\t$0\n"
+        },
+        { 
+            "trigger": "export\troute-policy",
+            "contents": "export route-policy ${1:ROUTE_POLICY_NAME}\n\t$0\n"
+        },
+  ]
+}

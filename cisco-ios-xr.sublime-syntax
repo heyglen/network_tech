@@ -793,7 +793,8 @@ variables:
         (?:hostname)|
         (?:interface)|
         (?:lacp)|
-        (?:mpls)|
+        (?:mpls\s+traffic-eng\s*$)|
+        (?:mpls\s+ldp\s*$)|
         (?:prefix-set)|
         (?:route-policy)|
         (?:router)|
@@ -1204,10 +1205,8 @@ variables:
 contexts:
 
   main:
-    - include: enable
     - include: configure_terminal
     - include: configure_terminal_scope
-    - include: do_show
     - include: scope
 
 
@@ -1261,7 +1260,6 @@ contexts:
   configure_terminal:
     - match: ^\s*(?:(conf(?:igure)?))
       # with_prototype:
-      #   - include: do_show
       #   - include: scope
       captures:
         0: cisco.scope
@@ -1281,10 +1279,8 @@ contexts:
     - include: router_eigrp
     - include: mpls_traffic_eng
     - include: mpls_ldp
-    - include: ospf
     - include: vrf
     - include: lacp
-    - include: snmp
     - include: policy_global
     - include: ntp
     - include: hostname
@@ -1748,7 +1744,7 @@ contexts:
         4: support.constant
         5: string.unquoted
       push:
-        - meta_content_scope: text.network.cisco.bgp
+        - meta_content_scope: text.network.cisco.router.bgp
         - include: router_bgp_setting
         - include: router_bgp_address_family
         - include: router_bgp_neighbor
@@ -2538,7 +2534,7 @@ contexts:
         3: constant.numeric                # interface MgmtEth 0/0/CPU0/0
       push:
       - meta_content_scope: text.network.cisco.interface.management
-      - include: interface_settings
+      - include: interface_setting_base
       - include: pop_on_configure_terminal_context
 
   rpl_set_definition:
@@ -2600,7 +2596,7 @@ contexts:
         2: constant.character               # extcommunity-set cost
         3: string.unquoted                # extcommunity-set cost NAME
       push:
-      - meta_content_scope: text.network.cisco.extcommunity_cost_set
+      - meta_content_scope: text.network.cisco.set.extcommunity_cost
       - match: |
           (?xi)
           ^\s*
@@ -2640,7 +2636,7 @@ contexts:
         2: constant.character               # extcommunity-set soo
         3: string.unquoted                # extcommunity-set soo NAME
       push:
-      - meta_content_scope: text.network.cisco.extcommunity_soo_set
+      - meta_content_scope: text.network.cisco.set.extcommunity_soo
       - match: |
           (?xi)
           ^\s*
@@ -2756,7 +2752,7 @@ contexts:
         1: variable.parameter             # prefix-set
         2: string.unquoted                # prefix-set NAME
       push:
-      - meta_content_scope: text.network.cisco.prefix_set
+      - meta_content_scope: text.network.cisco.set.prefix
       - include: rpl_prefix
       - include: set_prototype
       - match: '{{ctx_pop_configure_terminal}}'
@@ -2792,7 +2788,7 @@ contexts:
         1: variable.parameter
         2: string.unquoted
       push:
-      - meta_content_scope: text.network.cisco.ospf_area_set
+      - meta_content_scope: text.network.cisco.set.ospf_area
       - include: rpl_ospf_area_id
       - include: set_prototype
       - match: '{{ctx_pop_configure_terminal}}'
@@ -6124,7 +6120,6 @@ contexts:
   interface_setting_isis:
     - include: interface_setting_isis_circuit_type
     - include: interface_setting_isis_csnp_interval
-    - include: interface_setting_isis_mpls
 
   interface_setting_isis_circuit_type:
     - match: |
@@ -6156,7 +6151,7 @@ contexts:
   interface_setting_isis_mpls:
     - match: |
         (?xi)
-        ^\s*(mpls)\s+
+        ^\s*(mpls)\s+(?=ldp\s+sync)
       captures:
         1: support.constant
       push:
@@ -6172,8 +6167,6 @@ contexts:
             2: support.constant
             3: support.constant
             4: constant.numeric
-          pop: true
-        - match: '\s*$'
           pop: true
 
 
@@ -6252,7 +6245,6 @@ contexts:
         3: constant.numeric                           # encapsulation dot1q 123
 
   interface_address_family:
-    - include: interface_ipv4_address_family_multicast_topology
     - include: interface_ipv4_address_family
     - include: interface_ipv6_address_family
 
@@ -6270,7 +6262,7 @@ contexts:
         2: constant.character
         3: support.constant
       push:
-      - meta_content_scope: text.network.cisco.address_family.interface.ipv4
+      - meta_content_scope: text.network.cisco.interface.address_family.ipv4
       - include: interface_address_family_setting
       - match: '{{ctx_pop_vrf}}'
         pop: true
@@ -6289,7 +6281,7 @@ contexts:
         2: constant.character
         3: support.constant
       push:
-      - meta_content_scope: text.network.cisco.address_family.interface.ipv6
+      - meta_content_scope: text.network.cisco.interface.address_family.ipv6
       - include: interface_address_family_setting
       - match: '{{ctx_pop_vrf}}'
         pop: true
@@ -6298,6 +6290,7 @@ contexts:
     - include: interface_address_family_setting_isis
 
   interface_address_family_setting_isis:
+    - include: interface_setting_isis_mpls
     - include: interface_setting_isis_fast_reroute_per_link
     - include: interface_setting_isis_fast_reroute_per_prefix
     - match: 'disable'
@@ -6559,6 +6552,7 @@ contexts:
         5: entity.other.attribute-name     # interface Loopback
         6: constant.numeric                # interface Loopback 1
       push:
+        - meta_content_scope: text.network.cisco.ospf.area.interface
         - include: ospf_loopback_stub_network
         - match: '{{ctx_pop_router_ospf_area}}'
           pop: true
@@ -7024,7 +7018,7 @@ contexts:
         5: support.constant
         6: constant.numeric
       push:
-      - meta_content_scope: text.network.cisco.address_family.static.ipv4
+      - meta_content_scope: text.network.cisco.isis.address_family.ipv4
       - include: ipv4_route
       - match: '{{ctx_pop_vrf}}'
         pop: true
@@ -7159,7 +7153,7 @@ contexts:
         2: support.constant
         3: support.constant
       push:
-      - meta_content_scope: text.network.cisco.address_family.ipv4
+      - meta_content_scope: text.network.cisco.vrf.address_family.ipv4
       - match: '{{ctx_pop_vrf}}'
         pop: true
       - include: vrf_import_route_target

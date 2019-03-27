@@ -1,0 +1,9 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.set.ospf_area",
+    "completions": [
+        "show",
+        "abort",
+        "exit",
+        "end-set",
+    ]
+}
