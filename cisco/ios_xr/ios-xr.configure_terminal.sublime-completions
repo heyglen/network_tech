@@ -86,8 +86,16 @@
             "contents": "router bgp ${1:6500} instance ${2:BGP_INSTANCE_NAME}\n\t$0\n"
         },
         { 
+            "trigger": "router\teigrp",
+            "contents": "router eigrp ${1:65535}\n\t$0\n"
+        },
+        { 
             "trigger": "mpls\ttraffic-eng",
             "contents": "mpls traffic-eng\n\t$0\n"
+        },
+        { 
+            "trigger": "mpls\tldp",
+            "contents": "mpls ldp\n\t$0\n"
         },
         "commit",
         "cdp",

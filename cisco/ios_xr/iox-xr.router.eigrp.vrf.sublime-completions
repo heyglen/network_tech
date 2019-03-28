@@ -1,0 +1,9 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.eigrp.vrf",
+  "completions": [
+        {
+            "trigger": "address-family\tipv4",
+            "contents": "address-family ipv4\n\t$0\n"
+        },
+  ]
+}

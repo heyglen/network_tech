@@ -1,7 +1,7 @@
 from collections import namedtuple
 
 
-_SYNTAX_ATTRIBUTES = 'asa ace ios nxos'
+_SYNTAX_ATTRIBUTES = 'asa ace ios nxos ios_xr'
 _DETECT_SYNTAX_ATTRIBUTES = _SYNTAX_ATTRIBUTES + ' cisco'
 
 SYNTAX = namedtuple('Syntax', _SYNTAX_ATTRIBUTES)(

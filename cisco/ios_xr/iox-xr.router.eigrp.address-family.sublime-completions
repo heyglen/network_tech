@@ -1,0 +1,33 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.eigrp.address_family",
+  "completions": [
+        { 
+            "trigger": "autonomous-system\t",
+            "contents": "autonomous-system ${1:65535}"
+        },
+        { 
+            "trigger": "router-id\t",
+            "contents": "router-id ${1:192.168.1.1}"
+        },
+        {
+            "trigger": "redistribute\tbgp",
+            "contents": "redistribute bgp ${1:65535}"
+        },
+        {
+            "trigger": "redistribute\tconnected",
+            "contents": "redistribute connected"
+        },
+        {
+            "trigger": "redistribute\tstatic",
+            "contents": "redistribute static"
+        },
+        {
+            "trigger": "redistribute\tospf",
+            "contents": "redistribute ospf"
+        },
+        {
+            "trigger": "redistribute\teigrp",
+            "contents": "redistribute eigrp ${1:65535}"
+        },
+  ]
+}

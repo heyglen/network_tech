@@ -1,0 +1,9 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.mpls.ldp",
+  "completions": [
+        { 
+            "trigger": "router-id\t",
+            "contents": "router-id ${1:192.168.1.1}"
+        },
+  ]
+}
