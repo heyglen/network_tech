@@ -14,7 +14,7 @@ import requests
 
 from .factory import Parse
 
-installed_pacakges = str(pathlib.Path(__file__).parent.parent.parent.parent)
+installed_pacakges = str(pathlib.Path(__file__).parent.parent.parent)
 sys.path.append(installed_pacakges)
 
 from network_tech.lib.utilities import cache

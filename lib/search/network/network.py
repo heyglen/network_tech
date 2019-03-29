@@ -16,7 +16,7 @@ from .html_helper import Html
 from .selection_utility import SelectionUtility
 from .variables import ip
 
-installed_pacakges = str(pathlib.Path(__file__).parent.parent.parent.parent.parent)
+installed_pacakges = str(pathlib.Path(__file__).parent.parent.parent.parent)
 sys.path.append(installed_pacakges)
 
 from network_tech.lib.iana import Iana
