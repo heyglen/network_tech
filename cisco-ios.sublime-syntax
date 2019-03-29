@@ -13,7 +13,7 @@ first_line_match: |
     [#!]
     .*
     (?:
-      (?:ios)
+      (?:ios\b)
     )
 scope: text.network.cisco.ios text.network.cisco.configure_terminal
 
