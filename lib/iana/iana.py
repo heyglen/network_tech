@@ -11,7 +11,11 @@ from collections import namedtuple
 import requests
 
 from .factory import Parse
-from network_tech.lib.utilities import cache
+
+try:
+    from network_tech.lib.utilities import cache
+except ImportError:
+    from Default.network_tech.lib.utilities import cache
 
 
 _URL = namedtuple('Url', 'ipv4 ipv6')(

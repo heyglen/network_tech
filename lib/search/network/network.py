@@ -13,7 +13,11 @@ import sublime
 from .html_helper import Html
 from .selection_utility import SelectionUtility
 from .variables import ip
-from network_tech.lib.iana import Iana
+
+try:
+    from network_tech.lib.iana import Iana
+except ImportError:
+    from Default.network_tech.lib.iana import Iana
 
 
 logger = logging.getLogger('network_tech.search.network.network')
