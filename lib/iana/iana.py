@@ -5,17 +5,18 @@ Copyright 2019 Glen Harmon
 
 """
 
-import ipaddress
 from collections import namedtuple
+import ipaddress
+import os
+import sys
 
 import requests
 
 from .factory import Parse
 
-try:
-    from network_tech.lib.utilities import cache
-except ImportError:
-    from Default.network_tech.lib.utilities import cache
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+
+from network_tech.lib.utilities import cache
 
 
 _URL = namedtuple('Url', 'ipv4 ipv6')(

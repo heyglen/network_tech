@@ -7,6 +7,7 @@ Copyright 2017 Glen Harmon
 import os
 import ipaddress
 import logging
+import sys
 
 import sublime
 
@@ -14,10 +15,9 @@ from .html_helper import Html
 from .selection_utility import SelectionUtility
 from .variables import ip
 
-try:
-    from network_tech.lib.iana import Iana
-except ImportError:
-    from Default.network_tech.lib.iana import Iana
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+
+from network_tech.lib.iana import Iana
 
 
 logger = logging.getLogger('network_tech.search.network.network')
