@@ -5,6 +5,7 @@ Copyright 2017 Glen Harmon
 
 
 import os
+import pathlib
 import ipaddress
 import logging
 import sys
@@ -15,7 +16,8 @@ from .html_helper import Html
 from .selection_utility import SelectionUtility
 from .variables import ip
 
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+installed_pacakges = str(pathlib.Path(__file__).parent.parent.parent.parent.parent)
+sys.path.append(installed_pacakges)
 
 from network_tech.lib.iana import Iana
 

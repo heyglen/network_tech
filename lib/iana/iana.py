@@ -7,14 +7,15 @@ Copyright 2019 Glen Harmon
 
 from collections import namedtuple
 import ipaddress
-import os
+import pathlib
 import sys
 
 import requests
 
 from .factory import Parse
 
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+installed_pacakges = str(pathlib.Path(__file__).parent.parent.parent.parent)
+sys.path.append(installed_pacakges)
 
 from network_tech.lib.utilities import cache
 
