@@ -22,6 +22,8 @@ DETECT_SYNTAX = namedtuple('DetectSyntax', _DETECT_SYNTAX_ATTRIBUTES)(
         r'^Building configuration...$',
         r'^Current configuration : \d+ bytes$',
         r'^Generating configuration....',
+        r'\bios-regex\s+',
+        r'^\s*\bnsf\s+cisco\s*$',
     ],
     asa=[
         r'^ASA Version \d+\.\d+',
