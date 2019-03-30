@@ -23,7 +23,7 @@ Iana = importlib.import_module('Network Tech.lib.iana').Iana
 logger = logging.getLogger('network_tech.search.network.network')
 
 
-iana = Iana(os.path.sep.join(['network_tech', 'iana.cache']))
+iana = Iana(os.path.sep.join(['Network Tech', 'iana.cache']))
 
 
 
