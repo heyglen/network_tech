@@ -16,10 +16,13 @@ from .html_helper import Html
 from .selection_utility import SelectionUtility
 from .variables import ip
 
-# installed_pacakges = str(pathlib.Path(__file__).parent.parent.parent.parent)
-# sys.path.append(installed_pacakges)
+try:
+    from network_tech.lib.iana import Iana
+except ImportError:
+    import importlib
+    Iana = importlib.import_module('Network Tech.lib.iana').Iana
 
-from network_tech.lib.iana import Iana
+# from network_tech.lib.iana import Iana
 
 
 logger = logging.getLogger('network_tech.search.network.network')

@@ -14,11 +14,11 @@ import requests
 
 from .factory import Parse
 
-# installed_pacakges = str(pathlib.Path(__file__).parent.parent.parent)
-# sys.path.append(installed_pacakges)
-
-from network_tech.lib.utilities import cache
-
+try:
+    from network_tech.lib.utilities import cache
+except ImportError:
+    import importlib
+    cache = importlib.import_module('Network Tech.lib.untilities').cache
 
 _URL = namedtuple('Url', 'ipv4 ipv6')(
     ipv4='https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.xml',
