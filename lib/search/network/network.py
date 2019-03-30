@@ -5,10 +5,9 @@ Copyright 2017 Glen Harmon
 
 
 import os
-import pathlib
 import ipaddress
 import logging
-import sys
+import importlib
 
 import sublime
 
@@ -16,11 +15,7 @@ from .html_helper import Html
 from .selection_utility import SelectionUtility
 from .variables import ip
 
-try:
-    from network_tech.lib.iana import Iana
-except ImportError:
-    import importlib
-    Iana = importlib.import_module('Network Tech.lib.iana').Iana
+Iana = importlib.import_module('Network Tech.lib.iana').Iana
 
 # from network_tech.lib.iana import Iana
 

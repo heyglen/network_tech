@@ -7,18 +7,13 @@ Copyright 2019 Glen Harmon
 
 from collections import namedtuple
 import ipaddress
-import pathlib
-import sys
+import importlib
 
 import requests
 
 from .factory import Parse
 
-try:
-    from network_tech.lib.utilities import cache
-except ImportError:
-    import importlib
-    cache = importlib.import_module('Network Tech.lib.untilities').cache
+cache = importlib.import_module('Network Tech.lib.utilities').cache
 
 _URL = namedtuple('Url', 'ipv4 ipv6')(
     ipv4='https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.xml',
