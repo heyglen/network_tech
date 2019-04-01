@@ -49,12 +49,21 @@ class NetworkInfoListener(sublime_plugin.ViewEventListener):
                 if content:
                     self._update_popup(content, location)
 
+                get_rir = functools.partial(Network.rir, network)
+                get_hostname = functools.partial(Network.ptr_lookup, network)
+
                 self._loading_popup(
                     location,
                     content,
-                    functools.partial(Network.rir, network),
-                    'Getting RIR...'
+                    lambda: get_rir() + get_hostname(),
+                    'Querying RIR & DNS...'
                 )
+                # self._loading_popup(
+                #     location,
+                #     content,
+                #     functools.partial(Network.ptr_lookup, network),
+                #     'Performing Reverse Lookup...'
+                # )
             # Match only the first
             break
 
@@ -81,6 +90,8 @@ class NetworkInfoListener(sublime_plugin.ViewEventListener):
                     content,
                     flags=sublime.COOPERATE_WITH_AUTO_COMPLETE,
                     location=location,
+                    max_width=20000,
+                    max_height=20000,
                 )
 
 class FindSubnetCommand(sublime_plugin.TextCommand):

@@ -46,7 +46,7 @@ show ip route vrf NAME 1.1.1.1
 show ip route 1.1.1.1
 show ip route
 
-show ipv6 route vrf NAME 1::1
+show ipv6 route vrf NAME 2a00:1450:400e:800::200e
 show ipv6 route 1::1
 show ipv6 route
 show ip bgp

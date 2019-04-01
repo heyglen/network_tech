@@ -14,6 +14,45 @@ import sublime
 
 
 class cache:
+    _memory_cache = dict()
+    @classmethod
+    def memory(cls, expire_minutes=240, is_class_method=False):
+        """
+            The is_class_method flag will strip the first argument 
+        """
+
+        def decorator(function):
+
+            @functools.wraps(function)
+            def wrapper(*args, **kwargs):
+
+                if is_class_method:
+                    arguments = args[1:]
+                else:
+                    arguments = args
+                arguments = [str(a) for a in arguments]
+                kw_arguments = [str(a) for a in kwargs]
+
+                cache_key = json.dumps((arguments, kw_arguments), ensure_ascii=False, sort_keys=True)
+
+                if cache_key in cls._memory_cache:
+                    expire, result = cls._memory_cache[cache_key]
+                    expire = datetime.datetime.strptime(expire, '%Y-%m-%d %H:%M:%S')
+                    if (expire - datetime.datetime.now()).total_seconds() > 0:
+                        return result
+                    cls._memory_cache.pop(cache_key)
+
+                result = function(*args, **kwargs)
+
+                expire = datetime.datetime.now().replace(second=0, microsecond=0) + datetime.timedelta(minutes=expire_minutes)
+
+                cache = (str(expire), result)
+
+                cls._memory_cache[cache_key] = cache
+
+                return result
+            return wrapper
+        return decorator
 
     @classmethod
     def file(cls, path, expire_minutes=240, encoding='utf-8', is_class_method=False):

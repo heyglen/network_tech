@@ -8,6 +8,7 @@ import os
 import ipaddress
 import logging
 import importlib
+import socket
 
 import sublime
 
@@ -16,6 +17,7 @@ from .selection_utility import SelectionUtility
 from .variables import ip
 
 Iana = importlib.import_module('Network Tech.lib.iana').Iana
+cache = importlib.import_module('Network Tech.lib.utilities').cache
 
 # from network_tech.lib.iana import Iana
 
@@ -89,6 +91,30 @@ class Network:
             content = Html.div('RIR: {}'.format(rir))
         else:
             content = ''
+        return content
+
+    @classmethod
+    @cache.memory(expire_minutes=5, is_class_method=True)
+    def ptr_lookup(cls, network):
+        ip = str(ipaddress.ip_interface(network).ip)
+        try:
+            primary_hostname, alias_hostnames, other_ips = socket.gethostbyaddr(ip)
+        except socket.herror as e:
+            logger.debug('DNS Reverse Lookup Error {}'.format(e))
+            return Html.div('DNS: n/a')
+
+        content = Html.div(
+            'DNS: {}'.format(
+                socket.getfqdn(primary_hostname)
+            )
+        )
+
+        if alias_hostnames:
+            content += Html.div('DNS Aliases:')
+        for hostname in alias_hostnames:
+            fqdn_hostname = socket.getfqdn(hostname)
+            logger.debug('Alias {} FQDN {}'.format(hostname, fqdn_hostname))
+            content += Html.div(fqdn_hostname)
         return content
 
     @classmethod
@@ -188,13 +214,26 @@ class Network:
             except ValueError:
                 pass
             logger.debug('Network regexp match: "{}" from {}'.format(network, match.group()))
-        else:
-            match = ip.v4.host.search(network_text)
-            if match:
-                ip_address = match.group('ip')
-                network = ipaddress.ip_interface(ip_address)
-                logger.debug('Host regexp match: "{}" from {}'.format(network, match.group()))
-                
+            return network
+        match = ip.v4.host.search(network_text)
+        if match:
+            ip_address = match.group('ip')
+            network = ipaddress.ip_interface(ip_address)
+            logger.debug('Host regexp match: "{}" from {}'.format(network, match.group()))
+            return network
+
+        match = ip.v6.network.search(network_text)
+        if match:
+            network = ipaddress.ip_interface(match.group(0))
+            logger.debug('Host regexp match: "{}" from {}'.format(network, match.group()))
+            return network
+
+        match = ip.v6.host.search(network_text)
+        if match:
+            network = ipaddress.ip_interface(match.group(0))
+            logger.debug('Host regexp match: "{}" from {}'.format(network, match.group()))
+            return network
+
         return network
 
     @classmethod
