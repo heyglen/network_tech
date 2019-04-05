@@ -5,11 +5,11 @@ _SYNTAX_ATTRIBUTES = 'asa ace ios nxos ios_xr'
 _DETECT_SYNTAX_ATTRIBUTES = _SYNTAX_ATTRIBUTES + ' cisco'
 
 SYNTAX = namedtuple('Syntax', _SYNTAX_ATTRIBUTES)(
-    asa='Packages/network_tech/cisco-asa.sublime-syntax',
-    ace='Packages/network_tech/cisco-ace.sublime-syntax',
-    ios='Packages/network_tech/cisco-ios.sublime-syntax',
-    nxos='Packages/network_tech/cisco-nxos.sublime-syntax',
-    ios_xr='Packages/network_tech/cisco-ios-xr.sublime-syntax',
+    asa='Packages/Network Tech/cisco-asa.sublime-syntax',
+    ace='Packages/Network Tech/cisco-ace.sublime-syntax',
+    ios='Packages/Network Tech/cisco-ios.sublime-syntax',
+    nxos='Packages/Network Tech/cisco-nxos.sublime-syntax',
+    ios_xr='Packages/Network Tech/cisco-ios-xr.sublime-syntax',
 )
 
 

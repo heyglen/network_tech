@@ -19,10 +19,6 @@ vrf VRF_NAME
   address-family ipv4 unicast
     import route-target
       
-    
-  
-
-
 vrf VRF_NAME
  address-family ipv4 unicast
   import route-target
@@ -94,6 +90,7 @@ interface GigabitEthernet0/0/0/0
   !
 
 interface Loopback0
+ ipv4 address 1.2.3.4/28
  ipv4 address 1.2.3.4 255.255.255.255
  ipv4 address 1.2.3.4 255.255.255.255 secondary
  ipv4 address 1.2.3.4 255.255.255.255 secondary route-tag 1
@@ -1479,14 +1476,34 @@ router isis ISIS_INSTANCE_NAME
  !
 !
 router ospf OSPF_INSTANCE_NAME
+  router-id 1.2.3.4
+  timers throttle lsa all 600000 600000 600000
+  timers throttle spf 600000 600000 600000
+  timers lsa min-arrival 600000
+  auto-cost reference-bandwidth 4294967
+
   log-adjacency-changes disable
   log-adjacency-changes detail
 
   loopback stub-network enable
   loopback stub-network disable
+  authentication message-digest keychain KEYCHAIN
+  authentication message-digest
+  authentication
+  authentication null
+  message-digest-key 1 md5 1234567890ABCDE
+  message-digest-key 1 md5 clear 1234567890ABCDE
+  message-digest-key 1 md5 encrypted 1234567890ABCDE
 
   vrf VRF_NAME
     router-id 1.2.3.4
+    message-digest-key 1 md5 1234567890ABCDE
+    message-digest-key 1 md5 clear 1234567890ABCDE
+    message-digest-key 1 md5 encrypted 1234567890ABCDE
+    authentication message-digest keychain KEYCHAIN
+    authentication message-digest
+    authentication
+    authentication null
     domain-id type 0005 value 0123456789AB
     domain-id type 0105 value 0123456789AB
     domain-id type 0205 value 0123456789AB
@@ -1503,9 +1520,30 @@ router ospf OSPF_INSTANCE_NAME
     redistribute bgp 65000 tag 4294967295
 
   area 0
+      message-digest-key 1 md5 1234567890ABCDE
+      message-digest-key 1 md5 clear 1234567890ABCDE
+      message-digest-key 1 md5 encrypted 1234567890ABCDE
       loopback stub-network enable
       loopback stub-network disable
-     interface Loopback1
+      authentication message-digest keychain KEYCHAIN
+      authentication message-digest
+      authentication
+      authentication null
+      interface Loopback1
+        network point-to-point
+        network broadcast
+        network non-broadcast
+        network point-to-multipoint non-broadcast
+        network point-to-multipoint
+        message-digest-key 1 md5 1234567890ABCDE
+        message-digest-key 1 md5 clear 1234567890ABCDE
+        message-digest-key 1 md5 encrypted 1234567890ABCDE
+        authentication message-digest keychain KEYCHAIN
+        authentication message-digest
+        authentication
+        authentication null
+        passive enable
+        passive disable
         loopback stub-network enable
         loopback stub-network disable
      interface GigabitEthernet0/0/0/3
@@ -1525,6 +1563,7 @@ router bgp 65000 instance INSTANCE_NAME
 
  af-group AF_GROUP_NAME address-family ipv4 unicast
   use af-group AF_GROUP_NAME
+  use session-group SESSION_GROUP_NAME
  af-group AF_GROUP_NAME address-family vpnv4 unicast
   use af-group AF_GROUP_NAME
  af-group AF_GROUP_NAME address-family ipv4 multicast
@@ -1538,55 +1577,179 @@ router bgp 65000 instance INSTANCE_NAME
 
 
  address-family ipv4 unicast
+  network 1.2.3.4/24 route-policy ROUTE_POLICY
+  network 1.2.3.4/24 route-policy ROUTE_POLICY
+  maximum-prefix 4294967295
+  soft-reconfiguration inbound always
+  soft-reconfiguration inbound inheritance-disable
+  
+  maximum-prefix 4294967295 100 discard-extra-paths
+  soft-reconfiguration inbound always
+  
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only
+  soft-reconfiguration inbound always
+  
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535  
+  soft-reconfiguration inbound always
+
  address-family ipv4 multicast
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
  address-family ipv4 labeled-unicast
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
  address-family ipv4 flowspec
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
  address-family ipv4 mvpn
-
- address-family vpnv4 unicast
- address-family vpnv4 multicast
- address-family vpnv4 flowspec
-
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
  address-family ipv6 unicast
+   network 1::/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
  address-family ipv6 flowspec
+   network 1::/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
  address-family ipv6 mvpn
-
+   network 1::/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
  address-family vpnv4 unicast
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
+ address-family vpnv4 multicast
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+  soft-reconfiguration inbound always
+ 
  address-family vpnv4 flowspec
-
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
+ address-family vpnv6 unicast
+  network 1::/24 route-policy ROUTE_POLICY
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+  soft-reconfiguration inbound always
+ 
+ address-family vpnv6 flowspec
+  network 1::/24 route-policy ROUTE_POLICY
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+  soft-reconfiguration inbound always
+ 
  address-family l2vpn vpls-vpws
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+  soft-reconfiguration inbound always
+ 
  address-family l2vpn vpls-vpws
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+  soft-reconfiguration inbound always
+ 
  address-family link-state link-state
+ maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+ soft-reconfiguration inbound always
 
- address-family vpnv4 unicast
  !
  neighbor 1.2.3.4
   use af-group AF_GROUP_NAME
   use neighbor-group RR
   remote-as 65535
   update-source Loopback0
+  ebgp-multihop 255
+  ebgp-multihop 255 mpls
+  address-family ipv4 unicast
+    network 1.2.3.4/24 route-policy ROUTE_POLICY
+    maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+    soft-reconfiguration inbound always
+    route-policy POLICY_NAME in
+    route-policy POLICY_NAME out
  !
 
  neighbor 1::1
+  password encrypted 0123456789ABCDEF
+  ebgp-multihop 255
+  ebgp-multihop 255 mpls
   use af-group AF_GROUP_NAME
-  use neighbor-group RR
+  use neighbor-group NEIGHBOR_GROUP
  !
 
- neighbor-group RR
+ neighbor-group NEIGHBOR_GROUP
+  password encrypted 0123456789ABCDEF
+  ebgp-multihop 255
+  ebgp-multihop 255 mpls
   use af-group AF_GROUP_NAME
   remote-as 65535
   update-source Loopback0
+  address-family ipv4 unicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family ipv4 multicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family ipv6 unicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family ipv6 multicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family ipv6 flowspec
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
   address-family vpnv4 unicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family vpnv4 multicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family vpnv4 flowspec
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family vpnv6 unicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family vpnv6 flowspec
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
   !
  !
  vrf VRF_NAME
   rd 1:1
   neighbor 1.2.3.4
-    use neighbor-group RR
+    password encrypted 0123456789ABCDEF
+    ebgp-multihop 255
+    ebgp-multihop 255 mpls
+    use neighbor-group NEIGHBOR_GROUP
     remote-as 65535
     update-source Loopback0
   neighbor 1::1
-    use neighbor-group RR
+    ebgp-multihop 255
+    ebgp-multihop 255 mpls
+    use neighbor-group NEIGHBOR_GROUP
     remote-as 65535
     update-source Loopback0
   address-family ipv4 unicast
@@ -1707,6 +1870,24 @@ router eigrp EIGRP_VIRTUAL_INSTANCE_NAME
   !
  !
 !
+router hsrp
+
+ interface TenGigE0/0/2/0.10
+  address-family ipv4
+   hsrp 0 version 2
+   hsrp 4095
+    preempt
+    preempt delay 3600
+    priority 255
+    address 1.2.3.4
+    address learn
+    track Loopback0
+    track Loopback0 255
+    track Loopback666 100
+    timers 1 255
+    timers msec 100 msec 3000
+
+
 ssh server v2
 ssh server vrf default
 ssh server logging

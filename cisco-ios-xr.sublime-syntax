@@ -218,6 +218,29 @@ variables:
       )
       \b
     )
+  number_range_1_1024: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:102[0-4])|
+        (?:10[0-1]\d)|
+        (?:\d{2,3})|
+        (?:[1-9])
+      )
+      \b
+    )
+  number_range_1_100: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:100)|
+        (?:\d{2})|
+        (?:[1-9])
+      )
+      \b
+    )
   number_range_1_1440: |
     (?xi)
     (?:
@@ -227,6 +250,81 @@ variables:
         (?:14[0-3]\d)|
         (?:1[0-3]\d{2})|
         (?:\d{2,3})|
+        (?:[1-9])
+      )
+      \b
+    )
+  number_range_0_4095: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:409[0-5])|
+        (?:40[0-8]\d)|
+        (?:[0-3]\d{3})|
+        (?:\d{1,3})
+      )
+      \b
+    )
+  number_range_0_3600: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:3600)|
+        (?:3[0-5]\d{2})|
+        (?:[0-2]\d{3})|
+        (?:\d{1,3})
+      )
+      \b
+    )
+  number_range_0_600000: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:600000)|
+        (?:[0-5]\d{5})|
+        (?:\d{1,5})
+      )
+      \b
+    )
+  number_range_1_600000: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:600000)|
+        (?:[0-5]\d{5})|
+        (?:\d{2,5})|
+        (?:[1-9])
+      )
+      \b
+    )
+  number_range_100_3000: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:3000)|
+        (?:[0-2]\d{3})|
+        (?:1\d{2})
+      )
+      \b
+    )
+  number_range_1_4294967: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:429496[0-7])|
+        (?:42949[0-5]\d)|
+        (?:4294[0-8]\d{2})|
+        (?:429[0-3]\d{3})|
+        (?:42[0-8]\d{4})|
+        (?:4[0-1]\d{5})|
+        (?:[0-3]\d{6})|
+        (?:1\d{2,7})|
         (?:[1-9])
       )
       \b
@@ -786,17 +884,25 @@ variables:
         (?:alias)|
         (?:cdp)|
         (?:clear)|
+        (?:control-plane)|
+        (?:class-map)|
+        (?:policy-map)|
         (?:domain)|
+        (?:flow\s+exporter-map)|
+        (?:sampler-map)|
         (?:end-policy)|
+        (?:object-group)|
+        (?:ipv(?:(?:4)|(?:6))\s+access-list)|
         (?:end-set)|
         (?:extcommunity-set)|
         (?:hostname)|
         (?:interface)|
         (?:lacp)|
+        (?:line)|
         (?:mpls\s+traffic-eng\s*$)|
         (?:mpls\s+ldp\s*$)|
         (?:prefix-set)|
-        (?:route-policy)|
+        (?:route-policy\s+\S+(?:\s+\(.*\))?\s*$)|
         (?:router)|
         (?:rsvp)|
         (?:ssh)|
@@ -822,6 +928,33 @@ variables:
         (?:interface)|
         (?:auto-tunnel)|
         (?:{{ctx_pop_mpls_traffic_eng}})
+      )
+    )
+  ctx_pop_router_hsrp: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:interface)|
+        (?:{{ctx_pop_configure_terminal}})
+      )
+    )
+  ctx_pop_router_hsrp_interface: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:address-family)|
+        (?:{{ctx_pop_router_hsrp}})
+      )
+    )
+  ctx_pop_router_hsrp_interface_address_family: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:hsrp)|
+        (?:{{ctx_pop_router_hsrp_interface}})
       )
     )
   ctx_pop_router_isis: |
@@ -887,6 +1020,24 @@ variables:
         (?:rd)|
         (?:address-family)|
         (?:neighbor)|
+        (?:{{ctx_pop_router_bgp}})
+      )
+    )
+  ctx_pop_router_bgp_neighbor: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:remote-as)|
+        (?:{{ctx_pop_router_bgp}})
+      )
+    )
+  ctx_pop_router_bgp_neighbor_group: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:remote-as)|
         (?:{{ctx_pop_router_bgp}})
       )
     )
@@ -1068,6 +1219,7 @@ variables:
       (?:Null)|
       (?:Null)|
       (?:BVI)|
+      (?:bundle-ether)|
       (?:Ethernet)|
       (?:Et)|
       (?:FastEthernet)|
@@ -1078,12 +1230,14 @@ variables:
       (?:Gi)|
       (?:loopback)|
       (?:lo)|
+      (?:mgmteth)|
       (?:port-channel)|
       (?:po)|
       (?:pos)|
       (?:serial)|
       (?:se)|
       (?:TenGigabitEthernet)|
+      (?:TenGigE)|
       (?:Te)|
       (?:tunnel)|
       (?:Dot11Radio)|
@@ -1267,7 +1421,7 @@ contexts:
       pop: true
 
   configure_terminal:
-    - match: ^\s*(?:(conf(?:igure)?))
+    - match: ^\s*(?:(conf(?:igure)?))\s*$
       # with_prototype:
       #   - include: scope
       captures:
@@ -1286,6 +1440,7 @@ contexts:
     - include: alias
     - include: router_bgp
     - include: router_eigrp
+    - include: router_hsrp
     - include: mpls_traffic_eng
     - include: mpls_ldp
     - include: vrf
@@ -1305,6 +1460,8 @@ contexts:
     - include: router_static
     - include: router_isis
     - include: router_ospf
+    - include: line_console
+    - include: line_default
     - include: mpls_traffic_eng_path_selection_ignore_overload
 
   device_comment:
@@ -1532,6 +1689,186 @@ contexts:
         - include: mpls_tunnel_id
         - match: '{{ctx_pop_mpls_traffic_eng_interface}}'
           pop: true
+
+  router_hsrp:
+    - match: |
+        (?xi)
+        ^\s*(router)\s+(hsrp)
+        \s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+      push:
+        - meta_content_scope: text.network.cisco.router.hsrp
+        - include: router_hsrp_interface
+        - include: pop_on_configure_terminal_context
+
+  router_hsrp_interface:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (interface)\s+
+          (?:
+            (?:(tunnel)-(te)(\d+))|
+            (?:({{interface_names}})\s*({{interface_numbers}}))
+          )
+        )
+      captures:
+        0: cisco.scope.ospf.area.interface
+        1: variable.parameter              # interface
+        2: entity.other.attribute-name     # tunnel
+        3: constant.numeric                # tunnel te
+        4: constant.numeric                # tunnel te123
+        5: entity.other.attribute-name     # interface Loopback
+        6: constant.numeric                # interface Loopback 1
+      push:
+        - meta_content_scope: text.network.cisco.router.hsrp.interface
+        - include: hsrp_interface_address_family
+        - match: '{{ctx_pop_router_hsrp}}'
+          pop: true
+
+  hsrp_interface_address_family:
+    - include: hsrp_interface_ipv4_address_family
+    - include: hsrp_interface_ipv6_address_family
+
+  hsrp_interface_ipv4_address_family:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv4)
+        \s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+      push:
+      - meta_content_scope: text.network.cisco.router.hsrp.interface.address_family.ipv4
+      - include: hsrp_interface_address_family_ipv4_hsrp
+      - match: '{{ctx_pop_router_hsrp_interface}}'
+        pop: true
+
+  hsrp_interface_ipv6_address_family:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv6)\s+
+        \s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.router.hsrp.interface.address_family.ipv6
+      - include: hsrp_interface_address_family_ipv6_hsrp
+      - match: '{{ctx_pop_router_hsrp_interface}}'
+        pop: true
+
+  hsrp_interface_address_family_ipv4_hsrp:
+    - match: |
+        (?xi)
+        ^\s*(hsrp)(?:\s+({{number_range_0_4095}}))?(?:\s+(version)\s+(2))?
+        \s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.numeric
+        3: support.constant
+        4: constant.numeric
+      push:
+      - meta_content_scope: text.network.cisco.router.hsrp.interface.address_family.ipv4.hsrp
+      - include: hsrp_interface_address_family_hsrp_settings
+      - include: hsrp_ipv4_address
+      - match: '{{ctx_pop_router_hsrp_interface_address_family}}'
+        pop: true
+
+  hsrp_interface_address_family_ipv6_hsrp:
+    - match: |
+        (?xi)
+        ^\s*(hsrp)(?:\s+({{number_range_0_4095}}))?
+        \s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.numeric
+      push:
+      - meta_content_scope: text.network.cisco.router.hsrp.interface.address_family.ipv6.hsrp
+      - include: hsrp_interface_address_family_hsrp_settings
+      - match: '{{ctx_pop_router_hsrp_interface_address_family}}'
+        pop: true
+
+  hsrp_interface_address_family_hsrp_settings:
+    - include: hsrp_preempt
+    - include: hsrp_priority
+    - include: hsrp_track
+    - include: hsrp_timers
+
+  hsrp_preempt:
+    - match: |
+        (?xi)
+        ^\s*(preempt)(?:\s+(delay)\s+({{number_range_0_3600}}))?
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+
+  hsrp_ipv4_address:
+    - match: |
+        (?xi)
+        ^\s*(address)\s+
+        (?:
+          ({{ip}})|
+          (learn)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv4.address
+        3: support.constant
+
+  hsrp_priority:
+    - match: |
+        (?xi)
+        ^\s*(priority)\s+({{number_8_bit}})
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric
+
+  hsrp_timers:
+    - match: |
+        (?xi)
+        ^\s*(timers)\s+
+        (?:
+          ({{number_8_bit}})|
+          (?:(msec)\s+({{number_range_100_3000}}))
+        )
+        \s+
+        (?:
+          ({{number_8_bit}})|
+          (?:(msec)\s+({{number_range_100_3000}}))
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: support.constant
+        4: constant.numeric
+        5: constant.numeric
+        6: support.constant
+        7: constant.numeric
+
+  hsrp_track:
+    - match: |
+        (?xi)
+        ^\s*(track)\s+({{interface_names}})\s*({{interface_numbers}})(?:\s+({{number_8_bit}}))?
+        \s*$
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: constant.numeric
+        4: constant.numeric
 
   router_eigrp:
     - match: |
@@ -1777,6 +2114,22 @@ contexts:
         1: support.constant
         2: constant.numeric.as
 
+  router_bgp_password:
+    - match: |
+        (?xi)
+        ^\s*(password)\s+
+        (?:
+          (clear)|
+          (encrypted)
+        )
+        \s+
+        (\S{1,80})\s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: string.unquoted
+
   router_bgp_update_source:
     - match: '^\s*(update-source)\s+({{interface_names}})\s*({{interface_numbers}})'
       captures:
@@ -1884,13 +2237,34 @@ contexts:
     - include: router_bgp_address_family_ipv4
     - include: router_bgp_address_family_ipv4_multicast
     - include: router_bgp_address_family_ipv4_unicast
-    - include: router_bgp_vpnv4_address_family
     - include: router_bgp_address_family_ipv6_unicast
     - include: router_bgp_address_family_ipv6_multicast
     - include: router_bgp_address_family_ipv6
-    - include: router_bgp_vpnv6_address_family
-    - include: router_bgp_l2vpn_vpls_vpws_address_family
-    - include: router_bgp_link_state_address_family
+    - include: router_bgp_address_family_vpnv4
+    - include: router_bgp_address_family_vpnv6
+    - include: router_bgp_address_family_l2vpn_vpls_vpws
+    - include: router_bgp_address_family_link_state
+
+  router_bgp_neighbor_address_family_ipv4:
+    - include: router_bgp_neighbor_address_family_ipv4_unicast
+    - include: router_bgp_neighbor_address_family_ipv4_multicast
+    - include: router_bgp_neighbor_address_family_vpnv4
+
+  router_bgp_neighbor_address_family_ipv6:
+    - include: router_bgp_neighbor_address_family_ipv6_unicast
+    - include: router_bgp_neighbor_address_family_ipv6_multicast
+    - include: router_bgp_neighbor_address_family_ipv6_flowspec
+    - include: router_bgp_neighbor_address_family_ipv6_mvpn
+    - include: router_bgp_neighbor_address_family_vpnv6
+
+  router_bgp_neighbor_group_address_family:
+    - include: router_bgp_neighbor_group_address_family_ipv4_unicast
+    - include: router_bgp_neighbor_group_address_family_ipv4_multicast
+    - include: router_bgp_neighbor_group_address_family_vpnv4
+    - include: router_bgp_neighbor_group_address_family_ipv6_unicast
+    - include: router_bgp_neighbor_group_address_family_ipv6_multicast
+    - include: router_bgp_neighbor_group_address_family_ipv6_flowspec
+    - include: router_bgp_neighbor_group_address_family_ipv6_mvpn
 
   router_bgp_af_group:
     - include: router_bgp_af_group_ipv4_unicast
@@ -1900,8 +2274,66 @@ contexts:
     - include: router_bgp_af_group_vpnv4_unicast
     - include: router_bgp_af_group_ipv6_unicast
 
+
+  router_bgp_address_family_settings:
+    - include: router_bgp_maximum_prefix
+    - include: router_bgp_redistribute_connected
+    - include: router_bgp_route_policy
+    - include: router_bgp_soft_reconfiguration_inbound
+
+  router_bgp_address_family_ipv4_settings:
+    - include: router_bgp_network_ipv4
+
+  router_bgp_address_family_ipv6_settings:
+    - include: router_bgp_network_ipv6
+
+  router_bgp_vrf_address_family_settings:
+    - include: router_bgp_maximum_prefix
+    - include: router_bgp_redistribute_connected
+    - include: router_bgp_route_policy
+    - include: router_bgp_soft_reconfiguration_inbound
+
+  router_bgp_vrf_address_family_ipv4_settings:
+    - include: router_bgp_network_ipv4
+
+  router_bgp_vrf_address_family_ipv6_settings:
+    - include: router_bgp_network_ipv6
+
   router_bgp_af_group_settings:
     - include: router_bgp_use_af_group
+    - include: router_bgp_use_session_group
+    - include: router_bgp_route_policy
+    - include: router_bgp_soft_reconfiguration_inbound
+
+  router_bgp_af_group_ipv4_settings:
+    - include: router_bgp_network_ipv4
+
+  router_bgp_af_group_ipv6_settings:
+    - include: router_bgp_network_ipv6
+
+  router_bgp_neighbor_address_family_settings:
+    - include: router_bgp_maximum_prefix
+    - include: router_bgp_redistribute_connected
+    - include: router_bgp_route_policy
+    - include: router_bgp_soft_reconfiguration_inbound
+
+  router_bgp_neighbor_address_family_ipv4_settings:
+    - include: router_bgp_network_ipv4
+
+  router_bgp_neighbor_address_family_ipv6_settings:
+    - include: router_bgp_network_ipv6
+
+  router_bgp_neighbor_group_address_family_settings:
+    - include: router_bgp_maximum_prefix
+    - include: router_bgp_redistribute_connected
+    - include: router_bgp_route_policy
+    - include: router_bgp_soft_reconfiguration_inbound
+
+  router_bgp_neighbor_group_address_family_ipv4_settings:
+    - include: router_bgp_network_ipv4
+
+  router_bgp_neighbor_group_address_family_ipv6_settings:
+    - include: router_bgp_network_ipv6
 
   router_bgp_af_group_ipv4_unicast:
     - match: |
@@ -1917,6 +2349,7 @@ contexts:
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.group.ipv4.unicast
       - include: router_bgp_af_group_settings
+      - include: router_bgp_af_group_ipv4_settings
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
@@ -1934,8 +2367,67 @@ contexts:
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.group.ipv4.multicast
       - include: router_bgp_af_group_settings
+      - include: router_bgp_af_group_ipv4_settings
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
+
+  router_bgp_route_policy:
+    - match: |
+        (?xi)
+        ^\s*(route-policy)\s+(\S+)\s+
+        (?:
+          (\[)
+          (?:\s*(\S+)\s*(,)\s*){1,16}
+          (])
+          \s+
+        )?
+        (
+          (?:in)|
+          (?:out)
+        )\s*$
+      captures:
+        1: support.constant
+        2: string.unquoted
+        3: comment
+        4: string.unquoted
+        5: comment
+        6: comment
+        7: support.constant
+
+  router_bgp_soft_reconfiguration_inbound:
+    - match: |
+        (?xi)
+        ^\s*(soft-reconfiguration)\s+(inbound)\s+
+        (
+          (?:always)|
+          (?:inheritance-disable)
+        )\s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+
+  router_bgp_network_ipv4:
+    - match: |
+        (?xi)
+        ^\s*(network)\s+({{ip_prefix}})
+        (?:\s+(route-policy)\s+(\S+))?\s*$
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv4.prefix
+        3: support.constant
+        4: string.unquoted
+
+  router_bgp_network_ipv6:
+    - match: |
+        (?xi)
+        ^\s*(network)\s+({{ipv6_prefix}})
+        (?:\s+(route-policy)\s+(\S+))?\s*$
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv6.prefix
+        3: support.constant
+        4: string.unquoted
 
   router_bgp_af_group_ipv4_labeled_unicast:
     - match: |
@@ -1951,6 +2443,7 @@ contexts:
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.group.ipv4.labeled_unicast
       - include: router_bgp_af_group_settings
+      - include: router_bgp_af_group_ipv4_settings
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
@@ -1968,6 +2461,7 @@ contexts:
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.group.ipv4.tunnel
       - include: router_bgp_af_group_settings
+      - include: router_bgp_af_group_ipv4_settings
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
@@ -1985,6 +2479,7 @@ contexts:
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.group.vpnv4.unicast
       - include: router_bgp_af_group_settings
+      - include: router_bgp_af_group_ipv4_settings
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
@@ -2002,6 +2497,7 @@ contexts:
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.group.ipv6.unicast
       - include: router_bgp_af_group_settings
+      - include: router_bgp_af_group_ipv6_settings
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
@@ -2019,9 +2515,11 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.ipv4.unicast
-      - include: router_bgp_redistribute_connected
+      - include: router_bgp_address_family_settings
+      - include: router_bgp_address_family_ipv4_settings
       - include: router_bgp_redistribute_ospf
       - include: router_bgp_redistribute_eigrp
+      - include: router_bgp_maximum_prefix
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
@@ -2039,9 +2537,11 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.ipv4.multicast
-      - include: router_bgp_redistribute_connected
+      - include: router_bgp_address_family_settings
+      - include: router_bgp_address_family_ipv4_settings
       - include: router_bgp_redistribute_ospf
       - include: router_bgp_redistribute_eigrp
+      - include: router_bgp_maximum_prefix
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
@@ -2061,7 +2561,263 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.ipv4
+      - include: router_bgp_address_family_settings
+      - include: router_bgp_address_family_ipv4_settings
       - match: '{{ctx_pop_router_bgp}}'
+        pop: true
+
+  router_bgp_neighbor_address_family_ipv4_unicast:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv4)\s+(unicast)\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor.address_family.ipv4.unicast
+      - include: router_bgp_neighbor_address_family_settings
+      - include: router_bgp_neighbor_address_family_ipv4_settings
+      - match: '{{ctx_pop_router_bgp_neighbor}}'
+        pop: true
+
+  router_bgp_neighbor_address_family_ipv4_multicast:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv4)\s+(multicast)\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor.address_family.ipv4.multicast
+      - include: router_bgp_neighbor_address_family_settings
+      - include: router_bgp_neighbor_address_family_ipv4_settings
+      - match: '{{ctx_pop_router_bgp_neighbor}}'
+        pop: true
+
+  router_bgp_neighbor_address_family_vpnv4:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(vpnv4)\s+
+        (
+          (?:unicast)|
+          (?:multicast)|
+          (?:flowspec)
+        )\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor.address_family.vpnv4
+      - include: router_bgp_neighbor_address_family_settings
+      - include: router_bgp_neighbor_address_family_ipv4_settings
+      - match: '{{ctx_pop_router_bgp_neighbor}}'
+        pop: true
+
+  router_bgp_neighbor_address_family_ipv6_unicast:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv6)\s+
+        (
+          (?:unicast)
+        )\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor.address_family.ipv6.unicast
+      - include: router_bgp_neighbor_address_family_settings
+      - include: router_bgp_neighbor_address_family_ipv6_settings
+      - include: router_bgp_redistribute_eigrp
+      - match: '{{ctx_pop_router_bgp_neighbor}}'
+        pop: true
+
+  router_bgp_neighbor_address_family_ipv6_multicast:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv6)\s+
+        (
+          (?:multicast)
+        )\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor.address_family.ipv6.multicast
+      - include: router_bgp_neighbor_address_family_settings
+      - include: router_bgp_neighbor_address_family_ipv6_settings
+      - include: router_bgp_redistribute_eigrp
+      - match: '{{ctx_pop_router_bgp_neighbor}}'
+        pop: true
+
+  router_bgp_neighbor_address_family_ipv6_mvpn:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv6)\s+(mvpn)\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor.address_family.ipv6.mvpn
+      - include: router_bgp_neighbor_address_family_settings
+      - include: router_bgp_neighbor_address_family_ipv6_settings
+      - include: router_bgp_redistribute_eigrp
+      - match: '{{ctx_pop_router_bgp_neighbor}}'
+        pop: true
+
+  router_bgp_neighbor_address_family_ipv6_flowspec:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv6)\s+(flowspec)\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor.address_family.ipv6.flowspec
+      - include: router_bgp_neighbor_address_family_settings
+      - include: router_bgp_neighbor_address_family_ipv6_settings
+      - include: router_bgp_redistribute_eigrp
+      - match: '{{ctx_pop_router_bgp_neighbor}}'
+        pop: true
+
+  router_bgp_neighbor_group_address_family_ipv4_unicast:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv4)\s+(unicast)\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor_group.address_family.ipv4.unicast
+      - include: router_bgp_neighbor_group_address_family_settings
+      - include: router_bgp_neighbor_group_address_family_ipv4_settings
+      - match: '{{ctx_pop_router_bgp_neighbor_group}}'
+        pop: true
+
+  router_bgp_neighbor_group_address_family_ipv4_multicast:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv4)\s+(multicast)\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor_group.address_family.ipv4.multicast
+      - include: router_bgp_neighbor_group_address_family_settings
+      - include: router_bgp_neighbor_group_address_family_ipv4_settings
+      - match: '{{ctx_pop_router_bgp_neighbor_group}}'
+        pop: true
+
+  router_bgp_neighbor_group_address_family_vpnv4:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(vpnv4)\s+
+        (
+          (?:unicast)|
+          (?:multicast)|
+          (?:flowspec)
+        )\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor_group.address_family.vpnv4
+      - include: router_bgp_neighbor_group_address_family_settings
+      - include: router_bgp_neighbor_group_address_family_ipv4_settings
+      - match: '{{ctx_pop_router_bgp_neighbor_group}}'
+        pop: true
+
+  router_bgp_neighbor_group_address_family_ipv6_unicast:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv6)\s+
+        (
+          (?:unicast)
+        )\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor_group.address_family.ipv6.unicast
+      - include: router_bgp_neighbor_group_address_family_settings
+      - include: router_bgp_neighbor_group_address_family_ipv6_settings
+      - include: router_bgp_redistribute_eigrp
+      - match: '{{ctx_pop_router_bgp_neighbor_group}}'
+        pop: true
+
+  router_bgp_neighbor_group_address_family_ipv6_multicast:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv6)\s+
+        (
+          (?:multicast)
+        )\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor_group.address_family.ipv6.multicast
+      - include: router_bgp_neighbor_group_address_family_settings
+      - include: router_bgp_neighbor_group_address_family_ipv6_settings
+      - include: router_bgp_redistribute_eigrp
+      - match: '{{ctx_pop_router_bgp_neighbor_group}}'
+        pop: true
+
+  router_bgp_neighbor_group_address_family_ipv6_mvpn:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv6)\s+(mvpn)\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor_group.address_family.ipv6.mvpn
+      - include: router_bgp_neighbor_group_address_family_settings
+      - include: router_bgp_neighbor_group_address_family_ipv6_settings
+      - include: router_bgp_redistribute_eigrp
+      - match: '{{ctx_pop_router_bgp_neighbor_group}}'
+        pop: true
+
+  router_bgp_neighbor_group_address_family_ipv6_flowspec:
+    - match: |
+        (?xi)
+        ^\s*(address-family)\s+(ipv6)\s+(flowspec)\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.character
+        3: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.bgp.neighbor_group.address_family.ipv6.flowspec
+      - include: router_bgp_neighbor_group_address_family_settings
+      - include: router_bgp_neighbor_group_address_family_ipv6_settings
+      - include: router_bgp_redistribute_eigrp
+      - match: '{{ctx_pop_router_bgp_neighbor_group}}'
         pop: true
 
   router_bgp_vrf_address_family_ipv4_unicast:
@@ -2078,7 +2834,8 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.vrf.address_family.ipv4.unicast
-      - include: router_bgp_redistribute_connected
+      - include: router_bgp_vrf_address_family_settings
+      - include: router_bgp_vrf_address_family_ipv4_settings
       - include: router_bgp_redistribute_ospf
       - include: router_bgp_redistribute_eigrp
       - match: '{{ctx_pop_router_bgp_vrf}}'
@@ -2098,7 +2855,8 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.vrf.address_family.ipv4.multicast
-      - include: router_bgp_redistribute_connected
+      - include: router_bgp_vrf_address_family_settings
+      - include: router_bgp_vrf_address_family_ipv4_settings
       - include: router_bgp_redistribute_ospf
       - include: router_bgp_redistribute_eigrp
       - match: '{{ctx_pop_router_bgp_vrf}}'
@@ -2120,10 +2878,12 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.vrf.address_family.ipv4
+      - include: router_bgp_vrf_address_family_settings
+      - include: router_bgp_vrf_address_family_ipv4_settings
       - match: '{{ctx_pop_router_bgp_vrf}}'
         pop: true
 
-  router_bgp_vpnv4_address_family:
+  router_bgp_address_family_vpnv4:
     - match: |
         (?xi)
         ^\s*(address-family)\s+(vpnv4)\s+
@@ -2139,6 +2899,8 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.vpnv4
+      - include: router_bgp_vrf_address_family_settings
+      - include: router_bgp_vrf_address_family_ipv4_settings
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
@@ -2156,7 +2918,8 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.ipv6.unicast
-      - include: router_bgp_redistribute_connected
+      - include: router_bgp_vrf_address_family_settings
+      - include: router_bgp_vrf_address_family_ipv6_settings
       - include: router_bgp_redistribute_eigrp
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
@@ -2175,7 +2938,8 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.ipv6.multicast
-      - include: router_bgp_redistribute_connected
+      - include: router_bgp_vrf_address_family_settings
+      - include: router_bgp_vrf_address_family_ipv6_settings
       - include: router_bgp_redistribute_eigrp
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
@@ -2195,6 +2959,8 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.ipv6
+      - include: router_bgp_vrf_address_family_settings
+      - include: router_bgp_vrf_address_family_ipv6_settings
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
@@ -2212,7 +2978,8 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.vrf.address_family.ipv6.unicast
-      - include: router_bgp_redistribute_connected
+      - include: router_bgp_vrf_address_family_settings
+      - include: router_bgp_vrf_address_family_ipv6_settings
       - include: router_bgp_redistribute_eigrp
       - match: '{{ctx_pop_router_bgp_vrf}}'
         pop: true
@@ -2231,7 +2998,8 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.vrf.address_family.ipv6.multicast
-      - include: router_bgp_redistribute_connected
+      - include: router_bgp_vrf_address_family_settings
+      - include: router_bgp_vrf_address_family_ipv6_settings
       - include: router_bgp_redistribute_eigrp
       - match: '{{ctx_pop_router_bgp_vrf}}'
         pop: true
@@ -2251,12 +3019,13 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.vrf.address_family.ipv6
-      - include: router_bgp_redistribute_connected
+      - include: router_bgp_vrf_address_family_settings
+      - include: router_bgp_vrf_address_family_ipv6_settings
       - include: router_bgp_redistribute_eigrp
       - match: '{{ctx_pop_router_bgp_vrf}}'
         pop: true
 
-  router_bgp_vpnv6_address_family:
+  router_bgp_address_family_vpnv6:
     - match: |
         (?xi)
         ^\s*(address-family)\s+(vpnv6)\s+
@@ -2271,10 +3040,12 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.vpnv6
+      - include: router_bgp_address_family_settings
+      - include: router_bgp_address_family_ipv6_settings
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
-  router_bgp_l2vpn_vpls_vpws_address_family:
+  router_bgp_address_family_l2vpn_vpls_vpws:
     - match: |
         (?xi)
         ^\s*(address-family)\s+(l2vpn)\s+(vpls-vpws)\s*$
@@ -2285,10 +3056,11 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.l2vpn_vpls_vpws
+      - include: router_bgp_address_family_settings
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
-  router_bgp_link_state_address_family:
+  router_bgp_address_family_link_state:
     - match: |
         (?xi)
         ^\s*(address-family)\s+(link-state)\s+(link-state)\s*$
@@ -2299,6 +3071,7 @@ contexts:
         3: support.constant
       push:
       - meta_content_scope: text.network.cisco.bgp.address_family.link_state
+      - include: router_bgp_address_family_settings
       - match: '{{ctx_pop_router_bgp}}'
         pop: true
 
@@ -2312,7 +3085,9 @@ contexts:
         2: string.unquoted
       push:
         - meta_content_scope: text.network.cisco.bgp.neighbor.group
+        - include: router_bgp_neighbor_group_address_family
         - include: router_bgp_neighbor_group_setting
+        - include: router_bgp_ebgp_multihop
         - match: '{{ctx_pop_router_bgp}}'
           pop: true
 
@@ -2327,6 +3102,8 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.bgp.neighbor.ipv4
         - include: router_bgp_neighbor_setting
+        - include: router_bgp_neighbor_address_family_ipv4
+        - include: router_bgp_ebgp_multihop
         - match: '{{ctx_pop_router_bgp}}'
           pop: true
 
@@ -2341,6 +3118,8 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.bgp.neighbor.ipv6
         - include: router_bgp_neighbor_setting
+        - include: router_bgp_neighbor_address_family_ipv6
+        - include: router_bgp_ebgp_multihop
         - match: '{{ctx_pop_router_bgp}}'
           pop: true
 
@@ -2390,26 +3169,34 @@ contexts:
   router_bgp_neighbor_group_setting:
     - include: router_bgp_use_neighbor_group
     - include: router_bgp_use_af_group
+    - include: router_bgp_use_session_group
     - include: router_bgp_remote_as
     - include: router_bgp_update_source
+    - include: router_bgp_password
+    - include: description
 
   router_bgp_neighbor_setting:
     - include: router_bgp_use_af_group
+    - include: router_bgp_use_session_group
     - include: router_bgp_use_neighbor_group
     - include: router_bgp_remote_as
     - include: router_bgp_update_source
+    - include: router_bgp_password
+    - include: description
 
   router_bgp_vrf_neighbor_setting:
     - include: router_bgp_use_neighbor_group
     - include: router_bgp_remote_as
     - include: router_bgp_update_source
+    - include: router_bgp_ebgp_multihop
+    - include: router_bgp_password
+    - include: description
 
   router_bgp_use_neighbor_group:
     - match: |
         (?xi)
         ^\s*(use)\s+(neighbor-group)\s+(\S+)\s*$
       captures:
-        0: cisco.scope
         1: support.constant
         2: support.constant
         3: string.unquoted
@@ -2419,7 +3206,6 @@ contexts:
         (?xi)
         ^\s*(use)\s+(af-group)\s+(\S+)\s*$
       captures:
-        0: cisco.scope
         1: support.constant
         2: support.constant
         3: string.unquoted
@@ -2429,10 +3215,38 @@ contexts:
         (?xi)
         ^\s*(use)\s+(session-group)\s+(\S+)\s*$
       captures:
-        0: cisco.scope
         1: support.constant
         2: support.constant
         3: string.unquoted
+
+  router_bgp_ebgp_multihop:
+    - match: |
+        (?xi)
+        ^\s*(ebgp-multihop)(?:\s+({{number_8_bit}}))?(?:\s+(mpls))?
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: support.constant
+
+  router_bgp_maximum_prefix:
+    - match: |
+        (?xi)
+        ^\s*
+        (maximum-prefix)\s+({{number_32_bit_wo_zero}})
+        (?:\s+({{number_range_1_100}}))?
+        (?:\s+(discard-extra-paths))?
+        (?:\s+(warning-only))?
+        (?:\s+(restart)\s+({{number_16_bit_wo_zero}}))?
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: constant.numeric
+        4: support.constant
+        5: support.constant
+        6: support.constant
+        7: constant.numeric
 
   ntp:
   - match: |
@@ -2468,6 +3282,7 @@ contexts:
     - include: ssh_server_v2
     - include: ssh_server_vrf
     - include: ssh_server_logging
+    - include: ssh_server_session_limit
 
   ssh_server_v2:
     - match: |
@@ -2478,6 +3293,17 @@ contexts:
         1: support.constant
         2: support.constant
         3: constant.language
+
+  ssh_server_session_limit:
+    - match: |
+        (?xi)
+        ^\s*
+        (ssh)\s+(server)\s+(session-limit)\s+({{number_range_1_1024}})\s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.language
+        4: constant.numeric
 
   ssh_server_vrf:
     - match: |
@@ -3321,7 +4147,7 @@ contexts:
     - match: |
         (?xi)
         ^\s*
-        (route-policy)\s+([\w-]+)
+        (route-policy)\s+([\w-\.]+)
         (?:
           \s+
           (?:
@@ -3333,6 +4159,7 @@ contexts:
             (\))
           )
         )?
+        \s*$
       captures:
         0: cisco.scope
         1: variable.parameter
@@ -6112,6 +6939,7 @@ contexts:
 
   interface_setting_base:
     - include: interface_bandwidth
+    - include: description
     - include: interface_mtu
     - match: >
         (?xi)
@@ -6202,7 +7030,11 @@ contexts:
     - match: |
         (?xi)
         ^\s*
-        (?:(ipv4)\s+(address)\s+({{ip}})\s+({{subnet_mask}}))
+        (ipv4)\s+(address)\s+
+        (?:
+          (?:({{ip}})\s+({{subnet_mask}}))|
+          ({{ip_prefix}})
+        )
         (?:\s+(secondary))?
         (?:\s+(route-tag)\s+({{number_32_bit_wo_zero}}))?
         \s*$
@@ -6211,9 +7043,10 @@ contexts:
         2: support.constant                           # ipv4 address
         3: constant.numeric.ip.ipv4.address           # ipv4 address ip
         4: constant.numeric.network.ipv4.subnet_mask  # ipv4 address ip subnet mask
-        5: support.constant
+        5: constant.numeric.ip.ipv4.prefix           # ipv4 address ip
         6: support.constant
-        7: constant.numeric
+        7: support.constant
+        8: constant.numeric
 
   interface_enable_ipv6:
     - match: |
@@ -6242,6 +7075,9 @@ contexts:
         6: constant.numeric
 
   interface_setting_l2:
+    - include: encapsulation_dot1q
+
+  encapsulation_dot1q:
     - match: >
         (?xi)
         ^\s*
@@ -6260,11 +7096,15 @@ contexts:
   interface_ipv4_address_family:
     - match: |
         (?xi)
-        ^\s*(address-family)\s+(ipv4)\s+
-        (
-          (?:unicast)|
-          (?:multicast)
-        )\s*$
+        ^\s*(address-family)\s+(ipv4)
+        (?:
+          \s+
+          (
+            (?:unicast)|
+            (?:multicast)
+          )
+        )?
+        \s*$
       captures:
         0: cisco.scope
         1: variable.parameter
@@ -6488,6 +7328,7 @@ contexts:
         2: string.unquoted
       push:
       - meta_content_scope: text.network.cisco.vrf
+      - include: description
       - include: vrf_address_family
       - include: pop_on_configure_terminal_context
 
@@ -6507,8 +7348,95 @@ contexts:
       - include: pop_on_configure_terminal_context
 
   router_ospf_settings:
+    - include: router_id
     - include: router_ospf_settings_log_adjacency_changes
+    - include: router_ospf_settings_timers_lsa_min_arrival
+    - include: router_ospf_settings_timers_lsa_all
+    - include: router_ospf_settings_timers_spf
+    - include: router_ospf_settings_auto_cost
     - include: ospf_loopback_stub_network
+    - include: ospf_authentication
+    - include: ospf_message_digest_key
+
+  router_ospf_settings_passive:
+    - match: |
+        (?xi)
+        ^\s*
+        (passive)\s+
+        (?:
+          (enable)|
+          (disable)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: keyword
+
+  router_ospf_settings_auto_cost:
+    - match: |
+        (?xi)
+        ^\s*
+        (auto-cost)\s+
+        (?:
+          (?:(reference-bandwidth)\s+({{number_range_1_4294967}}))|
+          (disable)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+        4: keyword
+
+  router_ospf_settings_timers_lsa_all:
+    - match: |
+        (?xi)
+        ^\s*
+        (timers)\s+(throttle)\s+(lsa)\s+(all)
+        \s+({{number_range_0_600000}})
+        \s+({{number_range_1_600000}})
+        \s+({{number_range_1_600000}})
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+        5: constant.numeric
+        6: constant.numeric
+        7: constant.numeric
+
+  router_ospf_settings_timers_spf:
+    - match: |
+        (?xi)
+        ^\s*
+        (timers)\s+(throttle)\s+(spf)
+        \s+({{number_range_1_600000}})
+        \s+({{number_range_1_600000}})
+        \s+({{number_range_1_600000}})
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+        5: constant.numeric
+        6: constant.numeric
+        7: constant.numeric
+
+  router_ospf_settings_timers_lsa_min_arrival:
+    - match: |
+        (?xi)
+        ^\s*
+        (timers)\s+(lsa)\s+(min-arrival)
+        \s+({{number_range_0_600000}})
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
 
   router_ospf_settings_log_adjacency_changes:
     - match: |
@@ -6540,6 +7468,8 @@ contexts:
 
   router_ospf_area_settings:
     - include: ospf_loopback_stub_network
+    - include: ospf_authentication
+    - include: ospf_message_digest_key
 
   router_ospf_area_interface:
     - match: |
@@ -6563,6 +7493,10 @@ contexts:
       push:
         - meta_content_scope: text.network.cisco.ospf.area.interface
         - include: ospf_loopback_stub_network
+        - include: router_ospf_settings_passive
+        - include: ospf_authentication
+        - include: ospf_message_digest_key
+        - include: ospf_network
         - match: '{{ctx_pop_router_ospf_area}}'
           pop: true
 
@@ -6581,6 +7515,67 @@ contexts:
         3: entity.other.attribute-name
         4: keyword
 
+  ospf_authentication:
+    - match: |
+        (?xi)
+        ^\s*(authentication)
+        (?:
+          \s+
+          (?:
+            (?:
+              (message-digest)
+              (?:\s+(keychain)\s+(\S+))?
+            )|
+            (null)
+          )
+        )?
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: string.unquoted
+        5: constant.character
+
+  ospf_message_digest_key:
+    - match: |
+        (?xi)
+        ^\s*(message-digest-key)
+        \s+({{number_8_bit}})
+        \s+(md5)\s+
+        (?:
+          ([a-f0-9]{1,16})|
+          (?:(clear)\s+([a-f0-9]{1,16}))|
+          (?:(encrypted)\s+([a-f0-9]+))
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: support.constant
+        4: string.unquoted
+        5: support.constant
+        6: string.unquoted
+        7: support.constant
+        8: string.unquoted
+
+  ospf_network:
+    - match: |
+        (?xi)
+        ^\s*(network)\s+
+        (?:
+          ((?:non-)?broadcast)|
+          (?:(point-to-multipoint)(?:\s+(non-broadcast))?)|
+          (point-to-point)|
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.language
+        3: constant.language
+        4: constant.language
+        5: constant.language
+
   router_ospf_vrf:
     - match: '^\s*(vrf)\s+({{vrf_name}})'
       captures:
@@ -6597,6 +7592,8 @@ contexts:
     - include: router_id
     - include: router_ospf_vrf_domain_id
     - include: router_ospf_vrf_redistribute
+    - include: ospf_authentication
+    - include: ospf_message_digest_key
 
   router_ospf_vrf_domain_id:
     - match: |
@@ -6695,6 +7692,26 @@ contexts:
       # - include: isis_address_family_ipv6_settings
       - match: '{{ctx_pop_router_ospf}}'
         pop: true
+
+  line_default:
+    - match: '^\s*(line)\s+(default)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.line.default
+      - include: pop_on_configure_terminal_context
+
+  line_console:
+    - match: '^\s*(line)\s+(console)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+      push:
+      - meta_content_scope: text.network.cisco.line.console
+      - include: pop_on_configure_terminal_context
 
   router_isis:
     - match: '^\s*(router)\s+(isis)\s+({{isis_identifier}})'
@@ -7166,6 +8183,7 @@ contexts:
       - match: '{{ctx_pop_vrf}}'
         pop: true
       - include: vrf_import_route_target
+      - include: vrf_import_route_policy
       - include: vrf_export_route_target
       - include: vrf_export_route_policy
 
@@ -7234,6 +8252,18 @@ contexts:
           (?:({{route_target}}))
         captures:
           1: constant.numeric        # route target
+
+  vrf_import_route_policy:
+    - match: '^\s*(import)\s+(route-policy)\s+(\S+)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+      - meta_content_scope: text.network.cisco.vrf.import.route_policy
+      - match: '{{ctx_pop_vrf_address_family}}'
+        pop: true
 
   vrf_export_route_policy:
     - match: '^\s*(export)\s+(route-policy)\s+(\S+)'

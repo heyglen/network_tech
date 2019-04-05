@@ -5,7 +5,7 @@
         "draw_normal",
         "draw_active"
     ],
-    "tab_size": 2,
+    "tab_size": 1,
     "ensure_newline_at_eof_on_save": true,
     "translate_tabs_to_spaces": true,   
     "word_separators": "\\()\"',;<>~!@#$%^&*|+=[]{}`~?",
