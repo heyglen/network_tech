@@ -1,13 +1,37 @@
 {
-    "scope": "text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco.acl.extended & -text.network.cisco.partial & -(text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco.acl.extended text.network.cisco)",
+    "scope": "text.network.cisco.ios text.network.cisco.acl.extended & -text.network.cisco.partial & -(text.network.cisco.ios text.network.cisco.configure_terminal text.network.cisco.acl.extended text.network.cisco)",
     "completions": [
         { 
             "trigger": "permit\tip", 
-            "contents": "${1:00} permit ip ${2:127.0.0.0} ${3:0.0.0.255} ${4:127.0.0.0} ${5:0.0.0.255}$0"
+            "contents": "permit ip ${1:127.0.0.0} ${2:0.0.0.255} ${3:127.0.0.0} ${4:0.0.0.255}"
         },
         { 
             "trigger": "deny\tip", 
-            "contents": "${1:00} deny ip ${2:127.0.0.0} ${3:0.0.0.255} ${4:127.0.0.0} ${5:0.0.0.255}$0"
+            "contents": "deny ip ${1:127.0.0.0} ${2:0.0.0.255} ${3:127.0.0.0} ${4:0.0.0.255}"
+        },
+        { 
+            "trigger": "permit\ttcp", 
+            "contents": "permit tcp ${1:127.0.0.0} ${2:0.0.0.255} ${3:127.0.0.0} ${4:0.0.0.255} eq ${5:65535}"
+        },
+        { 
+            "trigger": "deny\ttcp", 
+            "contents": "deny tcp ${1:127.0.0.0} ${2:0.0.0.255} ${3:127.0.0.0} ${4:0.0.0.255} eq ${5:65535}"
+        },
+        { 
+            "trigger": "permit\tudp", 
+            "contents": "permit udp ${1:127.0.0.0} ${2:0.0.0.255} ${3:127.0.0.0} ${4:0.0.0.255} eq ${5:65535}"
+        },
+        { 
+            "trigger": "deny\tudp", 
+            "contents": "deny udp ${1:127.0.0.0} ${2:0.0.0.255} ${3:127.0.0.0} ${4:0.0.0.255} eq ${5:65535}"
+        },
+        { 
+            "trigger": "permit\tany any", 
+            "contents": "permit ip any any"
+        },
+        { 
+            "trigger": "deny\tany any", 
+            "contents": "deny ip any any"
         },
     ]
 }

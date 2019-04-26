@@ -59,8 +59,8 @@ variables:
       (?:object-group)|
       (?:object)|
       (?:policy-map)|
+      (?:packet-tracer)|
       (?:route)|
-      (?:service-policy)|
       (?:snmp-server)|
       (?:ssh)|
       (?:telnet)|
@@ -1315,7 +1315,7 @@ contexts:
         ({{ip}})\s+
         ({{port_target}})\s+
         ({{ip}})\s+
-        ({{port_target}})\s+
+        ({{port_target}})\s*$
       captures:
         1: support.constant                       # packet-tracer input
         2: string.unquoted                        # interface name

@@ -6,6 +6,10 @@
             "contents": "rd ${1:<router-id>}:${2:#}"
         },
         { 
+            "trigger": "export\tmap", 
+            "contents": "export map ${1:ROUTE_MAP_NAME}"
+        },
+        { 
             "trigger": "route-target\timport", 
             "contents": "route-target import ${1:AS}:${2:#}"
         },

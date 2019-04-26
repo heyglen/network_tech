@@ -311,6 +311,16 @@ variables:
       (?:1[0-4])|
       (?:[0-9])
     )
+  authentication_methods_dot1x: |
+    (?xi)
+    (?:
+      (?:enable)|
+      (?:group\s+radius)|
+      (?:line)|
+      (?:local-case)|
+      (?:local)|
+      (?:none)
+    )
   utc_offset_minute: '[1-6]?[0-9]'
   # Source: https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
   # Single Letter Timezones: https://www.cisco.com/c/en/us/td/docs/ios/12_2/configfun/command/reference/ffun_r/frf012.html#wpxref70983
@@ -1123,6 +1133,8 @@ contexts:
           (?:(secret)\s+(5)\s+(\S+))|
           (?:(secret)\s+(\S+))|
           (?:(password)\s+(secret\s+)?(5)\s+(\S+))|
+          (?:(password)\s+(5)\s+(\S+))|
+          (?:(password)\s+(7)\s+(\S+))|
           (?:(password)\s+(\d+)\s+(\S+))
         )?
       captures:
@@ -1141,7 +1153,13 @@ contexts:
         13: string.unquoted.cisco.password.type.5    # password string
         14: support.constant   # password
         15: constant.numeric   # password type
-        16: string.unquoted    # password string
+        16: string.unquoted.cisco.password.type.5    # password string
+        17: support.constant   # password
+        18: constant.numeric   # password type
+        19: string.unquoted.cisco.password.type.7    # password string
+        20: support.constant   # password
+        21: constant.numeric   # password type
+        22: string.unquoted    # password string
 
   vrf_upgrade:
     - match: ^\s*(vrf)\s+(upgrade-cli)\s+(multi-af-mode)\s+((?:non-)?common-policies)(?:(?:\s+(vrf)\s+(\S+)(?:\s+(force))?)|(\s+force))?
@@ -1723,6 +1741,29 @@ contexts:
         7: constant.numeric             # block-for within seconds
 
   aaa_authentication:
+    - include: aaa_authentication_login
+    - include: aaa_authentication_dot1x
+
+  aaa_authentication_dot1x:
+    - match: |
+        (?xi)
+        ^\s*
+        (aaa)\s+(authentication)\s+(dot1x)\s+
+        (?:
+          (default)|
+          (\S+)
+        )
+        (?:\s+({{authentication_methods_dot1x}}))+
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.language
+        4: support.constant
+        5: string.unquoted
+        6: constant.language
+
+
+  aaa_authentication_login:
     - match: |
         (?xi)
         ^\s*
@@ -3468,21 +3509,33 @@ contexts:
       - include: pop_on_configure_terminal_context
 
   vrf_settings:
+    - include: vrf_settings_export_map
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:(description.*))|
+          (?:(rd)\s+([0-9\.:]+))|
+          (?:(route-target)\s+(import|export|both)\s+([0-9\.:]+))
+        )
+      captures:
+        1: comment.line                   # description
+        2: support.constant               # rd
+        3: constant.numeric               # rd id
+        4: support.constant               # route-target
+        5: entity.other.attribute-name    # route-target import/export/both
+        6: constant.numeric               # route-target id
+
+
+  vrf_settings_export_map:
       - match: |
           (?xi)
           ^\s*
-          (?:
-            (?:(description.*))|
-            (?:(rd)\s+([0-9\.:]+))|
-            (?:(route-target)\s+(import|export|both)\s+([0-9\.:]+))
-          )
+          (export)\s+(map)\s+(\S+)
         captures:
-          1: comment.line                   # description
-          2: support.constant               # rd
-          3: constant.numeric               # rd id
-          4: support.constant               # route-target
-          5: entity.other.attribute-name    # route-target import/export/both
-          6: constant.numeric               # route-target id
+          1: support.constant
+          2: support.constant
+          3: string.unquoted
 
 
   vrf_address_family:

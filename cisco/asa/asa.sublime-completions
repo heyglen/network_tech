@@ -1,0 +1,14 @@
+{
+    "scope": "text.network.cisco.asa",
+    "completions": [
+        { 
+            "trigger": "changeto\tsystem",
+            "contents": "changeto context system"
+        },
+        { 
+            "trigger": "changeto\tcontext",
+            "contents": "changeto context ${1:CONTEXT_NAME}"
+        },
+    ]
+}
+

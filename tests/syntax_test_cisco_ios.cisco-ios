@@ -532,6 +532,14 @@ boot-end-marker
 !
 aaa new-model
 !
+
+aaa authentication dot1x default enable
+aaa authentication dot1x default group radius
+aaa authentication dot1x default line
+aaa authentication dot1x default local
+aaa authentication dot1x default local-case
+aaa authentication dot1x default none
+
 aaa group server radius rad_eap
   server 1.2.3.4 auth-port 1812 acct-port 1813
 !
