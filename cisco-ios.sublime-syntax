@@ -835,7 +835,7 @@ variables:
       (?:disk(?:[0-3])?)
     )
   uri: '(?<protocol>(?:t?ftp)|scp)(?<protocol_seperator>://)(?<hostname>(?:\d+\.){3}\d+)(?<path>\/\S*)'
-  locations: '(?:{{drive}}|{{uri}})'
+  locations: '(?:{{drives}}|{{uri}})'
 
 contexts:
 
