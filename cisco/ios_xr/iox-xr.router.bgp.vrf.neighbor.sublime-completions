@@ -1,0 +1,30 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.bgp.vrf.neighbor",
+  "completions": [
+        { 
+            "trigger": "use\taf-group",
+            "contents": "use af-group ${1:AF_GROUP_NAME}"
+        },
+        { 
+            "trigger": "use\tneighbor-group",
+            "contents": "use neighbor-group ${1:GROUP_NAME}"
+        },
+        { 
+            "trigger": "remote-as\t",
+            "contents": "remote-as ${1:65535}"
+        },
+        { 
+            "trigger": "update-source\tGi",
+            "contents": "update-source GigabitEthernet${1:0/0/0/0}"
+        },
+        { 
+            "trigger": "update-source\tLo",
+            "contents": "update-source Loopback${1:0}"
+        },
+        { 
+            "trigger": "address-family\tvpnv4 unicast",
+            "contents": "address-family vpnv4 unicast\n\t$0\n"
+        },
+
+  ]
+}

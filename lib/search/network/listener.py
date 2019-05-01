@@ -1,87 +1,98 @@
 # Copyright 2017 Glen Harmon
 
 import logging
+import functools
 
 import sublime
 import sublime_plugin
 
-from .lib.dot_dict import DotDict
-from .lib.ip_regex import sublime_ip, ip
-from .lib.network import Network
+# from .scopes import scopes
+from .network import Network
+from .variables import sublime_ip, ip
+from .html_helper import Html
+
+logger = logging.getLogger('network_tech.search.network')
 
 
-logger = logging.getLogger('net_tech')
-logger.handlers = []
+SCOPE_PREFIX = 'text.network'
 
 
-settings = sublime.load_settings('network_tech.sublime-settings')
+class NetworkInfoListener(sublime_plugin.ViewEventListener):
+    def on_hover(self, point, hover_zone):
+        if not self.view.scope_name(point).startswith(SCOPE_PREFIX):
+            return
+        if hover_zone == sublime.HOVER_TEXT:
+            if self.view.is_popup_visible():
+                self.view.hide_popup()
+            self.network_info(point=point, location=point)
+        else:
+            self.view.hide_popup()
 
-log_level = settings.get('log_level', 'warning') or 'warning'
-logger.setLevel(
-    getattr(logging, log_level.upper())
-)
+    def on_modified_async(self):
+        self.network_info()
 
+    def network_info(self, point=None, location=None):
+        if point is None or not self.view.scope_name(point).startswith(SCOPE_PREFIX):
+            return
+        regions = self.view.sel() if point is None else [sublime.Region(point, point)]
+        location = regions[0].end() if location is None else location
 
-SYNTAX = DotDict({
-    'asa': 'Packages/network_tech/cisco-asa.sublime-syntax',
-    'ace': 'Packages/network_tech/cisco-ace.sublime-syntax',
-    'ios': 'Packages/network_tech/cisco-ios.sublime-syntax',
-    'nxos': 'Packages/network_tech/cisco-nxos.sublime-syntax',
-})
+        for region in regions:
+            if not self.view.match_selector(region.end(), 'text.network'):
+                continue
+            
+            match_text = Network.get_network_on_cursor(region, self.view)
+            network = Network.get(match_text)
+            if network:
+                content = Network.info(network)
+                
+                if content:
+                    self._update_popup(content, location)
 
-detect_syntax = DotDict({
-    'cisco': [
-        '^! Last configuration change at',
-        '^!Command: show ',
-        '^: Hardware:\s+ASA\d+',
-        '^ASA Version \d+\.\d+',
-        '^Building configuration...$',
-        '^Current configuration : \d+ bytes$',
-        '^Generating configuration....',
-    ],
-    'asa': [
-        '^ASA Version \d+\.\d+',
-        '^: Hardware:\s+ASA\d+',
-        '^\s*security-level \d+$',
-        '^\s*nameif \S+$',
-        '^\s*access-list cached ACL log flows:',
-        '^\s*route\s+\S+\d+',
-        '^\s*fragment chain \d+ \S+$',
-        '^\s*asdm image \S+$',
-        '^\s*same-security-traffic',
-    ],
-    'nxos': [
-        '^!Command: show ',
-        '^\s*feature \S+',
-        '^\s*vrf context \S+',
-    ],
-    'ace': [
-        '^Generating configuration....',
-    ],
-    'ios': [
-        '^\s*ip classless$',
-        '^\s*ip subnet-zero$',
-        '^\s*redundancy$',
-        '^\s*mode sso$',
-        '^\s*main-cpu$',
-        '^\s*auto-sync standard$',
-        '^\s*spanning-tree extend system-id$',
-        '^\s*vlan internal allocation policy ascending$',
-        '^Current configuration : \d+ bytes$',
-        '^Building configuration...$',
-        '^\s*access-list \d{2,3} ((?:permit)|(?:deny))',
-    ],
-})
+                get_rir = functools.partial(Network.rir, network)
+                get_hostname = functools.partial(Network.ptr_lookup, network)
 
+                self._loading_popup(
+                    location,
+                    content,
+                    lambda: get_rir() + get_hostname(),
+                    'Querying RIR & DNS...'
+                )
+                # self._loading_popup(
+                #     location,
+                #     content,
+                #     functools.partial(Network.ptr_lookup, network),
+                #     'Performing Reverse Lookup...'
+                # )
+            # Match only the first
+            break
 
-class SearchHistory(list):
-    @property
-    def last(self):
-        last = None
-        if self:
-            last = self[0]
-        return last
+    def _loading_popup(self, location, content, callback, loading_message='loading...'):
 
+        def _update(self, location, content, callback, loading_message):
+            loading_content = content + Html.div(loading_message)
+            self._update_popup(loading_content, location)
+
+            output = callback()
+            self._update_popup(content + output, location)
+
+        sublime.set_timeout_async(
+            functools.partial(_update, self, location, content, callback, loading_message),
+            0,
+        )
+
+    def _update_popup(self, content, location):
+        if content:
+            if self.view.is_popup_visible():
+                self.view.update_popup(content)
+            else:
+                self.view.show_popup(
+                    content,
+                    flags=sublime.COOPERATE_WITH_AUTO_COMPLETE,
+                    location=location,
+                    max_width=20000,
+                    max_height=20000,
+                )
 
 class FindSubnetCommand(sublime_plugin.TextCommand):
 
@@ -220,91 +231,11 @@ class FindAllSubnetsCommand(sublime_plugin.TextCommand):
         self._find_input_panel(network=default_search)
 
 
-class NetworkAutoCompleteListener(sublime_plugin.ViewEventListener):
-    # def on_query_completions(self, prefix, locations):
-    def on_hover(self, point, hover_zone):
-        if hover_zone == sublime.HOVER_TEXT:
-            if self.view.is_popup_visible():
-                self.view.hide_popup()
-            self.network_info(point=point, location=point)
-        else:
-            self.view.hide_popup()
+# class NetworkCompletionListener(sublime_plugin.ViewEventListener):
 
-    def on_modified_async(self):
-        self.network_info()
-
-    def network_info(self, point=None, location=None):
-        regions = self.view.sel() if point is None else [sublime.Region(point, point)]
-        location = regions[0].end() if location is None else location
-
-        for region in regions:
-            if not self.view.match_selector(region.end(), 'text.network'):
-                continue
-            match_text = Network.get_network_on_cursor(region, self.view)
-            network = Network.get(match_text)
-            if network:
-                content = Network.info(network)
-                if content:
-                    if self.view.is_popup_visible():
-                        self.view.update_popup(content)
-                    else:
-                        self.view.show_popup(
-                            content,
-                            flags=sublime.COOPERATE_WITH_AUTO_COMPLETE,
-                            location=location,
-                        )
-            # Match only the first
-            break
-
-
-class AutoSyntaxDetection(sublime_plugin.ViewEventListener):
-    def on_modified_async(self):
-        if self.is_plain_text and self.is_cisco:
-            if self.is_asa:
-                self.view.set_syntax_file(SYNTAX.asa)
-            elif self.is_ios:
-                self.view.set_syntax_file(SYNTAX.ios)
-            elif self.is_nxos:
-                self.view.set_syntax_file(SYNTAX.nxos)
-            elif self.is_ace:
-                self.view.set_syntax_file(SYNTAX.ace)
-
-    @property
-    def is_plain_text(self):
-        return self.view.scope_name(0).strip() == 'text.plain'
-
-    def is_cisco(self):
-        for evidence in detect_syntax.cisco:
-            if self.view.find(evidence, 0):
-                return True
-        return False
-
-    @property
-    def is_asa(self):
-        return self._syntax_detection(detect_syntax.asa, 'Cisco ASA detected')
-
-    @property
-    def is_nxos(self):
-        return self._syntax_detection(detect_syntax.nxos, 'Cisco NXOS detected')
-
-    @property
-    def is_ace(self):
-        return self._syntax_detection(detect_syntax.ace, 'Cisco ACE detected')
-
-    @property
-    def is_ios(self):
-        return self._syntax_detection(detect_syntax.ios, 'Cisco IOS detected')
-
-    def _syntax_detection(self, syntax_list, message, status_update=True):
-        for evidence in syntax_list:
-            if self.view.find(evidence, 0):
-                if status_update:
-                    self.view.erase_status('Network Tech')
-                    self.view.set_status('Network Tech', message)
-                    sublime.set_timeout(
-                        (lambda: self.view.erase_status('Network Tech')),
-                        3000
-                    )
-                logger.debug(message)
-                return True
-        return False
+#     def on_query_completions(self, prefix, locations):
+#         for point in locations:
+#             if self.view.match_selector(point, scopes.ipv4.incomplete.ip):
+#                 print('ding')
+#                 print(prefix)
+#         return

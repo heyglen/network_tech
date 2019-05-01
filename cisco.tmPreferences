@@ -16,6 +16,7 @@
                 (?:
                     ^\s*
                     (?:
+                        (?:conf\s+)|
                         (?:description\s+)|
                         (?:neighbor\s+\S+\s+description\s+)
                     )

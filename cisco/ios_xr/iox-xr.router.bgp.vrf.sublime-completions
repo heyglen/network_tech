@@ -1,0 +1,18 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.bgp.vrf",
+  "completions": [
+        { 
+            "trigger": "rd\t",
+            "contents": "rd ${1:1:1}"
+        },
+        {
+            "trigger": "neighbor\t",
+            "contents": "neighbor ${1:192.168.1.1}\n\t$0\n"
+        },
+        { 
+            "trigger": "address-family\tipv4 unicast",
+            "contents": "address-family ipv4 unicast\n\t$0\n"
+        },
+
+  ]
+}

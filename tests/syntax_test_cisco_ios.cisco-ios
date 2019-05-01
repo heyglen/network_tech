@@ -1,13 +1,36 @@
 # cisco ios
 
+! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/mcl/allreleasemcl/all-book/all-01.html
+
+! Testing for RIR Resolving
+! google.com 216.58.212.142
+! google.com 2a00:1450:400e:800::200e
+! europa.eu 147.67.210.45
+! europa.eu 2a01:7080:24:100::666:45
+
 write
 show running-config | include something ! Inline comment
 
 show running-config | include something ! Inline comment
 show run interface | exclude something
 
+enable password secret_password
+enable secret 5 $1$SpMm$eALjeyED.WSZs0naLNv22/
+enable password 7 0822455D0A16
+!
+
+username user password 0 secret_password
+username user password secret 5 invalid
+username user password secret 5 $1$SpMm$eALjeyED.WSZs0naLNv22/
+username user password secret 5 $1$hetw$SaZIk0NtOZFJzduXR1IwX1
+username user password secret 5 $1$feb0$a104Qd9UZ./Ak00KTggPD0
+username [ACCOUNT] privilege 15 secret [ACCOUNT_PASSWORD]
+
+
 ! On router01
 # device router02
+
+
 
 ip classless
 copy tftp://1.2.3.4/path startup-config ! Inline comment
@@ -23,7 +46,7 @@ show ip route vrf NAME 1.1.1.1
 show ip route 1.1.1.1
 show ip route
 
-show ipv6 route vrf NAME 1::1
+show ipv6 route vrf NAME 2a00:1450:400e:800::200e
 show ipv6 route 1::1
 show ipv6 route
 show ip bgp
@@ -39,6 +62,7 @@ show running-config
 show startup-config
 
 
+conf t
 configure terminal
 
   ! Line comment
@@ -67,6 +91,8 @@ configure terminal
 
   vlan 1
     name VLAN-1
+  vlan 2
+    name VLAN-1
   exit
 
   hostname example
@@ -78,27 +104,160 @@ configure terminal
   ipv6 general-prefix WHATEVER ::/0
 
   ! Line comment
+
+  ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-m2.html#wp4104485390
+  object-group network my-network-object-group
+    description test
+    host sjc.eng.ftp
+    host 10.20.20.1 
+    host 10.20.20.5
+    10.30.0.0 255.255.0.0
+    group-object sjc-eng-ftp-servers
+    any
+
+
+  ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-cr-book/sec-cr-a2.html#wp1330542825
+  access-list compiled
+
+  ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-m2.html#wp3228486646
+  object-group security name 
+    description test
+    security-group tag-id 1
+
+
+  ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-m2.html#wp2628981827
+  object-group service name 
+    description test
+    group-object serv-object1
+    tcp 200
+    ip
+
+  ! OGACL
+  ip access-list extended OGACL ! This is a comment
+    ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-p1.html#wp1459792010
+    permit tcp 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 
+    permit udp 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 
+    permit ip 1.1.1.0 0.0.0.255 any
+    permit ip any 1.1.1.0 0.0.0.255 
+    permit ip host 1.1.1.0 host 1.1.1.0 
+    permit ip host abc host a.b.c 
+    permit ip object-group abc object-group a.b.c 
+    permit ip 1.1.1.0 0.0.0.255 2.2.2.0 0.0.0.255 dscp 0
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp default
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp 63
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af11
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af12
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af13
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af21
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af22
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af23
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af31
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af32
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af33
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af41
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af42
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp af43
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs1
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs2
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs3
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs4
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs5
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs6
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp cs7
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 dscp ef
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence 0
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence 7
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence flash
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence flash-override
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence immediate
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence internet
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence network
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence priority
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 precedence routine
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 fragments
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option 0
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option 255
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option 255
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option add-ext
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option any-options
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option com-security
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option dps
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option encode
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option eool
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option ext-ip
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option ext-security
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option finn
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option imitd
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option lsr
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option match-all
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option match-any
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option mtup
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option mtur
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option no-op
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option psh
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option nsapa
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option reflect
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option record-route
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option rst
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option router-alert
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option sdb
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option security
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option ssr
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option stream-id
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option syn
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option timestamp
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option traceroute
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option ump
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option visa
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 option zsu
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 reflect ANOTHER_ACL_NAME
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 time-range TIME_RANGE_NAME
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 ttl eq 1
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 ttl gt 1
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 ttl lt 1
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 ttl neq 1
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 ttl range 10 20
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos 0
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos max-reliability
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos max-throughput
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos min-delay
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos min-monetary-cost
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 tos normal
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 log
+    permit ip 1.1.1.0 0.0.0.255 1.1.1.0 0.0.0.255 log name
+
+
   ip access-list extended NAME ! This is a comment
-   remark blah blah
-   2 permit tcp any any eq bgp
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 neq 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 ge 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 gt 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 lt 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 le 1234
-   permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 established
-   permit tcp host 1.2.3.4 1.2.3.0 0.0.0.255 established
-   permit tcp host 1.2.3.4 host 1.2.3.0
-   deny ip any any
-   permit icmp any any
+    remark blah blah
+    2 permit tcp any any eq bgp
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 eq 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 neq 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 ge 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 gt 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 lt 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 le 1234
+    permit tcp 1.2.3.0 0.0.0.63 1.2.3.0 0.0.0.255 established
+    permit tcp host 1.2.3.4 1.2.3.0 0.0.0.255 established
+    permit tcp object-group source_network object-group destination_network eq 1234
+    permit tcp object-group source_network object-group source_service object-group destination_network object-group destination_service
+    ! Official Cisco Command Reference:
+    ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/m1/sec-m1-cr-book/sec-cr-p1.html#wp1459792010
+    ! 
+    ! This references a "port-match-criteria" which is never explained, so will go off of a bloggers post and hope for the best:
+    ! https://routing-bits.com/2008/10/29/acl-object-groups-now-on-cisco-ios/
+    permit object-group service_group object-group source_network object-group destination_network
+    permit object-group service_group object-group source_network object-group destination_network
+
+    permit tcp host 1.2.3.4 host 1.2.3.0
+    deny ip any any
+    permit icmp any any
 
   ip vrf NAME
     description management
     rd 1.2.3.4:5
     route-target export 1.2.3.4:5
     route-target import 1.2.3.4:5
-  exit
 
   vrf definition NAME
     description management
@@ -112,6 +271,7 @@ configure terminal
     exit
   exit
 
+  ip access-list standard NAME
   ip access-list standard NAME
    10 permit 1.2.3.0 0.0.0.255
    permit 1.2.3.0 0.0.0.255
@@ -142,6 +302,8 @@ configure terminal
       neighbor 1.1.1.1 soft-reconfiguration inbound
       neighbor 1.1.1.1 soft-reconfiguration outbound
       neighbor 1.1.1.1 password 1 secret
+      neighbor 1.1.1.1 password 5 $1$kPhVPvwe$1yLHh4Pa9WWv4Ys7omKV80
+      neighbor 1.1.1.1 password 7 1511021F0725
       neighbor 1.1.1.1 prefix-list prefix_list in
       neighbor 1.1.1.1 prefix-list prefix_list out
       neighbor 1.1.1.1 route-map route_map in
@@ -177,7 +339,7 @@ configure terminal
       neighbor ::1 soft-reconfiguration outbound
       neighbor ::1 transport path-mtu-discovery
 
-router bgp 1
+router bgp 12
 ip route 1.2.4.0 255.255.255.0 1.2.3.4
 
 interface vlan123
@@ -222,7 +384,8 @@ interface range GigabitEthernet1/1-2
   bandwidth 10240
   ip pim sparse-mode
   ip pim dense-mode
-  ip ospf message-digest-key 1 md5 7 1234567890ABC
+  ip ospf message-digest-key 1 md5 5 secret_password
+  ip ospf message-digest-key 1 md5 7 0822455D0A16
   ip ospf cost 20000
   speed 1000
   full-duplex
@@ -241,9 +404,12 @@ interface range GigabitEthernet1/1-2
   switchport voice vlan 123
   ip redirects
   channel-group 1 mode active
+  channel-group 1 mode on
   ipv6 redirects
   ip proxy-arp
   ip vrf forwarding NAME
+  ipv6 address PREFIX_NAME 0:0:0:1::/64 eui-64
+  ipv6 address PREFIX_NAME 0:0:0:1::/64
   ipv6 address general-prefix 0:0:0:1::/64 eui-64
   ipv6 nd prefix ff02::/64
   standby version 2
@@ -252,16 +418,58 @@ interface range GigabitEthernet1/1-2
   standby 1 preempt
   standby 1 preempt delay minimum 300 reload 300
   standby 2 ipv6 autoconfig
-  standby 2 ipv6 ::1
+  standby 2 ipv6 ::1/64
   standby 1 track 1 decrement 10
   ipv6 enable
+  logging event link-status
+  logging event trunk-status
   spanning-tree portfast
-  service-policy output SOMETHING
-  service-policy input SOMETHING
+  spanning-tree portfast edge
+  spanning-tree portfast trunk
+  shut
   no switchport
   no shutdown
   shutdown
+  switchport port-security
+  switchport port-security aging static
+  switchport port-security aging time 1440
+  switchport port-security aging type absolute
+  switchport port-security aging type inactivity
+  switchport port-security mac-address 1024
+  switchport port-security mac-address sticky
+  switchport port-security mac-address sticky 0.0.1
+  switchport port-security mac-address vlan 4095
+  switchport port-security mac-address vlan 1,2-3
+  switchport port-security mac-address vlan 4095 voice
+  switchport port-security mac-address 0.0.1 vlan voice
+  switchport port-security maximum 4097
+  switchport port-security maximum 4097 vlan 4095
+  switchport port-security maximum 4097 vlan 1-4095  
+  switchport port-security maximum 4097 vlan 1-2,4-4095  
+  switchport port-security violation shutdown
+  switchport port-security violation restrict
+  switchport port-security violation protect
+  spanning-tree bpduguard enable
+  spanning-tree bpduguard disable
+  service-policy output SOMETHING
+  service-policy input SOMETHING
   exit
+
+conf t
+
+route-map ROUTE_MAP_NAME permit 10
+ match ip address prefix-list PREFIX-LIST
+ set extcommunity rt  12345:123
+ set extcommunity rt  12345:123 additive
+
+route-map ROUTE_MAP_NAME permit 20
+ match ip address prefix-list PREFIX-LIST
+ set extcommunity rt  12345:123
+ set extcommunity rt  12345:123 additive
+!
+route-map ROUTE_MAP_NAME permit 30
+ match ip address ACL_NAME
+ set local-preference 123
 
 
 snmp-server community TEST RO 1
@@ -270,7 +478,7 @@ snmp-server host 1.2.3.4 version 2c TEST
 
 line con 0
   stopbits 1
-  password cisco123
+  password secret_password
   modem enable
   transport preferred all
   transport output all
@@ -317,21 +525,48 @@ service timestamps log datetime msec
 service timestamps log datetime msec localtime show-timezone
 no service password-encryption
 !
-hostname retail
+hostname router
 !
 boot-start-marker
 boot-end-marker
 !
-enable password cisco123
-!
-username jsomeone password 0 cg6#107X
 aaa new-model
 !
+
+aaa authentication dot1x default enable
+aaa authentication dot1x default group radius
+aaa authentication dot1x default line
+aaa authentication dot1x default local
+aaa authentication dot1x default local-case
+aaa authentication dot1x default none
+
 aaa group server radius rad_eap
-  server 10.0.1.1 auth-port 1812 acct-port 1813
+  server 1.2.3.4 auth-port 1812 acct-port 1813
 !
-aaa authentication login eap_methods group rad_eap
+aaa authentication login default local
+aaa authentication login default auth-guest
+aaa authentication login default enable
+aaa authentication login default guest
+aaa authentication login default if-authenticated
+aaa authentication login default if-needed
+aaa authentication login default krb5
+aaa authentication login default krb-instance
+aaa authentication login default krb-telnet
+aaa authentication login default line
+aaa authentication login default local
+aaa authentication login default none
+aaa authentication login default radius
+aaa authentication login default rcmd
+aaa authentication login default tacacs
+aaa authentication login default tacacsplus
+
+aaa authentication login LIST_NAME group GROUP_NAME enable none
+aaa authentication login default group GROUP_NAME enable none
+
+! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-cr-book/sec-cr-a2.html#wp2385098032
+aaa session-id unique
 aaa session-id common
+
 ip subnet-zero
 ip cef
 ip ssh version 2
@@ -351,15 +586,15 @@ dialer-group 1
 dialer-list 1 protocol ip permit
 ip nat inside source list 1 interface dialer 0 overload
 ip classless (default)
-ip route 10.10.25.2 0.255.255.255 dialer 0
+ip route 1.0.0.0 0.255.255.255 dialer 0
 !
-ip dhcp excluded-address 10.0.1.1 10.0.1.10
+ip dhcp excluded-address 1.2.3.4 1.2.3.40
 ip dhcp excluded-address 10.0.2.1 10.0.2.10
 ip dhcp excluded-address 10.0.3.1 10.0.3.10
 !
 ip dhcp pool vlan1
 network 10.0.1.0 255.255.255.0
-default-router 10.0.1.1
+default-router 1.2.3.4
 !
 ip dhcp pool vlan2
   network 10.0.2.0 255.255.255.0
@@ -401,7 +636,7 @@ no ip address
 !
 interface FastEthernet0
   ip address 192.1.12.2 255.255.255.0
-  no ip directed-broadcast (default)
+  no ip directed-broadcast
   ip nat outside
   ip access-group 103 in
   no cdp enable
@@ -522,7 +757,7 @@ bridge-group 3
 bridge-group 3 spanning-disabled
 !
 interface BVI1
-ip address 10.0.1.1 255.255.255.0
+ip address 1.2.3.4 255.255.255.0
 ip nat inside
 !
 interface BVI2
@@ -537,13 +772,14 @@ ip http server
 no ip http secure-server
 !
 radius-server local
-  nas 10.0.1.1 key 0 cisco123
+  nas 1.2.3.4 key 0 secret_password
   group rad_eap
 !
-user jsomeone nthash 7 0529575803696F2C492143375828267C7A760E1113734624452725707C010B065B
-user AMER\jsomeone nthash 7 0224550C29232E041C6A5D3C5633305D5D560C09027966167137233026580E0B0D
+user jsomeone nthash 7 0123456789ABCDEF492143375828267C7A760E1113734624452725707C010B065B
+user DOMAIN\someone nthash 7 0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF01
+
 !
-radius-server host 10.0.1.1 auth-port 1812 acct-port 1813 key cisco123
+radius-server host 1.2.3.4 auth-port 1812 acct-port 1813 key secret_password
 !
 control-plane
 !
@@ -572,7 +808,7 @@ access-list 101 permit ip 10.1.1.0 0.0.0.255 192.168.0.0 0.0.255.255
 no cdp run
 !
 line con 0
-  password cisco123
+  password secret_password
   no modem enable
   modem enable
   transport preferred all
@@ -583,15 +819,15 @@ line aux 0
   transport output all
 !
 line vty 0 4
-  password cisco123
+  password secret_password
   transport preferred all
   transport input all
   transport output all
 !
 
 aaa group server radius sg1
-  server 172.16.0.1
-  server 172.17.0.1
+  server 1.2.3.4
+  server 1.2.3.4
 
 
 policy-map QOS_STUFF
@@ -606,8 +842,118 @@ policy-map QOS_STUFF
     shape average 123
     service-policy SOMETHING
 
+
 class-map match-all VOICE
   match ip dscp ef
+  exit
+
 
 class-map match-all VIDEO-SERVER
   match access-group 6
+
+
+login block-for 30 attempts 7 within 20
+!security password min-length 9
+!no service password-recovery
+service password-encryption
+service tcp-keepalives-in
+service tcp-keepalives-out
+service sequence-numbers
+service timestamps log
+service timestamps log uptime
+service timestamps debug uptime
+service timestamps log datetime show-timezone year
+service timestamps log datetime localtime show-timezone
+! Invalid, example given in issue https://github.com/heyglen/network_tech/issues/10
+! Waiting for response...
+service timestamps log datetime localtime msec year show-timezone
+service timestamps debug datetime localtime msec year show-timezone
+
+clock timezone EST -5
+clock timezone AT -3 30
+clock timezone PST -8
+
+clock summer-time EST recurring 2 Sun Mar 20:00 1 Sun Nov 02:00
+clock summer-time EST recurring 2 Sun Mar 20:00 1 Sun Nov 02:00 60
+clock summer-time PDT recurring 1 Sunday April 2:00 last Sunday October 2:00 
+clock summer-time EST date 12 October 1997 2:00 26 April 1998 2:00
+clock summer-time EST date 12 October 1997 2:00 26 April 1998 2:00 01
+clock summer-time EST date October 12 1997 2:00 April 26 1998 2:00
+clock summer-time EST date October 12 1997 2:00 April 26 1998 2:00 01
+
+ntp server [NTP_SVR-1] prefer
+ntp server [NTP_SVR-1]
+no ip domain-lookup
+ip domain-name [DOMAIN]
+ip name-server [DNS1]
+ip name-server [DNS2]
+ip subnet-zero
+ip classless
+ip igmp snooping querier
+no ip http server
+no ip http secure-server
+no ip finger
+no service finger
+no logging console
+no logging monitor
+no ip source-route
+no service pad
+spanning-tree mode rapid-pvst
+! VTP Disable
+vtp mode off
+no vtp mode
+vtp mode off
+vtp mode transparent
+vtp mode server
+vtp mode client
+vtp domain locIDF##
+vtp password locIDF##
+vtp version 2
+vtp mode off
+no vtp mode
+!
+
+
+
+!***************************************************
+!SSH CONFIGURE
+!***************************************************
+!
+crypto key zeroize rsa
+crypto key zeroize rsa noconfirm
+crypto key generate rsa modulus 2048 noconfirm
+
+
+crypto key zeroize rsa
+!
+!
+crypto key generate rsa general-keys modulus 2048
+ip ssh authentication-retries 2
+ip ssh source-interface vlan 400
+ip ssh version 2
+ip scp server enable
+!
+line vty 0 15
+! exec-timeout 10 30
+logging synchronous
+! login local
+exec prompt timestamp
+history size 100
+transport input ssh
+transport output ssh
+exit
+!
+line console 0
+exec-timeout 30 30
+logging synchronous
+login local
+login tacacs
+login
+exec prompt timestamp
+history size 100
+exit
+!
+!line aux 0
+!no exec
+!exit
+!

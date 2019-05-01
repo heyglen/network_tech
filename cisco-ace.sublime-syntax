@@ -305,7 +305,6 @@ contexts:
         - include: logging
         - include: hostname
         - include: ft_group
-        - include: ip_route
         - include: class_map
         - include: interface
         - include: aaa_group
@@ -802,10 +801,6 @@ contexts:
             3: constant.numeric                   # allocate-interface interface number
             4: support.constant                   # member
             5: string.unquoted                   # member name
-
-  ip_route: 
-    - include: ipv4_route
-    - include: ipv6_route
 
   ipv4_route:
     - match: |
@@ -1607,7 +1602,6 @@ contexts:
         6: constant.numeric               # interface number
       push:
       - meta_content_scope: text.network.cisco.interface
-      - include: standby
       - include: switchport
       - include: description
       - match: |
@@ -1727,9 +1721,6 @@ contexts:
     - include: show_vlan
     - include: show_interface
     - include: show_run_interface
-    - include: show_bgp
-    - include: show_standby
-    - include: show_ip_interface_brief
     - include: show_route 
 
   show_vlan:

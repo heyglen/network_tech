@@ -1,0 +1,37 @@
+{
+    "scope": "text.network.cisco.nxos text.network.cisco.acl.extended & - (text.network.cisco.partial)",
+    "completions": [
+        { 
+            "trigger": "permit\tip", 
+            "contents": "permit ip ${1:127.0.0.0}/${2:24} ${3:127.0.0.0}/${4:24}"
+        },
+        { 
+            "trigger": "deny\tip", 
+            "contents": "deny ip ${1:127.0.0.0}/${2:24} ${3:127.0.0.0}/${4:24}"
+        },
+        { 
+            "trigger": "permit\tany any", 
+            "contents": "permit ip any any"
+        },
+        { 
+            "trigger": "deny\tany any", 
+            "contents": "deny ip any any"
+        },
+        { 
+            "trigger": "permit\ttcp", 
+            "contents": "permit tcp ${1:127.0.0.0}/${2:24} ${3:127.0.0.0}/${4:24} eq ${5:65535}"
+        },
+        { 
+            "trigger": "deny\ttcp", 
+            "contents": "deny tcp ${1:127.0.0.0}/${2:24} ${3:127.0.0.0}/${4:24} eq ${5:65535}"
+        },
+        { 
+            "trigger": "permit\tudp", 
+            "contents": "permit udp ${1:127.0.0.0}/${2:24} ${3:127.0.0.0}/${4:24} eq ${5:65535}"
+        },
+        { 
+            "trigger": "deny\tudp", 
+            "contents": "deny udp ${1:127.0.0.0}/${2:24} ${3:127.0.0.0}/${4:24} eq ${5:65535}"
+        },
+    ]
+}

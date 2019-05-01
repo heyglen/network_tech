@@ -1,0 +1,22 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.ospf.area & -(text.network.cisco.ospf.area.interface)",
+  "completions": [
+        { 
+            "trigger": "loopback\tstub-network enable",
+            "contents": "loopback stub-network enable"
+        },
+        { 
+            "trigger": "loopback\tstub-network disable",
+            "contents": "loopback stub-network disable"
+        },
+        { 
+            "trigger": "interface\tLo",
+            "contents": "interface Loopback${1:0}\n\t$0\n"
+        },
+        { 
+            "trigger": "interface\tGi",
+            "contents": "interface GigabitEthernet${1:0/0/0/0}\n\t$0\n"
+        },
+
+  ]
+}

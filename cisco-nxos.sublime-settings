@@ -1,4 +1,10 @@
 {
+    "auto_complete": true,
+    "auto_complete_triggers": [
+        {
+            "selector": "ip.ipv4.incomplete.ip"
+        }
+    ],
     "auto_complete_selector": "text.network.cisco.",
     "indent_guide_options":
     [

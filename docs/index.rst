@@ -9,20 +9,30 @@ Network Tech Documentation
 Quick Start
 -----------
 
+1. `Install Sublime Text 3 <https://www.sublimetext.com/3>`_
 
-1. `Get Sublime Text 3 <https://www.sublimetext.com/3>`_
+2. Install Package Control 
+      :menuselection:`Tools --> Command Pallet`
+      
+      ⌨ :kbd:`Install Package Control`
 
-2. `Setup Package Manager <https://packagecontrol.io/installation>`_
+      ⌨ :kbd:`<enter>`
+3. Install the package:
+      :menuselection:`Tools --> Command Pallet`
+      
+      ⌨ :kbd:`Package Control: Install Package`
 
-3. Open Sublime Text: :menuselection:`Tools --> Command Pallet`
+      ⌨ :kbd:`<enter>`
+      
+      ⌨ :kbd:`Network Tech`
 
-4. `Package Control: Install Package` :kbd:`enter`
+      ⌨ :kbd:`<enter>`
+4. Enable the syntax highlighing
+      :menuselection:`Tools --> Command Pallet`
 
-5. `Network Tech` :kbd:`enter`
+      ⌨ :kbd:`Set Syntax: Cisco IOS`
 
-6. :menuselection:`Tools --> Command Pallet`
-
-7. `Set Syntax: Cisco IOS` :kbd:`enter`
+      ⌨ :kbd:`<enter>`
 
 .. image:: /_images/cisco_ios_demo.gif
 
@@ -38,6 +48,7 @@ Contents
    syntax
    snippets
    context_info
+   password_decode
    Jumping <jumping>
    Search <network_search>
    Bugs & Requests <feature_requets_and_bugs>

@@ -1,0 +1,45 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.router.ospf & -(text.network.cisco.ospf.area | text.network.cisco.ospf.vrf)",
+  "completions": [
+        { 
+            "trigger": "log-adjacency-changes\tdisable",
+            "contents": "log-adjacency-changes disable"
+        },
+        { 
+            "trigger": "log-adjacency-changes\tdetail",
+            "contents": "log-adjacency-changes detail"
+        },
+        { 
+            "trigger": "loopback\tstub-network enable",
+            "contents": "loopback stub-network enable"
+        },
+        { 
+            "trigger": "loopback\tstub-network disable",
+            "contents": "loopback stub-network disable"
+        },
+        { 
+            "trigger": "vrf\tOSPF VRF",
+            "contents": "vrf ${1:VRF_NAME}\n\t$0\n"
+        },
+        { 
+            "trigger": "area\tOSPF Area",
+            "contents": "area ${1:0}\n\t$0\n"
+        },
+        { 
+            "trigger": "address-family\tipv4 unicast",
+            "contents": "address-family ipv4 unicast\n\t$0\n"
+        },
+        { 
+            "trigger": "address-family\tipv4 multicast",
+            "contents": "address-family ipv4 multicast\n\t$0\n"
+        },
+        { 
+            "trigger": "address-family\tipv4 multicast topology",
+            "contents": "address-family ipv4 multicast topology ${1:TOPOLOGY_NAME}\n\t$0\n"
+        },
+        { 
+            "trigger": "address-family\tipv4 multicast topology + max prefix",
+            "contents": "address-family ipv4 multicast topology ${1:TOPOLOGY_NAME} maximum prefix ${2:2000000}\n\t$0\n"
+        },
+  ]
+}

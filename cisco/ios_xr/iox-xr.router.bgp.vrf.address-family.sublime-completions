@@ -1,0 +1,25 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.bgp.vrf.address_family",
+  "completions": [
+        { 
+            "trigger": "redistribute\tconnected",
+            "contents": "redistribute connected"
+        },
+        { 
+            "trigger": "redistribute\tconnected + metric",
+            "contents": "redistribute connected metric ${1:4294967295}"
+        },
+        { 
+            "trigger": "redistribute\teigrp",
+            "contents": "redistribute eigrp ${1:65535}"
+        },
+        { 
+            "trigger": "redistribute\teigrp internal",
+            "contents": "redistribute eigrp ${1:65535} match internal"
+        },
+        { 
+            "trigger": "redistribute\teigrp external",
+            "contents": "redistribute eigrp ${1:65535} match external"
+        },
+  ]
+}

@@ -1,0 +1,1893 @@
+
+configure
+commit
+hostname hostname
+
+lacp system 65535
+
+
+interface bvi 1
+lacp system 0123.4567.89af
+interface bvi 65535
+
+alias si show ipv4 int brief
+domain name example.com
+
+cdp
+
+vrf VRF_NAME
+  address-family ipv4 unicast
+    import route-target
+      
+vrf VRF_NAME
+ address-family ipv4 unicast
+  import route-target
+   65000:1
+   65000:98
+  !
+  export route-policy ROUTE_POLICY_NAME
+  export route-target
+   65000:1
+  !
+ !
+!
+vrf VRF_NAME
+ address-family ipv4 unicast
+  import route-target
+   65000:2
+   65000:98
+  !
+  export route-policy rpRTfilter-Cust2
+  export route-target
+   65000:2
+  !
+ !
+!
+vrf VRF_NAME
+ address-family ipv4 unicast
+  import route-target
+   65000:97
+   65000:98
+   65000:99
+  !
+  export route-target
+   65000:97
+   65000:98
+   65000:99
+  !
+ !
+!
+
+interface GigabitEthernet0/0/0/0
+  shutdown
+  bandwidth 4294967295
+  mtu 64
+  mtu 65535
+  circuit-type level-1
+  circuit-type level-1-2
+  circuit-type level-2-only
+  csnp-interval 65535
+  csnp-interval 65535 level 1
+  csnp-interval 65535 level 2
+  address-family ipv4 unicast
+    disable
+    fast-reroute per-link
+    fast-reroute per-link level 1
+    fast-reroute per-link level 2
+    fast-reroute per-link exclude interface GigabitEthernet0/3/2/1
+    fast-reroute per-link lfa-candidate interface GigabitEthernet0/3/2/1
+
+    fast-reroute per-prefix
+    fast-reroute per-prefix level 1
+    fast-reroute per-prefix level 2
+    fast-reroute per-prefix exclude interface GigabitEthernet0/3/2/1
+    fast-reroute per-prefix lfa-candidate interface GigabitEthernet0/3/2/1
+    fast-reroute per-prefix remote-lfa maximum-metric 16777215
+    fast-reroute per-prefix remote-lfa tunnel mpls-ldp
+    mpls ldp sync
+    mpls ldp sync level 1
+    mpls ldp sync level 2
+  !
+
+interface Loopback0
+ ipv4 address 1.2.3.4/28
+ ipv4 address 1.2.3.4 255.255.255.255
+ ipv4 address 1.2.3.4 255.255.255.255 secondary
+ ipv4 address 1.2.3.4 255.255.255.255 secondary route-tag 1
+ enable ipv6
+ ipv6 address 1::1/64
+ ipv6 address 1::1/64 route-tag 1
+ ipv6 address 1::1/64 eui-64 route-tag 1
+!
+interface Loopback1
+ vrf VRF_NAME
+ ipv4 address 1.2.3.4 255.255.255.255
+!
+interface Loopback2
+ vrf VRF_NAME
+ ipv4 address 1.2.3.4 255.255.255.255
+!
+interface Loopback99
+ vrf VRF_NAME
+ ipv4 address 1.2.3.4 255.255.255.255
+!
+interface Loopback100
+ ipv4 address 1.2.3.4 255.255.255.255
+!
+interface tunnel-te11211
+ ipv4 unnumbered Loopback100
+ signalled-bandwidth 10000
+ destination 1.2.3.4
+ ! https://www.cisco.com/c/en/us/td/docs/iosxr/ncs5500/mpls/b-mpls-cr-ncs5500/b-ncs5500-mpls-cli-reference_chapter_0100.html#wp8840483240
+ path-option dynamic
+ path-option 1 dynamic
+ path-option 1 protecting 1000 dynamic
+ path-option 1 protecting 1000 dynamic attribute-set NAME
+ path-option 1 protecting 1000 explicit name PATH_NAME
+ path-option 1 protecting 1000 explicit name PATH_NAME attribute-set NAME
+ path-option 1 protecting 1000 explicit identifier 123
+ path-option 1 protecting 1000 explicit identifier 123 attribute-set NAME
+ path-option 1 protecting 1000 explicit name PATH_NAME protected-by 123
+ path-option 1 protecting 1000 explicit name PATH_NAME protected-by 123 attribute-set NAME
+ path-option 1 protecting 1000 explicit identifier 123 protected-by 123
+ path-option 1 protecting 1000 explicit identifier 123 protected-by 123 attribute-set NAME
+ path-option 1 dynamic attribute-set NAME
+ path-option 1 dynamic isis NAME level 1
+ path-option 1 dynamic lockdown
+ path-option 1 dynamic ospf NAME area 1.2.3.4
+ path-option 1 dynamic ospf NAME area 1
+ path-option 1 dynamic verbatim
+!
+interface tunnel-te12211
+ ipv4 unnumbered Loopback100
+ signalled-bandwidth 10000
+ destination 100.64.1.112
+ path-option 1 dynamic
+!
+interface tunnel-te21221
+ ipv4 unnumbered Loopback100
+ signalled-bandwidth 10000
+ destination 100.64.1.122
+ path-option 1 dynamic
+!
+interface MgmtEth0/0/CPU0/0
+ no shutdown
+!
+interface GigabitEthernet0/0/0/0
+ cdp
+ ipv4 address 1.2.3.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ cdp
+ ipv4 address 1.2.3.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ cdp
+ ipv4 address 1.2.3.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ cdp
+ vrf VRF_NAME
+ ipv4 address 1.2.3.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3.100
+ ipv4 address 1.2.3.4 255.255.255.0
+ encapsulation dot1q 100
+!
+interface GigabitEthernet0/0/0/4
+ cdp
+ vrf VRF_NAME
+ ipv4 address 1.2.3.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/4.100
+ ipv4 address 1.2.3.4 255.255.255.0
+ encapsulation dot1q 100
+!
+interface GigabitEthernet0/0/0/5
+ cdp
+ vrf VRF_NAME
+ ipv4 address 1.2.3.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/5.100
+ ipv4 address 1.2.3.4 255.255.255.0
+ encapsulation dot1q 100
+!
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2072001
+rpl editor nano
+rpl editor vim
+rpl editor emacs
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2082825
+rpl maximum lines 131072
+rpl maximum policies 5000
+
+extcommunity-set rt SET_NAME
+  ios-regex '.*',
+  dfa-regex '.*',
+  4294967295:65535,
+  65535:4294967295,
+  1.2.3.4/24:65535,
+  1.2.3.4:65535,
+  65535.65535:65535,
+  $PARAMETER:4294967295,
+  4294967295:$PARAMETER,
+  1.2.3.4/24:$PARAMETER,
+  1.2.3.4:$PARAMETER,
+  $PARAMETER.65535:65535,
+  65535.$PARAMETER:65535,
+  65535.65535:$PARAMETER,
+  $PARAMETER.$PARAMETER:$PARAMETER,
+  *:4294967295,
+  4294967295:*,
+  1.2.3.4/24:*,
+  1.2.3.4:*,
+  *.65535:65535,
+  65535.*:65535,
+  65535.65535:*,
+  *.*:*,
+  4294967295:65535,
+  65535:4294967295,
+  1.2.3.0/24:65535,
+  65535.65535:65535
+end-set
+
+extcommunity-set cost SET_NAME
+  IGP:1:10,
+  10 IGP:1:10
+end-set
+
+extcommunity-set soo SET_NAME
+  1.1.1.1:100,
+  100:200
+end-set
+!
+tag-set SET_NAME
+  0,
+  4294967295
+end-set
+!
+prefix-set SET_NAME
+  #Loopback
+  1.2.3.4/24 eq 32
+end-set
+!
+prefix-set SET_NAME
+  1.2.3.0/24 ge 32
+end-set
+!
+prefix-set SET_NAME
+  1.2.3.0/24 ge 32
+end-set
+!
+prefix-set SET_NAME
+  1.2.3.0/24 ge 32
+end-set
+!
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_313D767B16F842A2AA3C2E2D9EA411D6
+ospf-area-set SET_NAME
+  4294967295
+  1.2.3.4
+  show
+ end-set
+
+ospf-area-set SET_NAME
+  abort
+
+ospf-area-set SET_NAME
+  exit
+
+as-path-set SET_NAME
+  show
+  ! https://www.cisco.com/c/en/us/td/docs/ios/12_2/termserv/configuration/guide/ftersv_c/tcfaapre.html
+  ios-regex '\^\.\(\)\_\?\*\+\|\$',
+  ios-regex '^.()_?*+|$',
+  ios-regex '[]',
+  ios-regex '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+  ios-regex '_11a_()',
+  ios-regex '_22_\|\'',
+  ios-regex '_33_'
+ 
+  dfa-regex '\^\.\(\)\_\?\*\+\|\$',
+  dfa-regex '^.()_?*+|$',
+  dfa-regex '[]',
+  dfa-regex '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+  dfa-regex '_11a_()',
+  dfa-regex '_22_\|\'',
+  dfa-regex '_33_'
+  end-set
+!
+
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1066700
+route-policy SET_NAME ()
+end-policy
+route-policy SET_NAME ($PARAMETER)
+end-policy
+
+route-policy SET_NAME ($PARAMETER, $PARAMETER)
+end-policy
+
+
+route-policy SET_NAME
+  if destination in SET_NAME then
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1077785
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+route-policy POLICY_NAME
+  pass
+  end-policy
+!
+route-policy POLICY_NAME
+  drop
+  end-policy
+!
+route-policy POLICY_NAME
+  if med eq 127 then
+    pass
+  elseif med eq 63 then
+    pass
+  else
+    pass
+  endif
+  pass
+end-policy
+
+route-policy POLICY_NAME
+end-policy
+!
+route-policy POLICY_NAME
+
+  if (((not as-path in SET_NAME) and as-path in SET_NAME) or as-path in SET_NAME) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2276178122
+  if as-path in (4294967295, ios-regex '_12$',4294967295, ios-regex '_13$', dfa-regex '_13$') then
+  elseif as-path in $PARAMETER then
+  elseif as-path in SET_NAME or as-path in SET_NAME and as-path in SET_NAME then
+  
+  endif
+
+  if as-path is-local then
+  endif
+ 
+  if not as-path is-local and as-path is-local then
+    pass
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1625057992
+  if as-path is-local then
+    pass
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2299069167
+  if as-path length is 2047 then
+  elseif as-path length eq 2047 then
+  elseif as-path length ge 2047 then
+  elseif as-path length le 2047 then
+  elseif as-path length is $PARAMETER then
+  elseif as-path length eq $PARAMETER then
+  elseif as-path length ge $PARAMETER then
+  elseif as-path length le $PARAMETER then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp8093486770
+  if as-path neighbor-is '$PARAMETER' then
+  elseif as-path neighbor-is '65535 4294967295 65535.65535 $PARAMETER' then
+  elseif as-path neighbor-is '65535 4294967295 65535.65535 $PARAMETER' exact then
+  endif 
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1346673425
+  if as-path originiates-from '65535 4294967295 65535.65535 $PARAMETER' then
+  elseif as-path originiates-from '65535 4294967295 65535.65535 $PARAMETER' exact then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp3850885229
+  if as-path passes-through '65535 4294967295 65535.65535 $PARAMETER' then
+  elseif as-path passes-through '65535 4294967295 65535.65535 $PARAMETER' exact then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1593893715
+  if as-path unique-length is 2047 then
+  elseif as-path unique-length eq 2047 then
+  elseif as-path unique-length ge 2047 then
+  elseif as-path unique-length le 2047 then
+  elseif as-path unique-length is $PARAMETER then
+  elseif as-path unique-length eq $PARAMETER then
+  elseif as-path unique-length ge $PARAMETER then
+  elseif as-path unique-length le $PARAMETER then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1449498811
+  if community is-empty then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1159396
+  if community matches-any (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535) then
+  elseif community matches-any private-as then
+  elseif community matches-any (65535:65535, $PARAMETER:$PARAMETER, 65535:$PARAMETER, $PARAMETER:65535) then
+  elseif community matches-any (65535:65535, *:65535, 65535:*) then
+  elseif community matches-any (private-as, 65535:65535) then
+  elseif community matches-any (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1166837
+  if community matches-every (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535) then
+  elseif community matches-every private-as then
+  elseif community matches-every (65535:65535, $PARAMETER:$PARAMETER, 65535:$PARAMETER, $PARAMETER:65535) then
+  elseif community matches-every (65535:65535, *:65535, 65535:*) then
+  elseif community matches-every (private-as, 65535:65535) then
+  elseif community matches-every (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER) then
+  elseif community matches-every (dfa-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1075980
+  if destination in $PARAMETER then
+  elseif destination in SET_NAME then
+  elseif destination in (1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64) then
+  elseif destination in private-as then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1121931
+  if extcommunity rt is-empty then
+  elseif extcommunity rt is-empty then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1098780
+  if extcommunity rt matches-any () then
+  elseif extcommunity rt matches-any (4294967295:65535, ios-regex '', 65535:4294967295) then
+  elseif extcommunity rt matches-any (1.2.3.4/24:65535, 1.2.3.4:65535) then
+  elseif extcommunity rt matches-any (65535.65535:65535) then
+  elseif extcommunity rt matches-any ($PARAMETER:4294967295, 4294967295:$PARAMETER) then
+  elseif extcommunity rt matches-any (1.2.3.4/24:$PARAMETER, 1.2.3.4:$PARAMETER) then
+  elseif extcommunity rt matches-any ($PARAMETER.65535:65535) then
+  elseif extcommunity rt matches-any (65535.$PARAMETER:65535) then
+  elseif extcommunity rt matches-any (65535.65535:$PARAMETER) then
+  elseif extcommunity rt matches-any ($PARAMETER.$PARAMETER:$PARAMETER) then
+  elseif extcommunity rt matches-any (*:4294967295, 4294967295:*) then
+  elseif extcommunity rt matches-any (1.2.3.4/24:*, 1.2.3.4:*) then
+  elseif extcommunity rt matches-any (*.65535:65535) then
+  elseif extcommunity rt matches-any (65535.*:65535) then
+  elseif extcommunity rt matches-any (65535.65535:*) then
+  elseif extcommunity rt matches-any (*.*:*) then
+  elseif extcommunity rt matches-any $PARAMETER then
+  elseif extcommunity rt matches-any SET_NAME then
+  endif
+
+  if extcommunity rt matches-every () then
+  elseif extcommunity rt matches-every (ios-regex '.*', dfa-regex '.*') then
+  elseif extcommunity rt matches-every (4294967295:65535, 65535:4294967295) then
+  elseif extcommunity rt matches-every (1.2.3.4/24:65535, 1.2.3.4:65535) then
+  elseif extcommunity rt matches-every (65535.65535:65535) then
+  elseif extcommunity rt matches-every ($PARAMETER:4294967295, 4294967295:$PARAMETER) then
+  elseif extcommunity rt matches-every (1.2.3.4/24:$PARAMETER, 1.2.3.4:$PARAMETER) then
+  elseif extcommunity rt matches-every ($PARAMETER.65535:65535) then
+  elseif extcommunity rt matches-every (65535.$PARAMETER:65535) then
+  elseif extcommunity rt matches-every (65535.65535:$PARAMETER) then
+  elseif extcommunity rt matches-every ($PARAMETER.$PARAMETER:$PARAMETER) then
+  elseif extcommunity rt matches-every (*:4294967295, 4294967295:*) then
+  elseif extcommunity rt matches-every (1.2.3.4/24:*, 1.2.3.4:*) then
+  elseif extcommunity rt matches-every (*.65535:65535) then
+  elseif extcommunity rt matches-every (65535.*:65535) then
+  elseif extcommunity rt matches-every (65535.65535:*) then
+  elseif extcommunity rt matches-every (*.*:*) then
+  elseif extcommunity rt matches-every $PARAMETER then
+  elseif extcommunity rt matches-every SET_NAME then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_E6B9D2B262AB46E2837FE6040CCD462F
+  if globalVar1 is 4294967295 then
+  elseif globalVar2 is 4294967295 then
+  elseif globalVar3 is $PARAMETER then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_1C103C3F436C4F2A90E921932A27A821
+  if route-aggregated then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_1C103C3F436C4F2A90E921932A27A821
+  if is-best-path then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_B77ACA64D9554916A8CA9F775192F289
+  if is-backup-path then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_B77ACA64D9554916A8CA9F775192F289
+  if is-multi-path then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1058981
+  if route-type is $PARAMETER then
+  elseif route-type is local then
+  elseif route-type is interarea then
+  elseif route-type is internal then
+  elseif route-type is type-1 then
+  elseif route-type is type-2 then
+  elseif route-type is level-1 then
+  elseif route-type is level-2 then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2597907
+  if local-preference eq 4294967295 then
+  elseif local-preference eq $PARAMETER then
+  elseif local-preference is 4294967295 then
+  elseif local-preference ge 4294967295 then
+  elseif local-preference le 4294967295 then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2607040
+  if med eq 4294967295 then
+  elseif med eq $PARAMETER then
+  elseif med is 4294967295 then
+  elseif med ge 4294967295 then
+  elseif med le 4294967295 then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1110906
+  if next-hop in (1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64) then
+  elseif next-hop in SET_NAME then
+  elseif next-hop in $PARAMETER then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1555610
+  if orf prefix in (1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64) then
+  elseif orf prefix in SET_NAME then
+  elseif orf prefix in $PARAMETER then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2052089
+  if origin is igp then
+  elseif origin is egp then
+  elseif origin is incomplete then
+  elseif origin is $PARAMETER then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_D596616936AD45AD95F06FB39CDCDFB0
+  if ospf-area is 4294967295 then
+  elseif ospf-area is 1.2.3.4 then
+  elseif ospf-area in (4294967295, 4294967295, 1.2.3.4)  then
+  elseif ospf-area in SET_NAME then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2294410
+  if path-type is ibgp then
+  elseif path-type is ebgp then
+  elseif path-type is $PARAMETER then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1673493
+  if protocol in (bgp, connected, eigrp, isis, ospfv3, ospf, rip, static) then
+  elseif protocol is bgp then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1875078
+  if rd in $PARAMETER then
+  elseif rd in SET_NAME then
+  elseif rd in (10.0.0.0/32:*, 10.0.0.0/8:65535, 10.0.0.0:*, 65000:*, 65000:65535) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1655085
+  if rib-has-route in $PARAMETER then
+  elseif rib-has-route in SET_NAME then
+  elseif rib-has-route in (1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1655082
+  if source in $PARAMETER then
+  elseif source in SET_NAME then
+  elseif source in (1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1099580
+  if tag eq 4294967295 then
+  elseif tag ge 4294967295 then
+  elseif tag le 4294967295 then
+  elseif tag is 4294967295 then
+  elseif tag eq $PARAMETER then
+  elseif tag ge $PARAMETER then
+  elseif tag le $PARAMETER then
+  elseif tag is $PARAMETER then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_112526F0AC10453DB8773CF3269E895F
+  if tag in SET_NAME then
+  elseif tag in $PARAMETER then
+  elseif tag in () then
+  elseif tag in (0, 4294967295) then
+  endif
+
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2306089
+  if vpn-distinguisher is $PARAMETER then
+  elseif vpn-distinguisher is 1 then
+  elseif vpn-distinguisher is 4294967295 then
+  endif
+
+  if destination in SET_NAME then
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp9113502600
+    set aigp-metric igp-cost
+    set aigp-metric 4294967295
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp3515516088
+    set community (123:789)
+    set community (accept-own)
+    set community (internet)
+    set community (no-export)
+    set community (no-advertise)
+    set community (local-as)
+    set community (accept-own, accept-own)
+    set community (internet, internet)
+    set community (no-export, no-export)
+    set community (no-advertise, no-advertise)
+    set community (local-as, local-as)
+    set community (123:789) additive
+    set community ($PARAMETER:789) additive
+    set community (123:$PARAMETER) additive
+    set community (123:456,123:456)
+    set community ($PARAMETER:456,123:456)
+    set community (123:$PARAMETER,123:456)
+    set community (internet, $PARAMETER:$PARAMETER)
+    set community ($PARAMETER:$PARAMETER,internet)
+    set community ($PARAMETER:$PARAMETER,$PARAMETER:$PARAMETER)
+    set community (123:456,$PARAMETER:456)
+    set community (123:456,123:$PARAMETER)
+    set community (123:456, 123:456) additive
+    set community SET_NAME
+    set community SET_NAME additive
+    set community $ParameterName
+    set community $ParameterName additive
+    
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp5430261000
+    set core-tree gre-rosen
+    set core-tree mldp-inband
+    set core-tree mldp-partitioned-mp2mp
+    set core-tree mldp-partitioned-p2mp
+    set core-tree mldp-rosen
+    set core-tree rsvp-te-partitioned-p2mp
+    set core-tree $PARAMETER
+ 
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp3418687560
+    set dampening halflife 45
+    set dampening halflife 45 others default
+    set dampening halflife $PARAMETER
+    set dampening halflife $PARAMETER others default
+    set dampening max-suppress 20000
+    set dampening max-suppress 20000 others default
+    set dampening max-suppress $PARAMETER
+    set dampening max-suppress $PARAMETER others default
+    set dampening reuse 20000
+    set dampening reuse 20000 others default
+    set dampening reuse $PARAMETER
+    set dampening reuse $PARAMETER others default
+    set dampening suppress 20000
+    set dampening suppress 20000 others default
+    set dampening suppress $PARAMETER
+    set dampening suppress $PARAMETER others default
+    set dampening halflife 45 max-suppress 20000 reuse 20000 suppress 20000
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp2566062071
+    set eigrp-metric 10000000 1000 255 1 1500
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp3193927332
+    set extcommunity cost $PARAMETER
+    set extcommunity cost SET_NAME
+    set extcommunity cost (IGP:255:4294967295)
+    set extcommunity cost (IGP:255:4294967295, IGP:255:4294967295)
+    set extcommunity cost (IGP:$PARAMETER:4294967295, IGP:255:4294967295)
+    set extcommunity cost (IGP:255:$PARAMETER, IGP:255:4294967295)
+    set extcommunity cost (IGP:255:4294967295, IGP:$PARAMETER:4294967295)
+    set extcommunity cost (IGP:255:4294967295, IGP:255:$PARAMETER)
+    set extcommunity cost (IGP:$PARAMETER:$PARAMETER, IGP:$PARAMETER:$PARAMETER)
+    set extcommunity cost (IGP:255:4294967295,IGP:255:4294967295)
+    set extcommunity cost (Pre-Bestpath:255:4294967295)
+    set extcommunity cost $PARAMETER additive
+    set extcommunity cost SET_NAME additive
+    set extcommunity cost (IGP:255:4294967295) additive
+    set extcommunity cost (IGP:255:4294967295, IGP:255:4294967295) additive
+    set extcommunity cost (IGP:$PARAMETER:4294967295, IGP:255:4294967295) additive
+    set extcommunity cost (IGP:255:$PARAMETER, IGP:255:4294967295) additive
+    set extcommunity cost (IGP:255:4294967295, IGP:$PARAMETER:4294967295) additive
+    set extcommunity cost (IGP:255:4294967295, IGP:255:$PARAMETER) additive
+    set extcommunity cost (IGP:$PARAMETER:$PARAMETER, IGP:$PARAMETER:$PARAMETER) additive
+    set extcommunity cost (IGP:255:4294967295,IGP:255:4294967295) additive
+    set extcommunity cost (Pre-Bestpath:255:4294967295) additive
+
+    set extcommunity rt (4294967295:65535, 65535:4294967295)  
+    set extcommunity rt (1.2.3.0/24:65535, 1.2.3.0:65535)
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:65535)
+    set extcommunity rt (1.2.3.0/24:$PARAMETER, 1.2.3.0:$PARAMETER)
+    set extcommunity rt (65535.65535:65535, 65535.65535:65535)
+    set extcommunity rt ($PARAMETER:65535, 65535:4294967295)    
+    set extcommunity rt (4294967295:$PARAMETER, 65535:4294967295)    
+    set extcommunity rt (4294967295:65535, $PARAMETER:4294967295)    
+    set extcommunity rt (4294967295:65535, 65535:$PARAMETER)
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:4294967295)    
+    set extcommunity rt (4294967295:$PARAMETER, 65535:$PARAMETER)    
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:65535)
+    set extcommunity rt (1.2.3.0/24:$PARAMETER, 1.2.3.0:$PARAMETER)
+    set extcommunity rt ($PARAMETER.65535:65535, $PARAMETER.65535:65535)
+    set extcommunity rt (65535.$PARAMETER:65535, 65535.$PARAMETER:65535)
+    set extcommunity rt (65535.65535:$PARAMETER, 65535.65535:$PARAMETER)
+    set extcommunity rt ($PARAMETER.$PARAMETER:65535, $PARAMETER.$PARAMETER:65535)
+    set extcommunity rt (65535.$PARAMETER:$PARAMETER, 65535.$PARAMETER:$PARAMETER)
+    set extcommunity rt ($PARAMETER.$PARAMETER:$PARAMETER, $PARAMETER.$PARAMETER:$PARAMETER)
+    set extcommunity rt (4294967295:65535, 65535:4294967295) additive
+    set extcommunity rt (1.2.3.0/24:65535, 1.2.3.0:65535) additive
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:65535) additive
+    set extcommunity rt (1.2.3.0/24:$PARAMETER, 1.2.3.0:$PARAMETER) additive
+    set extcommunity rt (65535.65535:65535, 65535.65535:65535) additive
+    set extcommunity rt ($PARAMETER:65535, 65535:4294967295) additive
+    set extcommunity rt (4294967295:$PARAMETER, 65535:4294967295) additive
+    set extcommunity rt (4294967295:65535, $PARAMETER:4294967295) additive
+    set extcommunity rt (4294967295:65535, 65535:$PARAMETER) additive
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:4294967295) additive
+    set extcommunity rt (4294967295:$PARAMETER, 65535:$PARAMETER) additive
+    set extcommunity rt ($PARAMETER:65535, $PARAMETER:65535) additive
+    set extcommunity rt (1.2.3.0/24:$PARAMETER, 1.2.3.0:$PARAMETER) additive
+    set extcommunity rt ($PARAMETER.65535:65535, $PARAMETER.65535:65535) additive
+    set extcommunity rt (65535.$PARAMETER:65535, 65535.$PARAMETER:65535) additive
+    set extcommunity rt (65535.65535:$PARAMETER, 65535.65535:$PARAMETER) additive
+    set extcommunity rt ($PARAMETER.$PARAMETER:65535, $PARAMETER.$PARAMETER:65535) additive
+    set extcommunity rt (65535.$PARAMETER:$PARAMETER, 65535.$PARAMETER:$PARAMETER) additive
+    set extcommunity rt ($PARAMETER.$PARAMETER:$PARAMETER, $PARAMETER.$PARAMETER:$PARAMETER) additive
+
+    set extcommunity rt SET_NAME
+    set extcommunity rt SET_NAME additive
+    set extcommunity rt $PARAMETER
+    set extcommunity rt $PARAMETER additive
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2215331420
+    set ip-precedence 0
+    set ip-precedence 7
+    set ip-precedence $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp4090344556
+    set isis-metric 16777215
+    set isis-metric $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2829378958
+    set label explicit-null
+    set label implicit-null
+    set label $PARAMETER
+
+    set level level-1
+    set level level-2
+    set level level-1-2
+    set level $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp6022513500
+    set local-preference 4294967295
+    set local-preference $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2976030876
+    set med 4294967295
+    set med +4294967295
+    set med -4294967295
+    set med igp-cost
+    set med max-reachable
+    set med $PARAMETER
+    
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1703937562
+    set metric-type internal
+    set metric-type external
+    set metric-type rib-metric-as-internal
+    set metric-type rib-metric-as-external
+    set metric-type $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1384425217
+    set metric-type type-1
+    set metric-type type-2
+    set metric-type $PARAMETER
+    
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1927088465
+    set next-hop 1.2.3.4
+    set next-hop ::1
+    set next-hop peer-address
+    set next-hop self
+    set next-hop 1.2.3.4  destination-vrf
+    set next-hop ::1  destination-vrf
+    set next-hop peer-address destination-vrf
+    set next-hop self destination-vrf
+
+    !  https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1822084459
+    set origin igp
+    set origin egp
+    set origin incomplete
+    set origin $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp3896835080
+    set ospf-metric 16777215
+    set ospf-metric $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp3896835080
+    set path-selection backup 7
+    set path-selection group-best
+    set path-selection all
+    set path-selection best-path
+    set path-selection best-path install
+    set path-selection best-path install multipath-protect
+    set path-selection best-path install multipath-protect advertise
+    set path-selection best-path multipath-protect
+    set path-selection best-path multipath-protect advertise
+    set path-selection best-path advertise
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2799121650
+    set qos-group $PARAMETER
+    set qos-group 31
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp17579491227
+    set rib-metric 4294967295
+    set rib-metric $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp3384629244
+    set rip-tag 65535
+    set rip-tag $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2572618381
+    set rpf-topology ipv4 $PARAMETER topology TopologyName
+    set rpf-topology ipv4 unicast topology TopologyName
+    set rpf-topology ipv4 multicast topology TopologyName
+    set rpf-topology ipv6 $PARAMETER topology TopologyName
+    set rpf-topology ipv6 unicast topology TopologyName
+    set rpf-topology ipv6 multicast topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv4 $PARAMETER topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv4 unicast topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv4 multicast topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv6 $PARAMETER topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv6 unicast topology TopologyName
+    set rpf-topology vrf VRF_NAME ipv6 multicast topology TopologyName
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1548184856
+    set spf-priority critical
+    set spf-priority high
+    set spf-priority medium
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp3423297788
+    set tag 4294967295
+    set tag $PARAMETER
+
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp6462515340
+    set traffic-index ignore
+    set traffic-index 63
+    set traffic-index $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp1307570480
+    set vpn-distinguisher 4294967295
+    set vpn-distinguisher $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/b_rr40crs1book/b_rr40crs1book_chapter_01000.html#wp2583552780
+    set weight 65535
+    set weight $PARAMETER
+
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp3818831588
+    set administrative-distance 255
+    set administrative-distance $PARAMETER
+
+
+    apply ROUTE_POLICY_NAME
+    apply ROUTE_POLICY_NAME ()
+    apply ROUTE_POLICY_NAME ($PARAMETER, 1)
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/routing/command/reference/b-routing-cr-asr9000-62x/b-routing-cr-asr9000-62x_chapter_01010.html#wp1132673167
+    add eigrp-metric 10000000 1000 255 1 1500
+    add rip-metric 16
+    add rip-metric $PARAMETER
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1164601
+    delete community all
+    delete community in SET_NAME
+    delete community in (123:123)
+    delete community in (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535)
+    delete community in private-as
+    delete community in (65535:65535, $PARAMETER:$PARAMETER, 65535:$PARAMETER, $PARAMETER:65535)
+    delete community in (65535:65535, *:65535, 65535:*)
+    delete community in (private-as, 65535:65535)
+    delete community in (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER)
+    delete community not in SET_NAME
+    delete community not in (123:123)
+    delete community not in (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535)
+    delete community not in private-as
+    delete community not in (65535:65535, $PARAMETER:$PARAMETER, 65535:$PARAMETER, $PARAMETER:65535)
+    delete community not in (65535:65535, *:65535, 65535:*)
+    delete community not in (private-as, 65535:65535)
+    delete community not in (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER)
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1076813
+    delete extcommunity rt all
+    delete extcommunity rt in SET_NAME
+    delete extcommunity rt in $PARAMETER
+    delete extcommunity rt in (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER)
+    delete extcommunity rt in (4294967295:65535, 65535:4294967295, 1.2.3.4/24:65535)
+    delete extcommunity rt in (1.2.3.4:65535, 65535.35535:65535)
+    delete extcommunity rt in (*:*, 4294967295:*, *:65535)
+    delete extcommunity rt in (65535:*, *:4294967295)
+    delete extcommunity rt in (1.2.3.4/24:*, *:65535)
+    delete extcommunity rt in (*:65535, 1.2.3.4:*)
+    delete extcommunity rt in (*.35535:65535, *.35535:65535)
+    delete extcommunity rt in (65535.*:65535, 65535.*:65535)
+    delete extcommunity rt in (65535.35535:*, 65535.35535:*)
+    delete extcommunity rt in (*.*:65535, *.*:65535)
+    delete extcommunity rt in (*.65535:*, *.65535:*)
+    delete extcommunity rt in (*.*:*, *.*:*)
+
+    delete extcommunity rt in ($PARAMETER:$PARAMETER, 4294967295:$PARAMETER, $PARAMETER:65535)
+    delete extcommunity rt in (65535:$PARAMETER, $PARAMETER:4294967295)
+    delete extcommunity rt in (1.2.3.4/24:$PARAMETER, $PARAMETER:65535)
+    delete extcommunity rt in ($PARAMETER:65535, 1.2.3.4:$PARAMETER)
+    delete extcommunity rt in ($PARAMETER.35535:65535, $PARAMETER.35535:65535)
+    delete extcommunity rt in (65535.$PARAMETER:65535, 65535.$PARAMETER:65535)
+    delete extcommunity rt in (65535.35535:$PARAMETER, 65535.35535:$PARAMETER)
+    delete extcommunity rt in ($PARAMETER.$PARAMETER:65535, $PARAMETER.$PARAMETER:65535)
+    delete extcommunity rt in ($PARAMETER.65535:$PARAMETER, $PARAMETER.65535:$PARAMETER)
+    delete extcommunity rt in ($PARAMETER.$PARAMETER:$PARAMETER, $PARAMETER.$PARAMETER:$PARAMETER)
+    delete extcommunity rt in (*.$PARAMETER:$PARAMETER, *.$PARAMETER:$PARAMETER)
+    delete extcommunity rt in ($PARAMETER.*:$PARAMETER, $PARAMETER.*:$PARAMETER)
+    delete extcommunity rt in ($PARAMETER.$PARAMETER:*, $PARAMETER.$PARAMETER:*)
+    delete extcommunity rt in (*.$PARAMETER:*, *.$PARAMETER:*)
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2414344
+    done
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1067942
+    edit route-policy
+    edit prefix-set SET_NAME
+    edit prefix-set SET_NAME nano
+    edit prefix-set SET_NAME emacs
+    edit prefix-set SET_NAME vim
+    edit prefix-set SET_NAME inline add 1.2.3.4/24 le 32
+    edit prefix-set SET_NAME inline add 2001::1
+    edit prefix-set SET_NAME inline add 2002:1:2:3::/64
+    edit prefix-set SET_NAME inline add ""
+    edit prefix-set SET_NAME inline add "1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64"
+    edit prefix-set SET_NAME inline prepend 1.2.3.4/24 le 32
+    edit prefix-set SET_NAME inline prepend 2001::1
+    edit prefix-set SET_NAME inline prepend 2002:1:2:3::/64
+    edit prefix-set SET_NAME inline prepend ""
+    edit prefix-set SET_NAME inline prepend "1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64"
+    edit prefix-set SET_NAME inline remove 1.2.3.4/24 le 32
+    edit prefix-set SET_NAME inline remove 2001::1
+    edit prefix-set SET_NAME inline remove 2002:1:2:3::/64
+    edit prefix-set SET_NAME inline remove "1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64"
+
+    edit as-path-set SET_NAME
+    edit as-path-set SET_NAME nano
+    edit as-path-set SET_NAME emacs
+    edit as-path-set SET_NAME vim
+    edit as-path-set SET_NAME inline add ios-regex ''
+    edit as-path-set SET_NAME inline add dfa-regex ''
+    edit as-path-set SET_NAME inline add ""
+    edit as-path-set SET_NAME inline add "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+    edit as-path-set SET_NAME inline prepend ios-regex ''
+    edit as-path-set SET_NAME inline prepend dfa-regex ''
+    edit as-path-set SET_NAME inline prepend ""
+    edit as-path-set SET_NAME inline prepend "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+    edit as-path-set SET_NAME inline remove ios-regex ''
+    edit as-path-set SET_NAME inline remove dfa-regex ''
+    edit as-path-set SET_NAME inline remove ""
+    edit as-path-set SET_NAME inline remove "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+
+    edit community-set SET_NAME
+    edit community-set SET_NAME nano
+    edit community-set SET_NAME emacs
+    edit community-set SET_NAME vim
+    edit community-set SET_NAME inline add ios-regex ''
+    edit community-set SET_NAME inline add dfa-regex ''
+    edit community-set SET_NAME inline add ""
+    edit community-set SET_NAME inline add "65535:65535, 65535:*, *:65535, *:*"
+    edit community-set SET_NAME inline add "65535:$PARAMETER, $PARAMETER:65535"
+    edit community-set SET_NAME inline add "$PARAMETER:$PARAMETER,"
+    edit community-set SET_NAME inline add "65535:65535, accept-own, internet, no-export"
+    edit community-set SET_NAME inline add "no-export, no-advertise, private-as"
+    edit community-set SET_NAME inline add "local-as, ios-regex '^1$'"
+    edit community-set SET_NAME inline add "dfa-regex '^1$', accept-own"
+    edit community-set SET_NAME inline prepend ios-regex ''
+    edit community-set SET_NAME inline prepend dfa-regex ''
+    edit community-set SET_NAME inline prepend ""
+    edit community-set SET_NAME inline prepend "65535:65535, 65535:*, *:65535, *:*"
+    edit community-set SET_NAME inline prepend "65535:$PARAMETER, $PARAMETER:65535"
+    edit community-set SET_NAME inline prepend "$PARAMETER:$PARAMETER,"
+    edit community-set SET_NAME inline prepend "65535:65535, accept-own, internet, no-export"
+    edit community-set SET_NAME inline prepend "no-export, no-advertise, private-as"
+    edit community-set SET_NAME inline prepend "local-as, ios-regex '^1$'"
+    edit community-set SET_NAME inline prepend "dfa-regex '^1$', accept-own"
+    edit community-set SET_NAME inline prepend "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+    edit community-set SET_NAME inline remove ios-regex ''
+    edit community-set SET_NAME inline remove dfa-regex ''
+    edit community-set SET_NAME inline remove ""
+    edit community-set SET_NAME inline remove "65535:65535, 65535:*, *:65535, *:*"
+    edit community-set SET_NAME inline remove "65535:$PARAMETER, $PARAMETER:65535"
+    edit community-set SET_NAME inline remove "$PARAMETER:$PARAMETER,"
+    edit community-set SET_NAME inline remove "65535:65535, accept-own, internet, no-export"
+    edit community-set SET_NAME inline remove "no-export, no-advertise, private-as"
+    edit community-set SET_NAME inline remove "local-as, ios-regex '^1$'"
+    edit community-set SET_NAME inline remove "dfa-regex '^1$', accept-own"
+    edit community-set SET_NAME inline remove "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+    edit community-set SET_NAME inline remove "ios-regex '.*', ios-regex '.*', dfa-regex '.*', dfa-regex '.*'"
+
+    edit extcommunity-set rt SET_NAME
+    edit extcommunity-set rt SET_NAME nano
+    edit extcommunity-set rt SET_NAME emacs
+    edit extcommunity-set rt SET_NAME vim
+    edit extcommunity-set rt SET_NAME inline add ios-regex '.*'
+    edit extcommunity-set rt SET_NAME inline add dfa-regex '.*'
+    edit extcommunity-set rt SET_NAME inline add 4294967295:65535
+    edit extcommunity-set rt SET_NAME inline add *:65535
+    edit extcommunity-set rt SET_NAME inline add 4294967295:*
+    edit extcommunity-set rt SET_NAME inline add 65535:4294967295
+    edit extcommunity-set rt SET_NAME inline add *:4294967295
+    edit extcommunity-set rt SET_NAME inline add 65535:*
+    edit extcommunity-set rt SET_NAME inline add 1.2.3.0/24:65535
+    edit extcommunity-set rt SET_NAME inline add 1.2.3.0/24:*
+    edit extcommunity-set rt SET_NAME inline add 1.2.3.0:65535
+    edit extcommunity-set rt SET_NAME inline add 1.2.3.0:*
+    edit extcommunity-set rt SET_NAME inline add 65535.65535:65535
+    edit extcommunity-set rt SET_NAME inline add *.65535:65535
+    edit extcommunity-set rt SET_NAME inline add 65535.*:65535
+    edit extcommunity-set rt SET_NAME inline add 65535.*:*
+    edit extcommunity-set rt SET_NAME inline add *.*:*
+    edit extcommunity-set rt SET_NAME inline add ""
+    edit extcommunity-set rt SET_NAME inline add "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set rt SET_NAME inline add "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set rt SET_NAME inline add "4294967295:*, 65535:*"
+    edit extcommunity-set rt SET_NAME inline add "*:65535, *:4294967295"
+    edit extcommunity-set rt SET_NAME inline add "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set rt SET_NAME inline add "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set rt SET_NAME inline add "65535.65535:65535"
+    edit extcommunity-set rt SET_NAME inline add "*.*:*"
+    edit extcommunity-set rt SET_NAME inline prepend ios-regex '.*'
+    edit extcommunity-set rt SET_NAME inline prepend dfa-regex '.*'
+    edit extcommunity-set rt SET_NAME inline prepend 4294967295:65535
+    edit extcommunity-set rt SET_NAME inline prepend *:65535
+    edit extcommunity-set rt SET_NAME inline prepend 4294967295:*
+    edit extcommunity-set rt SET_NAME inline prepend 65535:4294967295
+    edit extcommunity-set rt SET_NAME inline prepend *:4294967295
+    edit extcommunity-set rt SET_NAME inline prepend 65535:*
+    edit extcommunity-set rt SET_NAME inline prepend 1.2.3.0/24:65535
+    edit extcommunity-set rt SET_NAME inline prepend 1.2.3.0/24:*
+    edit extcommunity-set rt SET_NAME inline prepend 1.2.3.0:65535
+    edit extcommunity-set rt SET_NAME inline prepend 1.2.3.0:*
+    edit extcommunity-set rt SET_NAME inline prepend 65535.65535:65535
+    edit extcommunity-set rt SET_NAME inline prepend *.65535:65535
+    edit extcommunity-set rt SET_NAME inline prepend 65535.*:65535
+    edit extcommunity-set rt SET_NAME inline prepend 65535.*:*
+    edit extcommunity-set rt SET_NAME inline prepend *.*:*
+    edit extcommunity-set rt SET_NAME inline prepend ""
+    edit extcommunity-set rt SET_NAME inline prepend "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set rt SET_NAME inline prepend "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set rt SET_NAME inline prepend "4294967295:*, 65535:*"
+    edit extcommunity-set rt SET_NAME inline prepend "*:65535, *:4294967295"
+    edit extcommunity-set rt SET_NAME inline prepend "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set rt SET_NAME inline prepend "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set rt SET_NAME inline prepend "65535.65535:65535"
+    edit extcommunity-set rt SET_NAME inline prepend "*.*:*"
+    edit extcommunity-set rt SET_NAME inline remove ios-regex '.*'
+    edit extcommunity-set rt SET_NAME inline remove dfa-regex '.*'
+    edit extcommunity-set rt SET_NAME inline remove 4294967295:65535
+    edit extcommunity-set rt SET_NAME inline remove *:65535
+    edit extcommunity-set rt SET_NAME inline remove 4294967295:*
+    edit extcommunity-set rt SET_NAME inline remove 65535:4294967295
+    edit extcommunity-set rt SET_NAME inline remove *:4294967295
+    edit extcommunity-set rt SET_NAME inline remove 65535:*
+    edit extcommunity-set rt SET_NAME inline remove 1.2.3.0/24:65535
+    edit extcommunity-set rt SET_NAME inline remove 1.2.3.0/24:*
+    edit extcommunity-set rt SET_NAME inline remove 1.2.3.0:65535
+    edit extcommunity-set rt SET_NAME inline remove 1.2.3.0:*
+    edit extcommunity-set rt SET_NAME inline remove 65535.65535:65535
+    edit extcommunity-set rt SET_NAME inline remove *.65535:65535
+    edit extcommunity-set rt SET_NAME inline remove 65535.*:65535
+    edit extcommunity-set rt SET_NAME inline remove 65535.*:*
+    edit extcommunity-set rt SET_NAME inline remove *.*:*
+    edit extcommunity-set rt SET_NAME inline remove ""
+    edit extcommunity-set rt SET_NAME inline remove "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set rt SET_NAME inline remove "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set rt SET_NAME inline remove "4294967295:*, 65535:*"
+    edit extcommunity-set rt SET_NAME inline remove "*:65535, *:4294967295"
+    edit extcommunity-set rt SET_NAME inline remove "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set rt SET_NAME inline remove "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set rt SET_NAME inline remove "65535.65535:65535"
+    edit extcommunity-set rt SET_NAME inline remove "*.*:*"
+
+    edit extcommunity-set soo SET_NAME
+    edit extcommunity-set soo SET_NAME nano
+    edit extcommunity-set soo SET_NAME emacs
+    edit extcommunity-set soo SET_NAME vim
+    edit extcommunity-set soo SET_NAME inline add ios-regex '.*'
+    edit extcommunity-set soo SET_NAME inline add dfa-regex '.*'
+    edit extcommunity-set soo SET_NAME inline add 4294967295:65535
+    edit extcommunity-set soo SET_NAME inline add *:65535
+    edit extcommunity-set soo SET_NAME inline add 4294967295:*
+    edit extcommunity-set soo SET_NAME inline add 65535:4294967295
+    edit extcommunity-set soo SET_NAME inline add *:4294967295
+    edit extcommunity-set soo SET_NAME inline add 65535:*
+    edit extcommunity-set soo SET_NAME inline add 1.2.3.0/24:65535
+    edit extcommunity-set soo SET_NAME inline add 1.2.3.0/24:*
+    edit extcommunity-set soo SET_NAME inline add 1.2.3.0:65535
+    edit extcommunity-set soo SET_NAME inline add 1.2.3.0:*
+    edit extcommunity-set soo SET_NAME inline add 65535.65535:65535
+    edit extcommunity-set soo SET_NAME inline add *.65535:65535
+    edit extcommunity-set soo SET_NAME inline add 65535.*:65535
+    edit extcommunity-set soo SET_NAME inline add 65535.*:*
+    edit extcommunity-set soo SET_NAME inline add *.*:*
+    edit extcommunity-set soo SET_NAME inline add ""
+    edit extcommunity-set soo SET_NAME inline add "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set soo SET_NAME inline add "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set soo SET_NAME inline add "4294967295:*, 65535:*"
+    edit extcommunity-set soo SET_NAME inline add "*:65535, *:4294967295"
+    edit extcommunity-set soo SET_NAME inline add "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set soo SET_NAME inline add "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set soo SET_NAME inline add "65535.65535:65535"
+    edit extcommunity-set soo SET_NAME inline add "*.*:*"
+    edit extcommunity-set soo SET_NAME inline prepend ios-regex '.*'
+    edit extcommunity-set soo SET_NAME inline prepend dfa-regex '.*'
+    edit extcommunity-set soo SET_NAME inline prepend 4294967295:65535
+    edit extcommunity-set soo SET_NAME inline prepend *:65535
+    edit extcommunity-set soo SET_NAME inline prepend 4294967295:*
+    edit extcommunity-set soo SET_NAME inline prepend 65535:4294967295
+    edit extcommunity-set soo SET_NAME inline prepend *:4294967295
+    edit extcommunity-set soo SET_NAME inline prepend 65535:*
+    edit extcommunity-set soo SET_NAME inline prepend 1.2.3.0/24:65535
+    edit extcommunity-set soo SET_NAME inline prepend 1.2.3.0/24:*
+    edit extcommunity-set soo SET_NAME inline prepend 1.2.3.0:65535
+    edit extcommunity-set soo SET_NAME inline prepend 1.2.3.0:*
+    edit extcommunity-set soo SET_NAME inline prepend 65535.65535:65535
+    edit extcommunity-set soo SET_NAME inline prepend *.65535:65535
+    edit extcommunity-set soo SET_NAME inline prepend 65535.*:65535
+    edit extcommunity-set soo SET_NAME inline prepend 65535.*:*
+    edit extcommunity-set soo SET_NAME inline prepend *.*:*
+    edit extcommunity-set soo SET_NAME inline prepend ""
+    edit extcommunity-set soo SET_NAME inline prepend "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set soo SET_NAME inline prepend "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set soo SET_NAME inline prepend "4294967295:*, 65535:*"
+    edit extcommunity-set soo SET_NAME inline prepend "*:65535, *:4294967295"
+    edit extcommunity-set soo SET_NAME inline prepend "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set soo SET_NAME inline prepend "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set soo SET_NAME inline prepend "65535.65535:65535"
+    edit extcommunity-set soo SET_NAME inline prepend "*.*:*"
+    edit extcommunity-set soo SET_NAME inline remove ios-regex '.*'
+    edit extcommunity-set soo SET_NAME inline remove dfa-regex '.*'
+    edit extcommunity-set soo SET_NAME inline remove 4294967295:65535
+    edit extcommunity-set soo SET_NAME inline remove *:65535
+    edit extcommunity-set soo SET_NAME inline remove 4294967295:*
+    edit extcommunity-set soo SET_NAME inline remove 65535:4294967295
+    edit extcommunity-set soo SET_NAME inline remove *:4294967295
+    edit extcommunity-set soo SET_NAME inline remove 65535:*
+    edit extcommunity-set soo SET_NAME inline remove 1.2.3.0/24:65535
+    edit extcommunity-set soo SET_NAME inline remove 1.2.3.0/24:*
+    edit extcommunity-set soo SET_NAME inline remove 1.2.3.0:65535
+    edit extcommunity-set soo SET_NAME inline remove 1.2.3.0:*
+    edit extcommunity-set soo SET_NAME inline remove 65535.65535:65535
+    edit extcommunity-set soo SET_NAME inline remove *.65535:65535
+    edit extcommunity-set soo SET_NAME inline remove 65535.*:65535
+    edit extcommunity-set soo SET_NAME inline remove 65535.*:*
+    edit extcommunity-set soo SET_NAME inline remove *.*:*
+    edit extcommunity-set soo SET_NAME inline remove ""
+    edit extcommunity-set soo SET_NAME inline remove "ios-regex '.*', dfa-regex '.*'"
+    edit extcommunity-set soo SET_NAME inline remove "4294967295:65535, 65535:4294967295"
+    edit extcommunity-set soo SET_NAME inline remove "4294967295:*, 65535:*"
+    edit extcommunity-set soo SET_NAME inline remove "*:65535, *:4294967295"
+    edit extcommunity-set soo SET_NAME inline remove "1.2.3.0/24:65535, 1.2.3.0:65535"
+    edit extcommunity-set soo SET_NAME inline remove "1.2.3.0/24:*, 1.2.3.0:*"
+    edit extcommunity-set soo SET_NAME inline remove "65535.65535:65535"
+    edit extcommunity-set soo SET_NAME inline remove "*.*:*"
+
+    edit rd-set SET_NAME nano
+    edit rd-set SET_NAME emacs
+    edit rd-set SET_NAME vim
+    edit rd-set SET_NAME inline add 1.2.3.4/24:*
+    edit rd-set SET_NAME inline add 1.2.3.4/24:4294967295
+    edit rd-set SET_NAME inline add 1.2.3.4:*
+    edit rd-set SET_NAME inline add 1.2.3.4:65535
+    edit rd-set SET_NAME inline add 65535:*
+    edit rd-set SET_NAME inline add 65535:4294967295
+    edit rd-set SET_NAME inline add 65535.65535:*
+    edit rd-set SET_NAME inline add 65535.65535:65535
+    edit rd-set SET_NAME inline add ""
+    edit rd-set SET_NAME inline add "1.2.3.4/24:*, 1.2.3.4/24:4294967295"
+    edit rd-set SET_NAME inline add "1.2.3.4:*, 1.2.3.4:65535"
+    edit rd-set SET_NAME inline add "65535:*, 65535:4294967295"
+    edit rd-set SET_NAME inline add "65535.65535:*, 65535.65535:65535"
+    edit rd-set SET_NAME inline prepend 1.2.3.4/24:*
+    edit rd-set SET_NAME inline prepend 1.2.3.4/24:4294967295
+    edit rd-set SET_NAME inline prepend 1.2.3.4:*
+    edit rd-set SET_NAME inline prepend 1.2.3.4:65535
+    edit rd-set SET_NAME inline prepend 65535:*
+    edit rd-set SET_NAME inline prepend 65535:4294967295
+    edit rd-set SET_NAME inline prepend 65535.65535:*
+    edit rd-set SET_NAME inline prepend 65535.65535:65535
+    edit rd-set SET_NAME inline prepend ""
+    edit rd-set SET_NAME inline prepend "1.2.3.4/24:*, 1.2.3.4/24:4294967295"
+    edit rd-set SET_NAME inline prepend "1.2.3.4:*, 1.2.3.4:65535"
+    edit rd-set SET_NAME inline prepend "65535:*, 65535:4294967295"
+    edit rd-set SET_NAME inline prepend "65535.65535:*, 65535.65535:65535"
+    edit rd-set SET_NAME inline remove 1.2.3.4/24:*
+    edit rd-set SET_NAME inline remove 1.2.3.4/24:4294967295
+    edit rd-set SET_NAME inline remove 1.2.3.4:*
+    edit rd-set SET_NAME inline remove 1.2.3.4:65535
+    edit rd-set SET_NAME inline remove 65535:*
+    edit rd-set SET_NAME inline remove 65535:4294967295
+    edit rd-set SET_NAME inline remove 65535.65535:*
+    edit rd-set SET_NAME inline remove 65535.65535:65535
+    edit rd-set SET_NAME inline remove ""
+    edit rd-set SET_NAME inline remove "1.2.3.4/24:*, 1.2.3.4/24:4294967295"
+    edit rd-set SET_NAME inline remove "1.2.3.4:*, 1.2.3.4:65535"
+    edit rd-set SET_NAME inline remove "65535:*, 65535:4294967295"
+    edit rd-set SET_NAME inline remove "65535.65535:*, 65535.65535:65535"
+
+    edit policy-global SET_NAME
+    edit policy-global SET_NAME nano
+    edit policy-global SET_NAME emacs
+    edit policy-global SET_NAME vim
+    edit policy-global SET_NAME inline add name 'value'
+    edit policy-global SET_NAME inline add name '1234'
+    edit policy-global SET_NAME inline add ""
+    edit policy-global SET_NAME inline add "name 'value', name '1234'"
+    edit policy-global SET_NAME inline prepend name 'value'
+    edit policy-global SET_NAME inline prepend name '1234'
+    edit policy-global SET_NAME inline prepend ""
+    edit policy-global SET_NAME inline prepend "name 'value', name '1234'"
+    edit policy-global SET_NAME inline remove name 'value'
+    edit policy-global SET_NAME inline remove name '1234'
+    edit policy-global SET_NAME inline remove ""
+    edit policy-global SET_NAME inline remove "name 'value', name '1234'"
+    var globalVar1 4294967295
+    var globalVar2 4294967295
+    var globalVar3 4294967295
+    var globalVar4 4294967295
+    var globalVar5 4294967295
+    var globalVar1 $PARAMETER
+    var globalVar2 $PARAMETER
+    var globalVar3 $PARAMETER
+    var globalVar4 $PARAMETER
+    var globalVar5 $PARAMETER
+    
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1077971
+    prepend as-path $PARAMETER
+    prepend as-path most-recent
+    prepend as-path 4294967295
+    prepend as-path 65535.65535
+    prepend as-path 65535
+    prepend as-path 65535 $PARAMETER
+    prepend as-path 65535 63
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2292625
+    replace as-path $PARAMETER
+    replace as-path private-as
+    replace as-path '65535, 4294967295, 65535.65535'
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#reference_DE0F59F9C98C40EF88DB58705346FC25
+    remove as-path private-as
+    remove as-path private-as entire-aspath
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1078119
+    suppress-route
+
+    ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1879787
+    unsuppress-route
+
+  endif
+end-policy
+
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_2330579
+policy-global
+  name_1 'value_1'
+  name_2 'value_2'
+  name_2 '1234'
+end-global
+
+policy-global
+  end-global
+
+!
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1142562
+community-set SET_NAME
+  65535:65535,
+  65535:*,
+  *:65535,
+  *:*,
+  65535:$PARAMETER,
+  $PARAMETER:65535,
+  $PARAMETER:$PARAMETER,
+  65535:65535,
+  65535:65535,
+  accept-own,
+  internet,
+  no-export,
+  no-advertise,
+  private-as,
+  local-as,
+  ios-regex '^1$',
+  dfa-regex '^1$',
+  accept-own
+  show
+end-set
+  
+route-policy POLICY_NAME
+  if community matches-any SET_NAME then
+      pass
+  endif
+end-policy
+
+rd-set SET_NAME
+ 10.0.0.0/32:*,
+ 10.0.0.0/8:65535,
+ 10.0.0.0:*,
+ 65000:*,
+ 65000:65535
+end-set
+
+router static
+ address-family ipv4 unicast
+  1.2.3.4/32 1.2.3.4
+  1.2.3.4/32 Null0
+ !
+ address-family ipv6 unicast
+  0:0:0:1::/64 1::1
+  0:0:0:1::/64 Null0
+ !
+!
+
+clear isis process
+
+clear isis afi-all unicast route
+clear isis afi-all multicast route
+clear isis afi-all safi-all route
+clear isis afi-all unicast route
+clear isis afi-all unicast topology TOPOLOGY_NAME route
+clear isis afi-all multicast topology TOPOLOGY_NAME route
+clear isis afi-all safi-all topology TOPOLOGY_NAME route
+clear isis afi-all unicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME process
+clear isis instance ISIS_INSTANCE_NAME afi-all unicast route
+clear isis instance ISIS_INSTANCE_NAME afi-all multicast route
+clear isis instance ISIS_INSTANCE_NAME afi-all safi-all route
+clear isis instance ISIS_INSTANCE_NAME afi-all multicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME afi-all safi-all topology TOPOLOGY_NAME route
+
+clear isis ipv4 unicast route
+clear isis ipv4 multicast route
+clear isis ipv4 safi-all route
+clear isis ipv4 unicast route
+clear isis ipv4 unicast topology TOPOLOGY_NAME route
+clear isis ipv4 multicast topology TOPOLOGY_NAME route
+clear isis ipv4 safi-all topology TOPOLOGY_NAME route
+clear isis ipv4 unicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME process
+clear isis instance ISIS_INSTANCE_NAME ipv4 unicast route
+clear isis instance ISIS_INSTANCE_NAME ipv4 multicast route
+clear isis instance ISIS_INSTANCE_NAME ipv4 safi-all route
+clear isis instance ISIS_INSTANCE_NAME ipv4 multicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME ipv4 safi-all topology TOPOLOGY_NAME route
+
+clear isis ipv6 unicast route
+clear isis ipv6 multicast route
+clear isis ipv6 safi-all route
+clear isis ipv6 unicast route
+clear isis ipv6 unicast topology TOPOLOGY_NAME route
+clear isis ipv6 multicast topology TOPOLOGY_NAME route
+clear isis ipv6 safi-all topology TOPOLOGY_NAME route
+clear isis ipv6 unicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME process
+clear isis instance ISIS_INSTANCE_NAME ipv6 unicast route
+clear isis instance ISIS_INSTANCE_NAME ipv6 multicast route
+clear isis instance ISIS_INSTANCE_NAME ipv6 safi-all route
+clear isis instance ISIS_INSTANCE_NAME ipv6 multicast topology TOPOLOGY_NAME route
+clear isis instance ISIS_INSTANCE_NAME ipv6 safi-all topology TOPOLOGY_NAME route
+
+clear isis instance ISIS_INSTANCE_NAME statistics
+  
+
+router isis ISIS_INSTANCE_NAME
+  net 49.0000.0002.0121.00
+  net 49.0000.0000.0000.0000.0000.0000.0000.0002.0121.00
+  adjacency stagger disable
+  adjacency stagger 65535 65535
+  nsf cisco
+  nsf ietf
+  nsf interface-expires 1
+  nsf interface-expires 2
+  nsf interface-expires 3
+  nsf interface-timer 3
+  nsf interface-timer 20
+
+ !
+ address-family ipv4 multicast topology TOPOLOGY_NAME
+
+ address-family ipv4 multicast topology TOPOLOGY_NAME maximum prefix 2000000
+ !
+ address-family ipv4 multicast
+
+ address-family ipv4 unicast
+  adjacency-check disable
+  attached-bit receive ignore
+  attached-bit send always-set
+  attached-bit send never-set
+  default-information originate
+  default-information originate route-policy ROUTE_POLICY_NAME
+  distance 255
+  distance 255 1.2.3.4/24
+  distance 255 1.2.3.4/24 PREFIX_LIST_NAME
+  distance 255 1.2.3.4 255.255.255.0
+  distance 255 1.2.3.4 255.255.255.0 PREFIX_LIST_NAME
+  metric-style narrow
+  metric-style narrow
+  metric-style narrow transition
+  metric-style narrow transition
+  metric-style narrow level 1
+  metric-style narrow level 2
+  metric-style narrow transition level 1
+  metric-style narrow transition level 2
+  metric-style wide
+  metric-style wide
+  metric-style wide transition
+  metric-style wide transition
+  metric-style wide level 1
+  metric-style wide level 2
+  metric-style wide transition level 1
+  metric-style wide transition level 2
+  metric-style transition
+  metric-style transition
+  metric-style transition level 1
+  metric-style transition level 2
+  metric-style wide
+  mpls ldp auto-config
+  mpls traffic-eng level-1-2
+  mpls traffic-eng multicast-intact
+  mpls traffic-eng router-id 1.2.3.4
+  mpls traffic-eng router-id Loopback0
+ !
+ address-family ipv6 unicast
+  adjacency-check disable
+  attached-bit receive ignore
+  attached-bit send always-set
+  attached-bit send never-set
+  default-information originate
+  default-information originate route-policy ROUTE_POLICY_NAME
+  distance 255
+  distance 255 ::/64
+  distance 255 ::/64 PREFIX_LIST_NAME
+ !
+
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface Loopback100
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/3.100
+  address-family ipv4 unicast
+  !
+ !
+!
+router ospf OSPF_INSTANCE_NAME
+  router-id 1.2.3.4
+  timers throttle lsa all 600000 600000 600000
+  timers throttle spf 600000 600000 600000
+  timers lsa min-arrival 600000
+  auto-cost reference-bandwidth 4294967
+
+  log-adjacency-changes disable
+  log-adjacency-changes detail
+
+  loopback stub-network enable
+  loopback stub-network disable
+  authentication message-digest keychain KEYCHAIN
+  authentication message-digest
+  authentication
+  authentication null
+  message-digest-key 1 md5 1234567890ABCDE
+  message-digest-key 1 md5 clear 1234567890ABCDE
+  message-digest-key 1 md5 encrypted 1234567890ABCDE
+
+  vrf VRF_NAME
+    router-id 1.2.3.4
+    message-digest-key 1 md5 1234567890ABCDE
+    message-digest-key 1 md5 clear 1234567890ABCDE
+    message-digest-key 1 md5 encrypted 1234567890ABCDE
+    authentication message-digest keychain KEYCHAIN
+    authentication message-digest
+    authentication
+    authentication null
+    domain-id type 0005 value 0123456789AB
+    domain-id type 0105 value 0123456789AB
+    domain-id type 0205 value 0123456789AB
+    domain-id type 8005 value 0123456789AB
+    redistribute bgp 65535
+    redistribute bgp 1.0
+    redistribute bgp 65000.65000
+    redistribute bgp 4294967295
+    redistribute bgp 65000 preserve-med
+    redistribute bgp 65000 metric 16777214
+    redistribute bgp 65000 metric-type 1
+    redistribute bgp 65000 metric-type 2
+    redistribute bgp 65000 route-policy ROUTE_POLICY_NAME
+    redistribute bgp 65000 tag 4294967295
+
+  area 0
+      message-digest-key 1 md5 1234567890ABCDE
+      message-digest-key 1 md5 clear 1234567890ABCDE
+      message-digest-key 1 md5 encrypted 1234567890ABCDE
+      loopback stub-network enable
+      loopback stub-network disable
+      authentication message-digest keychain KEYCHAIN
+      authentication message-digest
+      authentication
+      authentication null
+      interface Loopback1
+        network point-to-point
+        network broadcast
+        network non-broadcast
+        network point-to-multipoint non-broadcast
+        network point-to-multipoint
+        message-digest-key 1 md5 1234567890ABCDE
+        message-digest-key 1 md5 clear 1234567890ABCDE
+        message-digest-key 1 md5 encrypted 1234567890ABCDE
+        authentication message-digest keychain KEYCHAIN
+        authentication message-digest
+        authentication
+        authentication null
+        passive enable
+        passive disable
+        loopback stub-network enable
+        loopback stub-network disable
+     interface GigabitEthernet0/0/0/3
+     interface GigabitEthernet0/0/0/4
+  
+  area 1.2.3.4
+     interface Loopback1
+   !
+!
+router bgp 65000
+router bgp 65000 instance INSTANCE_NAME
+ bgp router-id 1.2.3.4
+
+ session-group SESSION_GROUP_NAME
+  remote-as 65535
+  update-source Loopback0
+
+ af-group AF_GROUP_NAME address-family ipv4 unicast
+  use af-group AF_GROUP_NAME
+  use session-group SESSION_GROUP_NAME
+ af-group AF_GROUP_NAME address-family vpnv4 unicast
+  use af-group AF_GROUP_NAME
+ af-group AF_GROUP_NAME address-family ipv4 multicast
+  use af-group AF_GROUP_NAME
+ af-group AF_GROUP_NAME address-family ipv4 labeled-unicast
+  use af-group AF_GROUP_NAME
+ af-group AF_GROUP_NAME address-family ipv4 tunnel
+  use af-group AF_GROUP_NAME
+ af-group AF_GROUP_NAME address-family ipv6 unicast
+  use af-group AF_GROUP_NAME
+
+
+ address-family ipv4 unicast
+  network 1.2.3.4/24 route-policy ROUTE_POLICY
+  network 1.2.3.4/24 route-policy ROUTE_POLICY
+  maximum-prefix 4294967295
+  soft-reconfiguration inbound always
+  soft-reconfiguration inbound inheritance-disable
+  
+  maximum-prefix 4294967295 100 discard-extra-paths
+  soft-reconfiguration inbound always
+  
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only
+  soft-reconfiguration inbound always
+  
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535  
+  soft-reconfiguration inbound always
+
+ address-family ipv4 multicast
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
+ address-family ipv4 labeled-unicast
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
+ address-family ipv4 flowspec
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
+ address-family ipv4 mvpn
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
+ address-family ipv6 unicast
+   network 1::/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
+ address-family ipv6 flowspec
+   network 1::/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
+ address-family ipv6 mvpn
+   network 1::/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
+ address-family vpnv4 unicast
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
+ address-family vpnv4 multicast
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+  soft-reconfiguration inbound always
+ 
+ address-family vpnv4 flowspec
+   network 1.2.3.4/24 route-policy ROUTE_POLICY
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+ 
+ address-family vpnv6 unicast
+  network 1::/24 route-policy ROUTE_POLICY
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+  soft-reconfiguration inbound always
+ 
+ address-family vpnv6 flowspec
+  network 1::/24 route-policy ROUTE_POLICY
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+  soft-reconfiguration inbound always
+ 
+ address-family l2vpn vpls-vpws
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+  soft-reconfiguration inbound always
+ 
+ address-family l2vpn vpls-vpws
+  maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+  soft-reconfiguration inbound always
+ 
+ address-family link-state link-state
+ maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+ soft-reconfiguration inbound always
+
+ !
+ neighbor 1.2.3.4
+  use af-group AF_GROUP_NAME
+  use neighbor-group RR
+  remote-as 65535
+  update-source Loopback0
+  ebgp-multihop 255
+  ebgp-multihop 255 mpls
+  address-family ipv4 unicast
+    network 1.2.3.4/24 route-policy ROUTE_POLICY
+    maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+    soft-reconfiguration inbound always
+    route-policy POLICY_NAME in
+    route-policy POLICY_NAME out
+ !
+
+ neighbor 1::1
+  password encrypted 0123456789ABCDEF
+  ebgp-multihop 255
+  ebgp-multihop 255 mpls
+  use af-group AF_GROUP_NAME
+  use neighbor-group NEIGHBOR_GROUP
+ !
+
+ neighbor-group NEIGHBOR_GROUP
+  password encrypted 0123456789ABCDEF
+  ebgp-multihop 255
+  ebgp-multihop 255 mpls
+  use af-group AF_GROUP_NAME
+  remote-as 65535
+  update-source Loopback0
+  address-family ipv4 unicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family ipv4 multicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family ipv6 unicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family ipv6 multicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family ipv6 flowspec
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family vpnv4 unicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family vpnv4 multicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family vpnv4 flowspec
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family vpnv6 unicast
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  address-family vpnv6 flowspec
+   maximum-prefix 4294967295 100 discard-extra-paths warning-only restart 65535
+   soft-reconfiguration inbound always
+
+  !
+ !
+ vrf VRF_NAME
+  rd 1:1
+  neighbor 1.2.3.4
+    password encrypted 0123456789ABCDEF
+    ebgp-multihop 255
+    ebgp-multihop 255 mpls
+    use neighbor-group NEIGHBOR_GROUP
+    remote-as 65535
+    update-source Loopback0
+  neighbor 1::1
+    ebgp-multihop 255
+    ebgp-multihop 255 mpls
+    use neighbor-group NEIGHBOR_GROUP
+    remote-as 65535
+    update-source Loopback0
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute ospf ospfCUST1
+  !
+ !
+ vrf VRF_NAME
+  rd 2:121
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute connected metric 4294967295
+   redistribute connected metric 4294967295 route-policy ROUTE_POLICY_NAME
+   redistribute eigrp 65535
+   redistribute eigrp EIGRP_VIRTUAL_INSTANCE_NAME_@.:-
+   redistribute eigrp 65535 match internal
+   redistribute eigrp 65535 match external
+   redistribute eigrp 65535 match external metric 4294967295
+   redistribute eigrp 65535 match external metric 4294967295 route-policy ROUTE_POLICY_NAME
+   redistribute ospf OSPF_IDENTIFIER
+
+  address-family ipv4 multicast
+   redistribute connected
+   redistribute eigrp 65535
+   redistribute ospf OSPF_IDENTIFIER
+
+  address-family ipv6 unicast
+   redistribute connected
+   redistribute eigrp 65535
+
+  address-family ipv6 multicast
+   redistribute connected
+   redistribute eigrp 65535
+  !
+ !
+ vrf VRF_NAME
+  rd 99:121
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute eigrp 65535
+   redistribute ospf OSPF_IDENTIFIER
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute eigrp 65535
+   redistribute ospf OSPF_IDENTIFIER
+  !
+ !
+!
+rsvp
+
+  ! Unable to find command reference
+ interface GigabitEthernet0/0/0/1
+  bandwidth 500000
+ !
+ interface GigabitEthernet0/0/0/2
+  bandwidth 500000
+ !
+!
+mpls traffic-eng
+
+ interface GigabitEthernet0/0/0/1
+  ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-3/mpls/command/reference/b-mpls-cr-asr9000-63x/b-mpls-cr-asr9000-63x_chapter_0100.html#wp1061540266
+  
+  auto-tunnel backup
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  auto-tunnel backup
+  !
+ !
+ auto-tunnel backup
+  tunnel-id min 2100 max 2199
+ !
+ router-id secondary 1.2.3.4
+!
+
+mpls ldp
+ router-id 1.2.3.4
+!
+router eigrp 65535
+  address-family ipv4
+    redistribute bgp 65535
+    redistribute bgp 65535.65535
+    redistribute bgp 4294967295
+    redistribute bgp 65000 route-policy ROUTE_POLICY_NAME
+    redistribute connected
+    redistribute connected route-policy ROUTE_POLICY_NAME
+    redistribute ospf OSPF_IDENTIFIER
+    redistribute ospf OSPF_IDENTIFIER route-policy ROUTE_POLICY_NAME
+    redistribute eigrp 65535
+    redistribute eigrp 65535 route-policy ROUTE_POLICY_NAME
+    redistribute static
+    redistribute static route-policy ROUTE_POLICY_NAME
+    router-id 1.2.3.4
+    autonomous-system 100
+router eigrp EIGRP_VIRTUAL_INSTANCE_NAME
+  address-family ipv4
+  vrf VRF_NAME
+    address-family ipv4
+     router-id 1.2.3.4
+     autonomous-system 100
+     redistribute bgp 65535
+     redistribute bgp 65535.65535
+     redistribute bgp 4294967295
+     redistribute bgp 65000 route-policy ROUTE_POLICY_NAME
+     redistribute connected
+     redistribute connected route-policy ROUTE_POLICY_NAME
+     redistribute ospf OSPF_IDENTIFIER
+     redistribute ospf OSPF_IDENTIFIER route-policy ROUTE_POLICY_NAME
+     redistribute eigrp 65535
+     redistribute eigrp 65535 route-policy ROUTE_POLICY_NAME
+     redistribute static
+     redistribute static route-policy ROUTE_POLICY_NAME
+     interface Loopback2
+     !
+     interface GigabitEthernet0/0/0/4
+     !
+  !
+ !
+!
+router hsrp
+
+ interface TenGigE0/0/2/0.10
+  address-family ipv4
+   hsrp 0 version 2
+   hsrp 4095
+    preempt
+    preempt delay 3600
+    priority 255
+    address 1.2.3.4
+    address learn
+    track Loopback0
+    track Loopback0 255
+    track Loopback666 100
+    timers 1 255
+    timers msec 100 msec 3000
+
+
+ssh server v2
+ssh server vrf default
+ssh server logging

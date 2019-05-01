@@ -1,0 +1,58 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.interface.address_family.ipv4",
+    "completions": [
+        { 
+            "trigger": "fast-reroute\tper-link", 
+            "contents": "fast-reroute per-link"
+        },
+        { 
+            "trigger": "fast-reroute\tper-link level 1", 
+            "contents": "fast-reroute per-link level 1"
+        },
+        { 
+            "trigger": "fast-reroute\tper-link level 2", 
+            "contents": "fast-reroute per-link level 2"
+        },
+        { 
+            "trigger": "fast-reroute\tper-prefix", 
+            "contents": "fast-reroute per-prefix"
+        },
+        { 
+            "trigger": "fast-reroute\tper-prefix level 1", 
+            "contents": "fast-reroute per-prefix level 1"
+        },
+        { 
+            "trigger": "fast-reroute\tper-prefix level 2", 
+            "contents": "fast-reroute per-prefix level 2"
+        },
+        { 
+            "trigger": "fast-reroute\tper-prefix exclude interface", 
+            "contents": "fast-reroute per-prefix exclude interface ${1:GigabitEthernet}${2:0/0/0/0}"
+        },
+        { 
+            "trigger": "fast-reroute\tper-prefix lfa-canidate interface", 
+            "contents": "fast-reroute per-prefix lfa-canidate interface ${1:GigabitEthernet}${2:0/0/0/0}"
+        },
+        { 
+            "trigger": "fast-reroute\tper-prefix remote-lfa maximum-metric", 
+            "contents": "fast-reroute per-prefix remote-lfa maximum-metric ${1:16777215}"
+        },
+        { 
+            "trigger": "fast-reroute\tper-prefix remote-lfa tunnel mpls-ldp", 
+            "contents": "fast-reroute per-prefix remote-lfa tunnel mpls-ldp"
+        },
+        { 
+            "trigger": "mpls\tldp sync", 
+            "contents": "mpls ldp sync"
+        },
+        { 
+            "trigger": "mpls\tldp sync level 1", 
+            "contents": "mpls ldp sync level 1"
+        },
+        { 
+            "trigger": "mpls\tldp sync level 2", 
+            "contents": "mpls ldp sync level 2"
+        },
+        "disable",
+    ]
+}

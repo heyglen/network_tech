@@ -4,7 +4,7 @@
 # Copyright 2017 Glen Harmon
 
 name: Cisco ASA
-file-extensions: 
+file-extensions:
   - cisco-asa
   - asa
 first_line_match: |
@@ -59,8 +59,8 @@ variables:
       (?:object-group)|
       (?:object)|
       (?:policy-map)|
+      (?:packet-tracer)|
       (?:route)|
-      (?:service-policy)|
       (?:snmp-server)|
       (?:ssh)|
       (?:telnet)|
@@ -102,7 +102,7 @@ variables:
       (?:informational)|
       (?:notifications)|
       (?:debugging)
-    )    
+    )
   time: '(?:(?:\d{1,2}:){2}\d{1,2})'
   subnet_mask: |
     (?xi)
@@ -141,7 +141,7 @@ variables:
         (?:255\.255\.255\.254)|
         (?:255\.255\.255\.255)
     )
-  ipv4_prefix_length: '(?:(?:\d?\d)|(?:3[0-2]))'
+  ipv4_prefix_length: '(?:\b(?:(?:[0-2]?\d)|(?:3[0-2]))\b)'
   ip_prefix: '(?:{{ip}}\s+{{subnet_mask}})'
   ipv6_prefix_length: '(?:1?\d?\d)'
   ipv6_prefix: '(?:(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){7}(?:[0-9A-Fa-f]{1,4}|:))|(?:(?:[0-9A-Fa-f]{1,4}:){6}(?::[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){5}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(?:(?:[0-9A-Fa-f]{1,4}:){4}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,3})|(?:(?::[0-9A-Fa-f]{1,4})?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){3}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,4})|(?:(?::[0-9A-Fa-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){2}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,5})|(?:(?::[0-9A-Fa-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?:(?:[0-9A-Fa-f]{1,4}:){1}(?:(?:(?::[0-9A-Fa-f]{1,4}){1,6})|(?:(?::[0-9A-Fa-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(?::(?:(?:(?::[0-9A-Fa-f]{1,4}){1,7})|(?:(?::[0-9A-Fa-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\.(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(?:%.+)?/{{ipv6_prefix_length}}|::/0))'
@@ -325,10 +325,10 @@ contexts:
         0: cisco.scope
         1: variable.parameter
         2: support.constant
-      # push: 
+      # push:
       #   - meta_content_scope: text.network.cisco.configure_terminal
       #   - include: configure_terminal_scope
-  
+
   configure_terminal_scope:
     - include: nat
     - include: aaa
@@ -380,7 +380,7 @@ contexts:
   pop_context:
     - match: '(?=.)'
       pop: true
-  
+
   partials:
     - match: |
         (?xi)
@@ -461,7 +461,7 @@ contexts:
           [^$]*
         )
       scope: text.network.cisco.partial
-  
+
   pop_context_on_unknown:
     # - match: '(?=^\s*[^{{comment}}\s].*$)'
     - match: |
@@ -534,7 +534,7 @@ contexts:
         1: support.constant
         2: support.constant
         3: constant.numeric
-  
+
   timeout:
     - match: |
         (?xi)
@@ -561,34 +561,34 @@ contexts:
         9: constant.numeric           # conn udp time
         10: support.constant           # conn icmp
         11: constant.numeric           # conn icmp time
-        12: support.constant           # sunrpc 
+        12: support.constant           # sunrpc
         13: constant.numeric           # sunrpc time
-        14: support.constant           # sunrpc h323 
+        14: support.constant           # sunrpc h323
         15: constant.numeric           # sunrpc h323 time
-        16: support.constant           # sunrpc h225 
+        16: support.constant           # sunrpc h225
         17: constant.numeric           # sunrpc h225 time
-        18: support.constant           # sunrpc mgcp 
+        18: support.constant           # sunrpc mgcp
         19: constant.numeric           # sunrpc mgcp time
-        20: support.constant           # sunrpc mgcp-pat 
+        20: support.constant           # sunrpc mgcp-pat
         21: constant.numeric           # sunrpc mgcp-pat time
-        22: support.constant           # sip 
+        22: support.constant           # sip
         23: constant.numeric           # sip time
-        24: support.constant           # sip sip_media 
+        24: support.constant           # sip sip_media
         25: constant.numeric           # sip sip_media time
-        26: support.constant           # sip sip-invite 
+        26: support.constant           # sip sip-invite
         27: constant.numeric           # sip sip-invite time
-        28: support.constant           # sip sip-disconnect 
+        28: support.constant           # sip sip-disconnect
         29: constant.numeric           # sip sip-disconnect time
-        30: support.constant           # sip-provisional-media 
+        30: support.constant           # sip-provisional-media
         31: constant.numeric           # sip-provisional-media time
-        32: support.constant           # sip-provisional-media uauth 
+        32: support.constant           # sip-provisional-media uauth
         33: constant.numeric           # sip-provisional-media uauth time
-        34: support.constant           # sip-provisional-media uauth absolute 
-        35: support.constant           # sip tcp-proxy-reassembly 
+        34: support.constant           # sip-provisional-media uauth absolute
+        35: support.constant           # sip tcp-proxy-reassembly
         36: constant.numeric           # sip tcp-proxy-reassembly time
-        37: support.constant           # sip floating-conn 
+        37: support.constant           # sip floating-conn
         38: constant.numeric           # sip floating-conn time
-  
+
   ssl_encryption:
     - match: '^\s*(ssl)\s+(encryption)\s+(\S+)\s+(\S+)'
       captures:
@@ -729,13 +729,13 @@ contexts:
           )
         )?
         (?:
-          \s+          
+          \s+
           (service)\s+
           (?:
             (any)|
             (\S+)
           )
-          \s+          
+          \s+
           (\S+)
           (?:
             (?:
@@ -790,7 +790,7 @@ contexts:
   objects:
     - include: object_network
     - include: object_service
-  
+
   description:
     - match: '^\s*(description.*)'
       captures:
@@ -816,7 +816,7 @@ contexts:
         2: string.unquoted      # group-object name
         3: support.constant     # network-object object
         4: string.unquoted      # network-object object name
-    
+
   object_network:
     - match: '{{scope_object_network}}'
       captures:
@@ -844,7 +844,7 @@ contexts:
             4: string.unquoted              # fqdn name
             5: support.constant             # subnet
             6: constant.numeric             # subnet network
-            7: constant.numeric             # subnet subnet mask  
+            7: constant.numeric             # subnet subnet mask
             8: support.constant             # range
             9: constant.numeric             # range ips
             10: support.constant            # nat
@@ -948,7 +948,7 @@ contexts:
   pop_on_configure_terminal_context:
     - match: '(?={{configure_terminal_ctx_words}})'
       pop: true
-    
+
   aaa_server_protocol:
     - match: |
         (?xi)
@@ -959,7 +959,7 @@ contexts:
         1: support.constant
         2: string.unquoted
         3: support.constant
-        4: constant.numeric             
+        4: constant.numeric
       push:
         - meta_content_scope: text.network.cisco.asa.aaa_server.protocol
         - match: |
@@ -968,8 +968,8 @@ contexts:
             (max-failed-attempts)\s+(\d+)
           captures:
             1: support.constant
-            2: constant.numeric    
-        - include: pop_on_configure_terminal_context         
+            2: constant.numeric
+        - include: pop_on_configure_terminal_context
 
   aaa_server_host:
     - match: |
@@ -982,7 +982,7 @@ contexts:
         2: string.unquoted
         3: entity.other.attribute-name
         4: support.constant
-        5: constant.numeric             
+        5: constant.numeric
       push:
         - meta_content_scope: text.network.cisco.asa.aaa_server.host
         - match: |
@@ -1017,7 +1017,7 @@ contexts:
             1: support.constant
             2: support.constant
         - include: pop_on_configure_terminal_context
-    
+
 
   policy_map:
     - include: policy_map_inspect_dns
@@ -1167,7 +1167,7 @@ contexts:
 
   aaa:
     - match: |
-        (?xi) 
+        (?xi)
         (?:
           (aaa)\s+
           (?:
@@ -1208,14 +1208,14 @@ contexts:
   object_group_service:
     - match: '^\s*(object-group)\s+(service)\s+(\S+)(\s+(?:tcp-udp)|(?:tcp)|(?:udp))?'
       captures:
-        0: cisco.scope            
+        0: cisco.scope
         1: variable.parameter     # object-group
         2: support.constant       # service
         3: string.unquoted        # name
         4: constant.numeric       # protocol
       push:
         - meta_content_scope: text.network.cisco.asa.object_group.service
-        - include: description  
+        - include: description
         - include: object_group_group_object
         - match: >
             (?xi)
@@ -1232,7 +1232,7 @@ contexts:
             4: support.constant             # range
             5: constant.numeric             # target range
         - match: |
-            (?xi) 
+            (?xi)
             (?:
               ^\s*
               (service-object)\s+
@@ -1266,13 +1266,13 @@ contexts:
   object_group_icmp:
     - match: '\s*(object-group)\s+(icmp-type)\s+(\S+)'
       captures:
-        0: cisco.scope            
+        0: cisco.scope
         1: variable.parameter     # object-group
         2: support.constant       # icmp-type
         3: string.unquoted        # name
       push:
         - meta_content_scope: text.network.cisco.asa.object_group.icmp_type
-        - include: description  
+        - include: description
         - include: object_group_group_object
         - match: >
             (?xi)
@@ -1315,7 +1315,7 @@ contexts:
         ({{ip}})\s+
         ({{port_target}})\s+
         ({{ip}})\s+
-        ({{port_target}})\s+
+        ({{port_target}})\s*$
       captures:
         1: support.constant                       # packet-tracer input
         2: string.unquoted                        # interface name
@@ -1410,7 +1410,7 @@ contexts:
                     (?:\s+(range)\s+({{port_target}})\s+({{port_target}}))|
                     (?:\s+(object-group)\s+(\S+))|
                     (?:\s+(object)\s+(\S+))
-                  )?    # end l4 port destination 
+                  )?    # end l4 port destination
                 )       # end ip, tcp, udp
                 (?:
                   (?:
@@ -1453,7 +1453,7 @@ contexts:
         13: string.unquoted.protocol.object.name  # protocol object-group name
         14: support.constant.protocol.object      # protocol object
         15: string.unquoted.protocol.object.name  # protocol object name
-        16: constant.numeric.protocol             # protocol        
+        16: constant.numeric.protocol             # protocol
         17: support.constant.net.src.host         # network host
         18: constant.numeric.net.src.host.ip      # network host ip
         19: constant.numeric.net.src              # network ip
@@ -1763,7 +1763,7 @@ contexts:
         7: string.unquoted              # buffered value
         8: support.constant             # logging device-id string
         9: string.unquoted              # logging device-id string value
-        10: support.constant            # host 
+        10: support.constant            # host
         11: entity.other.attribute-name # host nameif
         12: constant.numeric            # host nameif target ip
         13: support.constant            # message
@@ -1842,7 +1842,7 @@ contexts:
         3: string.unquoted              # location value
         4: support.constant             # contact
         5: string.unquoted              # contact value
-        6: support.constant             # host 
+        6: support.constant             # host
         7: entity.other.attribute-name              # host nameif
         8: constant.numeric             # host nameif target ip
         9: support.constant             # community
@@ -1855,13 +1855,13 @@ contexts:
         16: constant.numeric             # community udp-port value
         17: string.unquoted             # community value
 
-  ip_route: 
+  ip_route:
     - include: ipv4_route
     - include: ipv6_route
 
   ipv4_route:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*
         (route)\s+
         (\S+)\s+
@@ -1877,7 +1877,7 @@ contexts:
 
   ipv6_route:
     - match: |
-        (?xi) 
+        (?xi)
         ^\s*
         (ipv6)\s+
         (route)\s+
@@ -2060,8 +2060,8 @@ contexts:
 
   show:
     - include: show_vlan
-    - include: show_route 
-    - include: show_interface 
+    - include: show_route
+    - include: show_interface
     - include: show_run_interface
 
   show_interface:
@@ -2172,7 +2172,7 @@ contexts:
       scope: text.network.cisco.pipe
       captures:
         1: keyword.other
-      push: 
+      push:
         - meta_content_scope: text.network.cisco.pipe
         - match: '(?=(?:{{comment}})|$)'
           pop: true

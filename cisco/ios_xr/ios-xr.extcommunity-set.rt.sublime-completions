@@ -1,0 +1,17 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.set.extcommunity.rt",
+    "completions": [
+        { 
+            "trigger": "ios-regex\t",
+            "contents": "ios-regex '$0',"
+        },
+        { 
+            "trigger": "dfa-regex\t",
+            "contents": "dfa-regex '$0',"
+        },
+        "show",
+        "abort",
+        "exit",
+        "end-set",
+    ]
+}

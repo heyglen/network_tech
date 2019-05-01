@@ -6,7 +6,7 @@ Configuration snippets and autocompetions are suggested based off the syntax and
 Mask Conversions
 ----------------
 
-Manually Trigger the Completions Popup: :kbd:`ctrl-space`
+Manually Trigger the Completions Popup: ⌨ :kbd:`<ctrl>+<space>`
 
 .. image:: /_images/mask_conversions_demo.gif
 

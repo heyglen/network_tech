@@ -39,6 +39,10 @@
             "contents": "ip access-group ${1:acl_name} ${2:in|out}"
         },
         { 
+            "trigger": "ip\taccess-list", 
+            "contents": "ip access-list ${1:ACL_NAME}"
+        },
+        { 
             "trigger": "ip\taddress", 
             "contents": "ip address ${1:1.2.3.0}/${2:24}"
         },

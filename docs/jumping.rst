@@ -1,7 +1,7 @@
 Jumping
 =======
 
-Quickly jump around large configuration using Symbols :kbd:`ctrl-r` or  :menuselection:`Goto --> Goto Symbol...`
+Quickly jump around large configuration using Symbols ⌨ :kbd:`<ctrl>+<r>` or  :menuselection:`Goto --> Goto Symbol...`
 
 .. image:: /_images/jumping.gif
 

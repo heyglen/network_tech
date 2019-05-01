@@ -1,0 +1,3 @@
+class InvalidPassword(Exception):
+    pass
+

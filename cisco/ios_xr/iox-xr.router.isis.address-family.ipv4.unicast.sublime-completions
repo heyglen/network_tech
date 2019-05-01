@@ -1,0 +1,61 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.isis.address_family.ipv4",
+  "completions": [
+        { 
+            "trigger": "adjacency-check\tdisable",
+            "contents": "adjacency-check disable"
+        },
+        { 
+            "trigger": "attached-bit\treceive ignore",
+            "contents": "attached-bit receive ignore"
+        },
+        { 
+            "trigger": "attached-bit\tsend always-set",
+            "contents": "attached-bit send always-set"
+        },
+        { 
+            "trigger": "attached-bit\tsend never-set",
+            "contents": "attached-bit send never-set"
+        },
+        { 
+            "trigger": "default-information\toriginate",
+            "contents": "default-information originate"
+        },
+        { 
+            "trigger": "default-information\toriginate + route-policy",
+            "contents": "default-information originate route-policy ${1:ROUTE_POLICY_NAME}"
+        },
+        { 
+            "trigger": "distance\t",
+            "contents": "distance ${1:255}"
+        },
+        { 
+            "trigger": "metric-style\tnarrow",
+            "contents": "metric-style narrow"
+        },
+        { 
+            "trigger": "metric-style\twide",
+            "contents": "metric-style wide"
+        },
+        { 
+            "trigger": "mpls\tldp auto-config",
+            "contents": "mpls ldp auto-config"
+        },
+        { 
+            "trigger": "mpls\ttraffic-eng level-1-2",
+            "contents": "mpls traffic-eng level-1-2"
+        },
+        { 
+            "trigger": "mpls\ttraffic-eng multicast-intact",
+            "contents": "mpls traffic-eng multicast-intact"
+        },
+        { 
+            "trigger": "mpls\ttraffic-eng router-id Loopback",
+            "contents": "mpls traffic-eng router-id ${1:Loopback}${2:0}"
+        },
+        { 
+            "trigger": "mpls\ttraffic-eng router-id IP",
+            "contents": "mpls traffic-eng router-id ${1:192.168.1.1}"
+        },
+  ]
+}

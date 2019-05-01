@@ -1,15 +1,32 @@
-# Copyright 2017 Glen Harmon
+"""
+Copyright 2017 Glen Harmon
 
-import sublime
+"""
+
+
+import os
 import ipaddress
 import logging
+import importlib
+import socket
+
+import sublime
 
 from .html_helper import Html
 from .selection_utility import SelectionUtility
-from .ip_regex import ip
+from .variables import ip
+
+Iana = importlib.import_module('Network Tech.lib.iana').Iana
+cache = importlib.import_module('Network Tech.lib.utilities').cache
+
+# from network_tech.lib.iana import Iana
 
 
-logger = logging.getLogger('net_tech')
+logger = logging.getLogger('network_tech.search.network.network')
+
+
+iana = Iana(os.path.sep.join(['Network Tech', 'iana.cache']))
+
 
 
 class Network:
@@ -23,6 +40,22 @@ class Network:
     def info(cls, network):
         """ Returns HTML formated information about the network """
         content = ''
+        if network.network.num_addresses is 1:
+            content = cls._info_address(network)
+        else:
+            content = cls._info_network(network)
+        return content
+        # elif isinstance(network, (ipaddress.IPv4Address, ipaddress.IPv6Address)):
+        #     pass
+    
+    @classmethod
+    def _info_address(cls, ip):
+        content = Html.div('IP: {}'.format(ip.ip))
+        return content
+
+    @classmethod
+    def _info_network(cls, network):
+        content = ''
         neighbors = cls.get_neighbors(network)
         logger.debug('Neighbors {}'.format(len(neighbors)))
         before, _, after = cls.get_neighbors(network)
@@ -31,22 +64,57 @@ class Network:
         if network_address != broadcast_address:
             if network.version is 4:
                 content = ''.join([
-                    Html.span('Network: {}'.format(network.network)),
-                    Html.span('Broadcast: {}'.format(broadcast_address)),
-                    Html.span('# Addresses: {}'.format(network.network.num_addresses)),
-                    Html.span('Masks:'),
+                    Html.div('Network: {}'.format(network.network)),
+                    Html.div('Broadcast: {}'.format(broadcast_address)),
+                    Html.div('# Addresses: {}'.format(network.network.num_addresses)),
+                    Html.div('Masks:'),
                     Html.unordered_list(Network.masks(network)),
                 ])
             else:
                 content = ''.join([
-                    Html.span('Network: {}/{}'.format(network_address, network.network.prefixlen)),
+                    Html.div('Network: {}/{}'.format(network_address, network.network.prefixlen)),
                 ])
+
             if before or after:
-                content += Html.span('Neighboring Networks')
+                content += Html.div('Neighboring Networks')
             if after:
-                content += Html.span(' Next: {}'.format(after.network))
+                content += Html.div(' Next: {}'.format(after.network))
             if before:
-                content += Html.span(' Previous: {}'.format(before.network))
+                content += Html.div(' Previous: {}'.format(before.network))
+        return content
+
+
+    @classmethod
+    def rir(cls, network):
+        rir = iana.get_registrar(network)
+        if rir is not None:
+            content = Html.div('RIR: {}'.format(rir))
+        else:
+            content = ''
+        return content
+
+    @classmethod
+    @cache.memory(expire_minutes=5, is_class_method=True)
+    def ptr_lookup(cls, network):
+        ip = str(ipaddress.ip_interface(network).ip)
+        try:
+            primary_hostname, alias_hostnames, other_ips = socket.gethostbyaddr(ip)
+        except socket.herror as e:
+            logger.debug('DNS Reverse Lookup Error {}'.format(e))
+            return Html.div('DNS: n/a')
+
+        content = Html.div(
+            'DNS: {}'.format(
+                socket.getfqdn(primary_hostname)
+            )
+        )
+
+        if alias_hostnames:
+            content += Html.div('DNS Aliases:')
+        for hostname in alias_hostnames:
+            fqdn_hostname = socket.getfqdn(hostname)
+            logger.debug('Alias {} FQDN {}'.format(hostname, fqdn_hostname))
+            content += Html.div(fqdn_hostname)
         return content
 
     @classmethod
@@ -95,18 +163,15 @@ class Network:
             network_region = view.substr(selected)
             current_network = cls.get(network_region)
             if current_network:
-                logger.debug('Network {} found in cursor\'s region #{}: {}'.format(
-                    current_network,
-                    index,
-                    network_region
-                ))
-                if network is None or current_network.network.prefixlen < network.network.prefixlen:
-                    network = current_network
-            # else:
-            #     logger.debug('Network not found in cursor\'s region #{}: {}'.format(
-            #             index,
-            #             network_region
-            #         ))
+                    logger.debug('Selection function #{} found network {} in text "{}". '.format(
+                        index + 1,
+                        current_network,
+                        network_region,
+                    ))
+                    if network is None:
+                        network = current_network
+                    elif current_network.network.prefixlen < network.network.prefixlen:
+                        network = current_network
         return str(network) if network else ''
 
     @classmethod
@@ -133,14 +198,14 @@ class Network:
     @classmethod
     def _get_from_re_match(cls, network_text):
         network = None
-        match = ip.v4.any.match(network_text)
+
+        match = ip.v4.network.search(network_text)
         if match:
             ip_address = match.group('ip')
             prefix_length = match.group('prefix_length')
             netmask = match.group('netmask')
             wildcard = match.group('wildcard')
             mask = prefix_length or netmask or wildcard
-
             try:
                 if mask:
                     network = ipaddress.ip_interface('/'.join([ip_address, mask]))
@@ -149,6 +214,26 @@ class Network:
             except ValueError:
                 pass
             logger.debug('Network regexp match: "{}" from {}'.format(network, match.group()))
+            return network
+        match = ip.v4.host.search(network_text)
+        if match:
+            ip_address = match.group('ip')
+            network = ipaddress.ip_interface(ip_address)
+            logger.debug('Host regexp match: "{}" from {}'.format(network, match.group()))
+            return network
+
+        match = ip.v6.network.search(network_text)
+        if match:
+            network = ipaddress.ip_interface(match.group(0))
+            logger.debug('Host regexp match: "{}" from {}'.format(network, match.group()))
+            return network
+
+        match = ip.v6.host.search(network_text)
+        if match:
+            network = ipaddress.ip_interface(match.group(0))
+            logger.debug('Host regexp match: "{}" from {}'.format(network, match.group()))
+            return network
+
         return network
 
     @classmethod

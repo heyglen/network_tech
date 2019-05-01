@@ -1,0 +1,53 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.ospf.vrf",
+  "completions": [
+        { 
+            "trigger": "router-id\t",
+            "contents": "router-id ${1:192.168.1.1}"
+        },
+        { 
+            "trigger": "domain-id\ttype 0005",
+            "contents": "domain-id type 0005 value ${1:0123456789AB}"
+        },
+        { 
+            "trigger": "domain-id\ttype 0105",
+            "contents": "domain-id type 0105 value ${1:0123456789AB}"
+        },
+        { 
+            "trigger": "domain-id\ttype 0205",
+            "contents": "domain-id type 0205 value ${1:0123456789AB}"
+        },
+        { 
+            "trigger": "domain-id\ttype 8005",
+            "contents": "domain-id type 8005 value ${1:0123456789AB}"
+        },
+        { 
+            "trigger": "redistribute\tbgp",
+            "contents": "redistribute bgp ${1:65535}"
+        },
+        { 
+            "trigger": "redistribute\tbgp + preserve-med",
+            "contents": "redistribute bgp ${1:65535} preserve-med"
+        },
+        { 
+            "trigger": "redistribute\tbgp + metric",
+            "contents": "redistribute bgp ${1:65535} metric ${2:16777214}"
+        },
+        { 
+            "trigger": "redistribute\tbgp + route-policy",
+            "contents": "redistribute bgp ${1:65535} route-policy ${2:ROUTE_POLICY_NAME}"
+        },
+        { 
+            "trigger": "redistribute\tbgp + tag",
+            "contents": "redistribute bgp ${1:65535} tag ${2:4294967295}"
+        },
+        { 
+            "trigger": "redistribute\tbgp + metric-type 1",
+            "contents": "redistribute bgp ${1:65535} metric-type 1"
+        },
+        { 
+            "trigger": "redistribute\tbgp + metric-type 2",
+            "contents": "redistribute bgp ${1:65535} metric-type 2"
+        },
+  ]
+}

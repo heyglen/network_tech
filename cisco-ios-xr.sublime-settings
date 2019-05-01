@@ -1,0 +1,13 @@
+{
+    "auto_complete_selector": "text.network.cisco.",
+    "indent_guide_options":
+    [
+        "draw_normal",
+        "draw_active"
+    ],
+    "tab_size": 1,
+    "ensure_newline_at_eof_on_save": true,
+    "translate_tabs_to_spaces": true,   
+    "word_separators": "\\()\"',;<>~!@#$%^&*|+=[]{}`~?",
+    "word_wrap": false
+}
