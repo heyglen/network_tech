@@ -370,6 +370,29 @@ interface vlan1
   exit
 interface Ethernet0
   exit
+! https://community.cisco.com/t5/switching/shortname-for-a-twentyfivegige-on-the-show-interface-status/td-p/3828548
+! Issue #24 new interfaces 
+
+interface TwoGigabitEthernet1/0/1 
+  exit
+
+interface TwentyFiveGigabitEthernet0/1/2
+  exit 
+
+interface FiveGigabitEthernet1/0/2.200 
+  exit 
+
+interface SVI0
+  exit
+
+interface ISM0/1/2
+  exit
+
+interface Embedded-Service-Engine0/0/0
+  exit
+
+
+
 interface range GigabitEthernet0
   exit
 
