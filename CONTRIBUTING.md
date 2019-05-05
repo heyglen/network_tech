@@ -18,6 +18,7 @@ Changelogs follow the [Keep a Changelog Standard](http://keepachangelog.com)
 
 - New syntax should be written in the relevant test files:
     - [ios: tests/syntax_test_cisco_ios.cisco-ios](tests/syntax_test_cisco_ios.cisco-ios)
+    - [ios-xr: tests/syntax_test_cisco_ios_xr.cisco-ios-xr](tests/syntax_test_cisco_ios_xr.cisco-ios-xr)
     - [nxos: tests/syntax_test_cisco_nxos.cisco-nxos](tests/syntax_test_cisco_nxos.cisco-nxos)
     - [asa: tests/syntax_test_cisco_asa.cisco-asa](tests/syntax_test_cisco_asa.cisco-asa)
     - [ace: tests/syntax_test_cisco_ace.cisco-ace](tests/syntax_test_cisco_ace.cisco-ace)
