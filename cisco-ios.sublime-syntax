@@ -754,25 +754,34 @@ variables:
     (?:
       (?:BVI)|
       (?:Ethernet)|
-      (?:Et)|
       (?:FastEthernet)|
-      (?:Fa)|
+      (?:FiveGigabitEthernet)|
       (?:FortyGigabitEthernet)|
-      (?:Fo)|
       (?:GigabitEthernet)|
-      (?:Gi)|
       (?:loopback)|
-      (?:lo)|
       (?:port-channel)|
-      (?:po)|
       (?:serial)|
-      (?:se)|
-      (?:TenGigabitEthernet)|
-      (?:Te)|
-      (?:tunnel)|
+      (?:TenGigabitEthernet)|      
+      (?:TwoGigabitEthernet)|
+      (?:TwentyFiveGigabitEthernet)|
+      (?:SVI)|
+      (?:ISM)|
+      (?:Embedded\-Service\-Engine)|
       (?:Dot11Radio)|
-      (?:tu)|
+      (?:tunnel)|
       (?:vlan)|
+      (?:Et)|
+      (?:Fa)|
+      (?:Fi)|
+      (?:Fo)|
+      (?:Gi)|
+      (?:lo)|
+      (?:po)|
+      (?:se)|
+      (?:Te)|
+      (?:Tw)| 
+      (?:Twe)|
+      (?:tu)|
       (?:vl)
     )
   interface_numbers: |
