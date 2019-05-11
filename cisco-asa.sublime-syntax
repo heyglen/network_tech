@@ -4,9 +4,6 @@
 # Copyright 2017 Glen Harmon
 
 name: Cisco ASA
-file-extensions:
-  - cisco-asa
-  - asa
 first_line_match: |
   (?xi)
     \s*
@@ -15,6 +12,9 @@ first_line_match: |
     (?:
       (?:asa)
     )
+file_extensions:
+  - cisco-asa
+  - asa
 scope: text.network.cisco.asa text.network.cisco.configure_terminal
 
 
@@ -31,6 +31,7 @@ variables:
     (?:
       (?:aaa-server)|
       (?:access-list)|
+      (?:access-group)|
       (?:aaa)|
       (?:arp)|
       (?:banner)|
@@ -245,6 +246,7 @@ variables:
     (?:ldaps)|
     (?:ldap)|
     (?:lpd)|
+    (?:netbios-ssn)|
     (?:nfs)|
     (?:ntp)|
     (?:rsh)|
@@ -1165,7 +1167,17 @@ contexts:
         2: constant.numeric     # accounting
     # - include: pop_context_on_unknown
 
+  aaa_authentication_secure_http_client:
+    - match: |
+        (?xi)
+        ^\s*(aaa)\s+(authentication)\s+(secure-http-client)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+
   aaa:
+    - include: aaa_authentication_secure_http_client
     - match: |
         (?xi)
         (?:
@@ -1177,7 +1189,8 @@ contexts:
                   ({{management_protocols}}|(?:serial)|enable)\s+
                   (console)
                   ((?:\s+TACACS\+)?(?:\s+LOCAL)?)
-                )
+                )|
+                (login-history)
               )
             )|
             (?:(authorization)\s+
@@ -1199,14 +1212,23 @@ contexts:
         3: support.constant             # management protocol
         4: support.constant             # console
         5: string.unquoted              # tacacs or local
-        6: support.constant             # authorization
-        7: support.constant             # exec authentication-server auto-enable
-        8: support.constant             # accounting
-        9: support.constant             # accounting management protocol tacas or local
-        10: string.unquoted             # accounting management protocol tacas or local
+        6: support.constant
+        7: support.constant             # authorization
+        8: support.constant             # exec authentication-server auto-enable
+        9: support.constant             # accounting
+        10: support.constant             # accounting management protocol tacas or local
+        11: string.unquoted             # accounting management protocol tacas or local
 
   object_group_service:
-    - match: '^\s*(object-group)\s+(service)\s+(\S+)(\s+(?:tcp-udp)|(?:tcp)|(?:udp))?'
+    - match: |
+        (?xi)
+        ^\s*
+        (object-group)\s+(service)\s+(\S+)\s+
+        (
+          (?:tcp-udp)|
+          (?:tcp)|
+          (?:udp)
+        )?
       captures:
         0: cisco.scope
         1: variable.parameter     # object-group
@@ -1217,6 +1239,12 @@ contexts:
         - meta_content_scope: text.network.cisco.asa.object_group.service
         - include: description
         - include: object_group_group_object
+        - match: |
+            (?xi)
+            ^\s+(service-object)\s+(ip)
+          captures:
+            1: support.constant
+            2: constant.language
         - match: >
             (?xi)
             ^\s*

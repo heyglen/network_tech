@@ -17,5 +17,9 @@
             "trigger": "service-object\tudp",
             "contents": "service-object udp destination eq ${1:1}$0"
         },
+        { 
+            "trigger": "service-object\tip",
+            "contents": "service-object ip"
+        },
     ]
 }

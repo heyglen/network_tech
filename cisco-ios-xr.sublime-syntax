@@ -4,7 +4,7 @@
 # Copyright 2018 Glen Harmon
 
 name: Cisco IOS XR
-file-extensions:
+file_extensions:
   - cisco-ios-xr
   - ios-xr
 first_line_match: |

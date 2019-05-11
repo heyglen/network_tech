@@ -181,6 +181,14 @@
             "trigger": "hostname\thostname",
             "contents": "hostname ${1:HOSTNAME}"
         },
+        { 
+            "trigger": "aaa authentication\tlogin-history",
+            "contents": "aaa authentication login-history"
+        },
+        { 
+            "trigger": "aaa authentication\tsecure-http-client",
+            "contents": "aaa authentication secure-http-client"
+        },
     ]
 }
 

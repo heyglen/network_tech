@@ -4,7 +4,7 @@
 # Copyright 2017 Glen Harmon
 
 name: Cisco IOS
-file-extensions:
+file_extensions:
   - cisco-ios
   - ios
 first_line_match: |

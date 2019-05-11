@@ -4,7 +4,7 @@
 # Copyright 2017 Glen Harmon
 
 name: Cisco NXOS
-file-extensions:
+file_extensions:
   - cisco-nxos
   - cisco-nexus
   - nxos

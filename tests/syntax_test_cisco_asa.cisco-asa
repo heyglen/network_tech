@@ -33,6 +33,7 @@ timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
 timeout tcp-proxy-reassembly 0:01:00
 timeout floating-conn 0:00:00
 
+aaa authentication login-history
 aaa-server AAA_NAME protocol tacacs+
  max-failed-attempts 2
  exit
@@ -94,6 +95,10 @@ interface port-channel 0
  exit
   
 
+object-group service whatever tcp
+  service-object ip
+  
+object-group service whatever udp
 object-group service whatever
   description blah
   service-object tcp destination eq 1
@@ -269,6 +274,7 @@ snmp-server contact noc
 ssh key-exchange group diffehelman0
 
 monitor-interface inside
+aaa authentication secure-http-client
 aaa authentication http console TACACS+ LOCAL
 aaa authentication ssh console TACACS+ LOCAL
 aaa authentication enable console TACACS+ LOCAL

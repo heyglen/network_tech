@@ -61,3 +61,6 @@ network_tech/*
 
 # Presentation
 presentation/node_modules/*
+
+# Cache
+*.cache
