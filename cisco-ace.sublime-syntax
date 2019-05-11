@@ -6,7 +6,6 @@
 name: Cisco ACE
 file_extensions:
   - cisco-ace
-  - ace
 first_line_match: |
   (?xi)
     \s*
