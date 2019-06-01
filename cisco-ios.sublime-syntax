@@ -2828,6 +2828,7 @@ contexts:
       - meta_content_scope: text.network.cisco.interface
       - include: standby
       - include: switchport
+      - include: interface_ipv6_link_local
       - match: |
           (?xi)
           ^\s*
@@ -2996,6 +2997,17 @@ contexts:
           77: constant.numeric                             # vpc id
       - include: pop_on_configure_terminal_context
       # - include: partials
+
+  interface_ipv6_link_local:
+    - match: |
+        (?xi)
+        ^\s*(ipv6)\s+(address)\s+({{ipv6_prefix}})\s+(link-local)(\s+cga)?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric.ip.ipv6.prefix
+        4: support.constant
+        5: support.constant
 
   standby:
     - match: |

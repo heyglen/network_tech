@@ -370,6 +370,40 @@ interface vlan1
   exit
 interface Ethernet0
   exit
+! https://community.cisco.com/t5/switching/shortname-for-a-twentyfivegige-on-the-show-interface-status/td-p/3828548
+! Issue #24 new interfaces 
+
+interface TwoGigabitEthernet1/0/1 
+  exit
+
+interface TwentyFiveGigabitEthernet0/1/2
+  exit 
+
+interface FiveGigabitEthernet1/0/2.200 
+  exit 
+
+interface SVI0
+  exit
+
+interface ISM0/1/2
+  exit
+
+interface Embedded-Service-Engine0/0/0
+  exit
+
+interface TwoGigabitEthernet1/0/1
+  description example
+  switchport access vlan 1000
+  switchport mode access
+  switchport voice vlan 3000
+  speed auto 100 1000
+  trust device cisco-phone
+  auto qos voip cisco-phone
+  spanning-tree portfast
+  service-policy input AutoQos-4.0-CiscoPhone-Input-Policy
+  service-policy output AutoQos-4.0-Output-Policy
+
+
 interface range GigabitEthernet0
   exit
 
@@ -412,6 +446,8 @@ interface range GigabitEthernet1/1-2
   ipv6 address PREFIX_NAME 0:0:0:1::/64
   ipv6 address general-prefix 0:0:0:1::/64 eui-64
   ipv6 nd prefix ff02::/64
+  ipv6 address fe80::5074:f2ff:feb1:a87f/64 link-local
+  ipv6 address fe80::5074:f2ff:feb1:a87f/64 link-local cga
   standby version 2
   standby 1 ip 1.1.1.1
   standby 1 priority 200

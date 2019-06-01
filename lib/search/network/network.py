@@ -3,7 +3,6 @@ Copyright 2017 Glen Harmon
 
 """
 
-
 import os
 import ipaddress
 import logging
@@ -29,6 +28,46 @@ iana = Iana(os.path.sep.join(['Network Tech', 'iana.cache']))
 
 
 
+def _ipv6_mac(network):
+    """ Get the MAC address from an auto generated IPv6 address """
+    # Example address used in comments: fe80::a021:27ff:fe00:d8
+    
+    address = ipaddress.ip_interface(network).ip
+
+    # Fully written out fe80::a021:27ff:fe00:d8 → fe80:0:0:0:a021:27ff:fe00:d8
+
+    # Remove the first 64 bits
+    binary_digits = bin(int(address))[2:].zfill(128)
+
+    removed_prefix = binary_digits[64:]
+
+    # We now have a021:27ff:fe00:d8
+
+    # Verify it is auto generated, bits 24-40 are 'fffe':
+    if hex(int(removed_prefix[24:40], 2)).lower() != '0xfffe':
+        return None
+
+    # Flip bit 6 using a mask
+    flipped_bit = '0' if removed_prefix[6] == '1' else '1'
+    bit_flipped = removed_prefix[0:6] + flipped_bit + removed_prefix[7:]
+
+    # Remove the inserted ff:fe in the middle
+    mac_in_binary = bit_flipped[0:24] + bit_flipped[40:]
+
+    
+    mac_in_hex = hex(int(mac_in_binary, 2))
+
+    mac_in_hex_zero_padded = mac_in_hex[2:].zfill(12)
+
+    mac_parts = list()
+    for i in range(0, len(mac_in_hex_zero_padded), 4):
+        mac_parts.append(
+            mac_in_hex_zero_padded[i:i + 4]
+        )
+
+    return ".".join(mac_parts)
+
+
 class Network:
     prefix_removals = [
         'host',
@@ -40,7 +79,7 @@ class Network:
     def info(cls, network):
         """ Returns HTML formated information about the network """
         content = ''
-        if network.network.num_addresses is 1:
+        if network.network.num_addresses == 1:
             content = cls._info_address(network)
         else:
             content = cls._info_network(network)
@@ -51,6 +90,17 @@ class Network:
     @classmethod
     def _info_address(cls, ip):
         content = Html.div('IP: {}'.format(ip.ip))
+        if ip.is_link_local:
+            content += ''.join([
+                Html.div('Link Local Address'),
+            ])
+
+            link_local_mac = _ipv6_mac(ip)
+            if link_local_mac is not None:
+                content += ''.join([
+                    Html.div('Auto Generated from MAC: {}'.format(link_local_mac)),
+                ])
+
         return content
 
     @classmethod
@@ -62,7 +112,7 @@ class Network:
         network_address = str(network.network.network_address)
         broadcast_address = str(network.network.broadcast_address)
         if network_address != broadcast_address:
-            if network.version is 4:
+            if network.version == 4:
                 content = ''.join([
                     Html.div('Network: {}'.format(network.network)),
                     Html.div('Broadcast: {}'.format(broadcast_address)),
@@ -74,6 +124,16 @@ class Network:
                 content = ''.join([
                     Html.div('Network: {}/{}'.format(network_address, network.network.prefixlen)),
                 ])
+                if network.is_link_local:
+                    content += ''.join([
+                        Html.div('Link Local Address'),
+                    ])
+
+                link_local_mac = _ipv6_mac(network)
+                if link_local_mac is not None:
+                    content += ''.join([
+                        Html.div('Auto Generated from MAC: {}'.format(link_local_mac)),
+                    ])
 
             if before or after:
                 content += Html.div('Neighboring Networks')
@@ -131,7 +191,7 @@ class Network:
     def get_neighbors(cls, networks, neighbors=1):
         if not isinstance(networks, list):
             networks = [networks]
-        if len(networks) is 0:
+        if len(networks) == 0:
             raise ValueError('No network defined')
 
         before = cls._neighboring_network(networks[0], after=False)
