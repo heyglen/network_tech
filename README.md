@@ -29,6 +29,8 @@ Cisco syntax highlighting and completions for Sublime Text 3.
   * wildcard
   * neighboring networks
   * IANA RIR
+  * DNS Name
+  * MAC used in an auto generated IPv6
 
 * Subnet aware search
 
