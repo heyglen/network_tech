@@ -415,3 +415,248 @@ system qos
   service-policy type queuing input pmap-qos-acl
   service-policy type queuing output pmap-qos-acl
 
+
+
+show port-c d
+show port-c d i p 1
+show port-channel database interface port-channel 1
+port-channel3
+    Last membership update is successful
+    0 ports in total, 0 ports up
+    Age of the port-channel is 264d:05h:04m:46s
+
+port-channel4
+    Last membership update is successful
+    0 ports in total, 0 ports up
+    Age of the port-channel is 264d:05h:04m:46s
+
+port-channel17
+    Last membership update is successful
+    0 ports in total, 0 ports up
+    Age of the port-channel is 264d:05h:04m:46s
+
+port-channel20
+    Last membership update is successful
+    0 ports in total, 0 ports up
+    Age of the port-channel is 264d:05h:04m:46s
+
+port-channel21
+    Last membership update is successful
+    0 ports in total, 0 ports up
+    Age of the port-channel is 264d:05h:04m:46s
+
+port-channel23
+    Last membership update is successful
+    0 ports in total, 0 ports up
+    Age of the port-channel is 264d:05h:04m:46s
+
+port-channel25
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/1
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/1
+    Ports:   Ethernet1/1     [on] [up] *
+
+port-channel26
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/2
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/2
+    Ports:   Ethernet1/2     [on] [up] *
+
+port-channel28
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/28
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/28
+    Ports:   Ethernet1/28    [active ] [up] *
+
+port-channel29
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/29
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/29
+    Ports:   Ethernet1/29    [active ] [up] *
+
+port-channel30
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/30
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/30
+    Ports:   Ethernet1/30    [active ] [up] *
+
+port-channel31
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/31
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/31
+    Ports:   Ethernet1/31    [active ] [up] *
+
+port-channel32
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/32
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/32
+    Ports:   Ethernet1/32    [active ] [up] *
+
+port-channel33
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/33
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/33
+    Ports:   Ethernet1/33    [active ] [up] *
+
+port-channel34
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/34
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/34
+    Ports:   Ethernet1/34    [active ] [up] *
+
+port-channel35
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/35
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/35
+    Ports:   Ethernet1/35    [active ] [up] *
+
+port-channel36
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/36
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/36
+    Ports:   Ethernet1/36    [active ] [up] *
+
+port-channel37
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/37
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/37
+    Ports:   Ethernet1/37    [active ] [up] *
+
+port-channel38
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/38
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/38
+    Ports:   Ethernet1/38    [active ] [up] *
+
+port-channel39
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/39
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/39
+    Ports:   Ethernet1/39    [active ] [up] *
+
+port-channel40
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/40
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/40
+    Ports:   Ethernet1/40    [active ] [up] *
+
+port-channel41
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/41
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/41
+    Ports:   Ethernet1/41    [active ] [up] *
+
+port-channel42
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/42
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/42
+    Ports:   Ethernet1/42    [active ] [up] *
+
+port-channel43
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/43
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/43
+    Ports:   Ethernet1/43    [active ] [up] *
+
+port-channel44
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/44
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/44
+    Ports:   Ethernet1/44    [active ] [up] *
+
+port-channel45
+    Last membership update is successful
+    1 ports in total, 1 ports up
+    First operational port is Ethernet1/45
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/45
+    Ports:   Ethernet1/45    [active ] [up] *
+
+port-channel46
+    Last membership update is successful
+    1 ports in total, 0 ports up
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/46
+    Ports:   Ethernet1/46    [active ] [down]
+
+port-channel47
+    Last membership update is successful
+    0 ports in total, 0 ports up
+    Age of the port-channel is 264d:05h:04m:46s
+
+port-channel48
+    Last membership update is successful
+    0 ports in total, 0 ports up
+    Age of the port-channel is 264d:05h:04m:46s
+
+port-channel51
+    Last membership update is successful
+    4 ports in total, 4 ports up
+    First operational port is Ethernet1/51
+    Age of the port-channel is 264d:05h:04m:46s
+    Time since last bundle is 264d:05h:04m:56s
+    Last bundled member is Ethernet1/51
+    Ports:   Ethernet1/51    [on] [up] *
+             Ethernet1/52    [on] [up]
+             Ethernet1/53    [on] [up]
+             Ethernet1/54    [on] [up]
+

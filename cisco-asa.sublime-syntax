@@ -1032,7 +1032,7 @@ contexts:
         (service-policy)\s+(\S+)\s+(global)
       captures:
         0: cisco.scope
-        1: support.constant
+        1: variable.parameter
         2: string.unquoted
         3: support.constant
 
@@ -1043,7 +1043,7 @@ contexts:
         (policy-map)\s+(\S+)
       captures:
         0: cisco.scope
-        1: support.constant
+        1: variable.parameter
         2: string.unquoted
       push:
         - meta_content_scope: text.network.cisco.asa.policy_map.global
@@ -1114,8 +1114,9 @@ contexts:
         - include: policy_map_class_inspect
         - include: policy_map_class_user_statistics
         - include: policy_map_class_set
-        # - include: pop_context_on_unknown
         - include: pop_on_configure_terminal_context
+        - match: (?=\s*\S)
+          pop: true
 
   policy_map_class_inspect:
     - match: |
@@ -2087,10 +2088,59 @@ contexts:
       - include: pop_on_configure_terminal_context
 
   show:
+    - include: show_ip
     - include: show_vlan
     - include: show_route
     - include: show_interface
     - include: show_run_interface
+
+
+  show_ip:
+    - match: |
+        (?xi)
+        ^\s*
+        (show\s+ip)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+      push:
+        - match: (?=\s\|)
+          pop: true
+        - match: |
+            (?xi)
+            \s+
+            (address)
+            (?:\s+
+              (?:
+                (?:({{interface_names}})\s*({{interface_numbers}}))|
+                (?:((?!\|)\S+))
+              )
+              (?:\s+
+                (?:
+                  (?:
+                    (dhcp)\s+
+                    (?:
+                      (server)|
+                      (lease)
+                    )
+                  )
+                )
+
+              )?
+            )?
+          captures:
+            1: support.constant
+            2: entity.other.attribute-name
+            3: constant.numeric
+            4: entity.other.attribute-name
+            5: support.constant
+            6: support.constant
+            7: support.constant
+        - match: .*
+          pop: true
+    - include: pipe
+
 
   show_interface:
     - match: '\s*(show\s+interface)(?:(\s+{{interface_names}})\s*({{interface_numbers}}))?'

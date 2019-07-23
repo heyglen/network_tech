@@ -8,6 +8,11 @@ changeto context fw-context-1
 copy running-config startup-config
 terminal width 511
 terminal pager 0
+show ip
+show ip address | include 123
+show ip address Port-Channel 1
+show ip address nameif dhcp lease 
+show ip address nameif dhcp server
 show running-config | include something ! Inline comment
 show run interface | exclude something
 write

@@ -164,6 +164,7 @@ variables:
       (?:class-map)|
       (?:cli)|
       (?:clock)|
+      (?:configure)|
       (?:copp)|
       (?:errdisable)|
       (?:fabricpath)|
@@ -2483,6 +2484,101 @@ contexts:
     - include: show_access_list
     - include: show_run_interface
     - include: show_ip_interface_brief
+    - include: show_port_channel_database
+
+  show_port_channel_database:
+    - match: |
+        (?xi)
+        ^\s*
+        (show\s+port-c(?:hannel)?\s+d(?:atabase)?)
+        (?:\s+(i(?:nterface)?)\s+(p(?:ort-channel)?)\s+(\d+))?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: entity.other.attribute-name
+        4: constant.numeric
+      push:
+        - meta_content_scope: text.network.cisco.nxos.port_channel.database
+        - match: \s*(port-channel)(\d+)
+          captures:
+            1: entity.other.attribute-name
+            2: constant.numeric
+          push:
+          - match: ^\s*Last membership update is successful
+            captures:
+              1: entity.other.attribute-name
+          - match: ^\s+(\d+) ports in total, (\d+) ports up
+          - match: ^\s+Age of the port-channel is (\d+)d:(\d+)h:(\d+)m:(\d+)s
+          - match: ^\s+Time since last bundle is (\d+)d:(\d+)h:(\d+)m:(\d+)s
+          - match: ^\s+First operational port is ({{interface_names}})({{interface_numbers}})
+            captures:
+              1: entity.other.attribute-name
+              2: constant.numeric
+          - match: ^\s+Last bundled member is ({{interface_names}})({{interface_numbers}})
+            captures:
+              1: entity.other.attribute-name
+              2: constant.numeric
+          - match: |
+              (?xi)
+              ^\s*
+              Ports:\s+({{interface_names}})({{interface_numbers}})
+              \s+
+              \[
+                (?:
+                  (active)|
+                  (on)
+                )
+                \s*
+              ]
+              \s+
+              \[
+                (?:
+                  (up)|
+                  (down)
+                )
+              ]
+              (?:
+                \s+
+                (\*)
+              )?
+            captures:
+              1: entity.other.attribute-name
+              2: constant.numeric
+              6: keyword.other
+            push:
+            - match: |
+                (?xi)
+                ^\s*({{interface_names}})({{interface_numbers}})
+                \s+
+                \[
+                  (?:
+                    (active)|
+                    (on)
+                  )
+                  \s*
+                ]
+                \s+
+                \[
+                  (?:
+                    (up)|
+                    (down)
+                  )
+                ]
+                (?:
+                  \s+
+                  (\*)
+                )?
+              captures:
+                1: entity.other.attribute-name
+                2: constant.numeric
+                6: keyword.other
+            - match: (?=\s*\S)
+              pop: true
+          - match: (?=\s*\S)
+            pop: true
+        - match: (?=\s*\S)
+          pop: true
+
 
   show_bgp:
     - match: |
