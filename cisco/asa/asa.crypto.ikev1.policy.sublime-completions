@@ -1,0 +1,20 @@
+{
+  "scope": "text.network.cisco.asa.ikev2.policy",
+  "completions": [
+        "encryption des",
+        "encryption 3des",
+        "encryption aes-192",
+        "encryption aes-256",
+        "encryption aes-gcm",
+        "encryption aes",
+        "encryption aes-gcm-192",
+        "encryption aes-gcm-256",
+        "encryption null",
+        "integrity md5",
+        "integrity sha",
+        "integrity sha256",
+        "integrity sha384",
+        "integrity sha512",
+        "integrity null",
+  ]
+}

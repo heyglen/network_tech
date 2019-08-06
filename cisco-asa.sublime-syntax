@@ -70,11 +70,162 @@ variables:
       (?:user-identity)|
       (?:username)
     )
+  number_range_0_255: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:25[0-5])|
+        (?:2[0-4]\d)|
+        (?:\d{1,2})
+      )
+      \b
+    )
+  number_range_120_2147483647: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:214748364[0-7])|
+        (?:21474836[0-3]\d)|
+        (?:2147483[0-5]\d{2})|
+        (?:214748[0-2]\d{3})|
+        (?:21474[0-7]\d{4})|
+        (?:2147[0-3]\d{5})|
+        (?:214[0-6]\d{6})|
+        (?:21[0-3]\d{7})|
+        (?:20\d{8})|
+        (?:1\d{9})|
+        (?:\d{4,9})|
+        (?:1[2-9]\d)
+      )
+      \b
+    )
+  number_range_300_1048575: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:104857[0-5])|
+        (?:10485[0-6]\d)|
+        (?:1048[0-4]\d{2})|
+        (?:104[0-7]\d{3})|
+        (?:10[0-3]\d{4})|
+        (?:\d{4,6})|
+        (?:3\d{2})
+      )
+      \b
+    )
   aaa_protocols: |
     (?xi)
     (?:
       (?:tacacs\+)|
       (?:radius)
+    )
+  ikev1_transform_sets: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:128AES-MD5)|
+        (?:128AES-SHA)|
+        (?:192AES-MD5)|
+        (?:192AES-SHA)|
+        (?:256AES-MD5)|
+        (?:256AES-SHA)|
+        (?:3DES-MD5)|
+        (?:3DES-SHA)|
+        (?:56DES-MD5)|
+        (?:56DES-SHA)|
+        (?:ESP-3DES-MD5)|
+        (?:ESP-3DES-SHA)|
+        (?:ESP-AES-128-MD5)|
+        (?:ESP-AES-128-SHA)|
+        (?:ESP-AES-192-MD5)|
+        (?:ESP-AES-192-SHA)|
+        (?:ESP-AES-256-MD5)|
+        (?:ESP-AES-256-SHA)|
+        (?:ESP-DES-MD5)|
+        (?:ESP-DES-SHA)
+      )
+      \b
+    )
+  ikev1_diffie_hellman_group_number: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:24)|
+        (?:21)|
+        (?:20)|
+        (?:19)|
+        (?:5)|
+        (?:2)|
+        (?:1)
+      )
+      \b
+    )
+  diffie_hellman_group_number: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:24)|
+        (?:21)|
+        (?:20)|
+        (?:19)|
+        (?:16)|
+        (?:15)|
+        (?:14)|
+        (?:5)|
+        (?:2)|
+        (?:1)
+      )
+      \b
+    )
+  ikev2_encryption: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:des)|
+        (?:3des)|
+        (?:aes-192)|
+        (?:aes-256)|
+        (?:aes-gcm)|
+        (?:aes)|
+        (?:aes-gcm-192)|
+        (?:aes-gcm-256)|
+        (?:null)
+      )
+      \b
+    )
+  ikev2_pseudo_random_function: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:md5)|
+        (?:sha256)|
+        (?:sha384)|
+        (?:sha512 )|
+        (?:sha)
+      )
+      \b
+    )
+  ikev2_hash: |
+    (?xi)
+    (?:
+      \b
+      (?:
+       (?:md5)|
+       (?:sha)|
+       (?:sha256)|
+       (?:sha384)|
+       (?:sha512)|
+       (?:null)
+      )
+      \b
     )
   inspect_protocol: |
     (?xi)
@@ -341,6 +492,8 @@ contexts:
     - include: banner
     - include: logging
     - include: timeout
+    - include: crypto
+    - include: dhcp
     - include: objects
     - include: context
     - include: username
@@ -370,8 +523,6 @@ contexts:
     - include: monitor_interface
     - include: protocol_settings
     - include: aaa_server_protocol
-    - include: crypto_key_generate
-    - include: crypto_ipsec_security_association
     - include: partials
 
   scope:
@@ -635,17 +786,6 @@ contexts:
         5: support.constant     # ssl cipher version custom
         6: string.unquoted      # ssl cipher version custom string
 
-  crypto_key_generate:
-    - match: ^\s*(crypto)\s+(key)\s+(generate)\s+(rsa)\s+(modulus)\s+([0-9]+)\s+(noconfirm)?
-      captures:
-        1: support.constant
-        2: support.constant
-        3: support.constant
-        4: support.constant
-        5: support.constant
-        6: constant.numeric
-        7: support.constant
-
   terminal:
     - match: '^\s*(terminal)\s+(width|pager)\s(\d+)'
       captures:
@@ -659,15 +799,6 @@ contexts:
         1: support.constant
         2: support.constant
         3: string.unquoted
-
-  crypto_ipsec_security_association:
-    - match: '^\s*(crypto)\s+(ipsec)\s+(security-association)\s+(pmtu-aging)\s+(infinite)'
-      captures:
-        1: support.constant
-        2: support.constant
-        3: support.constant
-        4: support.constant
-        5: support.constant
 
   banner:
     - match: '^\s*(banner)\s+((?:exec)|(?:motd))\s(.*)'
@@ -1079,6 +1210,130 @@ contexts:
         - meta_content_scope: text.network.cisco.asa.policy_map.inspect.dns.parameters
         - include: dns_inspection_message_length
         # - include: pop_context_on_unknown
+
+  dhcp:
+    - include: dhcp_auto_config
+    - include: dhcp_address
+    - include: dhcp_lease
+    - include: dhcp_option
+    - include: dhcp_dns
+    - include: dhcp_domain
+    - include: dhcp_enable
+
+  dhcp_auto_config:
+    - match: |
+        (?xi)
+        ^\s*
+        (dhcpd)\s+(auto_config)\s+(\S+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: entity.other.attribute-name
+
+  dhcp_dns:
+    - match: |
+        (?xi)
+        ^\s*
+        (dhcpd)\s+(dns)\s+({{ip}})(?:\s+({{ip}}))?(?:\s+(interface)\s+(\S+))?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric.ip.ipv4.address
+        4: constant.numeric.ip.ipv4.address
+        5: support.constant
+        6: entity.other.attribute-name
+
+  dhcp_domain:
+    - match: |
+        (?xi)
+        ^\s*
+        (dhcpd)\s+(domain)\s+(\S+)(?:\s+(interface)\s+(\S+))?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+        4: support.constant
+        5: entity.other.attribute-name
+
+  dhcp_enable:
+    - match: |
+        (?xi)
+        ^\s*
+        (dhcpd)\s+(enable)\s+(\S+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: entity.other.attribute-name
+
+  dhcp_option:
+    - match: |
+        (?xi)
+        ^\s*
+        (dhcpd)\s+(option)\s+
+          (
+            (?!
+              (?:
+                (?:255)|
+                (?:82)|
+                (?:67)|
+                (?:61)|
+                (?:59)|
+                (?:58)|
+                (?:54)|
+                (?:53)|
+                (?:52)|
+                (?:51)|
+                (?:50)|
+                (?:12)|
+                (?:1)|
+                (?:0)
+              )
+            )
+            {{number_range_0_255}}
+          )
+        \s+
+        (?:
+          (?:(ip)\s+({{ip}}))|
+          (?:(hex)\s+([a-f0-9]+))|
+          (?:(ascii)\s+((?:(?=[^\s])[\x00-\x7F])+))  # ASCII
+        )
+        (?:\s+(interface)\s+(\S+))?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+        4: support.constant
+        5: constant.numeric.ip.ipv4.address
+        6: support.constant
+        7: constant.numeric.ip.ipv4.address
+        8: support.constant
+        9: string.unquoted
+        10: support.constant
+        11: entity.other.attribute-name
+
+  dhcp_lease:
+    - match: |
+        (?xi)
+        ^\s*
+        (dhcpd)\s+(lease)\s+({{number_range_300_1048575}})\s+(interface)\s+(\S+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+        4: support.constant
+        5: entity.other.attribute-name
+
+  dhcp_address:
+    - match: |
+        (?xi)
+        ^\s*
+        (dhcpd)\s+(address)\s+({{ip}})(?:-({{ip}}))?\s+(\S+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric.ip.ipv4.address
+        4: constant.numeric.ip.ipv4.address
+        5: entity.other.attribute-name
 
   dns_inspection_message_length:
     - match: |
@@ -2086,6 +2341,240 @@ contexts:
           17: constant.numeric                          # security-level id
           18: support.constant                          # management-only
       - include: pop_on_configure_terminal_context
+
+  crypto:
+    - include: crypto_ca_trustpool_policy
+    - include: crypto_ipsec_security_association
+    - include: crypto_key_generate
+    - include: crypto_map
+    - include: crypto_map_interface
+    - include: crypto_ikev1
+    - include: crypto_ikev2
+
+  crypto_ikev1:
+    - include: crypto_ikev1_enable
+    - include: crypto_ikev1_policy
+
+  crypto_ikev1_enable:
+    - match: |
+        (?xi)
+        ^\s*(crypto)\s+(ikev1)\s+(enable)\s+(\S+)\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+        3: support.constant
+        4: entity.other.attribute-name
+
+  crypto_ikev1_policy:
+    - match: |
+        (?xi)
+        ^\s*(crypto)\s+(ikev1)\s+(policy)(?:\s+(\d+))?\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.language
+        3: support.constant
+        4: constant.numeric
+        5: support.constant
+        6: constant.numeric
+      push:
+        - meta_content_scope: text.network.cisco.asa.ikev1.policy
+        - include: crypto_ikev1_policy_settings
+        - match: (?=^\s*\S)
+          pop: true
+
+  crypto_ikev1_policy_settings:
+    - match: |
+        (?xi)
+        ^\s*(authentication)\s+(pre-share)\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+    - match: |
+        (?xi)
+        ^\s*(encryption)\s+({{ikev2_encryption}})\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+    - match: |
+        (?xi)
+        ^\s*(hash)\s+({{ikev2_hash}})\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+    - match: |
+        (?xi)
+        ^\s*(group)\s+({{ikev1_diffie_hellman_group_number}})\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+        3: constant.language
+    - match: |
+        (?xi)
+        ^\s*(prf)\s+({{ikev2_pseudo_random_function}})\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+    - match: |
+        (?xi)
+        ^\s*(lifetime)\s+({{number_range_120_2147483647}})\s*$
+      captures:
+        1: support.constant
+        2: constant.numeric
+
+  crypto_ikev2:
+    - include: crypto_ikev2_policy
+    - include: crypto_ikev2_enable
+
+  crypto_ikev2_enable:
+    - match: |
+        (?xi)
+        ^\s*(crypto)\s+(ikev2)\s+(enable)\s+(\S+)\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+        3: support.constant
+        4: entity.other.attribute-name
+
+  crypto_ikev2_policy:
+    - match: |
+        (?xi)
+        ^\s*(crypto)\s+(ikev2)\s+(policy)(?:\s+(\d+))?(?:\s+(group)\s+({{diffie_hellman_group_number}}))?\s*$
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: constant.language
+        3: support.constant
+        4: constant.numeric
+        5: support.constant
+        6: constant.numeric
+      push:
+        - meta_content_scope: text.network.cisco.asa.ikev2.policy
+        - include: crypto_ikev2_policy_settings
+        - match: (?=^\s*\S)
+          pop: true
+
+  crypto_ikev2_policy_settings:
+    - match: |
+        (?xi)
+        ^\s*(encryption)\s+({{ikev2_encryption}})\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+    - match: |
+        (?xi)
+        ^\s*(integrity)\s+({{ikev2_hash}})\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+    - match: |
+        (?xi)
+        ^\s*(group)\s+({{diffie_hellman_group_number}})(?:\s+({{diffie_hellman_group_number}}))?\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+        3: constant.language
+    - match: |
+        (?xi)
+        ^\s*(prf)\s+({{ikev2_pseudo_random_function}})\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+    - match: |
+        (?xi)
+        ^\s*(lifetime)\s+(seconds)\s+({{number_range_120_2147483647}})\s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+
+  crypto_ca_trustpool_policy:
+    - match: |
+        (?xi)
+        ^\s*(crypto)\s+(ca)\s+(trustpool)\s+(policy)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+      # push:
+      #   - meta_content_scope: text.network.cisco.asa.crypto.ca.trustpoint_policy
+      #   - match: |
+      #       (?xi)
+      #       ^\s*(auto-import)
+      #     captures:
+      #       1: support.constant
+      #   - match: (?=.*)
+      #     pop: true
+
+
+  crypto_map_interface:
+    - match: |
+        (?xi)
+        ^\s*(crypto)\s+(map)\s+(\S+)\s+(interface)\s+(\S+)(?:\s+(ipv6-local-address)\s+({{ipv6}}))?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+        4: support.constant
+        5: entity.other.attribute-name
+        6: support.constant
+        7: constant.numeric.ip.ipv6.address
+
+  crypto_map:
+    - match: |
+        (?xi)
+        ^\s*(crypto)\s+(map)\s+(\S+)\s+(\d+)\s+
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+        4: constant.numeric
+      push:
+      - match: |
+          (?xi)
+          (match)\s+(address)\s+(\S+)
+        captures:
+          1: support.constant
+          2: support.constant
+          3: string.unquoted
+      - match: |
+          (?xi)
+          (set)\s+(peer)\s+({{ip}})
+        captures:
+          1: support.constant
+          2: support.constant
+          3: constant.numeric.ip.ipv4.address
+      - match: |
+          (?xi)
+          (set)\s+(ikev1)\s+(transform-set)((?:\s+{{ikev1_transform_sets}})+)
+        captures:
+          1: support.constant
+          2: constant.language
+          3: support.constant
+          4: constant.language
+      - match: (?=.*)
+        pop: true
+
+  crypto_key_generate:
+    - match: ^\s*(crypto)\s+(key)\s+(generate)\s+(rsa)\s+(modulus)\s+([0-9]+)\s+(noconfirm)?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+        5: support.constant
+        6: constant.numeric
+        7: support.constant
+
+  crypto_ipsec_security_association:
+    - match: '^\s*(crypto)\s+(ipsec)\s+(security-association)\s+(pmtu-aging)\s+(infinite)'
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+        5: support.constant
 
   show:
     - include: show_ip

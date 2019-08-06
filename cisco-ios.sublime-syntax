@@ -2367,6 +2367,9 @@ contexts:
         5: entity.other.attribute-name  # mode mst
 
   crypto:
+    - include: crypto_key
+
+  crypto_key:
     - match: |
         (?xi)
         ^\s*

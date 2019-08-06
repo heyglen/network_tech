@@ -686,35 +686,6 @@ no ip address
 duplex auto
 speed auto
 !
-crypto isakmp policy 1
-encryption 3des
-authentication pre-share
-group 2
-lifetime 480
-!
-crypto isakmp client configuration group rtr-remote
-key secret-password
-dns 10.50.10.1 10.60.10.1
-domain company.com
-pool dynpool
-!
-crypto ipsec transform-set vpn1 esp-3des esp-sha-hmac
-!
-crypto ipsec security-association lifetime seconds 86400
-!
-crypto dynamic-map dynmap 1
-set transform-set vpn1
-reverse-route
-!
-crypto map static-map 1 ipsec-isakmp dynamic dynmap
-crypto map dynmap isakmp authorization list rtr-remote
-crypto map dynmap client configuration address respond
-
-crypto ipsec client ezvpn ezvpnclient
-connect auto
-group 2 key secret-password
-mode client
-peer 192.168.100.1
 !
 interface Dot11Radio0
 no ip address
@@ -993,3 +964,34 @@ exit
 !no exec
 !exit
 !
+
+crypto isakmp policy 1
+encryption 3des
+authentication pre-share
+group 2
+lifetime 480
+!
+crypto isakmp client configuration group rtr-remote
+key secret-password
+dns 10.50.10.1 10.60.10.1
+domain company.com
+pool dynpool
+!
+crypto ipsec transform-set vpn1 esp-3des esp-sha-hmac
+!
+crypto ipsec security-association lifetime seconds 86400
+!
+crypto dynamic-map dynmap 1
+set transform-set vpn1
+reverse-route
+!
+crypto map static-map 1 ipsec-isakmp dynamic dynmap
+crypto map dynmap isakmp authorization list rtr-remote
+crypto map dynmap client configuration address respond
+
+crypto ipsec client ezvpn ezvpnclient
+connect auto
+group 2 key secret-password
+mode client
+peer 192.168.100.1
+

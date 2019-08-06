@@ -189,6 +189,34 @@
             "trigger": "aaa authentication\tsecure-http-client",
             "contents": "aaa authentication secure-http-client"
         },
+        { 
+            "trigger": "crypto map\tinterface",
+            "contents": "crypto map ${1:NAME} interface ${2:INTERFACE_NAME}"
+        },
+        { 
+            "trigger": "crypto map\tinterface",
+            "contents": "crypto map ${1:NAME} interface ${2:INTERFACE_NAME}"
+        },
+        { 
+            "trigger": "crypto map\tmatch address",
+            "contents": "crypto map ${1:NAME} ${2:0} match address ${3:ACL_NAME}"
+        },
+        { 
+            "trigger": "crypto map\tset ikev1 transform-set",
+            "contents": "crypto map ${1:NAME} ${2:0} set ikev1 transform-set ${3:192AES-SHA}"
+        },
+        { 
+            "trigger": "crypto map\tset peer",
+            "contents": "crypto map ${1:NAME} ${2:0} set peer ${3:192.0.2.1}"
+        },
+        { 
+            "trigger": "crypto ikev2\tpolicy",
+            "contents": "crypto ikev2 policy ${1:1}"
+        },
+        { 
+            "trigger": "crypto ca\ttrustpool policy",
+            "contents": "crypto ca trustpool policy"
+        },
     ]
 }
 

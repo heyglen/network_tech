@@ -331,3 +331,49 @@ logout
 same-security-traffic permit inter-interface
 same-security-traffic permit intra-interface
 
+crypto map outside_map interface outside
+crypto map outside_map interface outside ipv6-local-address 1::1
+crypto ca trustpool policy
+
+crypto map outside_map 1 match address outside_cryptomap_3
+crypto map outside_map 1 set peer 1.2.3.4
+crypto map outside_map 1 set ikev1 transform-set 3DES-MD5 3DES-SHA 56DES-MD5 56DES-SHA 128AES-MD5 128AES-SHA 192AES-MD5 192AES-SHA 256AES-MD5 256AES-SHA
+crypto map outside_map 1 set ikev1 transform-set ESP-AES-128-SHA ESP-AES-128-MD5 ESP-AES-192-SHA ESP-AES-192-MD5 ESP-AES-256-SHA ESP-AES-256-MD5 ESP-3DES-SHA ESP-3DES-MD5 ESP-DES-SHA ESP-DES-MD5
+crypto map outside_map 3 match address outside_cryptomap_2
+crypto map outside_map 3 set ikev1 transform-set ESP-AES-256-SHA
+crypto map outside2_map 4 match address outside_cryptomap_1
+
+
+crypto ikev2 policy 1 group 1
+crypto ikev2 policy group 1
+crypto ikev2 policy 1
+ encryption aes-256
+ integrity sha
+ group 24
+ group 5 2
+ prf sha
+ lifetime seconds 120
+ lifetime seconds 2147483647
+crypto ikev2 enable outside
+crypto ikev1 enable outside
+crypto ikev1 enable outside2
+crypto ikev1 policy 50
+ group 2
+ authentication pre-share
+ encryption aes-256
+ hash sha
+ lifetime 86400
+
+dhcpd auto_config outside
+!
+dhcpd address 1.1.1.1-2.2.2.2 inside
+dhcpd dns 1.1.1.1 interface inside
+dhcpd lease 1048575 interface inside
+dhcpd lease 300 interface inside
+dhcpd domain example.com interface inside
+dhcpd option 3 ip 1.1.1.1 interface inside
+dhcpd option 3 hex 0123456789abcdef interface inside
+dhcpd option 3 ascii ASCII_STRING interface inside
+dhcpd enable inside
+
+
