@@ -965,6 +965,21 @@ exit
 !exit
 !
 
+ip sla 1
+  icmp-echo 10.102.64.114 source-ip 192.100.0.0
+  icmp-echo 10.102.64.114 source-ip 1::1
+  icmp-echo 10.102.64.114 source-interface Tunnel710
+  icmp-echo 2a00:1450:400e:800::200e source-interface Tunnel710
+  icmp-echo host.example.com source-interface Tunnel710
+  tag ASCII_TAG
+  tos 184
+  vrf agr_usi_vpn
+  threshold 2000
+  frequency 5
+
+ip sla schedule 1 life forever start-time now
+
+
 crypto isakmp policy 1
 encryption 3des
 authentication pre-share

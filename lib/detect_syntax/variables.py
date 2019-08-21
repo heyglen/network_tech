@@ -26,6 +26,7 @@ DETECT_SYNTAX = namedtuple('DetectSyntax', _DETECT_SYNTAX_ATTRIBUTES)(
         r'^\s*\bnsf\s+cisco\s*$',
     ],
     asa=[
+        r'^#\s+set\s+syntax\s*=\s*cisco-asa',
         r'^ASA Version \d+\.\d+',
         r'^: Hardware:\s+ASA\d+',
         r'^\s*security-level \d+$',
@@ -37,15 +38,19 @@ DETECT_SYNTAX = namedtuple('DetectSyntax', _DETECT_SYNTAX_ATTRIBUTES)(
         r'^\s*same-security-traffic',
     ],  
     nxos=[
+        r'^#\s+set\s+syntax\s*=\s*cisco-nxos',
         r'^!Command: show .*',
         r'^\s*feature \S+',
         r'^\s*vrf context \S+',
     ],
     ace=[
+        r'^#\s+set\s+syntax\s*=\s*cisco-ace',
         r'^Generating configuration....',
     ],
     ios=[
+        r'^#\s+set\s+syntax\s*=\s*cisco-ios',
         r'^\s*ip classless$',
+        r'^\s*!! IOS XR Configuration$',
         r'^\s*ip subnet-zero$',
         r'^\s*redundancy$',
         r'^\s*mode sso$',
@@ -58,6 +63,7 @@ DETECT_SYNTAX = namedtuple('DetectSyntax', _DETECT_SYNTAX_ATTRIBUTES)(
         r'^\s*access-list \d{2,3} ((?:permit)|(?:deny))',
     ],
     ios_xr=[
+        r'^#\s+set\s+syntax\s*=\s*cisco-ios-xr',
         r'^\s*route-policy\s+\S+',
         r'^\s*tag-set\s+\S+\s*$',
         r'^\s*extcommunity-set\s+rt\s+\S+\s*$',

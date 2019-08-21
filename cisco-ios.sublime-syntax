@@ -28,6 +28,44 @@ variables:
   route_target: '\d+:\d+'
   type_5_password: \S+
   type_7_password: \S+
+  ascii_character: |
+    (?xi)
+    (?:[\x00-\x7F])
+  month_name: |
+    (?xi)
+    (?:
+      (?:january)|
+      (?:february)|
+      (?:march)|
+      (?:april)|
+      (?:may)|
+      (?:june)|
+      (?:july)|
+      (?:august)|
+      (?:september)|
+      (?:october)|
+      (?:november)|
+      (?:december)
+    )
+  month_short_name: |
+    (?xi)
+    (?:
+      (?:jan)|
+      (?:feb)|
+      (?:mar)|
+      (?:apr)|
+      (?:may)|
+      (?:jun)|
+      (?:jul)|
+      (?:aug)|
+      (?:sep)|
+      (?:oct)|
+      (?:nov)|
+      (?:dec)
+    )
+  hostname: |
+    (?xi)
+    (?:[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}
   mac_address: |
     (?xi)
     (?:
@@ -75,6 +113,37 @@ variables:
         (?:10[0-1]\d)|
         (?:\d{2,3})|
         (?:[1-9])
+      )
+      \b
+    )
+  number_range_1_31: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:[1-3]\d)|
+        (?:[1-9])
+      )
+      \b
+    )
+  number_range_0_255: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:25[0-5])|
+        (?:2[0-4]\d)|
+        (?:[0-1]?\d{1,2})
+      )
+      \b
+    )
+  number_range_0_60000: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:60000)|
+        (?:[1-5]?\d{1,4})
       )
       \b
     )
@@ -586,6 +655,7 @@ variables:
           (?:vrf)|
           (?:route)|
           (?:domain)|
+          (?:sla)|
           (?:dhcp)
         )
       )|
@@ -1029,6 +1099,7 @@ contexts:
     - include: access_list_compiled
     - include: extended_acl
     - include: standard_acl
+    - include: ip_sla
     - include: extended_acl_old
     - include: route_map
     # - include: partials
@@ -2518,6 +2589,159 @@ contexts:
         15: constant.numeric                                 # track id
         16: support.constant                                 # tag
         17: constant.numeric                                 # tag id
+
+  ip_sla:
+    - include: ip_sla_schedule
+    - match: |
+        (?xi)
+        ^\s*(ip)\s+(sla)\s+(\d+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.numeric
+      push:
+        - include: ip_sla_icmp_echo
+        - include: ip_sla_vrf
+        - include: ip_sla_tag
+        - include: ip_sla_tos
+        - include: ip_sla_threshold
+        - include: ip_sla_frequency
+        - include: pop_on_configure_terminal_context
+
+  ip_sla_schedule:
+    - match: |
+        (?xi)
+        ^\s*(ip)\s+(sla)\s+(schedule)\s+(\d+)
+        (?:
+          \s+
+          (life)\s+
+          (?:
+            (forever)|
+            (\d+)
+          )
+        )?
+        (?:
+          \s+
+          (start-time)\s+
+          (?:
+            (?:
+              ([0-2]?\d:[0-5]?\d(?::[0-5]?\d)?+)\s+
+              (?:
+                (?:
+                  (?:({{month_name}})|({{month_short_name}}))\s+({{number_range_1_31}})|
+                  (?:({{number_range_1_31}}\s+({{month_name}})|({{month_short_name}})))
+                )
+              )
+            )|
+            (pending)|
+            (now)|
+            (?:(after)\s+([0-2]?\d:[0-5]?\d(?::[0-5]?\d)?+))
+          )
+        )?
+        (?:\s+(ageout)\s+(\d+))?
+        (?:\s+(recurring))?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+        5: support.constant
+        6: constant.language
+        7: constant.numeric
+        8: support.constant
+        9: constant.numeric
+        10: constant.language
+        11: constant.language
+        12: constant.numeric
+        13: constant.language
+        14: constant.language
+        15: constant.numeric
+        16: constant.language
+        17: constant.language
+        18: support.constant
+        19: constant.numeric
+        20: support.constant
+        21: constant.numeric
+        22: support.constant
+
+  ip_sla_tos:
+    - match: |
+        (?xi)
+        ^\s*(tos)\s+({{number_range_0_255}})
+      captures:
+        1: support.constant
+        2: constant.numeric
+
+  ip_sla_threshold:
+    - match: |
+        (?xi)
+        ^\s*(threshold)\s+({{number_range_0_60000}})
+      captures:
+        1: support.constant
+        2: constant.numeric
+
+  ip_sla_frequency:
+    - match: |
+        (?xi)
+        ^\s*(frequency)\s+(\d+)
+      captures:
+        1: support.constant
+        2: constant.numeric
+
+  ip_sla_tag:
+    - match: |
+        (?xi)
+        ^\s*(tag)\s+((?:{{ascii_character}}){0,16})
+      captures:
+        1: support.constant
+        2: string.unquoted
+
+  ip_sla_vrf:
+    - match: |
+        (?xi)
+        ^\s*(vrf)\s+(\S+)
+      captures:
+        1: support.constant
+        2: string.unquoted
+
+  ip_sla_icmp_echo:
+    - match: |
+        (?xi)
+        ^\s*(icmp-echo)\s+
+        (?:
+          ({{ip}})|
+          ({{ipv6}})|
+          ({{hostname}})
+        )
+        (?:
+          \s+
+          (?:
+            (?:
+              (source-ip)\s+
+              (?:
+                ({{ip}})|
+                ({{ipv6}})|
+                ({{hostname}})
+              )
+            )|
+            (?:
+              (source-interface)\s+({{interface_names}})\s*({{interface_numbers}})
+            )
+          )
+        )?
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv4.address
+        3: constant.numeric.ip.ipv6.address
+        4: constant.language
+        5: support.constant
+        6: constant.numeric.ip.ipv4.address
+        7: constant.numeric.ip.ipv6.address
+        8: constant.language
+        9: support.constant
+        10: entity.other.attribute-name
+        11: constant.numeric
 
   prefix_list:
     - include: ipv4_prefix_list
