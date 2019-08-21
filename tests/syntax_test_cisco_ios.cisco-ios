@@ -1,3 +1,4 @@
+#
 # cisco ios
 
 ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/mcl/allreleasemcl/all-book/all-01.html
@@ -85,6 +86,7 @@ configure terminal
   ip route vrf NAME 1.2.3.0 255.255.255.0 vlan1 1.1.1.1 tag 2
   ip route 1.2.3.0 255.255.255.0 1.1.1.1 name NAME
   ipv6 unicast-routing
+
 
 
   default interface Vlan0
@@ -977,7 +979,14 @@ ip sla 1
   threshold 2000
   frequency 5
 
+ip sla schedule 1 life 1
 ip sla schedule 1 life forever start-time now
+ip sla schedule 1 start-time now
+ip sla schedule 1 start-time pending
+ip sla schedule 1 start-time after 01:02
+ip sla schedule 1 start-time after 01:02:03
+ip sla schedule 1 ageout 20
+ip sla schedule 1 recurring
 
 
 crypto isakmp policy 1

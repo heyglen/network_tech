@@ -217,6 +217,8 @@
             "trigger": "crypto ca\ttrustpool policy",
             "contents": "crypto ca trustpool policy"
         },
+        "end",
+        "exit",
     ]
 }
 

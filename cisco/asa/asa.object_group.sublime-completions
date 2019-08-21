@@ -9,6 +9,8 @@
             "trigger": "group-object\tgroup",
             "contents": "group-object ${1:name}$0"
         },
+        "exit",
+        "end",
     ]
 }
 

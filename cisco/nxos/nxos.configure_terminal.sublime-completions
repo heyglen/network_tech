@@ -105,5 +105,7 @@
             "trigger": "monitor\tsession",
             "contents": "monitor session ${1:1}\n\t$0\n\texit"
         },
+        "end",
+        "exit",
   ]
 }

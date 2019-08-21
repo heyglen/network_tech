@@ -69,6 +69,7 @@
             "trigger": "hostname\thostname",
             "contents": "hostname ${1:HOSTNAME}"
         },
-
+        "end",
+        "exit",
   ]
 }
