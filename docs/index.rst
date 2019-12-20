@@ -48,6 +48,7 @@ Contents
    syntax
    snippets
    context_info
+   formatting
    password_decode
    Jumping <jumping>
    Search <network_search>
