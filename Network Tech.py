@@ -8,6 +8,8 @@ import sublime
 from .lib.passwords import DecodePasswordCommand  # noqa
 from .lib.detect_syntax import AutoSyntaxDetection  # noqa
 from .lib.search.network import FindSubnetCommand, NetworkInfoListener # noqa
+from .lib.format_ import FormatMacCommand, DashFormatMacCommand, ColonFormatMacCommand, DotFormatMacCommand # noqa
+
 
 logger = logging.getLogger('network_tech')
 logger.handlers = []

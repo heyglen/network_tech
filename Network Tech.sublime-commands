@@ -1,5 +1,10 @@
 [
     {
+        "caption": "Network Tech: Format MAC Address",
+        "command": "format_mac",
+        "args": {}
+    },
+    {
         "caption": "Network Tech: Find Network",
         "command": "find_subnet",
         "args": {}

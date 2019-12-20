@@ -158,7 +158,6 @@ object network obj-www.fqdn.com
  fqdn www.fqdn.com
  exit
 
-
 object service tcp_1234
  description blah
  service tcp destination range 1 2
