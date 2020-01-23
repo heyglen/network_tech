@@ -1,5 +1,10 @@
 [
     {
+        "caption": "Network Tech: Toggle Network Info Popup on Hover",
+        "command": "toggle_network_info_on_hover",
+        "args": {}
+    },
+    {
         "caption": "Network Tech: Format MAC Address",
         "command": "format_mac",
         "args": {}

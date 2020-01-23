@@ -9,6 +9,7 @@ from .lib.passwords import DecodePasswordCommand  # noqa
 from .lib.detect_syntax import AutoSyntaxDetection  # noqa
 from .lib.search.network import FindSubnetCommand, NetworkInfoListener # noqa
 from .lib.format_ import FormatMacCommand, DashFormatMacCommand, ColonFormatMacCommand, DotFormatMacCommand # noqa
+from .lib.settings import ToggleNetworkInfoOnHoverCommand  # noqa
 
 
 logger = logging.getLogger('network_tech')

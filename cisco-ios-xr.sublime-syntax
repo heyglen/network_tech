@@ -2255,7 +2255,6 @@ contexts:
     - include: router_bgp_neighbor_address_family_ipv6_multicast
     - include: router_bgp_neighbor_address_family_ipv6_flowspec
     - include: router_bgp_neighbor_address_family_ipv6_mvpn
-    - include: router_bgp_neighbor_address_family_vpnv6
 
   router_bgp_neighbor_group_address_family:
     - include: router_bgp_neighbor_group_address_family_ipv4_unicast

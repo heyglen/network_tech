@@ -19,6 +19,12 @@ SCOPE_PREFIX = 'text.network'
 
 class NetworkInfoListener(sublime_plugin.ViewEventListener):
     def on_hover(self, point, hover_zone):
+        settings = sublime.load_settings('Network Tech.sublime-settings')
+        network_info_on_hover = settings.get('network_info_on_hover', True)
+
+        if not network_info_on_hover:
+            return
+
         if not self.view.scope_name(point).startswith(SCOPE_PREFIX):
             return
         if hover_zone == sublime.HOVER_TEXT:

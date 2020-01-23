@@ -32,7 +32,6 @@ username [ACCOUNT] privilege 15 secret [ACCOUNT_PASSWORD]
 # device router02
 
 
-
 ip classless
 copy tftp://1.2.3.4/path startup-config ! Inline comment
 
