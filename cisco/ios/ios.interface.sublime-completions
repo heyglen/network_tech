@@ -53,8 +53,20 @@
             "contents": "ip proxy-arp"
         },
         { 
+            "trigger": "ip\tdhcp snooping trust", 
+            "contents": "ip dhcp snooping trust$0"
+        },
+        { 
+            "trigger": "load-interval", 
+            "contents": "load-interval ${1:30}$0"
+        },
+        { 
             "trigger": "ipv6\taddress", 
             "contents": "ipv6 address ${1:general-prefix} ${2:0:0:0::/64} ${3:eui-64}$0"
+        },
+        { 
+            "trigger": "switchport\tnonegotiate", 
+            "contents": "switchport nonegotiate"
         },
         { 
             "trigger": "switchport\ttrunk add", 
@@ -91,6 +103,38 @@
         { 
             "trigger": "duplex\tauto",
             "contents": "duplex auto"
+        },
+        { 
+            "trigger": "storm-control\tbroadcast pps",
+            "contents": "storm-control broadcast pps ${1:160000}"
+        },
+        { 
+            "trigger": "storm-control\tmulticast pps",
+            "contents": "storm-control multicast pps ${1:160000}"
+        },
+        { 
+            "trigger": "storm-control\tunknown-unicast pps",
+            "contents": "storm-control unknown-unicast pps ${1:160000}"
+        },
+        { 
+            "trigger": "storm-control\tbroadcast kbps",
+            "contents": "storm-control broadcast kbps ${1:1280000}"
+        },
+        { 
+            "trigger": "storm-control\tmulticast kbps",
+            "contents": "storm-control multicast kbps ${1:1280000}"
+        },
+        { 
+            "trigger": "storm-control\tunknown-unicast kbps",
+            "contents": "storm-control unknown-unicast kbps ${1:1280000}"
+        },
+        { 
+            "trigger": "storm-control\taction shutdown",
+            "contents": "storm-control action shutdown"
+        },
+        { 
+            "trigger": "storm-control\taction trap",
+            "contents": "storm-control action trap"
         },
     ]
 }

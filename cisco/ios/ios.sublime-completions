@@ -41,6 +41,146 @@
         { 
             "trigger": "show \trunning-config", 
             "contents": "show ${1:running-config}${1/(r$)|(ru$)|(run$)|(runn$)|(runni$)|(runnin$)|(running$)|(running-$)|(running-c$)|(running-co$)|(running-con$)|(running-conf$)|(running-confi$)|(s$)|(st$)|(sta$)|(star$)|(start$)|(startu$)|(startup$)|(startup-$)|(startup-c$)|(startup-co$)|(startup-con$)|(startup-conf$)|(startup-confi$)|.*/?1:unning-config:?2:nning-config:?3:ning-config:?4:ing-config:?5:ng-config:?6:g-config:?7:-config:?8:config:?9:onfig:?10:nfig:?11:fig:?12:ig:?13:g:?14:tartup-config:?15:artup-config:?16:rtup-config:?17:tup-config:?18:up-config:?19:p-config:?20:-config:?21:config:?22:onfig:?23:nfig:?24:fig:?25:ig:?26:g/i} $0"
-        }
+        },
+        {
+            "trigger": "errdisable\trecovery cause all",
+            "contents": "errdisable recovery cause all"
+        },
+        {
+            "trigger": "errdisable\trecovery cause arp-inspection",
+            "contents": "errdisable recovery cause arp-inspection"
+        },
+        {
+            "trigger": "errdisable\trecovery cause bpduguard",
+            "contents": "errdisable recovery cause bpduguard"
+        },
+        {
+            "trigger": "errdisable\trecovery cause channel-misconfig",
+            "contents": "errdisable recovery cause channel-misconfig"
+        },
+        {
+            "trigger": "errdisable\trecovery cause dhcp-rate-limit",
+            "contents": "errdisable recovery cause dhcp-rate-limit"
+        },
+        {
+            "trigger": "errdisable\trecovery cause dtp-flap",
+            "contents": "errdisable recovery cause dtp-flap"
+        },
+        {
+            "trigger": "errdisable\trecovery cause gbic-invalid",
+            "contents": "errdisable recovery cause gbic-invalid"
+        },
+        {
+            "trigger": "errdisable\trecovery cause inline-power",
+            "contents": "errdisable recovery cause inline-power"
+        },
+        {
+            "trigger": "errdisable\trecovery cause link-flap",
+            "contents": "errdisable recovery cause link-flap"
+        },
+        {
+            "trigger": "errdisable\trecovery cause loopback",
+            "contents": "errdisable recovery cause loopback"
+        },
+        {
+            "trigger": "errdisable\trecovery cause mac-limit",
+            "contents": "errdisable recovery cause mac-limit"
+        },
+        {
+            "trigger": "errdisable\trecovery cause pagp-flap",
+            "contents": "errdisable recovery cause pagp-flap"
+        },
+        {
+            "trigger": "errdisable\trecovery cause port-mode-failure",
+            "contents": "errdisable recovery cause port-mode-failure"
+        },
+        {
+            "trigger": "errdisable\trecovery cause pppoe-ia-rate-limit",
+            "contents": "errdisable recovery cause pppoe-ia-rate-limit"
+        },
+        {
+            "trigger": "errdisable\trecovery cause psecure-violation",
+            "contents": "errdisable recovery cause psecure-violation"
+        },
+        {
+            "trigger": "errdisable\trecovery cause psp",
+            "contents": "errdisable recovery cause psp"
+        },
+        {
+            "trigger": "errdisable\trecovery cause security-violation",
+            "contents": "errdisable recovery cause security-violation"
+        },
+        {
+            "trigger": "errdisable\trecovery cause sfp-config-mismatch",
+            "contents": "errdisable recovery cause sfp-config-mismatch"
+        },
+        {
+            "trigger": "errdisable\trecovery cause storm-control",
+            "contents": "errdisable recovery cause storm-control"
+        },
+        {
+            "trigger": "errdisable\trecovery cause udld",
+            "contents": "errdisable recovery cause udld"
+        },
+        {
+            "trigger": "errdisable\trecovery cause vmp",
+            "contents": "errdisable recovery cause vmp"
+        },
+        {
+            "trigger": "errdisable\tdetect cause all",
+            "contents": "errdisable detect cause all"
+        },
+        {
+            "trigger": "errdisable\tdetect cause arp-inspection",
+            "contents": "errdisable detect cause arp-inspection"
+        },
+        {
+            "trigger": "errdisable\tdetect cause bpduguard shutdown vlan",
+            "contents": "errdisable detect cause bpduguard shutdown vlan"
+        },
+        {
+            "trigger": "errdisable\tdetect cause dhcp-rate-limit",
+            "contents": "errdisable detect cause dhcp-rate-limit"
+        },
+        {
+            "trigger": "errdisable\tdetect cause dtp-flap",
+            "contents": "errdisable detect cause dtp-flap"
+        },
+        {
+            "trigger": "errdisable\tdetect cause gbic-invalid",
+            "contents": "errdisable detect cause gbic-invalid"
+        },
+        {
+            "trigger": "errdisable\tdetect cause inline-power",
+            "contents": "errdisable detect cause inline-power"
+        },
+        {
+            "trigger": "errdisable\tdetect cause link-flap",
+            "contents": "errdisable detect cause link-flap"
+        },
+        {
+            "trigger": "errdisable\tdetect cause loopback",
+            "contents": "errdisable detect cause loopback"
+        },
+        {
+            "trigger": "errdisable\tdetect cause pagp-flap",
+            "contents": "errdisable detect cause pagp-flap"
+        },
+        {
+            "trigger": "errdisable\tdetect cause pppoe-ia-rate-limit",
+            "contents": "errdisable detect cause pppoe-ia-rate-limit"
+        },
+        {
+            "trigger": "errdisable\tdetect cause psp shutdown vlan",
+            "contents": "errdisable detect cause psp shutdown vlan"
+        },
+        {
+            "trigger": "errdisable\tdetect cause security-violation shutdown vlan",
+            "contents": "errdisable detect cause security-violation shutdown vlan"
+        },
+        {
+            "trigger": "errdisable\tdetect cause sfp-config-mismatch",
+            "contents": "errdisable detect cause sfp-config-mismatch"
+        },
   ]
 }

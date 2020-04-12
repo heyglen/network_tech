@@ -147,6 +147,30 @@ variables:
       )
       \b
     )
+  number_range_1_160000: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:160000)|
+        (?:1[0-5]\d{4})|
+        (?:\d{1,5})
+      )
+      \b
+    )
+  number_range_64_1280000: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:1280000)|
+        (?:12[0-7]\d{4})|
+        (?:\d{3,6})|
+        (?:7\d+)|
+        (?:6[4-9])
+      )
+      \b
+    )
   # 1 - 255
   number_8_bit: |
     (?xi)
@@ -1077,6 +1101,7 @@ contexts:
     - include: crypto
     - include: ip_ssh
     - include: interface
+    - include: errdisable
     - include: policy_map
     - include: class_map
     - include: aaa_group
@@ -3055,7 +3080,10 @@ contexts:
       - meta_content_scope: text.network.cisco.interface
       - include: standby
       - include: switchport
+      - include: load_interval
       - include: interface_ipv6_link_local
+      - include: ip_dhcp_snooping
+      - include: storm_control
       - match: |
           (?xi)
           ^\s*
@@ -3276,6 +3304,120 @@ contexts:
         19: support.constant                      # ipv6 autoconfig
         20: constant.numeric.ip.ipv6.prefix       # ipv6 ip
 
+  errdisable:
+    - include: errdisable_recovery_cause
+    - include: errdisable_detect_cause
+
+  errdisable_recovery_cause:
+    - match: |
+        (?xi)
+        ^\s*
+        (errdisable\s+recovery\s+cause)\s+
+        (
+          (?:all)|
+          (?:arp-inspection)|
+          (?:bpduguard)|
+          (?:channel-misconfig)|
+          (?:dhcp-rate-limit)|
+          (?:dtp-flap)|
+          (?:gbic-invalid)|
+          (?:inline-power)|
+          (?:link-flap)|
+          (?:loopback)|
+          (?:mac-limit)|
+          (?:pagp-flap)|
+          (?:port-mode-failure)|
+          (?:pppoe-ia-rate-limit)|
+          (?:psecure-violation)|
+          (?:psp)|
+          (?:security-violation)|
+          (?:sfp-config-mismatch)|
+          (?:storm-control)|
+          (?:udld)|
+          (?:vmp)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+
+
+  errdisable_detect_cause:
+    - match: |
+        (?xi)
+        ^\s*
+        (errdisable\s+detect\s+cause)\s+
+        (
+          (?:all)|
+          (?:arp-inspection)|
+          (?:bpduguard\s+shutdown\s+vlan)|
+          (?:dhcp-rate-limit)|
+          (?:dtp-flap)|
+          (?:gbic-invalid)|
+          (?:inline-power)|
+          (?:link-flap)|
+          (?:loopback)|
+          (?:pagp-flap)|
+          (?:pppoe-ia-rate-limit)|
+          (?:psp\s+shutdown\s+vlan)|
+          (?:security-violation\s+shutdown\s+vlan)|
+          (?:sfp-config-mismatch)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+
+  storm_control:
+    - match: |
+        (?xi)
+        ^\s*
+        (storm-control)\s+(
+          (?:broadcast)|
+          (?:multicast)|
+          (?:unknown-unicast)
+        )\s+
+        (?:
+          (?:
+            (pps)\s+({{number_range_1_160000}})
+          )|
+          (?:
+            (kbps)\s+({{number_range_64_1280000}})
+          )
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: support.constant
+        4: constant.numeric
+        5: support.constant
+        6: constant.numeric
+    - match: |
+        (?xi)
+        ^\s*
+        (storm-control)\s+(action)\s+
+        (?:
+          (shutdown)|
+          (trap)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: support.constant
+        3: keyword.other
+        4: entity.other.attribute-name
+
+
+  ip_dhcp_snooping:
+    - include: ip_dhcp_snooping_trust
+
+  ip_dhcp_snooping_trust:
+    - match: ^\s*(ip\s+dhcp\s+snooping\s+trust)
+      captures:
+        1: support.constant
+
+
   switchport:
     - match: '^\s*(switchport\s+mode\s+(?:trunk|access|capture))'
       captures:
@@ -3284,6 +3426,7 @@ contexts:
     - include: switchport_trunk
     - include: switchport_access
     - include: switchport_voice
+    - include: switchport_nonegotiate
     - match: '^\s*(switchport)'
       captures:
         1: support.constant
@@ -3425,6 +3568,30 @@ contexts:
       captures:
         1: support.constant
         2: constant.numeric.vlan.id
+
+  switchport_nonegotiate:
+    - match: ^\s*(switchport\s+nonegotiate)
+      captures:
+        1: support.constant
+
+  load_interval:
+    - match: |
+        (?xi)
+        ^\s*(load-interval)\s+(
+          (?:300)|
+          (?:270)|
+          (?:240)|
+          (?:210)|
+          (?:180)|
+          (?:150)|
+          (?:120)|
+          (?:90)|
+          (?:60)|
+          (?:30)
+        )
+      captures:
+        1: support.constant
+        2: constant.numeric
 
   switchport_access:
     - match: ^\s*(switchport\s+access\s+vlan)\s+({{vlan_id}})
@@ -3618,6 +3785,7 @@ contexts:
               (?:
                 \s+
                 (?:
+                  (?:none)|
                   (?:ssh)|
                   (?:telnet)|
                   (?:all)

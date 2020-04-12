@@ -102,6 +102,44 @@ configure terminal
   vrf upgrade-cli multi-af-mode common-policies force
   vrf upgrade-cli multi-af-mode common-policies
 
+
+  errdisable detect cause all
+  errdisable detect cause arp-inspection
+  errdisable detect cause bpduguard shutdown vlan
+  errdisable detect cause dhcp-rate-limit
+  errdisable detect cause dtp-flap
+  errdisable detect cause gbic-invalid
+  errdisable detect cause inline-power
+  errdisable detect cause link-flap
+  errdisable detect cause loopback
+  errdisable detect cause pagp-flap
+  errdisable detect cause pppoe-ia-rate-limit
+  errdisable detect cause psp shutdown vlan
+  errdisable detect cause security-violation shutdown vlan
+  errdisable detect cause sfp-config-mismatch
+
+  errdisable recovery cause all
+  errdisable recovery cause arp-inspection
+  errdisable recovery cause bpduguard
+  errdisable recovery cause channel-misconfig
+  errdisable recovery cause dhcp-rate-limit
+  errdisable recovery cause dtp-flap
+  errdisable recovery cause gbic-invalid
+  errdisable recovery cause inline-power
+  errdisable recovery cause link-flap
+  errdisable recovery cause loopback
+  errdisable recovery cause mac-limit
+  errdisable recovery cause pagp-flap
+  errdisable recovery cause port-mode-failure
+  errdisable recovery cause pppoe-ia-rate-limit
+  errdisable recovery cause psecure-violation
+  errdisable recovery cause psp
+  errdisable recovery cause security-violation
+  errdisable recovery cause sfp-config-mismatch
+  errdisable recovery cause storm-control
+  errdisable recovery cause udld
+  errdisable recovery cause vmp
+
   ipv6 general-prefix WHATEVER ::/0
 
   ! Line comment
@@ -424,7 +462,11 @@ interface range GigabitEthernet1/1-2
   ip ospf cost 20000
   speed 1000
   full-duplex
+  load-interval 30
+  load-interval 300
+  ip dhcp snooping trust
   switchport
+  switchport nonegotiate
   switchport trunk encapsulation Dot1q
   switchport trunk allowed vlan 123
   switchport trunk allowed vlan add 123,456
@@ -443,6 +485,12 @@ interface range GigabitEthernet1/1-2
   ipv6 redirects
   ip proxy-arp
   ip vrf forwarding NAME
+  storm-control broadcast pps 1
+  storm-control multicast pps 160000
+  storm-control unknown-unicast kbps 64
+  storm-control broadcast kbps 1280000
+  storm-control action shutdown
+  storm-control action trap
   ipv6 address PREFIX_NAME 0:0:0:1::/64 eui-64
   ipv6 address PREFIX_NAME 0:0:0:1::/64
   ipv6 address general-prefix 0:0:0:1::/64 eui-64
