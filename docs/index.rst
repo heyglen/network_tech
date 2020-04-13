@@ -6,6 +6,9 @@
 Network Tech Documentation
 ==========================
 
+`SubReddit: SublimeNetworkTech <https://www.reddit.com/r/SublimeNetworkTech/>`_
+
+
 Quick Start
 -----------
 

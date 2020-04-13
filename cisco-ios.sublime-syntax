@@ -78,6 +78,45 @@ variables:
       (?:ah-md5-hmac)|
       (?:ah-sha-hmac)
     )
+  logging_level: |
+    (?xi)
+    (?:
+      (?:emergencies)|
+      (?:alerts)|
+      (?:critical)|
+      (?:errors)|
+      (?:warnings)|
+      (?:notifications)|
+      (?:informational)|
+      (?:debugging)|
+      (?:[0-7])
+    )
+  logging_level_digits: |
+    (?xi)
+    (?:
+      (?:[0-7])
+    )
+  logging_facilities: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:auth)|
+        (?:cron)|
+        (?:daemon)|
+        (?:kern)|
+        (?:local[0-7])|
+        (?:lpr)|
+        (?:mail)|
+        (?:news)|
+        (?:sys9)|
+        (?:sys1[0-4])|
+        (?:syslog)|
+        (?:user)|
+        (?:uucp)
+      )
+      \b
+    )
   number_range_1_1440: |
     (?xi)
     (?:
@@ -137,6 +176,17 @@ variables:
       )
       \b
     )
+  number_range_1_10000: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:10000)|
+        (?:\d{2,4})|
+        (?:[1-9])
+      )
+      \b
+    )
   number_range_0_60000: |
     (?xi)
     (?:
@@ -168,6 +218,41 @@ variables:
         (?:\d{3,6})|
         (?:7\d+)|
         (?:6[4-9])
+      )
+      \b
+    )
+  number_range_0_604800000: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:604800000)|
+        (?:604[0-7]\d{5})|
+        (?:60[0-3]\d{6})|
+        (?:[0-5]\d{8})|
+        (?:\d{1,8})
+      )
+      \b
+    )
+  number_range_4096_2147483647: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:214748364[0-7])|
+        (?:21474836[0-3]\d)|
+        (?:2147483[0-5]\d{2})|
+        (?:214748[0-2]\d{3})|
+        (?:21474[0-7]\d{4})|
+        (?:2147[0-3]\d{5})|
+        (?:214[0-6]\d{6})|
+        (?:21[0-3]\d{7})|
+        (?:20\d{8})|
+        (?:1\d{9})|
+        (?:\d{5,9})|
+        (?:409[6-9])|
+        (?:4[1-9]\d{2})|
+        (?:[5-9]\d{3})
       )
       \b
     )
@@ -1127,6 +1212,7 @@ contexts:
     - include: ip_sla
     - include: extended_acl_old
     - include: route_map
+    - include: configure_terminal_ip_dhcp_snooping
     # - include: partials
 
 
@@ -1448,6 +1534,19 @@ contexts:
         5: invalid.illegal
 
   logging:
+    - include: logging_buffered
+    - include: logging_discriminator
+    - match: |
+        (?xi)
+        ^\s*
+        (logging\s+host)\s+
+        (
+          (?:{{ipv6}})|
+          (?:{{ip}})
+        )
+      captures:
+        1: support.constant                    # logging
+        2: constant.numeric.ip.ipv4.address    # logging ip
     - match: |
         (?xi)
         ^\s*
@@ -1470,6 +1569,104 @@ contexts:
         5: support.constant                    # logging facility string
         6: entity.other.attribute-name         # logging source-interface
         7: constant.numeric                    # logging source-interface interface_type
+
+  logging_buffered:
+    - match: |
+        (?xi)
+        ^\s*
+        (logging\s+buffered)
+        (?:
+          \s+
+          (discriminator)\s+(\S{1,8})
+        )?
+        (?:\s+({{number_range_4096_2147483647}}))?
+        (\s+{{logging_level}})?
+      captures:
+        1: support.constant                    # logging buffered
+        2: support.constant
+        3: string.unquoted
+        4: constant.numeric
+        5: constant.numeric
+
+
+  logging_discriminator:
+    - match: |
+        (?xi)
+        ^\s*
+        (logging\s+discriminator)\s+(\S{1,8})
+      captures:
+        1: support.constant
+        2: string.unquoted
+      push:
+      - match: |
+          (?xi)
+          (
+            (?:\s+facility)?
+            (?:\s+mnemonics)?
+            (?:\s+msg-body)?
+          )
+          (?=
+            \s+
+            (?:
+              (?:includes)|
+              (?:drops)
+            )
+          )
+        captures:
+          1: support.constant
+        push:
+        - match: |
+            (?xi)
+            (?:
+              \s+
+              (?:
+                (drops)|
+                (includes)
+              )
+              \s+
+            )
+          captures:
+            1: keyword.other
+            2: entity.other.attribute-name
+          push: scope:source.regexp.python
+          with_prototype:
+            - match: |
+                (?xi)
+                (?=
+                  (?:
+                    (?:\s*\n)|
+                    (?:\s+severity)|
+                    (?:\s+rate-limit)
+                  )
+                )
+              pop: true
+        - match: |
+            (?xi)
+            \s*
+            (severity)\s+
+            (?:
+              (?:
+                (drops)|
+                (includes)
+              )
+              \s+({{logging_level_digits}})
+            )
+          captures:
+            1: support.constant
+            2: keyword.other
+            3: entity.other.attribute-name
+            4: constant.numeric
+        - match: |
+            (?xi)
+            \s*
+            (rate-limit)\s+({{number_range_1_10000}})
+          captures:
+            1: support.constant
+            2: constant.numeric
+        - match: (?=(?:\s+)|(?:\n))
+          pop: true
+      - match: (?=\s*\n)
+        pop: true
 
   standard_acl:
     - match: ^\s*(ip)\s+(access-list)\s+(standard)\s+(?:(\d+)|(\S+))
@@ -2629,10 +2826,70 @@ contexts:
         - include: ip_sla_icmp_echo
         - include: ip_sla_vrf
         - include: ip_sla_tag
+        - include: ip_sla_timeout
         - include: ip_sla_tos
         - include: ip_sla_threshold
         - include: ip_sla_frequency
+        - include: udp_jitter
         - include: pop_on_configure_terminal_context
+
+  udp_jitter:
+    - match: |
+        (?xi)
+        (udp-jitter)\s+
+        (?:
+          ({{ip}})|
+          ({{ipv6}})|
+          ({{hostname}})
+        )
+        \s+
+        ({{number_16_bit}})
+        (?:
+          \s+
+          (endpoint-list)\s+(\S+)
+        )?
+        (\s+ssm)?
+        (?:
+          \s+(source-ip)\s+
+          (?:
+            ({{ip}})|
+            ({{ipv6}})|
+            ({{hostname}})
+          )
+        )?
+        (?:\s+(source-port)\s+({{number_16_bit}}))?
+        (?:
+          \s+(control)\s+
+          (?:
+            (enable)|
+            (disable)
+          )
+        )?
+        (?:\s+(num-packets)\s+(\d+))?
+        (?:\s+(interval)\s+(\d+))?
+
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv4.address
+        3: constant.numeric.ip.ipv6.address
+        4: constant.language.hostname
+        5: constant.numeric
+        6: support.constant
+        7: string.unquoted
+        8: support.constant
+        9: support.constant
+        10: constant.numeric.ip.ipv4.address
+        11: constant.numeric.ip.ipv6.address
+        12: constant.language.hostname
+        13: support.constant
+        14: constant.numeric
+        15: support.constant
+        16: entity.other.attribute-name
+        17: keyword.other
+        18: support.constant
+        19: constant.numeric
+        20: support.constant
+        21: constant.numeric
 
   ip_sla_schedule:
     - match: |
@@ -2718,9 +2975,19 @@ contexts:
     - match: |
         (?xi)
         ^\s*(tag)\s+((?:{{ascii_character}}){0,16})
+      comment: https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipsla/command/sla-cr-book/sla_s2.html#wp3793668867
       captures:
         1: support.constant
         2: string.unquoted
+
+  ip_sla_timeout:
+    - match: |
+        (?xi)
+        ^\s*(timeout)\s+({{number_range_0_604800000}})
+      comment: https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipsla/command/sla-cr-book/sla_s2.html#wp3793668867
+      captures:
+        1: support.constant
+        2: constant.numeric
 
   ip_sla_vrf:
     - match: |
@@ -3408,6 +3675,19 @@ contexts:
         3: keyword.other
         4: entity.other.attribute-name
 
+
+  configure_terminal_ip_dhcp_snooping:
+    - match: |
+        (?xi)
+        ^\s*
+        (ip\s+dhcp\s+snooping\s+vlan)\s+({{vlan_id}})
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric
+    - match: ^\s*(ip\s+dhcp\s+snooping)
+      captures:
+        1: support.constant
 
   ip_dhcp_snooping:
     - include: ip_dhcp_snooping_trust

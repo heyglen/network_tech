@@ -182,5 +182,57 @@
             "trigger": "errdisable\tdetect cause sfp-config-mismatch",
             "contents": "errdisable detect cause sfp-config-mismatch"
         },
+        {
+            "trigger": "logging\thost",
+            "contents": "logging host ${1:192.0.2.1}"
+        },
+        {
+            "trigger": "logging\tbuffered",
+            "contents": "logging buffered"
+        },
+        {
+            "trigger": "logging\tbuffered discriminator",
+            "contents": "logging buffered discriminator ${1:NAME}"
+        },
+        {
+            "trigger": "logging\tbuffered discriminator",
+            "contents": "logging buffered discriminator ${1:NAME}"
+        },
+        {
+            "trigger":"logging\tdiscriminator NAME includes .*",
+            "contents": "logging discriminator ${1:NAME} includes ${2:.*}"
+        },
+        {
+            "trigger": "logging\tdiscriminator NAME drops .*",
+            "contents": "logging discriminator ${1:NAME} drops ${2:.*}"
+        },
+        {
+            "trigger": "udp-jitter\t<ip> <port>",
+            "contents": "udp-jitter ${1:192.0.2.1} ${2:443}"
+        },
+        {
+            "trigger": "udp-jitter\tsource-ip",
+            "contents": "udp-jitter ${1:192.0.2.1} ${2:443} source-ip ${3:192.0.2.1}"
+        },
+        {
+            "trigger": "udp-jitter\tsource-ip <ip> source-port <port>",
+            "contents": "udp-jitter ${1:192.0.2.1} ${2:443} source-ip ${3:192.0.2.1} source-port ${4:1050}"
+        },
+        {
+            "trigger": "udp-jitter\tcontrol enable",
+            "contents": "udp-jitter ${1:192.0.2.1} ${2:443} control enable"
+        },
+        {
+            "trigger": "udp-jitter\tcontrol disable",
+            "contents": "udp-jitter ${1:192.0.2.1} ${2:443} control disable"
+        },
+        "logging buffered emergencies",
+        "logging buffered alerts",
+        "logging buffered critical",
+        "logging buffered errors",
+        "logging buffered warnings",
+        "logging buffered notifications",
+        "logging buffered informational",
+        "logging buffered debugging",
   ]
 }

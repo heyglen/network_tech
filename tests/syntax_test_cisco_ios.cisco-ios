@@ -61,6 +61,43 @@ show standby vlan1 brief
 show running-config
 show startup-config
 
+logging 1.2.3.4
+logging facility local5
+logging source-interface gi1/2
+logging host 1.2.3.4
+logging host ::1
+logging buffered
+logging buffered discriminator NAME
+logging buffered discriminator NAME
+logging buffered discriminator NAME 2147483647
+logging buffered discriminator NAME 4096
+logging buffered discriminator NAME 4096 0
+logging buffered discriminator NAME 4096 7
+logging buffered discriminator NAME 4096 emergencies
+logging buffered discriminator NAME 4096 alerts
+logging buffered discriminator NAME 4096 critical
+logging buffered discriminator NAME 4096 errors
+logging buffered discriminator NAME 4096 warnings
+logging buffered discriminator NAME 4096 notifications
+logging buffered discriminator NAME 4096 informational
+logging buffered discriminator NAME 4096 debugging
+logging buffered emergencies
+logging buffered alerts
+logging buffered critical
+logging buffered errors
+logging buffered warnings
+logging buffered notifications
+logging buffered informational
+logging buffered debugging
+logging discriminator NAME includes (.*[1-90]+)?  
+logging discriminator NAME drops (.*[1-90]+)?
+logging discriminator NAME drops (.*[1-90]+)? severity drops 1
+logging discriminator NAME drops (.*[1-90]+)? severity includes 7
+logging discriminator NAME includes (.*[1-90]+)?   rate-limit 10000
+logging discriminator NAME drops (.*[1-90]+)? rate-limit 10000
+logging discriminator NAME drops (.*[1-90]+)? severity drops 1 rate-limit 10000
+logging discriminator NAME drops (.*[1-90]+)? severity includes 7 rate-limit 10000
+
 
 conf t
 configure terminal
@@ -673,6 +710,8 @@ ip nat inside source list 1 interface dialer 0 overload
 ip classless (default)
 ip route 1.0.0.0 0.255.255.255 dialer 0
 !
+ip dhcp snooping
+ip dhcp snooping vlan 123
 ip dhcp excluded-address 1.2.3.4 1.2.3.40
 ip dhcp excluded-address 10.0.2.1 10.0.2.10
 ip dhcp excluded-address 10.0.3.1 10.0.3.10
@@ -999,6 +1038,11 @@ transport input ssh
 transport output ssh
 exit
 !
+line aux 0
+  transport input none
+  transport output none 
+exit
+
 line console 0
 exec-timeout 30 30
 logging synchronous
@@ -1024,7 +1068,17 @@ ip sla 1
   tos 184
   vrf RED
   threshold 2000
+  timeout 604800000
   frequency 5
+  udp-jitter host.example.com 443 
+  udp-jitter 192.0.2.1 443 endpoint-list NAME
+  udp-jitter ::1 443 ssm
+  udp-jitter host.example.com 443 source-ip 192.0.2.1
+  udp-jitter host.example.com 443 source-ip 192.0.2.1 source-port 65535
+  udp-jitter host.example.com 443 control enable
+  udp-jitter host.example.com 443 control disable
+  udp-jitter host.example.com 443 control disable num-packets 123
+  udp-jitter host.example.com 443 control disable interval 123
 
 ip sla schedule 1 life 1
 ip sla schedule 1 life forever start-time now
