@@ -1,0 +1,35 @@
+{
+    "scope": "text.network.cisco.asa.group-policy-attributes",
+    "completions": [
+        { 
+            "trigger": "vpn-tunnel-protocol\tikev1",
+            "contents": "vpn-tunnel-protocol ${1:ikev1}"
+        },
+        { 
+            "trigger": "vpn-tunnel-protocol\tikev2",
+            "contents": "vpn-tunnel-protocol ${1:ikev2}"
+        },
+        { 
+            "trigger": "vpn-tunnel-protocol\tl2tp-ipsec",
+            "contents": "vpn-tunnel-protocol ${1:l2tp-ipsec}"
+        },
+        { 
+            "trigger": "vpn-tunnel-protocol\twebvpn",
+            "contents": "vpn-tunnel-protocol ${1:webvpn}"
+        },
+        { 
+            "trigger": "vpn-tunnel-protocol\tIPsec",
+            "contents": "vpn-tunnel-protocol ${1:IPsec}"
+        },
+        { 
+            "trigger": "vpn-tunnel-protocol\tssl-client",
+            "contents": "vpn-tunnel-protocol ${1:ssl-client}"
+        },
+        { 
+            "trigger": "vpn-tunnel-protocol\tssl-clientless",
+            "contents": "vpn-tunnel-protocol ${1:ssl-clientless}"
+        },
+
+    ]
+}
+

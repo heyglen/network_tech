@@ -121,8 +121,6 @@ object-group network NAME
  group-object group_name
  exit
 
-
-
 object-group service NAME tcp-udp
  description blah
  port-object eq 42
@@ -231,6 +229,12 @@ nat (real,mapped) source static any any service real mapped net-to-net dns no-pr
 nat (real,mapped) source static any any service real mapped net-to-net dns no-proxy-arp route-lookup inactive
 nat (real,mapped) source static any any service real mapped net-to-net dns unidirectional inactive description whatever
 
+group-policy NAME internal
+group-policy NAME internal from NAME
+group-policy NAME external server-group NAME password PASSWORD
+group-policy NAME attributes
+ vpn-tunnel-protocol ikev1
+  
 
 mtu outside 1500
 fragment chain 1 outside

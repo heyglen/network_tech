@@ -25,6 +25,13 @@ variables:
   command_end: '(?:\s|{{comment}}|$)'
   line_number: '^\s*\d+'
   ip: '(?:(?:(?:[0-2]?\d?\d)\.){3}(?:[0-2]?\d?\d))'
+  group_policy_name: |
+    (?xi)
+    (?:
+      (?:"[^"]{1,64}")|
+      (?:'[^']{1,64}')|
+      (?:\S{1,64})
+    )
   configure_terminal_ctx_words: |
     (?xi)
     \s*
@@ -39,6 +46,7 @@ variables:
       (?:class-map)|
       (?:crypto)|
       (?:enable)|
+      (?:group-policy)|
       (?:hostname)|
       (?:http)|
       (?:icmp)|
@@ -121,6 +129,15 @@ variables:
     (?:
       (?:tacacs\+)|
       (?:radius)
+    )
+  vpn_tunnel_protocols: |
+    (?xi)
+    (?:
+      (?:ikev[1-2])|
+      (?:l2tp-ipsec)|
+      (?:webvpn)|
+      (?:IPsec)|
+      (?:ssl-client(?:less)?)
     )
   ikev1_transform_sets: |
     (?xi)
@@ -511,6 +528,7 @@ contexts:
     - include: reverse_path
     - include: access_group
     - include: object_group
+    - include: group_policy
     - include: interface_mtu
     - include: user_identity
     - include: service_policy
@@ -928,6 +946,54 @@ contexts:
     - match: '^\s*(description.*)'
       captures:
         1: comment.line
+
+  group_policy:
+    - match: |
+        (?xi)
+        ^\s*
+        (group-policy)\s+
+        ({{group_policy_name}})\s+
+        (?:
+          (?:(internal)(?:\s+(from)\s+({{group_policy_name}}))?)|
+          (?:(external\s+server-group)\s+(\S+)\s+(password)\s+(\S{1,128}))
+        )
+      captures:
+        1: support.constant
+        2: string.unquoted
+        3: support.constant
+        4: support.constant
+        5: string.unquoted
+        6: support.constant
+        7: string.unquoted
+        8: support.constant
+        9: string.unquoted
+    - include: group_policy_attributes
+
+  group_policy_attributes:
+    - match: |
+        (?xi)
+        ^\s*
+        (group-policy)\s+
+        ({{group_policy_name}})\s+(attributes)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+        3: support.constant
+      push:
+        - meta_content_scope: text.network.cisco.asa.group-policy-attributes
+        - include: group_policy_vpn_tunnel_protocol
+        - include: pop_on_configure_terminal_context
+
+  group_policy_vpn_tunnel_protocol:
+    - match: |
+        (?xi)
+        ^\s*
+        (vpn-tunnel-protocol)\s+
+        ({{vpn_tunnel_protocols}})
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
 
   object_group:
     - include: object_group_incomplete

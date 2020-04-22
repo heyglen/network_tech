@@ -6,7 +6,7 @@ Cisco syntax highlighting and completions for Sublime Text 3.
 
 😎
 
-[Documentation](http://network-tech.readthedocs.io/en/stable/)
+[📘 Documentation](http://network-tech.readthedocs.io/en/stable/)
 
 [SubReddit](https://www.reddit.com/r/SublimeNetworkTech/)
 

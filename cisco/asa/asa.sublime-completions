@@ -9,6 +9,18 @@
             "trigger": "changeto\tcontext",
             "contents": "changeto context ${1:CONTEXT_NAME}"
         },
+        { 
+            "trigger": "group-policy\tinternal",
+            "contents": "group-policy ${1:NAME} internal"
+        },
+        { 
+            "trigger": "group-policy\tinternal from",
+            "contents": "group-policy ${1:NAME} internal from ${2:NAME}"
+        },
+        { 
+            "trigger": "group-policy\tattributes",
+            "contents": "group-policy ${1:NAME} attributes\n\t"
+        },
     ]
 }
 
