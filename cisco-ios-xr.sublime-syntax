@@ -3568,7 +3568,6 @@ contexts:
       captures:
         1: constant.numeric.as
         2: constant.numeric.as
-        3: constant.numeric.as
 
   rpl_ospf_area_id:
     - meta_content_scope: text.network.cisco.rpl.ospf.area
@@ -3989,6 +3988,7 @@ contexts:
                 (\])
               )|
               ({{number_16_bit_wo_zero}})|
+              (peeras)|
               (\*)|
               (?:(\$)({{rpl_parameter_name}}))
             )
@@ -4002,6 +4002,7 @@ contexts:
                 (\])
               )|
               ({{number_16_bit_wo_zero}})|
+              (peeras)|
               (\*)|
               (?:(\$)({{rpl_parameter_name}}))
             )
@@ -4023,21 +4024,23 @@ contexts:
         4: constant.numeric
         5: keyword
         6: constant.numeric
-        7: keyword.control
-        8: keyword.declaration.rpl
-        9: entity.other.attribute-name.rpl
-        10: constant.character
-        11: keyword
-        12: constant.numeric
-        13: constant.character
-        14: constant.numeric
-        15: keyword
-        16: constant.numeric
-        17: keyword.control
-        18: keyword.declaration.rpl
-        19: entity.other.attribute-name.rpl
-        20: constant.numeric
-        21: constant.character
+        7: constant.character
+        8: keyword.control
+        9: keyword.declaration.rpl
+        10: entity.other.attribute-name.rpl
+        11: constant.character
+        12: keyword
+        13: constant.numeric
+        14: constant.character
+        15: constant.numeric
+        16: keyword
+        17: constant.numeric
+        18: constant.character
+        19: keyword.control
+        20: keyword.declaration.rpl
+        21: entity.other.attribute-name.rpl
+        22: constant.numeric
+        23: constant.character
 
   rpl_community_wo_wildcard_or_range:
     - match: |
@@ -6497,6 +6500,13 @@ contexts:
             )
           captures:
             0: constant.character
+          pop: true
+        - match: |
+            (?xi)
+            \s*(?:(\$)({{rpl_parameter_name}}))
+          captures:
+            1: keyword.declaration.rpl
+            2: entity.other.attribute-name.rpl
           pop: true
         - match: '(\()(?=[^\)]*(\)))'
           comment: Inline

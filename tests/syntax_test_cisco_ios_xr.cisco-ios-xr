@@ -405,6 +405,10 @@ route-policy POLICY_NAME
 
   ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1159396
   if community matches-any (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535) then
+  #4835
+  elseif community matches-any (65535:peeras) then
+  elseif community matches-any (peeras:65535) then
+  elseif community matches-any (peeras:peeras) then
   elseif community matches-any private-as then
   elseif community matches-any (65535:65535, $PARAMETER:$PARAMETER, 65535:$PARAMETER, $PARAMETER:65535) then
   elseif community matches-any (65535:65535, *:65535, 65535:*) then
@@ -892,6 +896,7 @@ route-policy POLICY_NAME
     delete community in (private-as, 65535:65535)
     delete community in (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER)
     delete community not in SET_NAME
+    delete community not in $PARAMETER
     delete community not in (123:123)
     delete community not in (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535)
     delete community not in private-as
