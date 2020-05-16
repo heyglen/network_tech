@@ -1169,6 +1169,7 @@ contexts:
     - include: vlan
     - include: ip_http
     - include: ip_scp
+    - include: banner
     - include: ip_subnet_zero
     - include: ip_cef
     - include: aaa_session_id
@@ -3570,6 +3571,29 @@ contexts:
         18: support.constant                      # ipv6
         19: support.constant                      # ipv6 autoconfig
         20: constant.numeric.ip.ipv6.prefix       # ipv6 ip
+
+  banner:
+    - match: |
+        (?xi)
+        ^\s*
+        (banner)\s+(login)\s+
+        (\^?\S)([^\3]*)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.language
+        4: string.unquoted
+        5: constant.language
+      embed: 'mutliline_text'
+      escape: (\3)
+      escape_captures:
+        1: constant.language
+
+  mutliline_text:
+    - meta_scope: multiline-text
+    - match: (.*)
+      captures:
+        1: string.unquoted
 
   errdisable:
     - include: errdisable_recovery_cause

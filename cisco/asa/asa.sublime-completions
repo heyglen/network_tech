@@ -21,6 +21,10 @@
             "trigger": "group-policy\tattributes",
             "contents": "group-policy ${1:NAME} attributes\n\t"
         },
+        { 
+            "trigger": "dns\tserver-group",
+            "contents": "dns server-group ${1:NAME}\n\t"
+        },
     ]
 }
 

@@ -45,6 +45,7 @@ variables:
       (?:changeto)|
       (?:class-map)|
       (?:crypto)|
+      (?:dns\s+server-group)|
       (?:enable)|
       (?:group-policy)|
       (?:hostname)|
@@ -76,7 +77,8 @@ variables:
       (?:tftp-server)|
       (?:timeout)|
       (?:user-identity)|
-      (?:username)
+      (?:username)|
+      (?:vlan\s+\d+)
     )
   number_range_0_255: |
     (?xi)
@@ -410,6 +412,7 @@ variables:
     (?:domain)|
     (?:ftp)|
     (?:https)|
+    (?:isakmp)|
     (?:kerberos)|
     (?:ldaps)|
     (?:ldap)|
@@ -419,14 +422,14 @@ variables:
     (?:ntp)|
     (?:rsh)|
     (?:smtp)|
-    (?:telnet)|
-    (?:talk)|
     (?:snmptrap)|
     (?:snmp)|
     (?:sqlnet)|
     (?:ssh)|
     (?:sunrpc)|
     (?:syslog)|
+    (?:talk)|
+    (?:telnet)|
     (?:www)
   operators: >
     (?:
@@ -537,6 +540,7 @@ contexts:
     - include: aaa_server_host
     - include: treat_detection
     - include: enable_password
+    - include: dns_server_group
     - include: ssh_key_exchange
     - include: monitor_interface
     - include: protocol_settings
@@ -946,6 +950,41 @@ contexts:
     - match: '^\s*(description.*)'
       captures:
         1: comment.line
+
+  dns_server_group:
+    - match: |
+        (?xi)
+        ^\s*
+        (dns)\s+(server-group)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.asa.dns-server-group
+        - include: dns_server_group_name_server
+        - include: dns_server_group_domain_name
+        - include: pop_on_configure_terminal_context
+
+  dns_server_group_name_server:
+    - match: |
+        (?xi)
+        ^\s*
+        (name-server)((?:\s+{{ip}})+)(?:\s+(\S+))?
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv4.address
+        3: entity.other.attribute-name
+
+  dns_server_group_domain_name:
+    - match: |
+        (?xi)
+        ^\s*
+        (domain-name)\s+(\S+)
+      captures:
+        1: support.constant
+        2: string.unquoted
 
   group_policy:
     - match: |

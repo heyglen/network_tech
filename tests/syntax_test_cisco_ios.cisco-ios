@@ -28,6 +28,12 @@ username user password secret 5 $1$feb0$a104Qd9UZ./Ak00KTggPD0
 username [ACCOUNT] privilege 15 secret [ACCOUNT_PASSWORD]
 
 
+banner login ^C
+******************
+LOGIN MESSAGE
+******************
+^C
+
 ! On router01
 # device router02
 

@@ -51,6 +51,11 @@ aaa-server RADIUS protocol radius
 user-identity default-domain LOCAL
 crypto ipsec security-association pmtu-aging infinite
 
+dns server-group NAME
+ name-server 192.0.2.1
+ name-server 192.0.2.2
+ domain-name example.com
+
 vlan 1
   name asdf
  exit

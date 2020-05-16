@@ -1,0 +1,14 @@
+{
+    "scope": "text.network.cisco.asa.dns-server-group",
+    "completions": [
+        { 
+            "trigger": "name-server",
+            "contents": "name-server ${1:192.0.2.1}"
+        },
+        { 
+            "trigger": "domain-name",
+            "contents": "domain-name ${1:example.com}"
+        },
+    ]
+}
+
