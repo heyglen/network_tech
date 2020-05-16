@@ -426,6 +426,9 @@ route-policy POLICY_NAME
   if destination in $PARAMETER then
   elseif destination in SET_NAME then
   elseif destination in (1.2.3.4/24 le 32, 2001::1, 2002:1:2:3::/64) then
+  elseif (destination in (2001::1/0)) then
+  elseif (destination in (2001::1/0 eq 0)) then
+  elseif (destination in (0.0.0.0/0 eq 0, ::/0 eq 0)) then
   elseif destination in private-as then
   endif
 
