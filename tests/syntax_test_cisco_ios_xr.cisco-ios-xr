@@ -5,6 +5,23 @@ hostname hostname
 
 lacp system 65535
 
+username A_USER password 0 SECRET
+username A_USER password SECRET
+username A_USER password 7 SECRET
+username A_USER password-policy POLICY
+username A_USER secret 0 SECRET
+username A_USER secret SECRET
+username A_USER secret 5 SECRET
+username A_USER group GROUP
+!
+
+username A_USER
+ group WORD
+ password 0|7 LINE
+ password LINE
+ password-policy WORD
+!
+
 
 interface bvi 1
 lacp system 0123.4567.89af
@@ -247,8 +264,12 @@ end-set
 !
 prefix-set SET_NAME
   #Loopback
-  1.2.3.4/24 eq 32
-end-set
+  1.2.3.4/24 eq 32 le 32,
+  10.0.0.0/8 ge 24 le 32,
+  172.16.0.0/12 ge 24,   
+  ::0/0 ge 48 le 128,    
+  ::0/0 ge 48
+  end-set
 !
 prefix-set SET_NAME
   1.2.3.0/24 ge 32
@@ -296,13 +317,14 @@ as-path-set SET_NAME
   end-set
 !
 
+
 ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1066700
-route-policy SET_NAME ()
+route-policy SET_NAME()
 end-policy
-route-policy SET_NAME ($PARAMETER)
+route-policy SET_NAME($PARAMETER)
 end-policy
 
-route-policy SET_NAME ($PARAMETER, $PARAMETER)
+route-policy SET_NAME($PARAMETER, $PARAMETER)
 end-policy
 
 
@@ -405,10 +427,7 @@ route-policy POLICY_NAME
 
   ! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-4/routing/command/reference/b-routing-cr-asr9000-64x/b-routing-cr-asr9000-64x_chapter_01010.html#ref_1159396
   if community matches-any (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535) then
-  #4835
-  elseif community matches-any (65535:peeras) then
-  elseif community matches-any (peeras:65535) then
-  elseif community matches-any (peeras:peeras) then
+  elseif community matches-any (123:0) then
   elseif community matches-any private-as then
   elseif community matches-any (65535:65535, $PARAMETER:$PARAMETER, 65535:$PARAMETER, $PARAMETER:65535) then
   elseif community matches-any (65535:65535, *:65535, 65535:*) then
@@ -896,7 +915,6 @@ route-policy POLICY_NAME
     delete community in (private-as, 65535:65535)
     delete community in (ios-regex '^123$', 65535:65535, $PARAMETER:$PARAMETER)
     delete community not in SET_NAME
-    delete community not in $PARAMETER
     delete community not in (123:123)
     delete community not in (65535:65535, [1..65535]:[1..65535], 65535:[1..65535], [1..65535]:65535)
     delete community not in private-as

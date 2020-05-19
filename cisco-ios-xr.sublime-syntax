@@ -368,8 +368,7 @@ variables:
         (?:65[0-4]\d{2})|
         (?:6[0-4]\d{3})|
         (?:[0-5]\d{4})|
-        (?:\d{2,4})|
-        (?:[0-9])
+        (?:\d{1,4})
       )
       \b
     )
@@ -906,6 +905,7 @@ variables:
         (?:router)|
         (?:rsvp)|
         (?:ssh)|
+        (?:username)|
         (?:vrf)
       )
     )
@@ -1459,6 +1459,7 @@ contexts:
     - include: router_ospf
     - include: line_console
     - include: line_default
+    - include: username
     - include: mpls_traffic_eng_path_selection_ignore_overload
 
   device_comment:
@@ -1495,39 +1496,6 @@ contexts:
         1: support.constant
         2: support.constant
         3: string.unquoted
-
-  username:
-    - match: |
-        (?xi)
-        ^\s*
-        (username)
-        \s+
-        (\S+)
-        \s+
-        (?:(privilege)\s+(\d+)\s+)?
-        (?:
-          (?:(secret)\s+(5)\s+(\S+))|
-          (?:(secret)\s+(\S+))|
-          (?:(password)\s+(secret\s+)?(5)\s+(\S+))|
-          (?:(password)\s+(\d+)\s+(\S+))
-        )?
-      captures:
-        1: support.constant   # username
-        2: string.unquoted    # username string
-        3: support.constant   # privilege
-        4: constant.numeric   # privilege id
-        5: support.constant   # secret
-        6: constant.numeric   # secret type 5
-        7: string.unquoted.cisco.password.type.5    # secret type 5 password string
-        8: support.constant   # secret
-        9: string.unquoted    # secret password string
-        10: support.constant   # password
-        11: support.constant   # password secret
-        12: constant.numeric   # password type
-        13: string.unquoted.cisco.password.type.5    # password string
-        14: support.constant   # password
-        15: constant.numeric   # password type
-        16: string.unquoted    # password string
 
   cdp:
     - match: ^\s*(cdp)
@@ -2073,6 +2041,50 @@ contexts:
         - meta_content_scope: text.network.cisco.eigrp.vrf.address_family.ipv4.interface
         - match: '{{ctx_pop_router_eigrp_vrf}}'
           pop: true
+
+  username:
+    - match: |
+        (?xi)
+        ^\s*(username)\s+([^\s"]{2,253})
+        (?:
+           \s+
+           (?:
+            (?:
+              (password)\s+
+              (?:
+                (?:(7)\s+(\S+))|
+                (?:(0\s+)?(\S+))
+              )
+            )|
+            (?:(password-policy)\s+(\S+))|
+            (?:
+              (secret)\s+
+              (?:
+                (?:(5)\s+(\S+))|
+                (?:(0\s+)?(\S+))
+              )
+            )|
+            (?:(group)\s+(\S+))
+           )
+        )?
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+        3: support.constant
+        4: constant.numeric
+        5: string.unquoted
+        6: constant.numeric
+        7: string.unquoted.cisco.password.type.7
+        8: variable.parameter
+        9: string.unquoted
+        10: support.constant
+        11: constant.numeric
+        12: string.unquoted
+        13: constant.numeric
+        14: string.unquoted.cisco.password.type.5
+        15: variable.parameter
+        16: string.unquoted
 
   router_bgp:
     - match: |
@@ -3502,6 +3514,18 @@ contexts:
               )
               \s+
               ({{ipv4_prefix_length}})
+              (?:
+                \s+
+                (
+                  (?:eq)|
+                  (?:ge)|
+                  (?:gt)|
+                  (?:lt)|
+                  (?:le)
+                )
+                \s+
+                ({{ipv4_prefix_length}})
+              )?
             )?
           )|
           (?:
@@ -3517,6 +3541,18 @@ contexts:
               )
               \s+
               ({{ipv6_prefix_length}})
+              (?:
+                \s+
+                (
+                  (?:eq)|
+                  (?:ge)|
+                  (?:gt)|
+                  (?:lt)|
+                  (?:le)
+                )
+                \s+
+                ({{ipv6_prefix_length}})
+              )?
             )?
           )|
           (?:
@@ -3527,10 +3563,14 @@ contexts:
         1: constant.numeric.ip.ipv4.prefix
         2: keyword.control.conditional
         3: constant.numeric.network.ipv4.prefix_length
-        4: constant.numeric.ip.ipv6.prefix
-        5: keyword.control.conditional
-        6: constant.numeric.network.ipv4.prefix_length
-        7: constant.numeric.ip.ipv6.address
+        4: keyword.control.conditional
+        5: constant.numeric.network.ipv4.prefix_length
+        6: constant.numeric.ip.ipv6.prefix
+        7: keyword.control.conditional
+        8: constant.numeric.network.ipv4.prefix_length
+        9: keyword.control.conditional
+        10: constant.numeric.network.ipv4.prefix_length
+        11: constant.numeric.ip.ipv6.address
 
   rpl_protocol:
     - meta_content_scope: text.network.cisco.rpl.protocol
@@ -3560,7 +3600,7 @@ contexts:
         (?:
           \b
           (?:
-              ({{number_16_bit_wo_zero}}\.{{number_16_bit_wo_zero}})|
+              ({{number_16_bit_wo_zero}}\.{{number_16_bit}})|
               ({{number_32_bit}})
           )
           \b
@@ -3996,12 +4036,12 @@ contexts:
             (?:
               (?:
                 (\[)
-                ({{number_16_bit_wo_zero}})
+                ({{number_16_bit}})
                 (\.\.)
-                ({{number_16_bit_wo_zero}})
+                ({{number_16_bit}})
                 (\])
               )|
-              ({{number_16_bit_wo_zero}})|
+              ({{number_16_bit}})|
               (peeras)|
               (\*)|
               (?:(\$)({{rpl_parameter_name}}))
@@ -4054,7 +4094,7 @@ contexts:
             )
             (:)
             (?:
-              ({{number_16_bit_wo_zero}})|
+              ({{number_16_bit}})|
               (?:(\$)({{rpl_parameter_name}}))
             )
           )|
@@ -4164,7 +4204,6 @@ contexts:
         ^\s*
         (route-policy)\s+([\w-\.]+)
         (?:
-          \s+
           (?:
             (\()
             (?:
