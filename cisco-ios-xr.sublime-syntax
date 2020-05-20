@@ -594,7 +594,7 @@ variables:
     (?xi)
     (?:
       (?:jan(?:uary)?)|
-      (?:feb(?:uary)?)|
+      (?:feb(?:ruary)?)|
       (?:mar(?:ch)?)|
       (?:apr(?:il)?)|
       (?:may)|
@@ -620,6 +620,27 @@ variables:
     )
     :
     [0-5]\d+
+  year: |
+    (?xi)
+    (?:\d{4})
+  minutes: |
+    (?xi)
+    (?:[0-5]?\d)
+  time_24_hour: |
+    (?xi)
+    (?:
+      (?:
+        (?:2[0-3])|
+        (?:[0-1]?\d)
+      )(?::)(?:[0-5]?\d)
+    )
+  day_of_month: |
+    (?xi)
+    (?:
+      (?:3[0-2])|
+      (?:[1-2]?\d)
+    )
+
   day_of_week_names: |
     (?xi)
     (?:
@@ -906,6 +927,8 @@ variables:
         (?:rsvp)|
         (?:ssh)|
         (?:username)|
+        (?:usergroup)|
+        (?:taskgroup)|
         (?:vrf)
       )
     )
@@ -1434,6 +1457,7 @@ contexts:
   configure_terminal_scope:
     - include: exec
     - include: commit
+    - include: clock
     - include: alias
     - include: router_bgp
     - include: router_eigrp
@@ -1460,6 +1484,8 @@ contexts:
     - include: line_console
     - include: line_default
     - include: username
+    - include: usergroup
+    - include: taskgroup
     - include: mpls_traffic_eng_path_selection_ignore_overload
 
   device_comment:
@@ -2042,6 +2068,194 @@ contexts:
         - match: '{{ctx_pop_router_eigrp_vrf}}'
           pop: true
 
+  clock:
+    - include: clock_timezone
+    - include: clock_summertime
+
+  clock_timezone:
+    - match: |
+        (?xi)
+        ^\s*(clock)\s+(timezone)\s+({{timezones}})\s+
+        (
+          (?:\+)|
+          (?:-)
+        )
+        (
+          (?:2[0-3])|
+          (?:1\d)|
+          (?:\d)
+        )
+        (?:
+          \s+
+          ([1-5]?\d+)
+        )?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.language
+        4: constant.numeric
+        5: constant.numeric
+        6: constant.numeric
+
+  clock_summertime:
+    - match: |
+        (?xi)
+        ^\s*
+        (clock)\s+(summer-time)\s+({{timezones}})\s+
+        (?:
+          (?:
+            (date)\s+
+            (?:
+              (?:
+                ({{month_names}})\s+
+                ({{day_of_month}})\s+
+                ({{year}})\s+
+                ({{time_24_hour}})\s+
+                ({{month_names}})\s+
+                ({{day_of_month}})\s+
+                ({{year}})\s+
+                ({{time_24_hour}})
+              )|
+              (?:
+                ({{day_of_month}})\s+
+                ({{month_names}})\s+
+                ({{year}})\s+
+                ({{time_24_hour}})\s+
+                ({{day_of_month}})\s+
+                ({{month_names}})\s+
+                ({{year}})\s+
+                ({{time_24_hour}})
+              )
+            )
+          )|
+          (?:
+            (recurring)\s+
+            (
+              (?:[1-5])|
+              (?:first)|
+              (?:last)
+            )\s+
+            ({{day_of_month}})\s+
+            ({{month_names}})\s+
+            ({{time_24_hour}})\s+
+            (
+              (?:[1-5])|
+              (?:first)|
+              (?:last)
+            )\s+
+            ({{day_of_month}})\s+
+            ({{month_names}})\s+
+            ({{time_24_hour}})
+          )
+        )
+        (?:
+          \s+
+          ({{minutes}})
+        )?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.language
+        4: support.constant
+        5: entity.other.attribute-name
+        6: constant.numeric
+        7: constant.numeric
+        8: constant.numeric
+        9: entity.other.attribute-name
+        10: constant.numeric
+        11: constant.numeric
+        12: constant.numeric
+        13: constant.numeric
+        14: entity.other.attribute-name
+        15: constant.numeric
+        16: constant.numeric
+        17: constant.numeric
+        18: entity.other.attribute-name
+        19: constant.numeric
+        20: constant.numeric
+        21: support.constant
+        22: constant.numeric
+        23: constant.numeric
+        24: entity.other.attribute-name
+        25: constant.numeric
+        26: constant.numeric
+        27: constant.numeric
+        28: entity.other.attribute-name
+        29: constant.numeric
+        30: constant.numeric
+
+  usergroup:
+    - match: |
+        (?xi)
+        ^\s*(usergroup)\s+([^\s"]+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.usergroup
+        - include: description
+        - include: usergroup_inherit
+        - include: usergroup_taskgroup
+        - include: pop_on_configure_terminal_context
+
+  usergroup_inherit:
+    - match: |
+        (?xi)
+        ^\s*(inherit)\s+(usergroup)\s+([^\s"]{2,253})
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+
+  usergroup_taskgroup:
+    - match: |
+        (?xi)
+        ^\s*(taskgroup)\s+(\S+)
+      captures:
+        1: support.constant
+        2: string.unquoted
+
+  taskgroup:
+    - match: |
+        (?xi)
+        ^\s*(taskgroup)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.taskgroup
+        - include: taskgroup_task
+        - include: taskgroup_inherit
+        - include: description
+        - include: pop_on_configure_terminal_context
+
+  taskgroup_task:
+    - match: |
+        (?xi)
+        ^\s*(task)\s+
+        (
+          (?:read)|
+          (?:write)|
+          (?:execute)|
+          (?:debug)
+        )
+        \s+(\S+)
+      captures:
+        1: support.constant
+        2: constant.language
+        3: string.unquoted
+
+  taskgroup_inherit:
+    - match: |
+        (?xi)
+        ^\s*(inherit)\s+(taskgroup)\s+(\S+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+
   username:
     - match: |
         (?xi)
@@ -2085,6 +2299,56 @@ contexts:
         14: string.unquoted.cisco.password.type.5
         15: variable.parameter
         16: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.username
+        - include: username_group
+        - include: username_password
+        - include: username_password_policy
+        - include: pop_on_configure_terminal_context
+
+
+  username_group:
+    - match: |
+        (?xi)
+        ^\s*(group)\s+(?:
+          (
+            (?:root-system)|
+            (?:root-lr)|
+            (?:netadmin)|
+            (?:sysadmin)|
+            (?:operator)|
+            (?:cisco-support)|
+            (?:serviceadmin)
+          )|
+          (\S+)
+        )
+      captures:
+        1: support.constant
+        2: constant.language
+        3: string.unquoted
+
+
+  username_password:
+    - match: |
+        (?xi)
+        ^\s*(password)\s+(?:
+          (?:(7)\s+(\S+))|
+          (?:(0\s+)?(\S+))
+        )
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: string.unquoted
+        4: constant.numeric
+        5: string.unquoted.cisco.password.type.7
+
+  username_password_policy:
+    - match: |
+        (?xi)
+        ^\s*(password-policy)\s+(\S+)
+      captures:
+        1: support.constant
+        2: string.unquoted
 
   router_bgp:
     - match: |

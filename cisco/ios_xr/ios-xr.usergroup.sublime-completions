@@ -1,0 +1,37 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.usergroup & -(text.network.cisco.mpls | text.network.cisco.router | text.network.cisco.vrf | text.network.cisco.set | text.network.cisco.route_policy | text.network.cisco.interface)",
+  "completions": [
+        { 
+            "trigger": "description",
+            "contents": "description ${1:DESCRIPTION}"
+        },
+        { 
+            "trigger": "inherit\tusergroup",
+            "contents": "inherit usergroup ${1:NAME}"
+        },
+        { 
+            "trigger": "taskgroup\tdescription",
+            "contents": "taskgroup ${1:NAME} description ${2:DESCRIPTION}"
+        },
+        { 
+            "trigger": "taskgroup\ttask read",
+            "contents": "taskgroup ${1:NAME} task read ${2:TASK_ID_NAME}"
+        },
+        { 
+            "trigger": "taskgroup\ttask write",
+            "contents": "taskgroup ${1:NAME} task write ${2:TASK_ID_NAME}"
+        },
+        { 
+            "trigger": "taskgroup\ttask execute",
+            "contents": "taskgroup ${1:NAME} task execute ${2:TASK_ID_NAME}"
+        },
+        { 
+            "trigger": "taskgroup\ttask debug",
+            "contents": "taskgroup ${1:NAME} task debug ${2:TASK_ID_NAME}"
+        },
+        { 
+            "trigger": "taskgroup\tinherit",
+            "contents": "taskgroup ${1:NAME} inherit taskgroup ${2:NAME}"
+        },
+  ]
+}

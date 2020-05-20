@@ -5,21 +5,62 @@ hostname hostname
 
 lacp system 65535
 
-username A_USER password 0 SECRET
-username A_USER password SECRET
-username A_USER password 7 SECRET
-username A_USER password-policy POLICY
-username A_USER secret 0 SECRET
-username A_USER secret SECRET
-username A_USER secret 5 SECRET
-username A_USER group GROUP
-!
+clock timezone GMT +23
+clock timezone PST -8
+clock timezone AT -3 30
 
-username A_USER
- group WORD
- password 0|7 LINE
- password LINE
- password-policy WORD
+clock summer-time GMT date 32 january 2020 20:00 32 february 2020 20:00
+clock summer-time GMT date march 32 2020 20:00 april 32 2020 20:00
+clock summer-time GMT recurring first 1 may 01:01 last 10 june 19:59
+clock summer-time GMT recurring first 1 july 01:01 last 10 august 19:59 59
+
+taskgroup NAME
+  description asdf
+  task read NAME
+  task write NAME
+  task execute NAME
+  task debug NAME
+  task read TASK_ID_NAME
+  inherit taskgroup NAME
+  
+usergroup NAME
+  description blah
+exit
+
+taskgroup NAME
+
+usergroup NAME
+  description adsf
+  inherit usergroup NAME
+  taskgroup WORD
+
+
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-2/system-security/command/reference/b-system-security-cr-asr9000-62x/b-system-security-cr-asr9000-62x_chapter_01.html
+username USERNAME password 0 SECRET
+username USERNAME password SECRET
+username USERNAME password 7 SECRET
+username USERNAME password-policy POLICY
+username USERNAME secret 0 SECRET
+username USERNAME secret SECRET
+username USERNAME secret 5 SECRET
+username USERNAME group GROUP
+!
+  
+
+username USERNAME
+ group root-system
+ group root-lr
+ group netadmin
+ group sysadmin
+ group operator
+ group cisco-support
+ group serviceadmin
+ group GROUPNAME
+ password 7 
+ password PASSWORD
+ password 0 PASSWORD
+ password 7 PASSWORD
+ password-policy NAME
 !
 
 

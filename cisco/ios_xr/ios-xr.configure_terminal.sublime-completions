@@ -97,6 +97,30 @@
             "trigger": "mpls\tldp",
             "contents": "mpls ldp\n\t$0\n"
         },
+        { 
+            "trigger": "username",
+            "contents": "username ${1:NAME}\n\t$0\n"
+        },
+        { 
+            "trigger": "usergroup",
+            "contents": "usergroup ${1:NAME}\n\t$0\n"
+        },
+        { 
+            "trigger": "taskgroup",
+            "contents": "taskgroup ${1:NAME}\n\t$0\n"
+        },
+        { 
+            "trigger": "clock\ttimezone",
+            "contents": "clock timezone ${1:GMT} +${2:2}"
+        },
+        { 
+            "trigger": "clock\tsummer-time date (date, month, year)",
+            "contents": "clock summer-time ${1:GMT} date ${2:32} ${3:january} ${4:2020} ${5:20:30} ${6:32} ${7:january} ${8:2020} ${9:20:30}"
+        },
+        { 
+            "trigger": "clock\tsummer-time date (month, date, year)",
+            "contents": "clock summer-time ${1:GMT} date ${2:january} ${3:32} ${4:2020} ${5:20:30} ${6:january} ${7:32} ${8:2020} ${9:20:30}"
+        },
         "commit",
         "cdp",
   ]

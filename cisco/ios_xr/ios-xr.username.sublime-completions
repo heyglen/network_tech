@@ -1,0 +1,25 @@
+{
+  "scope": "text.network.cisco.ios_xr text.network.cisco.username & -(text.network.cisco.mpls | text.network.cisco.router | text.network.cisco.vrf | text.network.cisco.set | text.network.cisco.route_policy | text.network.cisco.interface)",
+  "completions": [
+        { 
+            "trigger": "group\tNAME",
+            "contents": "group ${1:NAME}"
+        },
+        { 
+            "trigger": "password\ttype-7",
+            "contents": "password 7 ${1:ENCRYPTED_PASSWORD}"
+        },
+        { 
+            "trigger": "password\tpolicy",
+            "contents": "password-policy ${1:NAME}"
+        },
+        "password",
+        "group root-system",
+        "group root-lr",
+        "group netadmin",
+        "group sysadmin",
+        "group operator",
+        "group cisco-support",
+        "group serviceadmin",
+  ]
+}
