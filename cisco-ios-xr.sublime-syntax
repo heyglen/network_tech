@@ -921,6 +921,7 @@ variables:
         (?:line)|
         (?:mpls\s+traffic-eng\s*$)|
         (?:mpls\s+ldp\s*$)|
+        (?:object-group)|
         (?:prefix-set)|
         (?:route-policy\s+\S+(?:\s+\(.*\))?\s*$)|
         (?:router)|
@@ -1271,6 +1272,24 @@ variables:
   interface_number_ranged: |
     (?xi)
     (?:\d+(?:/\d+)*(?:\.\d+)?)(?:\s*-\s*\d+)?
+  port_names: |
+    (?xi)
+    (?:
+      (?:bgp)|
+      (?:bootps)|
+      (?:bootpc)|
+      (?:ssh)|
+      (?:ftp-data)|
+      (?:ftp)|
+      (?:domain)|
+      (?:ntp)|
+      (?:snmptrap)|
+      (?:syslog)|
+      (?:telnet)|
+      (?:tacacs)|
+      (?:isakmp)|
+      (?:snmp)
+    )
   port_numbers: '(?:(?:[1-6]?\d{1,4}))'
   operators: |
     (?xi)
@@ -1487,6 +1506,7 @@ contexts:
     - include: usergroup
     - include: taskgroup
     - include: mpls_traffic_eng_path_selection_ignore_overload
+    - include: object_group
 
   device_comment:
     - match: |
@@ -2183,6 +2203,168 @@ contexts:
         28: entity.other.attribute-name
         29: constant.numeric
         30: constant.numeric
+
+  object_group:
+    - include: object_group_network_ipv4
+    - include: object_group_network_ipv6
+    - include: object_group_port
+
+  object_group_port:
+    - match: |
+        (?xi)
+        ^\s*(object-group)\s+(port)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.object-group.port
+        - include: description
+        - include: object_group_object_group
+        - include: object_group_port_range
+        - include: object_group_port_number
+        - include: pop_on_configure_terminal_context
+
+  object_group_port_number:
+    - match: |
+        (?xi)
+        ^\s*(
+          (?:eq)|
+          (?:lt)|
+          (?:gt)
+        )\s+
+        (?:
+          ({{number_16_bit_wo_zero}})|
+          ({{port_names}})
+        )
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: constant.language
+
+  object_group_port_range:
+    - match: |
+        (?xi)
+        ^\s*(range)\s+
+        (?:
+          ({{number_16_bit_wo_zero}})|
+          ({{port_names}})
+        )
+        \s+
+        (?:
+          ({{number_16_bit_wo_zero}})|
+          ({{port_names}})
+        )
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: constant.language
+        4: constant.numeric
+        5: constant.language
+
+
+  object_group_network_ipv4:
+    - match: |
+        (?xi)
+        ^\s*(object-group)\s+(network)\s+(ipv4)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.language
+        4: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.object-group.network.ipv4
+        - include: description
+        - include: object_group_host_ipv4
+        - include: object_group_network_ipv4_entry
+        - include: object_group_network_ipv4_range
+        - include: object_group_object_group
+        - include: pop_on_configure_terminal_context
+
+  object_group_network_ipv6:
+    - match: |
+        (?xi)
+        ^\s*(object-group)\s+(network)\s+(ipv6)\s+(\S+)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+        3: constant.language
+        4: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.object-group.network.ipv6
+        - include: description
+        - include: object_group_host_ipv6
+        - include: object_group_object_group
+        - include: object_group_network_ipv6_entry
+        - include: object_group_network_ipv6_range
+        - include: pop_on_configure_terminal_context
+
+
+  object_group_host_ipv4:
+    - match: |
+        (?xi)
+        ^\s*(host)\s+({{ip}})
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv4.address
+
+  object_group_network_ipv4_entry:
+    - match: |
+        (?xi)
+        ^\s*
+        (?:
+          (?:({{ip_prefix}}))|
+          (?:({{ip}})\s+({{subnet_mask}}))
+        )
+      captures:
+        1: constant.numeric.ip.ipv4.prefix
+        2: constant.numeric.ip.ipv4.address
+        3: constant.numeric.network.ipv4.subnet_mask
+
+  object_group_network_ipv6_entry:
+    - match: |
+        (?xi)
+        ^\s*({{ipv6_prefix}})
+      captures:
+        1: constant.numeric.ip.ipv6.prefix
+
+  object_group_object_group:
+    - match: |
+        (?xi)
+        ^\s*(object-group)\s+(\S+)\s*$
+      captures:
+        1: support.constant
+        2: string.unquoted
+
+  object_group_network_ipv4_range:
+    - match: |
+        (?xi)
+        ^\s*(range)\s+({{ip}})\s+({{ip}})
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv4.address
+        3: constant.numeric.ip.ipv4.address
+
+  object_group_network_ipv6_range:
+    - match: |
+        (?xi)
+        ^\s*(range)\s+({{ipv6}})\s+({{ipv6}})
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv6.address
+        3: constant.numeric.ip.ipv6.address
+
+  object_group_host_ipv6:
+    - match: |
+        (?xi)
+        ^\s*(host)\s+({{ipv6}})
+      captures:
+        1: support.constant
+        2: constant.numeric.ip.ipv6.address
+
 
   usergroup:
     - match: |

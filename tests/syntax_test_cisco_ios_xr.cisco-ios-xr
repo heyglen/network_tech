@@ -14,6 +14,35 @@ clock summer-time GMT date march 32 2020 20:00 april 32 2020 20:00
 clock summer-time GMT recurring first 1 may 01:01 last 10 june 19:59
 clock summer-time GMT recurring first 1 july 01:01 last 10 august 19:59 59
 
+! https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k_r4-3/addr_serv/configuration/guide/b_ipaddr_cg43xa9k/b_ipaddr_cg42a9k_chapter_01.html#task_F1C9DD53BF954A92B7DAE9BF5AFF5545
+object-group network ipv4 NAME
+  description DESCRIPTION
+  host 192.0.2.1
+  192.0.2.0 255.255.255.0
+  192.0.2.0/24
+  range 192.0.2.1 192.0.2.2
+  object-group NAME
+
+object-group network ipv6 NAME
+  description DESCRIPTION
+  host ::1
+  2001::/2
+  range ::1 ::2
+  object-group NAME
+
+object-group port NAME
+  description DESCRIPTION
+  object-group NAME
+  eq 65535
+  lt 1
+  gt ftp
+  range 1 65535
+  range ftp ftp-data
+
+object-group network ipv6 NAME
+  host ::1
+
+
 taskgroup NAME
   description asdf
   task read NAME
