@@ -1255,6 +1255,7 @@ variables:
       (?:port-channel)|
       (?:po)|
       (?:pos)|
+      (?:ptp)|
       (?:serial)|
       (?:se)|
       (?:TenGigabitEthernet)|
@@ -1268,7 +1269,10 @@ variables:
     )
   interface_numbers: |
     (?xi)
-    (?:\d+(?:/\d+)*(?:\.\d+)?)?
+    (?:
+      (?:(?:\d+/RSP\d+/CPU\d+/\d+))|
+      (?:(?:\d+(?:/\d+)*(?:\.\d+)?)?)
+    )
   interface_number_ranged: |
     (?xi)
     (?:\d+(?:/\d+)*(?:\.\d+)?)(?:\s*-\s*\d+)?
@@ -7446,10 +7450,37 @@ contexts:
         - match: '{{ctx_pop_configure_terminal}}'
           pop: true
 
+  interface_access_group:
+    - match: >
+        (?xi)
+        ^\s*(ipv[46])\s+(access-group)
+        (?:\s+(common\s+(\S+)))?
+        \s+(\S+)\s+
+        (
+          (?:ingress)|
+          (?:egress)
+        )
+        (\s+hardware-count)?
+        (\s+interface-statistics)?
+        (?:\s+(compress\s+level)\s+([013]))?
+
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: string.unquoted
+        5: string.unquoted
+        6: support.constant
+        7: support.constant
+        8: support.constant
+        9: support.constant
+        10: constant.numeric
+
   interface_setting_base:
     - include: interface_bandwidth
     - include: description
     - include: interface_mtu
+    - include: interface_access_group
     - match: >
         (?xi)
         ^\s*

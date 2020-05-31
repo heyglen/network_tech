@@ -117,6 +117,22 @@
             "trigger": "address-family\tipv6 unicast",
             "contents": "address-family ipv6 unicast\n\t$0\n"
         },
+        { 
+            "trigger": "ipv4 access-group\tegress",
+            "contents": "ipv4 access-group ${1:ACL_NAME} egress"
+        },
+        { 
+            "trigger": "ipv4 access-group\tingress",
+            "contents": "ipv4 access-group ${1:ACL_NAME} ingress"
+        },
+        { 
+            "trigger": "ipv6 access-group\tegress",
+            "contents": "ipv6 access-group ${1:ACL_NAME} egress"
+        },
+        { 
+            "trigger": "ipv6 access-group\tingress",
+            "contents": "ipv6 access-group ${1:ACL_NAME} ingress"
+        },
         "cdp",
         "shutdown",
     ]
