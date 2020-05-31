@@ -10,7 +10,7 @@ Good issues that get higher priority are:
 
 /end note
 
-# { New | Incomplete | Incorrect } Syntax Highlighting Issue Type
+# "{ New | Incomplete | Incorrect } Syntax Highlighting" Issue Type
 
 ## Which Syntax?
 
@@ -34,13 +34,14 @@ This is not manditory, but it saves me a little time looking it up.
 
 Only the link to the specific command please.
 
-# Bug in Code Issue Type
+# "Plugin Behavior" Issue Type
 
 ## Expected behavior and actual behavior
 
+
 ## Steps to reproduce the problem
 
-# New Feature Issue Type
+# "New Feature" Issue Type
 
 What is the problem?
 
