@@ -272,6 +272,12 @@ interface MgmtEth0/0/CPU0/0
 interface GigabitEthernet0/0/0/0
  cdp
  ipv4 address 1.2.3.4 255.255.255.0
+ # https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-2/interfaces/command/reference/b_interfaces_cr42crs/b_interfaces_cr42crs_chapter_01010.html#wp1014685504
+ bundle id 1
+ bundle id 1 mode active
+ bundle id 1 mode passive
+ bundle id 1 mode on
+ bundle port-priority 1
 !
 interface GigabitEthernet0/0/0/1
  cdp

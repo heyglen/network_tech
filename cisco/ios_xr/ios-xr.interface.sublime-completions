@@ -133,6 +133,22 @@
             "trigger": "ipv6 access-group\tingress",
             "contents": "ipv6 access-group ${1:ACL_NAME} ingress"
         },
+        { 
+            "trigger": "bundle\tactive",
+            "contents": "bundle id ${1:1} mode active"
+        },
+        { 
+            "trigger": "bundle\tpassive",
+            "contents": "bundle id ${1:1} mode passive"
+        },
+        { 
+            "trigger": "bundle\ton",
+            "contents": "bundle id ${1:1} mode on"
+        },
+        { 
+            "trigger": "bundle\tport-priority",
+            "contents": "bundle port-priority ${1:1}"
+        },
         "cdp",
         "shutdown",
     ]

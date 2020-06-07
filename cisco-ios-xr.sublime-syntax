@@ -1270,7 +1270,7 @@ variables:
   interface_numbers: |
     (?xi)
     (?:
-      (?:(?:\d+/RSP\d+/CPU\d+/\d+))|
+      (?:(?:\d+(?:/\d+)?(?:/RSP\d+)?/CPU\d+/\d+))|
       (?:(?:\d+(?:/\d+)*(?:\.\d+)?)?)
     )
   interface_number_ranged: |
@@ -7478,6 +7478,7 @@ contexts:
 
   interface_setting_base:
     - include: interface_bandwidth
+    - include: interface_bundle
     - include: description
     - include: interface_mtu
     - include: interface_access_group
@@ -7782,6 +7783,41 @@ contexts:
       captures:
         1: support.constant
         2: constant.numeric
+
+  interface_bundle:
+    - include: interface_bundle_id
+    - include: interface_bundle_port_priority
+
+  interface_bundle_id:
+    - match: |
+        (?xi)
+        ^\s*
+        (bundle)\s+(id)\s+({{number_16_bit_wo_zero}})
+        (?:
+          \s+
+          (mode)\s+
+            (
+              (?:active)|
+              (?:passive)|
+              (?:on)
+            )
+        )?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+        4: support.constant
+        5: entity.other.attribute-name
+
+  interface_bundle_port_priority:
+    - match: |
+        (?xi)
+        ^\s*
+        (bundle)\s+(port-priority)\s+({{number_16_bit_wo_zero}})
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
 
   interface_mtu:
     - match: |
