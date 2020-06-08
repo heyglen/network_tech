@@ -1,0 +1,11 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.interface.lldp",
+    "completions": [
+        "receive disable",
+        "transmit disable",
+        { 
+            "trigger": "destination\tmac-address", 
+            "contents": "destination mac-address\n\t"
+        },
+    ]
+}
