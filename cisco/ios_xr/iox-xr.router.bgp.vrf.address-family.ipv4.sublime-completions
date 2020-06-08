@@ -5,5 +5,14 @@
             "trigger": "redistribute\tospf",
             "contents": "redistribute ospf ${1:INSTANCE_NAME}"
         },
+        { 
+            "trigger": "redistribute\tstatic route-policy",
+            "contents": "redistribute static route-policy ${1:NAME}"
+        },
+        { 
+            "trigger": "redistribute\tstatic metric",
+            "contents": "redistribute static metric ${1:1}"
+        },
+
   ]
 }

@@ -933,6 +933,44 @@ variables:
         (?:vrf)
       )
     )
+  ctx_pop_interface: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:cdp)|
+        (?:ipv4)|
+        (?:ipv6)|
+        (?:bundle)|
+        (?:flow)|
+        (?:load-interval)|
+        (?:path-option)|
+        (?:destination)|
+        (?:signalled-bandwidth)|
+        (?:vrf)|
+        (?:enable)|
+        (?:shutdown)|
+        (?:encapsulation)|
+        (?:address-family)|
+        (?:csnp-interval)|
+        (?:circuit-type)|
+        (?:mtu)|
+        (?:bandwidth)|
+        (?:lacp)|
+        (?:{{ctx_pop_configure_terminal}})
+      )
+    )
+  ctx_pop_interface_lldp: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:receive)|
+        (?:transmit)|
+        (?:destination)|
+        (?:{{ctx_pop_interface}})
+      )
+    )
   ctx_pop_mpls_traffic_eng: |
     (?xi)
     (?=
@@ -2589,6 +2627,13 @@ contexts:
         3: support.constant
         4: string.unquoted
 
+  router_bgp_ignore_connected_check:
+    - match: |
+        (?xi)
+        ^\s*(ignore-connected-check)\s+
+      captures:
+        1: support.constant
+
   router_bgp_update_source:
     - match: '^\s*(update-source)\s+({{interface_names}})\s*({{interface_numbers}})'
       captures:
@@ -2622,11 +2667,75 @@ contexts:
         \s*$
       captures:
         1: support.constant
-        2: support.constant
+        2: constant.language
         3: support.constant
         4: constant.numeric
         5: support.constant
         6: string.unquoted
+
+  router_bgp_redistribute_static:
+    - match: |
+        (?xi)
+        ^\s*(redistribute)\s+(static)
+        (?:\s+(metric)\s+({{number_32_bit}}))?
+        (?:\s+(route-policy)\s+(\S+))?
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.language
+        3: support.constant
+        4: constant.numeric
+        5: support.constant
+        6: string.unquoted
+
+  default_originate:
+    - match: |
+        (?xi)
+        ^\s*(default-originate)
+        (?:
+          \s+
+          (?:
+            (disable)|
+            (?:(route-policy)\s+(\S+))
+          )
+        )?
+      captures:
+        1: support.constant
+        2: keyword.other
+        3: support.constant
+        4: string.unquoted
+
+  router_bgp_send_community:
+    - match: |
+        (?xi)
+        ^\s*(send-community-ebgp)(\s+disable)?
+      captures:
+        1: support.constant
+        2: keyword.other
+
+  router_bgp_remove_private_as:
+    - match: |
+        (?xi)
+        ^\s*(remove-private-as)(\s+disable)?
+      captures:
+        1: support.constant
+        2: keyword.other
+
+  router_bgp_route_reflector_client:
+    - match: |
+        (?xi)
+        ^\s*(route-reflector-client)(\s+disable)?
+      captures:
+        1: support.constant
+        2: keyword.other
+
+  router_bgp_send_extended_community:
+    - match: |
+        (?xi)
+        ^\s*(send-extended-community-ebgp)(\s+disable)?
+      captures:
+        1: support.constant
+        2: keyword.other
 
   router_bgp_redistribute_eigrp:
     - match: |
@@ -2647,7 +2756,7 @@ contexts:
         \s*$
       captures:
         1: support.constant
-        2: support.constant
+        2: constant.language
         3: constant.numeric
         4: string.unquoted
         5: support.constant
@@ -2663,7 +2772,7 @@ contexts:
         ^\s*(redistribute)\s+(ospf)\s+({{ospf_identifier}})\s*$
       captures:
         1: support.constant
-        2: support.constant
+        2: constant.language
         3: string.unquoted
 
   router_bgp_route_distinguisher:
@@ -2690,6 +2799,12 @@ contexts:
     - include: router_bgp_vrf_address_family_ipv6_unicast
     - include: router_bgp_vrf_address_family_ipv6_multicast
     - include: router_bgp_vrf_address_family_ipv6
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_address_family:
     - include: router_bgp_af_group
@@ -2703,6 +2818,12 @@ contexts:
     - include: router_bgp_address_family_vpnv6
     - include: router_bgp_address_family_l2vpn_vpls_vpws
     - include: router_bgp_address_family_link_state
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_neighbor_address_family_ipv4:
     - include: router_bgp_neighbor_address_family_ipv4_unicast
@@ -2731,67 +2852,166 @@ contexts:
     - include: router_bgp_af_group_ipv4_tunnel
     - include: router_bgp_af_group_vpnv4_unicast
     - include: router_bgp_af_group_ipv6_unicast
-
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_address_family_settings:
     - include: router_bgp_maximum_prefix
     - include: router_bgp_redistribute_connected
+    - include: router_bgp_redistribute_static
     - include: router_bgp_route_policy
     - include: router_bgp_soft_reconfiguration_inbound
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_address_family_ipv4_settings:
     - include: router_bgp_network_ipv4
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_address_family_ipv6_settings:
     - include: router_bgp_network_ipv6
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_vrf_address_family_settings:
     - include: router_bgp_maximum_prefix
     - include: router_bgp_redistribute_connected
+    - include: router_bgp_redistribute_static
     - include: router_bgp_route_policy
     - include: router_bgp_soft_reconfiguration_inbound
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_vrf_address_family_ipv4_settings:
     - include: router_bgp_network_ipv4
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_vrf_address_family_ipv6_settings:
     - include: router_bgp_network_ipv6
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_af_group_settings:
     - include: router_bgp_use_af_group
     - include: router_bgp_use_session_group
     - include: router_bgp_route_policy
     - include: router_bgp_soft_reconfiguration_inbound
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_af_group_ipv4_settings:
     - include: router_bgp_network_ipv4
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_af_group_ipv6_settings:
     - include: router_bgp_network_ipv6
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_neighbor_address_family_settings:
     - include: router_bgp_maximum_prefix
     - include: router_bgp_redistribute_connected
+    - include: router_bgp_redistribute_static
     - include: router_bgp_route_policy
     - include: router_bgp_soft_reconfiguration_inbound
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_neighbor_address_family_ipv4_settings:
     - include: router_bgp_network_ipv4
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_neighbor_address_family_ipv6_settings:
     - include: router_bgp_network_ipv6
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_neighbor_group_address_family_settings:
     - include: router_bgp_maximum_prefix
     - include: router_bgp_redistribute_connected
+    - include: router_bgp_redistribute_static
     - include: router_bgp_route_policy
     - include: router_bgp_soft_reconfiguration_inbound
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_neighbor_group_address_family_ipv4_settings:
     - include: router_bgp_network_ipv4
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_neighbor_group_address_family_ipv6_settings:
     - include: router_bgp_network_ipv6
+    - include: router_bgp_additional_paths
+    - include: default_originate
+    - include: router_bgp_send_community
+    - include: router_bgp_send_extended_community
+    - include: router_bgp_route_reflector_client
+    - include: router_bgp_remove_private_as
 
   router_bgp_af_group_ipv4_unicast:
     - match: |
@@ -2832,11 +3052,11 @@ contexts:
   router_bgp_route_policy:
     - match: |
         (?xi)
-        ^\s*(route-policy)\s+(\S+)\s+
+        ^\s*(route-policy)\s+(\S+)
         (?:
-          (\[)
-          (?:\s*(\S+)\s*(,)\s*){1,16}
-          (])
+          (\()
+          (?:\s*(\S+))(?:\s*(,)\s*(\S+)){1,15}
+          (\))
           \s+
         )?
         (
@@ -2847,10 +3067,11 @@ contexts:
         1: support.constant
         2: string.unquoted
         3: comment
-        4: string.unquoted
+        4: constant.language
         5: comment
-        6: comment
-        7: support.constant
+        6: constant.language
+        7: comment
+        8: support.constant
 
   router_bgp_soft_reconfiguration_inbound:
     - match: |
@@ -2864,6 +3085,34 @@ contexts:
         1: support.constant
         2: support.constant
         3: support.constant
+
+  router_bgp_additional_paths:
+    - match: |
+        (?xi)
+        ^\s*(additional-paths)\s+(selection)\s+
+        (?:
+          (?:(route-policy)\s+(\S+))|
+          (?:(disable))
+        )
+      captures:
+        1: support.constant
+        2: constant.language
+        3: support.constant
+        4: string.unquoted
+        5: keyword.other
+
+    - match: |
+        (?xi)
+        ^\s*(additional-paths)\s+
+        (
+          (?:receive)|
+          (?:send)|
+        )
+        \s+(disable)?\s*$
+      captures:
+        1: support.constant
+        2: constant.language
+        3: keyword.other
 
   router_bgp_network_ipv4:
     - match: |
@@ -3546,6 +3795,7 @@ contexts:
         - include: router_bgp_neighbor_group_address_family
         - include: router_bgp_neighbor_group_setting
         - include: router_bgp_ebgp_multihop
+        - include: router_bgp_ignore_connected_check
         - match: '{{ctx_pop_router_bgp}}'
           pop: true
 
@@ -3562,6 +3812,7 @@ contexts:
         - include: router_bgp_neighbor_setting
         - include: router_bgp_neighbor_address_family_ipv4
         - include: router_bgp_ebgp_multihop
+        - include: router_bgp_ignore_connected_check
         - match: '{{ctx_pop_router_bgp}}'
           pop: true
 
@@ -3578,6 +3829,7 @@ contexts:
         - include: router_bgp_neighbor_setting
         - include: router_bgp_neighbor_address_family_ipv6
         - include: router_bgp_ebgp_multihop
+        - include: router_bgp_ignore_connected_check
         - match: '{{ctx_pop_router_bgp}}'
           pop: true
 
@@ -3647,6 +3899,7 @@ contexts:
     - include: router_bgp_remote_as
     - include: router_bgp_update_source
     - include: router_bgp_ebgp_multihop
+    - include: router_bgp_ignore_connected_check
     - include: router_bgp_password
     - include: description
 
@@ -7481,8 +7734,11 @@ contexts:
     - include: interface_bundle
     - include: description
     - include: interface_mtu
+    - include: interface_flow
+    - include: interface_load_interval
+    - include: interface_lldp
     - include: interface_access_group
-    - match: >
+    - match: |
         (?xi)
         ^\s*
         (?:
@@ -7784,6 +8040,61 @@ contexts:
         1: support.constant
         2: constant.numeric
 
+  interface_load_interval:
+    - match: |
+        (?xi)
+        ^\s*
+        (load-interval)
+        \s+
+        (
+          (?:300)|
+          (?:270)|
+          (?:240)|
+          (?:210)|
+          (?:180)|
+          (?:150)|
+          (?:120)|
+          (?:90)|
+          (?:60)|
+          (?:30)|
+          (?:0)
+        )
+      captures:
+        1: support.constant
+        2: constant.numeric
+
+  interface_flow:
+    - match: |
+        (?xi)
+        ^\s*
+        (flow)\s+
+        (
+          (?:ipv4)|
+          (?:ipv6)|
+          (?:mpls)
+        )
+        \s+
+        (monitor)
+        \s+
+        (\S+)
+        \s+
+        (sampler)
+        \s+
+        (\S+)
+        \s+
+        (
+          (?:egress)|
+          (?:ingress)
+        )
+      captures:
+        1: support.constant
+        2: constant.language
+        3: support.constant
+        4: string.unquoted
+        5: support.constant
+        6: string.unquoted
+        7: entity.other.attribute-name
+
   interface_bundle:
     - include: interface_bundle_id
     - include: interface_bundle_port_priority
@@ -7828,6 +8139,62 @@ contexts:
       captures:
         1: support.constant
         2: constant.numeric.mtu
+
+  interface_lldp:
+    - match: |
+        (?xi)
+        ^\s*(lldp)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+      push:
+        - meta_content_scope: text.network.cisco.interface.lldp
+        - include: interface_lldp_receive_transmit_disable
+        - include: interface_lldp_destination_mac_address
+        - match: '{{ctx_pop_interface}}'
+          pop: true
+
+  interface_lldp_receive_transmit_disable:
+    - match: |
+        (?xi)
+        ^\s*
+        (
+          (?:receive)|
+          (?:transmit)
+        )
+        \s+(disable)
+      captures:
+        1: support.constant
+        2: keyword.other
+
+  interface_lldp_destination_mac_address:
+    - match: |
+        (?xi)
+        ^\s*(destination)\s+(mac-address)
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+      push:
+        - meta_content_scope: text.network.cisco.interface.lldp.destination.mac-address
+        - include: interface_lldp_destination_mac_address_iee_nearest_bridge
+        - include: interface_lldp_destination_mac_address_ieee_nearest_non_tmpr_bridge
+        - match: '{{ctx_pop_interface_lldp}}'
+          pop: true
+
+  interface_lldp_destination_mac_address_iee_nearest_bridge:
+    - match: |
+        (?xi)
+        ^\s*(ieee-nearest-bridge)
+      captures:
+        1: support.constant
+
+  interface_lldp_destination_mac_address_ieee_nearest_non_tmpr_bridge:
+    - match: |
+        (?xi)
+        ^\s*(ieee-nearest-non-tmpr-bridge)
+      captures:
+        1: support.constant
 
   interface_setting_te:
     - match: |

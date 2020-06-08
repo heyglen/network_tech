@@ -149,6 +149,34 @@
             "trigger": "bundle\tport-priority",
             "contents": "bundle port-priority ${1:1}"
         },
+        { 
+            "trigger": "flow\tipv4 egress",
+            "contents": "flow ipv4 monitor ${1:NAME} sampler ${2:NAME} egress"
+        },
+        { 
+            "trigger": "flow\tipv4 ingress",
+            "contents": "flow ipv4 monitor ${1:NAME} sampler ${2:NAME} ingress"
+        },
+        { 
+            "trigger": "flow\tipv6 egress",
+            "contents": "flow ipv6 monitor ${1:NAME} sampler ${2:NAME} egress"
+        },
+        { 
+            "trigger": "flow\tipv6 ingress",
+            "contents": "flow ipv6 monitor ${1:NAME} sampler ${2:NAME} ingress"
+        },
+        { 
+            "trigger": "flow\tmpls ingress",
+            "contents": "flow mpls monitor ${1:NAME} sampler ${2:NAME} ingress"
+        },
+        { 
+            "trigger": "flow\tmpls egress",
+            "contents": "flow mpls monitor ${1:NAME} sampler ${2:NAME} egress"
+        },
+        { 
+            "trigger": "load-interval\t",
+            "contents": "load-interval ${1:30}"
+        },
         "cdp",
         "shutdown",
     ]

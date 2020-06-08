@@ -21,5 +21,18 @@
             "trigger": "redistribute\teigrp external",
             "contents": "redistribute eigrp ${1:65535} match external"
         },
+        { 
+            "trigger": "redistribute\tstatic",
+            "contents": "redistribute static"
+        },
+        { 
+            "trigger": "redistribute\tstatic route-policy",
+            "contents": "redistribute static route-policy ${1:NAME}"
+        },
+        { 
+            "trigger": "redistribute\tstatic metric",
+            "contents": "redistribute static metric ${1:1}"
+        },
+        "ignore-connected-check"
   ]
 }
