@@ -603,6 +603,14 @@ route-map ROUTE_MAP_NAME permit 30
 snmp-server community TEST RO 1
 snmp-server host 1.2.3.4 version 2c TEST
 snmp-server host 1.2.3.4 version 2c TEST
+snmp-server engineID local engineid-string
+snmp-server file-transfer access-group NAME
+snmp-server file-transfer access-group NAME protocol ftp
+snmp-server file-transfer access-group NAME protocol scp
+snmp-server file-transfer access-group NAME protocol rcp
+snmp-server file-transfer access-group NAME protocol sftp
+snmp-server file-transfer access-group NAME protocol tftp
+
 
 line con 0
   stopbits 1

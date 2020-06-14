@@ -1426,6 +1426,111 @@ contexts:
     - include: snmp_trap
     - include: snmp_poll
     - include: snmp_contact_location
+    - include: snmp_engine_id
+    - include: snmp_file_transfer_access_group
+    - include: snmp_group
+
+  snmp_group:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (group)\s+
+        (\S+)\s+
+        (?:
+          (v1)|
+          (v2c)|
+          (?:(v3)\s+
+            (
+              (?:noauth)|
+              (?:auth)|
+              (?:priv)
+            )
+          )
+        )
+        (?:\s+(context)\s+(\S+))?
+        (?:\s+(read)\s+(\S+))?
+        (?:\s+(write)\s+(\S+))?
+        (?:\s+(notify)\s+(\S+))?
+        (?:\s+(access)\s+
+          (?:
+            (?:(ipv6)\s+(\S+))|
+            (
+              (?:[1-9]\d)|
+              (?:[1-9])
+            )|
+            (\S+)
+          )
+        )?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+        4: constant.language
+        5: constant.language
+        6: constant.language
+        7: entity.other.attribute-name
+        8: support.constant
+        9: string.unquoted
+        10: support.constant
+        11: string.unquoted
+        12: support.constant
+        13: string.unquoted
+        14: support.constant
+        15: string.unquoted
+        16: support.constant
+        17: support.constant
+        18: string.unquoted
+        19: constant.numeric
+        20: string.unquoted
+
+  snmp_engine_id:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (engineID)\s+
+        (local)\s+
+        (\S{1,24})
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: string.unquoted
+
+  snmp_file_transfer_access_group:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (file-transfer)\s+
+        (access-group)\s+
+        (?:
+          ([1-9]?\d)|
+          ([1-9])|
+          (\S+)|
+        )
+        (?:
+          \s+
+          (protocol)
+          \s+
+          (
+            (?:ftp)|
+            (?:rcp)|
+            (?:scp)|
+            (?:sftp)|
+            (?:tftp)
+          )
+        )?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+        5: constant.numeric
+        6: string.unquoted
+        7: support.constant
+        8: constant.language
 
   snmp_contact_location:
     - match: |

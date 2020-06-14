@@ -69,6 +69,38 @@
             "trigger": "hostname\thostname",
             "contents": "hostname ${1:HOSTNAME}"
         },
+        { 
+            "trigger": "snmp-server engineID local",
+            "contents": "snmp-server engineID local ${1:NAME}"
+        },
+        { 
+            "trigger": "snmp-server file-transfer access-group",
+            "contents": "snmp-server file-transfer access-group ${1:NAME}"
+        },
+        { 
+            "trigger": "snmp-server file-transfer access-group\tprotocol",
+            "contents": "snmp-server file-transfer access-group ${1:NAME} protocol ${2:scp}"
+        },
+        { 
+            "trigger": "snmp-server group\tv1",
+            "contents": "snmp-server group ${1:NAME} v1"
+        },
+        { 
+            "trigger": "snmp-server group\tv2c",
+            "contents": "snmp-server group ${1:NAME} v2c"
+        },
+        { 
+            "trigger": "snmp-server group\tv3 auth",
+            "contents": "snmp-server group ${1:NAME} v3 auth"
+        },
+        { 
+            "trigger": "snmp-server group\tv3 noauth",
+            "contents": "snmp-server group ${1:NAME} v3 noauth"
+        },
+        { 
+            "trigger": "snmp-server group\tv3 priv",
+            "contents": "snmp-server group ${1:NAME} v3 priv"
+        },
         "end",
         "exit",
   ]
