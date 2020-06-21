@@ -28,6 +28,121 @@ variables:
   route_target: '\d+:\d+'
   type_5_password: \S+
   type_7_password: \S+
+  snmp_notification_types: |
+    (?xi)
+    (?:
+      (?:aaa\s+server)|
+      (?:adslline)|
+      (?:atm)|
+      (?:auth-framework)|
+      (?:authenticate-fail)|
+      (?:bgp)|
+      (?:bridge)|
+      (?:bstun)|
+      (?:bulkstat)|
+      (?:c6kxbar)|
+      (?:callhome)|
+      (?:calltracker)|
+      (?:casa)|
+      (?:ccme)|
+      (?:cef)|
+      (?:chassis)|
+      (?:cnpd)|
+      (?:config)|
+      (?:config-copy)|
+      (?:config-ctid)|
+      (?:cpu)|
+      (?:csg)|
+      (?:deauthenticate)|
+      (?:dhcp-snooping)|
+      (?:director)|
+      (?:disassociate)|
+      (?:dlsw)|
+      (?:dnis)|
+      (?:dot11-mibs)|
+      (?:dot11-qos)|
+      (?:dot1x)|
+      (?:ds1)|
+      (?:ds1-loopback)|
+      (?:dspu)|
+      (?:eigrp)|
+      (?:energywise)|
+      (?:entity)|
+      (?:entity-diag)|
+      (?:envmon)|
+      (?:errdisable)|
+      (?:ethernet-cfm)|
+      (?:event-manager)|
+      (?:firewall)|
+      (?:flash)|
+      (?:flexlinks)|
+      (?:flowmon)|
+      (?:frame-relay)|
+      (?:fru-ctrl)|
+      (?:hsrp)|
+      (?:icsudsu)|
+      (?:iplocalpool)|
+      (?:ipmobile)|
+      (?:ipmulticast)|
+      (?:ipsec)|
+      (?:isakmp)|
+      (?:isdn)|
+      (?:l2tc)|
+      (?:l2tun-pseudowire-status)|
+      (?:l2tun-session)|
+      (?:license)|
+      (?:llc2)|
+      (?:mac-notification)|
+      (?:memory)|
+      (?:module)|
+      (?:module-auto-shutdown)|
+      (?:mpls-fast-reroute)|
+      (?:mpls-ldp)|
+      (?:mpls-traffic-eng)|
+      (?:mpls-vpn)|
+      (?:msdp)|
+      (?:mvpn)|
+      (?:nhrp)|
+      (?:ospf)|
+      (?:p2mp-traffic-eng)|
+      (?:pim)|
+      (?:port-security)|
+      (?:power-ethernet)|
+      (?:public storm-control)|
+      (?:pw-vc)|
+      (?:repeater)|
+      (?:resource-policy)|
+      (?:rf)|
+      (?:rogue-ap)|
+      (?:rsrb)|
+      (?:rsvp)|
+      (?:rtr)|
+      (?:sdlc)|
+      (?:sdllc)|
+      (?:slb)|
+      (?:snmp)|
+      (?:sonet)|
+      (?:srp)|
+      (?:srst)|
+      (?:stpx)|
+      (?:stun)|
+      (?:switch-over)|
+      (?:syslog)|
+      (?:syslog)|
+      (?:tty)|
+      (?:udp-port)|
+      (?:vlan-mac-limit)|
+      (?:vlancreate)|
+      (?:vlandelete)|
+      (?:voice)|
+      (?:vrrp)|
+      (?:vsimaster)|
+      (?:vswitch)|
+      (?:vtp)|
+      (?:wlan-wep)|
+      (?:x25)|
+      (?:xgcp)
+    )
   ascii_character: |
     (?xi)
     (?:[\x00-\x7F])
@@ -117,6 +232,23 @@ variables:
       )
       \b
     )
+  number_range_0_42949671: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:4294967[0-1])|
+        (?:429496[0-6]\d)|
+        (?:42949[0-5]\d{2})|
+        (?:4294[0-8]\d{3})|
+        (?:429[0-3]\d{4})|
+        (?:42[0-8]\d{5})|
+        (?:4[0-1]\d{6})|
+        (?:[0-3]\d{7})|
+        (?:\d{1,7})
+      )
+      \b
+    )
   number_range_1_1440: |
     (?xi)
     (?:
@@ -151,6 +283,17 @@ variables:
         (?:102[0-4])|
         (?:10[0-1]\d)|
         (?:\d{2,3})|
+        (?:[1-9])
+      )
+      \b
+    )
+  number_range_1_100: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:100)|
+        (?:[1-9]\d)|
         (?:[1-9])
       )
       \b
@@ -302,6 +445,27 @@ variables:
         (?:42949672[0-8]\d{1})|
         (?:429496729[0-5])|
         (?:\d{1,9})
+      )
+      \b
+    )
+  number_32_bit_wo_zero: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:4294967295)|
+        (?:[0-3]\d{9})|
+        (?:4[0-1]\d{8})|
+        (?:42[0-8]\d{7})|
+        (?:429[0-3]\d{6})|
+        (?:4294[0-8]\d{5})|
+        (?:42949[0-5]\d{4})|
+        (?:429496[0-6]\d{3})|
+        (?:4294967[0-1]\d{2})|
+        (?:42949672[0-8]\d{1})|
+        (?:429496729[0-5])|
+        (?:\d{2,9})|
+        (?:[1-9])
       )
       \b
     )
@@ -1423,8 +1587,9 @@ contexts:
         2: support.constant
 
   snmp:
-    - include: snmp_trap
+    - include: snmp_host
     - include: snmp_poll
+    - include: snmp_inform
     - include: snmp_contact_location
     - include: snmp_engine_id
     - include: snmp_file_transfer_access_group
@@ -1591,7 +1756,7 @@ contexts:
         16: constant.numeric            # destination analysis-module data-port id
 
   snmp_poll:
-    - match: >
+    - match: |
         (?xi)
         \s*
         (snmp-server)\s+
@@ -1606,22 +1771,84 @@ contexts:
         4: support.constant       # RO / RW
         5: string.unquoted        # ACL value
 
-  snmp_trap:
+  snmp_inform:
+    - match: >
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (inform)
+        (?:\s+(pending)\s+({{number_32_bit_wo_zero}}))?
+        (?:\s+(retries)\s+({{number_range_1_100}}))?
+        (?:\s+(timeout)\s+({{number_range_0_42949671}}))?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+        5: support.constant
+        6: constant.numeric
+        7: support.constant
+        8: constant.numeric
+
+  snmp_host:
     - match: >
         (?xi)
         \s*
         (snmp-server)\s+
         (host)\s+
-        ({{ip}})\s+
-        (?:(version)\s+((?:1)|(?:2c))\s+)?
+        (?:
+          ({{ip}})|
+          ({{hostname}})
+        )
+        \s+
+        (?:
+          (?:(vrf)\s+(\S+))|
+          (?:(informs))|
+          (?:(traps))|
+          (?:
+            (version)\s+
+            (?:
+              (1)|
+              (2c)|
+              (?:
+                (3)\s+
+                (
+                  (?:auth)|
+                  (?:noauth)|
+                  (?:priv)
+                )
+              )
+            )
+          )
+        )
+        \s+
         (\S+)
+        (?:
+          \s+
+          (?:
+            (?:(udp-port)\s+({{port_numbers}})(?:\s+({{snmp_notification_types}}))?)|
+            ({{snmp_notification_types}})
+          )
+        )?
       captures:
         1: support.constant       # snmp-server
         2: support.constant       # host
-        3: constant.numeric.ip.ipv4.address       # ip
-        4: support.constant       # version
-        5: constant.numeric       # version number
-        6: string.unquoted        # trap community
+        3: constant.numeric.ip.ipv4.address
+        4: constant.language
+        5: support.constant
+        6: string.unquoted
+        7: support.constant
+        8: support.constant
+        9: support.constant
+        10: constant.language
+        11: constant.language
+        12: constant.language
+        13: entity.other.attribute-name
+        14: string.unquoted
+        15: support.constant
+        16: constant.numeric
+        17: entity.other.attribute-name
+        18: entity.other.attribute-name
 
   hostname:
     - match: ^\s*(hostname)\s*(\S+)

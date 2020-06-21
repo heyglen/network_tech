@@ -485,7 +485,6 @@ interface TwoGigabitEthernet1/0/1
   service-policy input AutoQos-4.0-CiscoPhone-Input-Policy
   service-policy output AutoQos-4.0-Output-Policy
 
-
 interface range GigabitEthernet0
   exit
 
@@ -602,7 +601,11 @@ route-map ROUTE_MAP_NAME permit 30
 
 snmp-server community TEST RO 1
 snmp-server host 1.2.3.4 version 2c TEST
-snmp-server host 1.2.3.4 version 2c TEST
+snmp-server host 1.2.3.4 version 3 auth TEST
+snmp-server host 1.2.3.4 version 3 noauth TEST
+snmp-server host 1.2.3.4 version 1 TEST udp-port 123 aaa server
+snmp-server host 1.2.3.4 version 1 TEST cef
+snmp-server host 1.2.3.4 version 1 TEST aaa server
 snmp-server engineID local engineid-string
 snmp-server file-transfer access-group NAME
 snmp-server file-transfer access-group NAME protocol ftp
@@ -610,7 +613,22 @@ snmp-server file-transfer access-group NAME protocol scp
 snmp-server file-transfer access-group NAME protocol rcp
 snmp-server file-transfer access-group NAME protocol sftp
 snmp-server file-transfer access-group NAME protocol tftp
-
+snmp-server group NAME v1
+snmp-server group NAME v2c
+snmp-server group NAME v3 noauth
+snmp-server group NAME v3 auth
+snmp-server group NAME v3 priv
+snmp-server group NAME v2c context NAME
+snmp-server group NAME v2c context NAME read NAME
+snmp-server group NAME v2c context NAME read NAME write NAME
+snmp-server group NAME v2c context NAME read NAME write NAME notify NAME
+snmp-server group NAME v2c context NAME read NAME write NAME notify NAME access ipv6 name
+snmp-server group NAME v2c context NAME read NAME write NAME notify NAME access 99
+snmp-server group NAME v2c context NAME read NAME write NAME notify NAME access name
+snmp-server inform pending 25 retries 3 timeout 15
+snmp-server inform pending 4294967295
+snmp-server inform retries 100
+snmp-server inform timeout 42949671
 
 line con 0
   stopbits 1

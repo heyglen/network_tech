@@ -101,6 +101,18 @@
             "trigger": "snmp-server group\tv3 priv",
             "contents": "snmp-server group ${1:NAME} v3 priv"
         },
+        { 
+            "trigger": "snmp-server inform\tpending",
+            "contents": "snmp-server inform pending ${1:25}"
+        },
+        { 
+            "trigger": "snmp-server inform\tretries",
+            "contents": "snmp-server inform retries ${1:3}"
+        },
+        { 
+            "trigger": "snmp-server inform\ttimeout",
+            "contents": "snmp-server inform timeout ${1:15}"
+        },
         "end",
         "exit",
   ]
