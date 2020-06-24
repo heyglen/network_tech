@@ -17,6 +17,7 @@ class ToggleNetworkInfoOnHoverCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         settings = sublime.load_settings(SETTINGS_FILE_NAME)
         network_info_on_hover = settings.get(NETWORK_INFO_ON_HOVER_SETTING_NAME, True)
+        print(network_info_on_hover)
         settings.set(NETWORK_INFO_ON_HOVER_SETTING_NAME, not network_info_on_hover)
         sublime.save_settings(SETTINGS_FILE_NAME)
 

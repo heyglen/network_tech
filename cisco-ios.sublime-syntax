@@ -232,20 +232,58 @@ variables:
       )
       \b
     )
-  number_range_0_42949671: |
+  number_range_1_31: |
     (?xi)
     (?:
       \b
       (?:
-        (?:4294967[0-1])|
-        (?:429496[0-6]\d)|
-        (?:42949[0-5]\d{2})|
-        (?:4294[0-8]\d{3})|
-        (?:429[0-3]\d{4})|
-        (?:42[0-8]\d{5})|
-        (?:4[0-1]\d{6})|
-        (?:[0-3]\d{7})|
-        (?:\d{1,7})
+        (?:[1-3]\d)|
+        (?:[1-9])
+      )
+      \b
+    )
+  number_range_0_63: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:6[1-3])|
+        (?:[0-5]\d)|
+        (?:\d)
+      )
+      \b
+    )
+  number_range_1_100: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:100)|
+        (?:[1-9]\d)|
+        (?:[1-9])
+      )
+      \b
+    )
+  number_range_0_255: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:25[0-5])|
+        (?:2[0-4]\d)|
+        (?:[0-1]?\d{1,2})
+      )
+      \b
+    )
+  number_range_1_1024: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:102[0-4])|
+        (?:10[0-1]\d)|
+        (?:\d{2,3})|
+        (?:[1-9])
       )
       \b
     )
@@ -272,50 +310,6 @@ variables:
         (?:[1-3]\d{3})|
         (?:\d{2,3})|
         (?:[1-9])
-      )
-      \b
-    )
-  number_range_1_1024: |
-    (?xi)
-    (?:
-      \b
-      (?:
-        (?:102[0-4])|
-        (?:10[0-1]\d)|
-        (?:\d{2,3})|
-        (?:[1-9])
-      )
-      \b
-    )
-  number_range_1_100: |
-    (?xi)
-    (?:
-      \b
-      (?:
-        (?:100)|
-        (?:[1-9]\d)|
-        (?:[1-9])
-      )
-      \b
-    )
-  number_range_1_31: |
-    (?xi)
-    (?:
-      \b
-      (?:
-        (?:[1-3]\d)|
-        (?:[1-9])
-      )
-      \b
-    )
-  number_range_0_255: |
-    (?xi)
-    (?:
-      \b
-      (?:
-        (?:25[0-5])|
-        (?:2[0-4]\d)|
-        (?:[0-1]?\d{1,2})
       )
       \b
     )
@@ -351,6 +345,21 @@ variables:
       )
       \b
     )
+  number_range_484_8192: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:819[0-2])|
+        (?:81[0-8]\d)|
+        (?:80\d{2})|
+        (?:[0-7]\d{3})|
+        (?:48[0-4])|
+        (?:4[0-7]\d)|
+        (?:[0-3]\d{2})
+      )
+      \b
+    )
   number_range_64_1280000: |
     (?xi)
     (?:
@@ -364,6 +373,24 @@ variables:
       )
       \b
     )
+  number_range_0_42949671: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:4294967[0-1])|
+        (?:429496[0-6]\d)|
+        (?:42949[0-5]\d{2})|
+        (?:4294[0-8]\d{3})|
+        (?:429[0-3]\d{4})|
+        (?:42[0-8]\d{5})|
+        (?:4[0-1]\d{6})|
+        (?:[0-3]\d{7})|
+        (?:\d{1,7})
+      )
+      \b
+    )
+
   number_range_0_604800000: |
     (?xi)
     (?:
@@ -1590,10 +1617,68 @@ contexts:
     - include: snmp_host
     - include: snmp_poll
     - include: snmp_inform
-    - include: snmp_contact_location
+    - include: snmp_contact
+    - include: snmp_manager
+    - include: snmp_location
     - include: snmp_engine_id
     - include: snmp_file_transfer_access_group
     - include: snmp_group
+    - include: snmp_dscp
+    - include: snmp_ip_precedence
+    - include: snmp_packetsize
+    - include: snmp_queue_length
+
+  snmp_dscp:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (ip)\s+
+        (dscp)\s+
+        ({{number_range_0_63}})
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+
+  snmp_packetsize:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (packetsize)\s+
+        ({{number_range_484_8192}})
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+
+  snmp_queue_length:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (queue-length)\s+
+        (\d+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+
+  snmp_ip_precedence:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (ip)\s+
+        (precedence)\s+
+        ([0-7])
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
 
   snmp_group:
     - match: |
@@ -1697,17 +1782,47 @@ contexts:
         7: support.constant
         8: constant.language
 
-  snmp_contact_location:
+  snmp_manager:
     - match: |
         (?xi)
         \s*
         (snmp-server)\s+
-        (location|contact)\s+
+        (manager)
+        (?:
+          \s+
+          (?:
+            (session-timeout)\s+(\d+)
+          )
+        )?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+
+  snmp_contact:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (contact)\s+
         (.*)
       captures:
-        1: support.constant       # snmp-server
-        2: support.constant       # location
-        3: string.unquoted        # location string
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+
+  snmp_location:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (location)\s+
+        (.*)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
 
   monitor:
     - match: |

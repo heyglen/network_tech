@@ -13,6 +13,6 @@
             "trigger": "redistribute\tstatic metric",
             "contents": "redistribute static metric ${1:1}"
         },
-
+        "ignore-connected-check"
   ]
 }

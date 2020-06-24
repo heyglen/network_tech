@@ -629,6 +629,15 @@ snmp-server inform pending 25 retries 3 timeout 15
 snmp-server inform pending 4294967295
 snmp-server inform retries 100
 snmp-server inform timeout 42949671
+snmp-server ip dscp 63
+snmp-server ip precedence 0
+snmp-server contact ME
+snmp-server location HERE
+snmp-server manager
+snmp-server manager session-timeout 600
+snmp-server packetsize 484
+snmp-server queue-length 10
+
 
 line con 0
   stopbits 1

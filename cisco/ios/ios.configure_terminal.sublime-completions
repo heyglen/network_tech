@@ -113,6 +113,35 @@
             "trigger": "snmp-server inform\ttimeout",
             "contents": "snmp-server inform timeout ${1:15}"
         },
+        { 
+            "trigger": "snmp-server \tdscp",
+            "contents": "snmp-server ip dscp ${1:0}"
+        },
+        { 
+            "trigger": "snmp-server \tprecedence",
+            "contents": "snmp-server ip precedence ${1:0}"
+        },
+        { 
+            "trigger": "snmp-server \tcontact",
+            "contents": "snmp-server contact ${1:ME}"
+        },
+        { 
+            "trigger": "snmp-server \tlocation",
+            "contents": "snmp-server location ${1:HERE}"
+        },
+        { 
+            "trigger": "snmp-server manager\tsession-timeout",
+            "contents": "snmp-server manager session-timeout ${1:600}"
+        },
+        { 
+            "trigger": "snmp-server\tpacketsize",
+            "contents": "snmp-server packetsize ${1:1500}"
+        },
+        { 
+            "trigger": "snmp-server\tqueue-length",
+            "contents": "snmp-server queue-length ${1:10}"
+        },
+        "snmp-server manager",
         "end",
         "exit",
   ]
