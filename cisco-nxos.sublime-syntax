@@ -781,16 +781,30 @@ contexts:
         ^\s*
         (tacacs-server)\s+
         (?:
-          (?:(key)\s+(\d+)\s+("\S+"))|
+          (?:(key)\s+
+            (?:
+              (?:(7)\s+(")(\S+)("))|
+              (?:(5)\s+(")(\S+)("))|
+              (?:(\d+)\s+("\S+"))
+            )
+          )|
           (?:(host)\s+({{ip}}))
         )
       captures:
         1: support.constant   # tacacs-server
         2: support.constant    # tacacs-server key
         3: constant.numeric   # tacacs-server key type
-        4: string.unquoted   # tacacs-server key value
-        5: support.constant    # tacacs-server host
-        6: constant.numeric    # tacacs-server host ip
+        4: string.quoted
+        5: string.unquoted.cisco.password.type.7
+        6: string.quoted
+        7: constant.numeric
+        8: string.quoted
+        9: string.unquoted.cisco.password.type.5
+        10: string.quoted
+        11: constant.numeric
+        12: string.quoted
+        13: support.constant    # tacacs-server host
+        14: constant.numeric    # tacacs-server host ip
 
   hostname:
     - match: ^\s*(hostname)\s*(\S+)

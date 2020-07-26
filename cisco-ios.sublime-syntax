@@ -313,6 +313,17 @@ variables:
       )
       \b
     )
+  number_range_1_1000: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:1000)|
+        (?:\d{2,3})|
+        (?:[1-9])
+      )
+      \b
+    )
   number_range_1_10000: |
     (?xi)
     (?:
@@ -1613,6 +1624,10 @@ contexts:
         1: support.constant
         2: support.constant
 
+  interface_snmp:
+    - include: snmp_trap_link_status
+    - include: snmp_if_monitor
+
   snmp:
     - include: snmp_host
     - include: snmp_poll
@@ -1627,6 +1642,22 @@ contexts:
     - include: snmp_ip_precedence
     - include: snmp_packetsize
     - include: snmp_queue_length
+    - include: snmp_queue_limit
+    - include: snmp_source_interface
+    - include: snmp_system_shutdown
+    - include: snmp_tftp_server_list
+    - include: snmp_trap_authentication_unknown_context
+    - include: snmp_trap_authentication_vrf
+    - include: snmp_trap_link_ietf
+    - include: snmp_trap_link_switchover
+    - include: snmp_trap_retry
+    - include: snmp_trap_timeout
+    - include: snmp_trap_timeout_old
+    - include: snmp_trap_source
+    - include: snmp_trap_authentication
+    - include: snmp_usm_cisco
+    - include: snmp_view
+
 
   snmp_dscp:
     - match: |
@@ -1642,6 +1673,20 @@ contexts:
         3: support.constant
         4: constant.numeric
 
+  snmp_trap_link_status:
+    - match: |
+        (?xi)
+        \s*
+        (snmp)\s+
+        (trap)\s+
+        (link-status)
+        (\s+permit\s+duplicates)?
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+
   snmp_packetsize:
     - match: |
         (?xi)
@@ -1653,6 +1698,235 @@ contexts:
         1: support.constant
         2: support.constant
         3: constant.numeric
+
+  snmp_queue_limit:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (queue-limit)\s+
+        (
+          (?:dispatcher)|
+          (?:engine)|
+          (?:notification-host)
+        )\s+
+        ({{number_range_1_1000}})
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+
+  snmp_trap_authentication_vrf:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (trap)\s+
+        (authentication)\s+
+        (vrf)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+
+  snmp_trap_link_ietf:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (trap)\s+
+        (link)\s+
+        (ietf)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+
+  snmp_trap_link_switchover:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (trap)\s+
+        (link)\s+
+        (switchover)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+
+  snmp_trap_retry:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (trap)\s+
+        (retry)\s+
+        (
+          \b
+          (?:
+            (?:10)|
+            (?:\d)
+          )
+          \b
+        )
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+
+  snmp_trap_timeout_old:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (trap-timeout)\s+
+        ({{number_range_1_1000}})
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+
+  snmp_trap_timeout:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (trap)\s+
+        (timeout)\s+
+        ({{number_range_1_1000}})
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: constant.numeric
+
+  snmp_trap_authentication_unknown_context:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (trap)\s+
+        (authentication)\s+
+        (unknown-context)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+        4: support.constant
+
+  snmp_source_interface:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (source-interface)\s+
+        (
+          (?:traps)|
+          (?:informs)
+        )\s+
+        ({{interface_names}})\s*({{interface_numbers}})
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.language
+        4: entity.other.attribute-name
+        5: constant.numeric
+
+  snmp_trap_source:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (trap-source)\s+
+        ({{interface_names}})\s*({{interface_numbers}})
+      captures:
+        1: support.constant
+        2: support.constant
+        3: entity.other.attribute-name
+        4: constant.numeric
+
+  snmp_trap_authentication:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (trap-authentication)
+      captures:
+        1: support.constant
+        2: support.constant
+
+  snmp_usm_cisco:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (usm)\s+
+        (cisco)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+
+  snmp_view:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (view)\s+
+        (\S+)\s+
+        (
+          (?:[\d\*]+\.)*
+          [\d\*]+\.?
+        )
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+        4: constant.numeric
+
+  snmp_if_monitor:
+    - match: |
+        (?xi)
+        \s*
+        (snmp)\s+
+        (trap)\s+
+        (if-monitor)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: support.constant
+
+  snmp_tftp_server_list:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (tftp-server-list)\s+
+        (?:
+          (\d+)|
+          (\S+)
+        )
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric
+        4: string.unquoted
+
+  snmp_system_shutdown:
+    - match: |
+        (?xi)
+        \s*
+        (snmp-server)\s+
+        (system-shutdown)
+      captures:
+        1: support.constant
+        2: support.constant
 
   snmp_queue_length:
     - match: |
@@ -3799,6 +4073,7 @@ contexts:
       - include: interface_ipv6_link_local
       - include: ip_dhcp_snooping
       - include: storm_control
+      - include: interface_snmp
       - match: |
           (?xi)
           ^\s*

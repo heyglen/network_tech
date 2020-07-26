@@ -576,6 +576,9 @@ interface range GigabitEthernet1/1-2
   switchport port-security violation shutdown
   switchport port-security violation restrict
   switchport port-security violation protect
+  snmp trap link-status
+  snmp trap link-status permit duplicates
+  snmp trap if-monitor
   spanning-tree bpduguard enable
   spanning-tree bpduguard disable
   service-policy output SOMETHING
@@ -637,6 +640,23 @@ snmp-server manager
 snmp-server manager session-timeout 600
 snmp-server packetsize 484
 snmp-server queue-length 10
+snmp-server queue-limit dispatcher 100
+snmp-server queue-limit engine 100
+snmp-server queue-limit notification-host 10
+snmp-server source-interface traps vlan10
+snmp-server system-shutdown
+snmp-server tftp-server-list ACL_NAME
+snmp-server tftp-server-list 10
+snmp-server trap authentication unknown-context
+snmp-server trap authentication vrf
+snmp-server trap link ietf
+snmp-server trap link switchover
+snmp-server trap retry 10
+snmp-server trap timeout 30
+snmp-server trap-source vlan10
+snmp-server trap-timeout 30
+snmp-server trap-authentication
+snmp-server usm cisco
 
 
 line con 0

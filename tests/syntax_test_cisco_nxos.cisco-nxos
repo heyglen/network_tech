@@ -54,6 +54,7 @@ ip route vrf NAME 1.2.3.0/24 vlan1 1.1.1.1 name asdf permanent
 
 default interface Ethernet0/1
 
+tacacs-server key 7 "fewhg"
 
 interface Vlan 20
   shutdown

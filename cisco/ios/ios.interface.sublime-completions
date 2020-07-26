@@ -136,5 +136,14 @@
             "trigger": "storm-control\taction trap",
             "contents": "storm-control action trap"
         },
+        { 
+            "trigger": "snmp\ttrap link-status",
+            "contents": "snmp trap link-status"
+        },
+        { 
+            "trigger": "snmp trap\tif-monitor",
+            "contents": "snmp trap if-monitor"
+        },
+
     ]
 }
