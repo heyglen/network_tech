@@ -144,6 +144,54 @@
             "trigger": "snmp trap\tif-monitor",
             "contents": "snmp trap if-monitor"
         },
+        {
+            "trigger": "service-policy\tinput",
+            "contents": "service-policy input ${1:name}"
+        },
+        {
+            "trigger": "service-policy\toutput",
+            "contents": "service-policy output ${1:name}"
+        },
+        {
+            "trigger": "speed\t1000",
+            "contents": "speed ${1:1000}"
+        },
+        {
+            "trigger": "speed\tauto",
+            "contents": "speed auto ${1:1000}"
+        },
+        {
+            "trigger": "speed\tnonegotiate",
+            "contents": "speed nonegotiate"
+        },
+        {
+            "trigger": "trustdevice\tcisco-phone",
+            "contents": "trust device cisco-phone"
+        },
+        {
+            "trigger": "trustdevice\tcts",
+            "contents": "trust device cts"
+        },
+        {
+            "trigger": "trustdevice\tip-camera",
+            "contents": "trust device ip-camera"
+        },
+        {
+            "trigger": "trustdevice\tmedia-player",
+            "contents": "trust device media-player"
+        },
+        {
+            "trigger": "autoqosvoip\tcisco-phone",
+            "contents": "auto qos voip cisco-phone"
+        },
+        {
+            "trigger": "autoqosvoip\tcisco-softphone",
+            "contents": "auto qos voip cisco-softphone"
+        },
+        {
+            "trigger": "autoqosvoip\ttrust",
+            "contents": "auto qos voip trust"
+        },
 
     ]
 }

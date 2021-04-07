@@ -1148,6 +1148,10 @@ variables:
       (?:po)|
       (?:serial)|
       (?:se)|
+      (?:TwentyFiveGigabitEthernet)|
+      (?:Twe)|
+      (?:TwoGigabitEthernet)|
+      (?:Tw)|
       (?:TenGigabitEthernet)|
       (?:Te)|
       (?:tunnel)|
@@ -4073,7 +4077,11 @@ contexts:
       - include: interface_ipv6_link_local
       - include: ip_dhcp_snooping
       - include: storm_control
+      - include: interface_speed
       - include: interface_snmp
+      - include: interface_service_policy
+      - include: interface_trust_device
+      - include: interface_auto_qos
       - match: |
           (?xi)
           ^\s*
@@ -4098,7 +4106,6 @@ contexts:
                 (?:on)
               )
             )|
-            (?:(speed)\s+(auto)|(\d+))|
             (?:(ip\s+nat)\s+((?:inside)|(?:outside)))|
             (?:(duplex)\s+((?:auto)|(?:half)|(?:auto)))|
             (?:
@@ -4195,53 +4202,117 @@ contexts:
           30: constant.numeric                             # channel-group id
           31: support.constant                             # channel-group mode
           32: support.constant                             # channel-group mode active
-          33: support.constant                             # speed
-          34: support.constant                             # speed auto
-          35: constant.numeric                             # speed #
-          36: support.constant                             # ip nat
-          37: support.constant                             # ip nat inside / outside
-          38: support.constant                             # duplex
-          39: support.constant                             # duplex auto / full / half
-          40: support.constant                             # ip
-          41: support.constant                             # ip flow ingress
-          42: support.constant                             # ip igmp query-interval
-          43: constant.numeric                             # ip igmp query-interval value
-          44: support.constant                             # mtu
-          45: constant.numeric                             # mtu value
-          46: support.constant                             # bandwidth
-          47: constant.numeric                             # bandwidth value
-          48: support.constant                             # speed
-          49: constant.numeric                             # speed value
-          50: support.constant                             # full-duplex
-          51: support.constant                             # half-duplex
-          52: support.constant                             # ip pim
-          53: entity.other.attribute-name                  # ip pim mode
-          54: support.constant                             # ip ospf
-          55: support.constant                             # ip ospf message-digest-key
-          56: constant.numeric                             # ip ospf message-digest-key id
-          57: entity.other.attribute-name                  # ip ospf message-digest-key hash
-          58: constant.numeric                             # ip ospf message-digest-key password type 7
-          59: string.unquoted.cisco.password.type.7        # ip ospf message-digest-key 7 password
-          60: constant.numeric                             # ip ospf message-digest-key password type
-          61: string.unquoted                              # ip ospf message-digest-key password
-          62: support.constant                             # ip ospf cost
-          63: constant.numeric                             # ip ospf cost value
-          64: support.constant                             # spanning-tree
-          65: support.constant                             # spanning-tree portfast
-          66: support.constant                             # spanning-tree portfast edge
-          67: support.constant                             # spanning-tree bpduguard
-          68: entity.other.attribute-name                  # spanning-tree bpduguard enable
-          69: keyword.other                                # spanning-tree bpduguard disable
-          70: support.constant                             # service-policy
-          71: support.constant                             # service-policy input/output
-          72: string.unquoted                              # service-policy input/output name
-          73: support.constant                             # logging event
-          74: support.constant                             # logging event link-status
-          75: support.constant                             # logging event trunk-status
-          76: support.constant                             # vpc
-          77: constant.numeric                             # vpc id
+          33: support.constant                             # ip nat
+          34: support.constant                             # ip nat inside / outside
+          35: support.constant                             # duplex
+          36: support.constant                             # duplex auto / full / half
+          37: support.constant                             # ip
+          38: support.constant                             # ip flow ingress
+          39: support.constant                             # ip igmp query-interval
+          40: constant.numeric                             # ip igmp query-interval value
+          41: support.constant                             # mtu
+          42: constant.numeric                             # mtu value
+          43: support.constant                             # bandwidth
+          44: constant.numeric                             # bandwidth value
+          45: support.constant                             # speed
+          46: constant.numeric                             # speed value
+          47: support.constant                             # full-duplex
+          48: support.constant                             # half-duplex
+          49: support.constant                             # ip pim
+          50: entity.other.attribute-name                  # ip pim mode
+          51: support.constant                             # ip ospf
+          52: support.constant                             # ip ospf message-digest-key
+          53: constant.numeric                             # ip ospf message-digest-key id
+          54: entity.other.attribute-name                  # ip ospf message-digest-key hash
+          55: constant.numeric                             # ip ospf message-digest-key password type 7
+          56: string.unquoted.cisco.password.type.7        # ip ospf message-digest-key 7 password
+          57: constant.numeric                             # ip ospf message-digest-key password type
+          58: string.unquoted                              # ip ospf message-digest-key password
+          59: support.constant                             # ip ospf cost
+          60: constant.numeric                             # ip ospf cost value
+          61: support.constant                             # spanning-tree
+          62: support.constant                             # spanning-tree portfast
+          63: support.constant                             # spanning-tree portfast edge
+          64: support.constant                             # spanning-tree bpduguard
+          65: entity.other.attribute-name                  # spanning-tree bpduguard enable
+          66: keyword.other                                # spanning-tree bpduguard disable
+          67: support.constant                             # service-policy
+          68: support.constant                             # service-policy input/output
+          69: string.unquoted                              # service-policy input/output name
+          70: support.constant                             # logging event
+          71: support.constant                             # logging event link-status
+          72: support.constant                             # logging event trunk-status
+          73: support.constant                             # vpc
+          74: constant.numeric                             # vpc id
       - include: pop_on_configure_terminal_context
       # - include: partials
+
+  interface_speed:
+    - match: |
+        (?xi)
+        ^\s*(speed)\s+
+        (?:
+          (10{1,3})|
+          (?:
+            (auto)
+            (
+              (?:\s+10(?!\d))?
+              (?:\s+100(?!\d))?
+              (?:\s+1000(?!\d))?
+            )?
+          )|
+          (nonegotiate)
+        )
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: constant.language
+        4: support.constant
+        5: constant.language
+
+  interface_trust_device:
+    - match: |
+        (?xi)
+        ^\s*(trust\s+device)\s+
+        (
+          (?:cisco-phone)|
+          (?:cts)|
+          (?:ip-camera)|
+          (?:media-player)
+        )
+      captures:
+        1: support.constant
+        2: constant.language
+
+  interface_service_policy:
+    - match: |
+        (?xi)
+        ^\s*(service-policy)\s+
+        (
+          (?:input)|
+          (?:output)
+        )\s+
+        (\S+)
+      captures:
+        1: support.constant
+        2: support.constant
+        3: string.unquoted
+
+  interface_auto_qos:
+    - include: interface_auto_qos_voip
+
+  interface_auto_qos_voip:
+    - match: |
+        (?xi)
+        ^\s*(auto\s+qos\s+voip)\s+
+        (
+          (?:cisco-phone)|
+          (?:cisco-softphone)|
+          (?:trust)
+        )
+      captures:
+        1: support.constant
+        2: constant.language
 
   interface_ipv6_link_local:
     - match: |

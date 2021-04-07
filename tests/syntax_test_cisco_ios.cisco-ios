@@ -478,12 +478,23 @@ interface TwoGigabitEthernet1/0/1
   switchport access vlan 1000
   switchport mode access
   switchport voice vlan 3000
-  speed auto 100 1000
+  speed auto
+  speed auto 10 100 1000
+  speed 10
+  speed 100
+  speed 1000
+  speed nonegotiate
   trust device cisco-phone
+  trust device cts
+  trust device ip-camera
+  trust device media-player
   auto qos voip cisco-phone
+  auto qos voip cisco-softphone
+  auto qos voip trust
   spanning-tree portfast
-  service-policy input AutoQos-4.0-CiscoPhone-Input-Policy
-  service-policy output AutoQos-4.0-Output-Policy
+  service-policy input name
+  service-policy output name
+
 
 interface range GigabitEthernet0
   exit
