@@ -422,6 +422,7 @@ variables:
     (?:lpd)|
     (?:netbios-ssn)|
     (?:netbios-ns)|
+    (?:netbios-dgm)|
     (?:nfs)|
     (?:ntp)|
     (?:rsh)|

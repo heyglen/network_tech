@@ -6,6 +6,8 @@
 
         * tacacs
 
+        * netbios-dgm
+
         * bootps
 
         * bootpc
