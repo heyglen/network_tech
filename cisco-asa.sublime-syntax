@@ -78,7 +78,8 @@ variables:
       (?:timeout)|
       (?:user-identity)|
       (?:username)|
-      (?:vlan\s+\d+)
+      (?:vlan\s+\d+)|
+      (?:write)
     )
   number_range_0_255: |
     (?xi)
