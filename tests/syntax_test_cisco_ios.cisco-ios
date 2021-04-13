@@ -772,6 +772,35 @@ aaa authentication login default tacacsplus
 aaa authentication login LIST_NAME group GROUP_NAME enable none
 aaa authentication login default group GROUP_NAME enable none
 
+! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-cr-book/sec-cr-a1.html#wp1598045725
+aaa authorization auth-proxy default
+aaa authorization auth-proxy list-name
+aaa authorization cache list-name
+aaa authorization config-commands list-name
+aaa authorization configuration list-name
+aaa authorization console list-name
+aaa authorization exec list-name
+aaa authorization ipmobile list-name
+aaa authorization multicast list-name
+aaa authorization network list-name
+aaa authorization policy-if list-name
+aaa authorization prepaid list-name
+aaa authorization radius-proxy list-name
+aaa authorization reverse-access list-name
+aaa authorization subscriber-service list-name
+aaa authorization template list-name
+
+aaa authorization exec default cache group-name
+aaa authorization exec default if-authenticated
+aaa authorization exec default local
+aaa authorization exec default none
+aaa authorization exec default group ldap
+aaa authorization exec default group radius
+aaa authorization exec default group tacacs+
+aaa authorization exec default group group-name
+aaa authorization exec default group group-name cache group-name if-authenticated local none group ldap group radius group tacacs+ group group-name
+
+aaa authorization auth-proxy default
 ! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-cr-book/sec-cr-a2.html#wp2385098032
 aaa session-id unique
 aaa session-id common
