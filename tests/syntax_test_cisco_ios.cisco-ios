@@ -734,6 +734,21 @@ aaa authentication dot1x default local
 aaa authentication dot1x default local-case
 aaa authentication dot1x default none
 
+! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-cr-book/sec-cr-a1.html#wp3330656416
+aaa accounting auth-proxy default none group name
+aaa accounting system default none group name
+aaa accounting commands 1 default none group name
+aaa accounting commands 15 default none group name
+aaa accounting network default none group name
+aaa accounting exec default none group name
+aaa accounting connection default none group name
+aaa accounting dot1x default none group name
+aaa accounting dot1x guarantee-first none group name
+aaa accounting dot1x name vrf name start-stop group name
+aaa accounting dot1x name vrf name stop-only group name
+aaa accounting dot1x name vrf name none broadcast group name
+aaa accounting dot1x name vrf name none broadcast radius
+
 aaa group server radius rad_eap
   server 1.2.3.4 auth-port 1812 acct-port 1813
 !

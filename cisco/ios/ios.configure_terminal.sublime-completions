@@ -249,6 +249,34 @@
             "trigger": "aaa\tauthorization template",
             "contents": "aaa authorization template default "
         },
+        {
+            "trigger": "aaa\taccounting auth-proxy",
+            "contents": "aaa accounting auth-proxy default ${1:start-stop} group ${2:name}"
+        },
+        {
+            "trigger": "aaa\taccounting system",
+            "contents": "aaa accounting system default ${1:start-stop} group ${2:name}"
+        },
+        {
+            "trigger": "aaa\taccounting commands",
+            "contents": "aaa accounting commands ${1:15} default ${2:start-stop} group ${2:name}"
+        },
+        {
+            "trigger": "aaa\taccounting network",
+            "contents": "aaa accounting network default ${1:start-stop} group ${2:name}"
+        },
+        {
+            "trigger": "aaa\taccounting exec",
+            "contents": "aaa accounting exec default ${1:start-stop} group ${2:name}"
+        },
+        {
+            "trigger": "aaa\taccounting connection",
+            "contents": "aaa accounting connection default ${1:start-stop} group ${2:name}"
+        },
+        {
+            "trigger": "aaa\taccounting dot1x",
+            "contents": "aaa accounting dot1x default ${1:start-stop} group ${2:name}"
+        },
         "snmp-server system-shutdown",
         "snmp-server trap authentication unknown-context",
         "snmp-server trap authentication vrf",

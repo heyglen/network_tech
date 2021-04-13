@@ -1422,6 +1422,7 @@ contexts:
     - include: enable_password
     - include: aaa_authentication
     - include: aaa_authorization
+    - include: aaa_accounting
     - include: ipv6_unicast_routing
     - include: ipv6_general_prefix
     - include: access_list_compiled
@@ -2852,6 +2853,67 @@ contexts:
       with_prototype:
         - match: (?=$)
           pop: true
+
+  aaa_accounting:
+    - include: aaa_accounting_main
+
+  aaa_accounting_main:
+    - match: |
+        (?xi)
+        ^\s*
+        (aaa\s+accounting)\s+
+        (?:
+          (auth-proxy)|
+          (system)|
+          (?:(commands)\s+({{number_range_1_15}}))|
+          (network)|
+          (exec)|
+          (connection)|
+          (dot1x)
+        )
+        \s+
+        (?:
+          (default)|
+          (guarantee-first)|
+          (\S+)
+        )
+        (?:\s+(vrf)\s+(\S+))?
+        \s+
+        (
+          (?:start-stop)|
+          (?:stop-only)|
+          (?:none)
+        )
+        (\s+broadcast)?
+        (?:
+          \s+
+          (?:
+            (radius)|
+            (?:(group)\s+(\S+))
+          )
+        )
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: entity.other.attribute-name
+        4: entity.other.attribute-name
+        5: constant.numeric
+        6: entity.other.attribute-name
+        7: entity.other.attribute-name
+        8: entity.other.attribute-name
+        9: entity.other.attribute-name
+        10: constant.language
+        11: constant.language
+        12: string.unquoted
+        13: support.constant
+        14: string.unquoted
+        15: support.constant
+        16: support.constant
+        17: support.constant
+        18: support.constant
+        19: string.unquoted
+
+
   aaa_authentication:
     - include: aaa_authentication_login
     - include: aaa_authentication_dot1x
@@ -2873,7 +2935,6 @@ contexts:
         4: support.constant
         5: string.unquoted
         6: constant.language
-
 
   aaa_authentication_login:
     - match: |
