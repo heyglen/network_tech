@@ -2,7 +2,19 @@
 
 * Cisco ASA
 
-    * Missing "tacacs" port name
+    * Missing port names
+
+        * tacacs
+
+        * bootps
+
+        * bootpc
+
+        * citrix-ica
+
+        * citrix-netbios-ns
+
+        * tftp
 
 * Cisco IOS
 
