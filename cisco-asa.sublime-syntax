@@ -428,6 +428,7 @@ variables:
     (?:ssh)|
     (?:sunrpc)|
     (?:syslog)|
+    (?:tacacs)|
     (?:talk)|
     (?:telnet)|
     (?:www)

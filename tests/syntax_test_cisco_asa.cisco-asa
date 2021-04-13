@@ -208,6 +208,7 @@ access-list cached ACL log flows: total 6443, denied 0 (deny-flow-max 4096)
  access-list acl-name line 42 extended permit icmp host 2.2.2.2 host 1.1.1.1 echo log informational interval 300
  access-list acl-name line 42 extended permit tcp host 1.1.1.1 object-group group-3 eq 2059 inactive (hitcnt=0)
  access-list acl-name line 42 extended permit 41 host 1.1.1.1 host 2.2.2.2
+ access-list acl-name line 42 extended permit 41 host 1.1.1.1 host 2.2.2.2 eq tacacs
  access-list acl-name extended deny ip any4 any4
  access-list acl-name extended deny ip any6 any6
  
