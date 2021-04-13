@@ -232,6 +232,16 @@ variables:
       )
       \b
     )
+  number_range_1_15: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:[1-9])|
+        (?:1[0-5])
+      )
+      \b
+    )
   number_range_1_31: |
     (?xi)
     (?:
@@ -1411,6 +1421,7 @@ contexts:
     - include: enable_secret
     - include: enable_password
     - include: aaa_authentication
+    - include: aaa_authorization
     - include: ipv6_unicast_routing
     - include: ipv6_general_prefix
     - include: access_list_compiled
@@ -2759,6 +2770,88 @@ contexts:
         6: support.constant             # block-for within
         7: constant.numeric             # block-for within seconds
 
+  aaa_authorization:
+    - match: |
+        (?xi)
+        ^\s*
+        (aaa\s+authorization)\s+
+        (?:
+          (auth-proxy)|
+          (cache)|
+          (?:(commands)\s+({{number_range_1_15}}))|
+          (config-commands)|
+          (configuration)|
+          (console)|
+          (exec)|
+          (ipmobile)|
+          (multicast)|
+          (network)|
+          (policy-if)|
+          (prepaid)|
+          (radius-proxy)|
+          (reverse-access)|
+          (subscriber-service)|
+          (template)
+        )
+        \s+
+        (?:
+          (default)|
+          (\S+)
+        )
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: entity.other.attribute-name
+        4: entity.other.attribute-name
+        5: constant.numeric
+        6: entity.other.attribute-name
+        7: entity.other.attribute-name
+        8: entity.other.attribute-name
+        9: entity.other.attribute-name
+        10: entity.other.attribute-name
+        11: entity.other.attribute-name
+        12: entity.other.attribute-name
+        13: entity.other.attribute-name
+        14: entity.other.attribute-name
+        15: entity.other.attribute-name
+        16: entity.other.attribute-name
+        17: entity.other.attribute-name
+        18: entity.other.attribute-name
+        19: constant.language
+        20: string.unquoted
+      push:
+        - meta_scope: text.cisco.ios.aaa.authorization
+        - match: (cache)\s+(\S+)
+          captures:
+            1: support.constant
+            2: string.unquoted
+        - match: (if-authenticated)
+          captures:
+            1: support.constant
+        - match: (local)
+          captures:
+            1: support.constant
+        - match: (none)
+          captures:
+            1: support.constant
+        - match: |
+            (?xi)
+            (group)\s+
+            (?:
+              (ldap)|
+              (radius)|
+              (tacacs\+)|
+              (\S+)
+            )
+          captures:
+            1: support.constant
+            2: constant.language
+            3: constant.language
+            4: constant.language
+            5: string.unquoted
+      with_prototype:
+        - match: (?=$)
+          pop: true
   aaa_authentication:
     - include: aaa_authentication_login
     - include: aaa_authentication_dot1x

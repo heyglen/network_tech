@@ -1,0 +1,29 @@
+{
+    "scope": "text.cisco.ios.aaa.authorization",
+    "completions": [
+        "local",
+        "none",
+        "if-authenticated",
+        {
+            "trigger": "cache",
+            "contents": "cache ${1:group-name}"
+        },
+        {
+            "trigger": "group\tname",
+            "contents": "group ${1:group-name}"
+        },
+        {
+            "trigger": "group\tldap",
+            "contents": "group ldap"
+        },
+        {
+            "trigger": "group\tradius",
+            "contents": "group radius"
+        },
+        {
+            "trigger": "group\ttacacs+",
+            "contents": "group tacacs+"
+        },
+
+    ]
+}

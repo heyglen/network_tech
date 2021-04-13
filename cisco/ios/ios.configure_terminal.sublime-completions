@@ -185,6 +185,70 @@
             "trigger": "snmp-server \ttrap-timeout (< v12.2SR)",
             "contents": "snmp-server trap-timeout ${1:30}"
         },
+        {
+            "trigger": "aaa\tauthorization auth-proxy",
+            "contents": "aaa authorization auth-proxy default"
+        },
+        {
+            "trigger": "aaa\tauthorization auth-proxy",
+            "contents": "aaa authorization auth-proxy default "
+        },
+        {
+            "trigger": "aaa\tauthorization cache",
+            "contents": "aaa authorization cache default "
+        },
+        {
+            "trigger": "aaa\tauthorization config-commands",
+            "contents": "aaa authorization config-commands default "
+        },
+        {
+            "trigger": "aaa\tauthorization configuration",
+            "contents": "aaa authorization configuration default "
+        },
+        {
+            "trigger": "aaa\tauthorization console",
+            "contents": "aaa authorization console default "
+        },
+        {
+            "trigger": "aaa\tauthorization exec",
+            "contents": "aaa authorization exec default "
+        },
+        {
+            "trigger": "aaa\tauthorization ipmobile",
+            "contents": "aaa authorization ipmobile default "
+        },
+        {
+            "trigger": "aaa\tauthorization multicast",
+            "contents": "aaa authorization multicast default "
+        },
+        {
+            "trigger": "aaa\tauthorization network",
+            "contents": "aaa authorization network default "
+        },
+        {
+            "trigger": "aaa\tauthorization policy-if",
+            "contents": "aaa authorization policy-if default "
+        },
+        {
+            "trigger": "aaa\tauthorization prepaid",
+            "contents": "aaa authorization prepaid default "
+        },
+        {
+            "trigger": "aaa\tauthorization radius-proxy",
+            "contents": "aaa authorization radius-proxy default "
+        },
+        {
+            "trigger": "aaa\tauthorization reverse-access",
+            "contents": "aaa authorization reverse-access default "
+        },
+        {
+            "trigger": "aaa\tauthorization subscriber-service",
+            "contents": "aaa authorization subscriber-service default "
+        },
+        {
+            "trigger": "aaa\tauthorization template",
+            "contents": "aaa authorization template default "
+        },
         "snmp-server system-shutdown",
         "snmp-server trap authentication unknown-context",
         "snmp-server trap authentication vrf",
