@@ -727,6 +727,7 @@ boot-end-marker
 aaa new-model
 !
 
+! https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-cr-book/sec-cr-a1.html#wp3188257209
 aaa authentication dot1x default enable
 aaa authentication dot1x default group radius
 aaa authentication dot1x default line
