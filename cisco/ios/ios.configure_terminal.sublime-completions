@@ -18,15 +18,15 @@
             "contents": "ip access-list extended ${1:name}\n\t$0\n\texit"
         },
         { 
-            "trigger": "interface\ttunnel", 
+            "trigger": "interface Tunnel\ttunnel",
             "contents": "interface Tunnel${1:0}\n\t$0\n\texit"
         },
         { 
-            "trigger": "interface\t1G", 
+            "trigger": "interface GigabitEthernet\t1G",
             "contents": "interface GigabitEthernet${1:0}/${2:1}\n\t$0\n\texit"
         },
         { 
-            "trigger": "interface\t10G", 
+            "trigger": "interface TenGigabitEthernet\t10G",
             "contents": "interface TenGigabitEthernet${1:0}/${2:1}\n\t$0\n\texit"
         },
         {
