@@ -1152,6 +1152,7 @@ variables:
       (?:Fo)|
       (?:GigabitEthernet)|
       (?:Gi)|
+      (?:HundredGigE)|
       (?:loopback)|
       (?:lo)|
       (?:port-channel)|

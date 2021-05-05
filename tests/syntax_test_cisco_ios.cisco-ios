@@ -424,6 +424,10 @@ configure terminal
 router bgp 12
 ip route 1.2.4.0 255.255.255.0 1.2.3.4
 
+
+interface HundredGigE1/2/3
+  exit
+
 interface vlan123
   exit
 
