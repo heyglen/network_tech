@@ -8,21 +8,12 @@ import pathlib
 
 import click
 import git
-import semver
 from github import Github
 
 REPO_NAME = "network_tech"
 
 
 class Version:
-    _setup_file_path = standard.configuration_path
-
-    @classmethod
-    def _get_config(cls):
-        config = configparser.ConfigParser()
-        config.read(cls._setup_file_path)
-        return config
-
     @classmethod
     def current(cls):
         file = str(pathlib.Path() / "messages.json")
@@ -34,20 +25,22 @@ class Version:
         for version in messages_index:
             if version == "install":
                 continue
+
             major, minor, patch = [int(v) for v in version.split(".")]
+            c_major, c_minor, c_patch = current_version
 
-            if major < current_version[0]:
+            if major < c_major:
                 continue
 
-            if minor < current_version[1]:
+            if major == c_major and minor < c_minor:
                 continue
 
-            if patch < current_version[2]:
+            if major == c_major and minor == c_minor and patch < c_patch:
                 continue
 
             current_version = (major, minor, patch)
 
-        return ".".join(current_version)
+        return ".".join([str(v) for v in current_version])
 
     @classmethod
     def major(cls):
@@ -74,18 +67,15 @@ class Version:
             minor += 1
         elif part == "patch":
             patch += 1
-        return ".".join([major, minor, patch])
+        return f"{major}.{minor}.{patch}"
 
 
 def perform_release(release_type):
     current_version = Version.current()
-
     new_version = getattr(Version, release_type)()
-    print(current_version)
-    print(new_version)
-    return
     message = create_message(new_version)
-    version_control(version, new_version)
+
+    version_control(current_version, new_version)
     github_release(REPO_NAME, new_version, message)
 
 
