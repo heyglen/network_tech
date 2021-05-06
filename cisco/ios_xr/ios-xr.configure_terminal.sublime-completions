@@ -17,6 +17,10 @@
             "trigger": "interface\tGi",
             "contents": "interface GigabitEthernet${1:0/0/0/0}\n\t$0\n"
         },
+        {
+            "trigger": "interface FortyGigE\t40G",
+            "contents": "interface FortyGigE${1:0/0/0/0}\n\t$0\n"
+        },
         { 
             "trigger": "interface\tLo",
             "contents": "interface Loopback${1:0}\n\t$0\n"
