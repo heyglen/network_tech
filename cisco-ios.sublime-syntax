@@ -1148,6 +1148,7 @@ variables:
       (?:Et)|
       (?:FastEthernet)|
       (?:Fa)|
+      (?:FourtyGigE)|
       (?:FortyGigabitEthernet)|
       (?:Fo)|
       (?:GigabitEthernet)|

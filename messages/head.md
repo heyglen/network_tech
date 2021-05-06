@@ -24,6 +24,8 @@
 
     * aaa accounting [#19](https://github.com/heyglen/network_tech/issues/19)
 
-    * HundredGigE interface name
+    * HundredGigE interface name [#38](https://github.com/heyglen/network_tech/issues/38)
+
+    * FourtyGigE interface name [#38](https://github.com/heyglen/network_tech/issues/38)
 
     * Autocomplete interface Gig & TenGig improvements
