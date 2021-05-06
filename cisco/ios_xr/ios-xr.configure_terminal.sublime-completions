@@ -14,7 +14,7 @@
             "contents": "vrf ${1:VRF_NAME}\n\t$0\n"
         },
         { 
-            "trigger": "interface\tGi",
+            "trigger": "interface GigabitEthernet\t1G",
             "contents": "interface GigabitEthernet${1:0/0/0/0}\n\t$0\n"
         },
         {
