@@ -21,6 +21,10 @@
             "trigger": "interface FortyGigE\t40G",
             "contents": "interface FortyGigE${1:0/0/0/0}\n\t$0\n"
         },
+        {
+            "trigger": "interface HundredGigE\t100G",
+            "contents": "interface HundredGigE${1:0/0/0/0}\n\t$0\n"
+        },
         { 
             "trigger": "interface\tLo",
             "contents": "interface Loopback${1:0}\n\t$0\n"

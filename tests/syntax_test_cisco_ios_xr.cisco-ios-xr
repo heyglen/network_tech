@@ -195,6 +195,8 @@ interface PTP0/RSP1/CPU0/0
  shutdown
 !
 
+interface HundredGigE0
+
 interface FortyGigE0
 
 interface Loopback0
