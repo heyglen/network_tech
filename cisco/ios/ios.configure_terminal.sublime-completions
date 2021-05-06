@@ -30,8 +30,8 @@
             "contents": "interface TenGigabitEthernet${1:0}/${2:1}\n\t$0\n\texit"
         },
         {
-            "trigger": "interface FourtyGigE\t40G",
-            "contents": "interface FourtyGigE${1:0}/${2:1}\n\t$0\n\texit"
+            "trigger": "interface FortyGigE\t40G",
+            "contents": "interface FortyGigE${1:0}/${2:1}\n\t$0\n\texit"
         },
         {
             "trigger": "interface HundredGigE\t100G",
