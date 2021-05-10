@@ -25,6 +25,7 @@
             "trigger": "dns\tserver-group",
             "contents": "dns server-group ${1:NAME}\n\t"
         },
+        "write net"
     ]
 }
 
