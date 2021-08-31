@@ -1215,6 +1215,20 @@ ip sla schedule 1 start-time after 01:02:03
 ip sla schedule 1 ageout 20
 ip sla schedule 1 recurring
 
+tacacs server HIDDENSERVER
+ address ipv4 HIDDENIP
+ key 7 025A1758190F1F35124F051C17035A4C1417396B2D3B732727616C27293C2F7363726970743E
+ timeout 7
+!
+tacacs server HIDDENSERVER
+ address ipv4 HIDDENIP
+ key 7 025A1758190F1F35124F051C17035A4C1417396B2D3B732727616C27293C2F7363726970743E
+ timeout 7
+!
+aaa group server tacacs+ TACACS_GROUP
+ server name HIDDENSERVER
+ server name HIDDENSERVER
+!
 
 crypto isakmp policy 1
 encryption 3des
