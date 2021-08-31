@@ -3,6 +3,7 @@
     "completions": [
         "description ",
         "shutdown",
+        "no shutdown",
         "switchport",
         { 
             "trigger": "no\tshutdown", 
@@ -10,10 +11,10 @@
         },
         { 
             "trigger": "encapsulation\tdot1q", 
-            "contents": "encapsulation dot1Q ${1:#}"
+            "contents": "encapsulation dot1Q ${1:123}"
         },
         { 
-            "trigger": "ip\tvrf forwarding", 
+            "trigger": "ip vrf forwarding\tvrf forwarding",
             "contents": "ip vrf forwarding ${1:name}"
         },
         { 
@@ -65,15 +66,31 @@
             "contents": "ipv6 address ${1:general-prefix} ${2:0:0:0::/64} ${3:eui-64}$0"
         },
         { 
-            "trigger": "switchport\tnonegotiate", 
+            "trigger": "switchport mode access\tmode access",
+            "contents": "switchport mode access"
+        },
+        {
+            "trigger": "switchport mode trunk\tmode trunk",
+            "contents": "switchport mode trunk"
+        },
+        {
+            "trigger": "switchport trunk encapsulation\tdot1q",
+            "contents": "switchport trunk encapsulation dot1q"
+        },
+        {
+            "trigger": "switchport\tnonegotiate",
             "contents": "switchport nonegotiate"
         },
         { 
-            "trigger": "switchport\ttrunk add", 
-            "contents": "switchport trunk allowed vlan add ${1:0}"
+            "trigger": "switchport trunk allowed vlan add\tadd",
+            "contents": "switchport trunk allowed vlan add ${1:1}"
+        },
+        {
+            "trigger": "switchport trunk allowed vlan remove\tremove",
+            "contents": "switchport trunk allowed vlan remove ${1:1}"
         },
         { 
-            "trigger": "ip\taddress", 
+            "trigger": "ip address\taddress",
             "contents": "ip address ${1:1.2.3.0} ${2:255.255.255.0}"
         },
         { 

@@ -4,7 +4,7 @@
         "exit",
         "write",
         { 
-            "trigger": "configure\tterminal", 
+            "trigger": "configure terminal\tconfig t",
             "contents": "configure terminal\n\t$0\n\texit"
         },
 

@@ -31,8 +31,8 @@
         "traceroute ",
         "undebug ",
         { 
-            "trigger": "showipinterfacebrief \tip interface brief", 
-            "contents": "show ip interface brief ${1:vlan} ${2:0}"
+            "trigger": "show ip interface brief\tip interface brief",
+            "contents": "show ip interface brief"
         },
         { 
             "trigger": "copy \tsource destination", 
