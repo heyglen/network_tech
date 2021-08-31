@@ -2429,15 +2429,27 @@ contexts:
         ^\s*
         ({{line_number}}\s+)?
         (?:(permit)|(deny))\s+
-        (?:(?:({{network_target}})|(?:(host)\s+({{ip}}))))
+        (?:
+          (?:
+            (?:({{ip}})\s+({{wildcard_mask}}))|
+            ({{ip}})|
+            (any)|
+            (?:
+              (host)\s+({{ip}})
+            )
+          )
+        )
       scope: text.network.cisco.acl.standard.ace
       captures:
         1: constant.numeric
         2: entity.other.attribute-name
         3: keyword.other
-        4: constant.numeric
-        5: support.constant
+        4: constant.numeric.ip.ipv4.address
+        5: constant.numeric.network.ipv4.wildcard
         6: constant.numeric.ip.ipv4.address
+        7: support.constant
+        8: support.constant
+        9: constant.numeric.ip.ipv4.address
 
   extended_acl_old:
     - match: |
@@ -2451,33 +2463,50 @@ contexts:
         ({{protocol_target}})
         (?:
           (?:
-            (?:\s+(?:({{network_target}})|(?:(host)\s+({{ip}}))))
+            (?:
+              \s+
+              (?:
+                (?:({{ip}})\s+({{wildcard_mask}}))|
+                (?:(host)\s+({{ip}}))|
+                (any)
+              )
+            )
             (?:\s+({{operators}})\s+({{port_target}}))?
             (\s+established)?
-            (?:\s+(?:({{network_target}})|(?:(host)\s+({{ip}}))))
+            (?:
+              \s+
+              (?:
+                (?:({{ip}})\s+({{wildcard_mask}}))|
+                (?:(host)\s+({{ip}}))|
+                (any)
+              )
+            )
             (?:\s+({{operators}})\s+({{port_target}}))?
             (\s+established)?
           )
         )
       captures:
-        1: support.constant                     # access-list
-        2: constant.numeric                     # access-list number
-        3: entity.other.attribute-name          # permit
-        4: keyword.other                        # deny
-        5: constant.numeric                     # protocol name
-        6: constant.numeric.target_ip           # Source Network
-        7: support.constant                     # Source Host
-        8: constant.numeric.ip.ipv4.address     # Source Host IP
-        9: support.constant                     # Source Operator
-        10: constant.numeric                    # Source Port
-        11: support.constant                    # Source Established
-        12: constant.numeric.target_ip          # Destination Network
-        13: support.constant                    # Destination Host
-        14: constant.numeric.ip.ipv4.address    # Destination Host IP
-        15: support.constant                    # Destination Operator
-        16: constant.numeric                    # Destination Port
-        17: support.constant                    # Destination Established
-        18: ios.acl.ace.target_ip               # IP target scope
+        1: support.constant
+        2: constant.numeric
+        3: entity.other.attribute-name
+        4: keyword.other
+        5: constant.numeric
+        6: constant.numeric.target_ip
+        7: constant.numeric.network.ipv4.wildcard
+        8: constant.language
+        9: constant.numeric.ip.ipv4.address
+        10: constant.language
+        11: support.constant
+        12: constant.numeric
+        13: support.constant
+        14: constant.numeric.target_ip
+        15: constant.numeric.network.ipv4.wildcard
+        16: constant.language
+        17: constant.numeric.ip.ipv4.address
+        18: constant.language
+        19: support.constant
+        20: constant.numeric
+        21: support.constant
 
   extended_acl:
     - match: ^\s*(ip)\s+(access-list)\s+(extended)\s+(\S+)
@@ -2625,7 +2654,8 @@ contexts:
                 (?:
                   \s+
                   (?:
-                    ({{network_target}})|
+                    (?:({{ip}})\s+({{wildcard_mask}}))|
+                    (any)|
                     (?:(host)\s+({{ip}}))|
                     (?:(object-group)\s+(\S+))
                   )
@@ -2633,7 +2663,8 @@ contexts:
                 (?:
                   \s+
                   (?:
-                    ({{network_target}})|
+                    (?:({{ip}})\s+({{wildcard_mask}}))|
+                    (any)|
                     (?:(host)\s+({{ip}}))|
                     (?:(object-group)\s+(\S+))
                   )
@@ -2648,7 +2679,8 @@ contexts:
                 (?:
                   \s+
                   (?:
-                    ({{network_target}})|
+                    (?:({{ip}})\s+({{wildcard_mask}}))|
+                    (any)|
                     (?:(host)\s+({{ip}}))|
                     (?:(object-group)\s+(\S+))
                   )
@@ -2664,7 +2696,8 @@ contexts:
                 (?:
                   \s+
                   (?:
-                    ({{network_target}})|
+                    (?:({{ip}})\s+({{wildcard_mask}}))|
+                    (any)|
                     (?:(host)\s+({{ip}}))|
                     (?:(object-group)\s+(\S+))
                   )
@@ -2683,44 +2716,50 @@ contexts:
         )
       scope: text.network.cisco.acl.extended.ace
       captures:
-        1: constant.numeric                       # Line number
-        2: entity.other.attribute-name            # Permit
-        3: keyword.other                          # Deny
-
-        4: support.constant                      # Service network object-group
-        5: string.unquoted.service               # Service network object-group name
-        6: constant.numeric.target_ip            # Source Network
-        7: support.constant                      # Source Host
-        8: constant.numeric.ip.ipv4.address      # Source Host IP
-        9: support.constant                      # Source network object-group
-        10: string.unquoted                       # Source network object-group name
-        11: constant.numeric.target_ip            # Destination Network
-        12: support.constant                      # Destination Host
-        13: constant.numeric.ip.ipv4.address      # Destination Host IP
-        14: support.constant                      # Destination network object-group
-        15: string.unquoted                       # Destination network object-group name
-
-        16: constant.numeric                       # Protocol Name
-        17: constant.numeric.target_ip             # Source Network
-        18: support.constant                       # Source Host
-        19: constant.numeric.ip.ipv4.address       # Source Host IP
-        20: support.constant                       # Source network object-group
-        21: string.unquoted                        # Source network object-group name
-        22: support.constant                      # Source Operator
-        23: constant.numeric                      # Source Port
-        24: support.constant                      # Source service object-group
-        25: string.unquoted                       # Source service object-group name
-        26: support.constant                      # Source Established
-        27: constant.numeric.target_ip            # Destination Network
-        28: support.constant                      # Destination Host
-        29: constant.numeric.ip.ipv4.address      # Destination Host IP
-        30: support.constant                      # Destination network object-group
-        31: string.unquoted                       # Destination network object-group name
-        32: support.constant                      # Destination Operator
-        33: constant.numeric                      # Destination Port
-        34: support.constant                      # Destination service object-group
-        35: string.unquoted                       # Destination service object-group name
-        36: support.constant                      # Destination Established
+        1: constant.numeric                         # Line number
+        2: entity.other.attribute-name              # Permit
+        3: keyword.other                            # Deny
+        4: support.constant                         # Service network object-group
+        5: string.unquoted.service                  # Service network object-group name
+        6: constant.numeric.ip.ipv4.address         # Source IP
+        7: constant.numeric.network.ipv4.wildcard   # Source Wildcard mask
+        8: constant.language                        # Any
+        9: support.constant                         # Source Host
+        10: constant.numeric.ip.ipv4.address        # Source Host IP
+        11: support.constant                        # Source network object-group
+        12: string.unquoted                         # Source network object-group name
+        13: constant.numeric.ip.ipv4.address        # Destination IP
+        14: constant.numeric.network.ipv4.wildcard  # Destination Wildcard mask
+        15: constant.language                       # Any
+        16: support.constant                        # Destination Host
+        17: constant.numeric.ip.ipv4.address        # Destination Host IP
+        18: support.constant                        # Destination network object-group
+        19: string.unquoted                         # Destination network object-group name
+        20: constant.numeric                        # Protocol Name
+        21: constant.numeric.ip.ipv4.address        # Source IP
+        22: constant.numeric.network.ipv4.wildcard  # Source Wildcard mask
+        23: constant.language                       # Any
+        24: support.constant                        # Source Host
+        25: constant.numeric.ip.ipv4.address        # Source Host IP
+        26: support.constant                        # Source network object-group
+        27: string.unquoted                         # Source network object-group name
+        28: support.constant                        # Source Operator
+        29: constant.numeric                        # Source Port
+        30: support.constant                        # Source service object-group
+        31: string.unquoted                         # Source service object-group name
+        32: support.constant                        # Source Established
+        33: constant.numeric.ip.ipv4.address        # Destination IP
+        34: constant.numeric.network.ipv4.wildcard  # Destination Wildcard mask
+        35: constant.language                       # Any
+        36: support.constant                        # Destination Host
+        37: constant.numeric.ip.ipv4.address        # Destination Host IP
+        38: support.constant                        # Destination network object-group
+        39: string.unquoted                         # Destination network object-group name
+        40: support.constant                        # Destination Operator
+        41: constant.numeric                        # Destination Port
+        42: support.constant                        # Destination service object-group
+        43: string.unquoted                         # Destination service object-group name
+        44: support.constant                        # Destination Established
 
   route_map:
     - match: '^\s*(route-map)\s+(\S+)\s+(?:(permit)|(deny))\s+(\d+)?'
