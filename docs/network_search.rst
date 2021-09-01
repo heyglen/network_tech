@@ -21,7 +21,7 @@ Type a network in any format and any networks or host IP addresses matching or c
 
  Command: `Network: Find All`
 
-More then one network can be searched for by seperating them with commas.
+More then one network can be searched for by separating them with commas.
 
 
 .. note::

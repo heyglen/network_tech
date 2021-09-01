@@ -35,7 +35,7 @@ Check the decode implementation used in this plugin `here <https://github.com/he
 Type 7
 ------
 
-Type 7 passwords are a Cisco propriatary encryption algorithm.
+Type 7 passwords are a Cisco proprietary encryption algorithm.
 
 Decoding is done using the `well documented algorithm <https://pen-testing.sans.org/resources/papers/gcih/cisco-ios-type-7-password-vulnerability-100566>`_.
 

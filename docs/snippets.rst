@@ -21,7 +21,7 @@ Manually Trigger the Completions Popup: ⌨ :kbd:`<ctrl>+<space>`
 There are mask completions that convert between the different IPv4 mask types:
  * Prefix Length: /24
  * Subnet Mask: 255.255.255.0
- * Wildard Mask: 0.0.0.255
+ * Wildcard Mask: 0.0.0.255
 
 .. note::
 
