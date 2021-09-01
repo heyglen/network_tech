@@ -1,6 +1,6 @@
 # Network Tech
 
-Cisco syntax highlighting and completions for Sublime Text 3.
+Cisco syntax highlighting and completions for Sublime Text.
 
 ![Cisco IOS Demo](http://network-tech.readthedocs.io/en/latest/_images/cisco_ios_demo.gif)
 
@@ -49,6 +49,8 @@ All commands that change the configuration mode are defined as [symbols](http://
 ![Symbol Jumping](https://network-tech.readthedocs.io/en/latest/_images/jumping.gif)
 
 *Sublime Text 2 is not supported*
+
+*Sublime Text 3 is deprecated*
 
 ## Feature Requests and Bug Reporting
 

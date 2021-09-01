@@ -12,14 +12,10 @@ Network Tech Documentation
 Quick Start
 -----------
 
-1. `Install Sublime Text 3 <https://www.sublimetext.com/3>`_
+1. `Install Sublime Text <https://www.sublimetext.com/>`_
 
-2. Install Package Control 
-      :menuselection:`Tools --> Command Pallet`
-      
-      ⌨ :kbd:`Install Package Control`
+2. `Install Package Control <https://packagecontrol.io/installation>`_
 
-      ⌨ :kbd:`<enter>`
 3. Install the package:
       :menuselection:`Tools --> Command Pallet`
       
