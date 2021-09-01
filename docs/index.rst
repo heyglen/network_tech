@@ -14,7 +14,7 @@ Quick Start
 
 1. `Install Sublime Text <https://www.sublimetext.com/>`_
 
-2. `Install Package Control <https://packagecontrol.io/installation>`_
+2. `Activate Package Control <https://packagecontrol.io/installation>`_ in Sublime Text
 
 3. Install the package:
       :menuselection:`Tools --> Command Pallet`
