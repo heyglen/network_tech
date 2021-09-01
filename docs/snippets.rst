@@ -3,6 +3,10 @@ Completions
 
 Configuration snippets and autocompetions are suggested based off the syntax and configuration mode.
 
+.. hint::
+
+    Completions are selected by fuzzy matching what you type. "shipintbr" will match "show ip interface brief". "show ip" will match completions starting with "ip"–*not* "show ip". Avoid typing spaces to match a specific completion.
+
 Mask Conversions
 ----------------
 
