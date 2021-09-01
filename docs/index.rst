@@ -37,6 +37,8 @@ Quick Start
 
 😎
 
+`SubReddit: SublimeNetworkTech <https://www.reddit.com/r/SublimeNetworkTech/>`_
+
 Contents
 --------
 
