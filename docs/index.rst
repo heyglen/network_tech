@@ -30,7 +30,8 @@ Quick Start
       ⌨ :kbd:`Network Tech`
 
       ⌨ :kbd:`<enter>`
-4. Enable the syntax highlighing
+
+4. Enable the syntax highlighting
       :menuselection:`Tools --> Command Pallet`
 
       ⌨ :kbd:`Set Syntax: Cisco IOS`
