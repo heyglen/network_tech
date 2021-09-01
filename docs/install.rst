@@ -25,4 +25,4 @@ Install
 
 .. note::
     
-    Sublime Text 2 is not supported, Sublime Text 3 is deprecated. Please use the latest Sublime Text.
+    Sublime Text 2 is not supported and Sublime Text 3 is deprecated. Please use the latest Sublime Text.
