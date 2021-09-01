@@ -6,8 +6,7 @@
 Network Tech Documentation
 ==========================
 
-`SubReddit: SublimeNetworkTech <https://www.reddit.com/r/SublimeNetworkTech/>`_
-
+Network Tech is an add-on (Package) for Sublime Text providing Cisco configuration highlighting, auto completions and more.
 
 Quick Start
 -----------
