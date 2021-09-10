@@ -1,5 +1,6 @@
-site_name: Network Tech
+site_name: Network Tech Documentation
 site_author: Glen Harmon
+repo_url: https://github.com/heyglen/network_tech
 
 extra:
     generator: false
@@ -13,11 +14,12 @@ theme:
     features:
         - navigation.instant
         - navigation.tracking
-        - navigation.sections
+        - navigation.tabs.sticky
         - search.highlight
 
 markdown_extensions:
     - pymdownx.keys
+    - pymdownx.critic
     - admonition
     - toc:
           permalink: true
