@@ -6,26 +6,28 @@
 
 3. Install the package:
 
-      File Menu: `Tools` → `Command Pallet`
+    File Menu: `Tools` → `Command Pallet`
 
-      :keyboard: `Package Control: Install Package`
+    :keyboard: `Package Control: Install Package`
 
-      :keyboard: `<enter>`
+    :keyboard: `<enter>`
 
-      :keyboard: `Network Tech`
+    :keyboard: `Network Tech`
 
-      :keyboard: `<enter>`
+    :keyboard: `<enter>`
 
 4. Enable the syntax highlighting
 
-      File Menu: `Tools` → `Command Pallet`
+    File Menu: `Tools` → `Command Pallet`
 
-      :keyboard: `Set Syntax: Cisco IOS`
+    :keyboard: `Set Syntax: Cisco IOS`
 
-      :keyboard: `<enter>`
+    :keyboard: `<enter>`
 
 !!! note
     
-    Sublime Text 2 is not supported and Sublime Text 3 is deprecated.
+    Sublime Text 2 is not supported.
+
+    Sublime Text 3 is deprecated.
 
     Please use the latest Sublime Text.

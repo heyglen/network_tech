@@ -10,23 +10,23 @@ Network Tech is a Package for Sublime Text providing Cisco config highlighting, 
 
 3. Install the package:
 
-      File Menu: `Tools` → `Command Pallet`
+    File Menu: `Tools` → `Command Pallet`
       
-      :keyboard: `Package Control: Install Package`
+    :keyboard: `Package Control: Install Package`
 
-      :keyboard: `<enter>`
+    :keyboard: `<enter>`
       
-      :keyboard: `Network Tech`
+    :keyboard: `Network Tech`
 
-      :keyboard: `<enter>`
+    :keyboard: `<enter>`
 
 4. Enable the syntax highlighting
 
-      File Menu: `Tools` → `Command Pallet`
+    File Menu: `Tools` → `Command Pallet`
 
-      :keyboard: `Set Syntax: Cisco IOS`
+    :keyboard: `Set Syntax: Cisco IOS`
 
-      :keyboard: `<enter>`
+    :keyboard: `<enter>`
 
 ![](/img/cisco_ios_demo.gif)
 

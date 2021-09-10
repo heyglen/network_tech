@@ -23,7 +23,7 @@ Supported configurations:
 
 Set the syntax from the command pallet
 
-1. File Menu `Tools` → `Command Pallet`   **or**   :keyboard:`ctrl+shift+p`
+1. File Menu `Tools` → `Command Pallet`   *or*   :keyboard:`ctrl+shift+p`
 
 2. `Set Syntax: Cisco IOS`   :keyboard:  `<enter>`
 
