@@ -85,7 +85,7 @@
     { "trigger": "255.255.240.0\t/20", "contents": "/20"}, 
     { "trigger": "255.255.248.0\t/21", "contents": "/21"}, 
     { "trigger": "255.255.252.0\t/22", "contents": "/22"}, 
-    { "trigger": "255.255.254.0\t/23", "contents": "/23"}, 
+    { "trigger": "255.255.254.0\t/23", "contents": "/23"},
     { "trigger": "255.255.255.0\t/24", "contents": "/24"}, 
     { "trigger": "255.255.255.128\t/25", "contents": "/25"}, 
     { "trigger": "255.255.255.192\t/26", "contents": "/26"}, 
