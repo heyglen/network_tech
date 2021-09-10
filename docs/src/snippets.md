@@ -20,7 +20,7 @@ Configuration snippets and auto completions are suggested based off the syntax a
 
 ## Mask Conversions
 
-![](img/mask_conversions_demo.gif)
+![](/src/img/mask_conversions_demo.gif)
 
 !!! warning
 

@@ -6,7 +6,7 @@ File Menu: `Tools` → `Command Pallet`
 
 Command: `Network: Find`
 
-![](img/find.gif)
+![](/src/img/find.gif)
 
 ## All Networks
 
