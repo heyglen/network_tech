@@ -1,0 +1,43 @@
+site_name: Network Tech
+site_author: Glen Harmon
+
+extra:
+    generator: false
+
+theme:
+    name: material
+    palette:
+        scheme: slate
+        primary: purple
+    custom_dir: docs/overrides
+    features:
+        - navigation.instant
+        - navigation.tracking
+        - navigation.sections
+        - search.highlight
+
+markdown_extensions:
+    - pymdownx.keys
+    - admonition
+    - toc:
+          permalink: true
+          toc_depth: 3
+    - pymdownx.emoji:
+          emoji_index: !!python/name:materialx.emoji.twemoji
+          emoji_generator: !!python/name:materialx.emoji.to_svg
+
+plugins:
+    - search
+
+nav:
+    - Home: "src/index.md"
+    - "src/install.md"
+    - "src/syntax.md"
+    - "src/snippets.md"
+    - "src/context_info.md"
+    - "src/formatting.md"
+    - "src/password_decode.md"
+    - "src/jumping.md"
+    - "src/network_search.md"
+    - "src/settings.md"
+    - "src/feature_requets_and_bugs.md"

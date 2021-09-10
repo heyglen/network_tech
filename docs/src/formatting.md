@@ -1,8 +1,6 @@
-Formatting
-==========
+# Formatting
 
-MAC Address
------------
+## MAC Address
 
 Select a MAC address and use ``Network Tech: Format MAC Address`` from the command pallet to change the format
 
