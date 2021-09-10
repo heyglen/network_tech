@@ -1,0 +1,4 @@
+# MkDocs Material theme (for documentation build)
+# https://github.com/squidfunk/mkdocs-material
+mkdocs-material
+mkdocs-material-extensions
