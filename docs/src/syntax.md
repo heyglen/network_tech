@@ -1,24 +1,26 @@
 # Highlighting
 
-Configuration highlighting is context aware.
+Context aware configuration highlighting.
 
 !!! warning
 
-  There are a huge number of commands so they are not all highlighted.
+    There are a huge number of commands so they are not all highlighted.
 
-  The focus is on frequently used commands. This is a **very** subjective statement. If you want extra highlighting added, feel free to open an [issue on GitHub](https://github.com/heyglen/network_tech/issues)
+    The focus is on frequently used commands. This is a **very** subjective statement. If you want extra highlighting added, feel free to open an [issue on GitHub](https://github.com/heyglen/network_tech/issues)
 
 Supported configurations:
 
-- Cisco ASA
+- Cisco
 
-- Cisco ACE
+    - ASA
 
-- Cisco IOS
+    - ACE
 
-- Cisco IOS XR
+    - IOS
 
-- Cisco NXOS
+    - IOS XR
+
+    - NXOS
 
 
 Set the syntax from the command pallet
