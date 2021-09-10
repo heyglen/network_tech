@@ -8,7 +8,7 @@ Quickly jump around large configuration using Symbols
 
 * File Menu: `Goto` → `Goto Symbol...`
 
-![](/img/jumping.gif)
+![](img/jumping.gif)
 
 These jumps are made to config context commands.
 

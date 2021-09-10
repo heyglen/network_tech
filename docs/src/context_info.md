@@ -10,10 +10,10 @@ File Menu: `Tools` → `Command Pallet`
 
 ## IPv4
 
-![](/img/hover-v4-info.png)
+![](img/hover-v4-info.png)
 
 ## IPv6
 
-![](/img/hover-v6-info.png)
+![](img/hover-v6-info.png)
 
 
