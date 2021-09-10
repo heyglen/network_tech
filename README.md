@@ -28,6 +28,6 @@ Network Tech is a Package for Sublime Text providing Cisco config highlighting, 
 
     :keyboard: `<enter>`
 
-![]((docs/img/cisco_ios_demo.gif)
+![](docs/img/cisco_ios_demo.gif)
 
 😎
