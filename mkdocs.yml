@@ -41,5 +41,6 @@ nav:
     - "src/password_decode.md"
     - "src/jumping.md"
     - "src/network_search.md"
+    - "src/keyboard-shortcuts.md"
     - "src/settings.md"
     - "src/feature_requets_and_bugs.md"
