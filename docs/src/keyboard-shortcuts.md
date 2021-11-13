@@ -1,6 +1,6 @@
 # Keyboard Shortcuts
 
-## Arrow keys subnetting
+## Arrow key subnetting
 
 !!! tip
 
