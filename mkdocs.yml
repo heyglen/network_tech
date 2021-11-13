@@ -18,19 +18,21 @@ theme:
         - search.highlight
 
 markdown_extensions:
+    - pymdownx.highlight
+    - pymdownx.superfences
     - pymdownx.keys
-    - pymdownx.critic
     - admonition
+    - pymdownx.critic
+    - pymdownx.snippets:
+          base_path: .
     - toc:
           permalink: true
           toc_depth: 3
     - pymdownx.emoji:
           emoji_index: !!python/name:materialx.emoji.twemoji
           emoji_generator: !!python/name:materialx.emoji.to_svg
-
 plugins:
     - search
-
 nav:
     - Home: "src/index.md"
     - "src/install.md"
