@@ -1,6 +1,7 @@
 """
 Automated Plugin Releases
 
+pip install PyGithub
 """
 import datetime
 import json
@@ -120,7 +121,6 @@ def version_control(old_version, new_version):
 
 
 def github_release(repo_name, version, message):
-
     access_token = (pathlib.Path().home() / ".github_access_token").read_text()
 
     github = Github(access_token)
