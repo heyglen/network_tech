@@ -1201,17 +1201,20 @@ variables:
       (?:bgp)|
       (?:bootps)|
       (?:bootpc)|
+      (?:cmd)|
       (?:ssh)|
       (?:ftp-data)|
       (?:ftp)|
       (?:domain)|
       (?:ntp)|
       (?:snmptrap)|
+      (?:sunrpc)|
       (?:syslog)|
       (?:telnet)|
       (?:tacacs)|
       (?:isakmp)|
-      (?:snmp)
+      (?:snmp)|
+      (?:www)
     )
   operators: |
     (?xi)
@@ -4528,6 +4531,7 @@ contexts:
           (standby)\s+(?:(\d+)|(?:(version)\s+([1-2])))\s+
           (?:
             (?:(ip)\s+({{ip}}))|
+            (?:(preempt)\s+(delay)\s+(reload)\s+(\d+))|
             (?:(preempt)(?:\s+(delay\s+minimum)\s+(\d+)(?:\s+(reload)\s+(\d+))?)?)|
             (?:(track)\s+(\d+)\s+(decrement)\s+(\d+))|
             (?:(priority)\s+(\d+))|
@@ -4546,19 +4550,23 @@ contexts:
         5: support.constant                       # ip
         6: constant.numeric.ip.ipv4.address       # ip address
         7: support.constant                       # preempt
-        8: support.constant                       # delay minimum
-        9: constant.numeric                       # delay time
-        10: support.constant                      # reload
-        11: constant.numeric                      # reload time
-        12: support.constant                      # track
-        13: constant.numeric                      # track number
-        14: support.constant                      # track decrement
-        15: constant.numeric                      # track decrement number
-        16: support.constant                      # priority
-        17: constant.numeric                      # priority number
-        18: support.constant                      # ipv6
-        19: support.constant                      # ipv6 autoconfig
-        20: constant.numeric.ip.ipv6.prefix       # ipv6 ip
+        8: support.constant                       # preempt delay
+        9: support.constant                       # preempt delay reload
+        10: constant.numeric                       # preempt delay reload
+        11: support.constant                       # preempt
+        12: support.constant                       # delay minimum
+        13: constant.numeric                       # delay time
+        14: support.constant                      # reload
+        15: constant.numeric                      # reload time
+        16: support.constant                      # track
+        17: constant.numeric                      # track number
+        18: support.constant                      # track decrement
+        19: constant.numeric                      # track decrement number
+        20: support.constant                      # priority
+        21: constant.numeric                      # priority number
+        22: support.constant                      # ipv6
+        23: support.constant                      # ipv6 autoconfig
+        24: constant.numeric.ip.ipv6.prefix       # ipv6 ip
 
   banner:
     - match: |

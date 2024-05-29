@@ -1,0 +1,10 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.l2_vpn",
+    "completions": [
+        {
+            "trigger": "bridge\tgroup",
+            "contents": "bridge group ${1:NAME}\n\t$0\n"
+        },
+
+    ]
+}

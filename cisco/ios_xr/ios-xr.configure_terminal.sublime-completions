@@ -18,6 +18,10 @@
             "contents": "interface GigabitEthernet${1:0/0/0/0}\n\t$0\n"
         },
         {
+            "trigger": "interface TwentyFiveGigE\t25G",
+            "contents": "interface TwentyFiveGigE${1:0/0/0/0}\n\t$0\n"
+        },
+        {
             "trigger": "interface TenGigE\t10G",
             "contents": "interface TenGigE${1:0/0/0/0}\n\t$0\n"
         },

@@ -199,6 +199,52 @@ interface HundredGigE0
 
 interface FortyGigE0
 
+interface TwentyFiveGigE0/0/0/40
+
+l2vpn
+  bridge group NAME
+    bridge-domain NAME
+      interface Bundle-Ether2.1
+        evi 6005
+        evi 65534
+        evi 1
+        evi 65535  # Should Fail
+        evi 0  # Should Fail
+      exit
+    exit
+  exit
+
+interface BVI34
+ host-routing
+ vrf 30
+ ipv4 address 10.0.0.5 255.0.0.0
+ arp learning local
+ arp learning disable
+ local-proxy-arp
+ mac-address 0123.4567.89ab
+!
+!
+
+evpn
+ interface Bundle-Ether1
+   ethernet-segment
+   identifier type 0 40.00.00.00.00.00.00.00.01
+   load-balancing-mode single-active
+   bgp route-target 4000.0000.0001
+ !
+ evi 6005
+  bgp
+   rd 200:50
+   route-target import 100:6005
+   route-target export 100:6005
+!
+!
+interface bundle-ether2.1 l2transport
+  no shutdown
+  encapsulation dot1q 1
+  rewrite ingress tag pop 1 symmetric
+!
+
 interface Loopback0
  ipv4 address 1.2.3.4/28
  ipv4 address 1.2.3.4 255.255.255.255

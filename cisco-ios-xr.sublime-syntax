@@ -230,6 +230,21 @@ variables:
       )
       \b
     )
+  number_range_1_65534: |
+    (?xi)
+    (?:
+      \b
+      (?:
+        (?:6553[0-4])|
+        (?:655[0-2]\d)|
+        (?:65[0-4]\d{2})|
+        (?:6[0-4]\d{3})|
+        (?:[0-5]\d{4})|
+        (?:\d{2,4})|
+        (?:[1-9])
+      )
+      \b
+    )
   number_range_1_100: |
     (?xi)
     (?:
@@ -919,6 +934,7 @@ variables:
         (?:interface)|
         (?:lacp)|
         (?:line)|
+        (?:l2vpn)|
         (?:mpls\s+traffic-eng\s*$)|
         (?:mpls\s+ldp\s*$)|
         (?:object-group)|
@@ -956,6 +972,7 @@ variables:
         (?:circuit-type)|
         (?:mtu)|
         (?:bandwidth)|
+        (?:host-routing)|
         (?:lacp)|
         (?:{{ctx_pop_configure_terminal}})
       )
@@ -1135,6 +1152,34 @@ variables:
         (?:{{ctx_pop_configure_terminal}})
       )
     )
+  ctx_l2vpn: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:bridge\s+group\s+\d+)|
+        (?:{{ctx_pop_configure_terminal}})
+      )
+    )
+  ctx_l2vpn_bridge_group: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:bridge-domain\s+\d+)|
+        (?:{{ctx_l2vpn}})
+      )
+    )
+  ctx_l2vpn_bridge_group_bridge_domain: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:interface\s+\S+)|
+        (?:{{ctx_l2vpn_bridge_group}})
+      )
+    )
+
   ctx_pop_vrf: |
     (?xi)
     (?=
@@ -1298,6 +1343,9 @@ variables:
       (?:ptp)|
       (?:serial)|
       (?:se)|
+      (?:TwentyFiveGigE)|
+      (?:TwentyFiveGigEthernet)|
+      (?:Twe)|
       (?:TenGigabitEthernet)|
       (?:TenGigE)|
       (?:Te)|
@@ -1536,6 +1584,7 @@ contexts:
     - include: ssh_server
     - include: cdp
     - include: interface
+    - include: l2_vpn
     - include: interface_management
     - include: rpl_set_definition
     - include: route_policy
@@ -7669,6 +7718,79 @@ contexts:
       captures:
         0: support.constant
 
+  l2_vpn:
+    - match: |
+        (?xi)
+        ^\s*
+        (l2vpn)
+        \s*$
+      captures:
+        0: cisco.scope.l2_vpn
+        1: variable.parameter
+      push:
+        - meta_content_scope: text.network.cisco.l2_vpn
+        - include: l2_vpn_bridge_group
+        - match: '{{ctx_pop_configure_terminal}}'
+          pop: true
+
+  l2_vpn_bridge_group:
+    - match: |
+        (?xi)
+        ^\s*
+        (bridge\s+group)\s+(\S+)
+        \s*$
+      captures:
+        0: cisco.scope.l2_vpn_bridge_group
+        1: variable.parameter
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.l2_vpn.bridge_group
+        - include: l2_vpn_bridge_group_bridge_domain
+        - match: '{{ctx_l2vpn}}'
+          pop: true
+
+  l2_vpn_bridge_group_bridge_domain:
+    - match: |
+        (?xi)
+        ^\s*
+        (bridge-domain)\s+(\S+)
+        \s*$
+      captures:
+        0: cisco.scope.l2_vpn_bridge_group_bridge_domain
+        1: variable.parameter
+        2: string.unquoted
+      push:
+        - meta_content_scope: text.network.cisco.l2_vpn.bridge_group.bridge_domain
+        - include: l2_vpn_bridge_group_bridge_domain_interface
+        - match: '{{ctx_l2vpn_bridge_group}}'
+          pop: true
+
+  l2_vpn_bridge_group_bridge_domain_interface:
+    - match: |
+        (?xi)
+        ^\s*
+        (interface)\s+(?:({{interface_names}})\s*({{interface_numbers}}))
+        \s*$
+      captures:
+        0: cisco.scope.l2_vpn_bridge_group_bridge_domain_interface
+        1: variable.parameter
+        2: entity.other.attribute-name     # interface Loopback
+        3: constant.numeric                # interface Loopback 1
+
+      push:
+        - meta_content_scope: text.network.cisco.l2_vpn.bridge_group.bridge_domain.interface
+        - match: |
+            (?xi)
+            ^\s*
+            (evi)\s+({{number_range_1_65534}})
+            \s*$
+          captures:
+            1: variable.parameter
+            2: constant.numeric
+        - match: '{{ctx_l2vpn_bridge_group_bridge_domain}}'
+          pop: true
+
+
   interface:
     - match: |
         (?xi)
@@ -7734,6 +7856,10 @@ contexts:
 
   interface_setting_base:
     - include: interface_bandwidth
+    - include: interface_mac_address
+    - include: interface_local_proxy_arp
+    - include: interface_host_routing
+    - include: interface_arp_learning
     - include: interface_bundle
     - include: description
     - include: interface_mtu
@@ -8042,6 +8168,47 @@ contexts:
       captures:
         1: support.constant
         2: constant.numeric
+
+  interface_mac_address:
+    - match: |
+        (?xi)
+        ^\s*
+        (mac-address)\s+({{mac_address}})
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric
+
+  interface_local_proxy_arp:
+    - match: |
+        (?xi)
+        ^\s*
+        (local-proxy-arp)
+        \s*$
+      captures:
+        1: support.constant
+
+  interface_arp_learning:
+    - match: |
+        (?xi)
+        ^\s*
+        (arp\s+learning)\s+(
+          (?:local)|
+          (?:disable)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+
+  interface_host_routing:
+    - match: |
+        (?xi)
+        ^\s*
+        (host-routing)
+        \s*$
+      captures:
+        1: support.constant
 
   interface_load_interval:
     - match: |

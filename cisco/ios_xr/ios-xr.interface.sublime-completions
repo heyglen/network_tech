@@ -9,6 +9,14 @@
             "trigger": "mtu\t1514 default ethernet",
             "contents": "mtu ${1:1514}"
         },
+        {
+            "trigger": "arp learning\tlocal",
+            "contents": "arp learning local"
+        },
+        {
+            "trigger": "arp learning\tdisable",
+            "contents": "arp learning disable"
+        },
         { 
             "trigger": "mtu\t4474 default POS",
             "contents": "mtu ${1:4474}"
@@ -177,7 +185,13 @@
             "trigger": "load-interval\t",
             "contents": "load-interval ${1:30}"
         },
+        {
+            "trigger": "mac-address\t",
+            "contents": "mac-address ${1:0123.4567.89ab}"
+        },
         "cdp",
         "shutdown",
+        "local-proxy-arp",
+        "host-routing",
     ]
 }
