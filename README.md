@@ -4,6 +4,8 @@ Network Tech is a Package for Sublime Text providing Cisco config highlighting, 
 
 ![](https://img.shields.io/packagecontrol/dt/Network%20Tech?style=for-the-badge)
 
+![Apache 2.0 License](https://img.shields.io/badge/Apache-2.0-License-blue?style=for-the-badge)
+
 ## Quick Start
 
 1. [Install Sublime Text](https://www.sublimetext.com/)
