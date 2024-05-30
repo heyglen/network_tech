@@ -8540,14 +8540,17 @@ contexts:
     - match: |
         (?xi)
         ^\s*
-        (arp\s+learning)\s+(
-          (?:local)|
-          (?:disable)
+        (arp\s+learning)\s+(?:
+          (local)|
+          (disable)|
+          (\S+)
         )
         \s*$
       captures:
         1: support.constant
         2: entity.other.attribute-name
+        3: entity.other.attribute-name
+        4: invalid.illegal
 
   interface_host_routing:
     - match: |

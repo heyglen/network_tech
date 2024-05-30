@@ -1,0 +1,9 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.l2_vpn.bridge_group.bridge_domain.interface",
+    "completions": [
+        {
+            "trigger": "evi\t1-65534",
+            "contents": "evi ${1:65534}"
+        },
+    ]
+}

@@ -220,15 +220,12 @@ interface BVI34
  ipv4 address 10.0.0.5 255.0.0.0
  arp learning local
  arp learning disable
+ arp learning invalid
  local-proxy-arp
  mac-address 0123.4567.89ab
  mac-address invalid
 !
 !
-evpn
-  interface Bundle-Ether1
-    ethernet-segment
-
 
 evpn
  interface Bundle-Ether1
@@ -247,10 +244,8 @@ evpn
     load-balancing-mode per-service
     load-balancing-mode invalid
 
-    # Illegal values
     bgp route-target 0000.0000.0000
     bgp route-target invalid
-    # Valid value
     bgp route-target 4000.0000.0001
  !
  evi 65535
@@ -265,6 +260,7 @@ evpn
     route-target export invalid
 !
 !
+
 interface bundle-ether1.2 l2transport
   no shutdown
   encapsulation dot1q 1
