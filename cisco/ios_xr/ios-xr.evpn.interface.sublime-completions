@@ -1,0 +1,9 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.evpn.interface",
+    "completions": [
+        {
+            "trigger": "ethernet-segment",
+            "contents": "ethernet-segment\n\t$0\n"
+        },
+    ]
+}

@@ -148,4 +148,11 @@ def major():
     perform_release("major")
 
 
+# @release_group.command()
+# def release():
+#     version = "2.54.0"
+#     message = create_message(version)
+#     github_release(REPO_NAME, version, message)
+
+
 release_group()

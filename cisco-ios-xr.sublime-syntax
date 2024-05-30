@@ -925,6 +925,7 @@ variables:
         (?:domain)|
         (?:flow\s+exporter-map)|
         (?:sampler-map)|
+        (?:evpn)|
         (?:end-policy)|
         (?:object-group)|
         (?:ipv(?:(?:4)|(?:6))\s+access-list)|
@@ -947,6 +948,34 @@ variables:
         (?:usergroup)|
         (?:taskgroup)|
         (?:vrf)
+      )
+    )
+  ctx_pop_evpn: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:interface)|
+        (?:evi\s+(?:\d+))|
+        (?:{{ctx_pop_configure_terminal}})
+      )
+    )
+  ctx_pop_evpn_evi: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:bgp)|
+        (?:{{ctx_pop_evpn}})
+      )
+    )
+  ctx_pop_evpn_interface: |
+    (?xi)
+    (?=
+      ^\s*
+      (?:
+        (?:ethernet-segment)|
+        (?:{{ctx_pop_evpn}})
       )
     )
   ctx_pop_interface: |
@@ -1585,6 +1614,7 @@ contexts:
     - include: cdp
     - include: interface
     - include: l2_vpn
+    - include: evpn
     - include: interface_management
     - include: rpl_set_definition
     - include: route_policy
@@ -7718,6 +7748,208 @@ contexts:
       captures:
         0: support.constant
 
+  evpn:
+    - match: |
+        (?xi)
+        ^\s*
+        (evpn)
+        \s*$
+      captures:
+        0: cisco.scope.evpn
+        1: variable.parameter
+      push:
+        - meta_content_scope: text.network.cisco.evpn
+        - include: evpn_interface
+        - include: evpn_evi
+        - include: evpn_evi_invalid
+        - match: '{{ctx_pop_configure_terminal}}'
+          pop: true
+
+  evpn_interface:
+    - match: |
+        (?xi)
+        ^\s*
+        (interface)\s+(?:({{interface_names}})\s*({{interface_numbers}}))
+        \s*$
+      captures:
+        0: cisco.scope.evpn.interface
+        1: variable.parameter
+        2: entity.other.attribute-name     # interface Loopback
+        3: constant.numeric                # interface Loopback 1
+      push:
+        - meta_content_scope: text.network.cisco.evpn.interface
+        - include: evpn_interface_ethernet_segment
+        - match: '{{ctx_pop_evpn}}'
+          pop: true
+
+  evpn_interface_ethernet_segment:
+    - match: |
+        (?xi)
+        ^\s*
+        (ethernet-segment)
+        \s*$
+      captures:
+        0: cisco.scope.evpn.interface.ethernet-segment
+        1: variable.parameter
+      push:
+        - meta_content_scope: text.network.cisco.evpn.interface.ethernet-segment
+        - include: evpn_interface_ethernet_segment_identifier_type
+        - include: evpn_interface_ethernet_segment_load_balancing_mode
+        - include: evpn_interface_ethernet_segment_bgp_route_target
+        - match: '{{ctx_pop_evpn_interface}}'
+          pop: true
+
+  # https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/lxvpn/command/reference/b-lxvpn-cr-asr9000/provider-backbone-bridge-commands.html#wp1226797178
+  evpn_interface_ethernet_segment_identifier_type:
+    - match: |
+        (?xi)
+        ^\s*
+        (identifier\s+type)\s+
+        (?:
+          ([0-5])|
+          (\S+)
+        )
+        \s+
+        (?:
+          ((?:[a-f0-9]{2}\.){8}[a-f0-9]{2})|
+          (\S+)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric
+        3: invalid.illegal.numeric
+        4: constant.numeric
+        5: invalid.illegal.numeric
+
+  # https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/lxvpn/command/reference/b-lxvpn-cr-asr9000/provider-backbone-bridge-commands.html#wp3145726977
+  evpn_interface_ethernet_segment_load_balancing_mode:
+    - match: |
+        (?xi)
+        ^\s*
+        (load-balancing-mode)\s+(
+          (?:single-active)|
+          (?:single-flow-active)|
+          (?:per-service)|
+          (\S+)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: invalid.illegal
+
+  # https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/lxvpn/command/reference/b-lxvpn-cr-asr9000/provider-backbone-bridge-commands.html#wp8437131000
+  evpn_interface_ethernet_segment_bgp_route_target:
+    - match: |
+        (?xi)
+        ^\s*
+        (bgp\s+route-target)
+        \s+
+        (?:
+          (0{1,4}\.0{1,4}\.0{1,4})|
+          (
+            (?:{{ipv6}})|
+            (?:{{ip}})|
+            (?:
+              (?:[a-f0-9]{1,4}\.){2}[a-f0-9]{1,4}
+            )|
+            (\S+)
+          )
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: invalid.illegal.numeric
+        3: constant.numeric
+        4: invalid.illegal
+
+
+  evpn_evi:
+    - match: |
+        (?xi)
+        ^\s*
+        (evi)\s+(?:
+          ({{number_range_1_65534}})
+        )
+        \s*$
+      captures:
+        0: cisco.scope.evpn.evi
+        1: variable.parameter
+        2: constant.numeric
+      push:
+        - meta_content_scope: text.network.cisco.evpn.evi
+        - include: evpn_evi_bgp
+        - match: '{{ctx_pop_evpn}}'
+          pop: true
+
+  evpn_evi_bgp:
+    - match: |
+        (?xi)
+        ^\s*
+        (bgp)
+        \s*$
+      captures:
+        0: cisco.scope.evpn.evi.bgp
+        1: variable.parameter
+      push:
+        - meta_content_scope: text.network.cisco.evpn.evi.bgp
+        - include: evpn_evi_bgp_route_distinguisher
+        - include: evpn_evi_bgp_route_target
+        - match: '{{ctx_pop_evpn_evi}}'
+          pop: true
+
+  evpn_evi_bgp_route_distinguisher:
+    - match: |
+        (?xi)
+        ^\s*
+        (rd)\s+
+        (?:
+          ({{route_distinguisher}})|
+          (\S+)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: constant.numeric.route.distinguisher
+        3: invalid.illegal
+
+  evpn_evi_bgp_route_target:
+    - match: |
+        (?xi)
+        ^\s*
+        (route-target)
+        \s+
+        (?:
+          (import)|
+          (export)|
+          (\S+)
+        )
+        \s+
+        (?:
+          ({{route_target}})|
+          (\S+)
+        )
+        \s*$
+      captures:
+        1: support.constant
+        2: entity.other.attribute-name
+        3: entity.other.attribute-name
+        4: invalid.illegal
+        5: constant.numeric.route.target
+        6: invalid.illegal
+
+  evpn_evi_invalid:
+    - match: |
+        (?xi)
+        ^\s*
+        (evi)\s+(\S+)
+        \s*$
+      captures:
+        0: cisco.scope.evpn.interface
+        1: variable.parameter
+        2: invalid.illegal
+
   l2_vpn:
     - match: |
         (?xi)
@@ -7782,11 +8014,16 @@ contexts:
         - match: |
             (?xi)
             ^\s*
-            (evi)\s+({{number_range_1_65534}})
+            (evi)\s+
+            (?:
+              ({{number_range_1_65534}})|
+              (\S+)
+            )
             \s*$
           captures:
-            1: variable.parameter
+            1: support.constant
             2: constant.numeric
+            3: invalid.illegal
         - match: '{{ctx_l2vpn_bridge_group_bridge_domain}}'
           pop: true
 
@@ -7795,15 +8032,17 @@ contexts:
     - match: |
         (?xi)
         ^\s*
+        (interface)\s+
         (?:
-          (interface)\s+
-          (?:
-            (?:(tunnel)-(te)(\d+))|
-            (?:(bvi)\s*({{number_16_bit_wo_zero}}))|
-            (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
-            (?:({{interface_names}})\s*({{interface_numbers}}))
-          )
+          (?:(tunnel)-(te)(\d+))|
+          (?:(bvi)\s*({{number_16_bit_wo_zero}}))|
+          (?:(range)\s+({{interface_names}})\s*({{interface_number_ranged}}))|
+          (?:({{interface_names}})\s*({{interface_numbers}}))
         )
+        (?:
+          \s+
+          (l2transport)
+        )?
       captures:
         0: cisco.scope.interface
         1: variable.parameter              # interface
@@ -7817,6 +8056,7 @@ contexts:
         9: constant.numeric                # interface range Loopback 1-2
         10: entity.other.attribute-name     # interface Loopback
         11: constant.numeric                # interface Loopback 1
+        12: support.constant                # l2transport
       push:
         - meta_content_scope: text.network.cisco.interface
         - include: interface_setting_base
@@ -7865,6 +8105,7 @@ contexts:
     - include: interface_mtu
     - include: interface_flow
     - include: interface_load_interval
+    - include: interface_setting_rewrite_ingree_tag
     - include: interface_lldp
     - include: interface_access_group
     - match: |
@@ -7896,6 +8137,102 @@ contexts:
       captures:
         1: support.constant
         2: constant.character
+
+  # https://www.cisco.com/c/en/us/td/docs/iosxr/ncs5000/vpn/b-ncs5000-vpn-cli-reference/b-ncs5000-vpn-cli-reference_chapter_011.html#wp2336358550
+  # {
+  #   push {dot1q vlan-id} |
+  #   pop {1} |
+  #   translate {
+  #     1-to-1 {dot1q vlan-id} |
+  #     1-to-2 {dot1q vlan-id } |
+  #     2-to-2 {dot1q vlan-id dot1q vlan-id} |
+  #     2-to-1 dot1q vlan-id
+  #   }
+  # }
+  # [symmetric]
+  interface_setting_rewrite_ingree_tag:
+    - match: |
+        (?xi)
+        ^\s*(rewrite\s+ingress\s+tag)
+        \s+
+        (?:
+          (?:
+            (push\s+dot1q)
+            \s+
+            (?:
+              ({{vlan_id}})|
+              (\S+)
+            )
+          )|
+          (?:
+            (pop)
+            \s+
+            (?:
+              (\d*[1-9]+)|
+              (\S+)
+            )
+          )|
+          (?:
+            (translate)
+            \s+
+            (?:
+              (?:
+                (
+                  (?:
+                    (?:1-to-[12])|
+                    (?:2-to-1)
+                  )
+                  \s+
+                  dot1q
+                )
+                \s+
+                (?:
+                  ({{vlan_id}})|
+                  (\S+)
+                )
+              )|
+              (?:
+                (2-to-2)\s+
+                (dot1q)\s+
+                (?:
+                  ({{vlan_id}})|
+                  (\S+)
+                )
+                \s+
+                (dot1q)\s+
+                (?:
+                  ({{vlan_id}})|
+                  (\S+)
+                )
+              )|
+              (.*)
+            )
+          )
+        )
+        (\s+symmetric)?
+        \s*
+        $
+      captures:
+        1: support.constant
+        2: support.constant
+        3: constant.numeric.vlan.id
+        4: invalid.illegal
+        5: support.constant
+        6: constant.numeric
+        7: invalid.illegal
+        8: support.constant
+        9: support.constant
+        10: constant.numeric.vlan.id
+        11: invalid.illegal
+        12: support.constant
+        13: support.constant
+        14: constant.numeric.vlan.id
+        15: invalid.illegal
+        16: support.constant
+        17: constant.numeric.vlan.id
+        18: invalid.illegal
+        19: invalid.illegal
+        20: support.constant
 
   interface_setting_isis_csnp_interval:
     - match: |
@@ -8008,12 +8345,19 @@ contexts:
         (?xi)
         ^\s*
         (?:
-          (?:(encapsulation)\s+(dot1q)\s+({{vlan_id}}))
+          (encapsulation)\s+
+          (dot1q)
+          \s+
+          (?:
+            ({{vlan_id}})|
+            (\S+)
+          )
         )
       captures:
         1: support.constant                           # encapsulation
         2: support.constant                           # encapsulation dot1q
         3: constant.numeric                           # encapsulation dot1q 123
+        4: invalid.illegal
 
   interface_address_family:
     - include: interface_ipv4_address_family
@@ -8173,11 +8517,15 @@ contexts:
     - match: |
         (?xi)
         ^\s*
-        (mac-address)\s+({{mac_address}})
+        (mac-address)\s+(?:
+          ({{mac_address}})|
+          (\S+)
+        )
         \s*$
       captures:
         1: support.constant
         2: constant.numeric
+        3: invalid.illegal
 
   interface_local_proxy_arp:
     - match: |

@@ -1,0 +1,17 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.evpn.evi.bgp",
+    "completions": [
+        {
+            "trigger": "rd\troute distinguisher",
+            "contents": "rd ${1:100:100}"
+        },
+        {
+            "trigger": "route-target\timport",
+            "contents": "route-target import ${1:100:100}"
+        },
+        {
+            "trigger": "route-target\texport",
+            "contents": "route-target export ${1:100:100}"
+        },
+    ]
+}

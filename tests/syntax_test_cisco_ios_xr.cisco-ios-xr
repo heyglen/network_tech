@@ -208,8 +208,8 @@ l2vpn
         evi 6005
         evi 65534
         evi 1
-        evi 65535  # Should Fail
-        evi 0  # Should Fail
+        evi 65535
+        evi 0
       exit
     exit
   exit
@@ -222,27 +222,76 @@ interface BVI34
  arp learning disable
  local-proxy-arp
  mac-address 0123.4567.89ab
+ mac-address invalid
 !
 !
+evpn
+  interface Bundle-Ether1
+    ethernet-segment
+
 
 evpn
  interface Bundle-Ether1
    ethernet-segment
-   identifier type 0 40.00.00.00.00.00.00.00.01
-   load-balancing-mode single-active
-   bgp route-target 4000.0000.0001
+    # https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/lxvpn/command/reference/b-lxvpn-cr-asr9000/provider-backbone-bridge-commands.html#wp1226797178
+    identifier type 0 00.01.23.45.67.89.ab.cd.ef
+    identifier type 5 00.01.23.45.67.89.ab.cd.ef
+    # type should be 0-5
+    identifier type 6 00.01.23.45.67.89.ab.cd.ef
+    identifier type 5 incorrect
+
+    # Unable to find command reference
+    load-balancing-mode single-active
+    load-balancing-mode single-flow-active
+    # https://www.cisco.com/c/en/us/td/docs/routers/asr9000/software/asr9k-r6-3/lxvpn/command/reference/b-lxvpn-cr-asr9000-63x.pdf#page=399&zoom=100,60,116
+    load-balancing-mode per-service
+    load-balancing-mode invalid
+
+    # Illegal values
+    bgp route-target 0000.0000.0000
+    bgp route-target invalid
+    # Valid value
+    bgp route-target 4000.0000.0001
  !
+ evi 65535
  evi 6005
   bgp
-   rd 200:50
-   route-target import 100:6005
-   route-target export 100:6005
+    rd 100:100
+    rd 200:50
+    rd invalid
+    route-target import 100:6005
+    route-target export 100:6005
+    route-target invalid 100:6005
+    route-target export invalid
 !
 !
-interface bundle-ether2.1 l2transport
+interface bundle-ether1.2 l2transport
   no shutdown
   encapsulation dot1q 1
+  rewrite ingress tag push dot1q 1
+  rewrite ingress tag push dot1q 1 symmetric
+  rewrite ingress tag push dot1q invalid
+  rewrite ingress tag pop 1
   rewrite ingress tag pop 1 symmetric
+  rewrite ingress tag pop 0
+  rewrite ingress tag pop invalid
+  rewrite ingress tag translate 1-to-1 dot1q 1
+  rewrite ingress tag translate 1-to-1 dot1q 1 symmetric
+  rewrite ingress tag translate 1-to-2 dot1q 1
+  rewrite ingress tag translate 1-to-2 dot1q 1 symmetric
+  rewrite ingress tag translate 2-to-1 dot1q 1
+  rewrite ingress tag translate 2-to-1 dot1q 1 symmetric
+  rewrite ingress tag translate 1-to-1 dot1q invalid
+  rewrite ingress tag translate 1-to-1 dot1q 0
+
+  rewrite ingress tag translate 2-to-2 dot1q 1 dot1q 1
+  rewrite ingress tag translate 2-to-2 dot1q 1 dot1q 1 symmetric
+  rewrite ingress tag translate 2-to-2 dot1q 0 dot1q 1
+  rewrite ingress tag translate 2-to-2 dot1q 1 dot1q 0
+  rewrite ingress tag translate 2-to-2 dot1q 1
+
+  rewrite ingress tag pop 1 symmetric
+  rewrite ingress tag pop 1
 !
 
 interface Loopback0
@@ -371,6 +420,7 @@ interface GigabitEthernet0/0/0/3
 interface GigabitEthernet0/0/0/3.100
  ipv4 address 1.2.3.4 255.255.255.0
  encapsulation dot1q 100
+ encapsulation dot1q invalid
 !
 interface GigabitEthernet0/0/0/4
  cdp

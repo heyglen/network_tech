@@ -1,5 +1,5 @@
 {
-  "scope": "text.network.cisco.ios_xr text.network.cisco.configure_terminal & -(text.network.cisco.mpls | text.network.cisco.router | text.network.cisco.vrf | text.network.cisco.set | text.network.cisco.route_policy | text.network.cisco.interface)",
+  "scope": "text.network.cisco.ios_xr text.network.cisco.configure_terminal & -(text.network.cisco.mpls | text.network.cisco.router | text.network.cisco.vrf | text.network.cisco.set | text.network.cisco.route_policy | text.network.cisco.interface | text.network.cisco.evpn)",
   "completions": [
         { 
             "trigger": "hostname\thostname",
@@ -32,6 +32,10 @@
         {
             "trigger": "interface HundredGigE\t100G",
             "contents": "interface HundredGigE${1:0/0/0/0}\n\t$0\n"
+        },
+        {
+            "trigger": "interface BVI",
+            "contents": "interface BVI${1:1}\n\t$0\n"
         },
         { 
             "trigger": "interface\tLo",
@@ -140,6 +144,14 @@
         { 
             "trigger": "object-group\tnetwork ipv4",
             "contents": "object-group network ipv4 ${1:NAME}\n\t$0\n"
+        },
+        {
+            "trigger": "l2vpn",
+            "contents": "l2vpn\n\t$0\n"
+        },
+        {
+            "trigger": "evpn",
+            "contents": "evpn\n\t$0\n"
         },
         "commit",
         "cdp",

@@ -1,0 +1,9 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.evpn.evi",
+    "completions": [
+        {
+            "trigger": "bgp",
+            "contents": "bgp\n\t$0\n"
+        },
+    ]
+}

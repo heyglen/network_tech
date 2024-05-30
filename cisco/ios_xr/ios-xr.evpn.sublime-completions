@@ -1,0 +1,13 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.evpn",
+    "completions": [
+        {
+            "trigger": "interface\tBundle-Ether",
+            "contents": "interface Bundle-Ether${1:1}\n\t$0\n"
+        },
+        {
+            "trigger": "evi",
+            "contents": "evi ${1:6000}\n\t$0\n"
+        },
+    ]
+}

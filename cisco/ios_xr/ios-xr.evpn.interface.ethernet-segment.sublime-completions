@@ -1,0 +1,25 @@
+{
+    "scope": "text.network.cisco.ios_xr text.network.cisco.evpn.interface.ethernet-segment",
+    "completions": [
+        {
+            "trigger": "identifier type",
+            "contents": "identifier type ${1:0} ${2:00.01.23.45.67.89.ab.cd.ef}"
+        },
+        {
+            "trigger": "load-balancing-mode\tsingle-active",
+            "contents": "load-balancing-mode single-active"
+        },
+        {
+            "trigger": "load-balancing-mode\tsingle-flow-active",
+            "contents": "load-balancing-mode single-flow-active"
+        },
+        {
+            "trigger": "load-balancing-mode\tper-service",
+            "contents": "load-balancing-mode per-service"
+        },
+        {
+            "trigger": "bgp route-target",
+            "contents": "bgp route-target ${1:0000.0000.0001}"
+        },
+    ]
+}

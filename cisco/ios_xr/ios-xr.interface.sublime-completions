@@ -181,6 +181,54 @@
             "trigger": "flow\tmpls egress",
             "contents": "flow mpls monitor ${1:NAME} sampler ${2:NAME} egress"
         },
+        {
+            "trigger": "rewrite ingress tag push",
+            "contents": "rewrite ingress tag push dot1q ${1:1}"
+        },
+        {
+            "trigger": "rewrite ingress tag push\tsymmetric",
+            "contents": "rewrite ingress tag push dot1q ${1:1} symmetric"
+        },
+        {
+            "trigger": "rewrite ingress tag pop",
+            "contents": "rewrite ingress tag pop ${1:1}"
+        },
+        {
+            "trigger": "rewrite ingress tag pop\tsymmetric",
+            "contents": "rewrite ingress tag pop ${1:1} symmetric"
+        },
+        {
+            "trigger": "rewrite ingress tag translate 1-to-1",
+            "contents": "rewrite ingress tag translate 1-to-1 dot1q ${1:1}"
+        },
+        {
+            "trigger": "rewrite ingress tag translate 1-to-1\tsymmetric",
+            "contents": "rewrite ingress tag translate 1-to-1 dot1q ${1:1} symmetric"
+        },
+        {
+            "trigger": "rewrite ingress tag translate 1-to-2",
+            "contents": "rewrite ingress tag translate 1-to-2 dot1q ${1:1}"
+        },
+        {
+            "trigger": "rewrite ingress tag translate 1-to-2\tsymmetric",
+            "contents": "rewrite ingress tag translate 1-to-2 dot1q ${1:1} symmetric"
+        },
+        {
+            "trigger": "rewrite ingress tag translate 2-to-1",
+            "contents": "rewrite ingress tag translate 2-to-1 dot1q ${1:1}"
+        },
+        {
+            "trigger": "rewrite ingress tag translate 2-to-1\tsymmetric",
+            "contents": "rewrite ingress tag translate 2-to-1 dot1q ${1:1} symmetric"
+        },
+        {
+            "trigger": "rewrite ingress tag translate 2-to-2",
+            "contents": "rewrite ingress tag translate 2-to-2 dot1q ${1:1} dot1q ${2:2}"
+        },
+        {
+            "trigger": "rewrite ingress tag translate 2-to-2\tsymmetric",
+            "contents": "rewrite ingress tag translate 2-to-2 dot1q ${1:1} dot1q ${2:2} symmetric"
+        },
         { 
             "trigger": "load-interval\t",
             "contents": "load-interval ${1:30}"
