@@ -1047,6 +1047,18 @@ line vty 0 4
   transport output all
 !
 
+aaa server radius dynamic-author
+  client 192.0.2.1
+  client 192.0.2.1/23
+  client host.example.com
+  client host.e
+  client 192.0.2.1 server-key 0 asdf asdf
+  client 192.0.2.1 server-key 6 asdf
+  client 192.0.2.1 server-key 7 asdf
+  client 192.0.2.1 server-key 2 asdf
+  client 192.0.2.1 vrf blue
+  client 192.0.2.1 invalid
+
 aaa group server radius sg1
   server 192.0.2.1
   server 192.0.2.1

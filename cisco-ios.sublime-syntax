@@ -1437,6 +1437,7 @@ contexts:
     - include: extended_acl_old
     - include: route_map
     - include: configure_terminal_ip_dhcp_snooping
+    - include: aaa_server_radius_dynamic_author
     # - include: partials
 
 
@@ -2814,6 +2815,65 @@ contexts:
         5: constant.numeric             # block-for attempts seconds
         6: support.constant             # block-for within
         7: constant.numeric             # block-for within seconds
+
+  # https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-xe-3se-3850-cr-book/sec-a1-xe-3se-3850-cr-book_chapter_01.html#wp8415192690
+  aaa_server_radius_dynamic_author:
+    - match: '^\s*(aaa)\s+(server\s+radius\s+dynamic-author)'
+      captures:
+        0: cisco.scope
+        1: variable.parameter
+        2: support.constant
+      push:
+        - meta_content_scope: text.network.cisco.ios.aaa.server-radius-dynamic-author
+        # https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-xe-3se-3850-cr-book/sec-a1-xe-3se-3850-cr-book_chapter_0100.html#wp1831441675
+        - match: |
+            (?xi)
+            ^\s*
+            (client)\s+
+            (?:
+              ({{ip}})|
+              ({{hostname}})|
+              (\S+)
+            )
+            \s+
+            (?:
+              (?:
+                  (server-key)
+                  \s+
+                  (?:
+                    (?:(0)\s+(\S+))|
+                    (?:(6)\s+(\S+))|
+                    (?:(7)\s+(\S+))|
+                    (?:(\S+)\s+(\S+))
+                  )
+                  (?:\s+(\S+))?
+              )|
+              (?:
+                (vrf)\s+
+                (\S+)
+              )|
+              (.*)
+            )?
+          captures:
+            1: support.constant
+            2: constant.numeric.ip.ipv4.address
+            3: constant.language.hostname
+            4: invalid.illegal
+            5: support.constant
+            6: constant.numeric
+            7: string.unquoted
+            8: constant.numeric
+            9: string.unquoted.cisco.password.type.6
+            10: constant.numeric
+            11: string.unquoted.cisco.password.type.7
+            12: invalid.illegal
+            13: invalid.illegal
+            14: invalid.illegal
+            15: support.constant
+            16: string.unquoted.vrf
+            17: invalid.illegal
+        - include: pop_on_configure_terminal_context
+
 
   aaa_authorization:
     - match: |
@@ -4443,7 +4503,6 @@ contexts:
           73: support.constant                             # vpc
           74: constant.numeric                             # vpc id
       - include: pop_on_configure_terminal_context
-      # - include: partials
 
   interface_speed:
     - match: |

@@ -285,6 +285,10 @@
             "trigger": "aaa\taccounting dot1x",
             "contents": "aaa accounting dot1x default ${1:start-stop} group ${2:name}"
         },
+        {
+            "trigger": "aaa\tserver radius dynamic-author",
+            "contents": "aaa server radius dynamic-author"
+        },
         "snmp-server system-shutdown",
         "snmp-server trap authentication unknown-context",
         "snmp-server trap authentication vrf",

@@ -12,7 +12,9 @@ IOS Syntax
         ipv6   constant.numeric.ip.ipv6.address
         ipv6_prefix   constant.numeric.ip.ipv6.prefix
         ipv6_prefix_length   constant.numeric.network.ipv6.prefix_length
+        vrf_name string.unquoted.vrf
         type_5_password string.unquoted.cisco.password.type.5
+        type_6_password (AES) string.unquoted.cisco.password.type.6
         type_7_password string.unquoted.cisco.password.type.7
         
         mac   constant.numeric.mac
