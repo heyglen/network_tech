@@ -1,7 +1,7 @@
 """
 Automated Plugin Releases
 
-pip install PyGithub
+pip install GitPython
 """
 import datetime
 import json
